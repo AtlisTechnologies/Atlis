@@ -1,0 +1,25 @@
+<?php
+// load functions
+require 'functions.php';
+
+// DB Credentials
+define('DB_SERVER', 'localhost');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_NAME', 'atlisware_five');
+define('DB_PASSWORD', '');
+define('DB_PORT', '3306');
+
+$dsn = "mysql:dbname=".DB_NAME.";host=".DB_HOST.";port=".DB_PORT." ";
+$pdo = "";
+try{
+	$pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
+}catch (PDOException $e) {
+	echo "Connection failed: " . $e->getMessage();
+}
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+?>

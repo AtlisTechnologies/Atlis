@@ -1,0 +1,42 @@
+
+ALL AGENCIES
+***http://localhost:777/phoenix/public/apps/kanban/boards.html
+http://localhost:777/phoenix/public/apps/crm/leads.html
+http://localhost:777/phoenix/public/apps/e-commerce/landing/favourite-stores.html
+http://localhost:777/phoenix/public/apps/travel-agency/trip/homepage.html
+
+
+CALENDAR
+http://localhost:777/phoenix/public/apps/calendar.html
+
+
+VIEW AGENCY
+http://localhost:777/phoenix/public/apps/e-commerce/admin/customer-details.html
+
+
+
+DOCUMENT / FILE REPO
+http://localhost:777/phoenix/public/apps/file-manager/grid-view.html
+
+
+ALL TASKS
+http://localhost:777/phoenix/public/apps/e-commerce/admin/orders.html
+
+
+TIMELINE / COMMENTS / HISTORY
+http://localhost:777/phoenix/public/pages/timeline.html
+
+
+MUCH BETTER KANBAN
+http://localhost:777/phoenix/public/apps/crm/deals.html
+
+
+ALL KANBANS
+http://localhost:777/phoenix/public/apps/kanban/boards.html
+
+
+ALL PERSONS
+http://localhost:777/phoenix/public/pages/members.html
+
+ADD PERSON
+http://localhost:777/phoenix/public/apps/crm/add-contact.html

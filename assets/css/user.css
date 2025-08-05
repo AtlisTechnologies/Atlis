@@ -1,0 +1,274 @@
+/* prettier-ignore */
+/*# sourceMappingURL=user.css.map */
+/* Custom Bootstrap overrides and utilities using Atlis color #00948E */
+/* ===== ATLIS Custom Color Theme (#00948E) ===== */
+
+/* Core Brand Color Variable */
+:root {
+  --atlis: #00948E;
+  --atlis-hover: #007e78;
+  --atlis-light: #e6f6f5;
+  --atlis-dark: #006963;
+  --atlis-text: #fff;
+}
+
+/* 1. Buttons */
+.btn-atlis,
+.atlis.btn {
+  background-color: var(--atlis);
+  color: var(--atlis-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(0, 148, 142, 0.08);
+}
+
+.btn-atlis:hover,
+.atlis.btn:hover,
+.btn-atlis:focus,
+.atlis.btn:focus {
+  background-color: var(--atlis-hover);
+  color: var(--atlis-text);
+}
+
+.btn-atlis:active,
+.atlis.btn:active {
+  background-color: var(--atlis-dark);
+  color: var(--atlis-text);
+}
+
+/* Outline Button */
+.btn-outline-atlis {
+  color: var(--atlis);
+  border: 1.5px solid var(--atlis);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+
+.btn-outline-atlis:hover,
+.btn-outline-atlis:focus {
+  background: var(--atlis);
+  color: var(--atlis-text);
+  border-color: var(--atlis);
+}
+
+/* 2. Badges */
+.badge-atlis,
+.atlis.badge {
+  background-color: var(--atlis);
+  color: var(--atlis-text);
+}
+
+.badge-outline-atlis {
+  background: var(--atlis-light);
+  color: var(--atlis);
+  border: 1.5px solid var(--atlis);
+}
+
+/* 3. Alerts */
+.alert-atlis,
+.atlis.alert {
+  background-color: var(--atlis-light);
+  color: var(--atlis-dark);
+  border-left: 5px solid var(--atlis);
+}
+
+.alert-atlis .alert-link {
+  color: var(--atlis-dark);
+  text-decoration: underline;
+}
+
+/* 4. General Utility Classes */
+.bg-atlis,
+.atlis-bg {
+  background-color: var(--atlis) !important;
+  color: var(--atlis-text) !important;
+}
+
+.text-atlis,
+.atlis-text {
+  color: var(--atlis) !important;
+}
+
+.border-atlis,
+.atlis-border {
+  border-color: var(--atlis) !important;
+}
+
+/* 5. Nav Pills & Tabs */
+.nav-pills .nav-link.atlis,
+.nav-pills .nav-link.active.atlis,
+.nav-tabs .nav-link.atlis.active {
+  background-color: var(--atlis) !important;
+  color: var(--atlis-text) !important;
+}
+
+/* 6. Progress Bar */
+.progress-bar.atlis {
+  background-color: var(--atlis);
+}
+
+/* 7. Custom Switch/Checkbox */
+.form-check-input:checked.atlis {
+  background-color: var(--atlis);
+  border-color: var(--atlis);
+}
+
+/* 8. Card Highlight */
+.card.atlis,
+.atlis-card {
+  border-left: 4px solid var(--atlis);
+}
+
+/* 9. Miscellaneous */
+.list-group-item.atlis {
+  background-color: var(--atlis-light);
+  color: var(--atlis-dark);
+  border-left: 3px solid var(--atlis);
+}
+
+.table-atlis > thead {
+  background-color: var(--atlis-light);
+  color: var(--atlis-dark);
+}
+
+/* 10. Focus Ring for Accessibility */
+.btn-atlis:focus-visible,
+.btn-outline-atlis:focus-visible {
+  outline: 2px solid var(--atlis-dark);
+  outline-offset: 2px;
+}
+
+/* ==== ATLIS "Phoenix" Variant Theme ==== */
+/* Place after main Atlis theme in your stylesheet */
+
+/* Phoenix Buttons */
+.btn-phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 3px 8px 0 rgba(0, 148, 142, 0.10);
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.btn-phoenix-atlis:hover,
+.btn-phoenix-atlis:focus {
+  background: linear-gradient(90deg, #007e78 0%, #00948E 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px 0 rgba(0, 148, 142, 0.15);
+}
+
+.btn-outline-phoenix-atlis {
+  color: #00948E;
+  border: 2px solid #00948E;
+  background: transparent;
+  font-weight: 600;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.btn-outline-phoenix-atlis:hover,
+.btn-outline-phoenix-atlis:focus {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  color: #fff;
+  border-color: #00948E;
+  box-shadow: 0 4px 14px 0 rgba(0, 148, 142, 0.15);
+}
+
+/* Phoenix Badges */
+.badge-phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  letter-spacing: 0.03em;
+  box-shadow: 0 1px 5px 0 rgba(0, 148, 142, 0.10);
+}
+.badge-outline-phoenix-atlis {
+  background: #fff;
+  color: #00948E;
+  border: 1.5px solid #00948E;
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
+
+/* Phoenix Alerts */
+.alert-phoenix-atlis {
+  background: linear-gradient(90deg, #e6f6f5 0%, #bff2ee 100%);
+  color: #00948E;
+  border-left: 6px solid #00948E;
+  font-weight: 500;
+  box-shadow: 0 1px 7px 0 rgba(0, 148, 142, 0.10);
+}
+
+/* Phoenix Pills & Tabs */
+.nav-pills .nav-link.phoenix-atlis,
+.nav-tabs .nav-link.phoenix-atlis.active {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Phoenix Progress Bar */
+.progress-bar-phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  font-weight: 600;
+}
+
+/* Phoenix Card Accent */
+.card-phoenix-atlis {
+  border-left: 4px solid #00948E;
+  box-shadow: 0 3px 12px 0 rgba(0, 148, 142, 0.11);
+}
+.card-header.phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Phoenix List Group */
+.list-group-item-phoenix-atlis {
+  background: linear-gradient(90deg, #e6f6f5 0%, #c2f1ed 100%);
+  color: #00948E;
+  border-left: 4px solid #00948E;
+}
+
+/* Phoenix Table */
+.table-phoenix-atlis > thead {
+  background: linear-gradient(90deg, #e6f6f5 0%, #bff2ee 100%);
+  color: #00948E;
+  font-weight: 600;
+}
+
+/* Phoenix Text & Border Utilities */
+.text-phoenix-atlis {
+  color: #00948E !important;
+  font-weight: 600;
+}
+.bg-phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%) !important;
+  color: #fff !important;
+}
+.border-phoenix-atlis {
+  border-color: #00948E !important;
+  border-width: 2px;
+}
+
+/* Phoenix Switch/Checkbox */
+.form-check-input:checked.phoenix-atlis {
+  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
+  border-color: #00948E;
+}
+
+/* Phoenix Focus Ring */
+.btn-phoenix-atlis:focus-visible,
+.btn-outline-phoenix-atlis:focus-visible {
+  outline: 2px solid #007e78;
+  outline-offset: 2px;
+}
+
+
+blockquote {
+    background-color: #e1e1e1;
+    border-left: 0;
+    color: #00948E;
+    margin: 1.5em .7rem;
+    padding: .5em .7rem;
+}
