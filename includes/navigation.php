@@ -74,7 +74,7 @@
 
 
 
-  <?php if(isset($_SESSION['user_logged_in'])){ ?>
+  <?php if(isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']){ ?>
     <ul class="navbar-nav navbar-nav-icons flex-row">
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" style="min-width: 2.25rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside"><span class="d-block" style="height:20px;width:20px;"><span data-feather="bell" style="height:20px;width:20px;"></span></span></a>
@@ -141,6 +141,7 @@
       </li>
     </ul>
 
+
     <a href="<?php echo getURLDir(); ?>module/users/index.php?action=logout" class="btn btn-sm btn-outline-warning btn-flat float-end ms-4">Logout</a>
 
     <?php if($_SESSION['this_user_type'] && $this_user_type == 'ADMIN'){ ?>
@@ -153,7 +154,7 @@
   <?php } ?>
 
   <?php // USER IS NOT AUTHENTICATED OR LOGGED IN
-  if(!isset($_SESSION['user_logged_in'])){ ?>
+  if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']){ ?>
     <?php // LOGIN BUTTON ?>
 
     <li class="nav-item mr-4">
