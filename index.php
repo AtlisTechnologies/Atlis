@@ -1,28 +1,28 @@
-<? require 'includes/php_header.php'; ?>
+<?php require 'includes/php_header.php'; ?>
 
-<? require 'includes/html_header.php'; ?>
+<?php require 'includes/html_header.php'; ?>
 
   <main class="main" id="top">
 
-    <? require "includes/left_navigation.php"; ?>
+    <?php require "includes/left_navigation.php"; ?>
 
-    <? require "includes/navigation.php"; ?>
+    <?php require "includes/navigation.php"; ?>
 
-    <? // =============================================== ?>
-    <? //    Main Content ?>
-    <? // =============================================== ?>
+    <?php // =============================================== ?>
+    <?php //    Main Content ?>
+    <?php // =============================================== ?>
     <div id="main_content" class="content">
 
-      <? require 'includes/home/jumbotron.php'; ?>
+      <?php require 'includes/home/jumbotron.php'; ?>
 
-      <? // START HTML FOOTER ?>
-      <? require 'includes/html_footer.php'; ?>
+      <?php // START HTML FOOTER ?>
+      <?php require 'includes/html_footer.php'; ?>
 
     </div>
-    <? // =============================================== ?>
-    <? //    END OF MAIN CONTENT ?>
-    <? // =============================================== ?>
+    <?php // =============================================== ?>
+    <?php //    END OF MAIN CONTENT ?>
+    <?php // =============================================== ?>
 
   </main>
 
-<? require 'includes/js_footer.php'; ?>
+<?php require 'includes/js_footer.php'; ?>

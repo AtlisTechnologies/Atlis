@@ -2,9 +2,9 @@
   <div class="navbar-logo">
 
     <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-    <a class="navbar-brand me-1 me-sm-3" href="<? echo getURLDir(); ?>">
+    <a class="navbar-brand me-1 me-sm-3" href="<?php echo getURLDir(); ?>">
       <div class="d-flex align-items-center">
-        <div class="d-flex align-items-center"><img src="<? echo getURLDir(); ?>images/wide.png" alt="Atlisware" class="img-fluid" />
+        <div class="d-flex align-items-center"><img src="<?php echo getURLDir(); ?>images/wide.png" alt="Atlisware" class="img-fluid" />
         </div>
       </div>
     </a>
@@ -13,67 +13,68 @@
   <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
     <ul class="navbar-nav navbar-nav-top">
 
-      <? // HOME NAV LINK ?>
+      <?php // HOME NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<? echo getURLDir(); ?>#home">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>#home">
           <span class="uil fs-8 me-2 fas fa-home"></span>Home
         </a>
       </li>
-      <? // ================ ?>
-      <? // END HOME NAV LINK ?>
-      <? // ================ ?>
+      <?php // ================ ?>
+      <?php // END HOME NAV LINK ?>
+      <?php // ================ ?>
 
 
-      <? // AGENCIES NAV LINK ?>
+      <?php // AGENCIES NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<? echo getURLDir(); ?>/module/agencies">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/agencies">
           <span class="uil fs-8 me-2 far fa-building"></span>Agencies</a>
       </li>
-      <? // ================ ?>
-      <? // END PROJECTS NAV LINK ?>
-      <? // ================ ?>
+      <?php // ================ ?>
+      <?php // END PROJECTS NAV LINK ?>
+      <?php // ================ ?>
 
 
-      <? // PROJECTS NAV LINK ?>
+      <?php // PROJECTS NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<? echo getURLDir(); ?>/module/projects/index.php?action=all">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/projects/index.php?action=all">
           <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
       </li>
-      <? // ================ ?>
-      <? // END PROJECTS NAV LINK ?>
-      <? // ================ ?>
+      <?php // ================ ?>
+      <?php // END PROJECTS NAV LINK ?>
+      <?php // ================ ?>
 
 
-      <? // TASKS NAV LINK ?>
+      <?php // TASKS NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<? echo getURLDir(); ?>/module/tasks">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/tasks">
           <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
       </li>
-      <? // ================ ?>
-      <? // END TASKS NAV LINK ?>
-      <? // ================ ?>
+      <?php // ================ ?>
+      <?php // END TASKS NAV LINK ?>
+      <?php // ================ ?>
 
 
-      <? // KANBAN NAV LINK ?>
+      <?php // KANBAN NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<? echo getURLDir(); ?>/module/kanban">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/kanban">
           <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
       </li>
-      <? // ================ ?>
-      <? // END KANBAN NAV LINK ?>
-      <? // ================ ?>
+      <?php // ================ ?>
+      <?php // END KANBAN NAV LINK ?>
+      <?php // ================ ?>
 
     </ul>
   </div>
 
-<? // END OF THE MIDDLE OF TOP NAV ?>
-<? // END OF THE MIDDLE OF TOP NAV ?>
-<? // END OF THE MIDDLE OF TOP NAV ?>
-<? // END OF THE MIDDLE OF TOP NAV ?>
-<? // END OF THE MIDDLE OF TOP NAV ?>
+<?php // END OF THE MIDDLE OF TOP NAV ?>
+<?php // END OF THE MIDDLE OF TOP NAV ?>
+<?php // END OF THE MIDDLE OF TOP NAV ?>
+<?php // END OF THE MIDDLE OF TOP NAV ?>
+<?php // END OF THE MIDDLE OF TOP NAV ?>
 
 
-  <? if(isset($_SESSION['user_logged_in'])){ ?>
+
+  <?php if(isset($_SESSION['user_logged_in'])){ ?>
     <ul class="navbar-nav navbar-nav-icons flex-row">
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" style="min-width: 2.25rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside"><span class="d-block" style="height:20px;width:20px;"><span data-feather="bell" style="height:20px;width:20px;"></span></span></a>
@@ -91,7 +92,7 @@
                 <div class="px-2 px-sm-3 py-3 notification-card position-relative read border-bottom">
                   <div class="d-flex align-items-center justify-content-between position-relative">
                     <div class="d-flex">
-                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<? echo getURLDir(); ?>assets/img/team/40x40/30.webp" alt="" />
+                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?php echo getURLDir(); ?>assets/img/team/40x40/30.webp" alt="" />
                       </div>
                       <div class="flex-1 me-sm-3">
                         <h4 class="fs-9 text-body-emphasis">Jessie Samson</h4>
@@ -126,7 +127,7 @@
                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                   <div class="d-flex align-items-center justify-content-between position-relative">
                     <div class="d-flex">
-                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle avatar-placeholder" src="<? echo getURLDir(); ?>assets/img/team/40x40/avatar.webp" alt="" />
+                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle avatar-placeholder" src="<?php echo getURLDir(); ?>assets/img/team/40x40/avatar.webp" alt="" />
                       </div>
                       <div class="flex-1 me-sm-3">
                         <h4 class="fs-9 text-body-emphasis">Jessie Samson</h4>
@@ -143,7 +144,7 @@
                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                   <div class="d-flex align-items-center justify-content-between position-relative">
                     <div class="d-flex">
-                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<? echo getURLDir(); ?>assets/img/team/40x40/57.webp" alt="" />
+                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?php echo getURLDir(); ?>assets/img/team/40x40/57.webp" alt="" />
                       </div>
                       <div class="flex-1 me-sm-3">
                         <h4 class="fs-9 text-body-emphasis">Kiera Anderson</h4>
@@ -160,7 +161,7 @@
                 <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                   <div class="d-flex align-items-center justify-content-between position-relative">
                     <div class="d-flex">
-                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<? echo getURLDir(); ?>assets/img/team/40x40/59.webp" alt="" />
+                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?php echo getURLDir(); ?>assets/img/team/40x40/59.webp" alt="" />
                       </div>
                       <div class="flex-1 me-sm-3">
                         <h4 class="fs-9 text-body-emphasis">Herman Carter</h4>
@@ -177,7 +178,7 @@
                 <div class="px-2 px-sm-3 py-3 notification-card position-relative read ">
                   <div class="d-flex align-items-center justify-content-between position-relative">
                     <div class="d-flex">
-                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<? echo getURLDir(); ?>assets/img/team/40x40/58.webp" alt="" />
+                      <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="<?php echo getURLDir(); ?>assets/img/team/40x40/58.webp" alt="" />
                       </div>
                       <div class="flex-1 me-sm-3">
                         <h4 class="fs-9 text-body-emphasis">Benjamin Button</h4>
@@ -202,7 +203,7 @@
 
       <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
           <div class="avatar avatar-l ">
-            <img class="rounded-circle " src="<? echo getURLDir(); ?>module/user/uploads/dave_2.jpg" alt="user" />
+            <img class="rounded-circle " src="<?php echo getURLDir(); ?>module/user/uploads/dave_2.jpg" alt="user" />
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
@@ -210,7 +211,7 @@
             <div class="card-body p-0">
               <div class="text-center pt-4 pb-3">
                 <div class="avatar avatar-xl ">
-                  <img class="rounded-circle " src="<? echo getURLDir(); ?>assets/img/team/72x72/57.webp" alt="" />
+                  <img class="rounded-circle " src="<?php echo getURLDir(); ?>assets/img/team/72x72/57.webp" alt="" />
 
                 </div>
                 <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
@@ -242,23 +243,24 @@
       </li>
     </ul>
 
-    <a href="<? echo getURLDir(); ?>module/user/logout.php" class="btn btn-sm btn-outline-warning btn-flat float-end ms-4">Logout</a>
+    <a href="<?php echo getURLDir(); ?>module/user/logout.php" class="btn btn-sm btn-outline-warning btn-flat float-end ms-4">Logout</a>
 
-    <? if($_SESSION['this_user_type'] && $this_user_type == 'ADMIN'){ ?>
+    <?php if($_SESSION['this_user_type'] && $this_user_type == 'ADMIN'){ ?>
       <li class="nav-item">
-        <a href="<? echo getURLDir(); ?>admin" class="nav-link btn btn-sm btn-outline-danger text-danger font-weight-bold">Admin</a>
+        <a href="<?php echo getURLDir(); ?>admin" class="nav-link btn btn-sm btn-outline-danger text-danger font-weight-bold">Admin</a>
       </li>
-    <? } ?>
+    <?php } ?>
 
-  <? // END IF USER IS AUTHENTICATED ?>
-  <? } ?>
+  <?php // END IF USER IS AUTHENTICATED ?>
+  <?php } ?>
 
-  <? // USER IS NOT AUTHENTICATED OR LOGGED IN
+  <?php // USER IS NOT AUTHENTICATED OR LOGGED IN
   if(!isset($_SESSION['user_logged_in'])){ ?>
-    <? // LOGIN BUTTON ?>
+    <?php // LOGIN BUTTON ?>
+
     <li class="nav-item mr-4">
-      <a href="<? echo getURLDir(); ?>module/user/login.php" class="nav-link btn btn-sm btn-success font-weight-bold text-white">Login</a>
+      <a href="<?php echo getURLDir(); ?>module/user/login.php" class="nav-link btn btn-sm btn-success font-weight-bold text-white">Login</a>
     </li>
-  <? } ?>
+  <?php } ?>
 
 </nav>
