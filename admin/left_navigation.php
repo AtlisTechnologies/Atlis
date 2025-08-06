@@ -13,6 +13,11 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/users/index.php">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Users</span></div>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="<?php echo getURLDir(); ?>admin/roles/index.php">
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="shield"></span></span><span class="nav-link-text">Roles</span></div>
           </a>
