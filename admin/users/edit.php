@@ -28,6 +28,19 @@ if ($id) {
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
+$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' ORDER BY li.sort_order, li.label");
+$typeStmt->execute();
+$typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
+$statusStmt->execute();
+$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+if (!$id) {
+  $type = array_key_first($typeOptions) ?? $type;
+  $status = (int)(array_key_first($statusOptions) ?? $status);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
@@ -35,8 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $username = trim($_POST['username'] ?? '');
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
-  $type = $_POST['type'] ?? 'ADMIN';
-  $status = isset($_POST['status']) ? (int)$_POST['status'] : 0;
+  $type = $_POST['type'] ?? array_key_first($typeOptions);
+  if (!array_key_exists($type, $typeOptions)) {
+    $type = array_key_first($typeOptions);
+  }
+  $status = $_POST['status'] ?? array_key_first($statusOptions);
+  if (!array_key_exists($status, $statusOptions)) {
+    $status = array_key_first($statusOptions);
+  }
+  $status = (int)$status;
   $first_name = trim($_POST['first_name'] ?? '');
   $last_name = trim($_POST['last_name'] ?? '');
   $roleIds = $_POST['roles'] ?? [];
@@ -125,15 +145,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="mb-3">
     <label class="form-label">Type</label>
     <select class="form-select" name="type">
-      <option value="ADMIN" <?= $type === 'ADMIN' ? 'selected' : ''; ?>>Admin</option>
-      <option value="USER" <?= $type === 'USER' ? 'selected' : ''; ?>>User</option>
+      <?php foreach($typeOptions as $value => $label): ?>
+        <option value="<?= htmlspecialchars($value); ?>" <?= $type === $value ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+      <?php endforeach; ?>
     </select>
   </div>
   <div class="mb-3">
     <label class="form-label">Status</label>
     <select class="form-select" name="status">
-      <option value="1" <?= $status ? 'selected' : ''; ?>>Active</option>
-      <option value="0" <?= !$status ? 'selected' : ''; ?>>Inactive</option>
+      <?php foreach($statusOptions as $value => $label): ?>
+        <option value="<?= htmlspecialchars($value); ?>" <?= (string)$status === $value ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+      <?php endforeach; ?>
     </select>
   </div>
   <div class="mb-3">

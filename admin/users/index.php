@@ -5,6 +5,14 @@ $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 $message = '';
 
+$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' ORDER BY li.sort_order, li.label");
+$typeStmt->execute();
+$typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
+$statusStmt->execute();
+$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
@@ -52,8 +60,20 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="username"><?= htmlspecialchars($u['username']); ?></td>
             <td class="email"><?= htmlspecialchars($u['email']); ?></td>
             <td class="name"><?= htmlspecialchars(trim(($u['first_name'] ?? '').' '.($u['last_name'] ?? ''))); ?></td>
-            <td class="type"><?= htmlspecialchars($u['type']); ?></td>
-            <td class="status"><?= $u['status'] ? 'Active' : 'Inactive'; ?></td>
+            <td class="type">
+              <span class="badge badge-phoenix fs-10 badge-phoenix-info">
+                <span class="badge-label"><?= htmlspecialchars($typeOptions[$u['type']] ?? $u['type']); ?></span>
+              </span>
+            </td>
+            <td class="status">
+              <?php
+                $statusLabel = $statusOptions[(string)$u['status']] ?? ($u['status'] ? 'Active' : 'Inactive');
+                $statusClass = $u['status'] ? 'badge-phoenix-success' : 'badge-phoenix-warning';
+              ?>
+              <span class="badge badge-phoenix fs-10 <?= $statusClass; ?>">
+                <span class="badge-label"><?= htmlspecialchars($statusLabel); ?></span>
+              </span>
+            </td>
             <td>
               <a class="btn btn-sm btn-secondary" href="edit.php?id=<?= $u['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
