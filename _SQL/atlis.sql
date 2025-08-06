@@ -84,10 +84,10 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_lookup_lists`
+-- Table structure for table `lookup_lists`
 --
 
-CREATE TABLE `module_lookup_lists` (
+CREATE TABLE `lookup_lists` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -101,10 +101,10 @@ CREATE TABLE `module_lookup_lists` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_lookup_list_items`
+-- Table structure for table `lookup_list_items`
 --
 
-CREATE TABLE `module_lookup_list_items` (
+CREATE TABLE `lookup_list_items` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -120,10 +120,10 @@ CREATE TABLE `module_lookup_list_items` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_lookup_list_item_attributes`
+-- Table structure for table `lookup_list_item_attributes`
 --
 
-CREATE TABLE `module_lookup_list_item_attributes` (
+CREATE TABLE `lookup_list_item_attributes` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -222,33 +222,33 @@ ALTER TABLE `users`
   ADD KEY `fk_users_user_updated` (`user_updated`);
 
 --
--- Indexes for table `module_lookup_lists`
+-- Indexes for table `lookup_lists`
 --
-ALTER TABLE `module_lookup_lists`
+ALTER TABLE `lookup_lists`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_module_lookup_lists_name` (`name`),
-  ADD KEY `fk_module_lookup_lists_user_id` (`user_id`),
-  ADD KEY `fk_module_lookup_lists_user_updated` (`user_updated`);
+  ADD UNIQUE KEY `uq_lookup_lists_name` (`name`),
+  ADD KEY `fk_lookup_lists_user_id` (`user_id`),
+  ADD KEY `fk_lookup_lists_user_updated` (`user_updated`);
 
 --
--- Indexes for table `module_lookup_list_items`
+-- Indexes for table `lookup_list_items`
 --
-ALTER TABLE `module_lookup_list_items`
+ALTER TABLE `lookup_list_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_lookup_list_items_list_id` (`list_id`),
-  ADD KEY `fk_module_lookup_list_items_user_id` (`user_id`),
-  ADD KEY `fk_module_lookup_list_items_user_updated` (`user_updated`),
-  ADD KEY `idx_module_lookup_list_items_label` (`label`);
+  ADD KEY `fk_lookup_list_items_list_id` (`list_id`),
+  ADD KEY `fk_lookup_list_items_user_id` (`user_id`),
+  ADD KEY `fk_lookup_list_items_user_updated` (`user_updated`),
+  ADD KEY `idx_lookup_list_items_label` (`label`);
 
 --
--- Indexes for table `module_lookup_list_item_attributes`
+-- Indexes for table `lookup_list_item_attributes`
 --
-ALTER TABLE `module_lookup_list_item_attributes`
+ALTER TABLE `lookup_list_item_attributes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_lookup_item_attributes_item_id` (`item_id`),
-  ADD KEY `fk_module_lookup_item_attributes_user_id` (`user_id`),
-  ADD KEY `fk_module_lookup_item_attributes_user_updated` (`user_updated`),
-  ADD KEY `idx_module_lookup_item_attributes_key` (`attr_key`);
+  ADD KEY `fk_lookup_item_attributes_item_id` (`item_id`),
+  ADD KEY `fk_lookup_item_attributes_user_id` (`user_id`),
+  ADD KEY `fk_lookup_item_attributes_user_updated` (`user_updated`),
+  ADD KEY `idx_lookup_item_attributes_key` (`attr_key`);
 
 --
 -- Indexes for table `module_organization`
@@ -305,21 +305,21 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_lookup_lists`
+-- AUTO_INCREMENT for table `lookup_lists`
 --
-ALTER TABLE `module_lookup_lists`
+ALTER TABLE `lookup_lists`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_lookup_list_items`
+-- AUTO_INCREMENT for table `lookup_list_items`
 --
-ALTER TABLE `module_lookup_list_items`
+ALTER TABLE `lookup_list_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_lookup_list_item_attributes`
+-- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
-ALTER TABLE `module_lookup_list_item_attributes`
+ALTER TABLE `lookup_list_item_attributes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -366,27 +366,27 @@ ALTER TABLE `users`
   ADD CONSTRAINT `fk_users_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `module_lookup_lists`
+-- Constraints for table `lookup_lists`
 --
-ALTER TABLE `module_lookup_lists`
-  ADD CONSTRAINT `fk_module_lookup_lists_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_lookup_lists_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `lookup_lists`
+  ADD CONSTRAINT `fk_lookup_lists_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_lookup_lists_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `module_lookup_list_items`
+-- Constraints for table `lookup_list_items`
 --
-ALTER TABLE `module_lookup_list_items`
-  ADD CONSTRAINT `fk_module_lookup_list_items_list_id` FOREIGN KEY (`list_id`) REFERENCES `module_lookup_lists` (`id`),
-  ADD CONSTRAINT `fk_module_lookup_list_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_lookup_list_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `lookup_list_items`
+  ADD CONSTRAINT `fk_lookup_list_items_list_id` FOREIGN KEY (`list_id`) REFERENCES `lookup_lists` (`id`),
+  ADD CONSTRAINT `fk_lookup_list_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_lookup_list_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `module_lookup_list_item_attributes`
+-- Constraints for table `lookup_list_item_attributes`
 --
-ALTER TABLE `module_lookup_list_item_attributes`
-  ADD CONSTRAINT `fk_module_lookup_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `module_lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `lookup_list_item_attributes`
+  ADD CONSTRAINT `fk_lookup_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `module_organization`
@@ -395,7 +395,7 @@ ALTER TABLE `module_organization`
   ADD CONSTRAINT `fk_module_organization_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_organization_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_organization_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
-  ADD CONSTRAINT `fk_module_organization_status` FOREIGN KEY (`status`) REFERENCES `module_lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_organization_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_agency`
@@ -405,7 +405,7 @@ ALTER TABLE `module_agency`
   ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_agency_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`),
   ADD CONSTRAINT `fk_module_agency_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
-  ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `module_lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_division`
@@ -415,7 +415,7 @@ ALTER TABLE `module_division`
   ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_division_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_division_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
-  ADD CONSTRAINT `fk_module_division_status` FOREIGN KEY (`status`) REFERENCES `module_lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_division_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

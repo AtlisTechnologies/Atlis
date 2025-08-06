@@ -6,7 +6,7 @@ $_SESSION['csrf_token'] = $token;
 $item_id = (int)($_GET['item_id'] ?? 0);
 $message = $error = '';
 
-$stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM module_lookup_list_items i JOIN module_lookup_lists l ON i.list_id = l.id WHERE i.id = :id');
+$stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM lookup_list_items i JOIN lookup_lists l ON i.list_id = l.id WHERE i.id = :id');
 $stmt->execute([':id'=>$item_id]);
 $item = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$item){
@@ -19,8 +19,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if(!hash_equals($token, $_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
-    $pdo->prepare('DELETE FROM module_lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
-    audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
+    $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
+    audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
     $message='Attribute deleted.';
   }else{
     $attr_id=(int)($_POST['id'] ?? 0);
@@ -29,22 +29,22 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     if($key===''){$error='Key is required.';}
     if(!$error){
       if($attr_id){
-        $stmt=$pdo->prepare('UPDATE module_lookup_list_item_attributes SET attr_key=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
+        $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_key=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
         $stmt->execute([':k'=>$key, ':v'=>$value, ':uid'=>$this_user_id, ':id'=>$attr_id]);
-        audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
+        audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
         $message='Attribute updated.';
       }else{
-        $stmt=$pdo->prepare('INSERT INTO module_lookup_list_item_attributes (user_id,user_updated,item_id,attr_key,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
+        $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_key,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
         $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$value]);
         $attr_id=$pdo->lastInsertId();
-        audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
+        audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
         $message='Attribute added.';
       }
     }
   }
 }
 
-$stmt=$pdo->prepare('SELECT * FROM module_lookup_list_item_attributes WHERE item_id=:item_id');
+$stmt=$pdo->prepare('SELECT * FROM lookup_list_item_attributes WHERE item_id=:item_id');
 $stmt->execute([':item_id'=>$item_id]);
 $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

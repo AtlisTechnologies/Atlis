@@ -43,7 +43,7 @@ if($id && $_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Fetch status list
-$statusStmt = $pdo->prepare("SELECT li.id, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'ORGANIZATION_STATUS' ORDER BY li.sort_order, li.label");
+$statusStmt = $pdo->prepare("SELECT li.id, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'ORGANIZATION_STATUS' ORDER BY li.sort_order, li.label");
 $statusStmt->execute();
 $statuses = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

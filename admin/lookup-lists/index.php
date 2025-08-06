@@ -10,13 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     die('Invalid CSRF token');
   }
   $delId = (int)$_POST['delete_id'];
-  $stmt = $pdo->prepare('DELETE FROM module_lookup_lists WHERE id = :id');
+  $stmt = $pdo->prepare('DELETE FROM lookup_lists WHERE id = :id');
   $stmt->execute([':id' => $delId]);
-  audit_log($pdo, $this_user_id, 'module_lookup_lists', $delId, 'DELETE', 'Deleted lookup list');
+  audit_log($pdo, $this_user_id, 'lookup_lists', $delId, 'DELETE', 'Deleted lookup list');
   $message = 'Lookup list deleted.';
 }
 
-$stmt = $pdo->query('SELECT id, name, description FROM module_lookup_lists ORDER BY name');
+$stmt = $pdo->query('SELECT id, name, description FROM lookup_lists ORDER BY name');
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>

@@ -8,7 +8,7 @@ $name = $description = $memo = '';
 $message = $error = '';
 
 if ($id) {
-  $stmt = $pdo->prepare('SELECT * FROM module_lookup_lists WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT * FROM lookup_lists WHERE id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $name = $row['name'];
@@ -29,15 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   if (!$error) {
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE module_lookup_lists SET name=:name, description=:description, memo=:memo, user_updated=:uid WHERE id=:id');
+      $stmt = $pdo->prepare('UPDATE lookup_lists SET name=:name, description=:description, memo=:memo, user_updated=:uid WHERE id=:id');
       $stmt->execute([':name'=>$name, ':description'=>$description, ':memo'=>$memo, ':uid'=>$this_user_id, ':id'=>$id]);
-      audit_log($pdo, $this_user_id, 'module_lookup_lists', $id, 'UPDATE', 'Updated lookup list');
+      audit_log($pdo, $this_user_id, 'lookup_lists', $id, 'UPDATE', 'Updated lookup list');
       $message = 'Lookup list updated.';
     } else {
-      $stmt = $pdo->prepare('INSERT INTO module_lookup_lists (user_id, user_updated, name, description, memo) VALUES (:uid, :uid, :name, :description, :memo)');
+      $stmt = $pdo->prepare('INSERT INTO lookup_lists (user_id, user_updated, name, description, memo) VALUES (:uid, :uid, :name, :description, :memo)');
       $stmt->execute([':uid'=>$this_user_id, ':name'=>$name, ':description'=>$description, ':memo'=>$memo]);
       $id = $pdo->lastInsertId();
-      audit_log($pdo, $this_user_id, 'module_lookup_lists', $id, 'CREATE', 'Created lookup list');
+      audit_log($pdo, $this_user_id, 'lookup_lists', $id, 'CREATE', 'Created lookup list');
       $message = 'Lookup list created.';
     }
   }

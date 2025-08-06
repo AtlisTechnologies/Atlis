@@ -5,11 +5,11 @@ $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 $message = '';
 
-$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' ORDER BY li.sort_order, li.label");
+$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' ORDER BY li.sort_order, li.label");
 $typeStmt->execute();
 $typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM module_lookup_list_items li JOIN module_lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
+$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
 $statusStmt->execute();
 $statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 

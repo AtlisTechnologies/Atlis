@@ -6,7 +6,7 @@ $_SESSION['csrf_token'] = $token;
 $list_id = (int)($_GET['list_id'] ?? 0);
 $message = $error = '';
 
-$stmt = $pdo->prepare('SELECT * FROM module_lookup_lists WHERE id=:id');
+$stmt = $pdo->prepare('SELECT * FROM lookup_lists WHERE id=:id');
 $stmt->execute([':id'=>$list_id]);
 $list = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$list){
@@ -19,8 +19,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if(!hash_equals($token, $_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
-    $pdo->prepare('DELETE FROM module_lookup_list_items WHERE id=:id')->execute([':id'=>$delId]);
-    audit_log($pdo,$this_user_id,'module_lookup_list_items',$delId,'DELETE','Deleted lookup list item');
+    $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$delId]);
+    audit_log($pdo,$this_user_id,'lookup_list_items',$delId,'DELETE','Deleted lookup list item');
     $message='Item deleted.';
   }else{
     $item_id=(int)($_POST['id'] ?? 0);
@@ -30,22 +30,22 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     if($label===''){$error='Label is required.';}
     if(!$error){
       if($item_id){
-        $stmt=$pdo->prepare('UPDATE module_lookup_list_items SET label=:label, value=:value, sort_order=:sort, user_updated=:uid WHERE id=:id');
+        $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label, value=:value, sort_order=:sort, user_updated=:uid WHERE id=:id');
         $stmt->execute([':label'=>$label, ':value'=>$value, ':sort'=>$sort, ':uid'=>$this_user_id, ':id'=>$item_id]);
-        audit_log($pdo,$this_user_id,'module_lookup_list_items',$item_id,'UPDATE','Updated lookup list item');
+        audit_log($pdo,$this_user_id,'lookup_list_items',$item_id,'UPDATE','Updated lookup list item');
         $message='Item updated.';
       }else{
-        $stmt=$pdo->prepare('INSERT INTO module_lookup_list_items (user_id,user_updated,list_id,label,value,sort_order) VALUES (:uid,:uid,:list_id,:label,:value,:sort)');
+        $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,value,sort_order) VALUES (:uid,:uid,:list_id,:label,:value,:sort)');
         $stmt->execute([':uid'=>$this_user_id, ':list_id'=>$list_id, ':label'=>$label, ':value'=>$value, ':sort'=>$sort]);
         $item_id=$pdo->lastInsertId();
-        audit_log($pdo,$this_user_id,'module_lookup_list_items',$item_id,'CREATE','Created lookup list item');
+        audit_log($pdo,$this_user_id,'lookup_list_items',$item_id,'CREATE','Created lookup list item');
         $message='Item added.';
       }
     }
   }
 }
 
-$stmt=$pdo->prepare('SELECT * FROM module_lookup_list_items WHERE list_id=:list_id ORDER BY sort_order,label');
+$stmt=$pdo->prepare('SELECT * FROM lookup_list_items WHERE list_id=:list_id ORDER BY sort_order,label');
 $stmt->execute([':list_id'=>$list_id]);
 $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
