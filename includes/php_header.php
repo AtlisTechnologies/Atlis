@@ -9,7 +9,7 @@ $today_date = date('Y-m-d');
 $date_today = date("l, F j, Y");
 $tomorrow = date('l, F j, Y',strtotime("$today +1 days"));
 
-if($_SESSION(['user_logged_in'])){
+if (isset($_SESSION['user_logged_in'])) {
 
   // STRINGS AREN'T FUN IN MySQL QUERIES
   $email = $_SESSION['this_user_email'];
@@ -41,7 +41,7 @@ if($_SESSION(['user_logged_in'])){
     $this_user_name = $this_user_first_name . " " . $this_user_last_name;
   } // END THIS_USER
 
-  $is_logged_in = $_SESSION['logged_in'] ?? false;
+  $is_logged_in = $_SESSION['user_logged_in'] ?? false;
   $is_admin = ($_SESSION['type'] ?? '') === 'ADMIN';
 }
 
