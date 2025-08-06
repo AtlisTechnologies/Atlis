@@ -3,19 +3,18 @@
 require 'functions.php';
 
 // DB Credentials
-define('DB_SERVER', 'localhost');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_NAME', 'atlisware_five');
 define('DB_PASSWORD', '');
 define('DB_PORT', '3306');
 
-$dsn = "mysql:dbname=".DB_NAME.";host=".DB_HOST.";port=".DB_PORT." ";
+$dsn = "mysql:dbname=".DB_NAME.";host=".DB_HOST.";port=".DB_PORT.";charset=utf8mb4";
 $pdo = "";
 try{
-	$pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
+        $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }catch (PDOException $e) {
-	echo "Connection failed: " . $e->getMessage();
+        echo "Connection failed: " . $e->getMessage();
 }
 
 ini_set('display_errors', 1);

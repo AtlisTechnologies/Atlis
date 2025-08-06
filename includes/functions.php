@@ -14,9 +14,20 @@ function getURLDir(){
  * @param string $action   CRUD action (CREATE, READ, UPDATE, DELETE).
  * @param string $details  Optional description of the change.
  */
-function audit_log($pdo, $userId, $table, $recordId, $action, $details = null){
-  $stmt = $pdo->prepare('CALL sp_insert_audit_log(?,?,?,?,?)');
-  $stmt->execute([$userId, $table, $recordId, $action, $details]);
+  
+// Records CRUD actions into the audit_log table
+function audit_log($pdo, $userId, $table, $recordId, $action, $details){
+  $sql = "INSERT INTO audit_log (user_id, user_updated, table_name, record_id, action, details)
+          VALUES (:user_id, :user_updated, :table_name, :record_id, :action, :details)";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([
+    ':user_id' => $userId,
+    ':user_updated' => $userId,
+    ':table_name' => $table,
+    ':record_id' => $recordId,
+    ':action' => $action,
+    ':details' => $details,
+  ]);
 }
 
 ?>
