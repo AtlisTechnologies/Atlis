@@ -18,36 +18,28 @@
               <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-home">
                 <li class="collapsed-nav-item-title d-none">Home
                 </li>
-                <li class="nav-item"><a class="nav-link" href="index.html">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">E commerce</span>
+                <?php // Placeholder links for real modules ?>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/agencies">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Agencies</span>
                     </div>
                   </a>
-                  <!-- more inner pages-->
                 </li>
-                <li class="nav-item"><a class="nav-link" href="dashboard/project-management.html">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Project management</span>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/projects">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Projects</span>
                     </div>
                   </a>
-                  <!-- more inner pages-->
                 </li>
-                <li class="nav-item"><a class="nav-link" href="dashboard/crm.html">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">CRM</span>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/tasks">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Tasks</span>
                     </div>
                   </a>
-                  <!-- more inner pages-->
                 </li>
-                <li class="nav-item"><a class="nav-link" href="dashboard/travel-agency.html">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Travel agency</span>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/kanban">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Kanban</span>
                     </div>
                   </a>
-                  <!-- more inner pages-->
                 </li>
-                <li class="nav-item"><a class="nav-link" href="apps/social/feed.html">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Social feed</span>
-                    </div>
-                  </a>
-                  <!-- more inner pages-->
-                </li>
+                <?php // Add future module links below ?>
               </ul>
             </div>
           </div>
