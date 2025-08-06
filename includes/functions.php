@@ -30,4 +30,14 @@ function audit_log($pdo, $userId, $table, $recordId, $action, $details){
   ]);
 }
 
+// Ensures the current session belongs to an admin user
+function require_admin(){
+  global $is_admin;
+  if(!$is_admin){
+    header('HTTP/1.1 403 Forbidden');
+    echo '403 Forbidden';
+    exit;
+  }
+}
+
 ?>
