@@ -12,6 +12,14 @@ $tomorrow = date('l, F j, Y',strtotime("$today +1 days"));
 $is_logged_in = isset($_SESSION['user_logged_in']) ? $_SESSION['user_logged_in'] : false;
 $is_admin = $is_logged_in && (($_SESSION['type'] ?? '') === 'ADMIN');
 
+if (!$is_logged_in) {
+  $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+  if (strpos($requestUri, '/module/') !== false && strpos($requestUri, '/module/users/') === false) {
+    header('Location: ' . getURLDir() . 'module/users/index.php?action=login');
+    exit;
+  }
+}
+
 if ($is_logged_in) {
 
   // STRINGS AREN'T FUN IN MySQL QUERIES
