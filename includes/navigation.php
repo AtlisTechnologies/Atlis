@@ -73,7 +73,8 @@
 <?php // END OF THE MIDDLE OF TOP NAV ?>
 
 
-    <?php if($_SESSION['user_logged_in']){ ?>
+
+  <?php if(isset($_SESSION['user_logged_in'])){ ?>
     <ul class="navbar-nav navbar-nav-icons flex-row">
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" style="min-width: 2.25rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside"><span class="d-block" style="height:20px;width:20px;"><span data-feather="bell" style="height:20px;width:20px;"></span></span></a>
@@ -254,8 +255,9 @@
   <?php } ?>
 
   <?php // USER IS NOT AUTHENTICATED OR LOGGED IN
-    if(!$_SESSION['user_logged_in']){ ?>
+  if(!isset($_SESSION['user_logged_in'])){ ?>
     <?php // LOGIN BUTTON ?>
+
     <li class="nav-item mr-4">
       <a href="<?php echo getURLDir(); ?>module/user/login.php" class="nav-link btn btn-sm btn-success font-weight-bold text-white">Login</a>
     </li>
