@@ -125,7 +125,12 @@ CREATE TABLE `users` (
   `memo` text DEFAULT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `email_verified` tinyint(1) DEFAULT 0,
+  `profile_pic` varchar(255) DEFAULT NULL,
+  `type` enum('ADMIN','USER') DEFAULT 'USER',
+  `status` tinyint(1) DEFAULT 1,
+  `last_login` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

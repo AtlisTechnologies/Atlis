@@ -141,7 +141,8 @@
       </li>
     </ul>
 
-    <a href="<?php echo getURLDir() . "module/users/functions/logout.php"; ?>" class="btn btn-sm btn-outline-warning btn-flat float-end ms-4">Logout</a>
+
+    <a href="<?php echo getURLDir(); ?>module/users/index.php?action=logout" class="btn btn-sm btn-outline-warning btn-flat float-end ms-4">Logout</a>
 
     <?php if($_SESSION['this_user_type'] && $this_user_type == 'ADMIN'){ ?>
       <li class="nav-item">
@@ -157,7 +158,7 @@
     <?php // LOGIN BUTTON ?>
 
     <li class="nav-item mr-4">
-      <a href="<?php echo getURLDir() . "module/users/index.php?action=login"; ?>" class="nav-link btn btn-sm btn-success font-weight-bold text-white">Login</a>
+      <a href="<?php echo getURLDir(); ?>module/users/index.php?action=login" class="nav-link btn btn-sm btn-success font-weight-bold text-white">Login</a>
     </li>
   <?php } ?>
 
