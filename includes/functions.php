@@ -1,7 +1,7 @@
 <?
 
 function getURLDir(){
-  return '/atlisware_six/';
+  return '/Atlis/';
 }
 
 ?>
