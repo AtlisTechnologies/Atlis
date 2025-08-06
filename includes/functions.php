@@ -1,7 +1,7 @@
 <?php
 
 function getURLDir(){
-  return '/Atlis/';
+  return '/_atlis/';
 }
 
 /**
@@ -14,7 +14,7 @@ function getURLDir(){
  * @param string $action   CRUD action (CREATE, READ, UPDATE, DELETE).
  * @param string $details  Optional description of the change.
  */
-  
+
 // Records CRUD actions into the audit_log table
 function audit_log($pdo, $userId, $table, $recordId, $action, $details){
   $sql = "INSERT INTO audit_log (user_id, user_updated, table_name, record_id, action, details)

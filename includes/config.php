@@ -5,7 +5,7 @@ require 'functions.php';
 // DB Credentials
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_NAME', 'atlisware_five');
+define('DB_NAME', 'atlis');
 define('DB_PASSWORD', '');
 define('DB_PORT', '3306');
 
