@@ -9,18 +9,21 @@ $today_date = date('Y-m-d');
 $date_today = date("l, F j, Y");
 $tomorrow = date('l, F j, Y',strtotime("$today +1 days"));
 
-if (isset($_SESSION['user_logged_in'])) {
+$is_logged_in = isset($_SESSION['user_logged_in']) ? $_SESSION['user_logged_in'] : false;
+$is_admin = $is_logged_in && (($_SESSION['type'] ?? '') === 'ADMIN');
+
+if ($is_logged_in) {
 
   // STRINGS AREN'T FUN IN MySQL QUERIES
   $email = $_SESSION['this_user_email'];
 
   $sql = "SELECT *
           FROM users u
-          WHERE u.email = :email --";
+          WHERE u.email = :email";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
   $stmt->execute();
-  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $this_user_id = $row['id']; // primary key ID
     $this_user_email = $row['email']; // email user signed up with
     $this_user_email_verified = $row['email_verified']; // 1 or 0
@@ -31,20 +34,17 @@ if (isset($_SESSION['user_logged_in'])) {
     $this_user_last_login = $row['last_login'];
 
 
-    $sql = "SELECT first_name, last_name FROM person p WHERE p.user_id = :user_id --";
+    $sql = "SELECT first_name, last_name FROM person p WHERE p.user_id = :user_id";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':user_id', $this_user_id, PDO::PARAM_INT);
     $stmt->execute();
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $this_user_first_name = $row['first_name'];
       $this_user_last_name = $row['last_name'];
     }
 
     $this_user_name = $this_user_first_name . " " . $this_user_last_name;
   } // END THIS_USER
-
-  $is_logged_in = $_SESSION['user_logged_in'] ?? false;
-  $is_admin = ($_SESSION['type'] ?? '') === 'ADMIN';
 }
 
 $useragent = $_SERVER['HTTP_USER_AGENT'];
@@ -56,7 +56,6 @@ if ( preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 
 $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 
-$user_currentUrl = $_SERVER['REQUEST_URI']. '?' .$_SERVER['QUERY_STRING'];
-$user_currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$user_currentUrl = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 ?>
