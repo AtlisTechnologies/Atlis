@@ -2,7 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
 }
-require_once '../../../includes/config.php';
+require_once '../../../includes/php_header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = $_POST['email'] ?? '';
@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       ':expires' => $expires,
     ]);
 
-    @mail($user['email'], 'Your verification code', 'Your verification code is ' . $code);
+    // DEACTIVATING THE EMAIL SEND BECUASE ITS NOT CURRENTLY WORKING IN XAMPP -- 8/5/2025 -- DAVE
+    //@mail($user['email'], 'Your verification code', 'Your verification code is ' . $code);
 
     $_SESSION['2fa_user_id'] = $user['id'];
     $_SESSION['2fa_user_email'] = $user['email'];

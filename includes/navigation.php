@@ -125,7 +125,7 @@
         </li>
         <?php if (($this_user_type ?? ($_SESSION['type'] ?? '')) === 'ADMIN') { ?>
         <li class="nav-item">
-          <a href="<?php echo getURLDir(); ?>admin" class="nav-link btn btn-sm btn-outline-danger text-danger font-weight-bold">Admin</a>
+          <a href="<?php echo getURLDir(); ?>admin" class="nav-link btn btn-sm btn-outline-danger text-danger font-weight-bold ms-4">Admin</a>
         </li>
         <?php } ?>
         <li class="nav-item">
