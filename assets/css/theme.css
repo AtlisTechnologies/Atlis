@@ -5639,6 +5639,7 @@ textarea.form-control-lg {
 }
 
 .navbar-nav {
+  font-size: 1rem;
   --phoenix-nav-link-padding-x: 0;
   --phoenix-nav-link-padding-y: 0.5rem;
   --phoenix-nav-link-font-weight: ;
@@ -36803,8 +36804,8 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
 }
 :root:not([data-bs-theme=dark]) [data-navbar-appearance=darker],
 [data-bs-theme=light]:not([data-bs-theme=dark]) [data-navbar-appearance=darker] {
-  --phoenix-navbar-top-dropdown-hover-bg: #31374a;
-  --phoenix-navbar-top-dropdown-color: #9fa6bc;
+  --phoenix-navbar-top-dropdown-hover-bg: #00948E;
+  --phoenix-navbar-top-dropdown-color: #fff;
 }
 :root:not([data-bs-theme=dark]) [data-navbar-appearance=darker]:not([data-bs-theme=dark]) .navbar-top-collapse.show,
 [data-bs-theme=light]:not([data-bs-theme=dark]) [data-navbar-appearance=darker]:not([data-bs-theme=dark]) .navbar-top-collapse.show {
