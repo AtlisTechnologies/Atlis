@@ -13,13 +13,13 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/lookup-lists/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="list"></span></span><span class="nav-link-text">Lookup Lists</span></div>
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/person/index.php">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user"></span></span><span class="nav-link-text">Persons</span></div>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/users/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Users</span></div>
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/lookup-lists/index.php">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="list"></span></span><span class="nav-link-text">Lookup Lists</span></div>
           </a>
         </li>
         <li class="nav-item">
