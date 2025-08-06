@@ -42,55 +42,53 @@ CREATE TABLE `audit_log` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `lookup_lists`
+-- Table structure for table `module_lookup_lists`
 --
 
-CREATE TABLE `lookup_lists` (
+CREATE TABLE `module_lookup_lists` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `name` varchar(150) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `lookup_list_items`
+-- Table structure for table `module_lookup_list_items`
 --
 
-CREATE TABLE `lookup_list_items` (
+CREATE TABLE `module_lookup_list_items` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `lookup_list_id` int(11) NOT NULL,
-  `item_name` varchar(150) DEFAULT NULL,
-  `item_value` varchar(150) DEFAULT NULL
+  `list_id` int(11) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `lookup_list_item_attributes`
+-- Table structure for table `module_lookup_list_item_attributes`
 --
 
-CREATE TABLE `lookup_list_item_attributes` (
+CREATE TABLE `module_lookup_list_item_attributes` (
   `id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `attribute_key` varchar(150) DEFAULT NULL,
-  `attribute_value` text DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL
+  `memo` text DEFAULT NULL,
+  `item_id` int(11) NOT NULL,
+  `attr_key` varchar(100) NOT NULL,
+  `attr_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -148,31 +146,30 @@ ALTER TABLE `audit_log`
   ADD KEY `fk_audit_log_user_updated` (`user_updated`);
 
 --
--- Indexes for table `lookup_lists`
---
-ALTER TABLE `lookup_lists`
+-- Indexes for table `module_lookup_lists`
+ALTER TABLE `module_lookup_lists`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_lookup_lists_name` (`name`),
-  ADD KEY `fk_lookup_lists_user_id` (`user_id`),
-  ADD KEY `fk_lookup_lists_user_updated` (`user_updated`);
+  ADD UNIQUE KEY `uq_module_lookup_lists_name` (`name`),
+  ADD KEY `fk_module_lookup_lists_user_id` (`user_id`),
+  ADD KEY `fk_module_lookup_lists_user_updated` (`user_updated`);
 
 --
--- Indexes for table `lookup_list_items`
---
-ALTER TABLE `lookup_list_items`
+-- Indexes for table `module_lookup_list_items`
+ALTER TABLE `module_lookup_list_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_lookup_list_items_lookup_list_id` (`lookup_list_id`),
-  ADD KEY `fk_lookup_list_items_user_id` (`user_id`),
-  ADD KEY `fk_lookup_list_items_user_updated` (`user_updated`);
+  ADD KEY `fk_module_lookup_list_items_list_id` (`list_id`),
+  ADD KEY `fk_module_lookup_list_items_user_id` (`user_id`),
+  ADD KEY `fk_module_lookup_list_items_user_updated` (`user_updated`),
+  ADD KEY `idx_module_lookup_list_items_label` (`label`);
 
 --
--- Indexes for table `lookup_list_item_attributes`
---
-ALTER TABLE `lookup_list_item_attributes`
+-- Indexes for table `module_lookup_list_item_attributes`
+ALTER TABLE `module_lookup_list_item_attributes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_lookup_list_item_attributes_item_id` (`item_id`),
-  ADD KEY `fk_lookup_list_item_attributes_user_id` (`user_id`),
-  ADD KEY `fk_lookup_list_item_attributes_user_updated` (`user_updated`);
+  ADD KEY `fk_module_lookup_item_attributes_item_id` (`item_id`),
+  ADD KEY `fk_module_lookup_item_attributes_user_id` (`user_id`),
+  ADD KEY `fk_module_lookup_item_attributes_user_updated` (`user_updated`),
+  ADD KEY `idx_module_lookup_item_attributes_key` (`attr_key`);
 
 --
 -- Indexes for table `person`
@@ -200,22 +197,16 @@ ALTER TABLE `users`
 ALTER TABLE `audit_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `lookup_lists`
---
-ALTER TABLE `lookup_lists`
+-- AUTO_INCREMENT for table `module_lookup_lists`
+ALTER TABLE `module_lookup_lists`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `lookup_list_items`
---
-ALTER TABLE `lookup_list_items`
+-- AUTO_INCREMENT for table `module_lookup_list_items`
+ALTER TABLE `module_lookup_list_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `lookup_list_item_attributes`
---
-ALTER TABLE `lookup_list_item_attributes`
+-- AUTO_INCREMENT for table `module_lookup_list_item_attributes`
+ALTER TABLE `module_lookup_list_item_attributes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -242,27 +233,24 @@ ALTER TABLE `audit_log`
   ADD CONSTRAINT `fk_audit_log_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `lookup_lists`
---
-ALTER TABLE `lookup_lists`
-  ADD CONSTRAINT `fk_lookup_lists_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_lookup_lists_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+-- Constraints for table `module_lookup_lists`
+ALTER TABLE `module_lookup_lists`
+  ADD CONSTRAINT `fk_module_lookup_lists_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_lookup_lists_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `lookup_list_items`
---
-ALTER TABLE `lookup_list_items`
-  ADD CONSTRAINT `fk_lookup_list_items_lookup_list_id` FOREIGN KEY (`lookup_list_id`) REFERENCES `lookup_lists` (`id`),
-  ADD CONSTRAINT `fk_lookup_list_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_lookup_list_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+-- Constraints for table `module_lookup_list_items`
+ALTER TABLE `module_lookup_list_items`
+  ADD CONSTRAINT `fk_module_lookup_list_items_list_id` FOREIGN KEY (`list_id`) REFERENCES `module_lookup_lists` (`id`),
+  ADD CONSTRAINT `fk_module_lookup_list_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_lookup_list_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `lookup_list_item_attributes`
---
-ALTER TABLE `lookup_list_item_attributes`
-  ADD CONSTRAINT `fk_lookup_list_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_lookup_list_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_lookup_list_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+-- Constraints for table `module_lookup_list_item_attributes`
+ALTER TABLE `module_lookup_list_item_attributes`
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `module_lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `person`

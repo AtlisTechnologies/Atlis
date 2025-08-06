@@ -1,0 +1,102 @@
+<?php
+require '../admin_header.php';
+
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
+$item_id = (int)($_GET['item_id'] ?? 0);
+$message = $error = '';
+
+$stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM module_lookup_list_items i JOIN module_lookup_lists l ON i.list_id = l.id WHERE i.id = :id');
+$stmt->execute([':id'=>$item_id]);
+$item = $stmt->fetch(PDO::FETCH_ASSOC);
+if(!$item){
+  echo '<div class="alert alert-danger">Item not found.</div>';
+  require '../admin_footer.php';
+  exit;
+}
+
+if($_SERVER['REQUEST_METHOD']==='POST'){
+  if(!hash_equals($token, $_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
+  if(isset($_POST['delete_id'])){
+    $delId=(int)$_POST['delete_id'];
+    $pdo->prepare('DELETE FROM module_lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
+    audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
+    $message='Attribute deleted.';
+  }else{
+    $attr_id=(int)($_POST['id'] ?? 0);
+    $key=trim($_POST['attr_key'] ?? '');
+    $value=trim($_POST['attr_value'] ?? '');
+    if($key===''){$error='Key is required.';}
+    if(!$error){
+      if($attr_id){
+        $stmt=$pdo->prepare('UPDATE module_lookup_list_item_attributes SET attr_key=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
+        $stmt->execute([':k'=>$key, ':v'=>$value, ':uid'=>$this_user_id, ':id'=>$attr_id]);
+        audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
+        $message='Attribute updated.';
+      }else{
+        $stmt=$pdo->prepare('INSERT INTO module_lookup_list_item_attributes (user_id,user_updated,item_id,attr_key,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
+        $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$value]);
+        $attr_id=$pdo->lastInsertId();
+        audit_log($pdo,$this_user_id,'module_lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
+        $message='Attribute added.';
+      }
+    }
+  }
+}
+
+$stmt=$pdo->prepare('SELECT * FROM module_lookup_list_item_attributes WHERE item_id=:item_id');
+$stmt->execute([':item_id'=>$item_id]);
+$attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
+<?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<form method="post" class="row g-2 mb-3">
+  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+  <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
+  <div class="col-md-4"><input class="form-control" name="attr_key" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_key'] ?? ''); ?>" required></div>
+  <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
+  <div class="col-md-2"><button class="btn btn-primary" type="submit">Save</button></div>
+  <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
+</form>
+<div id="attrs" data-list='{"valueNames":["attr_key","attr_value"],"page":10,"pagination":true}'>
+  <div class="row justify-content-between g-2 mb-3">
+    <div class="col-auto">
+      <input class="form-control form-control-sm search" placeholder="Search" />
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm mb-0">
+      <thead><tr><th class="sort" data-sort="attr_key">Key</th><th class="sort" data-sort="attr_value">Value</th><th>Actions</th></tr></thead>
+      <tbody class="list">
+        <?php foreach($attrs as $a): ?>
+          <tr>
+            <td class="attr_key"><?= htmlspecialchars($a['attr_key']); ?></td>
+            <td class="attr_value"><?= htmlspecialchars($a['attr_value']); ?></td>
+            <td>
+              <button class="btn btn-sm btn-secondary" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_key'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
+              <form method="post" class="d-inline">
+                <input type="hidden" name="delete_id" value="<?= $a['id']; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete attribute?');">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <p class="mb-0" data-list-info></p>
+    <ul class="pagination mb-0"></ul>
+  </div>
+</div>
+<script>
+function fillAttr(id,key,value){
+  const f=document.forms[0];
+  f.id.value=id;
+  f.attr_key.value=key;
+  f.attr_value.value=value;
+}
+</script>
+<?php require '../admin_footer.php'; ?>
