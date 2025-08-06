@@ -16,10 +16,11 @@ if($_SESSION(['user_logged_in'])){
 
   $sql = "SELECT *
           FROM users u
-          WHERE u.email = '$email' --";
-  $result = $pdo->prepare($sql);
-  $result->execute();
-  foreach ($pdo->query($sql) as $row) {
+          WHERE u.email = :email --";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+  $stmt->execute();
+  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $this_user_id = $row['id']; // primary key ID
     $this_user_email = $row['email']; // email user signed up with
     $this_user_email_verified = $row['email_verified']; // 1 or 0
@@ -30,10 +31,11 @@ if($_SESSION(['user_logged_in'])){
     $this_user_last_login = $row['last_login'];
 
 
-    $sql = "SELECT first_name, last_name FROM person p WHERE p.user_id = '$this_user_id' --";
-    $result = $pdo->prepare($sql);
-    $result->execute();
-    foreach ($pdo->query($sql) as $row) {
+    $sql = "SELECT first_name, last_name FROM person p WHERE p.user_id = :user_id --";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':user_id', $this_user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $this_user_first_name = $row['first_name'];
       $this_user_last_name = $row['last_name'];
     }
