@@ -55,12 +55,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $pdo->lastInsertId();
     admin_audit_log($pdo, $this_user_id, 'module_agency', $id, 'CREATE', null, json_encode(['organization_id'=>$organization_id,'name'=>$name,'main_person'=>$main_person,'status'=>$status]), 'Created agency');
   }
+  // handle file upload (max 5MB) saved to /module/agency/uploads/
+  if (!empty($_FILES['upload_file']['name'])) {
+    $maxSize = 5 * 1024 * 1024; // 5MB
+    if ($_FILES['upload_file']['size'] <= $maxSize && is_uploaded_file($_FILES['upload_file']['tmp_name'])) {
+      $ext = strtolower(pathinfo($_FILES['upload_file']['name'], PATHINFO_EXTENSION));
+      $uploadDir = __DIR__ . '/../../module/agency/uploads/';
+      if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0775, true);
+      }
+      foreach (glob($uploadDir . 'agency_' . $id . '.*') as $old) {
+        @unlink($old);
+      }
+      $dest = $uploadDir . 'agency_' . $id . '.' . $ext;
+      move_uploaded_file($_FILES['upload_file']['tmp_name'], $dest);
+    }
+  }
+
   header('Location: index.php');
   exit;
 }
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Agency</h2>
-<form method="post">
+
+<form method="post" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="mb-3">
     <label class="form-label">Organization</label>
@@ -92,6 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endforeach; ?>
     </select>
   </div>
+
+  <div class="mb-3">
+    <label class="form-label">Upload File</label>
+    <input type="file" name="upload_file" class="form-control" accept="image/*,application/pdf">
+  </div>
+
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
   <a href="index.php" class="btn btn-secondary">Cancel</a>
 </form>
