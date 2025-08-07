@@ -40,27 +40,69 @@ function handleList($action){
     if($name===''){ echo json_encode(['success'=>false,'error'=>'Name is required']); return; }
     $description=trim($_POST['description']??'');
     $memo=trim($_POST['memo']??'');
-    $stmt=$pdo->prepare('INSERT INTO lookup_lists (user_id,user_updated,name,description,memo) VALUES (:uid,:uid,:name,:description,:memo)');
-    $stmt->execute([':uid'=>$this_user_id,':name'=>$name,':description'=>$description,':memo'=>$memo]);
-    $id=$pdo->lastInsertId();
-    audit_log($pdo,$this_user_id,'lookup_lists',$id,'CREATE','Created lookup list');
-    echo json_encode(['success'=>true,'message'=>'Lookup list created','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
+    $stmt=$pdo->prepare('SELECT id FROM lookup_lists WHERE name=:name');
+    $stmt->execute([':name'=>$name]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Name already exists']);
+      return;
+    }
+    try{
+      $stmt=$pdo->prepare('INSERT INTO lookup_lists (user_id,user_updated,name,description,memo) VALUES (:uid,:uid,:name,:description,:memo)');
+      $stmt->execute([':uid'=>$this_user_id,':name'=>$name,':description'=>$description,':memo'=>$memo]);
+      $id=$pdo->lastInsertId();
+      audit_log($pdo,$this_user_id,'lookup_lists',$id,'CREATE','Created lookup list');
+      echo json_encode(['success'=>true,'message'=>'Lookup list created','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Name already exists']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }elseif($action==='update'){
     $id=(int)($_POST['id']??0);
     $name=trim($_POST['name']??'');
     if($id<=0||$name===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $description=trim($_POST['description']??'');
     $memo=trim($_POST['memo']??'');
-    $stmt=$pdo->prepare('UPDATE lookup_lists SET name=:name,description=:description,memo=:memo,user_updated=:uid WHERE id=:id');
-    $stmt->execute([':name'=>$name,':description'=>$description,':memo'=>$memo,':uid'=>$this_user_id,':id'=>$id]);
-    audit_log($pdo,$this_user_id,'lookup_lists',$id,'UPDATE','Updated lookup list');
-    echo json_encode(['success'=>true,'message'=>'Lookup list updated','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
+    $stmt=$pdo->prepare('SELECT id FROM lookup_lists WHERE name=:name AND id<>:id');
+    $stmt->execute([':name'=>$name,':id'=>$id]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Name already exists']);
+      return;
+    }
+    try{
+      $stmt=$pdo->prepare('UPDATE lookup_lists SET name=:name,description=:description,memo=:memo,user_updated=:uid WHERE id=:id');
+      $stmt->execute([':name'=>$name,':description'=>$description,':memo'=>$memo,':uid'=>$this_user_id,':id'=>$id]);
+      audit_log($pdo,$this_user_id,'lookup_lists',$id,'UPDATE','Updated lookup list');
+      echo json_encode(['success'=>true,'message'=>'Lookup list updated','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Name already exists']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
-    $pdo->prepare('DELETE FROM lookup_lists WHERE id=:id')->execute([':id'=>$id]);
-    audit_log($pdo,$this_user_id,'lookup_lists',$id,'DELETE','Deleted lookup list');
-    echo json_encode(['success'=>true,'message'=>'Lookup list deleted']);
+    $stmt=$pdo->prepare('SELECT COUNT(*) FROM lookup_list_items WHERE list_id=:id');
+    $stmt->execute([':id'=>$id]);
+    if($stmt->fetchColumn()>0){
+      echo json_encode(['success'=>false,'error'=>'Remove items before deleting this list']);
+      return;
+    }
+    try{
+      $pdo->prepare('DELETE FROM lookup_lists WHERE id=:id')->execute([':id'=>$id]);
+      audit_log($pdo,$this_user_id,'lookup_lists',$id,'DELETE','Deleted lookup list');
+      echo json_encode(['success'=>true,'message'=>'Lookup list deleted']);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'List is in use']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }else{
     echo json_encode(['success'=>false,'error'=>'Invalid action']);
   }
@@ -81,27 +123,76 @@ function handleItem($action){
     $value=trim($_POST['value']??'');
     $sort=(int)($_POST['sort_order']??0);
     if($list_id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
-    $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,value,sort_order) VALUES (:uid,:uid,:list_id,:label,:value,:sort)');
-    $stmt->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':value'=>$value,':sort'=>$sort]);
-    $id=$pdo->lastInsertId();
-    audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
-    echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'sort_order'=>$sort]]);
+    $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
+    $stmt->execute([':list_id'=>$list_id,':label'=>$label]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Label already exists']);
+      return;
+    }
+    try{
+      $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,value,sort_order) VALUES (:uid,:uid,:list_id,:label,:value,:sort)');
+      $stmt->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':value'=>$value,':sort'=>$sort]);
+      $id=$pdo->lastInsertId();
+      audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
+      echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'sort_order'=>$sort]]);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Label already exists']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }elseif($action==='update'){
     $id=(int)($_POST['id']??0);
     $label=trim($_POST['label']??'');
     $value=trim($_POST['value']??'');
     $sort=(int)($_POST['sort_order']??0);
     if($id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
-    $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label,value=:value,sort_order=:sort,user_updated=:uid WHERE id=:id');
-    $stmt->execute([':label'=>$label,':value'=>$value,':sort'=>$sort,':uid'=>$this_user_id,':id'=>$id]);
-    audit_log($pdo,$this_user_id,'lookup_list_items',$id,'UPDATE','Updated lookup list item');
-    echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'sort_order'=>$sort]]);
+    $stmt=$pdo->prepare('SELECT list_id FROM lookup_list_items WHERE id=:id');
+    $stmt->execute([':id'=>$id]);
+    $list_id=$stmt->fetchColumn();
+    if(!$list_id){ echo json_encode(['success'=>false,'error'=>'Item not found']); return; }
+    $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label AND id<>:id');
+    $stmt->execute([':list_id'=>$list_id,':label'=>$label,':id'=>$id]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Label already exists']);
+      return;
+    }
+    try{
+      $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label,value=:value,sort_order=:sort,user_updated=:uid WHERE id=:id');
+      $stmt->execute([':label'=>$label,':value'=>$value,':sort'=>$sort,':uid'=>$this_user_id,':id'=>$id]);
+      audit_log($pdo,$this_user_id,'lookup_list_items',$id,'UPDATE','Updated lookup list item');
+      echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'sort_order'=>$sort]]);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Label already exists']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
-    $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$id]);
-    audit_log($pdo,$this_user_id,'lookup_list_items',$id,'DELETE','Deleted lookup list item');
-    echo json_encode(['success'=>true,'message'=>'Item deleted']);
+    $tables=['module_agency','module_division','module_organization','users'];
+    foreach($tables as $tbl){
+      $stmt=$pdo->prepare("SELECT COUNT(*) FROM {$tbl} WHERE status=:id");
+      $stmt->execute([':id'=>$id]);
+      if($stmt->fetchColumn()>0){
+        echo json_encode(['success'=>false,'error'=>'Item is referenced in '.$tbl]);
+        return;
+      }
+    }
+    try{
+      $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$id]);
+      audit_log($pdo,$this_user_id,'lookup_list_items',$id,'DELETE','Deleted lookup list item');
+      echo json_encode(['success'=>true,'message'=>'Item deleted']);
+    }catch(PDOException $e){
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Item is in use']);
+      }else{
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
   }else{
     echo json_encode(['success'=>false,'error'=>'Invalid action']);
   }
