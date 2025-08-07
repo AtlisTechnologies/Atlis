@@ -33,7 +33,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Users</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="edit.php" class="btn btn-sm btn-primary mb-3">Add User</a>
+<a href="edit.php" class="btn btn-sm btn-phoenix-success mb-3">Add User</a>
 <div id="users" data-list='{"valueNames":["id","username","email","name","type","status"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -75,11 +75,11 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </span>
             </td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="edit.php?id=<?= $u['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-phoenix-warning" href="edit.php?id=<?= $u['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $u['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?');">Delete</button>
+                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete this user?');">Delete</button>
               </form>
             </td>
           </tr>

@@ -23,7 +23,7 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Persons</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="edit.php" class="btn btn-sm btn-primary mb-3">Add Person</a>
+<a href="edit.php" class="btn btn-sm btn-phoenix-success mb-3">Add Person</a>
 <div id="persons" data-list='{"valueNames":["name","user"],"page":12,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -42,11 +42,11 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php endif; ?>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" href="edit.php?id=<?= $p['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-phoenix-warning" href="edit.php?id=<?= $p['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $p['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this person?');">Delete</button>
+                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete this person?');">Delete</button>
               </form>
             </div>
           </div>

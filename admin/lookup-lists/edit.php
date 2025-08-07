@@ -6,6 +6,7 @@ $_SESSION['csrf_token'] = $token;
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $name = $description = $memo = '';
 $message = $error = '';
+$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
 
 if ($id) {
   $stmt = $pdo->prepare('SELECT * FROM lookup_lists WHERE id = :id');
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label class="form-label">Memo</label>
     <textarea class="form-control" name="memo"><?= htmlspecialchars($memo); ?></textarea>
   </div>
-  <button class="btn btn-primary" type="submit">Save</button>
-  <a href="index.php" class="btn btn-secondary">Back</a>
+  <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
+  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
 </form>
 <?php require '../admin_footer.php'; ?>

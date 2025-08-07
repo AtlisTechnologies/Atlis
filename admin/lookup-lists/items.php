@@ -58,8 +58,8 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" value="<?= htmlspecialchars($_POST['label'] ?? ''); ?>" required></div>
   <div class="col-md-3"><input class="form-control" name="value" placeholder="Value" value="<?= htmlspecialchars($_POST['value'] ?? ''); ?>"></div>
   <div class="col-md-2"><input class="form-control" type="number" name="sort_order" placeholder="Sort" value="<?= htmlspecialchars($_POST['sort_order'] ?? 0); ?>"></div>
-  <div class="col-md-2"><button class="btn btn-primary" type="submit">Save Item</button></div>
-  <div class="col-md-2"><a class="btn btn-secondary" href="index.php">Back</a></div>
+  <div class="col-md-2"><button class="btn btn-phoenix-success" type="submit" id="saveBtn">Save Item</button></div>
+  <div class="col-md-2"><a class="btn btn-phoenix-secondary" href="index.php">Back</a></div>
 </form>
 <div id="items" data-list='{"valueNames":["label","value","sort_order"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -78,13 +78,13 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="label"><?= htmlspecialchars($it['label']); ?></td>
             <td class="value"><?= htmlspecialchars($it['value']); ?></td>
             <td class="sort_order"><?= htmlspecialchars($it['sort_order']); ?></td>
-            <td><a class="btn btn-sm btn-info" href="attributes.php?item_id=<?= $it['id']; ?>&list_id=<?= $list_id; ?>">Attributes</a></td>
+            <td><a class="btn btn-sm btn-phoenix-info" href="attributes.php?item_id=<?= $it['id']; ?>&list_id=<?= $list_id; ?>">Attributes</a></td>
             <td>
-              <button class="btn btn-sm btn-secondary" onclick="fillForm(<?= $it['id']; ?>,'<?= htmlspecialchars($it['label'],ENT_QUOTES); ?>','<?= htmlspecialchars($it['value'],ENT_QUOTES); ?>',<?= (int)$it['sort_order']; ?>);return false;">Edit</button>
+              <button class="btn btn-sm btn-phoenix-warning" onclick="fillForm(<?= $it['id']; ?>,'<?= htmlspecialchars($it['label'],ENT_QUOTES); ?>','<?= htmlspecialchars($it['value'],ENT_QUOTES); ?>',<?= (int)$it['sort_order']; ?>);return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $it['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete item?');">Delete</button>
+                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete item?');">Delete</button>
               </form>
             </td>
           </tr>
@@ -104,6 +104,9 @@ function fillForm(id,label,value,sort){
   f.label.value=label;
   f.value.value=value;
   f.sort_order.value=sort;
+  const btn=document.getElementById('saveBtn');
+  btn.classList.remove('btn-phoenix-success');
+  btn.classList.add('btn-phoenix-warning');
 }
 </script>
 <?php require '../admin_footer.php'; ?>

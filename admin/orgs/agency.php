@@ -27,6 +27,7 @@ $name = '';
 $main_person = null;
 $status = null;
 $message = '';
+$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
 
 if ($id && $_SERVER['REQUEST_METHOD'] !== 'POST') {
     $stmt = $pdo->prepare('SELECT name, main_person, status FROM module_agency WHERE id = :id');
@@ -93,12 +94,12 @@ if ($id) {
       <?php endforeach; ?>
     </select>
   </div>
-  <button class="btn btn-primary" type="submit">Save</button>
-  <a href="index.php" class="btn btn-secondary">Back</a>
+  <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
+  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
 </form>
 <?php if ($id): ?>
   <h3 class="mb-3">Divisions</h3>
-  <a href="division.php?agency_id=<?= $id; ?>" class="btn btn-sm btn-primary mb-3">Add Division</a>
+  <a href="division.php?agency_id=<?= $id; ?>" class="btn btn-sm btn-phoenix-success mb-3">Add Division</a>
   <?php if ($agencyDivisions): ?>
     <ul class="list-unstyled">
       <?php foreach ($agencyDivisions as $d): ?>
