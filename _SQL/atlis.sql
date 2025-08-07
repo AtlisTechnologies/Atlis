@@ -71,7 +71,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (5, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'create'),
 (6, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'read'),
 (7, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'update'),
-(8, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'delete');
+(8, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'delete'),
+(9, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'create'),
+(10, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'read'),
+(11, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'update'),
+(12, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'delete');
 
 -- --------------------------------------------------------
 
@@ -96,7 +100,8 @@ CREATE TABLE `admin_roles` (
 
 INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
 (1, NULL, NULL, '2025-08-06 16:07:43', '2025-08-06 16:07:43', NULL, 'Admin', 'System administrator with full permissions'),
-(2, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Person', 'Can manage person records');
+(2, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Person', 'Can manage person records'),
+(3, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Orgs', 'Can manage organizations, agencies and divisions');
 
 -- --------------------------------------------------------
 
@@ -130,7 +135,15 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (11, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 5),
 (12, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 8),
 (13, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 6),
-(14, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 7);
+(14, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 7),
+(15, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 9),
+(16, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 10),
+(17, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 11),
+(18, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 12),
+(19, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 9),
+(20, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 10),
+(21, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 11),
+(22, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 12);
 
 -- --------------------------------------------------------
 
