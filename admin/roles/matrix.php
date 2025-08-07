@@ -1,5 +1,6 @@
 <?php
 require '../admin_header.php';
+require_permission('roles','read');
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
@@ -16,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
+  require_permission('roles','update');
   $rolePerms = $_POST['perm'] ?? [];
   $roles = $pdo->query('SELECT id FROM admin_roles')->fetchAll(PDO::FETCH_COLUMN);
   foreach ($roles as $roleId) {
