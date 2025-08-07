@@ -72,10 +72,19 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (6, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'read'),
 (7, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'update'),
 (8, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'person', 'delete'),
-(9, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'create'),
-(10, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'read'),
-(11, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'update'),
-(12, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'delete');
+(9, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'create'),
+(10, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'read'),
+(11, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'update'),
+(12, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'orgs', 'delete');
+(13, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'create'),
+(14, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'read'),
+(15, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'update'),
+(16, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'agency', 'delete');
+(17, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'division', 'create'),
+(18, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'division', 'read'),
+(19, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'division', 'update'),
+(20, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'division', 'delete');
+
 
 -- --------------------------------------------------------
 
@@ -101,7 +110,8 @@ CREATE TABLE `admin_roles` (
 INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
 (1, NULL, NULL, '2025-08-06 16:07:43', '2025-08-06 16:07:43', NULL, 'Admin', 'System administrator with full permissions'),
 (2, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Person', 'Can manage person records'),
-(3, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Agency', 'Can manage agency records');
+(3, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Orgs', 'Can manage organizations, agencies and divisions');
+
 
 -- --------------------------------------------------------
 
@@ -139,10 +149,12 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (15, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 9),
 (16, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 10),
 (17, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 11),
-(18, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 9),
-(19, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 10),
-(20, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 11),
-(21, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 12);
+(18, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 3, 12),
+(19, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 9),
+(20, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 10),
+(21, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 11),
+(22, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 1, 12);
+
 
 -- --------------------------------------------------------
 
