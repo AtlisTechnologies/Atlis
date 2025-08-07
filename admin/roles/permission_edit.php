@@ -7,12 +7,15 @@ $action = '';
 $btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id) {
+  require_permission('roles','update');
   $stmt = $pdo->prepare('SELECT module, action FROM admin_permissions WHERE id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $module = $row['module'];
     $action = $row['action'];
   }
+} else {
+  require_permission('roles','create');
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));

@@ -1,9 +1,6 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
-
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $username = $email = $first_name = $last_name = $type = 'ADMIN';
 $status = 1;
@@ -12,6 +9,7 @@ $message = $error = '';
 $btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id) {
+  require_permission('users','update');
   $stmt = $pdo->prepare('SELECT u.username, u.email, u.type, u.status, p.first_name, p.last_name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -25,7 +23,12 @@ if ($id) {
   $stmt = $pdo->prepare('SELECT role_id FROM admin_user_roles WHERE user_account_id = :id');
   $stmt->execute([':id' => $id]);
   $assigned = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} else {
+  require_permission('users','create');
 }
+
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
