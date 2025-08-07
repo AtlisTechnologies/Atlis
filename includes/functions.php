@@ -49,8 +49,8 @@ function admin_audit_log($pdo, $userId, $table, $recordId, $action, $oldValue, $
 
 // Checks if current user has a permission
 function user_has_permission($module, $action){
-  global $pdo, $this_user_id, $this_user_type;
-  if($this_user_type === 'ADMIN'){
+  global $pdo, $this_user_id, $this_user_type, $restricted_admin_ids;
+  if($this_user_type === 'ADMIN' && !in_array($this_user_id, $restricted_admin_ids)){
     return true;
   }
   $sql = "SELECT 1 FROM admin_user_roles ur "
