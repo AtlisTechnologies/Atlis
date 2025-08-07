@@ -38,7 +38,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Users</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="edit.php" class="btn btn-sm btn-success mb-3">Add User</a>
+<a href="new.php" class="btn btn-sm btn-success mb-3">Add User</a>
 <div id="users">
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">

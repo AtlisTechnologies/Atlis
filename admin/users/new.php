@@ -1,5 +1,6 @@
 <?php
 require '../admin_header.php';
+require_permission('users','create');
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
@@ -46,6 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($username === '' || $email === '' || $password === '') {
     $error = 'Username, email and password are required.';
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error = 'Invalid email address.';
+  } else {
+    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username');
+    $stmt->execute([':username'=>$username]);
+    if ($stmt->fetchColumn()) {
+      $error = 'Username already exists.';
+    }
+    if (!$error) {
+      $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email');
+      $stmt->execute([':email'=>$email]);
+      if ($stmt->fetchColumn()) {
+        $error = 'Email already exists.';
+      }
+    }
   }
 
   if (!$error) {
