@@ -1,4 +1,5 @@
 <?php
+if (!defined('IN_APP')) { define('IN_APP', true); }
 require '../admin_header.php';
 require_permission('users','create');
 
@@ -89,5 +90,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2 class="mb-4">Add User</h2>
 <?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<?php include '_form.php'; ?>
+<?php include 'form_new.php'; ?>
 <?php require '../admin_footer.php'; ?>
