@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/admin_guard.php';
 header('Content-Type: application/json');
 
 $token = $_SESSION['csrf_token'] ?? '';
