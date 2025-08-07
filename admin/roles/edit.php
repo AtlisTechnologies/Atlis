@@ -4,7 +4,7 @@ require '../admin_header.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $name = '';
 $description = '';
-$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
+$btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id) {
   $stmt = $pdo->prepare('SELECT name, description FROM admin_roles WHERE id = :id');
@@ -51,6 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($description); ?></textarea>
   </div>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
-  <a href="index.php" class="btn btn-phoenix-secondary">Cancel</a>
+  <a href="index.php" class="btn btn-secondary">Cancel</a>
 </form>
 <?php require '../admin_footer.php'; ?>

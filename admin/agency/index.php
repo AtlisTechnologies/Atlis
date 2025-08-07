@@ -11,7 +11,7 @@ $organizations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Organizations</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="organization_edit.php" class="btn btn-sm btn-phoenix-success mb-3">Add Organization</a>
+<a href="organization_edit.php" class="btn btn-sm btn-success mb-3">Add Organization</a>
 <div id="organizations" data-list='{"valueNames":["id","name"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -33,8 +33,8 @@ $organizations = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="id"><?= htmlspecialchars($o['id']); ?></td>
             <td class="name"><?= htmlspecialchars($o['name']); ?></td>
             <td>
-              <a class="btn btn-sm btn-phoenix-warning" href="organization_edit.php?id=<?= $o['id']; ?>">Edit</a>
-              <a class="btn btn-sm btn-phoenix-info" href="agencies.php?organization_id=<?= $o['id']; ?>">Agencies</a>
+              <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $o['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-info" href="agencies.php?organization_id=<?= $o['id']; ?>">Agencies</a>
             </td>
           </tr>
         <?php endforeach; ?>

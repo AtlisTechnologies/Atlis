@@ -9,7 +9,7 @@ $name = '';
 $main_person = null;
 $status = null;
 $message = '';
-$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
+$btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id) {
     require_permission('orgs','update');
@@ -84,11 +84,11 @@ if ($id) {
     </select>
   </div>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
-  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
+  <a href="index.php" class="btn btn-secondary">Back</a>
 </form>
 <?php if ($id): ?>
   <h3 class="mb-3">Agencies</h3>
-  <a href="agency.php?organization_id=<?= $id; ?>" class="btn btn-sm btn-phoenix-success mb-3">Add Agency</a>
+  <a href="agency.php?organization_id=<?= $id; ?>" class="btn btn-sm btn-success mb-3">Add Agency</a>
   <?php if ($orgAgencies): ?>
     <ul class="list-unstyled">
       <?php foreach ($orgAgencies as $a): ?>

@@ -78,6 +78,6 @@ foreach ($currentMap as $rid => $pids) {
       </tbody>
     </table>
   </div>
-  <button class="btn btn-phoenix-warning" type="submit">Save</button>
+  <button class="btn btn-warning" type="submit">Save</button>
 </form>
 <?php require '../admin_footer.php'; ?>

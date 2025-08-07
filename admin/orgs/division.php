@@ -27,7 +27,7 @@ $name = '';
 $main_person = null;
 $status = null;
 $message = '';
-$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
+$btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id && $_SERVER['REQUEST_METHOD'] !== 'POST') {
     $stmt = $pdo->prepare('SELECT name, main_person, status FROM module_division WHERE id = :id');
@@ -87,6 +87,6 @@ $statuses = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
     </select>
   </div>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
-  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
+  <a href="index.php" class="btn btn-secondary">Back</a>
 </form>
 <?php require '../admin_footer.php'; ?>

@@ -14,7 +14,7 @@ $divStmt->execute([':agency_id'=>$agency_id]);
 $divisions = $divStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Divisions for <?= htmlspecialchars($agency['name']); ?></h2>
-<a href="division_edit.php?agency_id=<?= $agency_id; ?>" class="btn btn-sm btn-phoenix-success mb-3">Add Division</a>
+<a href="division_edit.php?agency_id=<?= $agency_id; ?>" class="btn btn-sm btn-success mb-3">Add Division</a>
 <div id="divisions" data-list='{"valueNames":["id","name"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -36,7 +36,7 @@ $divisions = $divStmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="id"><?= htmlspecialchars($d['id']); ?></td>
             <td class="name"><?= htmlspecialchars($d['name']); ?></td>
             <td>
-              <a class="btn btn-sm btn-phoenix-warning" href="division_edit.php?id=<?= $d['id']; ?>&agency_id=<?= $agency_id; ?>">Edit</a>
+              <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $d['id']; ?>&agency_id=<?= $agency_id; ?>">Edit</a>
             </td>
           </tr>
         <?php endforeach; ?>

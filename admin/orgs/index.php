@@ -24,13 +24,13 @@ foreach ($divisionRows as $row) {
 }
 ?>
 <h2 class="mb-4">Organizations</h2>
-<a href="organization.php" class="btn btn-sm btn-phoenix-success mb-3">Add Organization</a>
+<a href="organization.php" class="btn btn-sm btn-success mb-3">Add Organization</a>
 <?php foreach ($organizations as $org): ?>
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0"><?= htmlspecialchars($org['name']); ?></h5>
       <div>
-        <a class="btn btn-sm btn-phoenix-secondary" href="organization.php?id=<?= $org['id']; ?>">View</a>
+        <a class="btn btn-sm btn-secondary" href="organization.php?id=<?= $org['id']; ?>">View</a>
       </div>
     </div>
     <div class="card-body">
@@ -47,14 +47,14 @@ foreach ($divisionRows as $row) {
                   <?php endforeach; ?>
                 </ul>
               <?php endif; ?>
-              <a class="btn btn-sm btn-phoenix-success mt-1" href="division.php?agency_id=<?= $agency['id']; ?>">Add Division</a>
+              <a class="btn btn-sm btn-success mt-1" href="division.php?agency_id=<?= $agency['id']; ?>">Add Division</a>
             </li>
           <?php endforeach; ?>
         </ul>
       <?php else: ?>
         <p class="ms-3 text-muted">No agencies yet.</p>
       <?php endif; ?>
-      <a class="btn btn-sm btn-phoenix-success" href="agency.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
+      <a class="btn btn-sm btn-success" href="agency.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
     </div>
   </div>
 <?php endforeach; ?>

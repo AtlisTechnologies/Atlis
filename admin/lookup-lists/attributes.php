@@ -56,8 +56,8 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
   <div class="col-md-4"><input class="form-control" name="attr_key" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_key'] ?? ''); ?>" required></div>
   <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
-  <div class="col-md-2"><button class="btn btn-phoenix-success" type="submit" id="saveBtn">Save</button></div>
-  <div class="col-md-2"><a class="btn btn-phoenix-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
+  <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
+  <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
 </form>
 <div id="attrs" data-list='{"valueNames":["attr_key","attr_value"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -74,11 +74,11 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="attr_key"><?= htmlspecialchars($a['attr_key']); ?></td>
             <td class="attr_value"><?= htmlspecialchars($a['attr_value']); ?></td>
             <td>
-              <button class="btn btn-sm btn-phoenix-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_key'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
+              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_key'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $a['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete attribute?');">Delete</button>
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete attribute?');">Delete</button>
               </form>
             </td>
           </tr>
@@ -98,8 +98,8 @@ function fillAttr(id,key,value){
   f.attr_key.value=key;
   f.attr_value.value=value;
   const btn=document.getElementById('saveBtn');
-  btn.classList.remove('btn-phoenix-success');
-  btn.classList.add('btn-phoenix-warning');
+  btn.classList.remove('btn-success');
+  btn.classList.add('btn-warning');
 }
 </script>
 <?php require '../admin_footer.php'; ?>

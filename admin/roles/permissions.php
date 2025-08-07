@@ -21,7 +21,7 @@ $perms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Permissions</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="permission_edit.php" class="btn btn-sm btn-phoenix-success mb-3">Add Permission</a>
+<a href="permission_edit.php" class="btn btn-sm btn-success mb-3">Add Permission</a>
 <div id="permissions" data-list='{"valueNames":["id","module","action"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -45,11 +45,11 @@ $perms = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="module"><?= htmlspecialchars($p['module']); ?></td>
             <td class="action"><?= htmlspecialchars($p['action']); ?></td>
             <td>
-              <a class="btn btn-sm btn-phoenix-warning" href="permission_edit.php?id=<?= $p['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-warning" href="permission_edit.php?id=<?= $p['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $p['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete this permission?');">Delete</button>
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this permission?');">Delete</button>
               </form>
             </td>
           </tr>
