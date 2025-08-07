@@ -2,6 +2,10 @@
 // load functions
 require 'functions.php';
 
+// Admin user IDs that should have permissions enforced
+// Add IDs here to restrict specific admin accounts
+$restricted_admin_ids = [];
+
 // DB Credentials
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
