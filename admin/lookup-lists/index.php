@@ -213,9 +213,13 @@ $(function(){
       if(res.success){
         row.remove();
       }else{
-        alert(res.error);
+        $('#listAlert').html('<div class="alert alert-danger">'+res.error+'</div>');
+        listModal.show();
       }
-    }, 'json');
+    }, 'json').fail(function(){
+      $('#listAlert').html('<div class="alert alert-danger">Server error.</div>');
+      listModal.show();
+    });
   });
 
   $('#lookup-lists').on('click', '.items-list', function(){
@@ -280,9 +284,11 @@ $(function(){
       if(res.success){
         tr.remove();
       }else{
-        alert(res.error);
+        $('#itemAlert').html('<div class="alert alert-danger">'+res.error+'</div>');
       }
-    }, 'json');
+    }, 'json').fail(function(){
+      $('#itemAlert').html('<div class="alert alert-danger">Server error.</div>');
+    });
   });
 
   $('#itemsTable').on('click', '.attributes-item', function(){
@@ -346,9 +352,11 @@ $(function(){
       if(res.success){
         tr.remove();
       }else{
-        alert(res.error);
+        $('#attrAlert').html('<div class="alert alert-danger">'+res.error+'</div>');
       }
-    }, 'json');
+    }, 'json').fail(function(){
+      $('#attrAlert').html('<div class="alert alert-danger">Server error.</div>');
+    });
   });
 });
 </script>
