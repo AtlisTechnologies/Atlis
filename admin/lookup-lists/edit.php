@@ -1,8 +1,7 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $name = $description = $memo = '';
 $message = $error = '';
@@ -19,7 +18,7 @@ if ($id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   $name = trim($_POST['name'] ?? '');
@@ -45,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Lookup List</h2>
-<?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?= flash_message($error, 'danger'); ?>
+<?= flash_message($message); ?>
 <form method="post">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="mb-3">

@@ -1,8 +1,7 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $list_id = (int)($_GET['list_id'] ?? 0);
 $message = $error = '';
 
@@ -10,13 +9,13 @@ $stmt = $pdo->prepare('SELECT * FROM lookup_lists WHERE id=:id');
 $stmt->execute([':id'=>$list_id]);
 $list = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$list){
-  echo '<div class="alert alert-danger">Lookup list not found.</div>';
+  echo flash_message('Lookup list not found.', 'danger');
   require '../admin_footer.php';
   exit;
 }
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
-  if(!hash_equals($token, $_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
+  if(!verify_csrf_token($_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
     $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$delId]);
@@ -50,8 +49,8 @@ $stmt->execute([':list_id'=>$list_id]);
 $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Items for <?= htmlspecialchars($list['name']); ?></h2>
-<?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?= flash_message($error, 'danger'); ?>
+<?= flash_message($message); ?>
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">

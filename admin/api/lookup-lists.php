@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . '/../../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/helpers.php';
 header('Content-Type: application/json');
-
-$token = $_SESSION['csrf_token'] ?? '';
 $entity = $_REQUEST['entity'] ?? '';
 $action = $_REQUEST['action'] ?? '';
 
@@ -25,8 +24,7 @@ try {
 }
 
 function verifyToken() {
-  global $token;
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
     exit;
   }
