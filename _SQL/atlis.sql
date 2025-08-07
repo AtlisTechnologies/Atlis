@@ -81,7 +81,15 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (13, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'roles', 'create'),
 (14, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'roles', 'read'),
 (15, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'roles', 'update'),
-(16, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'roles', 'delete');
+(16, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'roles', 'delete'),
+(17, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'organization', 'create'),
+(18, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'organization', 'read'),
+(19, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'organization', 'update'),
+(20, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'organization', 'delete'),
+(21, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'division', 'create'),
+(22, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'division', 'read'),
+(23, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'division', 'update'),
+(24, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'division', 'delete');
 
 -- --------------------------------------------------------
 
@@ -107,7 +115,9 @@ CREATE TABLE `admin_roles` (
 INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
 (1, NULL, NULL, '2025-08-06 16:07:43', '2025-08-06 16:07:43', NULL, 'Admin', 'System administrator with full permissions'),
 (2, NULL, NULL, '2025-08-06 16:07:59', '2025-08-06 16:07:59', NULL, 'Manage Person', 'Can manage person records'),
-(3, NULL, NULL, '2025-08-06 19:39:18', '2025-08-06 19:39:18', NULL, 'Manage Agency', 'Can manage agency records');
+(3, NULL, NULL, '2025-08-06 19:39:18', '2025-08-06 19:39:18', NULL, 'Manage Agency', 'Can manage agency records'),
+(4, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'Manage Organization', 'Can manage organization records'),
+(5, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 'Manage Division', 'Can manage division records');
 
 -- --------------------------------------------------------
 
@@ -152,7 +162,23 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (28, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 13),
 (29, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 16),
 (30, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 14),
-(31, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 15);
+(31, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 15),
+(32, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 17),
+(33, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 20),
+(34, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 18),
+(35, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 19),
+(36, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 21),
+(37, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 24),
+(38, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 22),
+(39, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 1, 23),
+(40, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 4, 17),
+(41, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 4, 20),
+(42, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 4, 18),
+(43, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 4, 19),
+(44, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 5, 21),
+(45, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 5, 24),
+(46, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 5, 22),
+(47, NULL, NULL, '2025-08-06 21:16:21', '2025-08-06 21:16:21', NULL, 5, 23);
 
 -- --------------------------------------------------------
 
