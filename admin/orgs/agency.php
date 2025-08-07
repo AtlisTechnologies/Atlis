@@ -1,24 +1,33 @@
 <?php
 require '../admin_header.php';
+require_permission('orgs','read');
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $organization_id = isset($_GET['organization_id']) ? (int)$_GET['organization_id'] : 0;
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
+$customer_id = null;
 if ($id) {
     require_permission('orgs','update');
     if (!$organization_id) {
-        $stmt = $pdo->prepare('SELECT organization_id FROM module_agency WHERE id = :id');
+        $stmt = $pdo->prepare('SELECT organization_id, customer_id FROM module_agency WHERE id = :id');
         $stmt->execute([':id'=>$id]);
-        $organization_id = (int)$stmt->fetchColumn();
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $organization_id = (int)$row['organization_id'];
+            $customer_id = (int)$row['customer_id'];
+        }
+    } else {
+        $stmt = $pdo->prepare('SELECT customer_id FROM module_agency WHERE id = :id');
+        $stmt->execute([':id'=>$id]);
+        $customer_id = (int)$stmt->fetchColumn();
     }
 } else {
     require_permission('orgs','create');
     if (!$organization_id) { die('Organization ID required'); }
 }
 
-$orgStmt = $pdo->prepare('SELECT name FROM module_organization WHERE id = :id');
+$orgStmt = $pdo->prepare('SELECT c.name FROM module_organization o JOIN module_customer c ON o.customer_id = c.id WHERE o.id = :id');
 $orgStmt->execute([':id'=>$organization_id]);
 $organization = $orgStmt->fetch(PDO::FETCH_ASSOC);
 if (!$organization) { die('Organization not found'); }
@@ -30,7 +39,7 @@ $message = '';
 $btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id && $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $stmt = $pdo->prepare('SELECT name, main_person, status FROM module_agency WHERE id = :id');
+    $stmt = $pdo->prepare('SELECT c.name, c.main_person, c.status FROM module_agency a JOIN module_customer c ON a.customer_id = c.id WHERE a.id = :id');
     $stmt->execute([':id'=>$id]);
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $name = $row['name'];
@@ -47,15 +56,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $main_person = $_POST['main_person'] !== '' ? (int)$_POST['main_person'] : null;
     $status = $_POST['status'] !== '' ? (int)$_POST['status'] : null;
     if ($id) {
-        $stmt = $pdo->prepare('UPDATE module_agency SET name=:name, main_person=:main_person, status=:status, user_updated=:uid WHERE id=:id');
-        $stmt->execute([':name'=>$name, ':main_person'=>$main_person, ':status'=>$status, ':uid'=>$this_user_id, ':id'=>$id]);
-        admin_audit_log($pdo,$this_user_id,'module_agency',$id,'UPDATE',null,json_encode(['name'=>$name,'main_person'=>$main_person,'status'=>$status]),'Updated agency');
+        $stmt = $pdo->prepare('UPDATE module_customer SET name=:name, main_person=:main_person, status=:status, user_updated=:uid WHERE id=:cid');
+        $stmt->execute([':name'=>$name, ':main_person'=>$main_person, ':status'=>$status, ':uid'=>$this_user_id, ':cid'=>$customer_id]);
+        admin_audit_log($pdo,$this_user_id,'module_customer',$customer_id,'UPDATE',null,json_encode(['name'=>$name,'main_person'=>$main_person,'status'=>$status]),'Updated customer');
+        $stmt = $pdo->prepare('UPDATE module_agency SET user_updated=:uid WHERE id=:id');
+        $stmt->execute([':uid'=>$this_user_id, ':id'=>$id]);
+        admin_audit_log($pdo,$this_user_id,'module_agency',$id,'UPDATE',null,json_encode(['customer_id'=>$customer_id,'organization_id'=>$organization_id]),'Updated agency');
         $message = 'Agency updated.';
     } else {
-        $stmt = $pdo->prepare('INSERT INTO module_agency (user_id,user_updated,organization_id,name,main_person,status) VALUES (:uid,:uid,:org,:name,:main_person,:status)');
-        $stmt->execute([':uid'=>$this_user_id, ':org'=>$organization_id, ':name'=>$name, ':main_person'=>$main_person, ':status'=>$status]);
+        $stmt = $pdo->prepare('INSERT INTO module_customer (user_id,user_updated,name,main_person,status) VALUES (:uid,:uid,:name,:main_person,:status)');
+        $stmt->execute([':uid'=>$this_user_id, ':name'=>$name, ':main_person'=>$main_person, ':status'=>$status]);
+        $customer_id = $pdo->lastInsertId();
+        admin_audit_log($pdo,$this_user_id,'module_customer',$customer_id,'CREATE',null,json_encode(['name'=>$name,'main_person'=>$main_person,'status'=>$status]),'Created customer');
+
+        $stmt = $pdo->prepare('INSERT INTO module_agency (user_id,user_updated,organization_id,customer_id) VALUES (:uid,:uid,:org,:cid)');
+        $stmt->execute([':uid'=>$this_user_id, ':org'=>$organization_id, ':cid'=>$customer_id]);
         $id = $pdo->lastInsertId();
-        admin_audit_log($pdo,$this_user_id,'module_agency',$id,'CREATE',null,json_encode(['organization_id'=>$organization_id,'name'=>$name,'main_person'=>$main_person,'status'=>$status]),'Created agency');
+        admin_audit_log($pdo,$this_user_id,'module_agency',$id,'CREATE',null,json_encode(['organization_id'=>$organization_id,'customer_id'=>$customer_id]),'Created agency');
         header('Location: agency.php?id='.$id);
         exit;
     }
@@ -68,7 +85,7 @@ $statuses = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
 // Fetch divisions for display
 $agencyDivisions = [];
 if ($id) {
-    $divStmt = $pdo->prepare('SELECT id, name FROM module_division WHERE agency_id = :id ORDER BY name');
+    $divStmt = $pdo->prepare('SELECT d.id, c.name FROM module_division d JOIN module_customer c ON d.customer_id = c.id WHERE d.agency_id = :id ORDER BY c.name');
     $divStmt->execute([':id'=>$id]);
     $agencyDivisions = $divStmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -77,23 +94,7 @@ if ($id) {
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <form method="post" class="mb-4">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <div class="mb-3">
-    <label class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name); ?>" required>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Main Person ID</label>
-    <input type="number" name="main_person" class="form-control" value="<?= htmlspecialchars($main_person); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Status</label>
-    <select name="status" class="form-select">
-      <option value="">--</option>
-      <?php foreach($statuses as $s): ?>
-        <option value="<?= $s['id']; ?>" <?= (string)$status === (string)$s['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($s['label']); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
+  <?php include __DIR__.'/forms/customer_fields.php'; ?>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
   <a href="index.php" class="btn btn-secondary">Back</a>
 </form>

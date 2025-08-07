@@ -32,11 +32,6 @@
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="briefcase"></span></span><span class="nav-link-text">Organizations</span></div>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/agency/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="monitor"></span></span><span class="nav-link-text">Agency</span></div>
-          </a>
-        </li>
       </ul>
     </div>
   </div>
