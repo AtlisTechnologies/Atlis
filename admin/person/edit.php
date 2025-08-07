@@ -5,6 +5,7 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $first_name = $last_name = '';
 $user_id = null;
 $existing = null;
+$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
 
 if ($id) {
   require_permission('person','update');
@@ -74,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label class="form-label">Last Name</label>
     <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($last_name); ?>" required>
   </div>
-  <button class="btn btn-primary" type="submit">Save</button>
-  <a href="index.php" class="btn btn-secondary">Cancel</a>
+  <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
+  <a href="index.php" class="btn btn-phoenix-secondary">Cancel</a>
 </form>
 <?php require '../admin_footer.php'; ?>

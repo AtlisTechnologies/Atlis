@@ -18,7 +18,7 @@ $stmt->execute([':org_id'=>$organization_id]);
 $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Agencies for <?= htmlspecialchars($organization['name']); ?></h2>
-<a href="agency_edit.php?organization_id=<?= $organization_id; ?>" class="btn btn-sm btn-primary mb-3">Add Agency</a>
+<a href="agency_edit.php?organization_id=<?= $organization_id; ?>" class="btn btn-sm btn-phoenix-success mb-3">Add Agency</a>
 <div id="agencies" data-list='{"valueNames":["id","name"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -40,8 +40,8 @@ $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="id"><?= htmlspecialchars($a['id']); ?></td>
             <td class="name"><?= htmlspecialchars($a['name']); ?></td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="agency_edit.php?id=<?= $a['id']; ?>&organization_id=<?= $organization_id; ?>">Edit</a>
-              <a class="btn btn-sm btn-info" href="divisions.php?agency_id=<?= $a['id']; ?>">Divisions</a>
+              <a class="btn btn-sm btn-phoenix-warning" href="agency_edit.php?id=<?= $a['id']; ?>&organization_id=<?= $organization_id; ?>">Edit</a>
+              <a class="btn btn-sm btn-phoenix-info" href="divisions.php?agency_id=<?= $a['id']; ?>">Divisions</a>
             </td>
           </tr>
         <?php endforeach; ?>

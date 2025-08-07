@@ -9,6 +9,7 @@ $name = '';
 $main_person = null;
 $status = null;
 $message = '';
+$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   if(!hash_equals($token, $_POST['csrf_token'] ?? '')) {
@@ -68,7 +69,7 @@ $statuses = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
       <?php endforeach; ?>
     </select>
   </div>
-  <button type="submit" class="btn btn-primary">Save</button>
-  <a href="index.php" class="btn btn-secondary">Back</a>
+  <button type="submit" class="btn <?= $btnClass; ?>">Save</button>
+  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
 </form>
 <?php require '../admin_footer.php'; ?>

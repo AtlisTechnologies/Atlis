@@ -21,7 +21,7 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<a href="edit.php" class="btn btn-sm btn-primary mb-3">Add Lookup List</a>
+<a href="edit.php" class="btn btn-sm btn-phoenix-success mb-3">Add Lookup List</a>
 <div id="lookup-lists" data-list='{"valueNames":["id","name","description"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
@@ -45,12 +45,12 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="name"><?= htmlspecialchars($l['name']); ?></td>
             <td class="description"><?= htmlspecialchars($l['description']); ?></td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="edit.php?id=<?= $l['id']; ?>">Edit</a>
-              <a class="btn btn-sm btn-info" href="items.php?list_id=<?= $l['id']; ?>">Items</a>
+              <a class="btn btn-sm btn-phoenix-warning" href="edit.php?id=<?= $l['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-phoenix-info" href="items.php?list_id=<?= $l['id']; ?>">Items</a>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $l['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this list?');">Delete</button>
+                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete this list?');">Delete</button>
               </form>
             </td>
           </tr>

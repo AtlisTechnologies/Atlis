@@ -9,6 +9,7 @@ $username = $email = $first_name = $last_name = $type = 'ADMIN';
 $status = 1;
 $assigned = [];
 $message = $error = '';
+$btnClass = $id ? 'btn-phoenix-warning' : 'btn-phoenix-success';
 
 if ($id) {
   $stmt = $pdo->prepare('SELECT u.username, u.email, u.type, u.status, p.first_name, p.last_name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
@@ -167,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     <?php endforeach; ?>
   </div>
-  <button class="btn btn-primary" type="submit">Save</button>
-  <a href="index.php" class="btn btn-secondary">Back</a>
+  <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
+  <a href="index.php" class="btn btn-phoenix-secondary">Back</a>
 </form>
 <?php require '../admin_footer.php'; ?>

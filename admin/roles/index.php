@@ -22,9 +22,9 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h2 class="mb-4">Roles</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <div class="mb-3">
-  <a href="edit.php" class="btn btn-sm btn-primary">Add Role</a>
-  <a href="permissions.php" class="btn btn-sm btn-info">Permissions</a>
-  <a href="matrix.php" class="btn btn-sm btn-secondary">Role Permissions</a>
+  <a href="edit.php" class="btn btn-sm btn-phoenix-success">Add Role</a>
+  <a href="permissions.php" class="btn btn-sm btn-phoenix-info">Permissions</a>
+  <a href="matrix.php" class="btn btn-sm btn-phoenix-secondary">Role Permissions</a>
 </div>
 <div id="roles" data-list='{"valueNames":["id","name","description"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -49,11 +49,11 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="name"><?= htmlspecialchars($r['name']); ?></td>
             <td class="description"><?= htmlspecialchars($r['description']); ?></td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="edit.php?id=<?= $r['id']; ?>">Edit</a>
+              <a class="btn btn-sm btn-phoenix-warning" href="edit.php?id=<?= $r['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $r['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this role?');">Delete</button>
+                <button class="btn btn-sm btn-phoenix-danger" onclick="return confirm('Delete this role?');">Delete</button>
               </form>
             </td>
           </tr>
