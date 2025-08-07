@@ -4,30 +4,11 @@ require '../admin_header.php';
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if (!$id) {
-  header('Location: new.php');
-  exit;
-}
 $username = $email = $first_name = $last_name = $type = 'ADMIN';
 $status = 1;
 $assigned = [];
 $message = $error = '';
-$btnClass = 'btn-warning';
-
-$stmt = $pdo->prepare('SELECT u.username, u.email, u.type, u.status, p.first_name, p.last_name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
-$stmt->execute([':id' => $id]);
-if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  $username = $row['username'];
-  $email = $row['email'];
-  $type = $row['type'];
-  $status = $row['status'];
-  $first_name = $row['first_name'] ?? '';
-  $last_name = $row['last_name'] ?? '';
-}
-$stmt = $pdo->prepare('SELECT role_id FROM admin_user_roles WHERE user_account_id = :id');
-$stmt->execute([':id' => $id]);
-$assigned = $stmt->fetchAll(PDO::FETCH_COLUMN);
+$btnClass = 'btn-success';
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
@@ -38,6 +19,9 @@ $typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 $statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
 $statusStmt->execute();
 $statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$type = array_key_first($typeOptions) ?? $type;
+$status = (int)(array_key_first($statusOptions) ?? $status);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
@@ -58,42 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $first_name = trim($_POST['first_name'] ?? '');
   $last_name = trim($_POST['last_name'] ?? '');
   $roleIds = $_POST['roles'] ?? [];
+  $assigned = $roleIds;
 
   if ($username === '' || $email === '') {
     $error = 'Username and email are required.';
   }
+  if ($password === '') {
+    $error = 'Password is required for new users.';
+  }
 
   if (!$error) {
-    if ($password !== '') {
-      $hash = password_hash($password, PASSWORD_DEFAULT);
-      $stmt = $pdo->prepare('UPDATE users SET username=:username, email=:email, password=:password, type=:type, status=:status, user_updated=:uid WHERE id=:id');
-      $stmt->execute([':username'=>$username, ':email'=>$email, ':password'=>$hash, ':type'=>$type, ':status'=>$status, ':uid'=>$this_user_id, ':id'=>$id]);
-    } else {
-      $stmt = $pdo->prepare('UPDATE users SET username=:username, email=:email, type=:type, status=:status, user_updated=:uid WHERE id=:id');
-      $stmt->execute([':username'=>$username, ':email'=>$email, ':type'=>$type, ':status'=>$status, ':uid'=>$this_user_id, ':id'=>$id]);
-    }
-    audit_log($pdo, $this_user_id, 'users', $id, 'UPDATE', 'Updated user');
-    $stmt = $pdo->prepare('SELECT id FROM person WHERE user_id = :id');
-    $stmt->execute([':id' => $id]);
-    if ($stmt->fetchColumn()) {
-      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name, last_name=:last_name, user_updated=:uid WHERE user_id=:id');
-      $stmt->execute([':first_name'=>$first_name, ':last_name'=>$last_name, ':uid'=>$this_user_id, ':id'=>$id]);
-    } else {
-      $stmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, user_updated) VALUES (:user_id, :first_name, :last_name, :uid)');
-      $stmt->execute([':user_id'=>$id, ':first_name'=>$first_name, ':last_name'=>$last_name, ':uid'=>$this_user_id]);
-    }
-    $stmt = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id = :id');
-    $stmt->execute([':id' => $id]);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, username, email, password, type, status) VALUES (:uid, :uid, :username, :email, :password, :type, :status)');
+    $stmt->execute([':uid'=>$this_user_id, ':username'=>$username, ':email'=>$email, ':password'=>$hash, ':type'=>$type, ':status'=>$status]);
+    $id = $pdo->lastInsertId();
+    audit_log($pdo, $this_user_id, 'users', $id, 'CREATE', 'Created user');
+    $stmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, user_updated) VALUES (:user_id, :first_name, :last_name, :uid)');
+    $stmt->execute([':user_id'=>$id, ':first_name'=>$first_name, ':last_name'=>$last_name, ':uid'=>$this_user_id]);
+    audit_log($pdo, $this_user_id, 'person', $pdo->lastInsertId(), 'CREATE', 'Created person for user');
     foreach($roleIds as $roleId){
       $stmt = $pdo->prepare('INSERT INTO admin_user_roles (user_id, user_updated, user_account_id, role_id) VALUES (:uid, :uid, :uid_account, :role_id)');
       $stmt->execute([':uid'=>$this_user_id, ':uid_account'=>$id, ':role_id'=>$roleId]);
     }
-    audit_log($pdo, $this_user_id, 'admin_user_roles', $id, 'UPDATE', 'Updated user roles');
-    $message = 'User updated.';
+    if ($roleIds) {
+      audit_log($pdo, $this_user_id, 'admin_user_roles', $id, 'CREATE', 'Assigned roles to user');
+    }
+    $message = 'User created.';
   }
 }
 ?>
-<h2 class="mb-4">Edit User</h2>
+<h2 class="mb-4">Add User</h2>
 <?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <form method="post">
@@ -107,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
   </div>
   <div class="mb-3">
-    <label class="form-label">Password (leave blank to keep current)</label>
-    <input type="password" class="form-control" name="password">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" name="password" required>
   </div>
   <div class="mb-3">
     <label class="form-label">First Name</label>
