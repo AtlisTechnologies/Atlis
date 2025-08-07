@@ -7,11 +7,15 @@ $name = '';
 $main_person = null;
 $status = null;
 $existing = null;
+$file_name = '';
+$file_path = '';
+$file_size = null;
+$file_type = '';
 $btnClass = $id ? 'btn-warning' : 'btn-success';
 
 if ($id) {
   require_permission('agency','update');
-  $stmt = $pdo->prepare('SELECT organization_id, name, main_person, status FROM module_agency WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT organization_id, name, main_person, status, file_name, file_path, file_size, file_type FROM module_agency WHERE id = :id');
   $stmt->execute([':id' => $id]);
   $existing = $stmt->fetch(PDO::FETCH_ASSOC);
   if ($existing) {
@@ -19,6 +23,10 @@ if ($id) {
     $name = $existing['name'];
     $main_person = $existing['main_person'];
     $status = $existing['status'];
+    $file_name = $existing['file_name'];
+    $file_path = $existing['file_path'];
+    $file_size = $existing['file_size'];
+    $file_type = $existing['file_type'];
   }
 } else {
   require_permission('agency','create');
@@ -59,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!empty($_FILES['upload_file']['name'])) {
     $maxSize = 5 * 1024 * 1024; // 5MB
     if ($_FILES['upload_file']['size'] <= $maxSize && is_uploaded_file($_FILES['upload_file']['tmp_name'])) {
-      $ext = strtolower(pathinfo($_FILES['upload_file']['name'], PATHINFO_EXTENSION));
+      $originalName = $_FILES['upload_file']['name'];
+      $fileSize = (int)$_FILES['upload_file']['size'];
+      $fileType = $_FILES['upload_file']['type'];
+      $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
       $uploadDir = __DIR__ . '/../../module/agency/uploads/';
       if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0775, true);
@@ -68,7 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         @unlink($old);
       }
       $dest = $uploadDir . 'agency_' . $id . '.' . $ext;
-      move_uploaded_file($_FILES['upload_file']['tmp_name'], $dest);
+      $publicPath = '/module/agency/uploads/agency_' . $id . '.' . $ext;
+      if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $dest)) {
+        $fileStmt = $pdo->prepare('UPDATE module_agency SET file_name=?, file_path=?, file_size=?, file_type=? WHERE id=?');
+        $fileStmt->execute([$originalName, $publicPath, $fileSize, $fileType, $id]);
+      }
     }
   }
 
@@ -113,6 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="mb-3">
     <label class="form-label">Upload File</label>
+    <?php if ($file_path): ?>
+      <div class="mb-2">
+        <a href="<?= htmlspecialchars($file_path); ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
+      </div>
+    <?php endif; ?>
     <input type="file" name="upload_file" class="form-control" accept="image/*,application/pdf">
   </div>
 
