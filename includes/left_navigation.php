@@ -19,11 +19,11 @@
                 <li class="collapsed-nav-item-title d-none">Home
                 </li>
                 <?php // Placeholder links for real modules ?>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/agencies">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Agencies</span>
-                    </div>
-                  </a>
-                </li>
+                  <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/agency">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Agencies</span>
+                      </div>
+                    </a>
+                  </li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/projects">
                     <div class="d-flex align-items-center"><span class="nav-link-text">Projects</span>
                     </div>
