@@ -64,8 +64,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($username === '' || $email === '') {
     $error = 'Username and email are required.';
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error = 'Invalid email address.';
+  } else {
+    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username' . ($id ? ' AND id != :id' : ''));
+    $params = [':username' => $username];
+    if ($id) { $params[':id'] = $id; }
+    $stmt->execute($params);
+    if ($stmt->fetchColumn()) {
+      $error = 'Username already exists.';
+    }
+    if (!$error) {
+      $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email' . ($id ? ' AND id != :id' : ''));
+      $params = [':email' => $email];
+      if ($id) { $params[':id'] = $id; }
+      $stmt->execute($params);
+      if ($stmt->fetchColumn()) {
+        $error = 'Email already exists.';
+      }
+    }
   }
-  if (!$id && $password === '') {
+  if (!$error && !$id && $password === '') {
     $error = 'Password is required for new users.';
   }
 
