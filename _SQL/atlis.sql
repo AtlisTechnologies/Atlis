@@ -46,16 +46,6 @@ CREATE TABLE `admin_audit_log` (
 -- Dumping data for table `admin_audit_log`
 --
 
-INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
-(1, 1, 1, '2025-08-06 21:24:49', '2025-08-06 21:24:49', NULL, 'module_customer', 1, 'CREATE', 'Created customer', NULL, '{\"name\":\"Atlis Technologies LLC\",\"main_person\":1,\"status\":1}'),
-(2, 1, 1, '2025-08-06 21:24:49', '2025-08-06 21:24:49', NULL, 'module_organization', 3, 'CREATE', 'Created organization', NULL, '{\"customer_id\":\"1\"}'),
-(3, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 'module_customer', 2, 'CREATE', 'Created customer', NULL, '{\"name\":\"Atlis Technologies\",\"main_person\":1,\"status\":3}'),
-(4, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 'module_agency', 3, 'CREATE', 'Created agency', NULL, '{\"organization_id\":3,\"customer_id\":\"2\"}'),
-(5, 1, 1, '2025-08-06 21:25:15', '2025-08-06 21:25:15', NULL, 'module_customer', 3, 'CREATE', 'Created customer', NULL, '{\"name\":\"Atlis\",\"main_person\":1,\"status\":5}'),
-(6, 1, 1, '2025-08-06 21:25:15', '2025-08-06 21:25:15', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"customer_id\":\"3\"}');
-
--- --------------------------------------------------------
-
 --
 -- Table structure for table `admin_permissions`
 --
@@ -341,7 +331,6 @@ CREATE TABLE `module_agency` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
-  `customer_id` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
@@ -355,37 +344,13 @@ CREATE TABLE `module_agency` (
 -- Dumping data for table `module_agency`
 --
 
-INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `customer_id`, `date_created`, `date_updated`, `memo`, `organization_id`, `name`, `main_person`, `status`) VALUES
-(1, NULL, NULL, NULL, '2025-08-06 16:27:31', '2025-08-06 16:27:31', NULL, 1, 'Atlis Technologies', 1, 3),
-(2, NULL, NULL, NULL, '2025-08-06 16:28:14', '2025-08-06 16:28:14', NULL, 2, '19th Circuit Court', NULL, 3),
-(3, 1, 1, 2, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 3, '', NULL, NULL);
+INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `name`, `main_person`, `status`) VALUES
+(1, NULL, NULL,  '2025-08-06 16:27:31', '2025-08-06 16:27:31', NULL, 1, 'Atlis Technologies', 1, 3),
+(2, NULL, NULL, '2025-08-06 16:28:14', '2025-08-06 16:28:14', NULL, 2, '19th Circuit Court', NULL, 3),
+(3, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 3, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `module_customer`
---
-
-CREATE TABLE `module_customer` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `main_person` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_customer`
---
-
-INSERT INTO `module_customer` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`) VALUES
-(1, 1, 1, '2025-08-06 21:24:49', '2025-08-06 21:24:49', NULL, 'Atlis Technologies LLC', 1, 1),
-(2, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 'Atlis Technologies', 1, 3),
-(3, 1, 1, '2025-08-06 21:25:15', '2025-08-06 21:25:15', NULL, 'Atlis', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -397,7 +362,6 @@ CREATE TABLE `module_division` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
-  `customer_id` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
@@ -411,12 +375,12 @@ CREATE TABLE `module_division` (
 -- Dumping data for table `module_division`
 --
 
-INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `customer_id`, `date_created`, `date_updated`, `memo`, `agency_id`, `name`, `main_person`, `status`) VALUES
-(1, NULL, NULL, NULL, '2025-08-06 16:27:41', '2025-08-06 16:27:41', NULL, 1, 'Atlis', 1, 5),
-(2, NULL, NULL, NULL, '2025-08-06 16:28:28', '2025-08-06 16:28:28', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
-(3, NULL, NULL, NULL, '2025-08-06 16:28:37', '2025-08-06 16:28:37', NULL, 2, 'Business Operations', NULL, 5),
-(4, NULL, NULL, NULL, '2025-08-06 16:28:48', '2025-08-06 16:28:48', NULL, 2, 'Court Clerks', NULL, 5),
-(5, 1, 1, 3, '2025-08-06 21:25:15', '2025-08-06 21:25:15', NULL, 3, '', NULL, NULL);
+INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `name`, `main_person`, `status`) VALUES
+(1, NULL, NULL, '2025-08-06 16:27:41', '2025-08-06 16:27:41', NULL, 1, 'Atlis', 1, 5),
+(2, NULL, NULL, '2025-08-06 16:28:28', '2025-08-06 16:28:28', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
+(3, NULL, NULL, '2025-08-06 16:28:37', '2025-08-06 16:28:37', NULL, 2, 'Business Operations', NULL, 5),
+(4, NULL, NULL, '2025-08-06 16:28:48', '2025-08-06 16:28:48', NULL, 2, 'Court Clerks', NULL, 5),
+(5, 1, 1, '2025-08-06 21:25:15', '2025-08-06 21:25:15', NULL, 3, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -428,7 +392,6 @@ CREATE TABLE `module_organization` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
-  `customer_id` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
@@ -441,10 +404,10 @@ CREATE TABLE `module_organization` (
 -- Dumping data for table `module_organization`
 --
 
-INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `customer_id`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`) VALUES
-(1, NULL, NULL, NULL, '2025-08-06 16:27:19', '2025-08-06 16:27:19', NULL, 'Atlis Technologies LLC', 1, 1),
-(2, NULL, NULL, NULL, '2025-08-06 16:27:55', '2025-08-06 16:27:55', NULL, 'Lake County, IL', NULL, 1),
-(3, 1, 1, 1, '2025-08-06 21:24:49', '2025-08-06 21:24:49', NULL, '', NULL, NULL);
+INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`) VALUES
+(1, NULL, NULL, '2025-08-06 16:27:19', '2025-08-06 16:27:19', NULL, 'Atlis Technologies LLC', 1, 1),
+(2, NULL, NULL, '2025-08-06 16:27:55', '2025-08-06 16:27:55', NULL, 'Lake County, IL', NULL, 1),
+(3, 1, 1, '2025-08-06 21:24:49', '2025-08-06 21:24:49', NULL, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -615,18 +578,8 @@ ALTER TABLE `module_agency`
   ADD KEY `fk_module_agency_user_updated` (`user_updated`),
   ADD KEY `fk_module_agency_organization_id` (`organization_id`),
   ADD KEY `fk_module_agency_main_person` (`main_person`),
-  ADD KEY `fk_module_agency_status` (`status`),
-  ADD KEY `fk_module_agency_customer` (`customer_id`);
+  ADD KEY `fk_module_agency_status` (`status`);
 
---
--- Indexes for table `module_customer`
---
-ALTER TABLE `module_customer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_customer_user_id` (`user_id`),
-  ADD KEY `fk_module_customer_user_updated` (`user_updated`),
-  ADD KEY `fk_module_customer_main_person` (`main_person`),
-  ADD KEY `fk_module_customer_status` (`status`);
 
 --
 -- Indexes for table `module_division`
@@ -637,8 +590,7 @@ ALTER TABLE `module_division`
   ADD KEY `fk_module_division_user_updated` (`user_updated`),
   ADD KEY `fk_module_division_agency_id` (`agency_id`),
   ADD KEY `fk_module_division_main_person` (`main_person`),
-  ADD KEY `fk_module_division_status` (`status`),
-  ADD KEY `fk_module_division_customer` (`customer_id`);
+  ADD KEY `fk_module_division_status` (`status`);
 
 --
 -- Indexes for table `module_organization`
@@ -648,8 +600,7 @@ ALTER TABLE `module_organization`
   ADD KEY `fk_module_organization_user_id` (`user_id`),
   ADD KEY `fk_module_organization_user_updated` (`user_updated`),
   ADD KEY `fk_module_organization_main_person` (`main_person`),
-  ADD KEY `fk_module_organization_status` (`status`),
-  ADD KEY `fk_module_organization_customer` (`customer_id`);
+  ADD KEY `fk_module_organization_status` (`status`);
 
 --
 -- Indexes for table `person`
@@ -733,11 +684,6 @@ ALTER TABLE `lookup_list_item_attributes`
 ALTER TABLE `module_agency`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `module_customer`
---
-ALTER TABLE `module_customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_division`
@@ -839,7 +785,6 @@ ALTER TABLE `lookup_list_item_attributes`
 -- Constraints for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  ADD CONSTRAINT `fk_module_agency_customer` FOREIGN KEY (`customer_id`) REFERENCES `module_customer` (`id`),
   ADD CONSTRAINT `fk_module_agency_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
   ADD CONSTRAINT `fk_module_agency_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`),
   ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
@@ -847,20 +792,10 @@ ALTER TABLE `module_agency`
   ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `module_customer`
---
-ALTER TABLE `module_customer`
-  ADD CONSTRAINT `fk_module_customer_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
-  ADD CONSTRAINT `fk_module_customer_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_customer_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_customer_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
-
---
 -- Constraints for table `module_division`
 --
 ALTER TABLE `module_division`
   ADD CONSTRAINT `fk_module_division_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
-  ADD CONSTRAINT `fk_module_division_customer` FOREIGN KEY (`customer_id`) REFERENCES `module_customer` (`id`),
   ADD CONSTRAINT `fk_module_division_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
   ADD CONSTRAINT `fk_module_division_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_division_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
@@ -870,7 +805,6 @@ ALTER TABLE `module_division`
 -- Constraints for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  ADD CONSTRAINT `fk_module_organization_customer` FOREIGN KEY (`customer_id`) REFERENCES `module_customer` (`id`),
   ADD CONSTRAINT `fk_module_organization_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`),
   ADD CONSTRAINT `fk_module_organization_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_organization_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
