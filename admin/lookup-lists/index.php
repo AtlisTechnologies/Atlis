@@ -1,8 +1,7 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $stmt = $pdo->query('SELECT id, name, description, memo FROM lookup_lists ORDER BY name');
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
