@@ -23,17 +23,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   }
   require_permission('users','delete');
   $delId = (int)$_POST['delete_id'];
-  $stmt = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id = :id');
-  $stmt->execute([':id' => $delId]);
-  $stmt = $pdo->prepare('DELETE FROM person WHERE user_id = :id');
-  $stmt->execute([':id' => $delId]);
-  $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
-  $stmt->execute([':id' => $delId]);
-  audit_log($pdo, $this_user_id, 'users', $delId, 'DELETE', 'Deleted user');
-  $message = 'User deleted.';
+  try {
+    $pdo->beginTransaction();
+    $stmt = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id = :id');
+    $stmt->execute([':id' => $delId]);
+    $stmt = $pdo->prepare('DELETE FROM person WHERE user_id = :id');
+    $stmt->execute([':id' => $delId]);
+    $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
+    $stmt->execute([':id' => $delId]);
+    audit_log($pdo, $this_user_id, 'users', $delId, 'DELETE', 'Deleted user');
+    $pdo->commit();
+    $message = 'User deleted.';
+  } catch (Exception $e) {
+    $pdo->rollBack();
+    $message = 'Error deleting user.';
+  }
 }
 
-$stmt = $pdo->query('SELECT u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name, GROUP_CONCAT(ar.name ORDER BY ar.name SEPARATOR ",") AS roles FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN admin_user_roles aur ON u.id = aur.user_account_id LEFT JOIN admin_roles ar ON aur.role_id = ar.id GROUP BY u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name ORDER BY u.username');
+$stmt = $pdo->query('SELECT u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name, GROUP_CONCAT(DISTINCT ar.name ORDER BY ar.name SEPARATOR ",") AS roles FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN admin_user_roles aur ON u.id = aur.user_account_id LEFT JOIN admin_roles ar ON aur.role_id = ar.id GROUP BY u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name ORDER BY u.username');
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Users</h2>
