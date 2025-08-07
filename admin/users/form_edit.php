@@ -1,9 +1,11 @@
 <?php
-// Shared form for creating and editing users.
-// Expects lookup arrays ($roles, $typeOptions, $statusOptions) and
-// the following variables to be defined by the caller:
-// $token, $id, $username, $email, $first_name, $last_name,
+// Edit user form. Expects lookup arrays ($roles, $typeOptions, $statusOptions) and
+// variables: $token, $id, $username, $email, $first_name, $last_name,
 // $type, $status, $btnClass, $assigned (array of role ids)
+
+if (!defined('IN_APP')) {
+    exit('No direct script access allowed');
+}
 ?>
 <form method="post">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -16,8 +18,8 @@
     <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
   </div>
   <div class="mb-3">
-    <label class="form-label">Password <?= $id ? '(leave blank to keep current)' : ''; ?></label>
-    <input type="password" class="form-control" name="password" <?= $id ? '' : 'required'; ?>>
+    <label class="form-label">Password (leave blank to keep current)</label>
+    <input type="password" class="form-control" name="password">
   </div>
   <div class="mb-3">
     <label class="form-label">First Name</label>
