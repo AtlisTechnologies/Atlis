@@ -1,14 +1,11 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
-    die('Invalid CSRF token');
-  }
+  verify_csrf_token($_POST['csrf_token'] ?? '');
   $delId = (int)$_POST['delete_id'];
   $stmt = $pdo->prepare('DELETE FROM lookup_lists WHERE id = :id');
   $stmt->execute([':id' => $delId]);
@@ -20,7 +17,7 @@ $stmt = $pdo->query('SELECT id, name, description FROM lookup_lists ORDER BY nam
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php flash_message('success', $message); ?>
 <a href="edit.php" class="btn btn-sm btn-success mb-3">Add Lookup List</a>
 <div id="lookup-lists" data-list='{"valueNames":["id","name","description"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">

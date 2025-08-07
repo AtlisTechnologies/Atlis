@@ -1,8 +1,7 @@
 <?php
 require '../admin_header.php';
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $item_id = (int)($_GET['item_id'] ?? 0);
 $message = $error = '';
 
@@ -10,13 +9,13 @@ $stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM lookup_list_items i 
 $stmt->execute([':id'=>$item_id]);
 $item = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$item){
-  echo '<div class="alert alert-danger">Item not found.</div>';
+  flash_message('danger', 'Item not found.');
   require '../admin_footer.php';
   exit;
 }
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
-  if(!hash_equals($token, $_POST['csrf_token'] ?? '')){ die('Invalid CSRF token'); }
+  verify_csrf_token($_POST['csrf_token'] ?? '');
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
     $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
@@ -49,8 +48,8 @@ $stmt->execute([':item_id'=>$item_id]);
 $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
-<?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php flash_message('danger', $error); ?>
+<?php flash_message('success', $message); ?>
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">

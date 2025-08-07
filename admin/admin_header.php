@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/admin_guard.php';
 require_once __DIR__ . '/../includes/html_header.php';
+require_once __DIR__ . '/../includes/helpers.php';
 ?>
 <main class="main" id="top">
   <?php require __DIR__ . '/left_navigation.php'; ?>
