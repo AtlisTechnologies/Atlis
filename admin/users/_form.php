@@ -1,23 +1,9 @@
 <?php
 // Shared form for creating and editing users.
-// Expects: $token, $id, $username, $email, $first_name, $last_name,
-//          $type, $status, $btnClass, $assigned (array of role ids)
-// Uses: $pdo for database access.
-
-$roles = $roles ?? $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-
-$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' ORDER BY li.sort_order, li.label");
-$typeStmt->execute();
-$typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' ORDER BY li.sort_order, li.label");
-$statusStmt->execute();
-$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-if (!$id) {
-    $type = array_key_first($typeOptions) ?? $type;
-    $status = (int)(array_key_first($statusOptions) ?? $status);
-}
+// Expects lookup arrays ($roles, $typeOptions, $statusOptions) and
+// the following variables to be defined by the caller:
+// $token, $id, $username, $email, $first_name, $last_name,
+// $type, $status, $btnClass, $assigned (array of role ids)
 ?>
 <form method="post">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
