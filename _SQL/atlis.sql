@@ -363,17 +363,30 @@ CREATE TABLE `module_agency` (
   `organization_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `main_person` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL
+  `status` int(11) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_agency`
 --
 
-INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `name`, `main_person`, `status`) VALUES
-(1, NULL, NULL,  '2025-08-06 16:27:31', '2025-08-06 16:27:31', NULL, 1, 'Atlis Technologies', 1, 3),
-(2, NULL, NULL, '2025-08-06 16:28:14', '2025-08-06 16:28:14', NULL, 2, '19th Circuit Court', NULL, 3),
-(3, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 3, '', NULL, NULL);
+INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(1, NULL, NULL,  '2025-08-06 16:27:31', '2025-08-06 16:27:31', NULL, 1, 'Atlis Technologies', 1, 3, NULL, NULL, NULL, NULL),
+(2, NULL, NULL, '2025-08-06 16:28:14', '2025-08-06 16:28:14', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
+(3, 1, 1, '2025-08-06 21:25:06', '2025-08-06 21:25:06', NULL, 3, '', NULL, NULL, NULL, NULL, NULL, NULL);
+
+--
+-- Alter table for existing deployments
+--
+ALTER TABLE `module_agency`
+  ADD COLUMN `file_name` varchar(255) DEFAULT NULL,
+  ADD COLUMN `file_path` varchar(255) DEFAULT NULL,
+  ADD COLUMN `file_size` int(11) DEFAULT NULL,
+  ADD COLUMN `file_type` varchar(255) DEFAULT NULL;
 
 -- --------------------------------------------------------
 

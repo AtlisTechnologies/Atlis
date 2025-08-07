@@ -95,12 +95,16 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
           </td>
         </tr>
         <?php
-          $agencyStmt = $pdo->prepare('SELECT id, name, status FROM module_agency WHERE organization_id = :oid ORDER BY name');
+          $agencyStmt = $pdo->prepare('SELECT id, name, status, file_path, file_name, file_type FROM module_agency WHERE organization_id = :oid ORDER BY name');
           $agencyStmt->execute([':oid' => $org['id']]);
           $agencies = $agencyStmt->fetchAll(PDO::FETCH_ASSOC);
           foreach($agencies as $agency): ?>
           <tr class="bg-body-tertiary">
-            <td class="ps-4">Agency: <?= htmlspecialchars($agency['name']); ?></td>
+            <td class="ps-4">Agency: <?= htmlspecialchars($agency['name']); ?>
+              <?php if(!empty($agency['file_path'])): ?>
+                <br><a href="<?= htmlspecialchars($agency['file_path']); ?>" target="_blank">View File</a>
+              <?php endif; ?>
+            </td>
             <td>
               <?php $aStatus = $agencyStatuses[$agency['status']] ?? null; $aClass = ($aStatus['value'] ?? '') === 'active' ? 'badge-phoenix-success' : 'badge-phoenix-warning'; ?>
               <span class="badge badge-phoenix fs-10 <?= $aClass; ?>"><span class="badge-label"><?= htmlspecialchars($aStatus['label'] ?? ''); ?></span></span>
