@@ -3,8 +3,7 @@ if (!defined('IN_APP')) { define('IN_APP', true); }
 require '../admin_header.php';
 require_permission('users','create');
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 
 $id = 0;
 $username = $email = $first_name = $last_name = $type = 'ADMIN';
@@ -13,7 +12,9 @@ $assigned = [];
 $message = $error = '';
 $btnClass = 'btn-success';
 
-$roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$rolesStmt = $pdo->prepare('SELECT id, name FROM admin_roles ORDER BY name');
+$rolesStmt->execute();
+$roles = $rolesStmt->fetchAll(PDO::FETCH_ASSOC);
 
 $typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
 $typeStmt->execute();
@@ -27,7 +28,7 @@ $type = array_key_first($typeOptions) ?? $type;
 $status = (int)(array_key_first($statusOptions) ?? $status);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   $username = trim($_POST['username'] ?? '');

@@ -87,7 +87,8 @@ function load_system_properties(PDO $pdo, bool $useCache=true): array {
   if($useCache && $__system_properties_cache !== null){
     return $__system_properties_cache;
   }
-  $stmt = $pdo->query('SELECT id,name,value,category_id,type_id,memo FROM system_properties');
+  $stmt = $pdo->prepare('SELECT id,name,value,category_id,type_id,memo FROM system_properties');
+  $stmt->execute();
   $__system_properties_cache = $stmt->fetchAll(PDO::FETCH_ASSOC);
   return $__system_properties_cache;
 }

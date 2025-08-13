@@ -2,8 +2,7 @@
 require '../admin_header.php';
 require_permission('users','read');
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $message = '';
 
 $typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
@@ -14,11 +13,12 @@ $statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li
 $statusStmt->execute();
 $statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$roleStmt = $pdo->query('SELECT name FROM admin_roles ORDER BY name');
+$roleStmt = $pdo->prepare('SELECT name FROM admin_roles ORDER BY name');
+$roleStmt->execute();
 $roleOptions = $roleStmt->fetchAll(PDO::FETCH_COLUMN);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   require_permission('users','delete');
@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   }
 }
 
-$stmt = $pdo->query('SELECT u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name, GROUP_CONCAT(DISTINCT ar.name ORDER BY ar.name SEPARATOR ",") AS roles FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN admin_user_roles aur ON u.id = aur.user_account_id LEFT JOIN admin_roles ar ON aur.role_id = ar.id GROUP BY u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name ORDER BY u.username');
+$stmt = $pdo->prepare('SELECT u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name, GROUP_CONCAT(DISTINCT ar.name ORDER BY ar.name SEPARATOR ",") AS roles FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN admin_user_roles aur ON u.id = aur.user_account_id LEFT JOIN admin_roles ar ON aur.role_id = ar.id GROUP BY u.id, u.username, u.email, u.type, u.status, p.first_name, p.last_name ORDER BY u.username');
+$stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Users</h2>
