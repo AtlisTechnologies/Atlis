@@ -1,12 +1,11 @@
 <?php
-$error = get_get('error', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$error = $_GET['error'] ?? '';
 $email = $_SESSION['2fa_user_email'] ?? '';
 $masked = $email ? preg_replace('/(^[^@]{3})([^@]*)(@.*$)/', '$1****$3', $email) : '';
 if (!$email) {
   header('Location: index.php?action=login');
   exit;
 }
-$token = generate_csrf_token();
 ?>
 <main class="main" id="top">
   <div class="container-fluid bg-body-tertiary dark__bg-gray-1200">
@@ -27,7 +26,7 @@ $token = generate_csrf_token();
                     $_2fa_code = $stmt->fetch(PDO::FETCH_ASSOC); ?>
                     <p>
                       <blockquote class="blockquote text-center font-weight-bold">
-                        <?= e($_2fa_code['code'] ?? ''); ?>
+                        <? echo $_2fa_code['code']; ?>
                       </blockquote>
                     </p>
                     <?php if ($error) { ?>
@@ -35,7 +34,6 @@ $token = generate_csrf_token();
                     <?php } ?>
                   </div>
                   <form method="post" action="<?php echo getURLDir(); ?>module/users/functions/verify_2fa.php">
-                    <input type="hidden" name="csrf_token" value="<?= e($token); ?>">
                     <div class="mb-4">
                       <input class="form-control text-center" id="code" type="text" name="code" maxlength="6" placeholder="123456" required />
                     </div>

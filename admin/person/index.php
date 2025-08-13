@@ -2,11 +2,12 @@
 require '../admin_header.php';
 require_permission('person','read');
 
-$token = generate_csrf_token();
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   require_permission('person','delete');
@@ -17,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   $message = 'Person deleted.';
 }
 
-$stmt = $pdo->prepare('SELECT p.id, p.first_name, p.last_name, u.email FROM person p LEFT JOIN users u ON p.user_id = u.id ORDER BY p.last_name, p.first_name');
-$stmt->execute();
+$stmt = $pdo->query('SELECT p.id, p.first_name, p.last_name, u.email FROM person p LEFT JOIN users u ON p.user_id = u.id ORDER BY p.last_name, p.first_name');
 $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Persons</h2>

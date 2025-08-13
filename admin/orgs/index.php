@@ -2,11 +2,12 @@
 require '../admin_header.php';
 require_permission('organization','read');
 
-$token = generate_csrf_token();
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   if (isset($_POST['delete_organization_id'])) {
@@ -54,8 +55,7 @@ foreach ($divisionStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
   $divisionStatuses[$row['id']] = $row;
 }
 
-$orgStmt = $pdo->prepare('SELECT id, name, status FROM module_organization ORDER BY name');
-$orgStmt->execute();
+$orgStmt = $pdo->query('SELECT id, name, status FROM module_organization ORDER BY name');
 $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Organizations</h2>

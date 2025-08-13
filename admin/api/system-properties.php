@@ -9,8 +9,7 @@ try{
   switch($action){
     case 'list':
       require_permission('system_properties','read');
-      $stmt = $pdo->prepare('SELECT sp.id, sp.name, sp.value, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id=c.id AND c.active_from <= CURDATE() AND (c.active_to IS NULL OR c.active_to >= CURDATE()) JOIN lookup_list_items t ON sp.type_id=t.id AND t.active_from <= CURDATE() AND (t.active_to IS NULL OR t.active_to >= CURDATE()) ORDER BY sp.name');
-      $stmt->execute();
+      $stmt = $pdo->query('SELECT sp.id, sp.name, sp.value, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id=c.id AND c.active_from <= CURDATE() AND (c.active_to IS NULL OR c.active_to >= CURDATE()) JOIN lookup_list_items t ON sp.type_id=t.id AND t.active_from <= CURDATE() AND (t.active_to IS NULL OR t.active_to >= CURDATE()) ORDER BY sp.name');
       echo json_encode(['success'=>true,'properties'=>$stmt->fetchAll(PDO::FETCH_ASSOC)]);
       break;
     case 'create':
