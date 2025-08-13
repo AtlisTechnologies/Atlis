@@ -42,16 +42,16 @@ if (!defined('IN_APP')) {
         <div class="mb-3">
           <label class="form-label">Type</label>
           <select class="form-select" name="type">
-            <?php foreach($typeOptions as $value => $label): ?>
-              <option value="<?= htmlspecialchars($value); ?>" <?= $type === $value ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+            <?php foreach($typeOptions as $code => $label): ?>
+              <option value="<?= htmlspecialchars($code); ?>" <?= $type === $code ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
             <?php endforeach; ?>
           </select>
         </div>
         <div class="mb-3">
           <label class="form-label">Status</label>
           <select class="form-select" name="status">
-            <?php foreach($statusOptions as $value => $label): ?>
-              <option value="<?= htmlspecialchars($value); ?>" <?= (string)$status === $value ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+            <?php foreach($statusOptions as $code => $label): ?>
+              <option value="<?= htmlspecialchars($code); ?>" <?= (string)$status === $code ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
             <?php endforeach; ?>
           </select>
         </div>

@@ -38,6 +38,7 @@ $orgStatuses      = array_column(get_lookup_items($pdo, 'ORGANIZATION_STATUS'), 
 $agencyStatuses   = array_column(get_lookup_items($pdo, 'AGENCY_STATUS'), null, 'id');
 $divisionStatuses = array_column(get_lookup_items($pdo, 'DIVISION_STATUS'), null, 'id');
 
+
 $orgStmt = $pdo->query('SELECT id, name, status FROM module_organization ORDER BY name');
 $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

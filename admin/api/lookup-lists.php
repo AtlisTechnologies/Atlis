@@ -111,17 +111,16 @@ function handleItem($action){
   if(in_array($action,['create','update','delete'])){ verifyToken(); }
   if($action==='list'){
     $list_id=(int)($_GET['list_id']??0);
-    $stmt=$pdo->prepare('SELECT id,label,value,active_from,active_to,sort_order FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY sort_order,label');
+    $stmt=$pdo->prepare('SELECT id,label,code,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY label');
     $stmt->execute([':list_id'=>$list_id]);
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['success'=>true,'items'=>$items]);
   }elseif($action==='create'){
     $list_id=(int)($_POST['list_id']??0);
     $label=trim($_POST['label']??'');
-    $value=trim($_POST['value']??'');
+    $code=trim($_POST['code']??'');
     $active_from=$_POST['active_from']??date('Y-m-d');
     $active_to=$_POST['active_to']??null;
-    $sort=(int)($_POST['sort_order']??0);
     if($list_id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
     $stmt->execute([':list_id'=>$list_id,':label'=>$label]);
@@ -130,11 +129,11 @@ function handleItem($action){
       return;
     }
     try{
-      $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,value,active_from,active_to,sort_order) VALUES (:uid,:uid,:list_id,:label,:value,:active_from,:active_to,:sort)');
-      $stmt->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':value'=>$value,':active_from'=>$active_from,':active_to'=>$active_to,':sort'=>$sort]);
+      $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,code,active_from,active_to) VALUES (:uid,:uid,:list_id,:label,:code,:active_from,:active_to)');
+      $stmt->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':code'=>$code,':active_from'=>$active_from,':active_to'=>$active_to]);
       $id=$pdo->lastInsertId();
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
-      echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'active_from'=>$active_from,'active_to'=>$active_to,'sort_order'=>$sort]]);
+      echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Label already exists']);
@@ -145,10 +144,9 @@ function handleItem($action){
   }elseif($action==='update'){
     $id=(int)($_POST['id']??0);
     $label=trim($_POST['label']??'');
-    $value=trim($_POST['value']??'');
+    $code=trim($_POST['code']??'');
     $active_from=$_POST['active_from']??date('Y-m-d');
     $active_to=$_POST['active_to']??null;
-    $sort=(int)($_POST['sort_order']??0);
     if($id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT list_id FROM lookup_list_items WHERE id=:id');
     $stmt->execute([':id'=>$id]);
@@ -161,10 +159,10 @@ function handleItem($action){
       return;
     }
     try{
-      $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label,value=:value,active_from=:active_from,active_to=:active_to,sort_order=:sort,user_updated=:uid WHERE id=:id');
-      $stmt->execute([':label'=>$label,':value'=>$value,':active_from'=>$active_from,':active_to'=>$active_to,':sort'=>$sort,':uid'=>$this_user_id,':id'=>$id]);
+      $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label,code=:code,active_from=:active_from,active_to=:active_to,user_updated=:uid WHERE id=:id');
+      $stmt->execute([':label'=>$label,':code'=>$code,':active_from'=>$active_from,':active_to'=>$active_to,':uid'=>$this_user_id,':id'=>$id]);
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'UPDATE','Updated lookup list item');
-      echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'value'=>$value,'active_from'=>$active_from,'active_to'=>$active_to,'sort_order'=>$sort]]);
+      echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Label already exists']);
