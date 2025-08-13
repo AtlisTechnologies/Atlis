@@ -11,8 +11,8 @@ function fetchLookupItems($name){
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$categories = fetchLookupItems('system_property_categories');
-$types = fetchLookupItems('system_property_types');
+$categories = fetchLookupItems('SYSTEM_PROPERTIES_CATEGORIES');
+$types = fetchLookupItems('SYSTEM_PROPERTIES_TYPES');
 
 if($id){
   require_permission('system_properties','update');
