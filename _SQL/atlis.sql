@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2025 at 03:48 AM
+-- Generation Time: Aug 13, 2025 at 02:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -809,6 +809,9 @@ ALTER TABLE `system_property_versions`
   ADD CONSTRAINT `system_property_versions_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `system_properties` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `system_property_versions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
+
+-- Triggers
+SOURCE 013_system_properties_triggers.sql;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

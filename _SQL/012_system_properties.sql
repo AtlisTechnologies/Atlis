@@ -1,4 +1,5 @@
 -- Table for system properties and version history
+-- Column `type` renamed to `type_id`
 
 CREATE TABLE `system_properties` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
