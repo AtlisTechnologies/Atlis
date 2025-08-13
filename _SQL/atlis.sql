@@ -342,7 +342,7 @@ CREATE TABLE `lookup_list_item_attributes` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `item_id` int(11) NOT NULL,
-  `attr_key` varchar(100) NOT NULL,
+  `attr_code` varchar(100) NOT NULL,
   `attr_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -649,7 +649,7 @@ ALTER TABLE `lookup_list_item_attributes`
   ADD KEY `fk_module_lookup_item_attributes_item_id` (`item_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_id` (`user_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_updated` (`user_updated`),
-  ADD KEY `idx_module_lookup_item_attributes_key` (`attr_key`);
+  ADD KEY `idx_module_lookup_item_attributes_key` (`attr_code`);
 
 --
 -- Indexes for table `module_agency`

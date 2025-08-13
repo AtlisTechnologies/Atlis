@@ -203,29 +203,29 @@ function handleAttr($action){
   if(in_array($action,['create','update','delete'])){ verifyToken(); }
   if($action==='list'){
     $item_id=(int)($_GET['item_id']??0);
-    $stmt=$pdo->prepare('SELECT id,attr_key,attr_value FROM lookup_list_item_attributes WHERE item_id=:item_id');
+    $stmt=$pdo->prepare('SELECT id,attr_code,attr_value FROM lookup_list_item_attributes WHERE item_id=:item_id');
     $stmt->execute([':item_id'=>$item_id]);
     $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['success'=>true,'attrs'=>$attrs]);
   }elseif($action==='create'){
     $item_id=(int)($_POST['item_id']??0);
-    $key=trim($_POST['attr_key']??'');
+    $key=trim($_POST['attr_code']??'');
     $value=trim($_POST['attr_value']??'');
     if($item_id<=0||$key===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
-    $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_key,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
+    $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
     $stmt->execute([':uid'=>$this_user_id,':item_id'=>$item_id,':k'=>$key,':v'=>$value]);
     $id=$pdo->lastInsertId();
     audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$id,'CREATE','Created item attribute');
-    echo json_encode(['success'=>true,'message'=>'Attribute created','attr'=>['id'=>$id,'attr_key'=>$key,'attr_value'=>$value]]);
+    echo json_encode(['success'=>true,'message'=>'Attribute created','attr'=>['id'=>$id,'attr_code'=>$key,'attr_value'=>$value]]);
   }elseif($action==='update'){
     $id=(int)($_POST['id']??0);
-    $key=trim($_POST['attr_key']??'');
+    $key=trim($_POST['attr_code']??'');
     $value=trim($_POST['attr_value']??'');
     if($id<=0||$key===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
-    $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_key=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
+    $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
     $stmt->execute([':k'=>$key,':v'=>$value,':uid'=>$this_user_id,':id'=>$id]);
     audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$id,'UPDATE','Updated item attribute');
-    echo json_encode(['success'=>true,'message'=>'Attribute updated','attr'=>['id'=>$id,'attr_key'=>$key,'attr_value'=>$value]]);
+    echo json_encode(['success'=>true,'message'=>'Attribute updated','attr'=>['id'=>$id,'attr_code'=>$key,'attr_value'=>$value]]);
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }

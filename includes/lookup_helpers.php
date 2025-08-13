@@ -19,7 +19,7 @@ function get_lookup_items(PDO $pdo, int|string $list): array {
             FROM lookup_list_items li
             JOIN lookup_lists l ON li.list_id = l.id
             LEFT JOIN lookup_list_item_attributes attr
-                   ON li.id = attr.item_id AND attr.attr_key = 'COLOR-CLASS'
+                   ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
             WHERE $where
               AND li.active_from <= CURDATE()
               AND (li.active_to IS NULL OR li.active_to >= CURDATE())

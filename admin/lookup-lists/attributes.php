@@ -23,17 +23,17 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $message='Attribute deleted.';
   }else{
     $attr_id=(int)($_POST['id'] ?? 0);
-    $key=trim($_POST['attr_key'] ?? '');
+    $key=trim($_POST['attr_code'] ?? '');
     $value=trim($_POST['attr_value'] ?? '');
     if($key===''){$error='Key is required.';}
     if(!$error){
       if($attr_id){
-        $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_key=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
+        $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
         $stmt->execute([':k'=>$key, ':v'=>$value, ':uid'=>$this_user_id, ':id'=>$attr_id]);
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
         $message='Attribute updated.';
       }else{
-        $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_key,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
+        $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
         $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$value]);
         $attr_id=$pdo->lastInsertId();
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
@@ -53,12 +53,12 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
-  <div class="col-md-4"><input class="form-control" name="attr_key" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_key'] ?? ''); ?>" required></div>
+  <div class="col-md-4"><input class="form-control" name="attr_code" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_code'] ?? ''); ?>" required></div>
   <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
   <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
 </form>
-<div id="attrs" data-list='{"valueNames":["attr_key","attr_value"],"page":10,"pagination":true}'>
+<div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -66,14 +66,14 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm mb-0">
-      <thead><tr><th class="sort" data-sort="attr_key">Key</th><th class="sort" data-sort="attr_value">Value</th><th>Actions</th></tr></thead>
+      <thead><tr><th class="sort" data-sort="attr_code">Key</th><th class="sort" data-sort="attr_value">Value</th><th>Actions</th></tr></thead>
       <tbody class="list">
         <?php foreach($attrs as $a): ?>
           <tr>
-            <td class="attr_key"><?= htmlspecialchars($a['attr_key']); ?></td>
+            <td class="attr_code"><?= htmlspecialchars($a['attr_code']); ?></td>
             <td class="attr_value"><?= htmlspecialchars($a['attr_value']); ?></td>
             <td>
-              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_key'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
+              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_code'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $a['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -94,7 +94,7 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 function fillAttr(id,key,value){
   const f=document.forms[0];
   f.id.value=id;
-  f.attr_key.value=key;
+  f.attr_code.value=key;
   f.attr_value.value=value;
   const btn=document.getElementById('saveBtn');
   btn.classList.remove('btn-success');
