@@ -834,27 +834,6 @@ ALTER TABLE `users`
 ALTER TABLE `users_2fa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `system_properties`
---
-ALTER TABLE `system_properties`
-  ADD CONSTRAINT `fk_system_properties_category_id` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_system_properties_type` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_system_properties_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_system_properties_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `system_properties_versions`
---
-ALTER TABLE `system_properties_versions`
-  ADD CONSTRAINT `fk_system_properties_versions_property_id` FOREIGN KEY (`property_id`) REFERENCES `system_properties` (`id`),
-  ADD CONSTRAINT `fk_system_properties_versions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_system_properties_versions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
