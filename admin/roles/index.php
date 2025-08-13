@@ -2,12 +2,11 @@
 require '../admin_header.php';
 require_permission('roles','read');
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   require_permission('roles','delete');
@@ -18,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   $message = 'Role deleted.';
 }
 
-$stmt = $pdo->query('SELECT id, name, description FROM admin_roles ORDER BY name');
+$stmt = $pdo->prepare('SELECT id, name, description FROM admin_roles ORDER BY name');
+$stmt->execute();
 $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Roles</h2>

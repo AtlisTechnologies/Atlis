@@ -2,7 +2,8 @@
 require '../admin_header.php';
 
 $token = generate_csrf_token();
-$stmt = $pdo->query('SELECT id, name, description, memo FROM lookup_lists ORDER BY name');
+$stmt = $pdo->prepare('SELECT id, name, description, memo FROM lookup_lists ORDER BY name');
+$stmt->execute();
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>

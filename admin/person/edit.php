@@ -21,20 +21,20 @@ if ($id) {
   require_permission('person','create');
 }
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 
 if ($user_id) {
   $userStmt = $pdo->prepare('SELECT id, username FROM users WHERE id = :id');
   $userStmt->execute([':id' => $user_id]);
   $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 } else {
-  $userStmt = $pdo->query('SELECT u.id, u.username FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE p.user_id IS NULL ORDER BY u.username');
+  $userStmt = $pdo->prepare('SELECT u.id, u.username FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE p.user_id IS NULL ORDER BY u.username');
+  $userStmt->execute();
   $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   $first_name = trim($_POST['first_name'] ?? '');

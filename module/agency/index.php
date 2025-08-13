@@ -2,7 +2,7 @@
 require '../../includes/php_header.php';
 require_permission('agency','read');
 
-$action = $_GET['action'] ?? 'card';
+$action = get_get('action', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'card';
 
 // Fetch agencies and status labels
 $sql = "SELECT a.id, a.name, li.label AS status_label
@@ -10,7 +10,8 @@ $sql = "SELECT a.id, a.name, li.label AS status_label
         LEFT JOIN lookup_list_items li ON a.status = li.id AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())
         LEFT JOIN lookup_lists l ON li.list_id = l.id AND l.name = 'AGENCY_STATUS'
         ORDER BY a.name";
-$stmt = $pdo->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
 $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require '../../includes/html_header.php';

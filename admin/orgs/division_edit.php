@@ -24,13 +24,14 @@ if ($id) {
   require_permission('division','create');
 }
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
 
-$agencyStmt = $pdo->query('SELECT a.id, CONCAT(o.name, " - ", a.name) AS name FROM module_agency a JOIN module_organization o ON a.organization_id = o.id ORDER BY o.name, a.name');
+$agencyStmt = $pdo->prepare('SELECT a.id, CONCAT(o.name, " - ", a.name) AS name FROM module_agency a JOIN module_organization o ON a.organization_id = o.id ORDER BY o.name, a.name');
+$agencyStmt->execute();
 $agencyOptions = $agencyStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
+$personStmt = $pdo->prepare('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
+$personStmt->execute();
 $personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 $statusStmt = $pdo->prepare("SELECT li.id, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'DIVISION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
@@ -38,7 +39,7 @@ $statusStmt->execute();
 $statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   $agency_id = $_POST['agency_id'] !== '' ? (int)$_POST['agency_id'] : null;
