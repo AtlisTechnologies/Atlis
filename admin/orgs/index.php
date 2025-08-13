@@ -34,26 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$orgStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'ORGANIZATION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
-$orgStatusStmt->execute();
-$orgStatuses = [];
-foreach ($orgStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-  $orgStatuses[$row['id']] = $row;
-}
-
-$agencyStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'AGENCY_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
-$agencyStatusStmt->execute();
-$agencyStatuses = [];
-foreach ($agencyStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-  $agencyStatuses[$row['id']] = $row;
-}
-
-$divisionStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'DIVISION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
-$divisionStatusStmt->execute();
-$divisionStatuses = [];
-foreach ($divisionStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-  $divisionStatuses[$row['id']] = $row;
-}
+$orgStatuses      = array_column(get_lookup_items($pdo, 'ORGANIZATION_STATUS'), null, 'id');
+$agencyStatuses   = array_column(get_lookup_items($pdo, 'AGENCY_STATUS'), null, 'id');
+$divisionStatuses = array_column(get_lookup_items($pdo, 'DIVISION_STATUS'), null, 'id');
 
 $orgStmt = $pdo->query('SELECT id, name, status FROM module_organization ORDER BY name');
 $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -77,8 +60,8 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <td><?= htmlspecialchars($org['name']); ?></td>
           <td>
-            <?php $status = $orgStatuses[$org['status']] ?? null; $class = ($status['value'] ?? '') === 'active' ? 'badge-phoenix-success' : 'badge-phoenix-warning'; ?>
-            <span class="badge badge-phoenix fs-10 <?= $class; ?>"><span class="badge-label"><?= htmlspecialchars($status['label'] ?? ''); ?></span></span>
+            <?php $status = $orgStatuses[$org['status']] ?? null; $class = $status['color_class'] ?? 'secondary'; ?>
+            <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($status['label'] ?? ''); ?></span></span>
           </td>
           <td>
             <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
@@ -106,8 +89,8 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
               <?php endif; ?>
             </td>
             <td>
-              <?php $aStatus = $agencyStatuses[$agency['status']] ?? null; $aClass = ($aStatus['value'] ?? '') === 'active' ? 'badge-phoenix-success' : 'badge-phoenix-warning'; ?>
-              <span class="badge badge-phoenix fs-10 <?= $aClass; ?>"><span class="badge-label"><?= htmlspecialchars($aStatus['label'] ?? ''); ?></span></span>
+              <?php $aStatus = $agencyStatuses[$agency['status']] ?? null; $aClass = $aStatus['color_class'] ?? 'secondary'; ?>
+              <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($aClass); ?>"><span class="badge-label"><?= htmlspecialchars($aStatus['label'] ?? ''); ?></span></span>
             </td>
             <td>
               <a class="btn btn-sm btn-warning" href="agency_edit.php?id=<?= $agency['id']; ?>">Edit</a>
@@ -131,8 +114,8 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
             <tr class="bg-body-secondary">
               <td class="ps-5">Division: <?= htmlspecialchars($division['name']); ?></td>
               <td>
-                <?php $dStatus = $divisionStatuses[$division['status']] ?? null; $dClass = ($dStatus['value'] ?? '') === 'active' ? 'badge-phoenix-success' : 'badge-phoenix-warning'; ?>
-                <span class="badge badge-phoenix fs-10 <?= $dClass; ?>"><span class="badge-label"><?= htmlspecialchars($dStatus['label'] ?? ''); ?></span></span>
+                <?php $dStatus = $divisionStatuses[$division['status']] ?? null; $dClass = $dStatus['color_class'] ?? 'secondary'; ?>
+                <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($dClass); ?>"><span class="badge-label"><?= htmlspecialchars($dStatus['label'] ?? ''); ?></span></span>
               </td>
               <td>
                 <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $division['id']; ?>">Edit</a>

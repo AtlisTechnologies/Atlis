@@ -37,13 +37,11 @@ $_SESSION['csrf_token'] = $token;
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
-$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
-$typeStmt->execute();
-$typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$typeItems   = get_lookup_items($pdo, 'USER_TYPE');
+$typeOptions = array_column($typeItems, 'label', 'value');
 
-$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
-$statusStmt->execute();
-$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$statusItems   = get_lookup_items($pdo, 'USER_STATUS');
+$statusOptions = array_column($statusItems, 'label', 'value');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {

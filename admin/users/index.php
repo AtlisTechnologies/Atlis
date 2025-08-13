@@ -6,13 +6,13 @@ $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 $message = '';
 
-$typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
-$typeStmt->execute();
-$typeOptions = $typeStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$typeItems   = get_lookup_items($pdo, 'USER_TYPE');
+$typeOptions = array_column($typeItems, 'label', 'value');
+$typeColors  = array_column($typeItems, 'color_class', 'value');
 
-$statusStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
-$statusStmt->execute();
-$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$statusItems   = get_lookup_items($pdo, 'USER_STATUS');
+$statusOptions = array_column($statusItems, 'label', 'value');
+$statusColors  = array_column($statusItems, 'color_class', 'value');
 
 $roleStmt = $pdo->query('SELECT name FROM admin_roles ORDER BY name');
 $roleOptions = $roleStmt->fetchAll(PDO::FETCH_COLUMN);
@@ -106,16 +106,21 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php endforeach; ?>
             </td>
             <td class="type">
-              <span class="badge badge-phoenix fs-10 badge-phoenix-info">
-                <span class="badge-label"><?= htmlspecialchars($typeOptions[$u['type']] ?? $u['type']); ?></span>
+              <?php
+                $typeLabel = $typeOptions[$u['type']] ?? $u['type'];
+                $typeClass = $typeColors[$u['type']] ?? 'secondary';
+              ?>
+              <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($typeClass); ?>">
+                <span class="badge-label"><?= htmlspecialchars($typeLabel); ?></span>
               </span>
             </td>
             <td class="status">
               <?php
-                $statusLabel = $statusOptions[(string)$u['status']] ?? ($u['status'] ? 'Active' : 'Inactive');
-                $statusClass = $u['status'] ? 'badge-phoenix-success' : 'badge-phoenix-warning';
+                $statusKey   = (string)$u['status'];
+                $statusLabel = $statusOptions[$statusKey] ?? ($u['status'] ? 'Active' : 'Inactive');
+                $statusClass = $statusColors[$statusKey] ?? 'secondary';
               ?>
-              <span class="badge badge-phoenix fs-10 <?= $statusClass; ?>">
+              <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($statusClass); ?>">
                 <span class="badge-label"><?= htmlspecialchars($statusLabel); ?></span>
               </span>
             </td>

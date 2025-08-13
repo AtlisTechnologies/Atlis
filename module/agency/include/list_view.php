@@ -15,7 +15,11 @@
           <?php foreach ($agencies as $agency): ?>
             <tr>
               <td class="align-middle name"><?php echo htmlspecialchars($agency['name']); ?></td>
-              <td class="align-middle status"><span class="badge bg-secondary"><?php echo htmlspecialchars($agency['status_label'] ?? ''); ?></span></td>
+              <td class="align-middle status">
+                <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($agency['status_color'] ?? 'secondary'); ?>">
+                  <span class="badge-label"><?php echo htmlspecialchars($agency['status_label'] ?? ''); ?></span>
+                </span>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
