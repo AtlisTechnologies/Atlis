@@ -34,21 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$orgStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'ORGANIZATION_STATUS'");
+$orgStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'ORGANIZATION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
 $orgStatusStmt->execute();
 $orgStatuses = [];
 foreach ($orgStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
   $orgStatuses[$row['id']] = $row;
 }
 
-$agencyStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'AGENCY_STATUS'");
+$agencyStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'AGENCY_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
 $agencyStatusStmt->execute();
 $agencyStatuses = [];
 foreach ($agencyStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
   $agencyStatuses[$row['id']] = $row;
 }
 
-$divisionStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'DIVISION_STATUS'");
+$divisionStatusStmt = $pdo->prepare("SELECT li.id, li.label, li.value FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'DIVISION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())");
 $divisionStatusStmt->execute();
 $divisionStatuses = [];
 foreach ($divisionStatusStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
