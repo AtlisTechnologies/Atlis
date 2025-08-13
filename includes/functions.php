@@ -81,4 +81,75 @@ function require_admin(){
   }
 }
 
+// Caching for system properties
+function load_system_properties(PDO $pdo, bool $useCache=true): array {
+  global $__system_properties_cache;
+  if($useCache && $__system_properties_cache !== null){
+    return $__system_properties_cache;
+  }
+  $stmt = $pdo->query('SELECT id,name,value,category_id,type_id,memo FROM system_properties');
+  $__system_properties_cache = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  return $__system_properties_cache;
+}
+
+function get_system_property(PDO $pdo, string $name, bool $useCache=true){
+  $props = load_system_properties($pdo,$useCache);
+  foreach($props as $p){
+    if($p['name'] === $name){
+      return $p['value'];
+    }
+  }
+  return null;
+}
+
+function clear_system_properties_cache(): void {
+  global $__system_properties_cache;
+  $__system_properties_cache = null;
+}
+
+function export_system_properties(PDO $pdo, string $format='json'): string {
+  $props = load_system_properties($pdo,false);
+  if(strtolower($format) === 'csv'){
+    $fh = fopen('php://temp','r+');
+    fputcsv($fh,['name','value','category_id','type_id','memo']);
+    foreach($props as $p){
+      fputcsv($fh,[$p['name'],$p['value'],$p['category_id'],$p['type_id'],$p['memo']]);
+    }
+    rewind($fh);
+    return stream_get_contents($fh);
+  }
+  return json_encode($props);
+}
+
+function import_system_properties(PDO $pdo, string $data, string $format='json'): bool {
+  if(strtolower($format) === 'csv'){
+    $rows = [];
+    $fh = fopen('php://temp','r+');
+    fwrite($fh,$data);
+    rewind($fh);
+    $header = fgetcsv($fh);
+    while(($row = fgetcsv($fh)) !== false){
+      $rows[] = array_combine($header,$row);
+    }
+  }else{
+    $rows = json_decode($data,true);
+    if(!is_array($rows)) return false;
+  }
+  foreach($rows as $p){
+    $stmt=$pdo->prepare('SELECT id FROM system_properties WHERE name=:name');
+    $stmt->execute([':name'=>$p['name']]);
+    $id=$stmt->fetchColumn();
+    if($id){
+      $pdo->prepare('UPDATE system_properties SET value=:val,category_id=:cid,type_id=:tid,memo=:memo WHERE id=:id')->execute([
+        ':val'=>$p['value'],':cid'=>$p['category_id'],':tid'=>$p['type_id'],':memo'=>$p['memo'],':id'=>$id
+      ]);
+    }else{
+      $pdo->prepare('INSERT INTO system_properties (user_id,user_updated,name,value,category_id,type_id,memo) VALUES (0,0,:name,:val,:cid,:tid,:memo)')->execute([
+        ':name'=>$p['name'],':val'=>$p['value'],':cid'=>$p['category_id'],':tid'=>$p['type_id'],':memo'=>$p['memo']
+      ]);
+    }
+  }
+  return true;
+}
+
 ?>
