@@ -1,3 +1,4 @@
+<?php $modules = require __DIR__ . '/modules.php'; ?>
 <nav class="navbar navbar-vertical navbar-expand-lg">
   <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content">
@@ -7,31 +8,13 @@
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text">Dashboard</span></div>
           </a>
         </li>
+        <?php foreach ($modules as $module): ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/users/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Users</span></div>
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= htmlspecialchars($module['path']); ?>">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= htmlspecialchars($module['icon']); ?>"></span></span><span class="nav-link-text"><?= htmlspecialchars($module['title']); ?></span></div>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/person/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user"></span></span><span class="nav-link-text">Persons</span></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/lookup-lists/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="list"></span></span><span class="nav-link-text">Lookup Lists</span></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/roles/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="shield"></span></span><span class="nav-link-text">Roles</span></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/orgs/index.php">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="briefcase"></span></span><span class="nav-link-text">Organizations</span></div>
-          </a>
-        </li>
+        <?php endforeach; ?>
       </ul>
     </div>
   </div>
