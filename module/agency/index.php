@@ -4,14 +4,16 @@ require_permission('agency','read');
 
 $action = $_GET['action'] ?? 'card';
 
-// Fetch agencies and status labels
-$sql = "SELECT a.id, a.name, li.label AS status_label
-        FROM module_agency a
-        LEFT JOIN lookup_list_items li ON a.status = li.id AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())
-        LEFT JOIN lookup_lists l ON li.list_id = l.id AND l.name = 'AGENCY_STATUS'
-        ORDER BY a.name";
-$stmt = $pdo->query($sql);
+// Fetch agencies and attach status info
+$statusMap = array_column(get_lookup_items($pdo, 'AGENCY_STATUS'), null, 'id');
+$stmt = $pdo->query('SELECT id, name, status FROM module_agency ORDER BY name');
 $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($agencies as &$agency) {
+  $status = $statusMap[$agency['status']] ?? null;
+  $agency['status_label'] = $status['label'] ?? null;
+  $agency['status_color'] = $status['color_class'] ?? 'secondary';
+}
+unset($agency);
 
 require '../../includes/html_header.php';
 ?>

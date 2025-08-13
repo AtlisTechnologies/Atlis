@@ -8,7 +8,11 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title mb-1"><?php echo htmlspecialchars($agency['name']); ?></h5>
-            <p class="mb-0"><span class="badge bg-secondary"><?php echo htmlspecialchars($agency['status_label'] ?? ''); ?></span></p>
+            <p class="mb-0">
+              <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($agency['status_color'] ?? 'secondary'); ?>">
+                <span class="badge-label"><?php echo htmlspecialchars($agency['status_label'] ?? ''); ?></span>
+              </span>
+            </p>
           </div>
         </div>
       </div>
