@@ -102,7 +102,7 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
           <tr class="bg-body-tertiary">
             <td class="ps-4">Agency: <?= htmlspecialchars($agency['name']); ?>
               <?php if(!empty($agency['file_path'])): ?>
-                <br><a href="<?= htmlspecialchars($agency['file_path']); ?>" target="_blank">View File</a>
+                <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
               <?php endif; ?>
             </td>
             <td>
