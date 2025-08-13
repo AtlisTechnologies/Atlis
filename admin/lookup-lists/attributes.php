@@ -46,9 +46,6 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 $stmt=$pdo->prepare('SELECT * FROM lookup_list_item_attributes WHERE item_id=:item_id');
 $stmt->execute([':item_id'=>$item_id]);
 $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$allKeys = $pdo->query('SELECT DISTINCT attr_key FROM lookup_list_item_attributes ORDER BY attr_key')
-               ->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
 <?= flash_message($error, 'danger'); ?>
@@ -56,16 +53,7 @@ $allKeys = $pdo->query('SELECT DISTINCT attr_key FROM lookup_list_item_attribute
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
-  <div class="col-md-4">
-    <select class="form-select" name="attr_key" required>
-      <option value="" disabled <?= empty($_POST['attr_key']) ? 'selected' : '' ?>>Select key</option>
-      <?php foreach ($allKeys as $k): ?>
-        <option value="<?= htmlspecialchars($k) ?>" <?= ($k == ($_POST['attr_key'] ?? '')) ? 'selected' : '' ?>>
-          <?= htmlspecialchars($k) ?>
-        </option>
-      <?php endforeach; ?>
-    </select>
-  </div>
+  <div class="col-md-4"><input class="form-control" name="attr_key" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_key'] ?? ''); ?>" required></div>
   <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
   <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
