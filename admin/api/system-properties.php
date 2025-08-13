@@ -75,13 +75,13 @@ function handleSave($isUpdate=false){
   global $pdo,$this_user_id;
   $id=(int)($_POST['id']??0);
   $category=(int)($_POST['category_id']??0);
-  $type=(int)($_POST['type_id']??0);
+  $typeId=(int)($_POST['type_id']??0);
   $name=trim($_POST['name']??'');
   $value=trim($_POST['value']??'');
   $memo=trim($_POST['memo']??'');
-  if($category<=0||$type<=0||$name===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
-  if(!lookupExists($category) || !lookupExists($type)){ echo json_encode(['success'=>false,'error'=>'Invalid lookup']); return; }
-  if(!validateValue($type,$value)){ echo json_encode(['success'=>false,'error'=>'Invalid value for type']); return; }
+  if($category<=0||$typeId<=0||$name===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+  if(!lookupExists($category) || !lookupExists($typeId)){ echo json_encode(['success'=>false,'error'=>'Invalid lookup']); return; }
+  if(!validateValue($typeId,$value)){ echo json_encode(['success'=>false,'error'=>'Invalid value for type']); return; }
   if($isUpdate){
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
     $pdo->beginTransaction();
@@ -89,13 +89,13 @@ function handleSave($isUpdate=false){
     $stmt->execute([':id'=>$id]);
     $old=$stmt->fetchColumn();
     $pdo->prepare('INSERT INTO system_property_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$id,':val'=>$old,':uid'=>$this_user_id]);
-    $pdo->prepare('UPDATE system_properties SET category_id=:cid,type_id=:tid,name=:name,value=:val,memo=:memo,user_updated=:uid WHERE id=:id')->execute([':cid'=>$category,':tid'=>$type,':name'=>$name,':val'=>$value,':memo'=>$memo,':uid'=>$this_user_id,':id'=>$id]);
+    $pdo->prepare('UPDATE system_properties SET category_id=:cid,type_id=:tid,name=:name,value=:val,memo=:memo,user_updated=:uid WHERE id=:id')->execute([':cid'=>$category,':tid'=>$typeId,':name'=>$name,':val'=>$value,':memo'=>$memo,':uid'=>$this_user_id,':id'=>$id]);
     $pdo->commit();
     audit_log($pdo,$this_user_id,'system_properties',$id,'UPDATE','Updated system property');
     echo json_encode(['success'=>true]);
   }else{
     $stmt=$pdo->prepare('INSERT INTO system_properties (user_id,user_updated,category_id,type_id,name,value,memo) VALUES (:uid,:uid,:cid,:tid,:name,:val,:memo)');
-    $stmt->execute([':uid'=>$this_user_id,':cid'=>$category,':tid'=>$type,':name'=>$name,':val'=>$value,':memo'=>$memo]);
+    $stmt->execute([':uid'=>$this_user_id,':cid'=>$category,':tid'=>$typeId,':name'=>$name,':val'=>$value,':memo'=>$memo]);
     $nid=$pdo->lastInsertId();
     $pdo->prepare('INSERT INTO system_property_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$nid,':val'=>$value,':uid'=>$this_user_id]);
     audit_log($pdo,$this_user_id,'system_properties',$nid,'CREATE','Created system property');
