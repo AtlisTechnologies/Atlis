@@ -1,19 +1,19 @@
 -- Table for system properties and version history
--- Column `type` renamed to `type_id`
+-- Column `type` renamed to `type`
 
 CREATE TABLE `system_properties` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT(11),
   `user_updated` INT(11),
   `category_id` INT(11) NOT NULL,
-  `type_id` INT(11) NOT NULL,
+  `type` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `value` TEXT,
   `memo` TEXT DEFAULT NULL,
   `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items`(`id`),
-  FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items`(`id`),
+  FOREIGN KEY (`type`) REFERENCES `lookup_list_items`(`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
   FOREIGN KEY (`user_updated`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

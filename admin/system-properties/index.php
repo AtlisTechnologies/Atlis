@@ -4,7 +4,7 @@ require_permission('system_properties','read');
 
 $token = generate_csrf_token();
 
-$stmt = $pdo->query('SELECT sp.id, sp.name, sp.value, sp.memo, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id = c.id AND c.active_from <= CURDATE() AND (c.active_to IS NULL OR c.active_to >= CURDATE()) JOIN lookup_list_items t ON sp.type_id = t.id AND t.active_from <= CURDATE() AND (t.active_to IS NULL OR t.active_to >= CURDATE()) ORDER BY sp.name');
+$stmt = $pdo->query('SELECT sp.id, sp.name, sp.value, sp.memo, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id = c.id AND c.active_from <= CURDATE() AND (c.active_to IS NULL OR c.active_to >= CURDATE()) JOIN lookup_list_items t ON sp.type = t.id AND t.active_from <= CURDATE() AND (t.active_to IS NULL OR t.active_to >= CURDATE()) ORDER BY sp.name');
 $props = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">System Properties</h2>

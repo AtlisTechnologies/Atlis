@@ -430,10 +430,10 @@ INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_create
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_system_properties`
+-- Table structure for table `system_properties`
 --
 
-CREATE TABLE `module_system_properties` (
+CREATE TABLE `system_properties` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -448,19 +448,19 @@ CREATE TABLE `module_system_properties` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `module_system_properties`
+-- Dumping data for table `system_properties`
 --
 
-INSERT INTO `module_system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type`, `description`) VALUES
+INSERT INTO `system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type`, `description`) VALUES
 (1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 30, 'logo', '/assets/logo.png', 32, 'Default site logo');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_system_properties_versions`
+-- Table structure for table `system_properties_versions`
 --
 
-CREATE TABLE `module_system_properties_versions` (
+CREATE TABLE `system_properties_versions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -474,10 +474,10 @@ CREATE TABLE `module_system_properties_versions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `module_system_properties_versions`
+-- Dumping data for table `system_properties_versions`
 --
 
-INSERT INTO `module_system_properties_versions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `property_id`, `version_number`, `previous_value`, `metadata`) VALUES
+INSERT INTO `system_properties_versions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `property_id`, `version_number`, `previous_value`, `metadata`) VALUES
 (1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 1, 1, '/assets/logo.png', 'Initial version');
 
 -- --------------------------------------------------------
@@ -679,25 +679,25 @@ ALTER TABLE `module_organization`
   ADD KEY `fk_module_organization_status` (`status`);
 
 --
--- Indexes for table `module_system_properties`
+-- Indexes for table `system_properties`
 --
-ALTER TABLE `module_system_properties`
+ALTER TABLE `system_properties`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_module_system_properties_name` (`name`),
-  ADD KEY `fk_module_system_properties_category_id` (`category_id`),
-  ADD KEY `fk_module_system_properties_type` (`type`),
-  ADD KEY `fk_module_system_properties_user_id` (`user_id`),
-  ADD KEY `fk_module_system_properties_user_updated` (`user_updated`);
+  ADD UNIQUE KEY `uk_system_properties_name` (`name`),
+  ADD KEY `fk_system_properties_category_id` (`category_id`),
+  ADD KEY `fk_system_properties_type` (`type`),
+  ADD KEY `fk_system_properties_user_id` (`user_id`),
+  ADD KEY `fk_system_properties_user_updated` (`user_updated`);
 
 --
--- Indexes for table `module_system_properties_versions`
+-- Indexes for table `system_properties_versions`
 --
-ALTER TABLE `module_system_properties_versions`
+ALTER TABLE `system_properties_versions`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_module_system_properties_versions_property_version` (`property_id`,`version_number`),
-  ADD KEY `fk_module_system_properties_versions_property_id` (`property_id`),
-  ADD KEY `fk_module_system_properties_versions_user_id` (`user_id`),
-  ADD KEY `fk_module_system_properties_versions_user_updated` (`user_updated`);
+  ADD UNIQUE KEY `uk_system_properties_versions_property_version` (`property_id`,`version_number`),
+  ADD KEY `fk_system_properties_versions_property_id` (`property_id`),
+  ADD KEY `fk_system_properties_versions_user_id` (`user_id`),
+  ADD KEY `fk_system_properties_versions_user_updated` (`user_updated`);
 
 --
 -- Indexes for table `person`
@@ -800,15 +800,15 @@ ALTER TABLE `module_organization`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `module_system_properties`
+-- AUTO_INCREMENT for table `system_properties`
 --
-ALTER TABLE `module_system_properties`
+ALTER TABLE `system_properties`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `module_system_properties_versions`
+-- AUTO_INCREMENT for table `system_properties_versions`
 --
-ALTER TABLE `module_system_properties_versions`
+ALTER TABLE `system_properties_versions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -834,21 +834,21 @@ ALTER TABLE `users_2fa`
 --
 
 --
--- Constraints for table `module_system_properties`
+-- Constraints for table `system_properties`
 --
-ALTER TABLE `module_system_properties`
-  ADD CONSTRAINT `fk_module_system_properties_category_id` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_system_properties_type` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_system_properties_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_system_properties_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `system_properties`
+  ADD CONSTRAINT `fk_system_properties_category_id` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_system_properties_type` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_system_properties_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_system_properties_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `module_system_properties_versions`
+-- Constraints for table `system_properties_versions`
 --
-ALTER TABLE `module_system_properties_versions`
-  ADD CONSTRAINT `fk_module_system_properties_versions_property_id` FOREIGN KEY (`property_id`) REFERENCES `module_system_properties` (`id`),
-  ADD CONSTRAINT `fk_module_system_properties_versions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_system_properties_versions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `system_properties_versions`
+  ADD CONSTRAINT `fk_system_properties_versions_property_id` FOREIGN KEY (`property_id`) REFERENCES `system_properties` (`id`),
+  ADD CONSTRAINT `fk_system_properties_versions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_system_properties_versions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
