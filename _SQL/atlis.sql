@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2025 at 12:47 AM
+-- Generation Time: Aug 14, 2025 at 01:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -284,8 +284,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (4, 1, 1, '2025-08-06 20:13:08', '2025-08-08 21:54:50', NULL, 'USER_TYPE', ''),
 (5, 1, 1, '2025-08-06 20:13:16', '2025-08-08 21:54:52', NULL, 'USER_STATUS', ''),
 (7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', ''),
-(8, NULL, 1, '2025-08-13 16:28:53', '2025-08-13 16:44:53', '', 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
-(9, NULL, 1, '2025-08-13 16:28:53', '2025-08-13 16:44:21', '<br />\r\n<b>Deprecated</b>:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in <b>C:\\xampp\\htdocs\\_atlis\\admin\\lookup-lists\\index.php</b> on line <b>33</b><br />', 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties');
+(8, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:58:01', NULL, 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
+(9, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:57:58', NULL, 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties');
 
 -- --------------------------------------------------------
 
@@ -310,6 +310,7 @@ CREATE TABLE `lookup_list_items` (
 --
 -- Dumping data for table `lookup_list_items`
 --
+
 INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `code`, `active_from`, `active_to`) VALUES
 (1, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:24', NULL, 1, 'Active', 'ACTIVE', '2025-08-13', NULL),
 (2, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:35', NULL, 1, 'Inactive', 'INACTIVE', '2025-08-13', NULL),
@@ -327,7 +328,6 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'Pending', 'PENDING', '2025-08-13', NULL),
 (28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'Pending', 'PENDING', '2025-08-13', NULL);
 
-
 -- --------------------------------------------------------
 
 --
@@ -343,7 +343,7 @@ CREATE TABLE `lookup_list_item_attributes` (
   `memo` text DEFAULT NULL,
   `item_id` int(11) NOT NULL,
   `attr_code` varchar(100) NOT NULL,
-  `attr_value` text DEFAULT NULL
+  `attr_label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -784,7 +784,7 @@ ALTER TABLE `lookup_list_items`
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -833,7 +833,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users_2fa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
