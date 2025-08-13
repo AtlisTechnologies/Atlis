@@ -32,11 +32,10 @@ $stmt = $pdo->prepare('SELECT role_id FROM admin_user_roles WHERE user_account_i
 $stmt->execute([':id' => $id]);
 $assigned = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-$token = generate_csrf_token();
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 
-$rolesStmt = $pdo->prepare('SELECT id, name FROM admin_roles ORDER BY name');
-$rolesStmt->execute();
-$roles = $rolesStmt->fetchAll(PDO::FETCH_ASSOC);
+$roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
 $typeStmt = $pdo->prepare("SELECT li.value, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_TYPE' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.sort_order, li.label");
 $typeStmt->execute();
@@ -47,7 +46,7 @@ $statusStmt->execute();
 $statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+    if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
         die('Invalid CSRF token');
     }
     $username   = trim($_POST['username'] ?? '');

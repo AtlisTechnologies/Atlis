@@ -5,10 +5,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 require_once '../../../includes/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!verify_csrf_token(get_post('csrf_token'))) {
-    die('Invalid CSRF token');
-  }
-  $code = get_post('code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+  $code = $_POST['code'] ?? '';
   $userId = $_SESSION['2fa_user_id'] ?? null;
   if ($userId) {
     $stmt = $pdo->prepare('SELECT id FROM users_2fa WHERE user_id = :user_id AND code = :code AND used = 0 AND expires_at > NOW() ORDER BY id DESC LIMIT 1');

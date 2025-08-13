@@ -1,6 +1,5 @@
 <?php
-$error = get_get('error', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$token = generate_csrf_token();
+$error = $_GET['error'] ?? '';
 ?>
 <main class="main" id="top">
 <div class="container-fluid bg-body-tertiary dark__bg-gray-1200">
@@ -20,7 +19,6 @@ $token = generate_csrf_token();
                   <?php } ?>
                 </div>
                 <form method="post" action="<?php echo getURLDir(); ?>module/users/functions/login.php">
-                  <input type="hidden" name="csrf_token" value="<?= e($token); ?>">
                   <div class="mb-3 text-start">
                     <label class="form-label" for="email">Email address</label>
                     <div class="form-icon-container">

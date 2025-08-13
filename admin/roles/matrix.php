@@ -2,27 +2,24 @@
 require '../admin_header.php';
 require_permission('roles','read');
 
-$token = generate_csrf_token();
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 $message = '';
 
 // Current assignments for audit and display
-$stmt = $pdo->prepare('SELECT role_id, permission_id FROM admin_role_permissions');
-$stmt->execute();
-$currentAssignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$currentAssignments = $pdo->query('SELECT role_id, permission_id FROM admin_role_permissions')->fetchAll(PDO::FETCH_ASSOC);
 $currentMap = [];
 foreach ($currentAssignments as $a) {
   $currentMap[$a['role_id']][] = $a['permission_id'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
   require_permission('roles','update');
   $rolePerms = $_POST['perm'] ?? [];
-  $roleStmt = $pdo->prepare('SELECT id FROM admin_roles');
-  $roleStmt->execute();
-  $roles = $roleStmt->fetchAll(PDO::FETCH_COLUMN);
+  $roles = $pdo->query('SELECT id FROM admin_roles')->fetchAll(PDO::FETCH_COLUMN);
   foreach ($roles as $roleId) {
     $old = json_encode($currentMap[$roleId] ?? []);
     $stmt = $pdo->prepare('DELETE FROM admin_role_permissions WHERE role_id = :role_id');
@@ -39,21 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   $message = 'Permissions updated.';
   // refresh current map for display
-  $stmt = $pdo->prepare('SELECT role_id, permission_id FROM admin_role_permissions');
-  $stmt->execute();
-  $currentAssignments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $currentAssignments = $pdo->query('SELECT role_id, permission_id FROM admin_role_permissions')->fetchAll(PDO::FETCH_ASSOC);
   $currentMap = [];
   foreach ($currentAssignments as $a) {
     $currentMap[$a['role_id']][] = $a['permission_id'];
   }
 }
 
-$roleStmt = $pdo->prepare('SELECT id, name FROM admin_roles ORDER BY name');
-$roleStmt->execute();
-$roles = $roleStmt->fetchAll(PDO::FETCH_ASSOC);
-$permStmt = $pdo->prepare('SELECT id, module, action FROM admin_permissions ORDER BY module, action');
-$permStmt->execute();
-$permissions = $permStmt->fetchAll(PDO::FETCH_ASSOC);
+$roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$permissions = $pdo->query('SELECT id, module, action FROM admin_permissions ORDER BY module, action')->fetchAll(PDO::FETCH_ASSOC);
 $assignedMap = [];
 foreach ($currentMap as $rid => $pids) {
   foreach ($pids as $pid) {

@@ -5,11 +5,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 require_once '../../../includes/php_header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!verify_csrf_token(get_post('csrf_token'))) {
-    die('Invalid CSRF token');
-  }
-  $email = get_post('email', FILTER_SANITIZE_EMAIL) ?? '';
-  $password = get_post('password') ?? '';
+  $email = $_POST['email'] ?? '';
+  $password = $_POST['password'] ?? '';
 
   $sql = 'SELECT id, email, password, type FROM users WHERE email = :email';
   $stmt = $pdo->prepare($sql);
