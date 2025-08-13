@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2025 at 06:20 AM
+-- Generation Time: Aug 13, 2025 at 03:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,10 +47,7 @@ CREATE TABLE `admin_audit_log` (
 --
 
 INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
-(7, 1, 1, '2025-08-07 00:44:04', '2025-08-07 00:44:04', NULL, 'module_agency', 1, 'UPDATE', 'Updated agency', '{\"organization_id\":1,\"name\":\"Atlis Technologies\",\"main_person\":1,\"status\":3,\"file_name\":null,\"file_path\":null,\"file_size\":null,\"file_type\":null}', '{\"organization_id\":1,\"name\":\"Atlis Technologies\",\"main_person\":1,\"status\":3}'),
-(8, 1, 1, '2025-08-07 00:48:01', '2025-08-07 00:48:01', NULL, 'person', 1, 'DELETE', 'Deleted person', NULL, NULL),
-(9, 1, 1, '2025-08-08 21:52:17', '2025-08-08 21:52:17', NULL, 'person', 0, 'CREATE', 'Created person', NULL, '{\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\"}'),
-(10, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 'person', 0, 'CREATE', 'Created person', NULL, '{\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\"}');
+(1, 1, 1, '2025-08-12 19:46:44', '2025-08-12 19:46:44', NULL, 'admin_roles', 6, 'CREATE', 'Created role', NULL, '{\"name\":\"Manage System Properties\",\"description\":\"\"}');
 
 -- --------------------------------------------------------
 
@@ -97,7 +94,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (21, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'division', 'create'),
 (22, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'division', 'read'),
 (23, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'division', 'update'),
-(24, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'division', 'delete');
+(24, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'division', 'delete'),
+(25, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'create'),
+(26, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'read'),
+(27, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'update'),
+(28, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'delete');
 
 -- --------------------------------------------------------
 
@@ -125,7 +126,8 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (2, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:38', NULL, 'Manage Person', 'Can manage person records'),
 (3, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:38', NULL, 'Manage Agency', 'Can manage agency records'),
 (4, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Organization', 'Can manage organization records'),
-(5, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Division', 'Can manage division records');
+(5, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Division', 'Can manage division records'),
+(6, 1, 1, '2025-08-12 19:46:44', '2025-08-12 19:46:44', NULL, 'Manage System Properties', '');
 
 -- --------------------------------------------------------
 
@@ -186,7 +188,11 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (44, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 21),
 (45, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 24),
 (46, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 22),
-(47, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 23);
+(47, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 23),
+(48, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 25),
+(49, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 28),
+(50, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 26),
+(51, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 27);
 
 -- --------------------------------------------------------
 
@@ -210,8 +216,7 @@ CREATE TABLE `admin_user_roles` (
 --
 
 INSERT INTO `admin_user_roles` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `user_account_id`, `role_id`) VALUES
-(1, 1, 1, '2025-08-07 00:47:07', '2025-08-07 00:47:07', NULL, 0, 3),
-(9, 1, 1, '2025-08-06 21:26:35', '2025-08-06 21:26:35', NULL, 1, 1);
+(1, 1, 1, '2025-08-07 00:47:07', '2025-08-12 19:38:55', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -231,61 +236,6 @@ CREATE TABLE `audit_log` (
   `action` varchar(50) NOT NULL,
   `details` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `audit_log`
---
-
-INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
-(1, 1, 1, '2025-08-06 16:10:30', '2025-08-06 16:10:30', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
-(2, 1, 1, '2025-08-06 16:10:37', '2025-08-06 16:10:37', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(3, 1, 1, '2025-08-06 16:16:28', '2025-08-06 16:16:28', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(4, 1, 1, '2025-08-06 16:16:28', '2025-08-06 16:16:28', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(5, 1, 1, '2025-08-06 16:16:30', '2025-08-06 16:16:30', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(6, 1, 1, '2025-08-06 16:16:30', '2025-08-06 16:16:30', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(7, 1, 1, '2025-08-06 16:16:32', '2025-08-06 16:16:32', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(8, 1, 1, '2025-08-06 16:16:32', '2025-08-06 16:16:32', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(9, 1, 1, '2025-08-06 16:27:19', '2025-08-06 16:27:19', NULL, 'module_organization', 1, 'CREATE', 'Created organization'),
-(10, 1, 1, '2025-08-06 16:27:31', '2025-08-06 16:27:31', NULL, 'module_agency', 1, 'CREATE', 'Created agency'),
-(11, 1, 1, '2025-08-06 16:27:41', '2025-08-06 16:27:41', NULL, 'module_division', 1, 'CREATE', 'Created division'),
-(12, 1, 1, '2025-08-06 16:27:55', '2025-08-06 16:27:55', NULL, 'module_organization', 2, 'CREATE', 'Created organization'),
-(13, 1, 1, '2025-08-06 16:28:14', '2025-08-06 16:28:14', NULL, 'module_agency', 2, 'CREATE', 'Created agency'),
-(14, 1, 1, '2025-08-06 16:28:28', '2025-08-06 16:28:28', NULL, 'module_division', 2, 'CREATE', 'Created division'),
-(15, 1, 1, '2025-08-06 16:28:37', '2025-08-06 16:28:37', NULL, 'module_division', 3, 'CREATE', 'Created division'),
-(16, 1, 1, '2025-08-06 16:28:48', '2025-08-06 16:28:48', NULL, 'module_division', 4, 'CREATE', 'Created division'),
-(17, 1, 1, '2025-08-06 20:13:08', '2025-08-06 20:13:08', NULL, 'lookup_lists', 4, 'CREATE', 'Created lookup list'),
-(18, 1, 1, '2025-08-06 20:13:16', '2025-08-06 20:13:16', NULL, 'lookup_lists', 5, 'CREATE', 'Created lookup list'),
-(19, 1, 1, '2025-08-06 20:13:30', '2025-08-06 20:13:30', NULL, 'lookup_list_items', 7, 'CREATE', 'Created lookup list item'),
-(20, 1, 1, '2025-08-06 20:13:41', '2025-08-06 20:13:41', NULL, 'lookup_list_items', 8, 'CREATE', 'Created lookup list item'),
-(21, 1, 1, '2025-08-06 20:13:46', '2025-08-06 20:13:46', NULL, 'lookup_list_items', 7, 'UPDATE', 'Updated lookup list item'),
-(22, 1, 1, '2025-08-06 20:13:58', '2025-08-06 20:13:58', NULL, 'lookup_list_items', 9, 'CREATE', 'Created lookup list item'),
-(23, 1, 1, '2025-08-06 20:14:03', '2025-08-06 20:14:03', NULL, 'lookup_list_items', 10, 'CREATE', 'Created lookup list item'),
-(24, 1, 1, '2025-08-06 20:14:18', '2025-08-06 20:14:18', NULL, 'lookup_lists', 6, 'CREATE', 'Created lookup list'),
-(25, 1, 1, '2025-08-06 20:14:24', '2025-08-06 20:14:24', NULL, 'lookup_lists', 6, 'DELETE', 'Deleted lookup list'),
-(26, 1, 1, '2025-08-06 20:26:02', '2025-08-06 20:26:02', NULL, 'lookup_lists', 7, 'CREATE', 'Created lookup list'),
-(27, 1, 1, '2025-08-06 20:26:20', '2025-08-06 20:26:20', NULL, 'lookup_list_items', 11, 'CREATE', 'Created lookup list item'),
-(28, 1, 1, '2025-08-06 20:26:38', '2025-08-06 20:26:38', NULL, 'lookup_list_items', 12, 'CREATE', 'Created lookup list item'),
-(29, 1, 1, '2025-08-06 21:26:18', '2025-08-06 21:26:18', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(30, 1, 1, '2025-08-06 21:26:18', '2025-08-06 21:26:18', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(31, 1, 1, '2025-08-06 21:26:21', '2025-08-06 21:26:21', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(32, 1, 1, '2025-08-06 21:26:21', '2025-08-06 21:26:21', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(33, 1, 1, '2025-08-06 21:26:35', '2025-08-06 21:26:35', NULL, 'users', 1, 'UPDATE', 'Updated user'),
-(34, 1, 1, '2025-08-06 21:26:35', '2025-08-06 21:26:35', NULL, 'admin_user_roles', 1, 'UPDATE', 'Updated user roles'),
-(35, 1, 1, '2025-08-07 00:45:51', '2025-08-07 00:45:51', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
-(36, 1, 1, '2025-08-07 00:45:59', '2025-08-07 00:45:59', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(37, 1, 1, '2025-08-07 00:47:07', '2025-08-07 00:47:07', NULL, 'users', 0, 'CREATE', 'Created user'),
-(38, 1, 1, '2025-08-07 00:47:07', '2025-08-07 00:47:07', NULL, 'person', 0, 'CREATE', 'Created person for user'),
-(39, 1, 1, '2025-08-08 21:32:02', '2025-08-08 21:32:02', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(40, 1, 1, '2025-08-08 21:58:45', '2025-08-08 21:58:45', NULL, 'lookup_list_items', 5, 'UPDATE', 'Updated lookup list item'),
-(41, 1, 1, '2025-08-08 21:59:22', '2025-08-08 21:59:22', NULL, 'lookup_list_items', 6, 'UPDATE', 'Updated lookup list item'),
-(42, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(43, 1, 1, '2025-08-08 22:04:44', '2025-08-08 22:04:44', NULL, 'lookup_list_items', 26, 'CREATE', 'Created lookup list item'),
-(44, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 'lookup_list_items', 27, 'CREATE', 'Created lookup list item'),
-(45, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 'lookup_list_items', 28, 'CREATE', 'Created lookup list item'),
-(46, 1, 1, '2025-08-08 22:14:47', '2025-08-08 22:14:47', NULL, 'lookup_list_items', 3, 'UPDATE', 'Updated lookup list item'),
-(47, 1, 1, '2025-08-08 22:14:59', '2025-08-08 22:14:59', NULL, 'lookup_list_items', 4, 'UPDATE', 'Updated lookup list item'),
-(48, 1, 1, '2025-08-08 22:15:24', '2025-08-08 22:15:24', NULL, 'lookup_list_items', 1, 'UPDATE', 'Updated lookup list item'),
-(49, 1, 1, '2025-08-08 22:15:35', '2025-08-08 22:15:35', NULL, 'lookup_list_items', 2, 'UPDATE', 'Updated lookup list item');
 
 -- --------------------------------------------------------
 
@@ -487,6 +437,39 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `user_updated`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `system_properties`
+--
+
+CREATE TABLE `system_properties` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` text DEFAULT NULL,
+  `memo` text DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `system_property_versions`
+--
+
+CREATE TABLE `system_property_versions` (
+  `id` int(11) NOT NULL,
+  `property_id` int(11) NOT NULL,
+  `value` text DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -512,7 +495,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `username`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-08 21:31:59', NULL, 'dave@atlistechnologies.com', 'dave@atlistechnologies.com', '$2y$10$WGm3X9R063fNQ6Nw1Fy4GO7k8ulP9EjusL8.TFtp3xiz7YU1.E5Lq', 0, 'dave_2.JPG', 'ADMIN', 0, '2025-08-08 21:31:59');
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-12 19:47:55', NULL, 'dave@atlistechnologies.com', 'dave@atlistechnologies.com', '$2y$10$WGm3X9R063fNQ6Nw1Fy4GO7k8ulP9EjusL8.TFtp3xiz7YU1.E5Lq', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-12 15:42:05');
 
 -- --------------------------------------------------------
 
@@ -537,7 +520,8 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(1, 1, 1, '2025-08-08 21:31:59', '2025-08-08 21:32:02', NULL, '130195', '2025-08-08 21:41:59', 1);
+(1, 1, 1, '2025-08-08 21:31:59', '2025-08-08 21:32:02', NULL, '130195', '2025-08-08 21:41:59', 1),
+(2, 1, 1, '2025-08-12 15:42:05', '2025-08-12 15:42:08', NULL, '810773', '2025-08-12 15:52:05', 1);
 
 --
 -- Indexes for dumped tables
@@ -666,6 +650,24 @@ ALTER TABLE `person`
   ADD KEY `fk_person_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `system_properties`
+--
+ALTER TABLE `system_properties`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `type_id` (`type_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_updated` (`user_updated`);
+
+--
+-- Indexes for table `system_property_versions`
+--
+ALTER TABLE `system_property_versions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `property_id` (`property_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -689,25 +691,25 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -719,7 +721,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -764,6 +766,18 @@ ALTER TABLE `person`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `system_properties`
+--
+ALTER TABLE `system_properties`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `system_property_versions`
+--
+ALTER TABLE `system_property_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -773,7 +787,27 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `system_properties`
+--
+ALTER TABLE `system_properties`
+  ADD CONSTRAINT `system_properties_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `system_properties_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `system_properties_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `system_properties_ibfk_4` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `system_property_versions`
+--
+ALTER TABLE `system_property_versions`
+  ADD CONSTRAINT `system_property_versions_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `system_properties` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `system_property_versions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

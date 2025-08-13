@@ -24,7 +24,7 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h2 class="mb-4">Persons</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <a href="edit.php" class="btn btn-sm btn-success mb-3">Add Person</a>
-<div id="persons" data-list='{"valueNames":["name","user"],"page":12,"pagination":true}'>
+<div id="persons" data-list='{"valueNames":["name","user"],"page":20,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />

@@ -28,7 +28,7 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <a href="permissions.php" class="btn btn-sm btn-info">Permissions</a>
   <a href="matrix.php" class="btn btn-sm btn-secondary">Role Permissions</a>
 </div>
-<div id="roles" data-list='{"valueNames":["id","name","description"],"page":10,"pagination":true}'>
+<div id="roles" data-list='{"valueNames":["id","name","description"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
