@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2025 at 02:25 AM
+-- Generation Time: Aug 14, 2025 at 12:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -127,7 +127,8 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (3, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:38', NULL, 'Manage Agency', 'Can manage agency records'),
 (4, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Organization', 'Can manage organization records'),
 (5, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Division', 'Can manage division records'),
-(6, 1, 1, '2025-08-12 19:46:44', '2025-08-12 19:46:44', NULL, 'Manage System Properties', '');
+(6, 1, 1, '2025-08-12 19:46:44', '2025-08-12 19:46:44', NULL, 'Manage System Properties', ''),
+(7, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:32:16', NULL, 'Manage System Properties', 'Can manage system properties');
 
 -- --------------------------------------------------------
 
@@ -192,7 +193,15 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (48, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 25),
 (49, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 28),
 (50, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 26),
-(51, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 27);
+(51, NULL, NULL, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 1, 27),
+(55, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 25),
+(56, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 28),
+(57, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 26),
+(58, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 27),
+(59, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 25),
+(60, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 28),
+(61, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 26),
+(62, NULL, NULL, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 27);
 
 -- --------------------------------------------------------
 
@@ -264,7 +273,9 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (3, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:54:46', NULL, 'DIVISION_STATUS', 'Status values for divisions'),
 (4, 1, 1, '2025-08-06 20:13:08', '2025-08-08 21:54:50', NULL, 'USER_TYPE', ''),
 (5, 1, 1, '2025-08-06 20:13:16', '2025-08-08 21:54:52', NULL, 'USER_STATUS', ''),
-(7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', '');
+(7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', ''),
+(8, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 'SYSTEM_PROPERTY_CATEGORY', 'Categories for system properties'),
+(9, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 'SYSTEM_PROPERTY_TYPE', 'Data types for system properties');
 
 -- --------------------------------------------------------
 
@@ -292,21 +303,25 @@ CREATE TABLE `lookup_list_items` (
 --
 
 INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `value`, `active_from`, `active_to`, `sort_order`) VALUES
-(1, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:24', NULL, 1, 'ACTIVE', 'Active', curdate(), NULL, 1),
-(2, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:35', NULL, 1, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
-(3, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:47', NULL, 2, 'ACTIVE', 'Active', curdate(), NULL, 1),
-(4, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:59', NULL, 2, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
-(5, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:58:45', NULL, 3, 'ACTIVE', 'Active', curdate(), NULL, 1),
-(6, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:59:22', NULL, 3, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
-(7, 1, 1, '2025-08-06 20:13:30', '2025-08-06 20:13:46', NULL, 5, 'ACTIVE', 'Active', curdate(), NULL, 1),
-(8, 1, 1, '2025-08-06 20:13:41', '2025-08-06 20:13:41', NULL, 5, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
-(9, 1, 1, '2025-08-06 20:13:58', '2025-08-06 20:13:58', NULL, 4, 'ADMIN', 'Admin', curdate(), NULL, 1),
-(10, 1, 1, '2025-08-06 20:14:03', '2025-08-06 20:14:03', NULL, 4, 'USER', 'User', curdate(), NULL, 2),
-(11, 1, 1, '2025-08-06 20:26:20', '2025-08-06 20:26:20', NULL, 7, 'DEFAULT', 'Default', curdate(), NULL, 0),
-(12, 1, 1, '2025-08-06 20:26:38', '2025-08-06 20:26:38', NULL, 7, 'COLOR-CLASS', 'Color / Class', curdate(), NULL, 0),
-(13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'PENDING', 'Pending', curdate(), NULL, 0),
-(27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'PENDING', 'Pending', curdate(), NULL, 0),
-(28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'PENDING', 'Pending', curdate(), NULL, 0);
+(1, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:24', NULL, 1, 'ACTIVE', 'Active', '2025-08-13', NULL, 1),
+(2, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:35', NULL, 1, 'INACTIVE', 'Inactive', '2025-08-13', NULL, 2),
+(3, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:47', NULL, 2, 'ACTIVE', 'Active', '2025-08-13', NULL, 1),
+(4, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:59', NULL, 2, 'INACTIVE', 'Inactive', '2025-08-13', NULL, 2),
+(5, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:58:45', NULL, 3, 'ACTIVE', 'Active', '2025-08-13', NULL, 1),
+(6, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:59:22', NULL, 3, 'INACTIVE', 'Inactive', '2025-08-13', NULL, 2),
+(7, 1, 1, '2025-08-06 20:13:30', '2025-08-06 20:13:46', NULL, 5, 'ACTIVE', 'Active', '2025-08-13', NULL, 1),
+(8, 1, 1, '2025-08-06 20:13:41', '2025-08-06 20:13:41', NULL, 5, 'INACTIVE', 'Inactive', '2025-08-13', NULL, 2),
+(9, 1, 1, '2025-08-06 20:13:58', '2025-08-06 20:13:58', NULL, 4, 'ADMIN', 'Admin', '2025-08-13', NULL, 1),
+(10, 1, 1, '2025-08-06 20:14:03', '2025-08-06 20:14:03', NULL, 4, 'USER', 'User', '2025-08-13', NULL, 2),
+(11, 1, 1, '2025-08-06 20:26:20', '2025-08-06 20:26:20', NULL, 7, 'DEFAULT', 'Default', '2025-08-13', NULL, 0),
+(12, 1, 1, '2025-08-06 20:26:38', '2025-08-06 20:26:38', NULL, 7, 'COLOR-CLASS', 'Color / Class', '2025-08-13', NULL, 0),
+(13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'PENDING', 'Pending', '2025-08-13', NULL, 0),
+(27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'PENDING', 'Pending', '2025-08-13', NULL, 0),
+(28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'PENDING', 'Pending', '2025-08-13', NULL, 0),
+(29, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 8, 'GENERAL', 'General', '2025-08-13', NULL, 1),
+(30, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 8, 'BRANDING', 'Branding', '2025-08-13', NULL, 2),
+(31, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 9, 'TEXT', 'Text', '2025-08-13', NULL, 1),
+(32, NULL, NULL, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 9, 'IMAGE', 'Image', '2025-08-13', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -415,6 +430,59 @@ INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_create
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_system_properties`
+--
+
+CREATE TABLE `module_system_properties` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` text DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_system_properties`
+--
+
+INSERT INTO `module_system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type`, `description`) VALUES
+(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 30, 'logo', '/assets/logo.png', 32, 'Default site logo');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_system_properties_versions`
+--
+
+CREATE TABLE `module_system_properties_versions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `property_id` int(11) NOT NULL,
+  `version_number` int(11) NOT NULL,
+  `previous_value` text DEFAULT NULL,
+  `metadata` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_system_properties_versions`
+--
+
+INSERT INTO `module_system_properties_versions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `property_id`, `version_number`, `previous_value`, `metadata`) VALUES
+(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 1, 1, '/assets/logo.png', 'Initial version');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `person`
 --
 
@@ -435,39 +503,6 @@ CREATE TABLE `person` (
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 1, 'Dave', 'Wilkins', 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `system_properties`
---
-
-CREATE TABLE `system_properties` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `category_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `value` text DEFAULT NULL,
-  `memo` text DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `system_property_versions`
---
-
-CREATE TABLE `system_property_versions` (
-  `id` int(11) NOT NULL,
-  `property_id` int(11) NOT NULL,
-  `value` text DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -644,30 +679,33 @@ ALTER TABLE `module_organization`
   ADD KEY `fk_module_organization_status` (`status`);
 
 --
+-- Indexes for table `module_system_properties`
+--
+ALTER TABLE `module_system_properties`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_system_properties_name` (`name`),
+  ADD KEY `fk_module_system_properties_category_id` (`category_id`),
+  ADD KEY `fk_module_system_properties_type` (`type`),
+  ADD KEY `fk_module_system_properties_user_id` (`user_id`),
+  ADD KEY `fk_module_system_properties_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `module_system_properties_versions`
+--
+ALTER TABLE `module_system_properties_versions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_system_properties_versions_property_version` (`property_id`,`version_number`),
+  ADD KEY `fk_module_system_properties_versions_property_id` (`property_id`),
+  ADD KEY `fk_module_system_properties_versions_user_id` (`user_id`),
+  ADD KEY `fk_module_system_properties_versions_user_updated` (`user_updated`);
+
+--
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
   ADD KEY `fk_person_user_updated` (`user_updated`);
-
---
--- Indexes for table `system_properties`
---
-ALTER TABLE `system_properties`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `type_id` (`type_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `user_updated` (`user_updated`);
-
---
--- Indexes for table `system_property_versions`
---
-ALTER TABLE `system_property_versions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `property_id` (`property_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -699,19 +737,19 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -729,13 +767,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -762,22 +800,22 @@ ALTER TABLE `module_organization`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `module_system_properties`
+--
+ALTER TABLE `module_system_properties`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_system_properties_versions`
+--
+ALTER TABLE `module_system_properties_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `system_properties`
---
-ALTER TABLE `system_properties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `system_property_versions`
---
-ALTER TABLE `system_property_versions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -796,24 +834,22 @@ ALTER TABLE `users_2fa`
 --
 
 --
--- Constraints for table `system_properties`
+-- Constraints for table `module_system_properties`
 --
-ALTER TABLE `system_properties`
-  ADD CONSTRAINT `system_properties_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `system_properties_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `system_properties_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `system_properties_ibfk_4` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
+ALTER TABLE `module_system_properties`
+  ADD CONSTRAINT `fk_module_system_properties_category_id` FOREIGN KEY (`category_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_system_properties_type` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_system_properties_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_system_properties_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `system_property_versions`
+-- Constraints for table `module_system_properties_versions`
 --
-ALTER TABLE `system_property_versions`
-  ADD CONSTRAINT `system_property_versions_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `system_properties` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `system_property_versions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `module_system_properties_versions`
+  ADD CONSTRAINT `fk_module_system_properties_versions_property_id` FOREIGN KEY (`property_id`) REFERENCES `module_system_properties` (`id`),
+  ADD CONSTRAINT `fk_module_system_properties_versions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_system_properties_versions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`);
 COMMIT;
-
--- Triggers
-SOURCE 013_system_properties_triggers.sql;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
