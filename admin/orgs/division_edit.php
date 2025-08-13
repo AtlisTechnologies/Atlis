@@ -33,9 +33,8 @@ $agencyOptions = $agencyStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 $personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
 $personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$statusStmt = $pdo->prepare("SELECT li.id, li.label FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'DIVISION_STATUS' AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE()) ORDER BY li.label");
-$statusStmt->execute();
-$statusOptions = $statusStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$statusItems   = get_lookup_items($pdo, 'DIVISION_STATUS');
+$statusOptions = array_column($statusItems, 'label', 'id');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
