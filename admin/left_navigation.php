@@ -15,6 +15,11 @@
           </a>
         </li>
         <?php endforeach; ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/system-properties/index.php">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="sliders"></span></span><span class="nav-link-text">System Properties</span></div>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
