@@ -6,7 +6,7 @@ $token = generate_csrf_token();
 
 function fetchLookupItems($name){
   global $pdo;
-  $stmt = $pdo->prepare('SELECT lli.id, lli.label FROM lookup_lists ll JOIN lookup_list_items lli ON ll.id = lli.list_id WHERE ll.name = :name ORDER BY lli.sort_order, lli.label');
+  $stmt = $pdo->prepare('SELECT lli.id, lli.label FROM lookup_lists ll JOIN lookup_list_items lli ON ll.id = lli.list_id WHERE ll.name = :name AND lli.active_from <= CURDATE() AND (lli.active_to IS NULL OR lli.active_to >= CURDATE()) ORDER BY lli.sort_order, lli.label');
   $stmt->execute([':name'=>$name]);
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

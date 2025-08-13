@@ -282,6 +282,8 @@ CREATE TABLE `lookup_list_items` (
   `list_id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
+  `active_from` date DEFAULT curdate(),
+  `active_to` date DEFAULT NULL,
   `sort_order` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -289,22 +291,22 @@ CREATE TABLE `lookup_list_items` (
 -- Dumping data for table `lookup_list_items`
 --
 
-INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `value`, `sort_order`) VALUES
-(1, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:24', NULL, 1, 'ACTIVE', 'Active', 1),
-(2, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:35', NULL, 1, 'INACTIVE', 'Inactive', 2),
-(3, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:47', NULL, 2, 'ACTIVE', 'Active', 1),
-(4, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:59', NULL, 2, 'INACTIVE', 'Inactive', 2),
-(5, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:58:45', NULL, 3, 'ACTIVE', 'Active', 1),
-(6, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:59:22', NULL, 3, 'INACTIVE', 'Inactive', 2),
-(7, 1, 1, '2025-08-06 20:13:30', '2025-08-06 20:13:46', NULL, 5, 'ACTIVE', 'Active', 1),
-(8, 1, 1, '2025-08-06 20:13:41', '2025-08-06 20:13:41', NULL, 5, 'INACTIVE', 'Inactive', 2),
-(9, 1, 1, '2025-08-06 20:13:58', '2025-08-06 20:13:58', NULL, 4, 'ADMIN', 'Admin', 1),
-(10, 1, 1, '2025-08-06 20:14:03', '2025-08-06 20:14:03', NULL, 4, 'USER', 'User', 2),
-(11, 1, 1, '2025-08-06 20:26:20', '2025-08-06 20:26:20', NULL, 7, 'DEFAULT', 'Default', 0),
-(12, 1, 1, '2025-08-06 20:26:38', '2025-08-06 20:26:38', NULL, 7, 'COLOR-CLASS', 'Color / Class', 0),
-(13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'PENDING', 'Pending', 0),
-(27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'PENDING', 'Pending', 0),
-(28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'PENDING', 'Pending', 0);
+INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `value`, `active_from`, `active_to`, `sort_order`) VALUES
+(1, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:24', NULL, 1, 'ACTIVE', 'Active', curdate(), NULL, 1),
+(2, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:15:35', NULL, 1, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
+(3, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:47', NULL, 2, 'ACTIVE', 'Active', curdate(), NULL, 1),
+(4, 1, 1, '2025-08-06 16:07:33', '2025-08-08 22:14:59', NULL, 2, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
+(5, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:58:45', NULL, 3, 'ACTIVE', 'Active', curdate(), NULL, 1),
+(6, 1, 1, '2025-08-06 16:07:33', '2025-08-08 21:59:22', NULL, 3, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
+(7, 1, 1, '2025-08-06 20:13:30', '2025-08-06 20:13:46', NULL, 5, 'ACTIVE', 'Active', curdate(), NULL, 1),
+(8, 1, 1, '2025-08-06 20:13:41', '2025-08-06 20:13:41', NULL, 5, 'INACTIVE', 'Inactive', curdate(), NULL, 2),
+(9, 1, 1, '2025-08-06 20:13:58', '2025-08-06 20:13:58', NULL, 4, 'ADMIN', 'Admin', curdate(), NULL, 1),
+(10, 1, 1, '2025-08-06 20:14:03', '2025-08-06 20:14:03', NULL, 4, 'USER', 'User', curdate(), NULL, 2),
+(11, 1, 1, '2025-08-06 20:26:20', '2025-08-06 20:26:20', NULL, 7, 'DEFAULT', 'Default', curdate(), NULL, 0),
+(12, 1, 1, '2025-08-06 20:26:38', '2025-08-06 20:26:38', NULL, 7, 'COLOR-CLASS', 'Color / Class', curdate(), NULL, 0),
+(13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'PENDING', 'Pending', curdate(), NULL, 0),
+(27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'PENDING', 'Pending', curdate(), NULL, 0),
+(28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'PENDING', 'Pending', curdate(), NULL, 0);
 
 -- --------------------------------------------------------
 

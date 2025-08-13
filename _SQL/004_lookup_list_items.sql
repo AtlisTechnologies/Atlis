@@ -8,6 +8,8 @@ CREATE TABLE `lookup_list_items` (
   `list_id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
+  `active_from` date DEFAULT CURDATE(),
+  `active_to` date DEFAULT NULL,
   `sort_order` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `fk_lookup_list_items_list_id` (`list_id`),

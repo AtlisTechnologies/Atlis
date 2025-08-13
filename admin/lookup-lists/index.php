@@ -91,9 +91,11 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <input type="hidden" name="list_id" id="item-list-id">
           <input type="hidden" name="id" id="item-id">
-          <div class="col-md-4"><input class="form-control" name="label" id="item-label" placeholder="Label" required></div>
-          <div class="col-md-4"><input class="form-control" name="value" id="item-value" placeholder="Value"></div>
-          <div class="col-md-2"><input class="form-control" type="number" name="sort_order" id="item-sort" placeholder="Sort"></div>
+          <div class="col-md-3"><input class="form-control" name="label" id="item-label" placeholder="Label" required></div>
+          <div class="col-md-2"><input class="form-control" name="value" id="item-value" placeholder="Value"></div>
+          <div class="col-md-2"><input class="form-control" type="date" name="active_from" id="item-active-from" value="<?= date('Y-m-d'); ?>" required></div>
+          <div class="col-md-2"><input class="form-control" type="date" name="active_to" id="item-active-to"></div>
+          <div class="col-md-1"><input class="form-control" type="number" name="sort_order" id="item-sort" placeholder="Sort"></div>
           <div class="col-md-2">
             <button class="btn btn-primary w-100" type="submit" id="itemSaveBtn">
               <span class="spinner-border spinner-border-sm d-none" id="itemLoading"></span>
@@ -102,7 +104,7 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
         </form>
         <table class="table table-striped table-sm" id="itemsTable">
-          <thead><tr><th>Label</th><th>Value</th><th>Sort</th><th>Attributes</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Label</th><th>Value</th><th>Active From</th><th>Active To</th><th>Sort</th><th>Attributes</th><th>Actions</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -234,16 +236,16 @@ $(function(){
   });
 
   function loadItems(listId){
-    $('#itemsTable tbody').html('<tr><td colspan="5" class="text-center">Loading...</td></tr>');
+    $('#itemsTable tbody').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>');
     $.getJSON('../api/lookup-lists.php', {entity:'item', action:'list', list_id:listId}, function(res){
       if(res.success){
         var rows='';
         $.each(res.items, function(i,it){
-          rows+='<tr data-id="'+it.id+'"><td class="label">'+it.label+'</td><td class="value">'+it.value+'</td><td class="sort_order">'+it.sort_order+'</td><td><button class="btn btn-sm btn-secondary attributes-item">Attributes</button></td><td><button class="btn btn-sm btn-warning edit-item">Edit</button> <button class="btn btn-sm btn-danger delete-item">Delete</button></td></tr>';
+          rows+='<tr data-id="'+it.id+'"><td class="label">'+it.label+'</td><td class="value">'+it.value+'</td><td class="active_from">'+(it.active_from||'')+'</td><td class="active_to">'+(it.active_to||'')+'</td><td class="sort_order">'+it.sort_order+'</td><td><button class="btn btn-sm btn-secondary attributes-item">Attributes</button></td><td><button class="btn btn-sm btn-warning edit-item">Edit</button> <button class="btn btn-sm btn-danger delete-item">Delete</button></td></tr>';
         });
         $('#itemsTable tbody').html(rows);
       }else{
-        $('#itemsTable tbody').html('<tr><td colspan="5" class="text-center">'+res.error+'</td></tr>');
+        $('#itemsTable tbody').html('<tr><td colspan="7" class="text-center">'+res.error+'</td></tr>');
       }
     });
   }
@@ -272,6 +274,8 @@ $(function(){
     $('#item-id').val(tr.data('id'));
     $('#item-label').val(tr.find('.label').text());
     $('#item-value').val(tr.find('.value').text());
+    $('#item-active-from').val(tr.find('.active_from').text());
+    $('#item-active-to').val(tr.find('.active_to').text());
     $('#item-sort').val(tr.find('.sort_order').text());
   });
 

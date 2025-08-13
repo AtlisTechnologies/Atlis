@@ -5,7 +5,7 @@ $token = generate_csrf_token();
 $item_id = (int)($_GET['item_id'] ?? 0);
 $message = $error = '';
 
-$stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM lookup_list_items i JOIN lookup_lists l ON i.list_id = l.id WHERE i.id = :id');
+$stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM lookup_list_items i JOIN lookup_lists l ON i.list_id = l.id WHERE i.id = :id AND i.active_from <= CURDATE() AND (i.active_to IS NULL OR i.active_to >= CURDATE())');
 $stmt->execute([':id'=>$item_id]);
 $item = $stmt->fetch(PDO::FETCH_ASSOC);
 if(!$item){

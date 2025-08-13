@@ -9,7 +9,7 @@ try{
   switch($action){
     case 'list':
       require_permission('system_properties','read');
-      $stmt = $pdo->query('SELECT sp.id, sp.name, sp.value, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id=c.id JOIN lookup_list_items t ON sp.type_id=t.id ORDER BY sp.name');
+      $stmt = $pdo->query('SELECT sp.id, sp.name, sp.value, c.label AS category, t.label AS type FROM system_properties sp JOIN lookup_list_items c ON sp.category_id=c.id AND c.active_from <= CURDATE() AND (c.active_to IS NULL OR c.active_to >= CURDATE()) JOIN lookup_list_items t ON sp.type_id=t.id AND t.active_from <= CURDATE() AND (t.active_to IS NULL OR t.active_to >= CURDATE()) ORDER BY sp.name');
       echo json_encode(['success'=>true,'properties'=>$stmt->fetchAll(PDO::FETCH_ASSOC)]);
       break;
     case 'create':
@@ -105,14 +105,14 @@ function handleSave($isUpdate=false){
 
 function lookupExists($id){
   global $pdo;
-  $stmt=$pdo->prepare('SELECT 1 FROM lookup_list_items WHERE id=:id');
+  $stmt=$pdo->prepare('SELECT 1 FROM lookup_list_items WHERE id=:id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE())');
   $stmt->execute([':id'=>$id]);
   return (bool)$stmt->fetchColumn();
 }
 
 function validateValue($typeId,$value){
   global $pdo;
-  $stmt=$pdo->prepare('SELECT label FROM lookup_list_items WHERE id=:id');
+  $stmt=$pdo->prepare('SELECT label FROM lookup_list_items WHERE id=:id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE())');
   $stmt->execute([':id'=>$typeId]);
   $label=$stmt->fetchColumn();
   if(!$label) return false;

@@ -7,7 +7,7 @@ $action = $_GET['action'] ?? 'card';
 // Fetch agencies and status labels
 $sql = "SELECT a.id, a.name, li.label AS status_label
         FROM module_agency a
-        LEFT JOIN lookup_list_items li ON a.status = li.id
+        LEFT JOIN lookup_list_items li ON a.status = li.id AND li.active_from <= CURDATE() AND (li.active_to IS NULL OR li.active_to >= CURDATE())
         LEFT JOIN lookup_lists l ON li.list_id = l.id AND l.name = 'AGENCY_STATUS'
         ORDER BY a.name";
 $stmt = $pdo->query($sql);
