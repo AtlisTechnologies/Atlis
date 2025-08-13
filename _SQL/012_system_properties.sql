@@ -18,7 +18,7 @@ CREATE TABLE `system_properties` (
   FOREIGN KEY (`user_updated`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `system_property_versions` (
+CREATE TABLE `system_properties_versions` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
   `property_id` INT(11) NOT NULL,
   `value` TEXT,

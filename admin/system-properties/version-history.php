@@ -11,7 +11,7 @@ $name = $stmt->fetchColumn();
 
 $versions = [];
 if($id){
-  $stmt = $pdo->prepare('SELECT id, value, user_id, date_created FROM system_property_versions WHERE property_id=:id ORDER BY date_created DESC');
+  $stmt = $pdo->prepare('SELECT id, previous_value, user_id, date_created FROM system_properties_versions WHERE property_id=:id ORDER BY date_created DESC');
   $stmt->execute([':id'=>$id]);
   $versions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -24,7 +24,7 @@ if($id){
     <tr data-id="<?= $v['id']; ?>">
       <td><?= htmlspecialchars($v['date_created']); ?></td>
       <td><?= htmlspecialchars($v['user_id']); ?></td>
-      <td><pre class="mb-0"><?= htmlspecialchars($v['value']); ?></pre></td>
+      <td><pre class="mb-0"><?= htmlspecialchars($v['previous_value']); ?></pre></td>
       <td><button class="btn btn-sm btn-warning restore" data-id="<?= $v['id']; ?>">Restore</button></td>
     </tr>
   <?php endforeach; ?>

@@ -34,7 +34,7 @@ try{
     case 'versions':
       require_permission('system_properties','read');
       $pid=(int)($_GET['id']??0);
-      $stmt=$pdo->prepare('SELECT id,value,user_id,date_created FROM system_property_versions WHERE property_id=:id ORDER BY date_created DESC');
+      $stmt=$pdo->prepare('SELECT id,value,user_id,date_created FROM system_properties_versions WHERE property_id=:id ORDER BY date_created DESC');
       $stmt->execute([':id'=>$pid]);
       echo json_encode(['success'=>true,'versions'=>$stmt->fetchAll(PDO::FETCH_ASSOC)]);
       break;
@@ -43,7 +43,7 @@ try{
       verify_csrf();
       $vid=(int)($_POST['version_id']??0);
       if($vid<=0){ echo json_encode(['success'=>false,'error'=>'Invalid version']); break; }
-      $stmt=$pdo->prepare('SELECT property_id,value FROM system_property_versions WHERE id=:id');
+      $stmt=$pdo->prepare('SELECT property_id,value FROM system_properties_versions WHERE id=:id');
       $stmt->execute([':id'=>$vid]);
       $ver=$stmt->fetch(PDO::FETCH_ASSOC);
       if(!$ver){ echo json_encode(['success'=>false,'error'=>'Version not found']); break; }
@@ -51,7 +51,7 @@ try{
       $cur=$pdo->prepare('SELECT value FROM system_properties WHERE id=:id');
       $cur->execute([':id'=>$ver['property_id']]);
       $curVal=$cur->fetchColumn();
-      $pdo->prepare('INSERT INTO system_property_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$ver['property_id'],':val'=>$curVal,':uid'=>$this_user_id]);
+      $pdo->prepare('INSERT INTO system_properties_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$ver['property_id'],':val'=>$curVal,':uid'=>$this_user_id]);
       $pdo->prepare('UPDATE system_properties SET value=:val,user_updated=:uid WHERE id=:id')->execute([':val'=>$ver['value'],':uid'=>$this_user_id,':id'=>$ver['property_id']]);
       $pdo->commit();
       audit_log($pdo,$this_user_id,'system_properties',$ver['property_id'],'UPDATE','Restored system property version');
@@ -88,7 +88,7 @@ function handleSave($isUpdate=false){
     $stmt=$pdo->prepare('SELECT value FROM system_properties WHERE id=:id');
     $stmt->execute([':id'=>$id]);
     $old=$stmt->fetchColumn();
-    $pdo->prepare('INSERT INTO system_property_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$id,':val'=>$old,':uid'=>$this_user_id]);
+    $pdo->prepare('INSERT INTO system_properties_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$id,':val'=>$old,':uid'=>$this_user_id]);
     $pdo->prepare('UPDATE system_properties SET category_id=:cid,type_id=:tid,name=:name,value=:val,memo=:memo,user_updated=:uid WHERE id=:id')->execute([':cid'=>$category,':tid'=>$typeId,':name'=>$name,':val'=>$value,':memo'=>$memo,':uid'=>$this_user_id,':id'=>$id]);
     $pdo->commit();
     audit_log($pdo,$this_user_id,'system_properties',$id,'UPDATE','Updated system property');
@@ -97,7 +97,7 @@ function handleSave($isUpdate=false){
     $stmt=$pdo->prepare('INSERT INTO system_properties (user_id,user_updated,category_id,type_id,name,value,memo) VALUES (:uid,:uid,:cid,:tid,:name,:val,:memo)');
     $stmt->execute([':uid'=>$this_user_id,':cid'=>$category,':tid'=>$typeId,':name'=>$name,':val'=>$value,':memo'=>$memo]);
     $nid=$pdo->lastInsertId();
-    $pdo->prepare('INSERT INTO system_property_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$nid,':val'=>$value,':uid'=>$this_user_id]);
+    $pdo->prepare('INSERT INTO system_properties_versions (property_id,value,user_id) VALUES (:pid,:val,:uid)')->execute([':pid'=>$nid,':val'=>$value,':uid'=>$this_user_id]);
     audit_log($pdo,$this_user_id,'system_properties',$nid,'CREATE','Created system property');
     echo json_encode(['success'=>true,'id'=>$nid]);
   }
