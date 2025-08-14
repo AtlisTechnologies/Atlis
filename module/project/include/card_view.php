@@ -72,24 +72,24 @@ foreach ($projects as $proj) {
       <div class="card-body">
         <div class="d-flex align-items-center">
           <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5">
-            <a href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo htmlspecialchars($project['name']); ?></a>
+            <a href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
           </h4>
           <div class="hover-actions top-0 end-0 mt-4 me-4">
             <a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a>
           </div>
         </div>
-        <span class="badge badge-phoenix fs-10 mb-4 badge-phoenix-<?php echo htmlspecialchars($project['status_color']); ?>"><?php echo htmlspecialchars($project['status_label']); ?></span>
+        <span class="badge badge-phoenix fs-10 mb-4 badge-phoenix-<?php echo h($project['status_color'] ?? 'secondary'); ?>"><?php echo h($project['status_label'] ?? ''); ?></span>
         <?php if (!empty($project['description'])): ?>
-        <p class="text-body-secondary line-clamp-2 mb-4"><?php echo htmlspecialchars($project['description']); ?></p>
+        <p class="text-body-secondary line-clamp-2 mb-4"><?php echo h($project['description']); ?></p>
         <?php endif; ?>
         <?php if (!empty($project['start_date'])): ?>
         <div class="d-flex align-items-center mt-4">
-          <p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo htmlspecialchars($project['start_date']); ?></span></p>
+          <p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h($project['start_date']); ?></span></p>
         </div>
         <?php endif; ?>
         <?php if (!empty($project['complete_date'])): ?>
         <div class="d-flex align-items-center mt-2">
-          <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo htmlspecialchars($project['complete_date']); ?></span></p>
+          <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h($project['complete_date']); ?></span></p>
         </div>
         <?php endif; ?>
       </div>

@@ -30,7 +30,7 @@ require '../../includes/html_header.php';
   <?php require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
-    <h2 class="mb-4">Project: <?php echo htmlspecialchars($project['name'] ?? ''); ?></h2>
+    <h2 class="mb-4">Project: <?php echo h($project['name'] ?? ''); ?></h2>
 
     <div class="card mb-4">
       <div class="card-header"><h5 class="mb-0">Upload Files</h5></div>
@@ -51,9 +51,9 @@ require '../../includes/html_header.php';
             <tbody>
               <?php foreach ($files as $f): ?>
               <tr>
-                <td><a href="<?php echo htmlspecialchars($f['file_path']); ?>"><?php echo htmlspecialchars($f['file_name']); ?></a></td>
-                <td><?php echo htmlspecialchars($f['file_size']); ?></td>
-                <td><?php echo htmlspecialchars($f['file_type']); ?></td>
+                <td><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></td>
+                <td><?php echo h($f['file_size']); ?></td>
+                <td><?php echo h($f['file_type']); ?></td>
               </tr>
               <?php endforeach; ?>
             </tbody>
@@ -77,8 +77,8 @@ require '../../includes/html_header.php';
         <ul class="list-group mt-3">
           <?php foreach ($notes as $n): ?>
           <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div><?php echo nl2br(htmlspecialchars($n['note_text'])); ?></div>
-            <small class="text-muted ms-2"><?php echo htmlspecialchars($n['date_created']); ?></small>
+            <div><?php echo nl2br(h($n['note_text'])); ?></div>
+            <small class="text-muted ms-2"><?php echo h($n['date_created']); ?></small>
           </li>
           <?php endforeach; ?>
         </ul>

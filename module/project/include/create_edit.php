@@ -16,7 +16,7 @@
           <div class="form-floating">
             <select class="form-select" id="projectStatus" name="status">
               <?php foreach ($statusMap as $s): ?>
-                <option value="<?= htmlspecialchars($s['id']); ?>"><?= htmlspecialchars($s['label']); ?></option>
+                <option value="<?= h($s['id']); ?>"><?= h($s['label']); ?></option>
               <?php endforeach; ?>
             </select>
             <label for="projectStatus">Status</label>
@@ -35,7 +35,7 @@
             <select class="form-select" id="agencySelect" name="agency_id">
               <option value="">Select agency</option>
               <?php foreach ($agencies as $agency): ?>
-                <option value="<?= htmlspecialchars($agency['id']); ?>"><?= htmlspecialchars($agency['name']); ?></option>
+                <option value="<?= h($agency['id']); ?>"><?= h($agency['name']); ?></option>
               <?php endforeach; ?>
             </select>
             <label for="agencySelect">Agency</label>
@@ -46,7 +46,7 @@
             <select class="form-select" id="divisionSelect" name="division_id">
               <option value="">Select division</option>
               <?php foreach ($divisions as $division): ?>
-                <option value="<?= htmlspecialchars($division['id']); ?>"><?= htmlspecialchars($division['name']); ?></option>
+                <option value="<?= h($division['id']); ?>"><?= h($division['name']); ?></option>
               <?php endforeach; ?>
             </select>
             <label for="divisionSelect">Division</label>
