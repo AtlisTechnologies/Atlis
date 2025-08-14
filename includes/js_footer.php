@@ -21,6 +21,7 @@
 
     <!-- Project-specific JS (if any) -->
     <script src="<?php echo getURLDir(); ?>assets/js/projectmanagement-dashboard.js"></script>
+    <script src="<?php echo getURLDir(); ?>assets/js/project-details.js"></script>
 
     <!-- FontAwesome (for dynamic icon loading) -->
     <script src="<?php echo getURLDir(); ?>vendors/fontawesome/all.min.js"></script>
