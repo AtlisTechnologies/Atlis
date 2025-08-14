@@ -11,6 +11,8 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($action === 'create') {
   require_permission('project', 'create');
   $statusMap = get_lookup_items($pdo, 'PROJECT_STATUS');
+  $agencies = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   require '../../includes/html_header.php';
   ?>
   <main class="main" id="top">
