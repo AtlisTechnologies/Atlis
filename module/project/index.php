@@ -51,7 +51,7 @@ unset($project);
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $notesStmt = $pdo->prepare('SELECT n.id, n.note_text, n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.person_id = p.id WHERE n.project_id = :id ORDER BY n.date_created DESC');
+      $notesStmt = $pdo->prepare('SELECT n.id, n.note_text, n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
