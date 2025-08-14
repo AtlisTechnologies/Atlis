@@ -46,10 +46,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 $stmt=$pdo->prepare('SELECT * FROM lookup_list_item_attributes WHERE item_id=:item_id');
 $stmt->execute([':item_id'=>$item_id]);
 $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
-$attrCodes = $pdo->query(
-    'SELECT DISTINCT attr_code FROM lookup_list_item_attributes ORDER BY attr_code'
-)->fetchAll(PDO::FETCH_COLUMN);
-$selectedCode = $_POST['attr_code'] ?? '';
+$attrItems = get_lookup_items($pdo, 'LOOKUP_LIST_ITEM_ATTRIBUTES');
+$selectedAttrCode = $_POST['attr_code'] ?? '';
 ?>
 <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
 <?= flash_message($error, 'danger'); ?>
@@ -59,8 +57,8 @@ $selectedCode = $_POST['attr_code'] ?? '';
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
   <div class="col-md-4">
     <select class="form-select" name="attr_code" required>
-      <?php foreach ($attrCodes as $code): ?>
-        <option value="<?= htmlspecialchars($code); ?>" <?= $selectedCode === $code ? 'selected' : ''; ?>><?= htmlspecialchars($code); ?></option>
+      <?php foreach ($attrItems as $item): ?>
+        <option value="<?= htmlspecialchars($item['code']); ?>" <?= $selectedAttrCode === $item['code'] ? 'selected' : ''; ?>><?= htmlspecialchars($item['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
