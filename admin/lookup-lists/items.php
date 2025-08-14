@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $label=trim($_POST['label'] ?? '');
     $code=trim($_POST['code'] ?? '');
     $active_from=$_POST['active_from'] ?? date('Y-m-d');
-    $active_to=$_POST['active_to'] ?? null;
+    if(isset($_POST['active_to'])){ $active_to = $_POST['active_to']; }else{ $active_to = NULL; }
     if($label===''){$error='Label is required.';}
     if(!$error){
       if($item_id){
@@ -55,14 +55,14 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
-  <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" value="<?= htmlspecialchars($_POST['label'] ?? ''); ?>" required></div>
-  <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" value="<?= htmlspecialchars($_POST['code'] ?? ''); ?>"></div>
+  <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" required></div>
+  <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= htmlspecialchars($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
-  <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= htmlspecialchars($_POST['active_to'] ?? ''); ?>"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="active_to"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
   <div class="col-md-1"><a class="btn btn-secondary w-100" href="index.php">Back</a></div>
 </form>
-<div id="items" data-list='{"valueNames":["code","label"],"page":10,"pagination":true}'>
+<div id="items" data-list='{"valueNames":["code","label"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />

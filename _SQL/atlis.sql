@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2025 at 01:58 AM
+-- Generation Time: Aug 14, 2025 at 06:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -99,15 +99,7 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (25, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'create'),
 (26, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'read'),
 (27, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'update'),
-(28, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'delete'),
-(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'project', 'create'),
-(30, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'project', 'read'),
-(31, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'project', 'update'),
-(32, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'project', 'delete'),
-(33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'create'),
-(34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'read'),
-(35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'update'),
-(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'delete');
+(28, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'system_properties', 'delete');
 
 -- --------------------------------------------------------
 
@@ -136,9 +128,7 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (3, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:38', NULL, 'Manage Agency', 'Can manage agency records'),
 (4, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Organization', 'Can manage organization records'),
 (5, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:38', NULL, 'Manage Division', 'Can manage division records'),
-(7, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:32:16', NULL, 'Manage System Properties', 'Can manage system properties'),
-(8, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Manage Projects', 'Can manage project records'),
-(9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Manage Tasks', 'Can manage task records');
+(7, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:32:16', NULL, 'Manage System Properties', 'Can manage system properties');
 
 -- --------------------------------------------------------
 
@@ -211,23 +201,7 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (59, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 25),
 (60, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 28),
 (61, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 26),
-(62, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 27),
-(63, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 29),
-(64, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 30),
-(65, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 31),
-(66, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 32),
-(67, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 29),
-(68, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 30),
-(69, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 31),
-(70, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 32),
-(71, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 33),
-(72, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 34),
-(73, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 35),
-(74, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 36),
-(75, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 33),
-(76, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 34),
-(77, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 35),
-(78, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 1, 36);
+(62, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 27);
 
 -- --------------------------------------------------------
 
@@ -280,7 +254,42 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (1, 1, 1, '2025-08-13 16:43:57', '2025-08-13 16:43:57', NULL, 'lookup_lists', 8, 'UPDATE', 'Updated lookup list'),
 (2, 1, 1, '2025-08-13 16:44:21', '2025-08-13 16:44:21', NULL, 'lookup_lists', 9, 'UPDATE', 'Updated lookup list'),
 (3, 1, 1, '2025-08-13 16:44:53', '2025-08-13 16:44:53', NULL, 'lookup_lists', 8, 'UPDATE', 'Updated lookup list'),
-(4, 1, 1, '2025-08-13 16:45:03', '2025-08-13 16:45:03', NULL, 'lookup_lists', 9, 'UPDATE', 'Updated lookup list');
+(4, 1, 1, '2025-08-13 16:45:03', '2025-08-13 16:45:03', NULL, 'lookup_lists', 9, 'UPDATE', 'Updated lookup list'),
+(5, 1, 1, '2025-08-13 21:13:45', '2025-08-13 21:13:45', NULL, 'lookup_list_item_attributes', 2, 'CREATE', 'Created item attribute'),
+(6, 1, 1, '2025-08-13 21:37:35', '2025-08-13 21:37:35', NULL, 'lookup_list_item_attributes', 3, 'CREATE', 'Created item attribute'),
+(7, 1, 1, '2025-08-13 21:37:48', '2025-08-13 21:37:48', NULL, 'lookup_list_item_attributes', 4, 'CREATE', 'Created item attribute'),
+(8, 1, 1, '2025-08-13 21:38:05', '2025-08-13 21:38:05', NULL, 'lookup_list_item_attributes', 5, 'CREATE', 'Created item attribute'),
+(9, 1, 1, '2025-08-13 21:38:13', '2025-08-13 21:38:13', NULL, 'lookup_list_item_attributes', 6, 'CREATE', 'Created item attribute'),
+(10, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 'lookup_list_item_attributes', 7, 'CREATE', 'Created item attribute'),
+(11, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 'lookup_list_item_attributes', 8, 'CREATE', 'Created item attribute'),
+(12, 1, 1, '2025-08-13 21:44:18', '2025-08-13 21:44:18', NULL, 'lookup_list_item_attributes', 9, 'CREATE', 'Created item attribute'),
+(13, 1, 1, '2025-08-13 21:46:02', '2025-08-13 21:46:02', NULL, 'lookup_list_item_attributes', 9, 'DELETE', 'Deleted item attribute'),
+(14, 1, 1, '2025-08-13 22:08:42', '2025-08-13 22:08:42', NULL, 'lookup_lists', 10, 'CREATE', 'Created lookup list'),
+(15, 1, 1, '2025-08-13 22:09:01', '2025-08-13 22:09:01', NULL, 'lookup_list_items', 33, 'CREATE', 'Created lookup list item'),
+(16, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 'lookup_list_item_attributes', 10, 'CREATE', 'Created item attribute'),
+(17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 'lookup_list_item_attributes', 17, 'CREATE', 'Created item attribute'),
+(18, 1, 1, '2025-08-13 22:20:15', '2025-08-13 22:20:15', NULL, 'lookup_list_item_attributes', 18, 'CREATE', 'Created item attribute'),
+(19, 1, 1, '2025-08-13 22:20:22', '2025-08-13 22:20:22', NULL, 'lookup_list_item_attributes', 19, 'CREATE', 'Created item attribute'),
+(20, 1, 1, '2025-08-13 22:28:51', '2025-08-13 22:28:51', NULL, 'lookup_lists', 12, 'CREATE', 'Created lookup list'),
+(21, 1, 1, '2025-08-13 22:29:14', '2025-08-13 22:29:14', NULL, 'lookup_list_items', 40, 'CREATE', 'Created lookup list item'),
+(22, 1, 1, '2025-08-13 22:30:05', '2025-08-13 22:30:05', NULL, 'lookup_list_items', 36, 'DELETE', 'Deleted lookup list item'),
+(23, 1, 1, '2025-08-13 22:30:08', '2025-08-13 22:30:08', NULL, 'lookup_list_items', 38, 'DELETE', 'Deleted lookup list item'),
+(24, 1, 1, '2025-08-13 22:30:09', '2025-08-13 22:30:09', NULL, 'lookup_list_items', 37, 'DELETE', 'Deleted lookup list item'),
+(25, 1, 1, '2025-08-13 22:30:09', '2025-08-13 22:30:09', NULL, 'lookup_list_items', 35, 'DELETE', 'Deleted lookup list item'),
+(26, 1, 1, '2025-08-13 22:30:10', '2025-08-13 22:30:10', NULL, 'lookup_list_items', 39, 'DELETE', 'Deleted lookup list item'),
+(27, 1, 1, '2025-08-13 22:30:49', '2025-08-13 22:30:49', NULL, 'lookup_list_item_attributes', 20, 'CREATE', 'Created item attribute'),
+(28, 1, 1, '2025-08-13 22:31:01', '2025-08-13 22:31:01', NULL, 'lookup_list_items', 40, 'DELETE', 'Deleted lookup list item'),
+(29, 1, 1, '2025-08-13 22:31:17', '2025-08-13 22:31:17', NULL, 'lookup_lists', 11, 'DELETE', 'Deleted lookup list'),
+(30, 1, 1, '2025-08-13 22:31:42', '2025-08-13 22:31:42', NULL, 'lookup_list_items', 41, 'CREATE', 'Created lookup list item'),
+(31, 1, 1, '2025-08-13 22:36:04', '2025-08-13 22:36:04', NULL, 'lookup_list_items', 42, 'CREATE', 'Created lookup list item'),
+(32, 1, 1, '2025-08-13 22:36:34', '2025-08-13 22:36:34', NULL, 'lookup_list_item_attributes', 21, 'CREATE', 'Created item attribute'),
+(33, 1, 1, '2025-08-13 22:36:48', '2025-08-13 22:36:48', NULL, 'lookup_list_item_attributes', 22, 'CREATE', 'Created item attribute'),
+(34, 1, 1, '2025-08-13 22:38:51', '2025-08-13 22:38:51', NULL, 'lookup_list_items', 43, 'CREATE', 'Created lookup list item'),
+(35, 1, 1, '2025-08-13 22:41:14', '2025-08-13 22:41:14', NULL, 'lookup_list_items', 44, 'CREATE', 'Created lookup list item'),
+(36, 1, 1, '2025-08-13 22:42:01', '2025-08-13 22:42:01', NULL, 'lookup_list_items', 45, 'CREATE', 'Created lookup list item'),
+(37, 1, 1, '2025-08-13 22:45:22', '2025-08-13 22:45:22', NULL, 'lookup_list_items', 46, 'CREATE', 'Created lookup list item'),
+(38, 1, 1, '2025-08-13 22:46:17', '2025-08-13 22:46:17', NULL, 'lookup_list_items', 47, 'CREATE', 'Created lookup list item'),
+(39, 1, 1, '2025-08-13 22:46:34', '2025-08-13 22:46:34', NULL, 'lookup_list_items', 48, 'CREATE', 'Created lookup list item');
 
 -- --------------------------------------------------------
 
@@ -312,9 +321,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', ''),
 (8, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:58:01', NULL, 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
 (9, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:57:58', NULL, 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties'),
-(10, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'PROJECT_STATUS', 'Status values for projects'),
-(11, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_STATUS', 'Status values for tasks'),
-(12, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_PRIORITY', 'Priority levels for tasks');
+(10, 1, 1, '2025-08-13 22:08:42', '2025-08-13 22:08:42', '', 'PROJECT_STATUS', ''),
+(12, 1, 1, '2025-08-13 22:28:51', '2025-08-13 22:28:51', '', 'TASK_STATUS', '');
 
 -- --------------------------------------------------------
 
@@ -356,18 +364,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'Pending', 'PENDING', '2025-08-13', NULL),
 (27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'Pending', 'PENDING', '2025-08-13', NULL),
 (28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'Pending', 'PENDING', '2025-08-13', NULL),
-(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Not Started', 'NOT_STARTED', '2025-08-14', NULL),
-(30, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'In Progress', 'IN_PROGRESS', '2025-08-14', NULL),
-(31, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
-(32, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Completed', 'COMPLETED', '2025-08-14', NULL),
-(33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Not Started', 'NOT_STARTED', '2025-08-14', NULL),
-(34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'In Progress', 'IN_PROGRESS', '2025-08-14', NULL),
-(35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
-(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Completed', 'COMPLETED', '2025-08-14', NULL),
-(37, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'Low', 'LOW', '2025-08-14', NULL),
-(38, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'Medium', 'MEDIUM', '2025-08-14', NULL),
-(39, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'High', 'HIGH', '2025-08-14', NULL),
-(40, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'Critical', 'CRITICAL', '2025-08-14', NULL);
+(33, 1, 1, '2025-08-13 22:09:01', '2025-08-13 22:09:35', NULL, 10, 'Active', 'ACTIVE', '2025-08-13', NULL),
+(34, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 10, 'Admin', 'Admin', '2025-08-13', NULL),
+(41, 1, 1, '2025-08-13 22:31:42', '2025-08-13 22:31:50', NULL, 12, 'Active', 'ACTIVE', '2025-08-13', NULL),
+(42, 1, 1, '2025-08-13 22:36:04', '2025-08-13 22:36:14', NULL, 12, 'Inactive', 'INACTIVE', '2025-08-13', NULL);
 
 -- --------------------------------------------------------
 
@@ -386,6 +386,31 @@ CREATE TABLE `lookup_list_item_attributes` (
   `attr_code` varchar(100) NOT NULL,
   `attr_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lookup_list_item_attributes`
+--
+
+INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `item_id`, `attr_code`, `attr_value`) VALUES
+(2, 1, 1, '2025-08-13 21:13:45', '2025-08-13 21:13:45', NULL, 7, 'COLOR-CLASS', 'success'),
+(3, 1, 1, '2025-08-13 21:37:35', '2025-08-13 21:37:35', NULL, 1, 'COLOR-CLASS', 'success'),
+(4, 1, 1, '2025-08-13 21:37:48', '2025-08-13 21:37:48', NULL, 5, 'COLOR-CLASS', 'success'),
+(5, 1, 1, '2025-08-13 21:38:05', '2025-08-13 21:38:05', NULL, 2, 'COLOR-CLASS', 'danger'),
+(6, 1, 1, '2025-08-13 21:38:13', '2025-08-13 21:38:13', NULL, 13, 'COLOR-CLASS', 'warning'),
+(7, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 9, 'COLOR-CLASS', 'atlis'),
+(8, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 10, 'COLOR-CLASS', 'primary'),
+(10, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 33, 'COLOR-CLASS', 'success'),
+(11, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 29, 'COLOR-CLASS', 'danger'),
+(12, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 30, 'COLOR-CLASS', 'info'),
+(13, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 31, 'COLOR-CLASS', 'warning'),
+(14, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 32, 'COLOR-CLASS', 'success'),
+(15, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 33, 'COLOR-CLASS', 'primary'),
+(16, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 34, 'COLOR-CLASS', 'purple'),
+(17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 3, 'COLOR-CLASS', 'success'),
+(18, 1, 1, '2025-08-13 22:20:15', '2025-08-13 22:20:15', NULL, 4, 'COLOR-CLASS', 'danger'),
+(19, 1, 1, '2025-08-13 22:20:22', '2025-08-13 22:20:22', NULL, 28, 'COLOR-CLASS', 'warning'),
+(21, 1, 1, '2025-08-13 22:36:34', '2025-08-13 22:36:34', NULL, 41, 'COLOR-CLASS', 'success'),
+(22, 1, 1, '2025-08-13 22:36:48', '2025-08-13 22:36:48', NULL, 42, 'COLOR-CLASS', 'danger');
 
 -- --------------------------------------------------------
 
@@ -472,6 +497,165 @@ CREATE TABLE `module_organization` (
 INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`) VALUES
 (1, 1, 1, '2025-08-06 16:27:19', '2025-08-08 22:19:06', NULL, 'Atlis Technologies LLC', 1, '1'),
 (2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects`
+--
+
+CREATE TABLE `module_projects` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) DEFAULT NULL,
+  `division_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `requirements` text DEFAULT NULL,
+  `specifications` text DEFAULT NULL,
+  `status` varchar(11) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `complete_date` date DEFAULT NULL,
+  `completed` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects`
+--
+
+INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `start_date`, `complete_date`, `completed`) VALUES
+(1, 1, 1, '2025-08-13 22:07:55', '2025-08-13 22:11:38', NULL, 1, 1, 'Test', 'test', 'test', 'test', '1', NULL, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_files`
+--
+
+CREATE TABLE `module_projects_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_notes`
+--
+
+CREATE TABLE `module_projects_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `note_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks`
+--
+
+CREATE TABLE `module_tasks` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `agency_id` int(11) DEFAULT NULL,
+  `division_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `requirements` text DEFAULT NULL,
+  `specifications` text DEFAULT NULL,
+  `status` varchar(11) DEFAULT NULL,
+  `priority` varchar(11) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `complete_date` date DEFAULT NULL,
+  `completed` tinyint(1) DEFAULT 0,
+  `progress_percent` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_tasks`
+--
+
+INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `progress_percent`) VALUES
+(1, 1, 1, '2025-08-13 22:28:31', '2025-08-13 22:28:31', NULL, 1, 1, 1, 'Test Task', 'Test Task', 'Test Task', 'Test Task', '1', '1', '2025-08-13', NULL, NULL, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_files`
+--
+
+CREATE TABLE `module_tasks_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_notes`
+--
+
+CREATE TABLE `module_tasks_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `note_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_task_assignments`
+--
+
+CREATE TABLE `module_task_assignments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `assigned_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -606,180 +790,6 @@ INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (1, 1, 1, '2025-08-08 21:31:59', '2025-08-08 21:32:02', NULL, '130195', '2025-08-08 21:41:59', 1),
 (2, 1, 1, '2025-08-12 15:42:05', '2025-08-12 15:42:08', NULL, '810773', '2025-08-12 15:52:05', 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `module_projects`
---
-
-CREATE TABLE `module_projects` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `agency_id` int(11) DEFAULT NULL,
-  `division_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `requirements` text DEFAULT NULL,
-  `specifications` text DEFAULT NULL,
-  `status` varchar(11) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `complete_date` date DEFAULT NULL,
-  `completed` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_projects`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_projects_files`
---
-
-CREATE TABLE `module_projects_files` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `project_id` int(11) NOT NULL,
-  `file_name` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_projects_files`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_projects_notes`
---
-
-CREATE TABLE `module_projects_notes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `project_id` int(11) NOT NULL,
-  `note_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_projects_notes`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_tasks`
---
-
-CREATE TABLE `module_tasks` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL,
-  `agency_id` int(11) DEFAULT NULL,
-  `division_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `requirements` text DEFAULT NULL,
-  `specifications` text DEFAULT NULL,
-  `status` varchar(11) DEFAULT NULL,
-  `priority` varchar(11) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `due_date` date DEFAULT NULL,
-  `complete_date` date DEFAULT NULL,
-  `completed` tinyint(1) DEFAULT 0,
-  `progress_percent` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_tasks`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_tasks_files`
---
-
-CREATE TABLE `module_tasks_files` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `file_name` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_tasks_files`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_tasks_notes`
---
-
-CREATE TABLE `module_tasks_notes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `note_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_tasks_notes`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_task_assignments`
---
-
-CREATE TABLE `module_task_assignments` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `assigned_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_task_assignments`
---
-
-
 --
 -- Indexes for dumped tables
 --
@@ -899,6 +909,76 @@ ALTER TABLE `module_organization`
   ADD KEY `fk_module_organization_status` (`status`);
 
 --
+-- Indexes for table `module_projects`
+--
+ALTER TABLE `module_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_agency_id` (`agency_id`),
+  ADD KEY `fk_module_projects_division_id` (`division_id`),
+  ADD KEY `fk_module_projects_status` (`status`);
+
+--
+-- Indexes for table `module_projects_files`
+--
+ALTER TABLE `module_projects_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_files_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_files_project_id` (`project_id`);
+
+--
+-- Indexes for table `module_projects_notes`
+--
+ALTER TABLE `module_projects_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_notes_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_notes_project_id` (`project_id`);
+
+--
+-- Indexes for table `module_tasks`
+--
+ALTER TABLE `module_tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_project_id` (`project_id`),
+  ADD KEY `fk_module_tasks_agency_id` (`agency_id`),
+  ADD KEY `fk_module_tasks_division_id` (`division_id`),
+  ADD KEY `fk_module_tasks_status` (`status`),
+  ADD KEY `fk_module_tasks_priority` (`priority`);
+
+--
+-- Indexes for table `module_tasks_files`
+--
+ALTER TABLE `module_tasks_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_files_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_files_task_id` (`task_id`);
+
+--
+-- Indexes for table `module_tasks_notes`
+--
+ALTER TABLE `module_tasks_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_notes_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_notes_task_id` (`task_id`);
+
+--
+-- Indexes for table `module_task_assignments`
+--
+ALTER TABLE `module_task_assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_task_assignments_user_id` (`user_id`),
+  ADD KEY `fk_module_task_assignments_user_updated` (`user_updated`),
+  ADD KEY `fk_module_task_assignments_task_id` (`task_id`),
+  ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
+
+--
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
@@ -943,62 +1023,6 @@ ALTER TABLE `users_2fa`
   ADD KEY `fk_users_2fa_user_id` (`user_id`),
   ADD KEY `fk_users_2fa_user_updated` (`user_updated`);
 
--- Indexes for table `module_projects`
-ALTER TABLE `module_projects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_agency_id` (`agency_id`),
-  ADD KEY `fk_module_projects_division_id` (`division_id`),
-  ADD KEY `fk_module_projects_status` (`status`);
-
--- Indexes for table `module_projects_files`
-ALTER TABLE `module_projects_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_files_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_files_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_files_project_id` (`project_id`);
-
--- Indexes for table `module_projects_notes`
-ALTER TABLE `module_projects_notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_notes_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_notes_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_notes_project_id` (`project_id`);
-
--- Indexes for table `module_tasks`
-ALTER TABLE `module_tasks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_tasks_user_id` (`user_id`),
-  ADD KEY `fk_module_tasks_user_updated` (`user_updated`),
-  ADD KEY `fk_module_tasks_project_id` (`project_id`),
-  ADD KEY `fk_module_tasks_agency_id` (`agency_id`),
-  ADD KEY `fk_module_tasks_division_id` (`division_id`),
-  ADD KEY `fk_module_tasks_status` (`status`),
-  ADD KEY `fk_module_tasks_priority` (`priority`);
-
--- Indexes for table `module_tasks_files`
-ALTER TABLE `module_tasks_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_tasks_files_user_id` (`user_id`),
-  ADD KEY `fk_module_tasks_files_user_updated` (`user_updated`),
-  ADD KEY `fk_module_tasks_files_task_id` (`task_id`);
-
--- Indexes for table `module_tasks_notes`
-ALTER TABLE `module_tasks_notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_tasks_notes_user_id` (`user_id`),
-  ADD KEY `fk_module_tasks_notes_user_updated` (`user_updated`),
-  ADD KEY `fk_module_tasks_notes_task_id` (`task_id`);
-
--- Indexes for table `module_task_assignments`
-ALTER TABLE `module_task_assignments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_task_assignments_user_id` (`user_id`),
-  ADD KEY `fk_module_task_assignments_user_updated` (`user_updated`),
-  ADD KEY `fk_module_task_assignments_task_id` (`task_id`),
-  ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
-
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -1013,19 +1037,19 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -1037,7 +1061,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1049,13 +1073,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -1074,6 +1098,48 @@ ALTER TABLE `module_division`
 --
 ALTER TABLE `module_organization`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `module_projects`
+--
+ALTER TABLE `module_projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_projects_files`
+--
+ALTER TABLE `module_projects_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_projects_notes`
+--
+ALTER TABLE `module_projects_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_tasks`
+--
+ALTER TABLE `module_tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_files`
+--
+ALTER TABLE `module_tasks_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_notes`
+--
+ALTER TABLE `module_tasks_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_task_assignments`
+--
+ALTER TABLE `module_task_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -1104,34 +1170,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users_2fa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
--- AUTO_INCREMENT for table `module_projects`
-ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_projects_files`
-ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_projects_notes`
-ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_tasks`
-ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_tasks_files`
-ALTER TABLE `module_tasks_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_tasks_notes`
-ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
--- AUTO_INCREMENT for table `module_task_assignments`
-ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
