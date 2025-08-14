@@ -52,7 +52,16 @@ $stmt=$pdo->prepare('SELECT id,label,code,active_from,active_to FROM lookup_list
 $stmt->execute([':list_id'=>$list_id]);
 $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<h2 class="mb-4">Items for <?= htmlspecialchars($list['name']); ?></h2>
+
+<div class="row">
+  <div class="col-12">
+    <h2 class="mb-4">Items for <?= htmlspecialchars($list['name']); ?>
+      <br />
+      <a class="btn btn-secondary" href="index.php">Back</a>
+    </h2>
+  </div>
+</div>
+
 <?= flash_message($error, 'danger'); ?>
 <?= flash_message($message); ?>
 <form method="post" class="row g-2 mb-3">
@@ -63,7 +72,6 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= htmlspecialchars($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_to"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
-  <div class="col-md-1"><a class="btn btn-secondary w-100" href="index.php">Back</a></div>
 </form>
 <div id="items" data-list='{"valueNames":["code","label"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">

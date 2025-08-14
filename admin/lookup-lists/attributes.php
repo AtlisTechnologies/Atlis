@@ -3,6 +3,7 @@ require '../admin_header.php';
 
 $token = generate_csrf_token();
 $item_id = (int)($_GET['item_id'] ?? 0);
+$list_id = (int)($_GET['list_id'] ?? 0);
 $message = $error = '';
 
 $stmt = $pdo->prepare('SELECT i.*, l.name AS list_name FROM lookup_list_items i JOIN lookup_lists l ON i.list_id = l.id WHERE i.id = :id AND i.active_from <= CURDATE() AND (i.active_to IS NULL OR i.active_to >= CURDATE())');
@@ -49,7 +50,16 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 $attrItems = get_lookup_items($pdo, 'LOOKUP_LIST_ITEM_ATTRIBUTES');
 $selectedAttrCode = $_POST['attr_code'] ?? '';
 ?>
-<h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
+
+<div class="row">
+  <div class="col-12">
+    <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?>
+      <br />
+      <a class="btn btn-secondary" href="index.php">Back</a>
+    </h2>
+  </div>
+</div>
+
 <?= flash_message($error, 'danger'); ?>
 <?= flash_message($message); ?>
 <form method="post" class="row g-2 mb-3">
@@ -64,7 +74,6 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
   </div>
     <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
-  <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
 </form>
   <div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
