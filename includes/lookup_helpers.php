@@ -14,7 +14,7 @@ function get_lookup_items(PDO $pdo, int|string $list): array {
     $param = is_numeric($list) ? ':list_id' : ':list_name';
     $where = is_numeric($list) ? 'li.list_id = :list_id' : 'l.name = :list_name';
 
-    $sql = "SELECT li.id, li.label, li.code,
+    $sql = "SELECT li.id, li.label, li.code, li.code AS value,
                    COALESCE(attr.attr_value, 'secondary') AS color_class
             FROM lookup_list_items li
             JOIN lookup_lists l ON li.list_id = l.id

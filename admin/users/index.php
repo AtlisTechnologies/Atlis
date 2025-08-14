@@ -7,15 +7,16 @@ $_SESSION['csrf_token'] = $token;
 $message = '';
 
 $typeItems   = get_lookup_items($pdo, 'USER_TYPE');
-$typeOptions = array_column($typeItems, 'label', 'value');
-$typeColors  = array_column($typeItems, 'color_class', 'value');
+$typeOptions = array_column($typeItems, 'label', 'code');
+$typeColors  = array_column($typeItems, 'color_class', 'code');
 
 $statusItems   = get_lookup_items($pdo, 'USER_STATUS');
-$statusOptions = array_column($statusItems, 'label', 'value');
-$statusColors  = array_column($statusItems, 'color_class', 'value');
+$statusOptions = array_column($statusItems, 'label', 'code');
+$statusColors  = array_column($statusItems, 'color_class', 'code');
 
-$roleStmt = $pdo->query('SELECT name FROM admin_roles ORDER BY name');
-$roleOptions = $roleStmt->fetchAll(PDO::FETCH_COLUMN);
+$roleItems   = get_lookup_items($pdo, 'ADMIN_ROLE_BADGES');
+$roleOptions = array_column($roleItems, 'label', 'code');
+$roleColors  = array_column($roleItems, 'color_class', 'code');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
@@ -54,8 +55,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="col-auto">
       <select class="form-select form-select-sm" id="filterRole">
         <option value="">All Roles</option>
-        <?php foreach($roleOptions as $rName): ?>
-          <option value="<?= htmlspecialchars($rName); ?>"><?= htmlspecialchars($rName); ?></option>
+        <?php foreach($roleOptions as $code => $label): ?>
+          <option value="<?= htmlspecialchars($label); ?>"><?= htmlspecialchars($label); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -99,9 +100,9 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="name"><?= htmlspecialchars(trim(($u['first_name'] ?? '').' '.($u['last_name'] ?? ''))); ?></td>
             <td class="roles">
               <?php $roleNames = $u['roles'] ? explode(',', $u['roles']) : []; ?>
-              <?php foreach($roleNames as $role): ?>
-                <span class="badge badge-phoenix fs-10 badge-phoenix-secondary me-1">
-                  <span class="badge-label"><?= htmlspecialchars(trim($role)); ?></span>
+              <?php foreach($roleNames as $role): $rTrim = trim($role); $rClass = $roleColors[$rTrim] ?? 'secondary'; ?>
+                <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?> me-1">
+                  <span class="badge-label"><?= htmlspecialchars($rTrim); ?></span>
                 </span>
               <?php endforeach; ?>
             </td>

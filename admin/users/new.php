@@ -14,12 +14,15 @@ $message = $error = '';
 $btnClass = 'btn-success';
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$roleColors = array_column(get_lookup_items($pdo, 'ADMIN_ROLE_BADGES'), 'color_class', 'code');
 
 $typeItems   = get_lookup_items($pdo, 'USER_TYPE');
-$typeOptions = array_column($typeItems, 'label', 'value');
+$typeOptions = array_column($typeItems, 'label', 'code');
+$typeColors  = array_column($typeItems, 'color_class', 'code');
 
 $statusItems   = get_lookup_items($pdo, 'USER_STATUS');
-$statusOptions = array_column($statusItems, 'label', 'value');
+$statusOptions = array_column($statusItems, 'label', 'code');
+$statusColors  = array_column($statusItems, 'color_class', 'code');
 
 $type = array_key_first($typeOptions) ?? $type;
 $status = (int)(array_key_first($statusOptions) ?? $status);
