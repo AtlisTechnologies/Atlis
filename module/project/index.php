@@ -49,9 +49,20 @@ unset($project);
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_projects_notes WHERE project_id = :id ORDER BY date_created DESC');
+      $notesStmt = $pdo->prepare('SELECT n.id, n.note_text, n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.person_id = p.id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $taskStatusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+      $tasksStmt = $pdo->prepare('SELECT id, name, status, due_date, completed FROM module_tasks WHERE project_id = :id ORDER BY due_date');
+      $tasksStmt->execute([':id' => $project_id]);
+      $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($tasks as &$task) {
+        $status = $taskStatusMap[$task['status']] ?? null;
+        $task['status_label'] = $status['label'] ?? null;
+        $task['status_color'] = $status['color_class'] ?? 'secondary';
+      }
+      unset($task);
     }
   }
 
