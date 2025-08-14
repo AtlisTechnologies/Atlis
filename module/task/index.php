@@ -88,7 +88,26 @@ foreach ($tasks as &$task) {
 }
 unset($task);
 
-if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
+if ($action === 'details') {
+  $task_id = (int)($_GET['id'] ?? 0);
+  $stmt = $pdo->prepare('SELECT id, name, description, status, priority FROM module_tasks WHERE id = :id');
+  $stmt->execute([':id' => $task_id]);
+  $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($current_task) {
+    $assignStmt = $pdo->prepare('SELECT u.id, u.email FROM module_task_assignments ta JOIN users u ON ta.assigned_user_id = u.id WHERE ta.task_id = :id');
+    $assignStmt->execute([':id' => $task_id]);
+    $assignments = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_tasks_files WHERE task_id = :id ORDER BY date_created DESC');
+    $filesStmt->execute([':id' => $task_id]);
+    $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_tasks_notes WHERE task_id = :id ORDER BY date_created DESC');
+    $notesStmt->execute([':id' => $task_id]);
+    $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+} elseif ($action === 'create-edit' && isset($_GET['id'])) {
   $task_id = (int)($_GET['id'] ?? 0);
   $stmt = $pdo->prepare('SELECT id, name, description, status, priority FROM module_tasks WHERE id = :id');
   $stmt->execute([':id' => $task_id]);

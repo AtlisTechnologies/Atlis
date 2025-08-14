@@ -28,5 +28,5 @@ if($id && isset($_FILES['file'])){
     admin_audit_log($pdo,$this_user_id,'module_tasks_files',$fileId,'UPLOAD','',json_encode(['file'=>$baseName]));
   }
 }
-header('Location: ../details_view.php?id=' . $id);
+header('Location: ../index.php?action=details&id=' . $id);
 exit;
