@@ -2,12 +2,12 @@
 require '../admin_header.php';
 
 $token = generate_csrf_token();
-$stmt = $pdo->query('SELECT id, name, description, memo FROM lookup_lists ORDER BY id DESC');
+$stmt = $pdo->query('SELECT l.id, l.name, l.description, l.memo, COUNT(li.id) AS item_count FROM lookup_lists l LEFT JOIN lookup_list_items li ON li.list_id = l.id GROUP BY l.id ORDER BY l.id DESC');
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>
 <button id="addListBtn" class="btn btn-sm btn-success mb-3">Add Lookup List</button>
-<div id="lookup-lists" data-list='{"valueNames":["id","name","description"],"page":50,"pagination":true}'>
+<div id="lookup-lists" data-list='{"valueNames":["id","name","description","item-count"],"page":50,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -20,6 +20,7 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <th class="sort" data-sort="id">ID</th>
           <th class="sort" data-sort="name">Name</th>
           <th class="sort" data-sort="description">Description</th>
+          <th class="sort" data-sort="item-count">Item Count</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -27,11 +28,11 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach($lists as $l): ?>
           <tr data-id="<?= htmlspecialchars($l['id']); ?>">
             <td class="id"><?= htmlspecialchars($l['id']); ?></td>
-            <td class="name"><?= htmlspecialchars($l['name']); ?></td>
+            <td class="name"><a href="items.php?list_id=<?= $l['id']; ?>"><?= htmlspecialchars($l['name']); ?></a></td>
             <td class="description"><?= htmlspecialchars($l['description']); ?></td>
+            <td class="item-count"><?= (int)$l['item_count']; ?></td>
             <td>
-              <button class="btn btn-sm btn-warning edit-list" data-id="<?= $l['id']; ?>" data-name="<?= htmlspecialchars($l['name'], ENT_QUOTES); ?>" data-description="<?= htmlspecialchars($l['description'], ENT_QUOTES); ?>" data-memo="<?= htmlspecialchars($l['memo'], ENT_QUOTES); ?>">Edit</button>
-              <a class="btn btn-sm btn-info" href="items.php?list_id=<?= $l['id']; ?>">Items</a>
+              <button class="btn btn-sm btn-warning edit-list" data-id="<?= $l['id']; ?>" data-name="<?= htmlspecialchars($l['name'], ENT_QUOTES); ?>" data-description="<?= htmlspecialchars($l['description'], ENT_QUOTES); ?>" data-memo="<?= h($l['memo']); ?>">Edit</button>
               <button class="btn btn-sm btn-danger delete-list" data-id="<?= $l['id']; ?>">Delete</button>
             </td>
           </tr>
@@ -117,17 +118,17 @@ $(function(){
           var l = res.list;
           var row = $('#lookup-lists tbody tr').filter(function(){ return $(this).data('id') == l.id; });
           if(row.length){
-            row.find('.name').text(l.name);
+            row.find('.name a').text(l.name);
             row.find('.description').text(l.description);
             row.find('.edit-list').data('name', l.name).data('description', l.description).data('memo', memoVal);
           }else{
             var html = '<tr data-id="'+l.id+'">'
               +'<td class="id">'+l.id+'</td>'
-              +'<td class="name">'+l.name+'</td>'
+              +'<td class="name"><a href="items.php?list_id='+l.id+'">'+l.name+'</a></td>'
               +'<td class="description">'+l.description+'</td>'
+              +'<td class="item-count">0</td>'
               +'<td>'
               +'<button class="btn btn-sm btn-warning edit-list" data-id="'+l.id+'" data-name="'+l.name+'" data-description="'+l.description+'">Edit</button> '
-              +'<a class="btn btn-sm btn-info" href="items.php?list_id='+l.id+'">Items</a> '
               +'<button class="btn btn-sm btn-danger delete-list" data-id="'+l.id+'">Delete</button>'
               +'</td></tr>';
             var $new = $(html);
