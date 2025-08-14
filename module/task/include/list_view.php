@@ -1,6 +1,9 @@
 <?php
 // List view of tasks
 ?>
+<div class="d-flex justify-content-end mb-3">
+  <a href="index.php?action=create" class="btn btn-primary btn-sm">New Task</a>
+ </div>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -8,6 +11,7 @@
         <th>Name</th>
         <th>Status</th>
         <th>Priority</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +24,7 @@
             </span>
           </td>
           <td><?php echo htmlspecialchars($task['priority_label'] ?? ''); ?></td>
+          <td><a href="index.php?action=edit&amp;id=<?php echo (int)($task['id'] ?? 0); ?>" class="btn btn-sm btn-link">Edit</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

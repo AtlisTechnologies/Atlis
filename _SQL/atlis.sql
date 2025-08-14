@@ -392,14 +392,12 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'Pending', 'PENDING', '2025-08-13', NULL),
 (27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'Pending', 'PENDING', '2025-08-13', NULL),
 (28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'Pending', 'PENDING', '2025-08-13', NULL),
-(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Not Started', 'NOT_STARTED', '2025-08-14', NULL),
-(30, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'In Progress', 'IN_PROGRESS', '2025-08-14', NULL),
-(31, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
-(32, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Completed', 'COMPLETED', '2025-08-14', NULL),
-(33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Not Started', 'NOT_STARTED', '2025-08-14', NULL),
-(34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'In Progress', 'IN_PROGRESS', '2025-08-14', NULL),
-(35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
-(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Completed', 'COMPLETED', '2025-08-14', NULL),
+(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Active', 'ACTIVE', '2025-08-14', NULL),
+(30, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
+(31, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 10, 'Completed', 'COMPLETED', '2025-08-14', NULL),
+(32, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Active', 'ACTIVE', '2025-08-14', NULL),
+(33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'On Hold', 'ON_HOLD', '2025-08-14', NULL),
+(34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Completed', 'COMPLETED', '2025-08-14', NULL),
 (37, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'Low', 'LOW', '2025-08-14', NULL),
 (38, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'Medium', 'MEDIUM', '2025-08-14', NULL),
 (39, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 12, 'High', 'HIGH', '2025-08-14', NULL),
@@ -436,13 +434,12 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (6, 1, 1, '2025-08-13 21:38:13', '2025-08-13 21:38:13', NULL, 13, 'COLOR-CLASS', 'warning'),
 (7, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 9, 'COLOR-CLASS', 'atlis'),
 (8, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 10, 'COLOR-CLASS', 'primary'),
-(10, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 33, 'COLOR-CLASS', 'success'),
-(11, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 29, 'COLOR-CLASS', 'danger'),
-(12, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 30, 'COLOR-CLASS', 'info'),
-(13, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 31, 'COLOR-CLASS', 'warning'),
-(14, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 32, 'COLOR-CLASS', 'success'),
-(15, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 33, 'COLOR-CLASS', 'primary'),
-(16, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 34, 'COLOR-CLASS', 'purple'),
+(10, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 29, 'COLOR-CLASS', 'success'),
+(11, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 30, 'COLOR-CLASS', 'warning'),
+(12, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 31, 'COLOR-CLASS', 'primary'),
+(13, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 32, 'COLOR-CLASS', 'success'),
+(14, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 33, 'COLOR-CLASS', 'warning'),
+(15, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 34, 'COLOR-CLASS', 'primary'),
 (17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 3, 'COLOR-CLASS', 'success'),
 (18, 1, 1, '2025-08-13 22:20:15', '2025-08-13 22:20:15', NULL, 4, 'COLOR-CLASS', 'danger'),
 (19, 1, 1, '2025-08-13 22:20:22', '2025-08-13 22:20:22', NULL, 28, 'COLOR-CLASS', 'warning'),
@@ -1041,12 +1038,48 @@ ALTER TABLE `module_tasks_notes`
   ADD KEY `fk_module_tasks_notes_task_id` (`task_id`);
 
 -- Indexes for table `module_task_assignments`
+  ALTER TABLE `module_task_assignments`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `fk_module_task_assignments_user_id` (`user_id`),
+    ADD KEY `fk_module_task_assignments_user_updated` (`user_updated`),
+    ADD KEY `fk_module_task_assignments_task_id` (`task_id`),
+    ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
+
+-- Constraints for table `module_division`
+ALTER TABLE `module_division`
+  ADD CONSTRAINT `fk_module_division_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`);
+
+-- Constraints for table `module_projects`
+ALTER TABLE `module_projects`
+  ADD CONSTRAINT `fk_module_projects_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
+  ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`);
+
+-- Constraints for table `module_projects_files`
+ALTER TABLE `module_projects_files`
+  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+-- Constraints for table `module_projects_notes`
+ALTER TABLE `module_projects_notes`
+  ADD CONSTRAINT `fk_module_projects_notes_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+-- Constraints for table `module_tasks`
+ALTER TABLE `module_tasks`
+  ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_tasks_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
+  ADD CONSTRAINT `fk_module_tasks_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`);
+
+-- Constraints for table `module_tasks_files`
+ALTER TABLE `module_tasks_files`
+  ADD CONSTRAINT `fk_module_tasks_files_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+-- Constraints for table `module_tasks_notes`
+ALTER TABLE `module_tasks_notes`
+  ADD CONSTRAINT `fk_module_tasks_notes_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+-- Constraints for table `module_task_assignments`
 ALTER TABLE `module_task_assignments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_task_assignments_user_id` (`user_id`),
-  ADD KEY `fk_module_task_assignments_user_updated` (`user_updated`),
-  ADD KEY `fk_module_task_assignments_task_id` (`task_id`),
-  ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
+  ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`),
+  ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
