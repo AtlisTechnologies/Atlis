@@ -87,11 +87,11 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
       <tbody class="list">
         <?php foreach($items as $it): ?>
           <tr>
-            <td class="code"><?= htmlspecialchars($it['code']); ?></td>
-            <td class="label"><?= htmlspecialchars($it['label']); ?></td>
+            <td class="code"><?= h($it['code']); ?></td>
+            <td class="label"><?= h($it['label']); ?></td>
             <td><a class="btn btn-sm btn-info" href="attributes.php?item_id=<?= $it['id']; ?>&list_id=<?= $list_id; ?>">Attributes</a></td>
             <td>
-              <button class="btn btn-sm btn-warning" onclick="fillForm(<?= $it['id']; ?>,'<?= htmlspecialchars($it['code'],ENT_QUOTES); ?>','<?= htmlspecialchars($it['label'],ENT_QUOTES); ?>','<?= htmlspecialchars($it['active_from']); ?>','<?= htmlspecialchars($it['active_to']); ?>');return false;">Edit</button>
+              <button class="btn btn-sm btn-warning" onclick="fillForm(<?= $it['id']; ?>,'<?= h($it['code']); ?>','<?= h($it['label']); ?>','<?= h($it['active_from']); ?>','<?= h($it['active_to']); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $it['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
