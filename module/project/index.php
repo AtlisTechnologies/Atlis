@@ -1,8 +1,32 @@
 <?php
 require '../../includes/php_header.php';
-require_permission('project','read');
 
 $action = $_GET['action'] ?? 'card';
+
+if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+  require 'functions/create.php';
+  exit;
+}
+
+if ($action === 'create') {
+  require_permission('project', 'create');
+  $statusMap = get_lookup_items($pdo, 'PROJECT_STATUS');
+  require '../../includes/html_header.php';
+  ?>
+  <main class="main" id="top">
+    <?php require '../../includes/left_navigation.php'; ?>
+    <?php require '../../includes/navigation.php'; ?>
+    <div id="main_content" class="content">
+      <?php require 'include/create_edit.php'; ?>
+      <?php require '../../includes/html_footer.php'; ?>
+    </div>
+  </main>
+  <?php require '../../includes/js_footer.php'; ?>
+  <?php
+  exit;
+}
+
+require_permission('project','read');
 
 $statusMap = array_column(get_lookup_items($pdo, 'PROJECT_STATUS'), null, 'id');
 $stmt = $pdo->query('SELECT id, name, status FROM module_projects ORDER BY name');
