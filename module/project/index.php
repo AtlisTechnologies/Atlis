@@ -9,8 +9,8 @@ $stmt = $pdo->query('SELECT id, name, status FROM module_projects ORDER BY name'
 $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($projects as &$project) {
   $status = $statusMap[$project['status']] ?? null;
-  $project['status_label'] = $status['label'] ?? '';
-  $project['status_color'] = $status['color_class'] ?? '';
+  $project['status_label'] = $status['label'] ?? null;
+  $project['status_color'] = $status['color_class'] ?? 'secondary';
 }
 unset($project);
 

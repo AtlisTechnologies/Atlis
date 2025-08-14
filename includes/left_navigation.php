@@ -24,12 +24,12 @@
                       </div>
                     </a>
                   </li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/projects">
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/project">
                     <div class="d-flex align-items-center"><span class="nav-link-text">Projects</span>
                     </div>
                   </a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/tasks">
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/task">
                     <div class="d-flex align-items-center"><span class="nav-link-text">Tasks</span>
                     </div>
                   </a>
