@@ -17,10 +17,10 @@
     <tbody>
       <?php foreach ($projects as $proj): ?>
         <tr>
-          <td><?php echo htmlspecialchars($proj['name'] ?? ''); ?></td>
+          <td><?php echo h($proj['name'] ?? ''); ?></td>
           <td>
-            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo htmlspecialchars($proj['status_color'] ?? ''); ?>">
-              <span class="badge-label"><?php echo htmlspecialchars($proj['status_label'] ?? ''); ?></span>
+            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($proj['status_color'] ?? 'secondary'); ?>">
+              <span class="badge-label"><?php echo h($proj['status_label'] ?? ''); ?></span>
             </span>
           </td>
         </tr>

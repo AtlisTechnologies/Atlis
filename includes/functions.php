@@ -4,6 +4,10 @@ function getURLDir(){
   return '/_atlis/';
 }
 
+function h(?string $value): string {
+  return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
 /**
  * Writes an entry to the audit_log table using a stored procedure.
  *
