@@ -1,5 +1,6 @@
 <?php
 // Create or edit project form
+require_once __DIR__ . '/../../../includes/functions.php';
 $editing = !empty($current_project);
 $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
 ?>

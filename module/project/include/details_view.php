@@ -1,5 +1,6 @@
 <?php
 // Project details view built from the Phoenix theme project-details template
+require_once __DIR__ . '/../../../includes/functions.php';
 ?>
 <?php if (!empty($current_project)): ?>
 <div class="content px-0 pt-navbar">
