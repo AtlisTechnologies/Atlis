@@ -14,14 +14,51 @@
             <?php echo htmlspecialchars($statusMap[$current_project['status']]['label'] ?? ''); ?>
           </span>
         </div>
-        <h3 class="text-body-emphasis mb-4">Project overview</h3>
-        <p class="text-body-secondary mb-0"><?php echo nl2br(htmlspecialchars($current_project['description'] ?? '')); ?></p>
+          <h3 class="text-body-emphasis mb-4">Project overview</h3>
+          <p class="text-body-secondary mb-4"><?php echo nl2br(htmlspecialchars($current_project['description'] ?? '')); ?></p>
+
+          <h3 class="text-body-emphasis mb-4">Tasks</h3>
+          <div class="row align-items-center g-0 justify-content-start mb-3">
+            <div class="col-12 col-sm-auto">
+              <div class="search-box w-100 mb-2 mb-sm-0" style="max-width:30rem;">
+                <form class="position-relative">
+                  <input class="form-control search-input" type="search" placeholder="Search tasks" aria-label="Search" />
+                  <span class="fas fa-search search-box-icon"></span>
+                </form>
+              </div>
+            </div>
+            <div class="col-auto d-flex">
+              <p class="mb-0 ms-sm-3 fs-9 text-body-tertiary fw-bold"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?php echo count($tasks ?? []); ?> tasks</p>
+            </div>
+          </div>
+          <?php if (!empty($tasks)): ?>
+            <?php foreach ($tasks as $t): ?>
+            <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top">
+              <div class="col-12 col-lg-auto flex-1">
+                <div>
+                  <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
+                    <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-task-<?php echo (int)$t['id']; ?>" <?php echo !empty($t['completed']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1" for="checkbox-task-<?php echo (int)$t['id']; ?>"><?php echo htmlspecialchars($t['name']); ?></label>
+                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo htmlspecialchars($t['status_color']); ?> ms-2"><span class="badge-label"><?php echo htmlspecialchars($t['status_label']); ?></span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-auto">
+                <div class="d-flex ms-4 lh-1 align-items-center">
+                  <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-lg-3 mb-0"><?php echo !empty($t['due_date']) ? htmlspecialchars(date('d M, Y', strtotime($t['due_date']))) : ''; ?></p>
+                </div>
+              </div>
+            </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
+          <?php endif; ?>
+        </div>
       </div>
-    </div>
-    <div class="col-12 col-xxl-4 px-0 border-start-xxl border-top-sm">
-      <div class="bg-light dark__bg-gray-1100 h-100">
+      <div class="col-12 col-xxl-4 px-0 border-start-xxl border-top-sm">
+        <div class="bg-light dark__bg-gray-1100 h-100">
         <div class="p-4 p-lg-6">
-          <h3 class="text-body-highlight mb-4 fw-bold">Notes</h3>
+          <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
           <div class="timeline-vertical timeline-with-details">
             <?php if (!empty($notes)): ?>
               <?php foreach ($notes as $n): ?>
@@ -41,11 +78,12 @@
                       <span class="timeline-bar border-end border-dashed"></span>
                     </div>
                   </div>
-                  <div class="col">
-                    <div class="timeline-item-content ps-6 ps-md-3">
-                      <p class="fs-9 text-body-secondary mb-0"><?php echo nl2br(htmlspecialchars($n['note_text'])); ?></p>
+                    <div class="col">
+                      <div class="timeline-item-content ps-6 ps-md-3">
+                        <p class="fs-9 text-body-secondary mb-1"><?php echo nl2br(htmlspecialchars($n['note_text'])); ?></p>
+                        <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?php echo htmlspecialchars($n['user_name'] ?? ''); ?></a></p>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
               <?php endforeach; ?>
@@ -63,37 +101,42 @@
             </form>
           </div>
         </div>
-        <div class="px-4 px-lg-6">
-          <h4 class="mb-3">Files</h4>
-        </div>
-        <div class="border-top px-4 px-lg-6 py-4">
-          <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
-            <input type="hidden" name="id" value="<?php echo (int)$current_project['id']; ?>">
-            <input class="form-control mb-2" type="file" name="file" required>
-            <button class="btn btn-primary" type="submit">Upload</button>
-          </form>
+          <div class="px-4 px-lg-6">
+            <h4 class="mb-3">Files</h4>
+          </div>
+          <div class="border-top px-4 px-lg-6 py-4">
+            <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
+              <input type="hidden" name="id" value="<?php echo (int)$current_project['id']; ?>">
+              <input class="form-control mb-2" type="file" name="file" required>
+              <button class="btn btn-primary" type="submit">Upload</button>
+            </form>
+          </div>
           <?php if (!empty($files)): ?>
             <?php foreach ($files as $f): ?>
-            <div class="border-top pt-3 mt-3">
+            <div class="border-top px-4 px-lg-6 py-4">
               <div class="d-flex flex-between-center">
                 <div class="d-flex mb-1">
-                  <span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
+                  <span class="fa-solid <?php echo strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> me-2 text-body-tertiary fs-9"></span>
                   <a class="text-body-highlight mb-0 lh-1" href="<?php echo htmlspecialchars($f['file_path']); ?>"><?php echo htmlspecialchars($f['file_name']); ?></a>
                 </div>
               </div>
               <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap">
                 <span><?php echo htmlspecialchars($f['file_size']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo htmlspecialchars($f['file_type']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo htmlspecialchars($f['date_created']); ?></span>
               </div>
+              <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                <img class="rounded-2 mt-2" src="<?php echo htmlspecialchars($f['file_path']); ?>" alt="" style="width:320px" />
+              <?php endif; ?>
             </div>
             <?php endforeach; ?>
           <?php else: ?>
-            <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
+            <div class="border-top px-4 px-lg-6 py-4">
+              <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
+            </div>
           <?php endif; ?>
         </div>
       </div>
     </div>
   </div>
-</div>
 <?php else: ?>
 <p>No project found.</p>
 <?php endif; ?>
