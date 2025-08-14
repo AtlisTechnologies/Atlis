@@ -36,7 +36,7 @@
 
       <?php // PROJECTS NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/projects/index.php?action=all">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/project">
           <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
       </li>
       <?php // ================ ?>
@@ -46,7 +46,7 @@
 
       <?php // TASKS NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/tasks">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/task">
           <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
       </li>
       <?php // ================ ?>
