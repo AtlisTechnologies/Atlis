@@ -987,7 +987,8 @@ ALTER TABLE `users`
 ALTER TABLE `users_2fa`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_users_2fa_user_id` (`user_id`),
-  ADD KEY `fk_users_2fa_user_updated` (`user_updated`);
+  ADD KEY `fk_users_2fa_user_updated` (`user_updated`),
+  ADD KEY `idx_users_2fa_expires_at` (`expires_at`);
 
 -- Indexes for table `module_projects`
 ALTER TABLE `module_projects`
