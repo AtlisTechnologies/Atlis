@@ -24,17 +24,17 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   }else{
     $attr_id=(int)($_POST['id'] ?? 0);
     $key=trim($_POST['attr_code'] ?? '');
-    $value=trim($_POST['attr_value'] ?? '');
+    $label=trim($_POST['attr_label'] ?? '');
     if($key===''){$error='Key is required.';}
     if(!$error){
       if($attr_id){
-        $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
-        $stmt->execute([':k'=>$key, ':v'=>$value, ':uid'=>$this_user_id, ':id'=>$attr_id]);
+        $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_label=:v, user_updated=:uid WHERE id=:id');
+        $stmt->execute([':k'=>$key, ':v'=>$label, ':uid'=>$this_user_id, ':id'=>$attr_id]);
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
         $message='Attribute updated.';
       }else{
-        $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
-        $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$value]);
+        $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_label) VALUES (:uid,:uid,:item_id,:k,:v)');
+        $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$label]);
         $attr_id=$pdo->lastInsertId();
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
         $message='Attribute added.';
@@ -46,6 +46,10 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 $stmt=$pdo->prepare('SELECT * FROM lookup_list_item_attributes WHERE item_id=:item_id');
 $stmt->execute([':item_id'=>$item_id]);
 $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
+$attrCodes = $pdo->query(
+    'SELECT DISTINCT attr_code FROM lookup_list_item_attributes ORDER BY attr_code'
+)->fetchAll(PDO::FETCH_COLUMN);
+$selectedCode = $_POST['attr_code'] ?? '';
 ?>
 <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?></h2>
 <?= flash_message($error, 'danger'); ?>
@@ -53,12 +57,18 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
-  <div class="col-md-4"><input class="form-control" name="attr_code" placeholder="Key" value="<?= htmlspecialchars($_POST['attr_code'] ?? ''); ?>" required></div>
-  <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
+  <div class="col-md-4">
+    <select class="form-select" name="attr_code" required>
+      <?php foreach ($attrCodes as $code): ?>
+        <option value="<?= htmlspecialchars($code); ?>" <?= $selectedCode === $code ? 'selected' : ''; ?>><?= htmlspecialchars($code); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div class="col-md-4"><input class="form-control" name="attr_label" placeholder="Label" value="<?= htmlspecialchars($_POST['attr_label'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
   <div class="col-md-2"><a class="btn btn-secondary" href="items.php?list_id=<?= $item['list_id']; ?>">Back</a></div>
 </form>
-<div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":10,"pagination":true}'>
+<div id="attrs" data-list='{"valueNames":["attr_code","attr_label"],"page":10,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -66,14 +76,14 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm mb-0">
-      <thead><tr><th class="sort" data-sort="attr_code">Key</th><th class="sort" data-sort="attr_value">Value</th><th>Actions</th></tr></thead>
+      <thead><tr><th class="sort" data-sort="attr_code">Key</th><th class="sort" data-sort="attr_label">Label</th><th>Actions</th></tr></thead>
       <tbody class="list">
         <?php foreach($attrs as $a): ?>
           <tr>
             <td class="attr_code"><?= htmlspecialchars($a['attr_code']); ?></td>
-            <td class="attr_value"><?= htmlspecialchars($a['attr_value']); ?></td>
+            <td class="attr_label"><?= htmlspecialchars($a['attr_label']); ?></td>
             <td>
-              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_code'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
+              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_code'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_label'],ENT_QUOTES); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $a['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -91,11 +101,11 @@ $attrs=$stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 <script>
-function fillAttr(id,key,value){
+function fillAttr(id,key,label){
   const f=document.forms[0];
   f.id.value=id;
   f.attr_code.value=key;
-  f.attr_value.value=value;
+  f.attr_label.value=label;
   const btn=document.getElementById('saveBtn');
   btn.classList.remove('btn-success');
   btn.classList.add('btn-warning');
