@@ -26,7 +26,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $label=trim($_POST['label'] ?? '');
     $code=trim($_POST['code'] ?? '');
     $active_from=$_POST['active_from'] ?? date('Y-m-d');
-    if(isset($_POST['active_to'])){ $active_to = $_POST['active_to']; }else{ $active_to = NULL; }
+    $active_to=$_POST['active_to'] ?? null;
+    if($active_to===''){ $active_to=null; }
     if($label===''){$error='Label is required.';}
     if(!$error){
       if($item_id){
