@@ -55,7 +55,7 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="row">
   <div class="col-12">
-    <h2 class="mb-4">Items for <?= htmlspecialchars($list['name']); ?>
+    <h2 class="mb-4">Items for <?= h($list['name']); ?>
       <br />
       <a class="btn btn-secondary" href="index.php">Back</a>
     </h2>
@@ -66,10 +66,10 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 <?= flash_message($message); ?>
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
+  <input type="hidden" name="id" value="<?= h($_POST['id'] ?? ''); ?>">
   <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" required></div>
   <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" required></div>
-  <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= htmlspecialchars($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_to"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
 </form>
