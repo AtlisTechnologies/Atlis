@@ -343,7 +343,7 @@ CREATE TABLE `lookup_list_item_attributes` (
   `memo` text DEFAULT NULL,
   `item_id` int(11) NOT NULL,
   `attr_code` varchar(100) NOT NULL,
-  `attr_label` text DEFAULT NULL
+  `attr_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
