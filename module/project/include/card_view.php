@@ -1,5 +1,6 @@
 <?php
 // Card view of projects
+require_once __DIR__ . '/../../../includes/functions.php';
 
 $statusCounts = [];
 foreach ($projects as $proj) {

@@ -1,5 +1,6 @@
 <?php
 // Form for creating a project
+require_once __DIR__ . '/../../../includes/functions.php';
 ?>
 <div class="container-fluid">
   <h2 class="mb-4">Create a project</h2>
