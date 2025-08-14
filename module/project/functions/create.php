@@ -1,5 +1,7 @@
 <?php
-require '../../../includes/php_header.php';
+if (!isset($pdo)) {
+  require '../../../includes/php_header.php';
+}
 require_permission('project', 'create');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,9 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ':description' => $description
   ]);
   $id = $pdo->lastInsertId();
-  audit_log($pdo, $this_user_id, 'module_projects', $id, 'CREATE', 'Created project');
+
+  admin_audit_log(
+    $pdo,
+    $this_user_id,
+    'module_projects',
+    $id,
+    'CREATE',
+    null,
+    json_encode([
+      'name' => $name,
+      'status' => $status,
+      'description' => $description
+    ]),
+    'Created project'
+  );
 }
 
-header('Location: ../index.php');
+header('Location: index.php');
 exit;
-

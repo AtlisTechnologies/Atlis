@@ -1,6 +1,11 @@
 <?php
 // List view of projects
 ?>
+<?php if (user_has_permission('project','create')): ?>
+<div class="mb-3">
+  <a href="index.php?action=create" class="btn btn-primary">Create Project</a>
+</div>
+<?php endif; ?>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
