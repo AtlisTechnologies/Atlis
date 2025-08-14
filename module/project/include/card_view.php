@@ -10,7 +10,7 @@
             <h5 class="card-title mb-1"><?php echo htmlspecialchars($project['name'] ?? ''); ?></h5>
             <p class="mb-0">
               <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo htmlspecialchars($project['status_color'] ?? ''); ?>">
-                <span class="badge-label"><?php echo htmlspecialchars($project['status_label'] ?? ''); ?></span>
+                  <span class="badge-label"><?php echo htmlspecialchars($project['status_label'] ?? ''); ?></span>
               </span>
             </p>
           </div>

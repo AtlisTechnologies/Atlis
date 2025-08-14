@@ -1,5 +1,6 @@
 <?php
 // Edit user form. Expects lookup arrays ($roles, $typeOptions, $statusOptions) and
+// color maps ($roleColors, $typeColors, $statusColors) along with
 // variables: $token, $id, $username, $email, $first_name, $last_name,
 // $type, $status, $btnClass, $assigned (array of role ids)
 
@@ -41,30 +42,42 @@ if (!defined('IN_APP')) {
         </div>
         <div class="mb-3">
           <label class="form-label">Type</label>
-          <select class="form-select" name="type">
-            <?php foreach($typeOptions as $code => $label): ?>
-              <option value="<?= htmlspecialchars($code); ?>" <?= $type === $code ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+          <div>
+            <?php foreach($typeOptions as $code => $label): $class = $typeColors[$code] ?? 'secondary'; ?>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="type<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= $type === $code ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="type<?= $code; ?>">
+                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
+                </label>
+              </div>
             <?php endforeach; ?>
-          </select>
+          </div>
         </div>
         <div class="mb-3">
           <label class="form-label">Status</label>
-          <select class="form-select" name="status">
-            <?php foreach($statusOptions as $code => $label): ?>
-              <option value="<?= htmlspecialchars($code); ?>" <?= (string)$status === $code ? 'selected' : ''; ?>><?= htmlspecialchars($label); ?></option>
+          <div>
+            <?php foreach($statusOptions as $code => $label): $class = $statusColors[$code] ?? 'secondary'; ?>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status" id="status<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= (string)$status === (string)$code ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="status<?= $code; ?>">
+                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
+                </label>
+              </div>
             <?php endforeach; ?>
-          </select>
+          </div>
         </div>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab3" aria-labelledby="user-tab3">
         <div class="mb-3">
           <label class="form-label">Roles</label>
-          <?php foreach($roles as $r): ?>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
-              <label class="form-check-label" for="role<?= $r['id']; ?>"><?= htmlspecialchars($r['name']); ?></label>
-            </div>
-          <?php endforeach; ?>
+            <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="role<?= $r['id']; ?>">
+                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
+                </label>
+              </div>
+            <?php endforeach; ?>
         </div>
       </div>
     </div>

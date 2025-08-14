@@ -56,7 +56,7 @@
 
       <?php // KANBAN NAV LINK ?>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/kanban">
+        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>#">
           <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
       </li>
       <?php // ================ ?>
