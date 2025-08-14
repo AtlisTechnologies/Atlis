@@ -14,13 +14,38 @@ foreach ($projects as &$project) {
 }
 unset($project);
 
+if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
+  $project_id = (int)($_GET['id'] ?? 0);
+  $stmt = $pdo->prepare('SELECT id, name, description, status FROM module_projects WHERE id = :id');
+  $stmt->execute([':id' => $project_id]);
+  $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+if ($action === 'create-edit') {
+  if (!empty($current_project)) {
+    require_permission('project', 'update');
+  } else {
+    require_permission('project', 'create');
+  }
+}
+
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
   <?php require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
-    <?php require 'include/card_view.php'; ?>
+    <?php
+      $viewMap = [
+        'card' => 'card_view.php',
+        'list' => 'list_view.php',
+        'board' => 'board_view.php',
+        'details' => 'details_view.php',
+        'create-edit' => 'create_edit_view.php'
+      ];
+      $viewFile = $viewMap[$action] ?? 'card_view.php';
+      require 'include/' . $viewFile;
+    ?>
     <?php require '../../includes/html_footer.php'; ?>
   </div>
 </main>

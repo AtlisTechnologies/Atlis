@@ -34,24 +34,28 @@
         <?php // ================ ?>
 
 
-      <?php // PROJECTS NAV LINK ?>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/project">
-          <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
-      </li>
-      <?php // ================ ?>
-      <?php // END PROJECTS NAV LINK ?>
-      <?php // ================ ?>
+        <?php // PROJECTS NAV LINK ?>
+        <?php if (user_has_permission('project','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/project">
+            <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END PROJECTS NAV LINK ?>
+        <?php // ================ ?>
 
 
-      <?php // TASKS NAV LINK ?>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/task">
-          <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
-      </li>
-      <?php // ================ ?>
-      <?php // END TASKS NAV LINK ?>
-      <?php // ================ ?>
+        <?php // TASKS NAV LINK ?>
+        <?php if (user_has_permission('task','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/task">
+            <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END TASKS NAV LINK ?>
+        <?php // ================ ?>
 
 
       <?php // KANBAN NAV LINK ?>
