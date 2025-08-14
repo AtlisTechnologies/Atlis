@@ -2,12 +2,12 @@
 require '../admin_header.php';
 
 $token = generate_csrf_token();
-$stmt = $pdo->query('SELECT id, name, description, memo FROM lookup_lists ORDER BY name');
+$stmt = $pdo->query('SELECT id, name, description, memo FROM lookup_lists ORDER BY id DESC');
 $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>
 <button id="addListBtn" class="btn btn-sm btn-success mb-3">Add Lookup List</button>
-<div id="lookup-lists" data-list='{"valueNames":["id","name","description"],"page":10,"pagination":true}'>
+<div id="lookup-lists" data-list='{"valueNames":["id","name","description"],"page":50,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
