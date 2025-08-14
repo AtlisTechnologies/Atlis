@@ -17,7 +17,7 @@
     <tbody>
       <?php foreach ($tasks as $task): ?>
         <tr>
-          <td><?php echo htmlspecialchars($task['name'] ?? ''); ?></td>
+          <td><a href="index.php?action=details&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"><?php echo htmlspecialchars($task['name'] ?? ''); ?></a></td>
           <td>
             <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo htmlspecialchars($task['status_color'] ?? ''); ?>">
               <span class="badge-label"><?php echo htmlspecialchars($task['status_label'] ?? ''); ?></span>
