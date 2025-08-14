@@ -14,12 +14,22 @@ foreach ($projects as &$project) {
 }
 unset($project);
 
-if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
-  $project_id = (int)($_GET['id'] ?? 0);
-  $stmt = $pdo->prepare('SELECT id, name, description, status FROM module_projects WHERE id = :id');
-  $stmt->execute([':id' => $project_id]);
-  $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+  if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
+    $project_id = (int)($_GET['id'] ?? 0);
+    $stmt = $pdo->prepare('SELECT * FROM module_projects WHERE id = :id');
+    $stmt->execute([':id' => $project_id]);
+    $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($action === 'details' && $current_project) {
+      $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_projects_files WHERE project_id = :id ORDER BY date_created DESC');
+      $filesStmt->execute([':id' => $project_id]);
+      $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_projects_notes WHERE project_id = :id ORDER BY date_created DESC');
+      $notesStmt->execute([':id' => $project_id]);
+      $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+  }
 
 if ($action === 'create-edit') {
   if (!empty($current_project)) {
