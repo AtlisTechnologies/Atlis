@@ -121,7 +121,9 @@ function handleItem($action){
     $code=trim($_POST['code']??'');
     $active_from=$_POST['active_from']??date('Y-m-d');
     $active_to=$_POST['active_to']??null;
-    if($active_to===''){ $active_to=null; }
+    if($active_to==='' || $active_to==='0000-00-00'){
+       $active_to=null;
+     }
     if($list_id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
     $stmt->execute([':list_id'=>$list_id,':label'=>$label]);
