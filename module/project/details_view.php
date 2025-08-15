@@ -74,8 +74,12 @@ require '../../includes/html_header.php';
           <form method="post" action="../task/functions/create.php">
             <div class="modal-body">
               <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
-              <input type="hidden" name="agency_id" value="<?php echo (int)($project['agency_id'] ?? 0); ?>">
-              <input type="hidden" name="division_id" value="<?php echo (int)($project['division_id'] ?? 0); ?>">
+              <?php if (!empty($project['agency_id'])): ?>
+              <input type="hidden" name="agency_id" value="<?php echo (int)$project['agency_id']; ?>">
+              <?php endif; ?>
+              <?php if (!empty($project['division_id'])): ?>
+              <input type="hidden" name="division_id" value="<?php echo (int)$project['division_id']; ?>">
+              <?php endif; ?>
               <input type="hidden" name="redirect" value="details_view.php?id=<?php echo (int)$id; ?>">
               <div class="mb-3">
                 <label class="form-label">Task Name</label>
