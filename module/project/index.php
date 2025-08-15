@@ -65,7 +65,7 @@ unset($project);
 
     if ($action === 'details' && $current_project) {
 
-      $filesStmt = $pdo->prepare('SELECT id, user_id, file_name, file_path,f ile_size, file_type, date_created FROM module_projects_files WHERE project_id = :id AND note_id IS NULL ORDER BY date_created DESC');
+      $filesStmt = $pdo->prepare('SELECT id, user_id, file_name, file_path, file_size, file_type, date_created FROM module_projects_files WHERE project_id = :id AND note_id IS NULL ORDER BY date_created DESC');
 
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);

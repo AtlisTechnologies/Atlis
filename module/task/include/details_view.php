@@ -154,7 +154,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
                           <?php if (!empty($item['files'])): ?>
                             <div class="mt-2">
-                              <?php foreach ($item['files'] as $f): ?>
+                              <?php foreach ($item['files'] as $f){ ?>
                                 <p class="mb-0">
                                   <?php if (strpos($f['file_type'], 'image/') === 0): ?>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$f['id']; ?>"><?php echo h($f['file_name']); ?></a>
@@ -182,7 +182,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                                     <?php echo h($f['file_type']); ?>
                                   <?php endif; ?>
                                 </p>
-                              <?php endforeach; ?>
+                              <?php } ?>
                             </div>
 
                           <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>

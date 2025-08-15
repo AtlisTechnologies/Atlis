@@ -211,12 +211,12 @@ if (!empty($current_project)) {
   <div class="col-12 col-xxl-4 px-0 border-start-xxl border-top-sm">
     <div class="bg-light dark__bg-gray-1100 h-100">
       <div class="p-4 p-lg-6">
-        <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
+        <h3 class="text-body-highlight mb-4 fw-bold">Project Notes</h3>
         <div class="timeline-vertical timeline-with-details">
           <?php if (!empty($notes)): ?>
             <?php foreach ($notes as $n): ?>
             <div class="timeline-item position-relative">
-              <div class="row g-md-3">
+              <div class="row g-md-3 mb-4">
                 <div class="col-12 col-md-auto d-flex">
                   <div class="timeline-item-date order-1 order-md-0 me-md-4">
                     <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
@@ -230,7 +230,6 @@ if (!empty($current_project)) {
                 </div>
                 <div class="col">
                   <div class="timeline-item-content ps-6 ps-md-3">
-
                     <div class="d-flex">
                       <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
                       <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
@@ -241,20 +240,19 @@ if (!empty($current_project)) {
                       </form>
                       <?php endif; ?>
                     </div>
-
-                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($n['note_text'])) ?></p>
                     <?php if (!empty($noteFiles[$n['id']])): ?>
                       <ul class="list-unstyled mt-2">
                         <?php foreach ($noteFiles[$n['id']] as $f): ?>
                           <li class="mb-1">
-                            <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                              <a class="fw-semibold" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                              <div class="mt-1">
-                                <img class="rounded-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:160px" />
-                              </div>
-                            <?php else: ?>
-                              <a class="fw-semibold" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                            <?php endif; ?>
+                            <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
+                              <p class="text-body-highlight mb-0 lh-1">
+                                <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                                  <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                <?php else: ?>
+                                  <a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                <?php endif; ?>
+                              </p>
+                            </div>
                           </li>
                         <?php endforeach; ?>
                       </ul>
@@ -275,25 +273,30 @@ if (!empty($current_project)) {
           <form action="functions/add_note.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
             <div class="mb-3">
-              <textarea class="form-control" name="note" rows="3" required></textarea>
+              <textarea class="form-control" name="note" rows="3" placeholder="Add a new Note" required></textarea>
             </div>
             <div class="mb-3">
               <input class="form-control" type="file" name="files[]" multiple>
             </div>
-            <button class="btn btn-atlis" type="submit">Add Note</button>
+            <center><button class="btn btn-atlis" type="submit">Add Note</button></center>
           </form>
         </div>
         <?php endif; ?>
       </div>
+
+      <hr>
+
       <div class="px-4 px-lg-6">
-        <h4 class="mb-3">Files</h4>
+        <h3 class="text-body-highlight fw-bold">Files</h3>
       </div>
       <?php if (user_has_permission('project','create|update|delete')): ?>
-      <div class="border-top px-4 px-lg-6 py-4">
+      <div class="px-4 px-lg-6 py-4">
         <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
-          <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
-          <input class="form-control mb-2" type="file" name="file" required>
-          <button class="btn btn-outline-atlis" type="submit">Upload</button>
+          <div class="input-group">
+            <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
+            <input class="form-control" type="file" name="file" id="projectFileUpload" aria-describedby="projectFileUpload" aria-label="Upload" required>
+            <button class="btn btn-atlis" type="submit">Upload New</button>
+          </div>
         </form>
       </div>
       <?php endif; ?>
