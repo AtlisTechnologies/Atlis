@@ -623,6 +623,7 @@ CREATE TABLE `module_projects` (
   `requirements` text DEFAULT NULL,
   `specifications` text DEFAULT NULL,
   `status` varchar(11) DEFAULT NULL,
+  `priority` varchar(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0
@@ -632,8 +633,8 @@ CREATE TABLE `module_projects` (
 -- Dumping data for table `module_projects`
 --
 
-INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `start_date`, `complete_date`, `completed`) VALUES
-(5, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '2025-08-01', NULL, 0);
+INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
+(5, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '1', '2025-08-01', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1103,7 +1104,8 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_user_updated` (`user_updated`),
   ADD KEY `fk_module_projects_agency_id` (`agency_id`),
   ADD KEY `fk_module_projects_division_id` (`division_id`),
-  ADD KEY `fk_module_projects_status` (`status`);
+  ADD KEY `fk_module_projects_status` (`status`),
+  ADD KEY `fk_module_projects_priority` (`priority`);
 
 --
 -- Indexes for table `module_projects_assignments`
