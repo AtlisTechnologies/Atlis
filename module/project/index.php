@@ -30,14 +30,25 @@ if ($action === 'create') {
 
 require_permission('project','read');
 
-$sql = "SELECT p.id, p.name, p.description, p.start_date, p.complete_date,
+$sql = "SELECT p.id,
+               p.name,
+               p.description,
+               p.start_date,
+               p.complete_date,
                li.label AS status_label,
                COALESCE(attr.attr_value, 'secondary') AS status_color,
-               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id) AS total_tasks,
-               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id AND t.completed = 1) AS completed_tasks
+               a.name AS agency_name,
+               d.name AS division_name,
+               COUNT(t.id) AS total_tasks,
+               SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress,
+               SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
+        LEFT JOIN module_agency a ON p.agency_id = a.id
+        LEFT JOIN module_division d ON p.division_id = d.id
+        LEFT JOIN module_tasks t ON t.project_id = p.id
+        GROUP BY p.id
         ORDER BY p.name";
 $projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
