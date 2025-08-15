@@ -64,6 +64,20 @@ unset($project);
       );
       $tasksStmt->execute([':id' => $project_id]);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
+      $assignedStmt->execute([':id' => $project_id]);
+      $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $assignedIds = array_column($assignedUsers, 'user_id');
+      if ($assignedIds) {
+        $placeholders = implode(',', array_fill(0, count($assignedIds), '?'));
+        $availableStmt = $pdo->prepare("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id NOT IN ($placeholders) ORDER BY name");
+        $availableStmt->execute($assignedIds);
+      } else {
+        $availableStmt = $pdo->query("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name");
+      }
+      $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
     }
   }
 

@@ -21,5 +21,5 @@ if ($project_id && $user_id) {
   }
 }
 
-header('Location: ../details_view.php?id=' . $project_id);
+header('Location: ../index.php?action=details&id=' . $project_id);
 exit;
