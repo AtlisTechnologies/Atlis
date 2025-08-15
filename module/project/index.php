@@ -60,6 +60,9 @@ unset($project);
     $stmt->execute([':id' => $project_id]);
     $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
+    $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
+
     if ($action === 'details' && $current_project) {
       $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_projects_files WHERE project_id = :id ORDER BY date_created DESC');
       $filesStmt->execute([':id' => $project_id]);
@@ -69,13 +72,14 @@ unset($project);
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $tasksStmt = $pdo->prepare(
-        'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color
-         FROM module_tasks t
-         LEFT JOIN lookup_list_items li ON t.status = li.id
-         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS"
-         WHERE t.project_id = :id ORDER BY t.due_date'
-      );
+        $tasksStmt = $pdo->prepare(
+          'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
+          '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
+          'FROM module_tasks t ' .
+          'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
+          'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
+          'WHERE t.project_id = :id ORDER BY t.due_date'
+        );
       $tasksStmt->execute([':id' => $project_id]);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
 
