@@ -29,9 +29,11 @@
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
               <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" data-task-id="<?php echo (int)($task['id'] ?? 0); ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
+
               <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>">
                 <a href="index.php?action=details&amp;id=<?php echo (int)($task['id'] ?? 0); ?>" class="task-link text-reset" style="text-decoration:inherit;" data-event-propagation-prevent="data-event-propagation-prevent"><?php echo h($task['name'] ?? ''); ?></a>
               </label>
+
               <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
             </div>
           </div>
