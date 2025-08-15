@@ -28,7 +28,7 @@
         <div class="col-12 col-md-auto flex-1">
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
-              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" />
+              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-task-id="<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" />
               <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>"><?php echo h($task['name'] ?? ''); ?></label>
               <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
             </div>
@@ -60,3 +60,28 @@
   </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+      const taskId = this.dataset.taskId;
+      if (!this.checked) { return; }
+      fetch('functions/complete.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            this.disabled = true;
+          } else {
+            this.checked = false;
+          }
+        }).catch(() => {
+          this.checked = false;
+        });
+    });
+  });
+});
+</script>
