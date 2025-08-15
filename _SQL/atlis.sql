@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2025 at 01:36 AM
+-- Generation Time: Aug 15, 2025 at 04:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -340,7 +340,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (55, 1, 1, '2025-08-14 16:52:35', '2025-08-14 16:52:35', NULL, 'lookup_lists', 13, 'DELETE', 'Deleted lookup list'),
 (56, 1, 1, '2025-08-14 17:16:47', '2025-08-14 17:16:47', NULL, 'lookup_list_items', 51, 'CREATE', 'Created lookup list item'),
 (57, 1, 1, '2025-08-14 17:16:54', '2025-08-14 17:16:54', NULL, 'lookup_list_items', 52, 'CREATE', 'Created lookup list item'),
-(58, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 'lookup_list_items', 53, 'CREATE', 'Created lookup list item');
+(58, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 'lookup_list_items', 53, 'CREATE', 'Created lookup list item'),
+(59, 1, 1, '2025-08-14 20:46:43', '2025-08-14 20:46:43', NULL, 'lookup_list_item_attributes', 30, 'CREATE', 'Created item attribute'),
+(60, 1, 1, '2025-08-14 20:46:48', '2025-08-14 20:46:48', NULL, 'lookup_list_item_attributes', 30, 'DELETE', 'Deleted item attribute'),
+(61, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 'lookup_list_items', 54, 'CREATE', 'Created lookup list item'),
+(62, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 'lookup_list_item_attributes', 31, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -430,7 +434,8 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (40, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 12, 'Critical', 'CRITICAL', 4, '2025-08-13', NULL),
 (51, 1, 1, '2025-08-14 17:16:47', '2025-08-14 17:16:47', NULL, 8, 'System', 'SYSTEM', 1, '2025-08-14', NULL),
 (52, 1, 1, '2025-08-14 17:16:54', '2025-08-14 17:16:54', NULL, 8, 'Business', 'BUSINESS', 2, '2025-08-14', NULL),
-(53, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 9, 'System', 'SYSTEM', 1, '2025-08-14', NULL);
+(53, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 9, 'System', 'SYSTEM', 1, '2025-08-14', NULL),
+(54, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 9, 'Business', 'BUSINESS', 0, '2025-08-14', NULL);
 
 -- --------------------------------------------------------
 
@@ -477,7 +482,8 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (25, 1, 1, '2025-08-13 23:39:14', '2025-08-13 23:39:14', NULL, 37, 'COLOR-CLASS', 'primary'),
 (26, 1, 1, '2025-08-13 23:39:19', '2025-08-13 23:39:19', NULL, 38, 'COLOR-CLASS', 'warning'),
 (27, 1, 1, '2025-08-13 23:39:33', '2025-08-13 23:39:33', NULL, 34, 'COLOR-CLASS', 'success'),
-(28, 1, 1, '2025-08-14 16:48:59', '2025-08-14 16:48:59', NULL, 8, 'COLOR-CLASS', 'danger');
+(28, 1, 1, '2025-08-14 16:48:59', '2025-08-14 16:48:59', NULL, 8, 'COLOR-CLASS', 'danger'),
+(31, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 54, 'TEST', 'test');
 
 -- --------------------------------------------------------
 
@@ -595,10 +601,7 @@ CREATE TABLE `module_projects` (
 --
 
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `start_date`, `complete_date`, `completed`) VALUES
-(1, 1, 1, '2025-08-13 22:07:55', '2025-08-13 23:49:22', NULL, 1, 1, 'Test', 'test', 'test', 'test', '29', NULL, NULL, 0),
-(2, 1, 1, '2025-08-13 23:48:42', '2025-08-13 23:48:42', NULL, NULL, NULL, 'Dave', '', NULL, NULL, '29', NULL, NULL, 0),
-(3, 1, 1, '2025-08-14 11:33:59', '2025-08-14 11:33:59', NULL, NULL, NULL, 'Emailing Sealed Documents', '', NULL, NULL, '29', NULL, NULL, 0),
-(4, 1, 1, '2025-08-14 16:43:46', '2025-08-14 16:43:46', NULL, 1, 1, 'Dave', 'Dave', 'Dave', 'Dave', '29', '2025-08-14', NULL, 0);
+(3, 1, 1, '2025-08-14 11:33:59', '2025-08-14 11:33:59', NULL, NULL, NULL, 'Emailing Sealed Documents', '', NULL, NULL, '29', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -620,13 +623,6 @@ CREATE TABLE `module_projects_files` (
   `file_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `module_projects_files`
---
-
-INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(1, 1, 1, '2025-08-13 23:34:36', '2025-08-13 23:34:36', NULL, 1, 'atlisware.png', '/module/project/uploads/project_1_1755149676_atlisware.png', 64597, 'image/png');
-
 -- --------------------------------------------------------
 
 --
@@ -643,14 +639,6 @@ CREATE TABLE `module_projects_notes` (
   `project_id` int(11) NOT NULL,
   `note_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_projects_notes`
---
-
-INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_text`) VALUES
-(1, 1, 1, '2025-08-13 23:34:27', '2025-08-13 23:34:27', NULL, 1, 'First note.'),
-(2, 1, 1, '2025-08-14 15:21:21', '2025-08-14 15:21:21', NULL, 1, 'From the First Note !');
 
 -- --------------------------------------------------------
 
@@ -680,15 +668,6 @@ CREATE TABLE `module_tasks` (
   `completed` tinyint(1) DEFAULT 0,
   `progress_percent` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_tasks`
---
-
-INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `progress_percent`) VALUES
-(1, 1, 1, '2025-08-13 22:28:31', '2025-08-13 23:40:59', NULL, 1, 1, 1, 'Test Task', 'Test Task', 'Test Task', 'Test Task', 'Active', 'HIGH', '2025-08-13', NULL, NULL, 0, 0),
-(2, 1, NULL, '2025-08-13 23:33:07', '2025-08-13 23:33:07', NULL, 1, 1, 1, 'Lake County eCourt Invoice #15 - May 12th to May 23rd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
-(3, 1, NULL, '2025-08-14 17:08:07', '2025-08-14 17:08:07', NULL, 3, 2, 2, 'Get Generic Email Addys', NULL, NULL, NULL, '32', '39', NULL, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -948,22 +927,22 @@ ALTER TABLE `lookup_lists`
 --
 ALTER TABLE `lookup_list_items`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_lookup_list_items_label` (`list_id`,`label`),
+  ADD UNIQUE KEY `uq_lookup_list_items_code` (`list_id`,`code`),
   ADD KEY `fk_module_lookup_list_items_list_id` (`list_id`),
   ADD KEY `fk_module_lookup_list_items_user_id` (`user_id`),
   ADD KEY `fk_module_lookup_list_items_user_updated` (`user_updated`),
-  ADD KEY `idx_module_lookup_list_items_label` (`label`),
-  ADD UNIQUE KEY `uq_lookup_list_items_label` (`list_id`,`label`),
-  ADD UNIQUE KEY `uq_lookup_list_items_code` (`list_id`,`code`);
+  ADD KEY `idx_module_lookup_list_items_label` (`label`);
 
 --
 -- Indexes for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_lookup_item_attr` (`item_id`,`attr_code`),
   ADD KEY `fk_module_lookup_item_attributes_item_id` (`item_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_id` (`user_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_updated` (`user_updated`),
-  ADD UNIQUE KEY `uq_lookup_item_attr` (`item_id`,`attr_code`),
   ADD KEY `idx_module_lookup_item_attributes_key` (`attr_code`);
 
 --
@@ -1151,7 +1130,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1163,13 +1142,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -1284,7 +1263,6 @@ ALTER TABLE `lookup_list_items`
 -- Constraints for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  ADD CONSTRAINT `fk_module_lookup_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
