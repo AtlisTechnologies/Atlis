@@ -13,6 +13,37 @@ if($id && $note !== ''){
   ]);
   $noteId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_projects_notes',$noteId,'NOTE','', $note);
+
+  if(!empty($_FILES['files']) && is_array($_FILES['files']['name'])){
+    $files = $_FILES['files'];
+    $uploadDir = '../uploads/';
+    if(!is_dir($uploadDir)){
+      mkdir($uploadDir,0777,true);
+    }
+    foreach($files['name'] as $i => $fname){
+      if($files['error'][$i] === UPLOAD_ERR_OK && $files['size'][$i] > 0){
+        $baseName = basename($fname);
+        $safeName = preg_replace('/[^A-Za-z0-9._-]/','_', $baseName);
+        $targetName = 'project_' . $id . '_' . time() . '_' . $i . '_' . $safeName;
+        $targetPath = $uploadDir . $targetName;
+        if(move_uploaded_file($files['tmp_name'][$i], $targetPath)){
+          $filePathDb = '/module/project/uploads/' . $targetName;
+          $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,note_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:nid,:name,:path,:size,:type)');
+          $stmt->execute([
+            ':uid' => $this_user_id,
+            ':pid' => $id,
+            ':nid' => $noteId,
+            ':name' => $baseName,
+            ':path' => $filePathDb,
+            ':size' => $files['size'][$i],
+            ':type' => $files['type'][$i]
+          ]);
+          $fileId = $pdo->lastInsertId();
+          admin_audit_log($pdo,$this_user_id,'module_projects_files',$fileId,'UPLOAD','',json_encode(['file'=>$baseName]));
+        }
+      }
+    }
+  }
 }
 header('Location: ../index.php?action=details&id=' . $id);
 exit;

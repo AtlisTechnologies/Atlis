@@ -14,8 +14,8 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
     // Merge notes and files into a single activity timeline
     $activities = [];
-    if (!empty($files)) {
-      foreach ($files as $f) {
+    if (!empty($taskFiles)) {
+      foreach ($taskFiles as $f) {
         $f['type'] = 'file';
         $activities[] = $f;
       }
@@ -110,9 +110,10 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <div class="bg-light dark__bg-gray-1100 h-100">
         <div class="p-4 p-lg-6">
           <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
-          <form action="functions/add_note.php" method="post" class="mb-3">
+          <form action="functions/add_note.php" method="post" enctype="multipart/form-data" class="mb-3">
             <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
             <div class="mb-2"><textarea class="form-control" name="note" rows="3" required></textarea></div>
+            <div class="mb-2"><input class="form-control form-control-sm" type="file" name="files[]" multiple></div>
             <button class="btn btn-success btn-sm" type="submit">Add Note</button>
           </form>
           <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
@@ -150,6 +151,48 @@ require_once __DIR__ . '/../../../includes/functions.php';
                           <?php if (!empty($item['user_name'])): ?>
                             <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?php echo h($item['user_name']); ?></a></p>
                           <?php endif; ?>
+
+                          <?php if (!empty($item['files'])): ?>
+                            <div class="mt-2">
+                              <?php foreach ($item['files'] as $f): ?>
+                                <p class="mb-0">
+                                  <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$f['id']; ?>"><?php echo h($f['file_name']); ?></a>
+                                    <div class="modal fade" id="fileModal-<?php echo (int)$f['id']; ?>" tabindex="-1" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title"><?php echo h($f['file_name']); ?></h5>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body text-center">
+                                            <img src="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>" class="img-fluid" alt="<?php echo h($f['file_name']); ?>" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  <?php else: ?>
+                                    <a href="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a>
+                                  <?php endif; ?>
+                                </p>
+                                <p class="fs-9 text-body-secondary mb-0">
+                                  <?php echo h($f['file_size'] ?? ''); ?>
+                                  <?php if (!empty($f['file_type'])): ?>
+                                    <span class="text-body-quaternary mx-1">|</span>
+                                    <?php echo h($f['file_type']); ?>
+                                  <?php endif; ?>
+                                </p>
+                              <?php endforeach; ?>
+                            </div>
+
+                          <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>
+                            <form method="post" action="functions/delete_note.php" class="mt-2" onsubmit="return confirm('Delete this note?');">
+                              <input type="hidden" name="id" value="<?php echo (int)$item['id']; ?>">
+                              <input type="hidden" name="task_id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+
+                          <?php endif; ?>
                         <?php else: ?>
                           <p class="mb-0">
                             <?php if (strpos($item['file_type'], 'image/') === 0): ?>
@@ -178,6 +221,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
                               <?php echo h($item['file_type']); ?>
                             <?php endif; ?>
                           </p>
+                          <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>
+                            <form method="post" action="functions/delete_file.php" class="mt-2" onsubmit="return confirm('Delete this file?');">
+                              <input type="hidden" name="id" value="<?php echo (int)$item['id']; ?>">
+                              <input type="hidden" name="task_id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                          <?php endif; ?>
                         <?php endif; ?>
                       </div>
                     </div>

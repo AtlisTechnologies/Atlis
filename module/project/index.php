@@ -64,13 +64,23 @@ unset($project);
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
 
     if ($action === 'details' && $current_project) {
-      $filesStmt = $pdo->prepare('SELECT id, user_id, file_name, file_path, file_size, file_type, date_created FROM module_projects_files WHERE project_id = :id ORDER BY date_created DESC');
+
+      $filesStmt = $pdo->prepare('SELECT id, user_id, file_name, file_path,f ile_size, file_type, date_created FROM module_projects_files WHERE project_id = :id AND note_id IS NULL ORDER BY date_created DESC');
+
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
       $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $noteFilesStmt = $pdo->prepare('SELECT id,user_id,file_name,file_path,file_size,file_type,date_created,note_id FROM module_projects_files WHERE project_id = :id AND note_id IS NOT NULL ORDER BY date_created DESC');
+      $noteFilesStmt->execute([':id' => $project_id]);
+      $noteFilesRaw = $noteFilesStmt->fetchAll(PDO::FETCH_ASSOC);
+      $noteFiles = [];
+      foreach ($noteFilesRaw as $nf) {
+        $noteFiles[$nf['note_id']][] = $nf;
+      }
 
         $tasksStmt = $pdo->prepare(
           'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .

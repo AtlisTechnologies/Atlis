@@ -3,6 +3,7 @@ require '../../../includes/php_header.php';
 require_permission('task','update');
 
 $id = (int)($_POST['id'] ?? 0);
+$note_id = (int)($_POST['note_id'] ?? 0);
 if($id && isset($_FILES['file'])){
   $file = $_FILES['file'];
   $uploadDir = '../uploads/';
@@ -15,10 +16,11 @@ if($id && isset($_FILES['file'])){
   $targetPath = $uploadDir . $targetName;
   if(move_uploaded_file($file['tmp_name'],$targetPath)){
     $filePathDb = '/module/task/uploads/' . $targetName;
-    $stmt = $pdo->prepare('INSERT INTO module_tasks_files (user_id,user_updated,task_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:tid,:name,:path,:size,:type)');
+    $stmt = $pdo->prepare('INSERT INTO module_tasks_files (user_id,user_updated,task_id,note_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:tid,:nid,:name,:path,:size,:type)');
     $stmt->execute([
       ':uid' => $this_user_id,
       ':tid' => $id,
+      ':nid' => $note_id ?: null,
       ':name' => $baseName,
       ':path' => $filePathDb,
       ':size' => $file['size'],

@@ -230,6 +230,7 @@ if (!empty($current_project)) {
                 </div>
                 <div class="col">
                   <div class="timeline-item-content ps-6 ps-md-3">
+
                     <div class="d-flex">
                       <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
                       <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
@@ -240,6 +241,25 @@ if (!empty($current_project)) {
                       </form>
                       <?php endif; ?>
                     </div>
+
+                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($n['note_text'])) ?></p>
+                    <?php if (!empty($noteFiles[$n['id']])): ?>
+                      <ul class="list-unstyled mt-2">
+                        <?php foreach ($noteFiles[$n['id']] as $f): ?>
+                          <li class="mb-1">
+                            <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                              <a class="fw-semibold" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                              <div class="mt-1">
+                                <img class="rounded-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:160px" />
+                              </div>
+                            <?php else: ?>
+                              <a class="fw-semibold" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                            <?php endif; ?>
+                          </li>
+                        <?php endforeach; ?>
+                      </ul>
+                    <?php endif; ?>
+
                     <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
                   </div>
                 </div>
@@ -252,10 +272,13 @@ if (!empty($current_project)) {
         </div>
         <?php if (user_has_permission('project','create|update|delete')): ?>
         <div class="mt-4">
-          <form action="functions/add_note.php" method="post">
+          <form action="functions/add_note.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
             <div class="mb-3">
               <textarea class="form-control" name="note" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <input class="form-control" type="file" name="files[]" multiple>
             </div>
             <button class="btn btn-atlis" type="submit">Add Note</button>
           </form>
