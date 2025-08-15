@@ -70,7 +70,7 @@ foreach ($projects as $proj) {
   <?php foreach ($projects as $project): ?>
   <div class="col">
     <div class="card h-100 hover-actions-trigger">
-      <div class="card-body">
+      <div class="card-body position-relative">
         <div class="d-flex align-items-center">
           <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5">
             <a href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
@@ -93,6 +93,7 @@ foreach ($projects as $proj) {
           <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h($project['complete_date']); ?></span></p>
         </div>
         <?php endif; ?>
+        <a class="stretched-link" href="index.php?action=details&id=<?php echo $project['id']; ?>"></a>
       </div>
     </div>
   </div>
