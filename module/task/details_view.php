@@ -71,7 +71,7 @@ require '../../includes/html_header.php';
           <div class="mb-3">
             <textarea class="form-control" name="note" rows="3" required></textarea>
           </div>
-          <button class="btn btn-primary" type="submit">Add Note</button>
+          <button class="btn btn-success" type="submit">Add Note</button>
         </form>
         <?php if ($notes): ?>
         <ul class="list-group mt-3">

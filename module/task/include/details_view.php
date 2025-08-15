@@ -142,7 +142,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <form action="functions/add_note.php" method="post" class="mb-3">
             <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
             <div class="mb-2"><textarea class="form-control" name="note" rows="3" required></textarea></div>
-            <button class="btn btn-sm btn-primary" type="submit">Add Note</button>
+            <button class="btn btn-sm btn-success" type="submit">Add Note</button>
           </form>
           <?php if (!empty($notes)): ?>
             <div class="timeline-vertical mt-3">
