@@ -349,7 +349,7 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (60, 1, 1, '2025-08-14 20:46:48', '2025-08-14 20:46:48', NULL, 'lookup_list_item_attributes', 30, 'DELETE', 'Deleted item attribute'),
 (61, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 'lookup_list_items', 54, 'CREATE', 'Created lookup list item'),
 (62, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 'lookup_list_item_attributes', 31, 'CREATE', 'Created item attribute'),
-(63, 1, 1, '2025-08-14 22:11:40', '2025-08-14 22:11:40', NULL, 'module_projects_users', 1, 'ASSIGN', 'Assigned user'),
+(63, 1, 1, '2025-08-14 22:11:40', '2025-08-14 22:11:40', NULL, 'module_projects_assignments', 1, 'ASSIGN', 'Assigned user'),
 (64, 1, 1, '2025-08-14 22:11:45', '2025-08-14 22:11:45', NULL, 'module_tasks', 4, 'CREATE', 'Created task'),
 (65, 1, 1, '2025-08-14 22:15:47', '2025-08-14 22:15:47', NULL, 'lookup_list_items', 55, 'CREATE', 'Created lookup list item'),
 (66, 1, 1, '2025-08-14 22:15:51', '2025-08-14 22:15:51', NULL, 'lookup_list_item_attributes', 10, 'UPDATE', 'Updated item attribute'),
@@ -658,10 +658,10 @@ CREATE TABLE `module_projects_notes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_projects_users`
+-- Table structure for table `module_projects_assignments`
 --
 
-CREATE TABLE `module_projects_users` (
+CREATE TABLE `module_projects_assignments` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1074,14 +1074,14 @@ ALTER TABLE `module_projects_notes`
   ADD KEY `fk_module_projects_notes_project_id` (`project_id`);
 
 --
--- Indexes for table `module_projects_users`
+-- Indexes for table `module_projects_assignments`
 --
-ALTER TABLE `module_projects_users`
+ALTER TABLE `module_projects_assignments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_users_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_users_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_users_project_id` (`project_id`),
-  ADD KEY `fk_module_projects_users_assigned_user_id` (`assigned_user_id`);
+  ADD KEY `fk_module_projects_assignments_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_assignments_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_assignments_project_id` (`project_id`),
+  ADD KEY `fk_module_projects_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
 -- Indexes for table `module_tasks`
@@ -1264,9 +1264,9 @@ ALTER TABLE `module_projects_notes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `module_projects_users`
+-- AUTO_INCREMENT for table `module_projects_assignments`
 --
-ALTER TABLE `module_projects_users`
+ALTER TABLE `module_projects_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -1375,11 +1375,11 @@ ALTER TABLE `module_projects_notes`
   ADD CONSTRAINT `fk_module_projects_notes_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
--- Constraints for table `module_projects_users`
+-- Constraints for table `module_projects_assignments`
 --
-ALTER TABLE `module_projects_users`
-  ADD CONSTRAINT `fk_module_projects_users_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_projects_users_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+ALTER TABLE `module_projects_assignments`
+  ADD CONSTRAINT `fk_module_projects_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_projects_assignments_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
 -- Constraints for table `module_tasks`

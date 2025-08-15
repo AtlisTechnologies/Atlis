@@ -10,13 +10,13 @@ if ($project_id && $user_id) {
   $stmt->execute([':id' => $project_id]);
   $owner_id = $stmt->fetchColumn();
   if ($owner_id && ($is_admin || $owner_id == $this_user_id)) {
-    $sel = $pdo->prepare('SELECT id FROM module_projects_users WHERE project_id = :pid AND assigned_user_id = :uid');
+    $sel = $pdo->prepare('SELECT id FROM module_projects_assignments WHERE project_id = :pid AND assigned_user_id = :uid');
     $sel->execute([':pid' => $project_id, ':uid' => $user_id]);
     $assignId = $sel->fetchColumn();
     if ($assignId) {
-      $del = $pdo->prepare('DELETE FROM module_projects_users WHERE id = :id');
+      $del = $pdo->prepare('DELETE FROM module_projects_assignments WHERE id = :id');
       $del->execute([':id' => $assignId]);
-      audit_log($pdo, $this_user_id, 'module_projects_users', $assignId, 'DELETE', 'Removed user assignment');
+      audit_log($pdo, $this_user_id, 'module_projects_assignments', $assignId, 'DELETE', 'Removed user assignment');
     }
   }
 }
