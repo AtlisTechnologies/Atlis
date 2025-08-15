@@ -114,99 +114,6 @@ if (!empty($current_project)) {
             </div>
           </div>
             <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
-            <div class="mt-6">
-              <h2 class="mb-4">Todo list<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
-              <div class="row align-items-center g-3 mb-3">
-                <div class="col-sm-auto">
-                  <div class="search-box">
-                    <form class="position-relative">
-                      <input class="form-control search-input search" type="search" placeholder="Search tasks" aria-label="Search" />
-                      <span class="fas fa-search search-box-icon"></span>
-                    </form>
-                  </div>
-                </div>
-                <div class="col-sm-auto">
-                  <div class="d-flex"><a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?= count($tasks) ?> tasks</a><a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a></div>
-                </div>
-              </div>
-              <div class="mb-4 todo-list">
-                <?php if (!empty($tasks)): ?>
-                  <?php foreach ($tasks as $t): ?>
-                    <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top">
-                      <div class="col-12 col-md-auto flex-1">
-                        <div>
-                          <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
-                            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" <?= !empty($t['completed']) ? 'checked' : '' ?> />
-                            <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-auto">
-                        <div class="d-flex ms-4 lh-1 align-items-center">
-                          <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span><?= (int)($t['attachment_count'] ?? 0) ?></button>
-                          <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
-                        </div>
-                      </div>
-                    </div>
-                  <?php endforeach; ?>
-                <?php else: ?>
-                  <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
-                <?php endif; ?>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-8 col-xl-5">
-          <div class="d-flex align-items-center mb-4">
-            <h4 class="text-body-emphasis mb-0 me-2">Team members</h4>
-            <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
-          </div>
-          <?php if (!empty($assignedUsers)): ?>
-            <ul class="list-unstyled mb-4">
-              <?php foreach ($assignedUsers as $au): ?>
-                <li class="d-flex align-items-center mb-2">
-                  <div class="avatar avatar-xl me-2">
-                    <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
-                  </div>
-                  <div class="d-flex align-items-center flex-grow-1">
-                    <h6 class="mb-0"><?= h($au['name']) ?></h6>
-                    <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
-                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                      <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                      <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
-                    </form>
-                  </div>
-                  <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
-                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                  </form>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          <?php else: ?>
-            <p class="fs-9 text-body-secondary mb-4">No team members assigned.</p>
-          <?php endif; ?>
-
-          <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-              <form class="modal-content" method="post" action="functions/assign_user.php">
-                <div class="modal-header">
-                  <h5 class="modal-title">Assign User</h5>
-                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                  <select class="form-select" name="user_id">
-                    <?php foreach ($availableUsers as $au): ?>
-                      <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-atlis" type="submit">Assign</button>
-                </div>
-              </form>
-            </div>
-          </div>
         </div>
       </div>
       <h3 class="text-body-emphasis mb-4">Project overview</h3>
@@ -224,7 +131,83 @@ if (!empty($current_project)) {
       </div>
       <?php endif; ?>
     </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="d-flex align-items-center mb-4">
+          <h4 class="text-body-emphasis mb-0 me-2">Team members</h4>
+          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+        </div>
+        <?php if (!empty($assignedUsers)): ?>
+          <ul class="list-unstyled mb-4">
+            <?php foreach ($assignedUsers as $au): ?>
+              <li class="d-flex align-items-center mb-2">
+                <div class="avatar avatar-xl me-2">
+                  <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                </div>
+                <div class="d-flex align-items-center flex-grow-1">
+                  <h6 class="mb-0"><?= h($au['name']) ?></h6>
+                  <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
+                  </form>
+                </div>
+                <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                  <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                  <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                </form>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php else: ?>
+          <p class="fs-9 text-body-secondary mb-4">No team members assigned.</p>
+        <?php endif; ?>
+      </div>
+      <div class="col-8">
+        <div class="mt-6">
+          <h2 class="mb-4">Todo list<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
+          <div class="row align-items-center g-3 mb-3">
+            <div class="col-sm-auto">
+              <div class="search-box">
+                <form class="position-relative">
+                  <input class="form-control search-input search" type="search" placeholder="Search tasks" aria-label="Search" />
+                  <span class="fas fa-search search-box-icon"></span>
+                </form>
+              </div>
+            </div>
+            <div class="col-sm-auto">
+              <div class="d-flex"><a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?= count($tasks) ?> tasks</a><a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a></div>
+            </div>
+          </div>
+          <div class="mb-4 todo-list">
+            <?php if (!empty($tasks)): ?>
+              <?php foreach ($tasks as $t): ?>
+                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top">
+                  <div class="col-12 col-md-auto flex-1">
+                    <div>
+                      <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
+                        <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" <?= !empty($t['completed']) ? 'checked' : '' ?> />
+                        <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <div class="d-flex ms-4 lh-1 align-items-center">
+                      <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span><?= (int)($t['attachment_count'] ?? 0) ?></button>
+                      <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
+                    </div>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <div class="col-12 col-xxl-4 px-0 border-start-xxl border-top-sm">
     <div class="bg-light dark__bg-gray-1100 h-100">
       <div class="p-4 p-lg-6">
@@ -320,3 +303,25 @@ document.addEventListener('DOMContentLoaded', function () {
 <?php else: ?>
 <p>No project found.</p>
 <?php endif; ?>
+
+<div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="post" action="functions/assign_user.php">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign User</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+        <select class="form-select" name="user_id">
+          <?php foreach ($availableUsers as $au): ?>
+            <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-atlis" type="submit">Assign</button>
+      </div>
+    </form>
+  </div>
+</div>
