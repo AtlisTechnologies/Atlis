@@ -5,33 +5,30 @@ require_once __DIR__ . '/../../../includes/functions.php';
 <?php if (!empty($current_task)): ?>
   <?php
     $hierarchyParts = array_filter([
-      $project_name ?? null,
-      $division_name ?? null,
-      $agency_name ?? null,
-      $organization_name ?? null
+      $current_task['project_name'] ?? null,
+      $current_task['division_name'] ?? null,
+      $current_task['agency_name'] ?? null,
+      $current_task['organization_name'] ?? null
     ]);
-    $hierarchyString = implode(' / ', array_map('h', $hierarchyParts));
   ?>
-  <div class="card mb-4">
-    <div class="card-body">
-      <h3 class="mb-3">
-        <?php echo h($current_task['name'] ?? ''); ?>
-        <?php if ($hierarchyString !== ''): ?>
-          &ndash; <?php echo $hierarchyString; ?>
-        <?php endif; ?>
-      </h3>
-      <p class="mb-3">
-        <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
-          <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
-        </span>
-        <span class="badge badge-phoenix fs-10 badge-phoenix-secondary ms-1">
-          <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
-        </span>
-      </p>
-      <?php if (!empty($current_task['description'])): ?>
-      <p><?php echo nl2br(h($current_task['description'])); ?></p>
-      <?php endif; ?>
+  <div class="mb-5">
+    <div class="d-flex justify-content-between">
+      <h2 class="text-body-emphasis fw-bolder mb-2"><?php echo h($current_task['name'] ?? ''); ?></h2>
     </div>
+    <?php if ($hierarchyParts): ?>
+      <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
+    <?php endif; ?>
+    <p class="mb-3 mt-3">
+      <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
+        <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
+      </span>
+      <span class="badge badge-phoenix fs-10 badge-phoenix-secondary ms-1">
+        <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
+      </span>
+    </p>
+    <?php if (!empty($current_task['description'])): ?>
+    <p><?php echo nl2br(h($current_task['description'])); ?></p>
+    <?php endif; ?>
   </div>
 
   <div class="row">
