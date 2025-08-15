@@ -39,7 +39,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Team members</h5>
-          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+
+          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
+
         </div>
         <div class="card-body">
           <?php if (!empty($assignedUsers)): ?>
