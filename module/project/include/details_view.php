@@ -17,6 +17,27 @@ require_once __DIR__ . '/../../../includes/functions.php';
         </div>
           <h3 class="text-body-emphasis mb-4">Project overview</h3>
           <p class="text-body-secondary mb-4"><?php echo nl2br(h($current_project['description'] ?? '')); ?></p>
+          <div class="row mb-5">
+            <div class="col-md-6">
+              <h4 class="mb-2 fs-8 text-body-emphasis">Requirements</h4>
+              <p class="text-body-secondary mb-4"><?php echo nl2br(h($current_project['requirements'] ?? '')); ?></p>
+            </div>
+            <div class="col-md-6">
+              <h4 class="mb-2 fs-8 text-body-emphasis">Specifications</h4>
+              <p class="text-body-secondary mb-4"><?php echo nl2br(h($current_project['specifications'] ?? '')); ?></p>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-md-6">
+              <p class="mb-1 fw-bold fs-9">Start date:<span class="fw-semibold text-body-tertiary text-opacity-85 ms-1"><?php echo h($current_project['start_date'] ?? ''); ?></span></p>
+              <p class="mb-1 fw-bold fs-9">Complete date:<span class="fw-semibold text-body-tertiary text-opacity-85 ms-1"><?php echo h($current_project['complete_date'] ?? ''); ?></span></p>
+              <p class="mb-0 fw-bold fs-9">Completed:<span class="fw-semibold text-body-tertiary text-opacity-85 ms-1"><?php echo !empty($current_project['completed']) ? 'Yes' : 'No'; ?></span></p>
+            </div>
+            <div class="col-md-6">
+              <p class="mb-1 fw-bold fs-9">Agency ID:<span class="fw-semibold text-body-tertiary text-opacity-85 ms-1"><?php echo h($current_project['agency_id'] ?? ''); ?></span></p>
+              <p class="mb-0 fw-bold fs-9">Division ID:<span class="fw-semibold text-body-tertiary text-opacity-85 ms-1"><?php echo h($current_project['division_id'] ?? ''); ?></span></p>
+            </div>
+          </div>
 
           <h3 class="text-body-emphasis mb-4">Tasks</h3>
           <div class="row align-items-center g-0 justify-content-start mb-3">

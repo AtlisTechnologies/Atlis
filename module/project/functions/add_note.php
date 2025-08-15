@@ -14,5 +14,5 @@ if($id && $note !== ''){
   $noteId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_projects_notes',$noteId,'NOTE','', $note);
 }
-header('Location: ../details_view.php?id=' . $id);
+header('Location: ../index.php?action=details&id=' . $id);
 exit;
