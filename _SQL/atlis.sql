@@ -675,6 +675,7 @@ CREATE TABLE `module_projects_files` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
+  `note_id` int(11) DEFAULT NULL,
   `file_name` varchar(255) DEFAULT NULL,
   `file_path` varchar(255) DEFAULT NULL,
   `file_size` int(11) DEFAULT NULL,
@@ -685,8 +686,8 @@ CREATE TABLE `module_projects_files` (
 -- Dumping data for table `module_projects_files`
 --
 
-INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(3, 1, 1, '2025-08-14 22:27:08', '2025-08-14 22:27:08', NULL, 5, 'Image from iOS.jpg', '/module/project/uploads/project_5_1755232028_Image_from_iOS.jpg', 278679, 'image/jpeg');
+INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(3, 1, 1, '2025-08-14 22:27:08', '2025-08-14 22:27:08', NULL, 5, NULL, 'Image from iOS.jpg', '/module/project/uploads/project_5_1755232028_Image_from_iOS.jpg', 278679, 'image/jpeg');
 
 -- --------------------------------------------------------
 
@@ -1125,7 +1126,8 @@ ALTER TABLE `module_projects_files`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_module_projects_files_user_id` (`user_id`),
   ADD KEY `fk_module_projects_files_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_files_project_id` (`project_id`);
+  ADD KEY `fk_module_projects_files_project_id` (`project_id`),
+  ADD KEY `fk_module_projects_files_note_id` (`note_id`);
 
 --
 -- Indexes for table `module_projects_notes`
@@ -1427,7 +1429,8 @@ ALTER TABLE `module_projects_assignments`
 -- Constraints for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`);
 
 --
 -- Constraints for table `module_projects_notes`
