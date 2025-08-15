@@ -119,7 +119,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                     </div>
                     <div class="col">
                       <div class="timeline-item-content ps-6 ps-md-3">
-                        <p class="mb-0"><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></p>
+                        <p class="mb-0"><a href="<? echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></p>
                         <p class="fs-9 text-body-secondary mb-0">
                           <?php echo h($f['file_size']); ?>
                           <span class="text-body-quaternary mx-1">|</span>
