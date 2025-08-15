@@ -9,9 +9,9 @@
   </ol>
 </nav>
 <h2 class="mb-4"><?php echo $isEdit ? 'Edit Task' : 'Create Task'; ?></h2>
-<div class="row">
-  <div class="col-xl-9">
-    <form class="row g-3 mb-6" method="post" action="index.php?action=save">
+  <div class="row">
+    <div class="col-xl-9">
+      <form class="row g-3 mb-6" method="post" action="index.php?action=save">
       <input type="hidden" name="id" value="<?php echo h($task['id'] ?? ''); ?>">
       <div class="col-12">
         <div class="form-floating">
@@ -82,73 +82,16 @@
           </select>
         </div>
       </div>
-      <div class="col-12 gy-6">
-        <div class="row g-3 justify-content-end">
-          <div class="col-auto">
-            <a class="btn btn-phoenix-primary" href="index.php">Cancel</a>
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-atlis" type="submit">Save Task</button>
+        <div class="col-12 gy-6">
+          <div class="row g-3 justify-content-end">
+            <div class="col-auto">
+              <a class="btn btn-phoenix-primary" href="index.php">Cancel</a>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-atlis" type="submit">Save Task</button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-  </div>
-  <div class="row">
-    <div class="mb-3 col-md-4">
-      <label class="form-label">Status</label>
-      <select name="status" class="form-select">
-        <?php foreach ($statusMap as $s): ?>
-          <option value="<?php echo $s['id']; ?>" <?php if (($task['status'] ?? '') == $s['id']) echo 'selected'; ?>><?php echo h($s['label']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="mb-3 col-md-4">
-      <label class="form-label">Priority</label>
-      <select name="priority" class="form-select">
-        <?php foreach ($priorityMap as $p): ?>
-          <option value="<?php echo $p['id']; ?>" <?php if (($task['priority'] ?? '') == $p['id']) echo 'selected'; ?>><?php echo h($p['label']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="mb-3 col-md-4">
-      <label class="form-label">Project</label>
-      <select name="project_id" class="form-select">
-        <option value="">-- None --</option>
-        <?php foreach ($projects as $p): ?>
-          <option value="<?php echo $p['id']; ?>" <?php if (($task['project_id'] ?? '') == $p['id']) echo 'selected'; ?>><?php echo h($p['name']); ?></option>
-        <?php endforeach; ?>
-      </select>
+      </form>
     </div>
   </div>
-  <div class="row">
-    <div class="mb-3 col-md-6">
-      <label class="form-label">Agency</label>
-      <select name="agency_id" class="form-select">
-        <option value="">-- None --</option>
-        <?php foreach ($agencies as $a): ?>
-          <option value="<?php echo $a['id']; ?>" <?php if (($task['agency_id'] ?? '') == $a['id']) echo 'selected'; ?>><?php echo h($a['name']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="mb-3 col-md-6">
-      <label class="form-label">Division</label>
-      <select name="division_id" class="form-select">
-        <option value="">-- None --</option>
-        <?php foreach ($divisions as $d): ?>
-          <option value="<?php echo $d['id']; ?>" <?php if (($task['division_id'] ?? '') == $d['id']) echo 'selected'; ?>><?php echo h($d['name']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Assigned Users</label>
-    <select name="assigned_users[]" multiple class="form-select">
-      <?php foreach ($users as $u): ?>
-        <option value="<?php echo $u['id']; ?>" <?php if (in_array($u['id'], $assignedUsers)) echo 'selected'; ?>><?php echo h($u['email']); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-atlis">Save</button>
-</form>
-</div>
