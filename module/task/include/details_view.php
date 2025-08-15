@@ -161,11 +161,16 @@ require_once __DIR__ . '/../../../includes/functions.php';
     </div>
 
     <div class="col-lg-8">
-      <div class="bg-light dark__bg-gray-1100 h-100">
-        <div class="p-4 p-lg-6">
-          <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
-          <div class="timeline-vertical timeline-with-details">
-            <?php if (!empty($notes)): ?>
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">Notes</h5></div>
+        <div class="card-body">
+          <form action="functions/add_note.php" method="post" class="mb-3">
+            <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+            <div class="mb-2"><textarea class="form-control" name="note" rows="3" required></textarea></div>
+            <button class="btn btn-sm btn-success" type="submit">Add Note</button>
+          </form>
+          <?php if (!empty($notes)): ?>
+            <div class="timeline-vertical mt-3">
               <?php foreach ($notes as $n): ?>
               <div class="timeline-item position-relative">
                 <div class="row g-md-3">
