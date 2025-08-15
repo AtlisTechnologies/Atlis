@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/../../../includes/functions.php';
+if (!user_has_permission('project','create')) {
+  header('HTTP/1.1 403 Forbidden');
+  echo '403 Forbidden';
+  exit;
+}
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -20,6 +25,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <div class="col-sm-6 col-md-4">
         <div class="form-floating">
           <select class="form-select" id="projectStatus" name="status" required>
+            <option value="" selected>Select status</option>
             <?php foreach ($statusMap as $s): ?>
               <option value="<?= h($s['id']); ?>"><?= h($s['label']); ?></option>
             <?php endforeach; ?>
@@ -78,10 +84,10 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <div class="col-12 gy-6">
         <div class="row g-3 justify-content-end">
           <div class="col-auto">
-            <a class="btn btn-phoenix-primary px-5" href="index.php">Cancel</a>
+            <a class="btn btn-warning px-5" href="index.php">Cancel</a>
           </div>
           <div class="col-auto">
-            <button class="btn btn-primary px-5 px-sm-15" type="submit">Create Project</button>
+            <button class="btn atlis px-5 px-sm-15" type="submit">Create Project</button>
           </div>
         </div>
       </div>
