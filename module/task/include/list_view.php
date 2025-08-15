@@ -50,3 +50,28 @@
   </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+      const taskId = this.dataset.taskId;
+      if (!this.checked) { return; }
+      fetch('functions/complete.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            this.disabled = true;
+          } else {
+            this.checked = false;
+          }
+        }).catch(() => {
+          this.checked = false;
+        });
+    });
+  });
+});
+</script>

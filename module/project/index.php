@@ -1,7 +1,7 @@
 <?php
 require '../../includes/php_header.php';
 
-$action = $_GET['action'] ?? 'card';
+$action = $_GET['action'] ?? 'list';
 
 if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
   require 'functions/create.php';
@@ -30,13 +30,27 @@ if ($action === 'create') {
 
 require_permission('project','read');
 
-$statusMap = array_column(get_lookup_items($pdo, 'PROJECT_STATUS'), null, 'id');
-$stmt = $pdo->query('SELECT id, name, status FROM module_projects ORDER BY name');
-$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$sql = "SELECT p.id, p.name, p.description, p.start_date, p.complete_date,
+               li.label AS status_label,
+               COALESCE(attr.attr_value, 'secondary') AS status_color,
+               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id) AS total_tasks,
+               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id AND t.completed = 0) AS in_progress
+        FROM module_projects p
+        LEFT JOIN lookup_list_items li ON p.status = li.id
+        LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
+        ORDER BY p.name";
+$projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+$assignStmt = $pdo->query("SELECT pa.project_id, u.profile_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
+                           FROM module_projects_assignments pa
+                           LEFT JOIN users u ON pa.user_id = u.id
+                           LEFT JOIN person per ON u.id = per.user_id");
+$assignments = [];
+foreach ($assignStmt as $row) {
+  $assignments[$row['project_id']][] = $row;
+}
 foreach ($projects as &$project) {
-  $status = $statusMap[$project['status']] ?? null;
-  $project['status_label'] = $status['label'] ?? null;
-  $project['status_color'] = $status['color_class'] ?? 'secondary';
+  $project['assignees'] = $assignments[$project['id']] ?? [];
 }
 unset($project);
 
@@ -64,6 +78,20 @@ unset($project);
       );
       $tasksStmt->execute([':id' => $project_id]);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
+      $assignedStmt->execute([':id' => $project_id]);
+      $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $assignedIds = array_column($assignedUsers, 'user_id');
+      if ($assignedIds) {
+        $placeholders = implode(',', array_fill(0, count($assignedIds), '?'));
+        $availableStmt = $pdo->prepare("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id NOT IN ($placeholders) ORDER BY name");
+        $availableStmt->execute($assignedIds);
+      } else {
+        $availableStmt = $pdo->query("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name");
+      }
+      $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
     }
   }
 

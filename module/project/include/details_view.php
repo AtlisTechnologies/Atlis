@@ -156,54 +156,55 @@ if (!empty($current_project)) {
             </div>
           </div>
         </div>
-        <div class="col-12 col-sm-7 col-lg-8 col-xl-5">
-          <h4 class="text-body-emphasis mb-4">Team members</h4>
-          <div class="d-flex mb-8">
-            <div class="dropdown"><a class="dropdown-toggle dropdown-caret-none d-inline-block outline-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                <div class="avatar avatar-xl  me-1">
-                  <img class="rounded-circle " src="../../assets/img//team/33.webp" alt="" />
-                </div>
-              </a>
-              <div class="dropdown-menu avatar-dropdown-menu p-0 overflow-hidden" style="width: 320px;">
-                <div class="position-relative">
-                  <div class="bg-holder z-n1" style="background-image:url(../../assets/img/bg/bg-32.png);background-size: auto;">
+          <div class="col-12 col-sm-7 col-lg-8 col-xl-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="text-body-emphasis mb-0">Team members</h4>
+            <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+          </div>
+          <?php if (!empty($assignedUsers)): ?>
+            <ul class="list-unstyled mb-4">
+              <?php foreach ($assignedUsers as $au): ?>
+                <li class="d-flex align-items-center mb-2">
+                  <div class="avatar avatar-xl me-2">
+                    <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                   </div>
-                  <div class="p-3">
-                    <div class="text-end">
-                      <button class="btn p-0 me-2"><span class="fa-solid fa-user-plus text-white"></span></button>
-                      <button class="btn p-0"><span class="fa-solid fa-ellipsis text-white"></span></button>
-                    </div>
-                    <div class="text-center">
-                      <div class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2 mb-2"><img class="rounded-circle border border-light-subtle" src="../../assets/img//team/33.webp" alt="" /></div>
-                      <h6 class="text-white">Tyrion Lannister</h6>
-                      <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">@tyrion222</p>
-                      <div class="d-flex flex-center mb-3">
-                        <h6 class="text-white mb-0">224 <span class="fw-normal text-light text-opacity-75">connections</span></h6><span class="fa-solid fa-circle text-body-tertiary mx-1" data-fa-transform="shrink-10 up-2"></span>
-                        <h6 class="text-white mb-0">23 <span class="fw-normal text-light text-opacity-75">mutual</span></h6>
-                      </div>
-                    </div>
+                  <div class="flex-grow-1">
+                    <h6 class="mb-0"><?= h($au['name']) ?></h6>
                   </div>
+                  <form method="post" action="functions/remove_user.php" class="ms-2">
+                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                    <button class="btn btn-link p-0 text-decoration-none text-danger" type="submit">Unassign</button>
+                  </form>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          <?php else: ?>
+            <p class="fs-9 text-body-secondary mb-4">No team members assigned.</p>
+          <?php endif; ?>
+
+          <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <form class="modal-content" method="post" action="functions/assign_user.php">
+                <div class="modal-header">
+                  <h5 class="modal-title">Assign User</h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="bg-body-emphasis">
-                  <div class="p-3 border-bottom border-translucent">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex">
-                        <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-phone"></span></button>
-                        <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-message"></span></button>
-                        <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg"><span class="fa-solid fa-video"></span></button>
-                      </div>
-                      <button class="btn btn-phoenix-primary"><span class="fa-solid fa-envelope me-2"></span>Send Email</button>
-                    </div>
-                  </div>
-                  <ul class="nav d-flex flex-column py-3 border-bottom">
-                    <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body d-inline-block" data-feather="clipboard"></span><span class="text-body-highlight flex-1">Assigned Projects</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                    <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body" data-feather="pie-chart"></span><span class="text-body-highlight flex-1">View activiy</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                  </ul>
+                <div class="modal-body">
+                  <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                  <select class="form-select" name="user_id">
+                    <?php foreach ($availableUsers as $au): ?>
+                      <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
-                <div class="p-3 d-flex justify-content-between"><a class="btn btn-link p-0 text-decoration-none" href="#!">Details </a><a class="btn btn-link p-0 text-decoration-none text-danger" href="#!">Unassign </a></div>
-              </div>
+                <div class="modal-footer">
+                  <button class="btn btn-atlis" type="submit">Assign</button>
+                </div>
+              </form>
             </div>
           </div>
+
           <h4 class="text-body-emphasis mb-4">Tags</h4><span class="badge badge-tag me-2 mb-1">Unused_brain</span><span class="badge badge-tag me-2 mb-1">Machine</span><span class="badge badge-tag me-2 mb-1">Coding</span>
         </div>
       </div>
