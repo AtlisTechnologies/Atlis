@@ -118,11 +118,17 @@ function handleItem($action){
     if($active_to==='' || $active_to==='0000-00-00'){
        $active_to=null;
      }
-    if($list_id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+    if($list_id<=0||$label===''||$code===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
     $stmt->execute([':list_id'=>$list_id,':label'=>$label]);
     if($stmt->fetch()){
       echo json_encode(['success'=>false,'error'=>'Label already exists']);
+      return;
+    }
+    $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND code=:code');
+    $stmt->execute([':list_id'=>$list_id,':code'=>$code]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Code already exists']);
       return;
     }
     try{
@@ -133,7 +139,7 @@ function handleItem($action){
       echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
       if($e->getCode()==='23000'){
-        echo json_encode(['success'=>false,'error'=>'Label already exists']);
+        echo json_encode(['success'=>false,'error'=>'Label or code already exists']);
       }else{
         echo json_encode(['success'=>false,'error'=>'Database error']);
       }
@@ -145,7 +151,7 @@ function handleItem($action){
     $active_from=$_POST['active_from']??date('Y-m-d');
     $active_to=$_POST['active_to']??null;
     if($active_to===''){ $active_to=null; }
-    if($id<=0||$label===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+    if($id<=0||$label===''||$code===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT list_id FROM lookup_list_items WHERE id=:id');
     $stmt->execute([':id'=>$id]);
     $list_id=$stmt->fetchColumn();
@@ -156,6 +162,12 @@ function handleItem($action){
       echo json_encode(['success'=>false,'error'=>'Label already exists']);
       return;
     }
+    $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND code=:code AND id<>:id');
+    $stmt->execute([':list_id'=>$list_id,':code'=>$code,':id'=>$id]);
+    if($stmt->fetch()){
+      echo json_encode(['success'=>false,'error'=>'Code already exists']);
+      return;
+    }
     try{
       $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label,code=:code,active_from=:active_from,active_to=:active_to,user_updated=:uid WHERE id=:id');
       $stmt->execute([':label'=>$label,':code'=>$code,':active_from'=>$active_from,':active_to'=>$active_to,':uid'=>$this_user_id,':id'=>$id]);
@@ -163,7 +175,7 @@ function handleItem($action){
       echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
       if($e->getCode()==='23000'){
-        echo json_encode(['success'=>false,'error'=>'Label already exists']);
+        echo json_encode(['success'=>false,'error'=>'Label or code already exists']);
       }else{
         echo json_encode(['success'=>false,'error'=>'Database error']);
       }

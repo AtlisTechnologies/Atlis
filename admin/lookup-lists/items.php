@@ -71,7 +71,23 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     if($active_to==='' || $active_to==='0000-00-00'){
       $active_to=null;
     }
-    if($label===''){$error='Label is required.';}
+    if($code===''){
+      $error='Code is required.';
+    }elseif($label===''){
+      $error='Label is required.';
+    }
+    if(!$error){
+      if($item_id){
+        $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND (label=:label OR code=:code) AND id<>:id');
+        $stmt->execute([':list_id'=>$list_id,':label'=>$label,':code'=>$code,':id'=>$item_id]);
+      }else{
+        $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND (label=:label OR code=:code)');
+        $stmt->execute([':list_id'=>$list_id,':label'=>$label,':code'=>$code]);
+      }
+      if($stmt->fetch()){
+        $error='Label or code already exists.';
+      }
+    }
     if(!$error){
       if($item_id){
         $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label, code=:code, active_from=:active_from, active_to=:active_to, user_updated=:uid WHERE id=:id');
@@ -122,10 +138,10 @@ if($items){
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <input type="hidden" name="id" value="<?= h($_POST['id'] ?? ''); ?>">
-  <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" required></div>
-  <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" required></div>
+  <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" value="<?= h($_POST['code'] ?? ''); ?>" required></div>
+  <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" value="<?= h($_POST['label'] ?? ''); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
-  <div class="col-md-2"><input class="form-control" type="date" name="active_to"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
 </form>
 <div id="items" data-list='{"valueNames":["code","label"],"page":25,"pagination":true}'>

@@ -950,7 +950,9 @@ ALTER TABLE `lookup_list_items`
   ADD KEY `fk_module_lookup_list_items_list_id` (`list_id`),
   ADD KEY `fk_module_lookup_list_items_user_id` (`user_id`),
   ADD KEY `fk_module_lookup_list_items_user_updated` (`user_updated`),
-  ADD KEY `idx_module_lookup_list_items_label` (`label`);
+  ADD KEY `idx_module_lookup_list_items_label` (`label`),
+  ADD UNIQUE KEY `uq_lookup_list_items_label` (`list_id`,`label`),
+  ADD UNIQUE KEY `uq_lookup_list_items_code` (`list_id`,`code`);
 
 --
 -- Indexes for table `lookup_list_item_attributes`
