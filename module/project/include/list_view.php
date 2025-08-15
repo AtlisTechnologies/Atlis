@@ -43,7 +43,7 @@
               <?php foreach ($project['assignees'] as $assignee): ?>
                 <?php $pic = !empty($assignee['profile_pic']) ? '../users/uploads/' . $assignee['profile_pic'] : '../../assets/img/team/avatar.webp'; ?>
                 <div class="avatar avatar-s rounded-circle">
-                  <img class="rounded-circle" src="<?php echo h($pic); ?>" alt="<?php echo h($assignee['name']); ?>" />
+                  <img class="rounded-circle" src="<? echo getURLDir(); ?><?= h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
                 </div>
               <?php endforeach; ?>
             </div>
