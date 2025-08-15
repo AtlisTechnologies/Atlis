@@ -84,12 +84,6 @@ function handleList($action){
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
-    $stmt=$pdo->prepare('SELECT COUNT(*) FROM lookup_list_items WHERE list_id=:id');
-    $stmt->execute([':id'=>$id]);
-    if($stmt->fetchColumn()>0){
-      echo json_encode(['success'=>false,'error'=>'Remove items before deleting this list']);
-      return;
-    }
     try{
       $pdo->prepare('DELETE FROM lookup_lists WHERE id=:id')->execute([':id'=>$id]);
       audit_log($pdo,$this_user_id,'lookup_lists',$id,'DELETE','Deleted lookup list');
@@ -177,15 +171,6 @@ function handleItem($action){
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
-    $tables=['module_agency','module_division','module_organization','users'];
-    foreach($tables as $tbl){
-      $stmt=$pdo->prepare("SELECT COUNT(*) FROM {$tbl} WHERE status=:id");
-      $stmt->execute([':id'=>$id]);
-      if($stmt->fetchColumn()>0){
-        echo json_encode(['success'=>false,'error'=>'Item is referenced in '.$tbl]);
-        return;
-      }
-    }
     try{
       $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$id]);
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'DELETE','Deleted lookup list item');

@@ -1262,6 +1262,29 @@ ALTER TABLE `users_2fa`
 --
 
 --
+-- Constraints for table `lookup_lists`
+--
+ALTER TABLE `lookup_lists`
+  ADD CONSTRAINT `fk_module_lookup_lists_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_lookup_lists_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `lookup_list_items`
+--
+ALTER TABLE `lookup_list_items`
+  ADD CONSTRAINT `fk_module_lookup_list_items_list_id` FOREIGN KEY (`list_id`) REFERENCES `lookup_lists` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_lookup_list_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_lookup_list_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `lookup_list_item_attributes`
+--
+ALTER TABLE `lookup_list_item_attributes`
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_division`
 --
 ALTER TABLE `module_division`
