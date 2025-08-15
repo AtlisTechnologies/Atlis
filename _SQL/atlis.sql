@@ -782,7 +782,7 @@ CREATE TABLE `system_properties` (
   `category_id` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `value` text DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -790,7 +790,7 @@ CREATE TABLE `system_properties` (
 -- Dumping data for table `system_properties`
 --
 
-INSERT INTO `system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type`, `description`) VALUES
+INSERT INTO `system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type_id`, `description`) VALUES
 (1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 30, 'logo', '/assets/logo.png', 32, 'Default site logo');
 
 -- --------------------------------------------------------
@@ -1078,7 +1078,7 @@ ALTER TABLE `system_properties`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_system_properties_name` (`name`),
   ADD KEY `fk_system_properties_category_id` (`category_id`),
-  ADD KEY `fk_system_properties_type` (`type`),
+  ADD KEY `fk_system_properties_type_id` (`type_id`),
   ADD KEY `fk_system_properties_user_id` (`user_id`),
   ADD KEY `fk_system_properties_user_updated` (`user_updated`);
 
