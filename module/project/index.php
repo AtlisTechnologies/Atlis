@@ -56,7 +56,7 @@ unset($project);
 
   if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
     $project_id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT * FROM module_projects WHERE id = :id');
+    $stmt = $pdo->prepare('SELECT p.*, a.name AS agency_name, d.name AS division_name FROM module_projects p LEFT JOIN module_agency a ON p.agency_id = a.id LEFT JOIN module_division d ON p.division_id = d.id WHERE p.id = :id');
     $stmt->execute([':id' => $project_id]);
     $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -65,7 +65,7 @@ unset($project);
 
     if ($action === 'details' && $current_project) {
 
-      $filesStmt = $pdo->prepare('SELECT id, user_id, file_name, file_path, file_size, file_type, date_created FROM module_projects_files WHERE project_id = :id AND note_id IS NULL ORDER BY date_created DESC');
+      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NULL ORDER BY f.date_created DESC');
 
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -74,7 +74,7 @@ unset($project);
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $noteFilesStmt = $pdo->prepare('SELECT id,user_id,file_name,file_path,file_size,file_type,date_created,note_id FROM module_projects_files WHERE project_id = :id AND note_id IS NOT NULL ORDER BY date_created DESC');
+      $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.note_id, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NOT NULL ORDER BY f.date_created DESC');
       $noteFilesStmt->execute([':id' => $project_id]);
       $noteFilesRaw = $noteFilesStmt->fetchAll(PDO::FETCH_ASSOC);
       $noteFiles = [];
