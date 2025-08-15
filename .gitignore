@@ -15,3 +15,7 @@ xamppfiles/
 php.ini
 my.cnf
 config.inc.php
+
+# Upload directories
+uploads/
+**/uploads/
