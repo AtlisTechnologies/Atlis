@@ -48,9 +48,9 @@
               <?php endforeach; ?>
             </div>
           </td>
-          <td class="align-middle ps-3 start"><?php echo h($project['start_date']); ?></td>
-          <td class="align-middle ps-3 deadline"><?php echo h($project['complete_date']); ?></td>
-          <td class="align-middle ps-3 projectprogress"><?php echo h($project['in_progress']) . '/' . h($project['total_tasks']); ?></td>
+          <td class="align-middle ps-3 start"><?php echo !empty($project['start_date']) ? h(date('F jS, Y', strtotime($project['start_date']))) : ''; ?></td>
+          <td class="align-middle ps-3 deadline"><?php echo !empty($project['complete_date']) ? h(date('F jS, Y', strtotime($project['complete_date']))) : ''; ?></td>
+          <td class="align-middle ps-3 projectprogress"><?php echo h($project['completed_tasks']) . '/' . h($project['total_tasks']); ?></td>
           <td class="align-middle ps-8 status"><span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['status_color']); ?>"><?php echo h($project['status_label']); ?></span></td>
           <td class="align-middle text-end">
             <div class="btn-reveal-trigger position-static">
