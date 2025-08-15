@@ -21,6 +21,47 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$delId]);
     audit_log($pdo,$this_user_id,'lookup_list_items',$delId,'DELETE','Deleted lookup list item');
     $message='Item deleted.';
+  }elseif(isset($_POST['attr_delete_id'])){
+    $delId=(int)$_POST['attr_delete_id'];
+    $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
+    audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
+    $message='Attribute deleted.';
+  }elseif(isset($_POST['attr_item_id'])){
+    $attr_id=(int)($_POST['attr_id'] ?? 0);
+    $item_id=(int)$_POST['attr_item_id'];
+    $key=trim($_POST['attr_code'] ?? '');
+    $value=trim($_POST['attr_value'] ?? '');
+    if($key===''){ $error='Key is required.'; }
+    if(!$error){
+      if($attr_id){
+        try{
+          $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
+          $stmt->execute([':k'=>$key,':v'=>$value,':uid'=>$this_user_id,':id'=>$attr_id]);
+          audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
+          $message='Attribute updated.';
+        }catch(PDOException $e){
+          if($e->getCode()==='23000'){
+            $error='Attribute already exists for this item.';
+          }else{
+            $error='Database error.';
+          }
+        }
+      }else{
+        try{
+          $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
+          $stmt->execute([':uid'=>$this_user_id,':item_id'=>$item_id,':k'=>$key,':v'=>$value]);
+          $attr_id=$pdo->lastInsertId();
+          audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
+          $message='Attribute added.';
+        }catch(PDOException $e){
+          if($e->getCode()==='23000'){
+            $error='Attribute already exists for this item.';
+          }else{
+            $error='Database error.';
+          }
+        }
+      }
+    }
   }else{
     $item_id=(int)($_POST['id'] ?? 0);
     $label=trim($_POST['label'] ?? '');
@@ -51,6 +92,20 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 $stmt=$pdo->prepare('SELECT id,label,code,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY label');
 $stmt->execute([':list_id'=>$list_id]);
 $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
+if($items){
+  $ids=array_column($items,'id');
+  $placeholders=rtrim(str_repeat('?,',count($ids)),',');
+  $aStmt=$pdo->prepare("SELECT item_id,id,attr_code,attr_value FROM lookup_list_item_attributes WHERE item_id IN ($placeholders)");
+  $aStmt->execute($ids);
+  $map=[];
+  foreach($aStmt->fetchAll(PDO::FETCH_ASSOC) as $a){
+    $map[$a['item_id']][]=$a;
+  }
+  foreach($items as &$it){
+    $it['attrs']=$map[$it['id']]??[];
+  }
+  unset($it);
+}
 ?>
 
 <div class="row">
@@ -89,7 +144,32 @@ $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
           <tr>
             <td class="code"><?= h($it['code']); ?></td>
             <td class="label"><?= h($it['label']); ?></td>
-            <td><a class="btn btn-sm btn-info" href="attributes.php?item_id=<?= $it['id']; ?>&list_id=<?= $list_id; ?>">Attributes</a></td>
+            <td>
+              <?php foreach(($it['attrs'] ?? []) as $a): ?>
+                <div class="mb-1">
+                  <form method="post" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                    <input type="hidden" name="attr_item_id" value="<?= $it['id']; ?>">
+                    <input type="hidden" name="attr_id" value="<?= $a['id']; ?>">
+                    <input class="form-control form-control-sm d-inline w-auto" name="attr_code" value="<?= h($a['attr_code']); ?>" required>
+                    <input class="form-control form-control-sm d-inline w-auto" name="attr_value" value="<?= h($a['attr_value']); ?>">
+                    <button class="btn btn-sm btn-warning">Update</button>
+                  </form>
+                  <form method="post" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                    <input type="hidden" name="attr_delete_id" value="<?= $a['id']; ?>">
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete attribute?');">Delete</button>
+                  </form>
+                </div>
+              <?php endforeach; ?>
+              <form method="post" class="d-inline">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <input type="hidden" name="attr_item_id" value="<?= $it['id']; ?>">
+                <input class="form-control form-control-sm d-inline w-auto" name="attr_code" placeholder="Code" required>
+                <input class="form-control form-control-sm d-inline w-auto" name="attr_value" placeholder="Value">
+                <button class="btn btn-sm btn-success">Add</button>
+              </form>
+            </td>
             <td>
               <button class="btn btn-sm btn-warning" onclick="fillForm(<?= $it['id']; ?>,'<?= h($it['code']); ?>','<?= h($it['label']); ?>','<?= h($it['active_from']); ?>','<?= h($it['active_to']); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">

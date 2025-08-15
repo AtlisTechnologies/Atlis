@@ -960,6 +960,7 @@ ALTER TABLE `lookup_list_item_attributes`
   ADD KEY `fk_module_lookup_item_attributes_item_id` (`item_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_id` (`user_id`),
   ADD KEY `fk_module_lookup_item_attributes_user_updated` (`user_updated`),
+  ADD UNIQUE KEY `uq_lookup_item_attr` (`item_id`,`attr_code`),
   ADD KEY `idx_module_lookup_item_attributes_key` (`attr_code`);
 
 --
