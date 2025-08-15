@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $priority = $_POST['priority'] ?? null;
   $description = $_POST['description'] ?? null;
   $project_id = $_POST['project_id'] ?? null;
-  $agency_id = $_POST['agency_id'] ?: null;
-  $division_id = $_POST['division_id'] ?: null;
+  $agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? $_POST['agency_id'] : null;
+  $division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? $_POST['division_id'] : null;
 
   // Default status to BACKLOG if not provided
   if (!$status) {

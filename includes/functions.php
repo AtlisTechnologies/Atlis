@@ -4,8 +4,8 @@ function getURLDir(){
   return '/_atlis/';
 }
 
-function h(?string $value): string {
-  return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+function h(?string $v): string {
+  return htmlspecialchars($v ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 /**

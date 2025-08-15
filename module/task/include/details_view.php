@@ -4,17 +4,17 @@
 <?php if (!empty($current_task)): ?>
   <div class="card mb-4">
     <div class="card-body">
-      <h3 class="mb-3"><?php echo htmlspecialchars($current_task['name'] ?? ''); ?></h3>
+      <h3 class="mb-3"><?php echo h($current_task['name'] ?? ''); ?></h3>
       <p class="mb-3">
-        <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo htmlspecialchars($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
-          <span class="badge-label"><?php echo htmlspecialchars($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
+        <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
+          <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
         </span>
         <span class="badge badge-phoenix fs-10 badge-phoenix-secondary ms-1">
-          <span class="badge-label"><?php echo htmlspecialchars($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
+          <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
         </span>
       </p>
       <?php if (!empty($current_task['description'])): ?>
-      <p><?php echo nl2br(htmlspecialchars($current_task['description'])); ?></p>
+      <p><?php echo nl2br(h($current_task['description'])); ?></p>
       <?php endif; ?>
     </div>
   </div>
@@ -27,7 +27,7 @@
           <?php if (!empty($assignments)): ?>
             <ul class="list-unstyled mb-0">
               <?php foreach ($assignments as $assign): ?>
-                <li class="mb-1"><span class="fas fa-user text-primary"></span> <?php echo htmlspecialchars($assign['email']); ?></li>
+                <li class="mb-1"><span class="fas fa-user text-primary"></span> <?php echo h($assign['email']); ?></li>
               <?php endforeach; ?>
             </ul>
           <?php else: ?>
@@ -47,7 +47,7 @@
           <?php if (!empty($files)): ?>
             <ul class="list-unstyled mb-0">
               <?php foreach ($files as $f): ?>
-                <li class="mb-1"><a href="<?php echo htmlspecialchars($f['file_path']); ?>"><?php echo htmlspecialchars($f['file_name']); ?></a></li>
+                <li class="mb-1"><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></li>
               <?php endforeach; ?>
             </ul>
           <?php else: ?>
@@ -70,8 +70,8 @@
             <ul class="list-group">
               <?php foreach ($notes as $n): ?>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div><?php echo nl2br(htmlspecialchars($n['note_text'])); ?></div>
-                  <small class="text-muted ms-2"><?php echo htmlspecialchars($n['date_created']); ?></small>
+                  <div><?php echo nl2br(h($n['note_text'])); ?></div>
+                  <small class="text-muted ms-2"><?php echo h($n['date_created']); ?></small>
                 </li>
               <?php endforeach; ?>
             </ul>
