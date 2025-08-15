@@ -20,6 +20,11 @@ $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,da
 $filesStmt->execute([':id' => $id]);
 $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
+$tasksStmt = $pdo->prepare('SELECT id, name, status FROM module_tasks WHERE project_id = :id ORDER BY date_created DESC');
+$tasksStmt->execute([':id' => $id]);
+$tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
+$taskStatusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+
 $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_projects_notes WHERE project_id = :id ORDER BY date_created DESC');
 $notesStmt->execute([':id' => $id]);
 $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,6 +36,59 @@ require '../../includes/html_header.php';
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <h2 class="mb-4">Project: <?php echo h($project['name'] ?? ''); ?></h2>
+
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Tasks</h5>
+        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">New Task</button>
+      </div>
+      <div class="card-body">
+        <?php if ($tasks): ?>
+        <ul class="list-group">
+          <?php foreach ($tasks as $t): ?>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="../task/details_view.php?id=<?php echo (int)($t['id'] ?? 0); ?>"><?php echo h($t['name'] ?? ''); ?></a>
+            <?php $status = $taskStatusMap[$t['status']] ?? null; ?>
+            <?php if ($status): ?>
+            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($status['color_class']); ?>">
+              <span class="badge-label"><?php echo h($status['label']); ?></span>
+            </span>
+            <?php endif; ?>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="mb-0">No tasks yet.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <!-- New Task Modal -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">New Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form method="post" action="../task/functions/create.php">
+            <div class="modal-body">
+              <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+              <input type="hidden" name="agency_id" value="<?php echo (int)($project['agency_id'] ?? 0); ?>">
+              <input type="hidden" name="division_id" value="<?php echo (int)($project['division_id'] ?? 0); ?>">
+              <input type="hidden" name="redirect" value="details_view.php?id=<?php echo (int)$id; ?>">
+              <div class="mb-3">
+                <label class="form-label">Task Name</label>
+                <input type="text" name="name" class="form-control" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <div class="card mb-4">
       <div class="card-header"><h5 class="mb-0">Upload Files</h5></div>
