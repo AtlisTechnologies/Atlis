@@ -40,8 +40,8 @@ if (!empty($current_project)) {
             <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a><a class="dropdown-item" href="#!">Download</a><a class="dropdown-item" href="#!">Report abuse</a></div>
           </div>
         </div>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?>">
-          <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
+        <span class="badge badge-phoenix badge-phoenix-<?php echo h($statusMap[$current_project['status']]['color_class'] ?? 'secondary'); ?>">
+          <span class="badge-label"><?php echo h($statusMap[$current_project['status']]['label'] ?? ''); ?></span>
         </span>
       </div>
       <div class="row gx-0 gx-sm-5 gy-8 mb-8">
