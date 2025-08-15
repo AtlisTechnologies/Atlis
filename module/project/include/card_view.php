@@ -17,7 +17,7 @@ foreach ($projects as $proj) {
   </div>
   <?php if (user_has_permission('project','create')): ?>
   <div class="col-auto">
-    <a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Add new project</a>
+    <a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Create Project</a>
   </div>
   <?php endif; ?>
 </div>
