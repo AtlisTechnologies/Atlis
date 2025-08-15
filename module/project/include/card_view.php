@@ -68,15 +68,6 @@ foreach ($projects as $proj) {
           <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p>
         </div>
         <?php endif; ?>
-        <?php if (!empty($project['assignees'])): ?>
-        <div class="avatar-group mt-3">
-          <?php foreach ($project['assignees'] as $assignee): ?>
-          <div class="avatar avatar-s rounded-circle">
-            <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($assignee['profile_pic'] ?? ''); ?>" alt="<?= h($assignee['name'] ?? ''); ?>" />
-          </div>
-          <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
         <a class="stretched-link" href="index.php?action=details&id=<?php echo $project['id']; ?>"></a>
       </div>
     </div>
