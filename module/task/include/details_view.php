@@ -94,14 +94,56 @@ require_once __DIR__ . '/../../../includes/functions.php';
             <input class="form-control mb-2" type="file" name="file" required>
             <button class="btn btn-outline-atlis" type="submit">Upload</button>
           </form>
-        </div>
-        <?php if (!empty($files)): ?>
-          <?php foreach ($files as $f): ?>
-          <div class="border-top px-4 px-lg-6 py-4">
-            <div class="me-n3">
-              <div class="d-flex flex-between-center">
-                <div class="d-flex mb-1"><span class="fa-solid <?php echo strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> me-2 text-body-tertiary fs-9"></span>
-                  <p class="text-body-highlight mb-0 lh-1"><a class="text-body-highlight" href="<? echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></p>
+
+          <?php if (!empty($files)): ?>
+            <div class="timeline-vertical mt-3">
+              <?php foreach ($files as $f): ?>
+                <div class="timeline-item position-relative">
+                  <div class="row g-md-3">
+                    <div class="col-12 col-md-auto d-flex">
+                      <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                        <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                          <?php echo date('d M, Y', strtotime($f['date_created'])); ?><br class="d-none d-md-block" />
+                          <?php echo date('h:i A', strtotime($f['date_created'])); ?>
+                        </p>
+                      </div>
+                      <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                        <div class="icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle">
+                          <span class="fa-solid <?php echo strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> text-primary-dark fs-10"></span>
+                        </div>
+                        <span class="timeline-bar border-end border-dashed"></span>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="timeline-item-content ps-6 ps-md-3">
+                        <p class="mb-0">
+                          <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                            <a href="#" class="file-link" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$f['id']; ?>"><?php echo h($f['file_name']); ?></a>
+                            <div class="modal fade" id="fileModal-<?php echo (int)$f['id']; ?>" tabindex="-1" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title"><?php echo h($f['file_name']); ?></h5>
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body text-center">
+                                    <img src="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>" class="img-fluid" alt="<?php echo h($f['file_name']); ?>" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <?php else: ?>
+                            <a href="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a>
+                          <?php endif; ?>
+                        </p>
+                        <p class="fs-9 text-body-secondary mb-0">
+                          <?php echo h($f['file_size']); ?>
+                          <span class="text-body-quaternary mx-1">|</span>
+                          <?php echo h($f['file_type']); ?>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?php echo h($f['file_size']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo h($f['file_type']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo h($f['date_created']); ?></span></div>
@@ -167,3 +209,19 @@ require_once __DIR__ . '/../../../includes/functions.php';
 <?php else: ?>
   <p>No task found.</p>
 <?php endif; ?>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.file-link[data-bs-target]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var target = link.getAttribute('data-bs-target');
+        var modalEl = document.querySelector(target);
+        if (modalEl) {
+          var modal = new bootstrap.Modal(modalEl);
+          modal.show();
+        }
+      });
+    });
+  });
+</script>
