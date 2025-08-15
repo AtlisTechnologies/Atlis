@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2025 at 04:52 AM
+-- Generation Time: Aug 15, 2025 at 06:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,7 +54,11 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (5, 1, 1, '2025-08-13 23:48:42', '2025-08-13 23:48:42', NULL, 'module_projects', 2, 'CREATE', 'Created project', NULL, '{\"name\":\"Dave\",\"status\":\"29\",\"description\":\"\"}'),
 (6, 1, 1, '2025-08-14 11:33:59', '2025-08-14 11:33:59', NULL, 'module_projects', 3, 'CREATE', 'Created project', NULL, '{\"name\":\"Emailing Sealed Documents\",\"status\":\"29\",\"description\":\"\"}'),
 (7, 1, 1, '2025-08-14 15:21:21', '2025-08-14 15:21:21', NULL, 'module_projects_notes', 2, 'NOTE', '', '', 'From the First Note !'),
-(8, 1, 1, '2025-08-14 16:43:46', '2025-08-14 16:43:46', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"Dave\",\"description\":\"Dave\",\"requirements\":\"Dave\",\"specifications\":\"Dave\",\"status\":\"29\",\"start_date\":\"2025-08-14\"}');
+(8, 1, 1, '2025-08-14 16:43:46', '2025-08-14 16:43:46', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"Dave\",\"description\":\"Dave\",\"requirements\":\"Dave\",\"specifications\":\"Dave\",\"status\":\"29\",\"start_date\":\"2025-08-14\"}'),
+(9, 1, 1, '2025-08-14 22:11:35', '2025-08-14 22:11:35', NULL, 'module_projects_notes', 3, 'NOTE', '', '', 'test'),
+(10, 1, 1, '2025-08-14 22:12:05', '2025-08-14 22:12:05', NULL, 'module_projects_notes', 4, 'NOTE', '', '', 'test @'),
+(11, 1, 1, '2025-08-14 22:12:13', '2025-08-14 22:12:13', NULL, 'module_projects_files', 2, 'UPLOAD', '', '', '{\"file\":\"Image from iOS.jpg\"}'),
+(12, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 'module_projects', 5, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Emailing Sealed Documents\",\"description\":\"Court Clerks should be able to send sealed documents to eDefender and eProsecutor.\",\"requirements\":\"Send sealed documents to eDef and ePros via email.\",\"specifications\":\"Defined later.\",\"status\":\"29\",\"start_date\":\"2025-08-01\"}');
 
 -- --------------------------------------------------------
 
@@ -344,7 +348,15 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (59, 1, 1, '2025-08-14 20:46:43', '2025-08-14 20:46:43', NULL, 'lookup_list_item_attributes', 30, 'CREATE', 'Created item attribute'),
 (60, 1, 1, '2025-08-14 20:46:48', '2025-08-14 20:46:48', NULL, 'lookup_list_item_attributes', 30, 'DELETE', 'Deleted item attribute'),
 (61, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 'lookup_list_items', 54, 'CREATE', 'Created lookup list item'),
-(62, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 'lookup_list_item_attributes', 31, 'CREATE', 'Created item attribute');
+(62, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 'lookup_list_item_attributes', 31, 'CREATE', 'Created item attribute'),
+(63, 1, 1, '2025-08-14 22:11:40', '2025-08-14 22:11:40', NULL, 'module_projects_users', 1, 'ASSIGN', 'Assigned user'),
+(64, 1, 1, '2025-08-14 22:11:45', '2025-08-14 22:11:45', NULL, 'module_tasks', 4, 'CREATE', 'Created task'),
+(65, 1, 1, '2025-08-14 22:15:47', '2025-08-14 22:15:47', NULL, 'lookup_list_items', 55, 'CREATE', 'Created lookup list item'),
+(66, 1, 1, '2025-08-14 22:15:51', '2025-08-14 22:15:51', NULL, 'lookup_list_item_attributes', 10, 'UPDATE', 'Updated item attribute'),
+(67, 1, 1, '2025-08-14 22:15:54', '2025-08-14 22:15:54', NULL, 'lookup_list_item_attributes', 12, 'UPDATE', 'Updated item attribute'),
+(68, 1, 1, '2025-08-14 22:16:05', '2025-08-14 22:16:05', NULL, 'lookup_list_item_attributes', 32, 'CREATE', 'Created item attribute'),
+(69, 1, 1, '2025-08-14 22:16:26', '2025-08-14 22:16:26', NULL, 'lookup_list_items', 29, 'UPDATE', 'Updated lookup list item'),
+(70, 1, 1, '2025-08-14 22:22:53', '2025-08-14 22:22:53', NULL, 'lookup_list_item_attributes', 33, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -421,7 +433,7 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (13, 1, 1, '2025-08-08 22:02:51', '2025-08-08 22:02:51', NULL, 1, 'Pending', 'PENDING', 3, '2025-08-13', NULL),
 (27, 1, 1, '2025-08-08 22:14:28', '2025-08-08 22:14:28', NULL, 3, 'Pending', 'PENDING', 3, '2025-08-13', NULL),
 (28, 1, 1, '2025-08-08 22:14:38', '2025-08-08 22:14:38', NULL, 2, 'Pending', 'PENDING', 3, '2025-08-13', NULL),
-(29, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 10, 'Active', 'ACTIVE', 1, '2025-08-13', NULL),
+(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 22:16:26', NULL, 10, 'In Progress', 'INPROGRESS', 1, '2025-08-01', NULL),
 (30, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 10, 'On Hold', 'ON_HOLD', 2, '2025-08-13', NULL),
 (31, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 10, 'Completed', 'COMPLETED', 3, '2025-08-13', NULL),
 (32, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 11, 'Active', 'ACTIVE', 1, '2025-08-13', NULL),
@@ -435,7 +447,8 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (51, 1, 1, '2025-08-14 17:16:47', '2025-08-14 17:16:47', NULL, 8, 'System', 'SYSTEM', 1, '2025-08-14', NULL),
 (52, 1, 1, '2025-08-14 17:16:54', '2025-08-14 17:16:54', NULL, 8, 'Business', 'BUSINESS', 2, '2025-08-14', NULL),
 (53, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 9, 'System', 'SYSTEM', 1, '2025-08-14', NULL),
-(54, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 9, 'Business', 'BUSINESS', 0, '2025-08-14', NULL);
+(54, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 9, 'Business', 'BUSINESS', 0, '2025-08-14', NULL),
+(55, 1, 1, '2025-08-14 22:15:47', '2025-08-14 22:15:47', NULL, 10, 'Backlog', 'BACKLOG', 0, '2025-08-14', NULL);
 
 -- --------------------------------------------------------
 
@@ -467,9 +480,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (6, 1, 1, '2025-08-13 21:38:13', '2025-08-13 21:38:13', NULL, 13, 'COLOR-CLASS', 'warning'),
 (7, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 9, 'COLOR-CLASS', 'atlis'),
 (8, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 10, 'COLOR-CLASS', 'primary'),
-(10, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 29, 'COLOR-CLASS', 'success'),
+(10, 1, 1, '2025-08-13 22:11:06', '2025-08-14 22:15:51', NULL, 29, 'COLOR-CLASS', 'primary'),
 (11, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 30, 'COLOR-CLASS', 'warning'),
-(12, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 31, 'COLOR-CLASS', 'primary'),
+(12, 1, 1, '2025-08-13 22:16:23', '2025-08-14 22:15:54', NULL, 31, 'COLOR-CLASS', 'success'),
 (13, 1, 1, '2025-08-13 22:16:23', '2025-08-13 23:39:49', NULL, 32, 'COLOR-CLASS', 'primary'),
 (14, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 33, 'COLOR-CLASS', 'warning'),
 (17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 3, 'COLOR-CLASS', 'success'),
@@ -483,7 +496,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (26, 1, 1, '2025-08-13 23:39:19', '2025-08-13 23:39:19', NULL, 38, 'COLOR-CLASS', 'warning'),
 (27, 1, 1, '2025-08-13 23:39:33', '2025-08-13 23:39:33', NULL, 34, 'COLOR-CLASS', 'success'),
 (28, 1, 1, '2025-08-14 16:48:59', '2025-08-14 16:48:59', NULL, 8, 'COLOR-CLASS', 'danger'),
-(31, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 54, 'TEST', 'test');
+(31, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 54, 'TEST', 'test'),
+(32, 1, 1, '2025-08-14 22:16:05', '2025-08-14 22:16:05', NULL, 55, 'COLOR-CLASS', 'info'),
+(33, 1, 1, '2025-08-14 22:22:53', '2025-08-14 22:22:53', NULL, 35, 'COLOR-CLASS', 'atlis');
 
 -- --------------------------------------------------------
 
@@ -601,7 +616,7 @@ CREATE TABLE `module_projects` (
 --
 
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `start_date`, `complete_date`, `completed`) VALUES
-(3, 1, 1, '2025-08-14 11:33:59', '2025-08-14 11:33:59', NULL, NULL, NULL, 'Emailing Sealed Documents', '', NULL, NULL, '29', NULL, NULL, 0);
+(5, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '2025-08-01', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -686,6 +701,26 @@ CREATE TABLE `module_tasks` (
   `progress_percent` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_tasks`
+--
+
+INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `progress_percent`) VALUES
+(1, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:36', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, 0),
+(2, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:41', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:45', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-03-13', 0, 0),
+(4, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:47', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', '2025-03-19', 0, 0),
+(6, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, 0),
+(7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, 0),
+(8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, 0),
+(9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, 0),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:56', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
+(11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
+(12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, 0),
+(13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:22:31', NULL, NULL, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, 0),
+(16, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:21:21', NULL, NULL, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', '38', NULL, NULL, NULL, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -722,6 +757,21 @@ CREATE TABLE `module_tasks_notes` (
   `task_id` int(11) NOT NULL,
   `note_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_tasks_notes`
+--
+
+INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `note_text`) VALUES
+(1, 1, 1, '2025-03-11 14:08:41', '2025-08-14 22:21:21', NULL, 4, 'All Adoption cases are SEALED with a sealType of &#34;SEAL&#34;'),
+(2, 1, 1, '2025-03-11 14:12:23', '2025-08-14 22:21:21', NULL, 4, 'Viewing sealed Cases and Documents are done in separate securities.'),
+(3, 1, 1, '2025-03-11 14:26:15', '2025-08-14 22:21:21', NULL, 4, '- MiGarcia DirPerson created\r\n- User Created'),
+(5, 1, 1, '2025-03-11 15:09:28', '2025-08-14 22:21:21', NULL, 4, 'Winnie asked to reduce the options in the LEFT \"Workspace\" NAV so Kasper gave her \"Public\"'),
+(6, 1, 1, '2025-03-11 15:14:36', '2025-08-14 22:21:21', NULL, 4, 'I consulted Kasper as he did this.'),
+(7, 1, 1, '2025-03-19 00:21:49', '2025-08-14 22:21:21', NULL, 8, 'Kasper emailed me and said he figured this out.'),
+(8, 1, 1, '2025-04-08 14:04:57', '2025-08-14 22:21:21', NULL, 16, 'METADATA created on eCourt Test - 4/8/25\r\n\r\ncfInterpreterOrdered2\r\ncfInterpreterPresent2\r\ncfInterpreterRequired2\r\ncfInterpreterMemo2\r\n\r\ncfInterpreterOrdered3\r\ncfInterpreterPresent3\r\ncfInterpreterRequired3\r\ncfInterpreterMemo3'),
+(9, 1, 1, '2025-04-09 16:22:02', '2025-08-14 22:21:21', NULL, 9, 'ISSUE TO CONSIDER: Some Judge\'s have multiple DirPerson, Persons, PersonIdentifiers, and Users.\r\n***issue particularly when using the LU-Judges or S-Judges and multiple are options to select... should just be 1 !'),
+(10, 1, 1, '2025-04-09 17:06:52', '2025-08-14 22:21:21', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.');
 
 -- --------------------------------------------------------
 
@@ -1127,7 +1177,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -1157,7 +1207,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1169,13 +1219,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -1199,31 +1249,31 @@ ALTER TABLE `module_organization`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_projects_users`
 --
 ALTER TABLE `module_projects_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
@@ -1235,7 +1285,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
@@ -1328,8 +1378,8 @@ ALTER TABLE `module_projects_notes`
 -- Constraints for table `module_projects_users`
 --
 ALTER TABLE `module_projects_users`
-  ADD CONSTRAINT `fk_module_projects_users_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
-  ADD CONSTRAINT `fk_module_projects_users_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_module_projects_users_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_projects_users_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
 -- Constraints for table `module_tasks`
