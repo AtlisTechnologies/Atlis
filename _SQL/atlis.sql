@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2025 at 08:20 AM
+-- Generation Time: Aug 15, 2025 at 09:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,19 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (15, 1, 1, '2025-08-14 22:27:08', '2025-08-14 22:27:08', NULL, 'module_projects_files', 3, 'UPLOAD', '', '', '{\"file\":\"Image from iOS.jpg\"}'),
 (16, 1, 1, '2025-08-15 00:09:17', '2025-08-15 00:09:17', NULL, 'module_tasks_notes', 11, 'NOTE', '', '', 'test'),
 (17, 1, 1, '2025-08-15 00:09:26', '2025-08-15 00:09:26', NULL, 'module_tasks_files', 1, 'UPLOAD', '', '', '{\"file\":\"Kratom-Colors-Chart-Final.png\"}'),
-(18, 1, 1, '2025-08-15 00:12:39', '2025-08-15 00:12:39', NULL, 'person', 2, 'UPDATE', 'Updated person', '{\"user_id\":2,\"first_name\":\"ADMIN\",\"last_name\":\"ADMIN\"}', '{\"user_id\":2,\"first_name\":\"Sean\",\"last_name\":\"Cadina\"}');
+(18, 1, 1, '2025-08-15 00:12:39', '2025-08-15 00:12:39', NULL, 'person', 2, 'UPDATE', 'Updated person', '{\"user_id\":2,\"first_name\":\"ADMIN\",\"last_name\":\"ADMIN\"}', '{\"user_id\":2,\"first_name\":\"Sean\",\"last_name\":\"Cadina\"}'),
+(19, 1, 1, '2025-08-15 13:22:34', '2025-08-15 13:22:34', NULL, 'module_projects_notes', 6, 'DELETE', '', 'FROM THE FIRST NOTE !', ''),
+(20, 1, 1, '2025-08-15 13:22:39', '2025-08-15 13:22:39', NULL, 'module_projects_files', 3, 'DELETE', '', '{\"file\":\"Image from iOS.jpg\"}', ''),
+(21, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 'module_projects_notes', 7, 'NOTE', '', '', 'Kratom'),
+(22, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 'module_projects_files', 4, 'UPLOAD', '', '', '{\"file\":\"IMG_9186.JPEG\"}'),
+(23, 1, 1, '2025-08-15 13:28:35', '2025-08-15 13:28:35', NULL, 'module_projects_notes', 5, 'DELETE', '', 'This is the first note.', ''),
+(24, 1, 1, '2025-08-15 13:31:17', '2025-08-15 13:31:17', NULL, 'module_projects_files', 5, 'UPLOAD', '', '', '{\"file\":\"brand_trust.PNG\"}'),
+(25, 1, 1, '2025-08-15 13:37:43', '2025-08-15 13:37:43', NULL, 'module_projects_notes', 8, 'NOTE', '', '', 'No file.'),
+(26, 1, 1, '2025-08-15 13:37:49', '2025-08-15 13:37:49', NULL, 'module_projects_notes', 9, 'NOTE', '', '', 'Not even another one.'),
+(27, 1, 1, '2025-08-15 13:46:48', '2025-08-15 13:46:48', NULL, 'module_projects_files', 6, 'UPLOAD', '', '', '{\"file\":\"LPP Affilaite Doc.pdf\"}'),
+(28, 1, 1, '2025-08-15 13:46:54', '2025-08-15 13:46:54', NULL, 'module_projects_files', 7, 'UPLOAD', '', '', '{\"file\":\"Document.png\"}'),
+(29, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 'module_projects_notes', 10, 'NOTE', '', '', 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
+(30, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'test');
 
 -- --------------------------------------------------------
 
@@ -373,7 +385,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (76, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:11:11', NULL, 'admin_user_roles', 2, 'CREATE', 'Assigned roles to user'),
 (77, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 'users', 2, 'UPDATE', 'Updated user'),
 (78, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 'admin_user_roles', 2, 'UPDATE', 'Updated user roles'),
-(79, 1, 1, '2025-08-15 00:12:46', '2025-08-15 00:12:46', NULL, 'module_projects_assignments', 4, 'ASSIGN', 'Assigned user');
+(79, 1, 1, '2025-08-15 00:12:46', '2025-08-15 00:12:46', NULL, 'module_projects_assignments', 4, 'ASSIGN', 'Assigned user'),
+(80, 1, 1, '2025-08-15 13:21:18', '2025-08-15 13:21:18', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(81, 1, 1, '2025-08-15 13:21:19', '2025-08-15 13:21:19', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(82, 1, 1, '2025-08-15 13:49:24', '2025-08-15 13:49:24', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(83, 1, 1, '2025-08-15 13:49:25', '2025-08-15 13:49:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete');
 
 -- --------------------------------------------------------
 
@@ -687,7 +703,10 @@ CREATE TABLE `module_projects_files` (
 --
 
 INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(3, 1, 1, '2025-08-14 22:27:08', '2025-08-14 22:27:08', NULL, 5, NULL, 'Image from iOS.jpg', '/module/project/uploads/project_5_1755232028_Image_from_iOS.jpg', 278679, 'image/jpeg');
+(4, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 5, 7, 'IMG_9186.JPEG', '/module/project/uploads/project_5_1755285853_0_IMG_9186.JPEG', 1217423, 'image/jpeg'),
+(5, 1, 1, '2025-08-15 13:31:17', '2025-08-15 13:31:17', NULL, 5, NULL, 'brand_trust.PNG', '/module/project/uploads/project_5_1755286277_brand_trust.PNG', 308932, 'image/png'),
+(6, 1, 1, '2025-08-15 13:46:48', '2025-08-15 13:46:48', NULL, 5, NULL, 'LPP Affilaite Doc.pdf', '/module/project/uploads/project_5_1755287208_LPP_Affilaite_Doc.pdf', 13135, 'application/pdf'),
+(7, 1, 1, '2025-08-15 13:46:54', '2025-08-15 13:46:54', NULL, 5, NULL, 'Document.png', '/module/project/uploads/project_5_1755287214_Document.png', 8274, 'image/png');
 
 -- --------------------------------------------------------
 
@@ -711,8 +730,11 @@ CREATE TABLE `module_projects_notes` (
 --
 
 INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_text`) VALUES
-(5, 1, 1, '2025-08-14 22:26:57', '2025-08-14 22:26:57', NULL, 5, 'This is the first note.'),
-(6, 1, 1, '2025-08-14 22:27:02', '2025-08-14 22:27:02', NULL, 5, 'FROM THE FIRST NOTE !');
+(7, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 5, 'Kratom'),
+(8, 1, 1, '2025-08-15 13:37:43', '2025-08-15 13:37:43', NULL, 5, 'No file.'),
+(9, 1, 1, '2025-08-15 13:37:49', '2025-08-15 13:37:49', NULL, 5, 'Not even another one.'),
+(10, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 5, 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
+(11, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 5, 'test');
 
 -- --------------------------------------------------------
 
@@ -756,7 +778,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, 0),
 (8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, 0),
 (9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:56', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 13:49:25', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
 (11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
 (12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, 0),
 (13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
@@ -1233,7 +1255,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -1263,7 +1285,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1317,13 +1339,13 @@ ALTER TABLE `module_projects_assignments`
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
@@ -1429,8 +1451,8 @@ ALTER TABLE `module_projects_assignments`
 -- Constraints for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
-  ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`);
+  ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`),
+  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
 -- Constraints for table `module_projects_notes`
@@ -1450,8 +1472,8 @@ ALTER TABLE `module_tasks`
 -- Constraints for table `module_tasks_files`
 --
 ALTER TABLE `module_tasks_files`
-  ADD CONSTRAINT `fk_module_tasks_files_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`),
-  ADD CONSTRAINT `fk_module_tasks_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_tasks_notes` (`id`);
+  ADD CONSTRAINT `fk_module_tasks_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_tasks_notes` (`id`),
+  ADD CONSTRAINT `fk_module_tasks_files_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
 -- Constraints for table `module_tasks_notes`
