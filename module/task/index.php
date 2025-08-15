@@ -108,6 +108,7 @@ if ($action === 'details') {
   $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
 
   if ($current_task) {
+
     $project_name = $current_task['project_name'] ?? null;
     $division_name = $current_task['division_name'] ?? null;
     $agency_name = $current_task['agency_name'] ?? null;
@@ -115,6 +116,7 @@ if ($action === 'details') {
     $assignStmt = $pdo->prepare('SELECT u.id, u.email FROM module_task_assignments ta JOIN users u ON ta.assigned_user_id = u.id WHERE ta.task_id = :id');
     $assignStmt->execute([':id' => $task_id]);
     $assignments = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
+
 
     $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_tasks_files WHERE task_id = :id ORDER BY date_created DESC');
     $filesStmt->execute([':id' => $task_id]);

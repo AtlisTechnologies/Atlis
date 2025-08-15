@@ -124,8 +124,13 @@ if (!empty($current_project)) {
                   <div class="avatar avatar-xl me-2">
                     <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                   </div>
-                  <div class="flex-grow-1">
+                  <div class="d-flex align-items-center flex-grow-1">
                     <h6 class="mb-0"><?= h($au['name']) ?></h6>
+                    <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                      <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
+                    </form>
                   </div>
                   <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                     <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
