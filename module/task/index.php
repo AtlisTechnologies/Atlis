@@ -150,6 +150,7 @@ if ($action === 'details') {
     $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
     $notesStmt = $pdo->prepare('SELECT n.id,n.user_id,n.note_text,n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.task_id = :id ORDER BY n.date_created DESC');
+
     $notesStmt->execute([':id' => $task_id]);
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
