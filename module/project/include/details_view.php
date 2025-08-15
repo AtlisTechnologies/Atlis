@@ -39,7 +39,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <div>
                   <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
                     <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-task-<?php echo (int)$t['id']; ?>" <?php echo !empty($t['completed']) ? 'checked' : ''; ?> />
-                    <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1" for="checkbox-task-<?php echo (int)$t['id']; ?>"><?php echo h($t['name']); ?></label>
+                    <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1" for="checkbox-task-<?php echo (int)$t['id']; ?>">
+                      <a href="../task/index.php?action=details&id=<?php echo (int)$t['id']; ?>" class="text-decoration-none text-body"><?php echo h($t['name']); ?></a>
+                    </label>
                     <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($t['status_color'] ?? 'secondary'); ?> ms-2"><span class="badge-label"><?php echo h($t['status_label'] ?? ''); ?></span></span>
                   </div>
                 </div>

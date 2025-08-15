@@ -55,16 +55,15 @@ unset($project);
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $taskStatusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
-      $tasksStmt = $pdo->prepare('SELECT id, name, status, due_date, completed FROM module_tasks WHERE project_id = :id ORDER BY due_date');
+      $tasksStmt = $pdo->prepare(
+        'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color
+         FROM module_tasks t
+         LEFT JOIN lookup_list_items li ON t.status = li.id
+         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS"
+         WHERE t.project_id = :id ORDER BY t.due_date'
+      );
       $tasksStmt->execute([':id' => $project_id]);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($tasks as &$task) {
-        $status = $taskStatusMap[$task['status']] ?? null;
-        $task['status_label'] = $status['label'] ?? null;
-        $task['status_color'] = $status['color_class'] ?? 'secondary';
-      }
-      unset($task);
     }
   }
 
