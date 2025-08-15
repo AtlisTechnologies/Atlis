@@ -20,6 +20,11 @@
         </form>
       </div>
     </div>
+    <?php if (user_has_permission('project','create')): ?>
+    <div class="col-auto">
+      <a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Create Project</a>
+    </div>
+    <?php endif; ?>
   </div>
   <div class="table-responsive ms-n1 ps-1 scrollbar">
     <table class="table fs-9 mb-0 border-top border-translucent">
