@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="col-sm-auto ms-auto">
-      <a href="index.php?action=create" class="btn btn-primary btn-sm">New Task</a>
+      <a href="index.php?action=create" class="btn btn-success btn-sm">New Task</a>
     </div>
   </div>
   <div class="mb-4 todo-list">

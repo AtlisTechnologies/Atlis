@@ -85,7 +85,6 @@ require '../../includes/html_header.php';
       $viewMap = [
         'card' => 'card_view.php',
         'list' => 'list_view.php',
-        'board' => 'board_view.php',
         'details' => 'details_view.php',
         'create-edit' => 'create_edit_view.php'
       ];

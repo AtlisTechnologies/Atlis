@@ -22,4 +22,3 @@
     <?php endforeach; ?>
   </div>
 </div>
-

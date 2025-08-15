@@ -17,7 +17,7 @@ foreach ($projects as $proj) {
   </div>
   <?php if (user_has_permission('project','create')): ?>
   <div class="col-auto">
-    <a class="btn btn-primary px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Add new project</a>
+    <a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Add new project</a>
   </div>
   <?php endif; ?>
 </div>
@@ -39,7 +39,6 @@ foreach ($projects as $proj) {
         </form>
       </div>
       <a class="btn btn-phoenix-primary px-3 me-1" href="index.php?action=list" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="List view"><span class="fa-solid fa-list fs-10"></span></a>
-      <a class="btn btn-phoenix-primary px-3 me-1" href="index.php?action=board" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Board view">
         <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 0.5C0 0.223857 0.223858 0 0.5 0H1.83333C2.10948 0 2.33333 0.223858 2.33333 0.5V1.83333C2.33333 2.10948 2.10948 2.33333 1.83333 2.33333H0.5C0.223857 2.33333 0 2.10948 0 1.83333V0.5Z" fill="currentColor"></path>
           <path d="M3.33333 0.5C3.33333 0.223857 3.55719 0 3.83333 0H5.16667C5.44281 0 5.66667 0.223858 5.66667 0.5V1.83333C5.66667 2.10948 5.44281 2.33333 5.16667 2.33333H3.83333C3.55719 2.33333 3.33333 2.10948 3.33333 1.83333V0.5Z" fill="currentColor"></path>
@@ -96,4 +95,3 @@ foreach ($projects as $proj) {
   </div>
   <?php endforeach; ?>
 </div>
-

@@ -3,7 +3,7 @@
 ?>
 <?php if (user_has_permission('project','create')): ?>
 <div class="mb-3">
-  <a href="index.php?action=create" class="btn btn-primary">Create Project</a>
+  <a href="index.php?action=create" class="btn btn-success">Create Project</a>
 </div>
 <?php endif; ?>
 <div class="table-responsive">
@@ -28,4 +28,3 @@
     </tbody>
   </table>
 </div>
-
