@@ -145,11 +145,11 @@ if ($action === 'details') {
       $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_tasks_files WHERE task_id = :id ORDER BY date_created DESC');
+    $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, CONCAT(p.first_name, " ", p.last_name) AS user_name, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created FROM module_tasks_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.task_id = :id ORDER BY f.date_created DESC');
     $filesStmt->execute([':id' => $task_id]);
     $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_tasks_notes WHERE task_id = :id ORDER BY date_created DESC');
+    $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, CONCAT(p.first_name, " ", p.last_name) AS user_name, n.note_text, n.date_created FROM module_tasks_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.task_id = :id ORDER BY n.date_created DESC');
     $notesStmt->execute([':id' => $task_id]);
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
   }

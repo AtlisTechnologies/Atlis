@@ -150,6 +150,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
                           <?php if (!empty($item['user_name'])): ?>
                             <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?php echo h($item['user_name']); ?></a></p>
                           <?php endif; ?>
+                          <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>
+                            <form method="post" action="functions/delete_note.php" class="mt-2" onsubmit="return confirm('Delete this note?');">
+                              <input type="hidden" name="id" value="<?php echo (int)$item['id']; ?>">
+                              <input type="hidden" name="task_id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                          <?php endif; ?>
                         <?php else: ?>
                           <p class="mb-0">
                             <?php if (strpos($item['file_type'], 'image/') === 0): ?>
@@ -178,6 +185,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
                               <?php echo h($item['file_type']); ?>
                             <?php endif; ?>
                           </p>
+                          <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>
+                            <form method="post" action="functions/delete_file.php" class="mt-2" onsubmit="return confirm('Delete this file?');">
+                              <input type="hidden" name="id" value="<?php echo (int)$item['id']; ?>">
+                              <input type="hidden" name="task_id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                          <?php endif; ?>
                         <?php endif; ?>
                       </div>
                     </div>
