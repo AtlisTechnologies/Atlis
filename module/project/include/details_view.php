@@ -64,10 +64,18 @@ if (!empty($current_project)) {
                     <tr>
                       <td class="align-top py-1">
                         <div class="d-flex"><span class="fa-solid fa-user me-2 text-body-tertiary fs-9"></span>
-                          <h5 class="text-body mb-0 text-nowrap">Client :</h5>
+                          <h5 class="text-body mb-0 text-nowrap">Agency :</h5>
                         </div>
                       </td>
-                      <td class="ps-1 py-1"><a class="fw-semibold d-block lh-sm" href="#!"><?= h($current_project['agency_id'] ?? '') ?></a></td>
+                      <td class="ps-1 py-1"><a class="fw-semibold d-block lh-sm" href="#!"><?= h($current_project['agency_name'] ?? '') ?></a></td>
+                    </tr>
+                    <tr>
+                      <td class="align-top py-1">
+                        <div class="d-flex"><span class="fa-solid fa-sitemap me-2 text-body-tertiary fs-9"></span>
+                          <h5 class="text-body mb-0 text-nowrap">Division :</h5>
+                        </div>
+                      </td>
+                      <td class="ps-1 py-1"><a class="fw-semibold d-block lh-sm" href="#!"><?= h($current_project['division_name'] ?? '') ?></a></td>
                     </tr>
                     <tr>
                       <td class="align-top py-1">
@@ -144,7 +152,7 @@ if (!empty($current_project)) {
             <?php foreach ($assignedUsers as $au): ?>
               <li class="d-flex align-items-center mb-2">
                 <div class="avatar avatar-xl me-2">
-                  <img class="rounded-circle" src="<? echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                  <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                 </div>
                 <div class="d-flex align-items-center flex-grow-1">
                   <h6 class="mb-0"><?= h($au['name']) ?></h6>
@@ -152,7 +160,7 @@ if (!empty($current_project)) {
                     <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                       <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                       <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                      <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
+                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-xmark"></span></button>
                     </form>
                   <?php endif; ?>
                 </div>
@@ -182,12 +190,12 @@ if (!empty($current_project)) {
           <div class="mb-4 todo-list">
             <?php if (!empty($tasks)): ?>
               <?php foreach ($tasks as $t): ?>
-                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top">
+                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
                   <div class="col-12 col-md-auto flex-1">
                     <div>
-                      <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
-                        <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" <?= !empty($t['completed']) ? 'checked' : '' ?> />
-                        <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                      <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
+                        <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
+                        <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" for="checkbox-todo-<?= (int)$t['id'] ?>"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
                       </div>
                     </div>
                   </div>
@@ -211,7 +219,7 @@ if (!empty($current_project)) {
   <div class="col-12 col-xxl-4 px-0 border-start-xxl border-top-sm">
     <div class="bg-light dark__bg-gray-1100 h-100">
       <div class="p-4 p-lg-6">
-        <h3 class="text-body-highlight mb-4 fw-bold">Project Notes</h3>
+        <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
         <div class="timeline-vertical timeline-with-details">
           <?php if (!empty($notes)): ?>
             <?php foreach ($notes as $n): ?>
@@ -236,7 +244,7 @@ if (!empty($current_project)) {
                       <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
                         <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
                         <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                        <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                       </form>
                       <?php endif; ?>
                     </div>
@@ -247,9 +255,9 @@ if (!empty($current_project)) {
                             <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                               <p class="text-body-highlight mb-0 lh-1">
                                 <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                  <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                  <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                 <?php else: ?>
-                                  <a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                  <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                 <?php endif; ?>
                               </p>
                             </div>
@@ -278,8 +286,8 @@ if (!empty($current_project)) {
             <div class="mb-3">
               <input class="form-control" type="file" name="files[]" multiple>
             </div>
-            <center><button class="btn btn-atlis" type="submit">Add Note</button></center>
-          </form>
+              <center><button class="btn btn-success" type="submit">Add Note</button></center>
+            </form>
         </div>
         <?php endif; ?>
       </div>
@@ -295,7 +303,7 @@ if (!empty($current_project)) {
           <div class="input-group">
             <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
             <input class="form-control" type="file" name="file" id="projectFileUpload" aria-describedby="projectFileUpload" aria-label="Upload" required>
-            <button class="btn btn-atlis" type="submit">Upload New</button>
+            <button class="btn btn-success" type="submit">Upload New</button>
           </div>
         </form>
       </div>
@@ -308,9 +316,9 @@ if (!empty($current_project)) {
               <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                 <p class="text-body-highlight mb-0 lh-1">
                   <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                    <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                    <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                   <?php else: ?>
-                    <a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                    <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                   <?php endif; ?>
                 </p>
               </div>
@@ -318,14 +326,14 @@ if (!empty($current_project)) {
               <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
                 <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
               </form>
               <?php endif; ?>
             </div>
-            <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span></div>
+            <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
             <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>">
-                <img class="rounded-2 mt-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
+              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
+                <img class="rounded-2 mt-2" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
               </a>
             <?php endif; ?>
           </div>
@@ -369,7 +377,7 @@ if (!empty($current_project)) {
           </select>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-atlis" type="submit">Assign</button>
+          <button class="btn btn-success" type="submit">Assign</button>
         </div>
       </form>
     </div>
@@ -398,6 +406,39 @@ if (!empty($current_project)) {
         }
       });
     }
+
+    document.querySelectorAll('.todo-list .task-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        var id = this.dataset.taskId;
+        if (id) {
+          window.location.href = '../task/index.php?action=details&id=' + id;
+        }
+      });
+    });
+    document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function(cb){
+      cb.addEventListener('click', function(e){ e.stopPropagation(); });
+      cb.addEventListener('change', function(){
+        var id = this.dataset.taskId;
+        var newState = this.checked ? 1 : 0;
+        var label = this.nextElementSibling;
+        fetch('../task/functions/toggle_complete.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ id: id, completed: newState })
+        }).then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              this.checked = data.completed == 1;
+            } else {
+              this.checked = !newState;
+            }
+            label.classList.toggle('text-decoration-line-through', this.checked);
+          }).catch(() => {
+            this.checked = !newState;
+            label.classList.toggle('text-decoration-line-through', this.checked);
+          });
+      });
+    });
   });
   </script>
   <?php else: ?>
