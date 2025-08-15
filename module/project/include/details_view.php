@@ -230,7 +230,16 @@ if (!empty($current_project)) {
                 </div>
                 <div class="col">
                   <div class="timeline-item-content ps-6 ps-md-3">
-                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($n['note_text'])) ?></p>
+                    <div class="d-flex">
+                      <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
+                      <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
+                      <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
+                        <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
+                        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                        <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+                      </form>
+                      <?php endif; ?>
+                    </div>
                     <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
                   </div>
                 </div>
@@ -279,6 +288,13 @@ if (!empty($current_project)) {
                   <?php endif; ?>
                 </p>
               </div>
+              <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+              <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+              </form>
+              <?php endif; ?>
             </div>
             <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span></div>
             <?php if (strpos($f['file_type'], 'image/') === 0): ?>

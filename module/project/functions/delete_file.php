@@ -1,7 +1,5 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('project','update');
-
 $id = (int)($_POST['id'] ?? 0);
 $project_id = (int)($_POST['project_id'] ?? 0);
 
@@ -19,5 +17,5 @@ if ($id && $project_id) {
   }
 }
 
-header('Location: ../details_view.php?id=' . $project_id);
+header('Location: ../index.php?action=details&id=' . $project_id);
 exit;
