@@ -135,7 +135,6 @@ if (!empty($current_project)) {
                   <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                     <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                     <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                    <button class="btn btn-link p-0 text-decoration-none text-danger" type="submit"><span class="fa-solid fa-minus"></span></button>
                   </form>
                 </li>
               <?php endforeach; ?>
