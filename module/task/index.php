@@ -92,7 +92,9 @@ unset($task);
 if ($action === 'details') {
   $task_id = (int)($_GET['id'] ?? 0);
 
+  $stmt = $pdo->prepare(
     'SELECT t.id, t.name, t.description, t.status, t.priority,
+            t.project_id, t.division_id, t.agency_id,
             p.name AS project_name,
             d.name AS division_name,
             a.name AS agency_name,
@@ -147,8 +149,6 @@ if ($action === 'details') {
     $notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_tasks_notes WHERE task_id = :id ORDER BY date_created DESC');
     $notesStmt->execute([':id' => $task_id]);
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
-  } else {
-    $project_name = $division_name = $agency_name = $organization_name = null;
   }
 } elseif ($action === 'create-edit' && isset($_GET['id'])) {
   $task_id = (int)($_GET['id'] ?? 0);
