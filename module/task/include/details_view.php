@@ -3,9 +3,23 @@
 require_once __DIR__ . '/../../../includes/functions.php';
 ?>
 <?php if (!empty($current_task)): ?>
+  <?php
+    $hierarchyParts = array_filter([
+      $project_name ?? null,
+      $division_name ?? null,
+      $agency_name ?? null,
+      $organization_name ?? null
+    ]);
+    $hierarchyString = implode(' / ', array_map('h', $hierarchyParts));
+  ?>
   <div class="card mb-4">
     <div class="card-body">
-      <h3 class="mb-3"><?php echo h($current_task['name'] ?? ''); ?></h3>
+      <h3 class="mb-3">
+        <?php echo h($current_task['name'] ?? ''); ?>
+        <?php if ($hierarchyString !== ''): ?>
+          &ndash; <?php echo $hierarchyString; ?>
+        <?php endif; ?>
+      </h3>
       <p class="mb-3">
         <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
           <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
@@ -25,7 +39,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Team members</h5>
+
           <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
+
         </div>
         <div class="card-body">
           <?php if (!empty($assignedUsers)): ?>
@@ -83,11 +99,38 @@ require_once __DIR__ . '/../../../includes/functions.php';
             <button class="btn btn-sm btn-primary" type="submit">Upload</button>
           </form>
           <?php if (!empty($files)): ?>
-            <ul class="list-unstyled mb-0">
+            <div class="timeline-vertical mt-3">
               <?php foreach ($files as $f): ?>
-                <li class="mb-1"><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></li>
+                <div class="timeline-item position-relative">
+                  <div class="row g-md-3">
+                    <div class="col-12 col-md-auto d-flex">
+                      <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                        <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                          <?php echo date('d M, Y', strtotime($f['date_created'])); ?><br class="d-none d-md-block" />
+                          <?php echo date('h:i A', strtotime($f['date_created'])); ?>
+                        </p>
+                      </div>
+                      <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                        <div class="icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle">
+                          <span class="fa-solid <?php echo strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> text-primary-dark fs-10"></span>
+                        </div>
+                        <span class="timeline-bar border-end border-dashed"></span>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="timeline-item-content ps-6 ps-md-3">
+                        <p class="mb-0"><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></p>
+                        <p class="fs-9 text-body-secondary mb-0">
+                          <?php echo h($f['file_size']); ?>
+                          <span class="text-body-quaternary mx-1">|</span>
+                          <?php echo h($f['file_type']); ?>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               <?php endforeach; ?>
-            </ul>
+            </div>
           <?php else: ?>
             <p class="mb-0 text-700 small">No files</p>
           <?php endif; ?>
@@ -105,14 +148,33 @@ require_once __DIR__ . '/../../../includes/functions.php';
             <button class="btn btn-sm btn-primary" type="submit">Add Note</button>
           </form>
           <?php if (!empty($notes)): ?>
-            <ul class="list-group">
+            <div class="timeline-vertical mt-3">
               <?php foreach ($notes as $n): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div><?php echo nl2br(h($n['note_text'])); ?></div>
-                  <small class="text-muted ms-2"><?php echo h($n['date_created']); ?></small>
-                </li>
+                <div class="timeline-item position-relative">
+                  <div class="row g-md-3">
+                    <div class="col-12 col-md-auto d-flex">
+                      <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                        <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                          <?php echo date('d M, Y', strtotime($n['date_created'])); ?><br class="d-none d-md-block" />
+                          <?php echo date('h:i A', strtotime($n['date_created'])); ?>
+                        </p>
+                      </div>
+                      <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                        <div class="icon-item icon-item-sm rounded-7 shadow-none bg-success-subtle">
+                          <span class="fa-solid fa-note-sticky text-success fs-10"></span>
+                        </div>
+                        <span class="timeline-bar border-end border-dashed"></span>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="timeline-item-content ps-6 ps-md-3">
+                        <p class="mb-0"><?php echo nl2br(h($n['note_text'])); ?></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               <?php endforeach; ?>
-            </ul>
+            </div>
           <?php else: ?>
             <p class="mb-0 text-700 small">No notes</p>
           <?php endif; ?>

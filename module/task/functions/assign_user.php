@@ -6,6 +6,7 @@ $task_id = (int)($_POST['task_id'] ?? 0);
 $user_id = (int)($_POST['user_id'] ?? 0);
 
 if ($task_id && $user_id) {
+
 $stmt = $pdo->prepare('SELECT user_id, project_id FROM module_tasks WHERE id = :id');
 $stmt->execute([':id' => $task_id]);
 $task = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -30,6 +31,7 @@ if ($owner_id && ($is_admin || $owner_id == $this_user_id)) {
     audit_log($pdo, $this_user_id, 'module_task_assignments', $assignId, 'ASSIGN', 'Assigned user');
   }
 }
+
 }
 
 header('Location: ../index.php?action=details&id=' . $task_id);
