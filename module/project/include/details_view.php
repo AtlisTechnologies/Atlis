@@ -40,8 +40,11 @@ if (!empty($current_project)) {
             <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a><a class="dropdown-item" href="#!">Download</a><a class="dropdown-item" href="#!">Report abuse</a></div>
           </div>
         </div>
-        <span class="badge badge-phoenix badge-phoenix-<?php echo h($statusMap[$current_project['status']]['color_class'] ?? 'secondary'); ?>">
-          <span class="badge-label"><?php echo h($statusMap[$current_project['status']]['label'] ?? ''); ?></span>
+        <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?>">
+          <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
+        </span>
+        <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?>">
+          <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
         </span>
       </div>
       <div class="row gx-0 gx-sm-5 gy-8 mb-8">
@@ -110,9 +113,49 @@ if (!empty($current_project)) {
               <p class="text-body-tertiary mb-0">Hard works done across all tasks</p>
             </div>
           </div>
-          <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
-        </div>
-        <div class="col-12 col-lg-8 col-xl-5">
+            <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
+            <div class="mt-6">
+              <h2 class="mb-4">Todo list<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
+              <div class="row align-items-center g-3 mb-3">
+                <div class="col-sm-auto">
+                  <div class="search-box">
+                    <form class="position-relative">
+                      <input class="form-control search-input search" type="search" placeholder="Search tasks" aria-label="Search" />
+                      <span class="fas fa-search search-box-icon"></span>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-sm-auto">
+                  <div class="d-flex"><a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?= count($tasks) ?> tasks</a><a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a></div>
+                </div>
+              </div>
+              <div class="mb-4 todo-list">
+                <?php if (!empty($tasks)): ?>
+                  <?php foreach ($tasks as $t): ?>
+                    <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top">
+                      <div class="col-12 col-md-auto flex-1">
+                        <div>
+                          <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
+                            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" <?= !empty($t['completed']) ? 'checked' : '' ?> />
+                            <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-auto">
+                        <div class="d-flex ms-4 lh-1 align-items-center">
+                          <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span><?= (int)($t['attachment_count'] ?? 0) ?></button>
+                          <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
+                        </div>
+                      </div>
+                    </div>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-8 col-xl-5">
           <div class="d-flex align-items-center mb-4">
             <h4 class="text-body-emphasis mb-0 me-2">Team members</h4>
             <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
