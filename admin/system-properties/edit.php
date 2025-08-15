@@ -31,7 +31,7 @@ if($id){
   <input type="hidden" name="id" value="<?= htmlspecialchars($id); ?>">
   <div class="mb-3">
     <label class="form-label">Category</label>
-    <select class="form-select" data-choices name="category_id" required>
+    <select class="form-select" data-choices name="category_id">
       <option value="">Select Category</option>
       <?php foreach($categories as $c): ?>
         <option value="<?= $c['id']; ?>" <?= $prop['category_id']==$c['id']?'selected':''; ?>><?= htmlspecialchars($c['label']); ?></option>
@@ -40,7 +40,7 @@ if($id){
   </div>
   <div class="mb-3">
     <label class="form-label">Type</label>
-    <select class="form-select" data-choices name="type_id" required>
+    <select class="form-select" data-choices name="type_id">
       <option value="">Select Type</option>
       <?php foreach($types as $t): ?>
         <option value="<?= $t['id']; ?>" <?= $prop['type_id']==$t['id']?'selected':''; ?>><?= htmlspecialchars($t['label']); ?></option>
@@ -67,6 +67,12 @@ if($id){
 $(function(){
   $('#propertyForm').on('submit', function(e){
     e.preventDefault();
+    var category = $('select[name="category_id"]').val();
+    var type = $('select[name="type_id"]').val();
+    if(!category || !type){
+      alert('Please select both a category and a type.');
+      return;
+    }
     var action = <?= $id ? json_encode('update') : json_encode('create'); ?>;
     $.post('../api/system-properties.php', $(this).serialize() + '&action=' + action, function(res){
       if(res.success){
