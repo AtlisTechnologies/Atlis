@@ -105,7 +105,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   }
 }
 
-$stmt=$pdo->prepare('SELECT id,label,code,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY label');
+$stmt=$pdo->prepare('SELECT id,label,code,sort_order,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY sort_order,label');
 $stmt->execute([':list_id'=>$list_id]);
 $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
 if($items){
@@ -144,7 +144,7 @@ if($items){
   <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
 </form>
-<div id="items" data-list='{"valueNames":["code","label"],"page":25,"pagination":true}'>
+<div id="items" data-list='{"valueNames":["sort_order","code","label"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -153,11 +153,12 @@ if($items){
   <div class="table-responsive">
     <table class="table table-striped table-sm mb-0">
       <thead>
-        <tr><th class="sort" data-sort="code">Code</th><th class="sort" data-sort="label">Label</th><th>Attributes</th><th>Actions</th></tr>
+        <tr><th class="sort" data-sort="sort_order">Order</th><th class="sort" data-sort="code">Code</th><th class="sort" data-sort="label">Label</th><th>Attributes</th><th>Actions</th></tr>
       </thead>
       <tbody class="list">
         <?php foreach($items as $it): ?>
           <tr>
+            <td class="sort_order"><input type="number" class="form-control form-control-sm sort-input" data-id="<?= $it['id']; ?>" value="<?= h($it['sort_order']); ?>" style="width:80px"></td>
             <td class="code"><?= h($it['code']); ?></td>
             <td class="label"><?= h($it['label']); ?></td>
             <td>
@@ -216,5 +217,11 @@ function fillForm(id,code,label,active_from,active_to){
   btn.classList.remove('btn-success');
   btn.classList.add('btn-warning');
 }
+
+document.querySelectorAll('.sort-input').forEach(inp=>{
+  inp.addEventListener('change',function(){
+    fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'item',action:'update_sort',id:this.dataset.id,sort_order:this.value,csrf_token:'<?= $token; ?>'})});
+  });
+});
 </script>
 <?php require '../admin_footer.php'; ?>

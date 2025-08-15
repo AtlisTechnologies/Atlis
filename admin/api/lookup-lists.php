@@ -102,10 +102,10 @@ function handleList($action){
 
 function handleItem($action){
   global $pdo,$this_user_id;
-  if(in_array($action,['create','update','delete'])){ verifyToken(); }
+  if(in_array($action,['create','update','delete','update_sort'])){ verifyToken(); }
   if($action==='list'){
     $list_id=(int)($_GET['list_id']??0);
-    $stmt=$pdo->prepare('SELECT id,label,code,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY label');
+    $stmt=$pdo->prepare('SELECT id,label,code,sort_order,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY sort_order,label');
     $stmt->execute([':list_id'=>$list_id]);
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['success'=>true,'items'=>$items]);
@@ -136,7 +136,7 @@ function handleItem($action){
       $stmt->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':code'=>$code,':active_from'=>$active_from,':active_to'=>$active_to]);
       $id=$pdo->lastInsertId();
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
-      echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
+      echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'sort_order'=>0,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Label or code already exists']);
@@ -180,6 +180,14 @@ function handleItem($action){
         echo json_encode(['success'=>false,'error'=>'Database error']);
       }
     }
+  }elseif($action==='update_sort'){
+    $id=(int)($_POST['id']??0);
+    $sort_order=(int)($_POST['sort_order']??0);
+    if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+    $stmt=$pdo->prepare('UPDATE lookup_list_items SET sort_order=:sort_order, user_updated=:uid WHERE id=:id');
+    $stmt->execute([':sort_order'=>$sort_order,':uid'=>$this_user_id,':id'=>$id]);
+    audit_log($pdo,$this_user_id,'lookup_list_items',$id,'UPDATE','Updated sort order');
+    echo json_encode(['success'=>true,'message'=>'Sort order updated']);
   }elseif($action==='delete'){
     $id=(int)($_POST['id']??0);
     if($id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid ID']); return; }
