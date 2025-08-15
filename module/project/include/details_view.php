@@ -262,7 +262,7 @@ if (!empty($current_project)) {
             <div class="mb-3">
               <textarea class="form-control" name="note" rows="3" required></textarea>
             </div>
-            <button class="btn btn-primary" type="submit">Add Note</button>
+            <button class="btn btn-atlis" type="submit">Add Note</button>
           </form>
         </div>
       </div>
@@ -273,7 +273,7 @@ if (!empty($current_project)) {
         <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
           <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
           <input class="form-control mb-2" type="file" name="file" required>
-          <button class="btn btn-primary" type="submit">Upload</button>
+          <button class="btn btn-outline-atlis" type="submit">Upload</button>
         </form>
       </div>
       <?php if (!empty($files)): ?>
@@ -282,12 +282,12 @@ if (!empty($current_project)) {
           <div class="me-n3">
             <div class="d-flex flex-between-center">
               <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                <p class="text-body-highlight mb-0 lh-1"><a class="text-body-highlight" href="<?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a></p>
+                <p class="text-body-highlight mb-0 lh-1"><a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a></p>
               </div>
             </div>
             <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span></div>
             <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-              <img class="rounded-2 mt-2" src="<?= h($f['file_path']) ?>" alt="" style="width:320px" />
+              <img class="rounded-2 mt-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
             <?php endif; ?>
           </div>
         </div>
@@ -300,8 +300,6 @@ if (!empty($current_project)) {
     </div>
   </div>
 </div>
-<script src="/vendors/echarts/echarts.min.js"></script>
-<script src="/assets/js/echarts-example.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var chartEl = document.querySelector('.echart-completed-task-chart');
