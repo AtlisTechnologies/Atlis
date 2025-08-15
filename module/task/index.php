@@ -75,17 +75,20 @@ require_permission('task','read');
 $action = $_GET['action'] ?? 'list';
 
 $statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
-$priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
-$stmt = $pdo->query('SELECT id, name, status, priority, completed FROM module_tasks ORDER BY name');
+$stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
+                             COALESCE(p_attr.attr_value, "secondary") AS priority_color,
+                             p.label AS priority_label
+                      FROM module_tasks t
+                      LEFT JOIN lookup_list_items p ON t.priority = p.id
+                      LEFT JOIN lookup_list_item_attributes p_attr
+                             ON p.id = p_attr.item_id AND p_attr.attr_code = "COLOR-CLASS"
+                      ORDER BY t.name');
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($tasks as &$task) {
   $status = $statusMap[$task['status']] ?? null;
   $task['status_label'] = $status['label'] ?? null;
   $task['status_color'] = $status['color_class'] ?? 'secondary';
-  $priority = $priorityMap[$task['priority']] ?? null;
-  $task['priority_label'] = $priority['label'] ?? null;
-  $task['priority_color'] = $priority['color_class'] ?? 'secondary';
 }
 unset($task);
 

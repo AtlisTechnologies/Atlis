@@ -24,16 +24,17 @@
   </div>
   <div class="mb-4 todo-list">
     <?php foreach ($tasks as $task): ?>
-      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top position-relative">
-        <div class="col-12 col-md-auto flex-1 position-relative" style="z-index:1;">
+      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top task-row" data-task-id="<?php echo (int)$task['id']; ?>">
+        <div class="col-auto">
+          <a href="index.php?action=edit&amp;id=<?php echo (int)$task['id']; ?>" class="btn btn-warning btn-sm edit-task-btn" data-event-propagation-prevent="data-event-propagation-prevent">Edit</a>
+        </div>
+        <div class="col-auto d-flex align-items-center"><span class="fs-8"><?php echo (int)$task['id']; ?></span></div>
+        <div class="col-12 col-md flex-1 position-relative" style="z-index:1;">
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
-              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" data-task-id="<?php echo (int)($task['id'] ?? 0); ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
-
-              <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>">
-                <a href="index.php?action=details&amp;id=<?php echo (int)($task['id'] ?? 0); ?>" class="task-link text-reset" style="text-decoration:inherit;" data-event-propagation-prevent="data-event-propagation-prevent"><?php echo h($task['name'] ?? ''); ?></a>
-              </label>
-
+              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-event-propagation-prevent="data-event-propagation-prevent" data-task-id="<?php echo (int)$task['id']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
+              <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>" for="checkbox-todo-<?php echo (int)$task['id']; ?>"><?php echo h($task['name'] ?? ''); ?></label>
+              <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
               <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
             </div>
           </div>
@@ -41,11 +42,18 @@
       </div>
     <?php endforeach; ?>
   </div>
-
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.todo-list .task-row').forEach(function (row) {
+    row.addEventListener('click', function () {
+      const id = this.dataset.taskId;
+      if (id) {
+        window.location.href = 'index.php?action=details&id=' + id;
+      }
+    });
+  });
   document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function (checkbox) {
     checkbox.addEventListener('click', function (event) {
       event.stopPropagation();
@@ -72,10 +80,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
   });
-  document.querySelectorAll('.todo-list .task-link').forEach(function (link) {
-    link.addEventListener('click', function (event) {
+  document.querySelectorAll('.todo-list .edit-task-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (event) {
+      event.stopPropagation();
+    });
+  });
+  document.querySelectorAll('.todo-list .form-check-label').forEach(function (label) {
+    label.addEventListener('click', function (event) {
       event.stopPropagation();
     });
   });
 });
 </script>
+
