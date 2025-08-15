@@ -135,27 +135,27 @@ if (!empty($current_project)) {
       <div class="col-4">
         <div class="d-flex align-items-center mb-4">
           <h4 class="text-body-emphasis mb-0 me-2">Team members</h4>
-          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+          <?php if (user_has_permission('project','create|update|delete')): ?>
+            <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+          <?php endif; ?>
         </div>
         <?php if (!empty($assignedUsers)): ?>
           <ul class="list-unstyled mb-4">
             <?php foreach ($assignedUsers as $au): ?>
               <li class="d-flex align-items-center mb-2">
                 <div class="avatar avatar-xl me-2">
-                  <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                  <img class="rounded-circle" src="<? echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                 </div>
                 <div class="d-flex align-items-center flex-grow-1">
                   <h6 class="mb-0"><?= h($au['name']) ?></h6>
-                  <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
-                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                    <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
-                  </form>
+                  <?php if (user_has_permission('project','create|update|delete')): ?>
+                    <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                      <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
+                    </form>
+                  <?php endif; ?>
                 </div>
-                <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
-                  <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                  <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                </form>
               </li>
             <?php endforeach; ?>
           </ul>
@@ -241,6 +241,7 @@ if (!empty($current_project)) {
             <p class="fs-9 text-body-secondary mb-0">No notes found.</p>
           <?php endif; ?>
         </div>
+        <?php if (user_has_permission('project','create|update|delete')): ?>
         <div class="mt-4">
           <form action="functions/add_note.php" method="post">
             <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
@@ -250,10 +251,12 @@ if (!empty($current_project)) {
             <button class="btn btn-atlis" type="submit">Add Note</button>
           </form>
         </div>
+        <?php endif; ?>
       </div>
       <div class="px-4 px-lg-6">
         <h4 class="mb-3">Files</h4>
       </div>
+      <?php if (user_has_permission('project','create|update|delete')): ?>
       <div class="border-top px-4 px-lg-6 py-4">
         <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
           <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
@@ -261,18 +264,27 @@ if (!empty($current_project)) {
           <button class="btn btn-outline-atlis" type="submit">Upload</button>
         </form>
       </div>
+      <?php endif; ?>
       <?php if (!empty($files)): ?>
         <?php foreach ($files as $f): ?>
         <div class="border-top px-4 px-lg-6 py-4">
           <div class="me-n3">
             <div class="d-flex flex-between-center">
               <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                <p class="text-body-highlight mb-0 lh-1"><a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a></p>
+                <p class="text-body-highlight mb-0 lh-1">
+                  <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                    <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                  <?php else: ?>
+                    <a class="text-body-highlight" href="<? echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                  <?php endif; ?>
+                </p>
               </div>
             </div>
             <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span></div>
             <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-              <img class="rounded-2 mt-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
+              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>">
+                <img class="rounded-2 mt-2" src="<? echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
+              </a>
             <?php endif; ?>
           </div>
         </div>
@@ -284,44 +296,68 @@ if (!empty($current_project)) {
       <?php endif; ?>
     </div>
   </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var chartEl = document.querySelector('.echart-completed-task-chart');
-  if (chartEl && window.echarts) {
-    var chart = window.echarts.init(chartEl);
-    var option = {
-      tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: <?= json_encode($chartDates ?? []) ?> },
-      yAxis: { type: 'value' },
-      series: [{ type: 'line', data: <?= json_encode($chartValues ?? []) ?>, smooth: true }]
-    };
-    chart.setOption(option);
-  }
-});
-</script>
-<?php else: ?>
-<p>No project found.</p>
-<?php endif; ?>
-
-<div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" method="post" action="functions/assign_user.php">
-      <div class="modal-header">
-        <h5 class="modal-title">Assign User</h5>
-        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-        <select class="form-select" name="user_id">
-          <?php foreach ($availableUsers as $au): ?>
-            <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-atlis" type="submit">Assign</button>
-      </div>
-    </form>
   </div>
-</div>
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Image preview</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="modalImage" src="" class="img-fluid" alt="Preview">
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php if (user_has_permission('project','create|update|delete')): ?>
+  <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" method="post" action="functions/assign_user.php">
+        <div class="modal-header">
+          <h5 class="modal-title">Assign User</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+          <select class="form-select" name="user_id">
+            <?php foreach ($availableUsers as $au): ?>
+              <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-atlis" type="submit">Assign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <?php endif; ?>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var chartEl = document.querySelector('.echart-completed-task-chart');
+    if (chartEl && window.echarts) {
+      var chart = window.echarts.init(chartEl);
+      var option = {
+        tooltip: { trigger: 'axis' },
+        xAxis: { type: 'category', data: <?= json_encode($chartDates ?? []) ?> },
+        yAxis: { type: 'value' },
+        series: [{ type: 'line', data: <?= json_encode($chartValues ?? []) ?>, smooth: true }]
+      };
+      chart.setOption(option);
+    }
+    var imageModal = document.getElementById('imageModal');
+    if (imageModal) {
+      imageModal.addEventListener('show.bs.modal', function (event) {
+        var trigger = event.relatedTarget;
+        var img = document.getElementById('modalImage');
+        if (trigger && img) {
+          img.src = trigger.getAttribute('data-img-src');
+        }
+      });
+    }
+  });
+  </script>
+  <?php else: ?>
+  <p>No project found.</p>
+  <?php endif; ?>
