@@ -60,12 +60,12 @@ foreach ($projects as $proj) {
         <?php endif; ?>
         <?php if (!empty($project['start_date'])): ?>
         <div class="d-flex align-items-center mt-4">
-          <p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h($project['start_date']); ?></span></p>
+          <p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['start_date']))); ?></span></p>
         </div>
         <?php endif; ?>
         <?php if (!empty($project['complete_date'])): ?>
         <div class="d-flex align-items-center mt-2">
-          <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h($project['complete_date']); ?></span></p>
+          <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p>
         </div>
         <?php endif; ?>
         <a class="stretched-link" href="index.php?action=details&id=<?php echo $project['id']; ?>"></a>
