@@ -155,18 +155,14 @@ if ($action === 'details') {
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
     $taskFiles = [];
-    $noteFilesMap = [];
+    $noteFiles = [];
     foreach ($files as $f) {
       if (!empty($f['note_id'])) {
-        $noteFilesMap[$f['note_id']][] = $f;
+        $noteFiles[$f['note_id']][] = $f;
       } else {
         $taskFiles[] = $f;
       }
     }
-    foreach ($notes as &$n) {
-      $n['files'] = $noteFilesMap[$n['id']] ?? [];
-    }
-    unset($n);
   }
 } elseif ($action === 'create-edit' && isset($_GET['id'])) {
   $task_id = (int)($_GET['id'] ?? 0);
