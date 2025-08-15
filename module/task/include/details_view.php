@@ -221,6 +221,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                               <?php echo h($item['file_type']); ?>
                             <?php endif; ?>
                           </p>
+                          <?php endif; ?>
                           <?php if ((int)($item['user_id'] ?? 0) === (int)$this_user_id): ?>
                             <form method="post" action="functions/delete_file.php" class="mt-2" onsubmit="return confirm('Delete this file?');">
                               <input type="hidden" name="id" value="<?php echo (int)$item['id']; ?>">
