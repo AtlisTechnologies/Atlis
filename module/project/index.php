@@ -34,16 +34,16 @@ $sql = "SELECT p.id, p.name, p.description, p.start_date, p.complete_date,
                li.label AS status_label,
                COALESCE(attr.attr_value, 'secondary') AS status_color,
                (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id) AS total_tasks,
-               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id AND t.completed = 0) AS in_progress
+               (SELECT COUNT(*) FROM module_tasks t WHERE t.project_id = p.id AND t.completed = 1) AS completed_tasks
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
         ORDER BY p.name";
 $projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-$assignStmt = $pdo->query("SELECT pa.project_id, u.profile_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
+$assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, u.profile_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
                            FROM module_projects_assignments pa
-                           LEFT JOIN users u ON pa.user_id = u.id
+                           LEFT JOIN users u ON pa.assigned_user_id = u.id
                            LEFT JOIN person per ON u.id = per.user_id");
 $assignments = [];
 foreach ($assignStmt as $row) {
