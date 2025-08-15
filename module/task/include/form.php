@@ -62,5 +62,5 @@
       <?php endforeach; ?>
     </select>
   </div>
-  <button type="submit" class="btn btn-success">Save</button>
+  <button type="submit" class="btn btn-atlis">Save</button>
 </form>
