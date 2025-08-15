@@ -96,9 +96,19 @@ if ($action === 'details') {
   $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
 
   if ($current_task) {
-    $assignStmt = $pdo->prepare('SELECT u.id, u.email FROM module_task_assignments ta JOIN users u ON ta.assigned_user_id = u.id WHERE ta.task_id = :id');
-    $assignStmt->execute([':id' => $task_id]);
-    $assignments = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
+    $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
+    $assignedStmt->execute([':id' => $task_id]);
+    $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $assignedIds = array_column($assignedUsers, 'user_id');
+    if ($assignedIds) {
+      $placeholders = implode(',', array_fill(0, count($assignedIds), '?'));
+      $availableStmt = $pdo->prepare("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id NOT IN ($placeholders) ORDER BY name");
+      $availableStmt->execute($assignedIds);
+    } else {
+      $availableStmt = $pdo->query("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name");
+    }
+    $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
 
     $filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_tasks_files WHERE task_id = :id ORDER BY date_created DESC');
     $filesStmt->execute([':id' => $task_id]);

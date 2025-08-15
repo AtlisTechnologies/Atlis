@@ -1,5 +1,6 @@
 <?php
 // Details view of a single task
+require_once __DIR__ . '/../../../includes/functions.php';
 ?>
 <?php if (!empty($current_task)): ?>
   <div class="card mb-4">
@@ -22,17 +23,54 @@
   <div class="row">
     <div class="col-lg-4">
       <div class="card mb-4">
-        <div class="card-header"><h5 class="mb-0">Assignments</h5></div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Team members</h5>
+          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+        </div>
         <div class="card-body">
-          <?php if (!empty($assignments)): ?>
+          <?php if (!empty($assignedUsers)): ?>
             <ul class="list-unstyled mb-0">
-              <?php foreach ($assignments as $assign): ?>
-                <li class="mb-1"><span class="fas fa-user text-primary"></span> <?php echo h($assign['email']); ?></li>
+              <?php foreach ($assignedUsers as $au): ?>
+                <li class="d-flex align-items-center mb-2">
+                  <div class="avatar avatar-xl me-2">
+                    <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                  </div>
+                  <div class="flex-grow-1">
+                    <h6 class="mb-0"><?= h($au['name']) ?></h6>
+                  </div>
+                  <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                    <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
+                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                    <button class="btn btn-link p-0 text-decoration-none text-danger" type="submit"><span class="fa-solid fa-minus"></span></button>
+                  </form>
+                </li>
               <?php endforeach; ?>
             </ul>
           <?php else: ?>
-            <p class="mb-0 text-700 small">No assignments</p>
+            <p class="mb-0 text-700 small">No team members assigned.</p>
           <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <form class="modal-content" method="post" action="functions/assign_user.php">
+            <div class="modal-header">
+              <h5 class="modal-title">Assign User</h5>
+              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
+              <select class="form-select" name="user_id">
+                <?php foreach ($availableUsers as $au): ?>
+                  <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-atlis" type="submit">Assign</button>
+            </div>
+          </form>
         </div>
       </div>
 
