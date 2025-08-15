@@ -116,7 +116,26 @@ require_once __DIR__ . '/../../../includes/functions.php';
                     </div>
                     <div class="col">
                       <div class="timeline-item-content ps-6 ps-md-3">
-                        <p class="mb-0"><a href="<? echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></p>
+                        <p class="mb-0">
+                          <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                            <a href="#" class="file-link" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$f['id']; ?>"><?php echo h($f['file_name']); ?></a>
+                            <div class="modal fade" id="fileModal-<?php echo (int)$f['id']; ?>" tabindex="-1" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title"><?php echo h($f['file_name']); ?></h5>
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body text-center">
+                                    <img src="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>" class="img-fluid" alt="<?php echo h($f['file_name']); ?>" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <?php else: ?>
+                            <a href="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a>
+                          <?php endif; ?>
+                        </p>
                         <p class="fs-9 text-body-secondary mb-0">
                           <?php echo h($f['file_size']); ?>
                           <span class="text-body-quaternary mx-1">|</span>
@@ -182,3 +201,19 @@ require_once __DIR__ . '/../../../includes/functions.php';
 <?php else: ?>
   <p>No task found.</p>
 <?php endif; ?>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.file-link[data-bs-target]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var target = link.getAttribute('data-bs-target');
+        var modalEl = document.querySelector(target);
+        if (modalEl) {
+          var modal = new bootstrap.Modal(modalEl);
+          modal.show();
+        }
+      });
+    });
+  });
+</script>
