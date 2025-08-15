@@ -26,9 +26,8 @@
     <?php foreach ($tasks as $task): ?>
       <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top task-row" data-task-id="<?php echo (int)$task['id']; ?>">
         <div class="col-auto">
-          <a href="index.php?action=edit&amp;id=<?php echo (int)$task['id']; ?>" class="btn btn-warning btn-sm edit-task-btn" data-event-propagation-prevent="data-event-propagation-prevent">Edit</a>
+          <a href="index.php?action=edit&amp;id=<?php echo (int)$task['id']; ?>" class="btn btn-warning btn-sm edit-task-btn me-2" data-event-propagation-prevent="data-event-propagation-prevent"><?php echo (int)$task['id']; ?> - Edit</a>
         </div>
-        <div class="col-auto d-flex align-items-center"><span class="fs-8"><?php echo (int)$task['id']; ?></span></div>
         <div class="col-12 col-md flex-1 position-relative" style="z-index:1;">
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
@@ -92,4 +91,3 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-
