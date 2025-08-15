@@ -24,37 +24,27 @@
   </div>
   <div class="mb-4 todo-list">
     <?php foreach ($tasks as $task): ?>
-      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top" data-todo-offcanvas-toogle="data-todo-offcanvas-toogle" data-todo-offcanvas-target="todoOffcanvas-<?php echo (int)($task['id'] ?? 0); ?>">
-        <div class="col-12 col-md-auto flex-1">
+      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top position-relative">
+        <div class="col-12 col-md-auto flex-1 position-relative" style="z-index:1;">
           <div>
-            <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1">
-              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-task-id="<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" />
+            <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
+              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" />
               <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>"><?php echo h($task['name'] ?? ''); ?></label>
               <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-auto">
+        <div class="col-12 col-md-auto position-relative" style="z-index:1;">
           <div class="d-flex ms-4 lh-1 align-items-center">
-            <div class="d-none d-md-block end-0 position-absolute" style="top: 23%;">
+            <div class="d-none d-md-block end-0 position-absolute" style="top: 23%;" data-event-propagation-prevent="data-event-propagation-prevent">
               <div class="hover-actions end-0">
-                <a class="btn btn-phoenix-secondary btn-icon me-1 fs-10 text-body px-0" href="index.php?action=edit&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"><span class="fas fa-edit"></span></a>
-                <a class="btn btn-phoenix-secondary btn-icon fs-10 text-danger px-0" href="index.php?action=delete&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"><span class="fas fa-trash"></span></a>
+                <a class="btn btn-phoenix-secondary btn-icon me-1 fs-10 text-body px-0" data-event-propagation-prevent="data-event-propagation-prevent" href="index.php?action=edit&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"><span class="fas fa-edit"></span></a>
+                <a class="btn btn-phoenix-secondary btn-icon fs-10 text-danger px-0" data-event-propagation-prevent="data-event-propagation-prevent" href="index.php?action=delete&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"><span class="fas fa-trash"></span></a>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="offcanvas offcanvas-end content-offcanvas offcanvas-backdrop-transparent border-start shadow-none bg-body-highlight" tabindex="-1" data-todo-content-offcanvas="data-todo-content-offcanvas" id="todoOffcanvas-<?php echo (int)($task['id'] ?? 0); ?>">
-        <div class="offcanvas-body p-0">
-          <div class="p-5 p-md-6">
-            <div class="d-flex flex-between-center align-items-start gap-5 mb-4">
-              <h2 class="fw-bold fs-6 mb-0 text-body-highlight"><?php echo h($task['name'] ?? ''); ?></h2>
-              <button class="btn btn-phoenix-secondary btn-icon px-2" type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="fa-solid fa-xmark"></span></button>
-            </div>
-            <p class="mb-0">No details available.</p>
-          </div>
-        </div>
+        <a class="stretched-link" href="index.php?action=details&amp;id=<?php echo (int)($task['id'] ?? 0); ?>"></a>
       </div>
     <?php endforeach; ?>
   </div>
