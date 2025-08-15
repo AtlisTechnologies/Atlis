@@ -85,7 +85,7 @@ foreach ($tasks as &$task) {
   $task['status_color'] = $status['color_class'] ?? 'secondary';
   $priority = $priorityMap[$task['priority']] ?? null;
   $task['priority_label'] = $priority['label'] ?? null;
-  $task['priority_color'] = $priority['color_class'] ?? 'primary';
+  $task['priority_color'] = $priority['color_class'] ?? 'secondary';
 }
 unset($task);
 
