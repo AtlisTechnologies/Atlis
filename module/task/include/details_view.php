@@ -1,15 +1,34 @@
 <?php
-// Details view of a single task
+// Details view of a single task using Phoenix layout
 require_once __DIR__ . '/../../../includes/functions.php';
 ?>
 <?php if (!empty($current_task)): ?>
   <?php
+    // Build hierarchy string
     $hierarchyParts = array_filter([
       $current_task['project_name'] ?? null,
       $current_task['division_name'] ?? null,
       $current_task['agency_name'] ?? null,
       $current_task['organization_name'] ?? null
     ]);
+
+    // Merge notes and files into a single activity timeline
+    $activities = [];
+    if (!empty($files)) {
+      foreach ($files as $f) {
+        $f['type'] = 'file';
+        $activities[] = $f;
+      }
+    }
+    if (!empty($notes)) {
+      foreach ($notes as $n) {
+        $n['type'] = 'note';
+        $activities[] = $n;
+      }
+    }
+    usort($activities, function($a, $b) {
+      return strtotime($b['date_created']) <=> strtotime($a['date_created']);
+    });
   ?>
   <div class="mb-5">
     <div class="d-flex justify-content-between">
@@ -27,186 +46,148 @@ require_once __DIR__ . '/../../../includes/functions.php';
       </span>
     </p>
     <?php if (!empty($current_task['description'])): ?>
-    <p><?php echo nl2br(h($current_task['description'])); ?></p>
+      <p><?php echo nl2br(h($current_task['description'])); ?></p>
     <?php endif; ?>
   </div>
 
-  <div class="row">
-    <div class="col-lg-4">
-      <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h5 class="mb-0">Team members</h5>
-
-          <button class="btn btn-sm btn-success" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
-
-        </div>
-        <div class="card-body">
-          <?php if (!empty($assignedUsers)): ?>
-            <ul class="list-unstyled mb-0">
-              <?php foreach ($assignedUsers as $au): ?>
-                <li class="d-flex align-items-center mb-2">
-                  <div class="avatar avatar-xl me-2">
-                    <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
-                  </div>
-                  <div class="flex-grow-1">
-                    <h6 class="mb-0"><?= h($au['name']) ?></h6>
-                  </div>
-                  <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
-                    <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                    <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-minus"></span></button>
-                  </form>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          <?php else: ?>
-            <p class="mb-0 text-700 small">No team members assigned.</p>
-          <?php endif; ?>
-        </div>
-      </div>
-
-      <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <form class="modal-content" method="post" action="functions/assign_user.php">
-            <div class="modal-header">
-              <h5 class="modal-title">Assign User</h5>
-              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
-              <select class="form-select" name="user_id">
-                <?php foreach ($availableUsers as $au): ?>
-                  <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+  <div class="row g-0">
+    <div class="col-12 col-xxl-8 px-0">
+      <div class="p-4 p-lg-6">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Team members</h5>
+            <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
+          </div>
+          <div class="card-body">
+            <?php if (!empty($assignedUsers)): ?>
+              <ul class="list-unstyled mb-0">
+                <?php foreach ($assignedUsers as $au): ?>
+                  <li class="d-flex align-items-center mb-2">
+                    <div class="avatar avatar-xl me-2">
+                      <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?php echo h($au['profile_pic'] ?? ''); ?>" alt="<?php echo h($au['name']); ?>" />
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0"><?php echo h($au['name']); ?></h6>
+                    </div>
+                    <form method="post" action="functions/remove_user.php" class="ms-2" onsubmit="return confirm('Remove this user?');">
+                      <input type="hidden" name="task_id" value="<?php echo (int)$current_task['id']; ?>">
+                      <input type="hidden" name="user_id" value="<?php echo (int)$au['user_id']; ?>">
+                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-minus"></span></button>
+                    </form>
+                  </li>
                 <?php endforeach; ?>
-              </select>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-success" type="submit">Assign</button>
-            </div>
-          </form>
+              </ul>
+            <?php else: ?>
+              <p class="mb-0 text-700 small">No team members assigned.</p>
+            <?php endif; ?>
+          </div>
+        </div>
+        <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <form class="modal-content" method="post" action="functions/assign_user.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Assign User</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="task_id" value="<?php echo (int)$current_task['id']; ?>">
+                <select class="form-select" name="user_id">
+                  <?php foreach ($availableUsers as $au): ?>
+                    <option value="<?php echo (int)$au['user_id']; ?>"><?php echo h($au['name']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success" type="submit">Assign</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+    </div>
 
-        <div class="px-4 px-lg-6"><h4 class="mb-3">Files</h4></div>
-        <div class="border-top px-4 px-lg-6 py-4">
+    <div class="col-12 col-xxl-4 px-0 border-top-sm border-start-xxl">
+      <div class="bg-light dark__bg-gray-1100 h-100">
+        <div class="p-4 p-lg-6">
+          <h3 class="text-body-highlight mb-4 fw-bold">Recent activity</h3>
+          <form action="functions/add_note.php" method="post" class="mb-3">
+            <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
+            <div class="mb-2"><textarea class="form-control" name="note" rows="3" required></textarea></div>
+            <button class="btn btn-success btn-sm" type="submit">Add Note</button>
+          </form>
           <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
             <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
             <div class="mb-2"><input class="form-control form-control-sm" type="file" name="file" required></div>
-            <button class="btn btn-sm btn-success" type="submit">Upload</button>
+            <button class="btn btn-success btn-sm" type="submit">Upload File</button>
           </form>
-
-          <?php if (!empty($files)): ?>
-            <div class="timeline-vertical mt-3">
-              <?php foreach ($files as $f): ?>
+          <?php if (!empty($activities)): ?>
+            <div class="timeline-vertical timeline-with-details">
+              <?php foreach ($activities as $item): ?>
                 <div class="timeline-item position-relative">
                   <div class="row g-md-3">
                     <div class="col-12 col-md-auto d-flex">
                       <div class="timeline-item-date order-1 order-md-0 me-md-4">
                         <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
-                          <?php echo date('d M, Y', strtotime($f['date_created'])); ?><br class="d-none d-md-block" />
-                          <?php echo date('h:i A', strtotime($f['date_created'])); ?>
+                          <?php echo date('d M, Y', strtotime($item['date_created'])); ?><br class="d-none d-md-block" />
+                          <?php echo date('h:i A', strtotime($item['date_created'])); ?>
                         </p>
                       </div>
                       <div class="timeline-item-bar position-md-relative me-3 me-md-0">
                         <div class="icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle">
-                          <span class="fa-solid <?php echo strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> text-primary-dark fs-10"></span>
+                          <?php if ($item['type'] === 'note'): ?>
+                            <span class="fa-solid fa-note-sticky text-primary-dark fs-10"></span>
+                          <?php else: ?>
+                            <span class="fa-solid <?php echo strpos($item['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file'; ?> text-primary-dark fs-10"></span>
+                          <?php endif; ?>
                         </div>
                         <span class="timeline-bar border-end border-dashed"></span>
                       </div>
                     </div>
                     <div class="col">
                       <div class="timeline-item-content ps-6 ps-md-3">
-                        <p class="mb-0">
-                          <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                            <a href="#" class="file-link" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$f['id']; ?>"><?php echo h($f['file_name']); ?></a>
-                            <div class="modal fade" id="fileModal-<?php echo (int)$f['id']; ?>" tabindex="-1" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title"><?php echo h($f['file_name']); ?></h5>
-                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center">
-                                    <img src="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>" class="img-fluid" alt="<?php echo h($f['file_name']); ?>" />
+                        <?php if ($item['type'] === 'note'): ?>
+                          <p class="fs-9 lh-sm mb-1"><?php echo nl2br(h($item['note_text'])); ?></p>
+                          <?php if (!empty($item['user_name'])): ?>
+                            <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?php echo h($item['user_name']); ?></a></p>
+                          <?php endif; ?>
+                        <?php else: ?>
+                          <p class="mb-0">
+                            <?php if (strpos($item['file_type'], 'image/') === 0): ?>
+                              <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal-<?php echo (int)$item['id']; ?>"><?php echo h($item['file_name']); ?></a>
+                              <div class="modal fade" id="fileModal-<?php echo (int)$item['id']; ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title"><?php echo h($item['file_name']); ?></h5>
+                                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                      <img src="<?php echo getURLDir(); ?><?php echo h($item['file_path']); ?>" class="img-fluid" alt="<?php echo h($item['file_name']); ?>" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          <?php else: ?>
-                            <a href="<?php echo getURLDir(); ?><?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a>
-                          <?php endif; ?>
-                        </p>
-                        <p class="fs-9 text-body-secondary mb-0">
-                          <?php echo h($f['file_size']); ?>
-                          <span class="text-body-quaternary mx-1">|</span>
-                          <?php echo h($f['file_type']); ?>
-                        </p>
+                            <?php else: ?>
+                              <a href="<?php echo getURLDir(); ?><?php echo h($item['file_path']); ?>"><?php echo h($item['file_name']); ?></a>
+                            <?php endif; ?>
+                          </p>
+                          <p class="fs-9 text-body-secondary mb-0">
+                            <?php echo h($item['file_size'] ?? ''); ?>
+                            <?php if (!empty($item['file_type'])): ?>
+                              <span class="text-body-quaternary mx-1">|</span>
+                              <?php echo h($item['file_type']); ?>
+                            <?php endif; ?>
+                          </p>
+                        <?php endif; ?>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?php echo h($f['file_size']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo h($f['file_type']); ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?php echo h($f['date_created']); ?></span></div>
-              <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                <img class="rounded-2 mt-2" src="<? echo getURLDir(); ?><?php echo h($f['file_path']); ?>" alt="" style="width:320px" />
-              <?php endif; ?>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <div class="border-top px-4 px-lg-6 py-4">
-            <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
-          </div>
-        <?php endif; ?>
-    </div>
-
-    <div class="col-lg-8">
-      <div class="card mb-4">
-        <div class="card-header"><h5 class="mb-0">Notes</h5></div>
-        <div class="card-body">
-          <form action="functions/add_note.php" method="post" class="mb-3">
-            <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
-            <div class="mb-2"><textarea class="form-control" name="note" rows="3" required></textarea></div>
-            <button class="btn btn-sm btn-success" type="submit">Add Note</button>
-          </form>
-          <?php if (!empty($notes)): ?>
-            <div class="timeline-vertical mt-3">
-              <?php foreach ($notes as $n): ?>
-              <div class="timeline-item position-relative">
-                <div class="row g-md-3">
-                  <div class="col-12 col-md-auto d-flex">
-                    <div class="timeline-item-date order-1 order-md-0 me-md-4">
-                      <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
-                        <?php echo date('d M, Y', strtotime($n['date_created'])); ?><br class="d-none d-md-block" />
-                        <?php echo date('h:i A', strtotime($n['date_created'])); ?>
-                      </p>
-                    </div>
-                    <div class="timeline-item-bar position-md-relative me-3 me-md-0">
-                      <div class="icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle"><span class="fa-solid fa-note-sticky text-primary-dark fs-10"></span></div><span class="timeline-bar border-end border-dashed"></span>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="timeline-item-content ps-6 ps-md-3">
-                      <p class="fs-9 lh-sm mb-1"><?php echo nl2br(h($n['note_text'])); ?></p>
-                      <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?php echo h($n['user_name'] ?? ''); ?></a></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <?php endforeach; ?>
-            <?php else: ?>
-              <p class="fs-9 text-body-secondary mb-0">No notes found.</p>
-            <?php endif; ?>
-          </div>
-          <div class="mt-4">
-            <form action="functions/add_note.php" method="post">
-              <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
-              <div class="mb-3">
-                <textarea class="form-control" name="note" rows="3" required></textarea>
-              </div>
-              <button class="btn btn-atlis" type="submit">Add Note</button>
-            </form>
-          </div>
+            </div>
+          <?php else: ?>
+            <p class="fs-9 text-body-secondary mb-0">No recent activity.</p>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -214,19 +195,3 @@ require_once __DIR__ . '/../../../includes/functions.php';
 <?php else: ?>
   <p>No task found.</p>
 <?php endif; ?>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.file-link[data-bs-target]').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        var target = link.getAttribute('data-bs-target');
-        var modalEl = document.querySelector(target);
-        if (modalEl) {
-          var modal = new bootstrap.Modal(modalEl);
-          modal.show();
-        }
-      });
-    });
-  });
-</script>
