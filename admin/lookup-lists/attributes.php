@@ -67,8 +67,10 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
   <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
   <div class="col-md-4">
     <select class="form-select" name="attr_code" required>
-      <?php foreach ($attrItems as $item): ?>
-        <option value="<?= htmlspecialchars($item['code']); ?>" <?= $selectedAttrCode === $item['code'] ? 'selected' : ''; ?>><?= htmlspecialchars($item['label']); ?></option>
+      <?php foreach ($attrItems as $attrItem): ?>
+        <option value="<?= h($attrItem['code']); ?>" <?= $selectedAttrCode === $attrItem['code'] ? 'selected' : ''; ?>>
+          <?= h($attrItem['label']); ?>
+        </option>
       <?php endforeach; ?>
     </select>
   </div>
