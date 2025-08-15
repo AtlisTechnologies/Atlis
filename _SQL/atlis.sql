@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2025 at 09:59 PM
+-- Generation Time: Aug 15, 2025 at 10:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,7 +76,9 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (27, 1, 1, '2025-08-15 13:46:48', '2025-08-15 13:46:48', NULL, 'module_projects_files', 6, 'UPLOAD', '', '', '{\"file\":\"LPP Affilaite Doc.pdf\"}'),
 (28, 1, 1, '2025-08-15 13:46:54', '2025-08-15 13:46:54', NULL, 'module_projects_files', 7, 'UPLOAD', '', '', '{\"file\":\"Document.png\"}'),
 (29, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 'module_projects_notes', 10, 'NOTE', '', '', 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
-(30, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'test');
+(30, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'test'),
+(31, 1, 1, '2025-08-15 14:27:57', '2025-08-15 14:27:57', NULL, 'module_tasks_notes', 12, 'NOTE', '', '', 'test'),
+(32, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 'module_tasks_notes', 13, 'NOTE', '', '', 'test 2');
 
 -- --------------------------------------------------------
 
@@ -389,7 +391,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (80, 1, 1, '2025-08-15 13:21:18', '2025-08-15 13:21:18', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
 (81, 1, 1, '2025-08-15 13:21:19', '2025-08-15 13:21:19', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
 (82, 1, 1, '2025-08-15 13:49:24', '2025-08-15 13:49:24', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(83, 1, 1, '2025-08-15 13:49:25', '2025-08-15 13:49:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete');
+(83, 1, 1, '2025-08-15 13:49:25', '2025-08-15 13:49:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(84, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(85, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(86, 1, 1, '2025-08-15 14:27:48', '2025-08-15 14:27:48', NULL, 'module_task_assignments', 1, 'ASSIGN', 'Assigned user'),
+(87, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 'module_task_assignments', 2, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -778,7 +784,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, 0),
 (8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, 0),
 (9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 13:49:25', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 14:25:03', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
 (11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
 (12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, 0),
 (13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
@@ -844,7 +850,9 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (8, 1, 1, '2025-04-08 14:04:57', '2025-08-14 22:21:21', NULL, 16, 'METADATA created on eCourt Test - 4/8/25\r\n\r\ncfInterpreterOrdered2\r\ncfInterpreterPresent2\r\ncfInterpreterRequired2\r\ncfInterpreterMemo2\r\n\r\ncfInterpreterOrdered3\r\ncfInterpreterPresent3\r\ncfInterpreterRequired3\r\ncfInterpreterMemo3'),
 (9, 1, 1, '2025-04-09 16:22:02', '2025-08-14 22:21:21', NULL, 9, 'ISSUE TO CONSIDER: Some Judge\'s have multiple DirPerson, Persons, PersonIdentifiers, and Users.\r\n***issue particularly when using the LU-Judges or S-Judges and multiple are options to select... should just be 1 !'),
 (10, 1, 1, '2025-04-09 17:06:52', '2025-08-14 22:21:21', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.'),
-(11, 1, 1, '2025-08-15 00:09:17', '2025-08-15 00:09:17', NULL, 6, 'test');
+(11, 1, 1, '2025-08-15 00:09:17', '2025-08-15 00:09:17', NULL, 6, 'test'),
+(12, 1, 1, '2025-08-15 14:27:57', '2025-08-15 14:27:57', NULL, 10, 'test'),
+(13, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 10, 'test 2');
 
 -- --------------------------------------------------------
 
@@ -862,6 +870,14 @@ CREATE TABLE `module_task_assignments` (
   `task_id` int(11) NOT NULL,
   `assigned_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_task_assignments`
+--
+
+INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `assigned_user_id`) VALUES
+(1, 1, 1, '2025-08-15 14:27:48', '2025-08-15 14:27:48', NULL, 10, 1),
+(2, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1271,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -1285,7 +1301,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1363,13 +1379,13 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `person`
