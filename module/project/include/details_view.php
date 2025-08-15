@@ -112,53 +112,9 @@ if (!empty($current_project)) {
           </div>
           <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
         </div>
-        <div class="col-12 col-sm-5 col-lg-4 col-xl-3 col-xxl-4">
-          <div class="mb-5">
-            <h4 class="text-body-emphasis">Work loads</h4>
-            <h6 class="text-body-tertiary">Last 7 days</h6>
-          </div>
-          <div class="echart-top-coupons mb-5" style="height:115px;width:100%;"></div>
-          <div class="row justify-content-center">
-            <div class="col-auto col-sm-12">
-              <div class="row justify-content-center justify-content-sm-between g-5 g-sm-0 mb-2">
-                <div class="col">
-                  <div class="d-flex align-items-center">
-                    <div class="bullet-item me-2 bg-primary"></div>
-                    <h6 class="text-body fw-semibold flex-1 mb-0">Shantinan Mekalan</h6>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <h6 class="text-body fw-semibold mb-0">72%</h6>
-                </div>
-              </div>
-              <div class="row justify-content-center justify-content-sm-between g-5 g-sm-0 mb-2">
-                <div class="col">
-                  <div class="d-flex align-items-center">
-                    <div class="bullet-item me-2 bg-primary-lighter"></div>
-                    <h6 class="text-body fw-semibold flex-1 mb-0">Makena Zikonn</h6>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <h6 class="text-body fw-semibold mb-0">18%</h6>
-                </div>
-              </div>
-              <div class="row justify-content-center justify-content-sm-between g-5 g-sm-0 mb-2">
-                <div class="col">
-                  <div class="d-flex align-items-center">
-                    <div class="bullet-item me-2 bg-info"></div>
-                    <h6 class="text-body fw-semibold flex-1 mb-0">Meena Kumari</h6>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <h6 class="text-body fw-semibold mb-0">10%</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-          <div class="col-12 col-sm-7 col-lg-8 col-xl-5">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-body-emphasis mb-0">Team members</h4>
+        <div class="col-12 col-lg-8 col-xl-5">
+          <div class="d-flex align-items-center mb-4">
+            <h4 class="text-body-emphasis mb-0 me-2">Team members</h4>
             <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
           </div>
           <?php if (!empty($assignedUsers)): ?>
@@ -168,14 +124,14 @@ if (!empty($current_project)) {
                   <div class="avatar avatar-xl me-2">
                     <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                   </div>
-                  <div class="flex-grow-1">
+                  <div class="d-flex align-items-center flex-grow-1">
                     <h6 class="mb-0"><?= h($au['name']) ?></h6>
+                    <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                      <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">-</button>
+                    </form>
                   </div>
-                  <form method="post" action="functions/remove_user.php" class="ms-2">
-                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                    <button class="btn btn-link p-0 text-decoration-none text-danger" type="submit">Unassign</button>
-                  </form>
                 </li>
               <?php endforeach; ?>
             </ul>
@@ -204,8 +160,6 @@ if (!empty($current_project)) {
               </form>
             </div>
           </div>
-
-          <h4 class="text-body-emphasis mb-4">Tags</h4><span class="badge badge-tag me-2 mb-1">Unused_brain</span><span class="badge badge-tag me-2 mb-1">Machine</span><span class="badge badge-tag me-2 mb-1">Coding</span>
         </div>
       </div>
       <h3 class="text-body-emphasis mb-4">Project overview</h3>
