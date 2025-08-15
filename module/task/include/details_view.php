@@ -37,7 +37,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Team members</h5>
 
-          <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
+          <button class="btn btn-sm btn-success" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
 
         </div>
         <div class="card-body">
@@ -54,7 +54,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                   <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                     <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
                     <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                    <button class="btn btn-link p-0 text-decoration-none text-danger" type="submit"><span class="fa-solid fa-minus"></span></button>
+                    <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-minus"></span></button>
                   </form>
                 </li>
               <?php endforeach; ?>
@@ -81,7 +81,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               </select>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-atlis" type="submit">Assign</button>
+              <button class="btn btn-success" type="submit">Assign</button>
             </div>
           </form>
         </div>
@@ -91,8 +91,8 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <div class="border-top px-4 px-lg-6 py-4">
           <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
             <input type="hidden" name="id" value="<?php echo (int)($current_task['id'] ?? 0); ?>">
-            <input class="form-control mb-2" type="file" name="file" required>
-            <button class="btn btn-outline-atlis" type="submit">Upload</button>
+            <div class="mb-2"><input class="form-control form-control-sm" type="file" name="file" required></div>
+            <button class="btn btn-sm btn-success" type="submit">Upload</button>
           </form>
 
           <?php if (!empty($files)): ?>
