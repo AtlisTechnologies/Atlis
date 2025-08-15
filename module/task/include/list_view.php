@@ -30,7 +30,7 @@
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
               <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>" data-event-propagation-prevent="data-event-propagation-prevent" data-task-id="<?php echo (int)($task['id'] ?? 0); ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
 
-              <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>">
+              <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>" for="checkbox-todo-<?php echo (int)($task['id'] ?? 0); ?>">
                 <a href="index.php?action=details&amp;id=<?php echo (int)($task['id'] ?? 0); ?>" class="task-link text-reset" style="text-decoration:inherit;" data-event-propagation-prevent="data-event-propagation-prevent"><?php echo h($task['name'] ?? ''); ?></a>
               </label>
 
@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     checkbox.addEventListener('change', function () {
       const taskId = this.dataset.taskId;
       const newState = this.checked ? 1 : 0;
+      const label = this.nextElementSibling;
       fetch('functions/toggle_complete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -64,8 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
           } else {
             this.checked = !newState;
           }
+          label.classList.toggle('text-decoration-line-through', this.checked);
         }).catch(() => {
           this.checked = !newState;
+          label.classList.toggle('text-decoration-line-through', this.checked);
         });
     });
   });
