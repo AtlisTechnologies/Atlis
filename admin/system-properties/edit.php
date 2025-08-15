@@ -65,6 +65,10 @@ if($id){
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(function(){
+  // Choices.js hides the original select elements, so ensure
+  // they're not marked as required to avoid browser validation
+  // errors when the hidden inputs are unfocusable.
+  $('select[name="category_id"],select[name="type_id"]').prop('required', false);
   $('#propertyForm').on('submit', function(e){
     e.preventDefault();
     var category = $('select[name="category_id"]').val();
