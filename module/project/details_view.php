@@ -16,16 +16,22 @@ if(!$project){
   exit;
 }
 
-$filesStmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type,date_created FROM module_projects_files WHERE project_id = :id ORDER BY date_created DESC');
+$filesStmt = $pdo->prepare('SELECT id,user_id,file_name,file_path,file_size,file_type,date_created FROM module_projects_files WHERE project_id = :id ORDER BY date_created DESC');
 $filesStmt->execute([':id' => $id]);
 $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+$assignStmt = $pdo->prepare('SELECT u.id, u.email FROM module_projects_users pu JOIN users u ON pu.assigned_user_id = u.id WHERE pu.project_id = :id ORDER BY u.email');
+$assignStmt->execute([':id' => $id]);
+$assignedUsers = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
+$assignedUserIds = array_column($assignedUsers, 'id');
+$allUsers = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
 
 $tasksStmt = $pdo->prepare('SELECT id, name, status FROM module_tasks WHERE project_id = :id ORDER BY date_created DESC');
 $tasksStmt->execute([':id' => $id]);
 $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
 $taskStatusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
 
-$notesStmt = $pdo->prepare('SELECT id,note_text,date_created FROM module_projects_notes WHERE project_id = :id ORDER BY date_created DESC');
+$notesStmt = $pdo->prepare('SELECT id,note_text,date_created,user_id FROM module_projects_notes WHERE project_id = :id ORDER BY date_created DESC');
 $notesStmt->execute([':id' => $id]);
 $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -36,6 +42,43 @@ require '../../includes/html_header.php';
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <h2 class="mb-4">Project: <?php echo h($project['name'] ?? ''); ?></h2>
+
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Assigned Users</h5>
+        <?php if ($is_admin || $project['user_id'] == $this_user_id): ?>
+        <form class="d-flex" action="functions/assign_user.php" method="post">
+          <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+          <select name="user_id" class="form-select form-select-sm me-2">
+            <?php foreach ($allUsers as $u): if (!in_array($u['id'], $assignedUserIds)): ?>
+            <option value="<?php echo (int)$u['id']; ?>"><?php echo h($u['email']); ?></option>
+            <?php endif; endforeach; ?>
+          </select>
+          <button class="btn btn-primary btn-sm" type="submit">Assign</button>
+        </form>
+        <?php endif; ?>
+      </div>
+      <div class="card-body">
+        <?php if ($assignedUsers): ?>
+        <ul class="list-group">
+          <?php foreach ($assignedUsers as $u): ?>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <?php echo h($u['email']); ?>
+            <?php if ($is_admin || $project['user_id'] == $this_user_id): ?>
+            <form action="functions/remove_user.php" method="post" class="d-inline">
+              <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+              <input type="hidden" name="user_id" value="<?php echo (int)$u['id']; ?>">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
+            </form>
+            <?php endif; ?>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="mb-0">No users assigned.</p>
+        <?php endif; ?>
+      </div>
+    </div>
 
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
@@ -108,7 +151,7 @@ require '../../includes/html_header.php';
         <div class="table-responsive mt-3">
           <table class="table table-sm">
             <thead>
-              <tr><th>File</th><th>Size</th><th>Type</th></tr>
+              <tr><th>File</th><th>Size</th><th>Type</th><th>Actions</th></tr>
             </thead>
             <tbody>
               <?php foreach ($files as $f): ?>
@@ -116,6 +159,15 @@ require '../../includes/html_header.php';
                 <td><a href="<?php echo h($f['file_path']); ?>"><?php echo h($f['file_name']); ?></a></td>
                 <td><?php echo h($f['file_size']); ?></td>
                 <td><?php echo h($f['file_type']); ?></td>
+                <td>
+                  <?php if ($is_admin || $f['user_id'] == $this_user_id): ?>
+                  <form action="functions/delete_file.php" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="<?php echo (int)$f['id']; ?>">
+                    <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                  </form>
+                  <?php endif; ?>
+                </td>
               </tr>
               <?php endforeach; ?>
             </tbody>
@@ -138,9 +190,31 @@ require '../../includes/html_header.php';
         <?php if ($notes): ?>
         <ul class="list-group mt-3">
           <?php foreach ($notes as $n): ?>
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div><?php echo nl2br(h($n['note_text'])); ?></div>
-            <small class="text-muted ms-2"><?php echo h($n['date_created']); ?></small>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-start">
+              <div><?php echo nl2br(h($n['note_text'])); ?></div>
+              <div class="text-end ms-2">
+                <small class="text-muted d-block mb-1"><?php echo h($n['date_created']); ?></small>
+                <?php if ($is_admin || $n['user_id'] == $this_user_id): ?>
+                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#editNote<?php echo (int)$n['id']; ?>">Edit</button>
+                <form action="functions/delete_note.php" method="post" class="d-inline">
+                  <input type="hidden" name="id" value="<?php echo (int)$n['id']; ?>">
+                  <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+                <?php endif; ?>
+              </div>
+            </div>
+            <?php if ($is_admin || $n['user_id'] == $this_user_id): ?>
+            <div class="collapse mt-2" id="editNote<?php echo (int)$n['id']; ?>">
+              <form action="functions/edit_note.php" method="post">
+                <input type="hidden" name="id" value="<?php echo (int)$n['id']; ?>">
+                <input type="hidden" name="project_id" value="<?php echo (int)$id; ?>">
+                <textarea class="form-control mb-2" name="note" rows="2"><?php echo h($n['note_text']); ?></textarea>
+                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+              </form>
+            </div>
+            <?php endif; ?>
           </li>
           <?php endforeach; ?>
         </ul>
