@@ -47,10 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $last_name = trim($_POST['last_name'] ?? '');
   $roleIds = $_POST['roles'] ?? [];
 
-  if ($username === '' || $email === '' || $password === '') {
-    $error = 'Username, email and password are required.';
+  if ($username === '' || $email === '' || $password === '' || $first_name === '' || $last_name === '') {
+    $error = 'Username, email, password, first name and last name are required.';
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $error = 'Invalid email address.';
+  } elseif (strlen($first_name) > 100 || strlen($last_name) > 100) {
+    $error = 'First name and last name must be 100 characters or fewer.';
   } else {
     $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username');
     $stmt->execute([':username'=>$username]);
