@@ -8,7 +8,7 @@ if (!defined('IN_APP')) {
     exit('No direct script access allowed');
 }
 ?>
-<form method="post">
+<form method="post" data-final-form="true">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
     <ul class="nav justify-content-between nav-wizard nav-wizard-success">
@@ -91,3 +91,24 @@ if (!defined('IN_APP')) {
   </div>
   <a href="index.php" class="btn btn-secondary">Back</a>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var finalForm = document.querySelector('form[data-final-form]');
+  if (!finalForm) return;
+
+  finalForm.addEventListener('submit', function () {
+    var forms = document.querySelectorAll('form[data-step-form]');
+    forms.forEach(function (frm) {
+      var fd = new FormData(frm);
+      fd.forEach(function (value, key) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        finalForm.appendChild(input);
+      });
+    });
+  });
+});
+</script>
