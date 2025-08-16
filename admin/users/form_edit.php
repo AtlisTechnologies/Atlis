@@ -8,107 +8,96 @@ if (!defined('IN_APP')) {
     exit('No direct script access allowed');
 }
 ?>
-<form method="post" data-final-form="true">
-  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+
+<div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+  <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
     <ul class="nav justify-content-between nav-wizard nav-wizard-success">
       <li class="nav-item"><a class="nav-link active fw-semibold" href="#user-tab1" data-bs-toggle="tab" data-wizard-step="1">Account</a></li>
       <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab2" data-bs-toggle="tab" data-wizard-step="2">Details</a></li>
       <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab3" data-bs-toggle="tab" data-wizard-step="3">Roles</a></li>
     </ul>
+  </div>
+  <div class="card-body pt-4 pb-0">
     <div class="tab-content">
       <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
-        <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input type="text" class="form-control" name="username" value="<?= htmlspecialchars($username); ?>" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Password (leave blank to keep current)</label>
-          <input type="password" class="form-control" name="password">
-        </div>
+        <form class="needs-validation" novalidate data-wizard-form="1" method="post">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" value="<?= htmlspecialchars($username); ?>" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password (leave blank to keep current)</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+        </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
-        <div class="mb-3">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-control" name="first_name" value="<?= htmlspecialchars($first_name); ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-control" name="last_name" value="<?= htmlspecialchars($last_name); ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Type</label>
-          <div>
-            <?php foreach($typeOptions as $code => $label): $class = $typeColors[$code] ?? 'secondary'; ?>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="type<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= $type === $code ? 'checked' : ''; ?>>
-                <label class="form-check-label" for="type<?= $code; ?>">
-                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
-                </label>
-              </div>
-            <?php endforeach; ?>
+        <form class="needs-validation" novalidate data-wizard-form="2" method="post">
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" value="<?= htmlspecialchars($first_name); ?>">
           </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <div>
-            <?php foreach($statusOptions as $code => $label): $class = $statusColors[$code] ?? 'secondary'; ?>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="status" id="status<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= (string)$status === (string)$code ? 'checked' : ''; ?>>
-                <label class="form-check-label" for="status<?= $code; ?>">
-                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
-                </label>
-              </div>
-            <?php endforeach; ?>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" value="<?= htmlspecialchars($last_name); ?>">
           </div>
-        </div>
+          <div class="mb-3">
+            <label class="form-label">Type</label>
+            <div>
+              <?php foreach($typeOptions as $code => $label): $class = $typeColors[$code] ?? 'secondary'; ?>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="type" id="type<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= $type === $code ? 'checked' : ''; ?>>
+                  <label class="form-check-label" for="type<?= $code; ?>">
+                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <div>
+              <?php foreach($statusOptions as $code => $label): $class = $statusColors[$code] ?? 'secondary'; ?>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="status" id="status<?= $code; ?>" value="<?= htmlspecialchars($code); ?>" <?= (string)$status === (string)$code ? 'checked' : ''; ?>>
+                  <label class="form-check-label" for="status<?= $code; ?>">
+                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab3" aria-labelledby="user-tab3">
-        <div class="mb-3">
-          <label class="form-label">Roles</label>
-            <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
-                <label class="form-check-label" for="role<?= $r['id']; ?>">
-                  <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
-                </label>
-              </div>
-            <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
-    <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
-      <div class="d-flex pager wizard list-inline mb-0">
-        <button class="d-none btn btn-link ps-0" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Previous</button>
-        <button class="btn btn-primary px-6" type="button" data-wizard-next-btn="data-wizard-next-btn">Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span></button>
-        <button class="btn <?= $btnClass; ?> d-none ms-auto" type="submit" data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
+        <form class="needs-validation" novalidate data-wizard-form="3" method="post">
+          <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+          <div class="mb-3">
+            <label class="form-label">Roles</label>
+              <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
+                  <label class="form-check-label" for="role<?= $r['id']; ?>">
+                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <a href="index.php" class="btn btn-secondary">Back</a>
-</form>
+  <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
+    <div class="d-flex pager wizard list-inline mb-0">
+      <button class="d-none btn btn-link ps-0" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Previous</button>
+      <button class="btn btn-primary px-6" type="button" data-wizard-next-btn="data-wizard-next-btn">Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span></button>
+      <button class="btn <?= $btnClass; ?> d-none ms-auto" type="submit" data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
+    </div>
+  </div>
+</div>
+<a href="index.php" class="btn btn-secondary">Back</a>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var finalForm = document.querySelector('form[data-final-form]');
-  if (!finalForm) return;
-
-  finalForm.addEventListener('submit', function () {
-    var forms = document.querySelectorAll('form[data-step-form]');
-    forms.forEach(function (frm) {
-      var fd = new FormData(frm);
-      fd.forEach(function (value, key) {
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        finalForm.appendChild(input);
-      });
-    });
-  });
-});
-</script>
