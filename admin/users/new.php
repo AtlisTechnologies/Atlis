@@ -28,24 +28,25 @@ $type = array_key_first($typeOptions) ?? $type;
 $status = (int)(array_key_first($statusOptions) ?? $status);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
+  $postData = $_POST; // consolidated data from wizard steps
+  if (!hash_equals($token, $postData['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
-  $username = trim($_POST['username'] ?? '');
-  $email = trim($_POST['email'] ?? '');
-  $password = $_POST['password'] ?? '';
-  $type = $_POST['type'] ?? array_key_first($typeOptions);
+  $username = trim($postData['username'] ?? '');
+  $email = trim($postData['email'] ?? '');
+  $password = $postData['password'] ?? '';
+  $type = $postData['type'] ?? array_key_first($typeOptions);
   if (!array_key_exists($type, $typeOptions)) {
     $type = array_key_first($typeOptions);
   }
-  $status = $_POST['status'] ?? array_key_first($statusOptions);
+  $status = $postData['status'] ?? array_key_first($statusOptions);
   if (!array_key_exists($status, $statusOptions)) {
     $status = array_key_first($statusOptions);
   }
   $status = (int)$status;
-  $first_name = trim($_POST['first_name'] ?? '');
-  $last_name = trim($_POST['last_name'] ?? '');
-  $roleIds = $_POST['roles'] ?? [];
+  $first_name = trim($postData['first_name'] ?? '');
+  $last_name = trim($postData['last_name'] ?? '');
+  $roleIds = $postData['roles'] ?? [];
 
   if ($username === '' || $email === '' || $password === '') {
     $error = 'Username, email and password are required.';
