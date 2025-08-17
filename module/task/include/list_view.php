@@ -31,10 +31,10 @@
         <div class="col-12 col-md flex-1 position-relative" style="z-index:1;">
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
-              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-task-id="<?php echo (int)$task['id']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
+              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-task-id="<?php echo (int)$task['id']; ?>" data-original-status="<?php echo (int)$task['status']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
+              <span class="badge badge-phoenix fs-10 status-badge badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
               <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
             </div>
-            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
             <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
             <?php $hierarchy = $task['project_name'] ?? $task['division_name'] ?? $task['agency_name'] ?? ''; ?>
             <?php if ($hierarchy): ?>
@@ -62,15 +62,21 @@ document.addEventListener('DOMContentLoaded', function () {
     checkbox.addEventListener('change', function () {
       const taskId = this.dataset.taskId;
       const newState = this.checked ? 1 : 0;
-      const link = this.nextElementSibling;
+      const originalStatus = this.dataset.originalStatus;
+      const link = this.closest('.form-check').querySelector('.task-name-link');
+      const badge = this.closest('.form-check').querySelector('.status-badge');
       fetch('functions/toggle_complete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ id: taskId, completed: newState })
+        body: new URLSearchParams({ id: taskId, completed: newState, status: originalStatus })
       }).then(response => response.json())
         .then(data => {
           if (data.success) {
             this.checked = data.completed == 1;
+            if (badge && data.status_label && data.status_color) {
+              badge.textContent = data.status_label;
+              badge.className = `badge badge-phoenix fs-10 status-badge me-2 badge-phoenix-${data.status_color}`;
+            }
           } else {
             this.checked = !newState;
           }
