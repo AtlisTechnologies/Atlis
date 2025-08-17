@@ -108,7 +108,7 @@ if (!empty($current_project)) {
               </div>
             </div>
           </div>
-          
+
         </div>
         <div class="col-12 col-xl-9 col-xxl-8">
           <div class="row flex-between-center mb-3 g-3">
@@ -191,7 +191,8 @@ if (!empty($current_project)) {
                     <div>
                       <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
                         <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
-                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                        <span class="me-2 badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
                       </div>
                     </div>
                   </div>

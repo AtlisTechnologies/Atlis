@@ -99,7 +99,7 @@ unset($project);
           'FROM module_tasks t ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
           'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
-          'WHERE t.project_id = :id ORDER BY t.due_date'
+          'WHERE t.project_id = :id ORDER BY t.status, t.due_date'
         );
       $tasksStmt->execute([':id' => $project_id]);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
