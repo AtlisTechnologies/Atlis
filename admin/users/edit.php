@@ -45,26 +45,6 @@ $_SESSION['csrf_token'] = $token;
     <input type="password" name="password" class="form-control" <?php echo $id ? '' : 'required'; ?>>
   </div>
   <div class="mb-3">
-    <label class="form-label">Billing Address</label>
-    <input type="text" name="billing_address" class="form-control" value="<?php echo htmlspecialchars($memo['billing_address'] ?? ''); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Billing City</label>
-    <input type="text" name="billing_city" class="form-control" value="<?php echo htmlspecialchars($memo['billing_city'] ?? ''); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Billing State</label>
-    <input type="text" name="billing_state" class="form-control" value="<?php echo htmlspecialchars($memo['billing_state'] ?? ''); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Billing ZIP</label>
-    <input type="text" name="billing_zip" class="form-control" value="<?php echo htmlspecialchars($memo['billing_zip'] ?? ''); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Billing Card</label>
-    <input type="text" name="billing_card" class="form-control" value="">
-  </div>
-  <div class="mb-3">
     <label class="form-label">Profile Picture</label>
     <div class="dropzone" id="profilePicDropzone"></div>
   </div>

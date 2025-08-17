@@ -17,11 +17,6 @@ $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $username = trim($_POST['username'] ?? '');
 $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
 $password = $_POST['password'] ?? '';
-$billing_address = trim($_POST['billing_address'] ?? '');
-$billing_city = trim($_POST['billing_city'] ?? '');
-$billing_state = trim($_POST['billing_state'] ?? '');
-$billing_zip = trim($_POST['billing_zip'] ?? '');
-$billing_card = trim($_POST['billing_card'] ?? '');
 
 $errors = [];
 if ($username === '') {
@@ -29,9 +24,6 @@ if ($username === '') {
 }
 if ($email === '') {
   $errors[] = 'Valid email required';
-}
-if ($billing_zip !== '' && !preg_match('/^\d{5}(-\d{4})?$/', $billing_zip)) {
-  $errors[] = 'Invalid billing ZIP';
 }
 
 // check email uniqueness
@@ -54,16 +46,6 @@ if ($errors) {
 }
 
 $hash = $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : null;
-
-// tokenise billing card
-$billing_token = $billing_card !== '' ? hash('sha256', $billing_card) : '';
-$memo = json_encode([
-  'billing_address' => $billing_address,
-  'billing_city' => $billing_city,
-  'billing_state' => $billing_state,
-  'billing_zip' => $billing_zip,
-  'billing_token' => $billing_token
-]);
 
 $profilePath = null;
 if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
