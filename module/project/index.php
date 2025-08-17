@@ -16,7 +16,7 @@ if ($action === 'create') {
   require '../../includes/html_header.php';
   ?>
   <main class="main" id="top">
-    <?php require '../../includes/left_navigation.php'; ?>
+    <?php // require '../../includes/left_navigation.php'; ?>
     <?php require '../../includes/navigation.php'; ?>
     <div id="main_content" class="content">
       <?php require 'include/create_edit.php'; ?>
@@ -164,7 +164,7 @@ if ($action === 'create-edit') {
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
-  <?php require '../../includes/left_navigation.php'; ?>
+  <?php // require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <?php

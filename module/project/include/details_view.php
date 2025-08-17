@@ -148,7 +148,7 @@ if (!empty($current_project)) {
                           <li class="d-flex align-items-center mb-2">
                             <div class="avatar avatar-xl me-2">
                               <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>">
-                                <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                                <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                               </a>
                             </div>
                             <div class="d-flex align-items-center flex-grow-1">
@@ -282,13 +282,6 @@ if (!empty($current_project)) {
       </div>
     <?php endif; ?>
 
-    <div class="card mb-5">
-      <div class="card-body">
-        <h4 class="text-body-emphasis mb-3">Task completed over time</h4>
-        <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
-      </div>
-    </div>
-
     <?php if (!empty($timelineEvents)): ?>
     <div class="card mb-5">
       <div class="card-body">
@@ -316,7 +309,7 @@ if (!empty($current_project)) {
                     <p class="fs-9 lh-sm mb-1">Completed task: <?= h($e['name']) ?></p>
                   <?php else: ?>
                     <p class="fs-9 lh-sm mb-1"><?= nl2br(h($e['note_text'])) ?></p>
-                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-xs me-2" alt="" /><?= h($e['user_name']) ?></p>
+                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-m me-2" alt="" /><?= h($e['user_name']) ?></p>
                   <?php endif; ?>
                 </div>
               </div>
