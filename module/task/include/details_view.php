@@ -117,7 +117,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                         <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
                           <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
                           <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
-                          <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                         </form>
                         <?php endif; ?>
                       </div>
@@ -158,7 +158,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <div class="mb-3">
                 <input class="form-control" type="file" name="files[]" multiple>
               </div>
-              <center><button class="btn btn-atlis" type="submit">Add Note</button></center>
+              <center><button class="btn btn-success" type="submit">Add Note</button></center>
             </form>
           </div>
           <?php endif; ?>
@@ -173,7 +173,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
             <div class="input-group">
               <input type="hidden" name="id" value="<?= (int)$current_task['id'] ?>">
               <input class="form-control" type="file" name="file" id="taskFileUpload" aria-describedby="taskFileUpload" aria-label="Upload" required>
-              <button class="btn btn-atlis" type="submit">Upload New</button>
+              <button class="btn btn-success" type="submit">Upload New</button>
             </div>
           </form>
         </div>
@@ -196,7 +196,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
                   <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                   <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
-                  <button class="btn btn-link p-0 text-danger" type="submit"><span class="fa-solid fa-trash"></span></button>
+                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                 </form>
                 <?php endif; ?>
               </div>

@@ -31,6 +31,6 @@ $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
     <label class="form-label">Description</label>
     <textarea name="description" class="form-control" rows="4"><?php echo h($current_task['description'] ?? ''); ?></textarea>
   </div>
-  <button type="submit" class="btn btn-primary"><?php echo $editing ? 'Update' : 'Create'; ?></button>
+  <button type="submit" class="btn <?php echo $editing ? 'btn-atlis' : 'btn-success'; ?>"><?php echo $editing ? 'Update' : 'Create'; ?></button>
 </form>
 
