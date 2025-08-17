@@ -28,6 +28,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
       </span>
     </p>
+    <?php if (!empty($current_task['completed_by_name'])): ?>
+      <p class="text-body-secondary mb-3">Completed by <?php echo h($current_task['completed_by_name']); ?></p>
+    <?php endif; ?>
     <?php if (!empty($current_task['description'])): ?>
       <p><?php echo nl2br(h($current_task['description'])); ?></p>
     <?php endif; ?>
