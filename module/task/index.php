@@ -58,7 +58,7 @@ if ($action === 'create' || $action === 'edit') {
   require '../../includes/html_header.php';
   ?>
   <main class="main" id="top">
-    <?php require '../../includes/left_navigation.php'; ?>
+    <?php // require '../../includes/left_navigation.php'; ?>
     <?php require '../../includes/navigation.php'; ?>
     <div id="main_content" class="content">
       <?php require 'include/form.php'; ?>
@@ -67,6 +67,32 @@ if ($action === 'create' || $action === 'edit') {
   </main>
   <?php require '../../includes/js_footer.php'; ?>
   <?php
+  exit;
+}
+
+if ($action === 'create-edit' && isset($_GET['modal'])) {
+  $id = (int)($_GET['id'] ?? 0);
+  if ($id) {
+    require_permission('task', 'update');
+    $stmt = $pdo->prepare('SELECT * FROM module_tasks WHERE id=?');
+    $stmt->execute([$id]);
+    $task = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $assignedUsers = $pdo->prepare('SELECT assigned_user_id FROM module_task_assignments WHERE task_id=?');
+    $assignedUsers->execute([$id]);
+    $assignedUsers = $assignedUsers->fetchAll(PDO::FETCH_COLUMN);
+  } else {
+    require_permission('task', 'create');
+    $task = [];
+    $assignedUsers = [];
+  }
+  $statusMap = get_lookup_items($pdo, 'TASK_STATUS');
+  $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $agencies = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $divisions = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $users = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
+
+  require 'include/form.php';
   exit;
 }
 
@@ -195,7 +221,7 @@ if ($action === 'create-edit') {
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
-  <?php require '../../includes/left_navigation.php'; ?>
+  <?php // require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <?php

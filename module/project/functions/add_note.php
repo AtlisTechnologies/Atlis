@@ -2,8 +2,11 @@
 require '../../../includes/php_header.php';
 require_permission('project','update');
 
+header('Content-Type: application/json');
+
 $id = (int)($_POST['id'] ?? 0);
 $note = trim($_POST['note'] ?? '');
+
 if($id && $note !== ''){
   $stmt = $pdo->prepare('INSERT INTO module_projects_notes (user_id,user_updated,project_id,note_text) VALUES (:uid,:uid,:pid,:note)');
   $stmt->execute([
@@ -14,6 +17,7 @@ if($id && $note !== ''){
   $noteId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_projects_notes',$noteId,'NOTE','', $note);
 
+  $uploaded = [];
   if(!empty($_FILES['files']) && is_array($_FILES['files']['name'])){
     $files = $_FILES['files'];
     $uploadDir = '../uploads/';
@@ -39,11 +43,26 @@ if($id && $note !== ''){
             ':type' => $files['type'][$i]
           ]);
           $fileId = $pdo->lastInsertId();
+          $uploaded[] = [
+            'id' => $fileId,
+            'file_name' => $baseName,
+            'file_path' => $filePathDb,
+            'file_size' => $files['size'][$i],
+            'file_type' => $files['type'][$i]
+          ];
           admin_audit_log($pdo,$this_user_id,'module_projects_files',$fileId,'UPLOAD','',json_encode(['file'=>$baseName]));
         }
       }
     }
   }
+
+  $noteStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.id = :id');
+  $noteStmt->execute([':id' => $noteId]);
+  $noteRow = $noteStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+  $noteRow['files'] = $uploaded;
+
+  echo json_encode(['success'=>true,'note'=>$noteRow]);
+  exit;
 }
-header('Location: ../index.php?action=details&id=' . $id);
-exit;
+
+echo json_encode(['success'=>false]);

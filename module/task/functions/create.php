@@ -2,6 +2,11 @@
 require '../../../includes/php_header.php';
 require_permission('task', 'create');
 
+$isAjax = isset($_POST['ajax']) || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
+if($isAjax){
+  header('Content-Type: application/json');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'] ?? '';
   $status = $_POST['status'] ?? null;
@@ -33,6 +38,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
   $id = $pdo->lastInsertId();
   audit_log($pdo, $this_user_id, 'module_tasks', $id, 'CREATE', 'Created task');
+
+  if($isAjax){
+    $taskStmt = $pdo->prepare(
+      'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+      'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
+      'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
+      'FROM module_tasks t ' .
+      'LEFT JOIN lookup_list_items ls ON t.status = ls.id ' .
+      'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
+      'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
+      'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
+      'WHERE t.id = :id'
+    );
+    $taskStmt->execute([':id'=>$id]);
+    $taskRow = $taskStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    echo json_encode(['success'=>true,'task'=>$taskRow]);
+    exit;
+  }
+}
+
+if($isAjax){
+  echo json_encode(['success'=>false]);
+  exit;
 }
 
 $redirect = $_POST['redirect'] ?? '../index.php';

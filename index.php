@@ -4,7 +4,7 @@
 
   <main class="main" id="top">
 
-    <?php require "includes/left_navigation.php"; ?>
+    <?php // require "includes/left_navigation.php"; ?>
 
     <?php require "includes/navigation.php"; ?>
 

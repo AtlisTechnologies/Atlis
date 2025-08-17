@@ -27,7 +27,7 @@ $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
-  <?php require '../../includes/left_navigation.php'; ?>
+  <?php // require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <h2 class="mb-4">Agency: <?php echo htmlspecialchars($agency['name'] ?? ''); ?></h2>
