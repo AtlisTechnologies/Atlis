@@ -169,7 +169,7 @@ if (!empty($current_project)) {
       </div>
       <div class="col-8">
         <div class="mt-6">
-          <h2 class="mb-4">Todo list<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
+          <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
           <div class="row align-items-center g-3 mb-3">
             <div class="col-sm-auto">
               <div class="search-box">
@@ -192,6 +192,13 @@ if (!empty($current_project)) {
                       <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
                         <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
                         <span class="me-2 badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                        <?php if (!empty($t['assignees'])): ?>
+                          <?php foreach ($t['assignees'] as $a): ?>
+                            <img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
+                          <?php endforeach; ?>
+                        <?php else: ?>
+                          <span class="fa-regular fa-user text-body-tertiary me-1"></span>
+                        <?php endif; ?>
                         <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
                       </div>
                     </div>
