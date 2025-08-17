@@ -7,6 +7,16 @@
 if (!defined('IN_APP')) {
     exit('No direct script access allowed');
 }
+$developerRoleId = null;
+$customerRoleId = null;
+foreach ($roles as $r) {
+    if ($r['name'] === 'Developer') {
+        $developerRoleId = $r['id'];
+    }
+    if ($r['name'] === 'Customer') {
+        $customerRoleId = $r['id'];
+    }
+}
 ?>
 
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
@@ -130,6 +140,23 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  const roleMap = {
+    'CONTRACTOR': <?= $developerRoleId ?? 'null'; ?>,
+    'CUSTOMER': <?= $customerRoleId ?? 'null'; ?>
+  };
+  const assignRole = type => {
+    Object.values(roleMap).forEach(id => {
+      if (!id) return;
+      const cb = document.getElementById('role' + id);
+      if (cb) cb.checked = (roleMap[type] === id);
+    });
+  };
+  document.querySelectorAll('input[name="type"]').forEach(radio => {
+    radio.addEventListener('change', () => assignRole(radio.value));
+  });
+  const selectedType = document.querySelector('input[name="type"]:checked');
+  if (selectedType) assignRole(selectedType.value);
 });
 </script>
 
