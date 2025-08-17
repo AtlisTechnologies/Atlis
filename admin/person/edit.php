@@ -24,14 +24,14 @@ if ($id) {
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
-if ($user_id) {
-  $userStmt = $pdo->prepare('SELECT id, username FROM users WHERE id = :id');
-  $userStmt->execute([':id' => $user_id]);
-  $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-} else {
-  $userStmt = $pdo->query('SELECT u.id, u.username FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE p.user_id IS NULL ORDER BY u.username');
-  $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-}
+  if ($user_id) {
+    $userStmt = $pdo->prepare('SELECT id, email FROM users WHERE id = :id');
+    $userStmt->execute([':id' => $user_id]);
+    $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+  } else {
+    $userStmt = $pdo->query('SELECT u.id, u.email FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE p.user_id IS NULL ORDER BY u.email');
+    $userOptions = $userStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+  }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
