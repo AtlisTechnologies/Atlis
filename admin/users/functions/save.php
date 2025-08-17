@@ -13,25 +13,24 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
   die('Invalid CSRF token');
 }
 
-$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-$username = trim($_POST['username'] ?? '');
-$email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
-$password = $_POST['password'] ?? '';
+ $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+ $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
+ $password = $_POST['password'] ?? '';
+ $first_name = trim($_POST['first_name'] ?? '');
+ $last_name = trim($_POST['last_name'] ?? '');
+ $memo = $_POST['memo'] ?? null;
 
-$errors = [];
-if ($username === '') {
-  $errors[] = 'Username required';
-}
-if ($email === '') {
-  $errors[] = 'Valid email required';
-}
+ $errors = [];
+ if ($email === '') {
+   $errors[] = 'Valid email required';
+ }
 
-// check email uniqueness
-$check = $pdo->prepare('SELECT id FROM users WHERE email = :email AND id <> :id');
-$check->execute([':email' => $email, ':id' => $id]);
-if ($check->fetch()) {
-  $errors[] = 'Email already exists';
-}
+ // check email uniqueness
+ $check = $pdo->prepare('SELECT id FROM users WHERE email = :email AND id <> :id');
+ $check->execute([':email' => $email, ':id' => $id]);
+ if ($check->fetch()) {
+   $errors[] = 'Email already exists';
+ }
 
 if (!$id && $password === '') {
   $errors[] = 'Password required';
@@ -47,7 +46,7 @@ if ($errors) {
 
 $hash = $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : null;
 
-$profilePath = null;
+ $profilePath = null;
 if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
   $file = $_FILES['profile_pic'];
   if ($file['size'] <= 400 * 1024) {
@@ -72,33 +71,37 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
   }
 }
 
-if ($id) {
-  $fields = 'username = :username, email = :email, memo = :memo, user_updated = :uid';
-  $params = [
-    ':username' => $username,
-    ':email' => $email,
-    ':memo' => $memo,
-    ':uid' => $this_user_id,
-    ':id' => $id
-  ];
-  if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
-  if ($profilePath) { $fields .= ', profile_pic = :pic'; $params[':pic'] = $profilePath; }
-  $sql = 'UPDATE users SET ' . $fields . ' WHERE id = :id';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute($params);
-} else {
-  $sql = 'INSERT INTO users (user_id, user_updated, username, email, password, profile_pic, memo) VALUES (:uid, :uid, :username, :email, :password, :pic, :memo)';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([
-    ':uid' => $this_user_id,
-    ':username' => $username,
-    ':email' => $email,
-    ':password' => $hash,
-    ':pic' => $profilePath,
-    ':memo' => $memo
-  ]);
-  $id = $pdo->lastInsertId();
-}
+ if ($id) {
+   $fields = 'email = :email, memo = :memo, user_updated = :uid';
+   $params = [
+     ':email' => $email,
+     ':memo' => $memo,
+     ':uid' => $this_user_id,
+     ':id' => $id
+   ];
+   if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
+   if ($profilePath) { $fields .= ', profile_pic = :pic'; $params[':pic'] = $profilePath; }
+   $sql = 'UPDATE users SET ' . $fields . ' WHERE id = :id';
+   $stmt = $pdo->prepare($sql);
+   $stmt->execute($params);
 
-header('Location: ../index.php');
-exit;
+   $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, user_updated = :uid WHERE user_id = :uid_fk');
+   $pstmt->execute([':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id, ':uid_fk' => $id]);
+ } else {
+   $sql = 'INSERT INTO users (user_id, user_updated, email, password, profile_pic, memo) VALUES (:uid, :uid, :email, :password, :pic, :memo)';
+   $stmt = $pdo->prepare($sql);
+   $stmt->execute([
+     ':uid' => $this_user_id,
+     ':email' => $email,
+     ':password' => $hash,
+     ':pic' => $profilePath,
+     ':memo' => $memo
+   ]);
+   $id = $pdo->lastInsertId();
+
+   $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, user_updated) VALUES (:uid_fk, :fn, :ln, :uid)');
+   $pstmt->execute([':uid_fk' => $id, ':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id]);
+ }
+
+ header('Location: ../index.php');
+ exit;
