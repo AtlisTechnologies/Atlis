@@ -1,7 +1,7 @@
 <?php
 // Edit user form. Expects lookup arrays ($roles, $typeOptions, $statusOptions) and
 // color maps ($roleColors, $typeColors, $statusColors) along with
-// variables: $token, $id, $username, $email, $first_name, $last_name,
+// variables: $token, $id, $email, $first_name, $last_name,
 // $type, $status, $btnClass, $assigned (array of role ids)
 
 if (!defined('IN_APP')) {
@@ -12,9 +12,15 @@ if (!defined('IN_APP')) {
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
   <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
     <ul class="nav justify-content-between nav-wizard nav-wizard-success">
-      <li class="nav-item"><a class="nav-link active fw-semibold" href="#user-tab1" data-bs-toggle="tab" data-wizard-step="1">Account</a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab2" data-bs-toggle="tab" data-wizard-step="2">Details</a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab3" data-bs-toggle="tab" data-wizard-step="3">Roles</a></li>
+      <li class="nav-item"><a class="nav-link active fw-semibold" href="#user-tab1" data-bs-toggle="tab" data-wizard-step="1">
+          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Account</span></div>
+        </a></li>
+      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab2" data-bs-toggle="tab" data-wizard-step="2">
+          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Details</span></div>
+        </a></li>
+      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab3" data-bs-toggle="tab" data-wizard-step="3">
+          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-users"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Roles</span></div>
+        </a></li>
     </ul>
   </div>
   <div class="card-body pt-4 pb-0">
@@ -22,10 +28,12 @@ if (!defined('IN_APP')) {
       <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
         <form class="needs-validation" novalidate data-wizard-form="1" method="post">
           <div class="mb-3">
+
             <label class="form-label">Username</label>
             <input type="text" class="form-control" name="username" value="<?= htmlspecialchars($username); ?>" required>
           </div>
           <div class="mb-3">
+
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
           </div>
