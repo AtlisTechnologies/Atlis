@@ -170,6 +170,97 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin_permission_groups`
+--
+
+CREATE TABLE `admin_permission_groups` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_permission_groups`
+--
+
+INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
+(1,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,'Users','Permissions for managing users'),
+(2,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,'People','Permissions for managing people'),
+(3,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,'Agencies','Permissions for managing agencies'),
+(4,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Roles','Permissions for managing roles'),
+(5,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Organization','Permissions for managing organizations'),
+(6,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Division','Permissions for managing divisions'),
+(7,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,'System Properties','Permissions for system properties'),
+(8,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,'Projects','Permissions for managing projects'),
+(9,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,'Tasks','Permissions for managing tasks');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_permission_group_permissions`
+--
+
+CREATE TABLE `admin_permission_group_permissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `permission_group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_permission_group_permissions`
+--
+
+INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `permission_group_id`, `permission_id`) VALUES
+(1,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,1),
+(2,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,2),
+(3,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,3),
+(4,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,4),
+(5,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,5),
+(6,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,6),
+(7,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,7),
+(8,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,8),
+(9,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,9),
+(10,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,10),
+(11,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,11),
+(12,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,12),
+(13,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,13),
+(14,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,14),
+(15,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,15),
+(16,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,16),
+(17,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,17),
+(18,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,18),
+(19,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,19),
+(20,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,20),
+(21,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,21),
+(22,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,22),
+(23,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,23),
+(24,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,24),
+(25,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,25),
+(26,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,26),
+(27,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,27),
+(28,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,28),
+(29,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,29),
+(30,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,30),
+(31,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,31),
+(32,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,32),
+(33,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,33),
+(34,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,34),
+(35,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,35),
+(36,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,36);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `admin_roles`
 --
 
@@ -196,7 +287,7 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 
 -- --------------------------------------------------------
 
---
+
 -- Table structure for table `admin_role_permissions`
 --
 
@@ -208,155 +299,42 @@ CREATE TABLE `admin_role_permissions` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `role_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
+  `permission_group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_role_permissions`
 --
 
-INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_id`) VALUES
-(8, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:53', NULL, 2, 5),
-(9, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:53', NULL, 2, 6),
-(10, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:53', NULL, 2, 7),
-(18, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:53', NULL, 3, 9),
-(19, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:53', NULL, 3, 10),
-(20, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:53', NULL, 3, 11),
-(40, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 4, 17),
-(41, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 4, 20),
-(42, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 4, 18),
-(43, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 4, 19),
-(44, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 21),
-(45, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 24),
-(46, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 22),
-(47, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:53', NULL, 5, 23),
-(55, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 25),
-(56, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 28),
-(57, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 26),
-(58, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 6, 27),
-(59, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 25),
-(60, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 28),
-(61, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 26),
-(62, 1, 1, '2025-08-13 16:30:13', '2025-08-13 16:30:13', NULL, 7, 27),
-(63, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 29),
-(64, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 30),
-(65, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 31),
-(66, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 32),
-(71, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 33),
-(72, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 34),
-(73, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 35),
-(74, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 36),
-(79, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 9),
-(80, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 12),
-(81, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 10),
-(82, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 11),
-(83, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 21),
-(84, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 24),
-(85, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 22),
-(86, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 23),
-(87, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 17),
-(88, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 20),
-(89, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 18),
-(90, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 19),
-(91, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 5),
-(92, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 8),
-(93, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 6),
-(94, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 7),
-(95, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 29),
-(96, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 32),
-(97, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 30),
-(98, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 31),
-(99, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 13),
-(100, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 16),
-(101, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 14),
-(102, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 15),
-(103, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 25),
-(104, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 28),
-(105, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 26),
-(106, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 27),
-(107, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 33),
-(108, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 36),
-(109, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 34),
-(110, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 1, 35),
-(111, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 1, 1),
-(112, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 1, 4),
-(113, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 1, 2),
-(114, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 1, 3),
-(115, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 9),
-(116, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 12),
-(117, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 10),
-(118, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 11),
-(119, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 21),
-(120, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 24),
-(121, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 22),
-(122, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 23),
-(123, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 17),
-(124, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 20),
-(125, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 18),
-(126, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 19),
-(127, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 5),
-(128, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 8),
-(129, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 6),
-(130, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 7),
-(131, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 29),
-(132, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 32),
-(133, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 30),
-(134, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 31),
-(135, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 13),
-(136, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 16),
-(137, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 14),
-(138, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 15),
-(139, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 25),
-(140, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 28),
-(141, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 26),
-(142, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 27),
-(143, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 33),
-(144, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 36),
-(145, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 34),
-(146, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 35),
-(147, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 1),
-(148, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 4),
-(149, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 2),
-(150, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 3),
-(151, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 9),
-(152, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 12),
-(153, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 10),
-(154, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 11),
-(155, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 21),
-(156, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 24),
-(157, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 22),
-(158, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 23),
-(159, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 17),
-(160, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 20),
-(161, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 18),
-(162, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 19),
-(163, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 5),
-(164, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 8),
-(165, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 6),
-(166, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 7),
-(167, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 29),
-(168, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 32),
-(169, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 30),
-(170, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 31),
-(171, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 13),
-(172, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 16),
-(173, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 14),
-(174, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 15),
-(175, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 25),
-(176, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 28),
-(177, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 26),
-(178, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 27),
-(179, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 33),
-(180, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 36),
-(181, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 34),
-(182, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 35),
-(183, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 1),
-(184, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 4),
-(185, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 2),
-(186, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 3),
-(187, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 33),
-(188, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 34),
-(189, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 35);
+INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
+(1,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,1),
+(2,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,2),
+(3,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,3),
+(4,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,4),
+(5,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,5),
+(6,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,6),
+(7,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,7),
+(8,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,8),
+(9,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,9),
+(10,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,1),
+(11,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,2),
+(12,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,3),
+(13,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,4),
+(14,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,5),
+(15,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,6),
+(16,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,7),
+(17,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,8),
+(18,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,9),
+(19,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,1),
+(20,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,2),
+(21,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,3),
+(22,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,4),
+(23,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,5),
+(24,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,6),
+(25,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,7),
+(26,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,8),
+(27,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,9),
+(28,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,12,9);
 
 -- --------------------------------------------------------
 
@@ -1308,6 +1286,25 @@ ALTER TABLE `admin_permissions`
   ADD KEY `fk_admin_permissions_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `admin_permission_groups`
+--
+ALTER TABLE `admin_permission_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_permission_groups_user_id` (`user_id`),
+  ADD KEY `fk_admin_permission_groups_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `admin_permission_group_permissions`
+--
+ALTER TABLE `admin_permission_group_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_admin_permission_group_permissions_group_permission` (`permission_group_id`,`permission_id`),
+  ADD KEY `fk_admin_permission_group_permissions_user_id` (`user_id`),
+  ADD KEY `fk_admin_permission_group_permissions_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_permission_group_permissions_group_id` (`permission_group_id`),
+  ADD KEY `fk_admin_permission_group_permissions_permission_id` (`permission_id`);
+
+--
 -- Indexes for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
@@ -1320,11 +1317,11 @@ ALTER TABLE `admin_roles`
 --
 ALTER TABLE `admin_role_permissions`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_admin_role_permissions_role_permission` (`role_id`,`permission_id`),
+  ADD UNIQUE KEY `uk_admin_role_permissions_role_group` (`role_id`,`permission_group_id`),
   ADD KEY `fk_admin_role_permissions_user_id` (`user_id`),
   ADD KEY `fk_admin_role_permissions_user_updated` (`user_updated`),
   ADD KEY `fk_admin_role_permissions_role_id` (`role_id`),
-  ADD KEY `fk_admin_role_permissions_permission_id` (`permission_id`);
+  ADD KEY `fk_admin_role_permissions_permission_group_id` (`permission_group_id`);
 
 --
 -- Indexes for table `admin_user_roles`
@@ -1552,6 +1549,18 @@ ALTER TABLE `admin_permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
+-- AUTO_INCREMENT for table `admin_permission_groups`
+--
+ALTER TABLE `admin_permission_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `admin_permission_group_permissions`
+--
+ALTER TABLE `admin_permission_group_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
@@ -1561,7 +1570,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -1692,6 +1701,38 @@ ALTER TABLE `users_2fa`
 --
 -- Constraints for dumped tables
 --
+-- Constraints for table `admin_permission_groups`
+--
+ALTER TABLE `admin_permission_groups`
+  ADD CONSTRAINT `fk_admin_permission_groups_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_permission_groups_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_permission_group_permissions`
+--
+ALTER TABLE `admin_permission_group_permissions`
+  ADD CONSTRAINT `fk_admin_permission_group_permissions_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_permission_group_permissions_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `admin_permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_permission_group_permissions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_permission_group_permissions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_role_permissions`
+--
+ALTER TABLE `admin_role_permissions`
+  ADD CONSTRAINT `fk_admin_role_permissions_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_role_permissions_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_role_permissions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_role_permissions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_user_roles`
+--
+ALTER TABLE `admin_user_roles`
+  ADD CONSTRAINT `fk_admin_user_roles_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_user_roles_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_user_roles_user_account_id` FOREIGN KEY (`user_account_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_user_roles_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `lookup_lists`
@@ -1777,6 +1818,24 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
+
+-- Migration from permission-based to group-based role permissions
+--
+-- CREATE TABLE `admin_role_permissions_old` LIKE `admin_role_permissions`;
+-- INSERT INTO `admin_role_permissions_old` SELECT * FROM `admin_role_permissions`;
+-- INSERT INTO `admin_permission_groups` (`name`)
+--   SELECT DISTINCT module FROM `admin_permissions`;
+-- INSERT INTO `admin_permission_group_permissions` (`permission_group_id`,`permission_id`)
+--   SELECT g.id, p.id FROM `admin_permission_groups` g
+--   JOIN `admin_permissions` p ON p.module = g.name;
+-- INSERT INTO `admin_role_permissions` (`user_id`,`user_updated`,`date_created`,`date_updated`,`memo`,`role_id`,`permission_group_id`)
+--   SELECT arp.user_id, arp.user_updated, NOW(), NOW(), arp.memo, arp.role_id, g.id
+--   FROM `admin_role_permissions_old` arp
+--   JOIN `admin_permissions` p ON arp.permission_id = p.id
+--   JOIN `admin_permission_groups` g ON p.module = g.name
+--   GROUP BY arp.role_id, g.id;
+-- DROP TABLE `admin_role_permissions_old`;
+
 -- Table structure for table `admin_permission_groups`
 --
 
@@ -1880,7 +1939,6 @@ ALTER TABLE `admin_permission_group_permissions`
 ALTER TABLE `admin_role_permission_groups`
   ADD CONSTRAINT `fk_arpg_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`),
   ADD CONSTRAINT `fk_arpg_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
