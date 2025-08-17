@@ -26,6 +26,29 @@ if (!empty($current_project)) {
     $chartDates = array_keys($chartData);
     $chartValues = array_values($chartData);
     $progress = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
+
+    $timelineEvents = [];
+    foreach ($tasks as $t) {
+        if (!empty($t['completed']) && !empty($t['complete_date'])) {
+            $timelineEvents[] = [
+                'type' => 'task',
+                'date' => $t['complete_date'],
+                'name' => $t['name'] ?? ''
+            ];
+        }
+    }
+    foreach ($notes as $n) {
+        $timelineEvents[] = [
+            'type' => 'note',
+            'date' => $n['date_created'] ?? '',
+            'note_text' => $n['note_text'] ?? '',
+            'user_name' => $n['user_name'] ?? '',
+            'profile_pic' => $n['profile_pic'] ?? ''
+        ];
+    }
+    usort($timelineEvents, function($a, $b) {
+        return strtotime($b['date']) <=> strtotime($a['date']);
+    });
 }
 ?>
 <?php if (!empty($current_project)): ?>
@@ -36,12 +59,26 @@ if (!empty($current_project)) {
         <div class="d-flex justify-content-between">
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
         </div>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?>">
-          <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
-        </span>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?>">
-          <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
-        </span>
+        <div class="dropdown d-inline me-2">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="statusBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="statusBadge">
+            <?php foreach ($statusMap as $sid => $s): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="status" data-value="<?= (int)$sid ?>" data-color="<?= h($s['color_class'] ?? 'secondary') ?>"><?= h($s['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <div class="dropdown d-inline">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="priorityBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="priorityBadge">
+            <?php foreach ($priorityMap as $pid => $p): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="priority" data-value="<?= (int)$pid ?>" data-color="<?= h($p['color_class'] ?? 'secondary') ?>"><?= h($p['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
       </div>
       <div class="row gx-0 gx-sm-5 gy-8 mb-8">
         <div class="col-12 pe-xl-0">
@@ -209,6 +246,52 @@ if (!empty($current_project)) {
           <p class="text-body-secondary mb-4"><?= nl2br(h($current_project['specifications'] ?? '')) ?></p>
         </div>
       </div>
+    <?php endif; ?>
+
+    <div class="card mb-5">
+      <div class="card-body">
+        <h4 class="text-body-emphasis mb-3">Task completed over time</h4>
+        <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
+      </div>
+    </div>
+
+    <?php if (!empty($timelineEvents)): ?>
+    <div class="card mb-5">
+      <div class="card-body">
+        <h4 class="text-body-highlight fw-bold mb-4">Timeline</h4>
+        <div class="timeline-vertical">
+          <?php foreach ($timelineEvents as $e): ?>
+          <div class="timeline-item position-relative">
+            <div class="row g-md-3 mb-4">
+              <div class="col-12 col-md-auto d-flex">
+                <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                  <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                    <?= h(date('d M, Y', strtotime($e['date']))) ?><br class="d-none d-md-block" />
+                    <?= h(date('h:i A', strtotime($e['date']))) ?>
+                  </p>
+                </div>
+                <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                  <div class="icon-item icon-item-sm rounded-7 shadow-none <?= $e['type'] === 'task' ? 'bg-success-subtle' : 'bg-primary-subtle' ?>">
+                    <span class="fa-solid <?= $e['type'] === 'task' ? 'fa-check text-success-dark' : 'fa-note-sticky text-primary-dark' ?> fs-10"></span>
+                  </div><span class="timeline-bar border-end border-dashed"></span>
+                </div>
+              </div>
+              <div class="col">
+                <div class="timeline-item-content ps-6 ps-md-3">
+                  <?php if ($e['type'] === 'task'): ?>
+                    <p class="fs-9 lh-sm mb-1">Completed task: <?= h($e['name']) ?></p>
+                  <?php else: ?>
+                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($e['note_text'])) ?></p>
+                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-xs me-2" alt="" /><?= h($e['user_name']) ?></p>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
     <?php endif; ?>
 
     <div class="row">
@@ -382,6 +465,7 @@ if (!empty($current_project)) {
 <?php endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  var projectId = <?= (int)$current_project['id'] ?>;
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
@@ -425,6 +509,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }).catch(() => {
           this.checked = !newState;
           label.classList.toggle('text-decoration-line-through', this.checked);
+        });
+    });
+  });
+  document.querySelectorAll('.project-field-option').forEach(function(item){
+    item.addEventListener('click', function(e){
+      e.preventDefault();
+      var field = this.dataset.field;
+      var value = this.dataset.value;
+      var color = this.dataset.color;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ project_id: projectId, field: field, value: value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            var badge = document.getElementById(field + 'Badge');
+            if (badge) {
+              badge.textContent = this.textContent;
+              badge.className = 'badge badge-phoenix badge-phoenix-' + color + ' dropdown-toggle';
+            }
+          }
         });
     });
   });

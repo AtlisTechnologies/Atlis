@@ -94,7 +94,7 @@ unset($project);
       }
 
         $tasksStmt = $pdo->prepare(
-          'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
+          'SELECT t.id, t.name, t.status, t.due_date, t.completed, t.complete_date, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
