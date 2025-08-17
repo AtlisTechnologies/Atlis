@@ -1,13 +1,13 @@
 <?php
 $statusCounts = [];
 foreach ($projects as $proj) {
-  $label = $proj['status_label'] ?? 'Unknown';
-  $statusCounts[$label] = ($statusCounts[$label] ?? 0) + 1;
+    $label = $proj['status_label'] ?? 'Unknown';
+    $statusCounts[$label] = ($statusCounts[$label] ?? 0) + 1;
 }
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
-    <li class="breadcrumb-item"><a href="#">Projects</a></li>
+    <li class="breadcrumb-item"><a href="index.php">Projects</a></li>
     <li class="breadcrumb-item active" aria-current="page">Card View</li>
   </ol>
 </nav>
@@ -16,9 +16,7 @@ foreach ($projects as $proj) {
     <h2 class="mb-0">Projects<span class="fw-normal text-body-tertiary ms-3">(<?php echo count($projects); ?>)</span></h2>
   </div>
   <?php if (user_has_permission('project','create')): ?>
-  <div class="col-auto">
-    <a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Create Project</a>
-  </div>
+  <div class="col-auto"><a class="btn btn-success px-5" href="index.php?action=create"><i class="fa-solid fa-plus me-2"></i>Add new project</a></div>
   <?php endif; ?>
 </div>
 <div class="row justify-content-between align-items-end mb-4 g-3">
@@ -26,7 +24,7 @@ foreach ($projects as $proj) {
     <ul class="nav nav-links mx-n2 project-tab">
       <li class="nav-item"><a class="nav-link px-2 py-1 active" aria-current="page" href="#"><span>All</span><span class="text-body-tertiary fw-semibold">(<?php echo count($projects); ?>)</span></a></li>
       <?php foreach (['Ongoing','Cancelled','Finished','Postponed'] as $tab): ?>
-      <li class="nav-item"><a class="nav-link px-2 py-1" href="#"><span><?php echo $tab; ?></span><span class="text-body-tertiary fw-semibold"><?php echo $statusCounts[$tab] ?? 0; ?></span></a></li>
+        <li class="nav-item"><a class="nav-link px-2 py-1" href="#"><span><?php echo $tab; ?></span><span class="text-body-tertiary fw-semibold"><?php echo $statusCounts[$tab] ?? 0; ?></span></a></li>
       <?php endforeach; ?>
     </ul>
   </div>
@@ -51,58 +49,68 @@ foreach ($projects as $proj) {
   </div>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3 mb-9">
-  <?php foreach ($projects as $project): ?>
-  <?php
-    $completed = $project['total_tasks'] - $project['in_progress'];
-    $progress = $project['total_tasks'] > 0 ? intval(($completed / $project['total_tasks']) * 100) : 0;
+  <?php foreach ($projects as $project):
+    $completed = ($project['total_tasks'] ?? 0) - ($project['in_progress'] ?? 0);
+    $progress = ($project['total_tasks'] ?? 0) > 0 ? intval(($completed / $project['total_tasks']) * 100) : 0;
   ?>
   <div class="col">
     <div class="card h-100 hover-actions-trigger">
       <div class="card-body position-relative">
         <div class="d-flex align-items-center">
-          <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5">
-            <a href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
-          </h4>
-          <div class="hover-actions top-0 end-0 mt-4 me-4">
-            <a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a>
-          </div>
+          <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5"><a href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><?php echo h($project['name']); ?></a></h4>
+          <div class="hover-actions top-0 end-0 mt-4 me-4"><a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a></div>
         </div>
         <span class="badge badge-phoenix fs-10 mb-4 badge-phoenix-<?php echo h($project['status_color'] ?? 'secondary'); ?>"><?php echo h($project['status_label'] ?? ''); ?></span>
         <?php if (!empty($project['agency_name']) || !empty($project['division_name'])): ?>
-        <p class="text-body-secondary line-clamp-2 mb-4">
-          <?php echo h($project['agency_name']); ?><?php if (!empty($project['division_name'])) echo ' / ' . h($project['division_name']); ?>
-        </p>
+        <p class="text-body-secondary line-clamp-2 mb-4"><?php echo h($project['agency_name']); ?><?php if (!empty($project['division_name'])) echo ' / ' . h($project['division_name']); ?></p>
         <?php endif; ?>
         <?php if (!empty($project['start_date'])): ?>
-        <div class="d-flex align-items-center mt-4">
-          <p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['start_date']))); ?></span></p>
-        </div>
+        <div class="d-flex align-items-center mt-4"><p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['start_date']))); ?></span></p></div>
         <?php endif; ?>
         <?php if (!empty($project['complete_date'])): ?>
-        <div class="d-flex align-items-center mt-2">
-          <p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p>
-        </div>
+        <div class="d-flex align-items-center mt-2"><p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p></div>
         <?php endif; ?>
         <div class="d-flex justify-content-between text-body-tertiary fw-semibold mt-3">
           <p class="mb-2">Progress</p>
-          <p class="mb-2 text-body-emphasis"><?php echo $project['in_progress']; ?>/<?php echo $project['total_tasks']; ?></p>
+          <p class="mb-2 text-body-emphasis"><?php echo (int)($project['in_progress'] ?? 0); ?>/<?php echo (int)($project['total_tasks'] ?? 0); ?></p>
         </div>
         <div class="progress bg-success-subtle">
           <div class="progress-bar rounded bg-success" role="progressbar" style="width: <?php echo $progress; ?>%" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <?php if (!empty($project['assignees'])): ?>
         <div class="avatar-group mt-3">
-          <?php foreach ($project['assignees'] as $assignee): ?>
-            <?php $pic = !empty($assignee['profile_pic']) ? 'module/users/uploads/' . $assignee['profile_pic'] : 'assets/img/team/avatar.webp'; ?>
-            <div class="avatar avatar-m rounded-circle">
+          <?php foreach ($project['assignees'] as $assignee):
+            $pic = !empty($assignee['profile_pic']) ? 'module/users/uploads/' . $assignee['profile_pic'] : 'assets/img/team/avatar.webp';
+          ?>
+          <div class="avatar avatar-m rounded-circle">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">
               <img class="rounded-circle" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
-            </div>
+            </a>
+          </div>
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
-        <a class="stretched-link" href="index.php?action=details&id=<?php echo $project['id']; ?>"></a>
+        <a class="stretched-link" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"></a>
       </div>
     </div>
   </div>
   <?php endforeach; ?>
 </div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body p-0"><img src="" alt="" id="modalImage" class="w-100 rounded" /></div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('click', function (e) {
+  var src = e.target.getAttribute('data-img-src');
+  if (src) {
+    var img = document.getElementById('modalImage');
+    if (img) { img.src = src; }
+  }
+});
+</script>
+

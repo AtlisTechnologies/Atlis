@@ -1,10 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../includes/functions.php';
-if (!user_has_permission('project','create')) {
-  header('HTTP/1.1 403 Forbidden');
-  echo '403 Forbidden';
-  exit;
-}
+require_permission('project','create');
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -15,7 +11,7 @@ if (!user_has_permission('project','create')) {
 <h2 class="mb-4">Create a project</h2>
 <div class="row">
   <div class="col-xl-9">
-    <form class="row g-3 mb-6" method="post" action="index.php?action=create">
+    <form class="row g-3 mb-6" method="post" action="functions/create.php">
       <div class="col-sm-6 col-md-8">
         <div class="form-floating">
           <input class="form-control" id="projectName" type="text" name="name" placeholder="Project title" required />

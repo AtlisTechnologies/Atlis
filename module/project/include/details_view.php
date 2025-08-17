@@ -148,7 +148,9 @@ if (!empty($current_project)) {
             <?php foreach ($assignedUsers as $au): ?>
               <li class="d-flex align-items-center mb-2">
                 <div class="avatar avatar-xl me-2">
-                  <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>">
+                    <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                  </a>
                 </div>
                 <div class="d-flex align-items-center flex-grow-1">
                   <h6 class="mb-0"><?= h($au['name']) ?></h6>
@@ -264,7 +266,7 @@ if (!empty($current_project)) {
                         </ul>
                       <?php endif; ?>
 
-                      <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($n['profile_pic'] ?? '') ?>" class="rounded-circle avatar avatar-m me-2" alt="" />by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                      <p class="fs-9 mb-0 d-flex align-items-center"><a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($n['profile_pic'] ?? '') ?>"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($n['profile_pic'] ?? '') ?>" class="rounded-circle avatar avatar-m me-2" alt="" /></a>by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
                     </div>
                   </div>
                 </div>
