@@ -1,113 +1,67 @@
 <?php
 require '../admin_header.php';
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$username = $email = $first_name = $last_name = '';
-if ($id) {
-  $stmt = $pdo->prepare('SELECT u.username, u.email, p.first_name, p.last_name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
-  $stmt->execute([':id' => $id]);
-  if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $username = $row['username'];
-    $email = $row['email'];
-    $first_name = $row['first_name'];
-    $last_name = $row['last_name'];
-  }
-}
-$developerRoleId = null;
-$customerRoleId = null;
-foreach ($roles as $r) {
-    if ($r['name'] === 'Developer') {
-        $developerRoleId = $r['id'];
-    }
-    if ($r['name'] === 'Customer') {
-        $customerRoleId = $r['id'];
-    }
-}
+
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 ?>
-<h2 class="mb-4">Edit User</h2>
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
-  <div class="card-body">
+  <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
+    <ul class="nav justify-content-between nav-wizard nav-wizard-success">
+      <li class="nav-item"><a class="nav-link active fw-semibold" href="#user-account-tab" data-bs-toggle="tab" data-wizard-step="1">
+            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Account</span></div>
+          </a></li>
+      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-personal-tab" data-bs-toggle="tab" data-wizard-step="2">
+            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Personal</span></div>
+          </a></li>
+    </ul>
+  </div>
+  <div class="card-body pt-4 pb-0">
     <div class="tab-content">
-      <div class="tab-pane active" id="step1" role="tabpanel">
-        <form id="wizardForm1" data-wizard-form="1">
+      <div class="tab-pane active" id="user-account-tab" role="tabpanel" aria-labelledby="user-account-tab">
+        <form class="needs-validation" novalidate data-wizard-form="1">
           <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" value="<?=h($username)?>" required>
+            <label class="form-label" for="user-username">Username</label>
+            <input class="form-control" id="user-username" type="text" name="username" required>
+            <div class="invalid-feedback">Username is required.</div>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="<?=h($email)?>" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password (leave blank to keep)</label>
-            <input type="password" name="password" class="form-control">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label" for="user-password">Password</label>
+              <input class="form-control" id="user-password" type="password" data-wizard-password required>
+              <div class="invalid-feedback">Password is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="user-confirm-password">Confirm Password</label>
+              <input class="form-control" id="user-confirm-password" type="password" data-wizard-confirm-password required>
+              <div class="invalid-feedback">Passwords need to match.</div>
+            </div>
           </div>
         </form>
       </div>
-      <div class="tab-pane" id="step2" role="tabpanel">
-        <form id="wizardForm2" data-wizard-form="2">
+      <div class="tab-pane" id="user-personal-tab" role="tabpanel" aria-labelledby="user-personal-tab">
+        <form class="needs-validation" method="post" novalidate data-wizard-form="2">
+          <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input type="text" name="first_name" class="form-control" value="<?=h($first_name)?>" required>
+            <label class="form-label" for="user-first-name">First Name</label>
+            <input class="form-control" id="user-first-name" type="text" name="first_name" required>
+            <div class="invalid-feedback">First name is required.</div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input type="text" name="last_name" class="form-control" value="<?=h($last_name)?>" required>
+            <label class="form-label" for="user-last-name">Last Name</label>
+            <input class="form-control" id="user-last-name" type="text" name="last_name" required>
+            <div class="invalid-feedback">Last name is required.</div>
+
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div class="card-footer">
-    <form id="finalForm" method="post" action="edit.php?id=<?=$id?>">
-      <button type="button" id="saveBtn" class="btn btn-warning">Save</button>
-    </form>
+
+  <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
+    <button class="btn btn-link ps-0 d-none" type="button" data-wizard-prev-btn></button>
+    <button class="btn btn-primary px-6" type="button" data-wizard-next-btn></button>
+    <button class="btn btn-primary px-6 d-none" type="submit" data-wizard-submit-btn>Save</button>
   </div>
 </div>
-<script>
 
-document.addEventListener('DOMContentLoaded', function () {
-  const forms = document.querySelectorAll('[data-wizard-form]');
-  if (forms.length) {
-    const lastForm = forms[forms.length - 1];
-    lastForm.addEventListener('submit', function () {
-      lastForm.querySelectorAll('[data-wizard-cloned]').forEach(el => el.remove());
-      forms.forEach(form => {
-        if (form === lastForm) return;
-        const fd = new FormData(form);
-        fd.forEach((value, key) => {
-          const esc = window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/([\.\[\]\:])/g, '\\$1');
-          const matches = lastForm.querySelectorAll(`[name="${esc}"]`);
-          const exists = Array.from(matches).some(el => el.value === value);
-          if (!exists) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            input.setAttribute('data-wizard-cloned', '1');
-            lastForm.appendChild(input);
-          }
-        });
-      });
-    });
-  }
-
-  const roleMap = {
-    'CONTRACTOR': <?= $developerRoleId ?? 'null'; ?>,
-    'CUSTOMER': <?= $customerRoleId ?? 'null'; ?>
-  };
-  const assignRole = type => {
-    Object.values(roleMap).forEach(id => {
-      if (!id) return;
-      const cb = document.getElementById('role' + id);
-      if (cb) cb.checked = (roleMap[type] === id);
-    });
-  };
-  document.querySelectorAll('input[name="type"]').forEach(radio => {
-    radio.addEventListener('change', () => assignRole(radio.value));
-  });
-  const selectedType = document.querySelector('input[name="type"]:checked');
-  if (selectedType) assignRole(selectedType.value);
-
-});
-</script>
 <?php require '../admin_footer.php'; ?>
