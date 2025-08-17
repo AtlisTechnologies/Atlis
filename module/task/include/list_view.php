@@ -48,19 +48,10 @@ $completedCount = array_sum(array_column($tasks, 'completed'));
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
               <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-task-id="<?php echo (int)$task['id']; ?>" data-original-status="<?php echo (int)$task['status']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
               <span class="badge badge-phoenix fs-10 status-badge status badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
-              <select class="form-select form-select-sm status-select d-inline w-auto ms-2">
-                <?php foreach ($statusMap as $sid => $sinfo): ?>
-                  <option value="<?php echo (int)$sid; ?>"<?php echo ($sid == $task['status']) ? ' selected' : ''; ?>><?php echo h($sinfo['label']); ?></option>
-                <?php endforeach; ?>
-              </select>
-              <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 ms-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link task-name<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
+              <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link task-name<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
             </div>
             <span class="badge badge-phoenix fs-10 priority-badge priority badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
-            <select class="form-select form-select-sm priority-select d-inline w-auto ms-2">
-              <?php foreach ($priorityMap as $pid => $pinfo): ?>
-                <option value="<?php echo (int)$pid; ?>"<?php echo ($pid == $task['priority']) ? ' selected' : ''; ?>><?php echo h($pinfo['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
+
             <?php $hierarchy = $task['project_name'] ?? $task['division_name'] ?? $task['agency_name'] ?? ''; ?>
             <?php if ($hierarchy): ?>
               <span class="badge badge-phoenix fs-10 badge-phoenix-dark me-2 ms-2"><?php echo h($hierarchy); ?></span>
