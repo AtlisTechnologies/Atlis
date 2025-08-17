@@ -1775,6 +1775,111 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Table structure for table `admin_permission_groups`
+--
+
+CREATE TABLE `admin_permission_groups` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `admin_permission_group_permissions`
+--
+
+CREATE TABLE `admin_permission_group_permissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `permission_group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `admin_role_permission_groups`
+--
+
+CREATE TABLE `admin_role_permission_groups` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `role_id` int(11) NOT NULL,
+  `permission_group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for table `admin_permission_groups`
+--
+
+ALTER TABLE `admin_permission_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_admin_permission_groups_name` (`name`);
+
+--
+-- Indexes for table `admin_permission_group_permissions`
+--
+
+ALTER TABLE `admin_permission_group_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_apgp_group_permission` (`permission_group_id`,`permission_id`);
+
+--
+-- Indexes for table `admin_role_permission_groups`
+--
+
+ALTER TABLE `admin_role_permission_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_arpg_role_group` (`role_id`,`permission_group_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin_permission_groups`
+--
+ALTER TABLE `admin_permission_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_permission_group_permissions`
+--
+ALTER TABLE `admin_permission_group_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_role_permission_groups`
+--
+ALTER TABLE `admin_role_permission_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for table `admin_permission_group_permissions`
+--
+ALTER TABLE `admin_permission_group_permissions`
+  ADD CONSTRAINT `fk_apgp_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`),
+  ADD CONSTRAINT `fk_apgp_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `admin_permissions` (`id`);
+
+--
+-- Constraints for table `admin_role_permission_groups`
+--
+ALTER TABLE `admin_role_permission_groups`
+  ADD CONSTRAINT `fk_arpg_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`),
+  ADD CONSTRAINT `fk_arpg_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -7,10 +7,10 @@ $_SESSION['csrf_token'] = $token;
 $message = '';
 
 // Current assignments for audit and display
-$currentAssignments = $pdo->query('SELECT role_id, permission_id FROM admin_role_permissions')->fetchAll(PDO::FETCH_ASSOC);
+$currentAssignments = $pdo->query('SELECT role_id, permission_group_id FROM admin_role_permission_groups')->fetchAll(PDO::FETCH_ASSOC);
 $currentMap = [];
 foreach ($currentAssignments as $a) {
-  $currentMap[$a['role_id']][] = $a['permission_id'];
+  $currentMap[$a['role_id']][] = $a['permission_group_id'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,33 +18,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die('Invalid CSRF token');
   }
   require_permission('roles','update');
-  $rolePerms = $_POST['perm'] ?? [];
+  $rolePerms = $_POST['grp'] ?? [];
   $roles = $pdo->query('SELECT id FROM admin_roles')->fetchAll(PDO::FETCH_COLUMN);
   foreach ($roles as $roleId) {
     $old = json_encode($currentMap[$roleId] ?? []);
-    $stmt = $pdo->prepare('DELETE FROM admin_role_permissions WHERE role_id = :role_id');
+    $stmt = $pdo->prepare('DELETE FROM admin_role_permission_groups WHERE role_id = :role_id');
     $stmt->execute([':role_id' => $roleId]);
     $newPerms = [];
     if (!empty($rolePerms[$roleId]) && is_array($rolePerms[$roleId])) {
-      foreach ($rolePerms[$roleId] as $pid) {
-        $stmt2 = $pdo->prepare('INSERT INTO admin_role_permissions (role_id, permission_id, user_id, user_updated) VALUES (:rid, :pid, :uid, :uid)');
-        $stmt2->execute([':rid' => $roleId, ':pid' => $pid, ':uid' => $this_user_id]);
-        $newPerms[] = (int)$pid;
+      foreach ($rolePerms[$roleId] as $gid) {
+        $stmt2 = $pdo->prepare('INSERT INTO admin_role_permission_groups (role_id, permission_group_id, user_id, user_updated) VALUES (:rid, :gid, :uid, :uid)');
+        $stmt2->execute([':rid' => $roleId, ':gid' => $gid, ':uid' => $this_user_id]);
+        $newPerms[] = (int)$gid;
       }
     }
-    admin_audit_log($pdo, $this_user_id, 'admin_role_permissions', $roleId, 'SYNC', $old, json_encode($newPerms), 'Updated role permissions');
+    admin_audit_log($pdo, $this_user_id, 'admin_role_permission_groups', $roleId, 'SYNC', $old, json_encode($newPerms), 'Updated role group assignments');
   }
-  $message = 'Permissions updated.';
+  $message = 'Permission groups updated.';
   // refresh current map for display
-  $currentAssignments = $pdo->query('SELECT role_id, permission_id FROM admin_role_permissions')->fetchAll(PDO::FETCH_ASSOC);
+  $currentAssignments = $pdo->query('SELECT role_id, permission_group_id FROM admin_role_permission_groups')->fetchAll(PDO::FETCH_ASSOC);
   $currentMap = [];
   foreach ($currentAssignments as $a) {
-    $currentMap[$a['role_id']][] = $a['permission_id'];
+    $currentMap[$a['role_id']][] = $a['permission_group_id'];
   }
 }
 
 $roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-$permissions = $pdo->query('SELECT id, module, action FROM admin_permissions ORDER BY module, action')->fetchAll(PDO::FETCH_ASSOC);
+$groups = $pdo->query('SELECT id, name FROM admin_permission_groups ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 $assignedMap = [];
 foreach ($currentMap as $rid => $pids) {
   foreach ($pids as $pid) {
@@ -52,7 +52,7 @@ foreach ($currentMap as $rid => $pids) {
   }
 }
 ?>
-<h2 class="mb-4">Role Permissions</h2>
+  <h2 class="mb-4">Role Permission Groups</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <form method="post">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -67,12 +67,12 @@ foreach ($currentMap as $rid => $pids) {
         </tr>
       </thead>
       <tbody>
-        <?php foreach($permissions as $p): ?>
+        <?php foreach($groups as $p): ?>
           <tr>
-            <td><?= htmlspecialchars($p['module'].' - '.$p['action']); ?></td>
+            <td><?= htmlspecialchars($p['name']); ?></td>
             <?php foreach($roles as $r): ?>
               <td class="text-center">
-                <input type="checkbox" name="perm[<?= $r['id']; ?>][]" value="<?= $p['id']; ?>" <?= isset($assignedMap[$r['id']][$p['id']]) ? 'checked' : ''; ?>>
+                <input type="checkbox" name="grp[<?= $r['id']; ?>][]" value="<?= $p['id']; ?>" <?= isset($assignedMap[$r['id']][$p['id']]) ? 'checked' : ''; ?>>
               </td>
             <?php endforeach; ?>
           </tr>

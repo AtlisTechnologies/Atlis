@@ -54,6 +54,7 @@
           <th class="sort align-middle ps-3" scope="col" data-sort="deadline" style="width:15%;">DEADLINE</th>
           <th class="sort align-middle ps-3" scope="col" data-sort="projectprogress" style="width:5%;">PROGRESS</th>
           <th class="align-middle ps-8" scope="col" data-sort="status" style="width:10%;">STATUS</th>
+          <th class="align-middle ps-3" scope="col" data-sort="priority" style="width:10%;">PRIORITY</th>
           <th class="sort align-middle text-end" scope="col" style="width:10%;"></th>
         </tr>
       </thead>
@@ -83,6 +84,11 @@
             </div>
           </td>
           <td class="align-middle ps-8 status"><span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['status_color']); ?>"><?php echo h($project['status_label']); ?></span></td>
+          <td class="align-middle ps-3 priority">
+            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['priority_color']); ?>">
+              <?php echo h($project['priority_label']); ?>
+            </span>
+          </td>
           <td class="align-middle text-end">
             <div class="btn-reveal-trigger position-static">
               <a class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fas fa-chevron-right fs-10"></span></a>

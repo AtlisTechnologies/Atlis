@@ -55,6 +55,7 @@ $sql = "SELECT p.id,
         LEFT JOIN module_tasks t ON t.project_id = p.id
         GROUP BY p.id
         ORDER BY p.name";
+
 $projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 $assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, u.profile_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
