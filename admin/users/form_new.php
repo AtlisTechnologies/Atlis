@@ -23,7 +23,7 @@ if (!defined('IN_APP')) {
   <div class="card-body pt-4 pb-0">
     <div class="tab-content">
       <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
-        <form class="needs-validation" novalidate data-wizard-form="1" method="post">
+        <form class="needs-validation" id="wizardStep1" novalidate data-wizard-form="1">
           <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email" required>
@@ -47,7 +47,7 @@ if (!defined('IN_APP')) {
         </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
-        <form class="needs-validation" novalidate data-wizard-form="2" method="post">
+        <form class="needs-validation" id="wizardStep2" novalidate data-wizard-form="2" method="post">
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <div class="mb-3">
             <label class="form-label">First Name</label>
@@ -90,7 +90,6 @@ if (!defined('IN_APP')) {
   </div>
   <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
     <div class="d-flex pager wizard list-inline mb-0">
-      <button class="btn btn-link ps-0 d-none" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Previous</button>
       <button class="btn btn-primary px-6" type="button" data-wizard-next-btn="data-wizard-next-btn">
         Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span>
       </button>
