@@ -3,6 +3,7 @@ require '../admin_header.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $username = $email = '';
+
 $memo = [];
 $profile_pic = '';
 
@@ -15,6 +16,7 @@ if ($id) {
     $email = $row['email'];
     $profile_pic = $row['profile_pic'];
     $memo = json_decode($row['memo'] ?? '{}', true);
+
   }
 } else {
   require_permission('users','create');
@@ -22,6 +24,7 @@ if ($id) {
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
+
 ?>
 <h2 class="mb-4"><?php echo $id ? 'Edit' : 'Create'; ?> User</h2>
 <form id="userForm" action="functions/save.php" method="post" enctype="multipart/form-data">
@@ -115,4 +118,5 @@ var dz = new Dropzone('#profilePicDropzone', {
   }
 });
 </script>
+
 <?php require '../admin_footer.php'; ?>

@@ -1,5 +1,6 @@
 <?php
 require '../admin_header.php';
+
 require_permission('users','view');
 
 $users = $pdo->query('SELECT id, username, email FROM users ORDER BY username')->fetchAll(PDO::FETCH_ASSOC);
