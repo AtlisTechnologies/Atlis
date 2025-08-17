@@ -78,8 +78,14 @@ $statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
 
 $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
                              COALESCE(p_attr.attr_value, "secondary") AS priority_color,
-                             p.label AS priority_label
+                             p.label AS priority_label,
+                             pr.name AS project_name,
+                             d.name AS division_name,
+                             a.name AS agency_name
                       FROM module_tasks t
+                      LEFT JOIN module_projects pr ON t.project_id = pr.id
+                      LEFT JOIN module_division d ON t.division_id = d.id
+                      LEFT JOIN module_agency a ON t.agency_id = a.id
                       LEFT JOIN lookup_list_items p ON t.priority = p.id
                       LEFT JOIN lookup_list_item_attributes p_attr
                              ON p.id = p_attr.item_id AND p_attr.attr_code = "COLOR-CLASS"

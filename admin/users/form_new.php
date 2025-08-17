@@ -8,6 +8,7 @@ if (!defined('IN_APP')) {
     exit('No direct script access allowed');
 }
 ?>
+
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
   <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
     <ul class="nav justify-content-between nav-wizard nav-wizard-success">
@@ -27,8 +28,10 @@ if (!defined('IN_APP')) {
       <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
         <form class="needs-validation" novalidate data-wizard-form="1" method="post">
           <div class="mb-3">
+
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email" required>
+
           </div>
           <div class="mb-3">
             <label class="form-label">Password</label>
@@ -40,11 +43,13 @@ if (!defined('IN_APP')) {
         <form class="needs-validation" novalidate data-wizard-form="2" method="post">
           <div class="mb-3">
             <label class="form-label">First Name</label>
+
             <input type="text" class="form-control" name="first_name">
           </div>
           <div class="mb-3">
             <label class="form-label">Last Name</label>
             <input type="text" class="form-control" name="last_name">
+
           </div>
           <div class="mb-3">
             <label class="form-label">Type</label>
