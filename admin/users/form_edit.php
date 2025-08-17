@@ -50,15 +50,18 @@ $_SESSION['csrf_token'] = $token;
             <label class="form-label" for="user-last-name">Last Name</label>
             <input class="form-control" id="user-last-name" type="text" name="last_name" required>
             <div class="invalid-feedback">Last name is required.</div>
+
           </div>
         </form>
       </div>
     </div>
   </div>
+
   <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
     <button class="btn btn-link ps-0 d-none" type="button" data-wizard-prev-btn></button>
     <button class="btn btn-primary px-6" type="button" data-wizard-next-btn></button>
     <button class="btn btn-primary px-6 d-none" type="submit" data-wizard-submit-btn>Save</button>
   </div>
 </div>
+
 <?php require '../admin_footer.php'; ?>
