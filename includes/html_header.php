@@ -21,6 +21,7 @@
 
   <!-- Vendor CSS (Phoenix, FontAwesome, etc) -->
   <link href="<?php echo getURLDir(); ?>vendors/glightbox/glightbox.min.css" rel="stylesheet">
+  <link href="<?php echo getURLDir(); ?>vendors/dropzone/dropzone.css" rel="stylesheet">
   <link href="<?php echo getURLDir(); ?>vendors/choices/choices.min.css" rel="stylesheet">
   <link href="<?php echo getURLDir(); ?>vendors/simplebar/simplebar.min.css" rel="stylesheet">
   <link href="<?php echo getURLDir(); ?>vendors/flatpickr/flatpickr.min.css" rel="stylesheet">

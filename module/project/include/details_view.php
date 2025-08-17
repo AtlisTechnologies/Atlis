@@ -140,47 +140,81 @@ if (!empty($current_project)) {
                 </div>
                 <?php if (user_has_permission('project','create|update|delete')): ?>
                 <div class="px-4 px-lg-6 py-4">
-                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
-                    <div class="input-group">
-                      <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
-                      <input class="form-control" type="file" name="file" id="projectFileUpload" aria-describedby="projectFileUpload" aria-label="Upload" required>
-                      <button class="btn btn-success" type="submit">Upload New</button>
+                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php"}'>
+                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                    <input type="hidden" name="note_id" value="">
+                    <div class="fallback">
+                      <input type="file" name="file" multiple />
                     </div>
+                    <div class="dz-message" data-dz-message="data-dz-message">
+                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
+                    </div>
+                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column"></div>
                   </form>
                 </div>
                 <?php endif; ?>
 
-                <?php if (!empty($files)): ?>
-                  <?php foreach ($files as $f): ?>
-                  <div class="border-top px-4 px-lg-6 py-4">
-                    <div class="me-n3">
-                      <div class="d-flex flex-between-center">
-                        <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                          <p class="text-body-highlight mb-0 lh-1">
-                            <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                              <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                            <?php else: ?>
-                              <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                <?php if (!empty($files)):
+                  $imageFiles = [];
+                  $otherFiles = [];
+                  foreach ($files as $f) {
+                    if (strpos($f['file_type'], 'image/') === 0) {
+                      $imageFiles[] = $f;
+                    } else {
+                      $otherFiles[] = $f;
+                    }
+                  }
+                ?>
+                  <?php if (!empty($imageFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <div class="row g-3">
+                        <?php foreach ($imageFiles as $f): ?>
+                          <div class="col-6 col-md-4 col-lg-3 position-relative">
+                            <a href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="project-gallery">
+                              <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
+                            </a>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
                             <?php endif; ?>
-                          </p>
-                        </div>
-                        <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
-                        <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                          <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                          <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
-                        </form>
-                        <?php endif; ?>
+                          </div>
+                        <?php endforeach; ?>
                       </div>
-                      <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
-                      <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
-                          <img class="rounded-2 mt-2" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
-                        </a>
-                      <?php endif; ?>
                     </div>
-                  </div>
-                  <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (!empty($otherFiles)): ?>
+                    <?php foreach ($otherFiles as $f): ?>
+                      <div class="border-top px-4 px-lg-6 py-4">
+                        <div class="me-n3">
+                          <div class="d-flex flex-between-center">
+                            <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
+                              <p class="text-body-highlight mb-0 lh-1">
+                                <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                              </p>
+                            </div>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
+                            <?php endif; ?>
+                          </div>
+                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (empty($imageFiles) && empty($otherFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
+                    </div>
+                  <?php endif; ?>
                 <?php else: ?>
                   <div class="border-top px-4 px-lg-6 py-4">
                     <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
@@ -302,7 +336,7 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="note-<?= (int)$n['id'] ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
                                       <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
