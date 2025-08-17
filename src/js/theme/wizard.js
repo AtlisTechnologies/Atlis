@@ -13,7 +13,8 @@ const wizardInit = () => {
     CONFIRM_PASSWORD_INPUT: '[data-wizard-confirm-password]',
     NEXT_BTN: '[data-wizard-next-btn]',
     PREV_BTN: '[data-wizard-prev-btn]',
-    FOOTER: '[data-wizard-footer]'
+    FOOTER: '[data-wizard-footer]',
+    SUBMIT_BTN: '[data-wizard-submit-btn]'
   };
 
   const events = {
@@ -36,6 +37,7 @@ const wizardInit = () => {
     );
     const nextButton = wizard.querySelector(selectors.NEXT_BTN);
     const prevButton = wizard.querySelector(selectors.PREV_BTN);
+    const submitButton = wizard.querySelector(selectors.SUBMIT_BTN);
     const wizardFooter = wizard.querySelector(selectors.FOOTER);
     const submitEvent = new Event(events.SUBMIT, {
       bubbles: true,
@@ -118,15 +120,24 @@ const wizardInit = () => {
             }
           }
 
-          // card footer remove at last step
-          if (count > tabToggleButtonEl.length - 2) {
-            wizardFooter.classList.add('d-none');
-          } else {
+          if (wizardFooter) {
             wizardFooter.classList.remove('d-none');
           }
-          // prev-button removing
+
+          if (count === tabToggleButtonEl.length - 1) {
+            nextButton.classList.add('d-none');
+            if (submitButton) {
+              submitButton.classList.remove('d-none');
+            }
+          } else {
+            nextButton.classList.remove('d-none');
+            if (submitButton) {
+              submitButton.classList.add('d-none');
+            }
+          }
+
           if (prevButton) {
-            if (count > 0 && count !== tabToggleButtonEl.length - 1) {
+            if (count > 0) {
               prevButton.classList.remove('d-none');
             } else {
               prevButton.classList.add('d-none');
