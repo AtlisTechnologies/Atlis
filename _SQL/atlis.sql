@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2025 at 10:30 PM
+-- Generation Time: Aug 17, 2025 at 07:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -78,7 +78,13 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (29, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 'module_projects_notes', 10, 'NOTE', '', '', 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
 (30, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'test'),
 (31, 1, 1, '2025-08-15 14:27:57', '2025-08-15 14:27:57', NULL, 'module_tasks_notes', 12, 'NOTE', '', '', 'test'),
-(32, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 'module_tasks_notes', 13, 'NOTE', '', '', 'test 2');
+(32, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 'module_tasks_notes', 13, 'NOTE', '', '', 'test 2'),
+(33, 1, 1, '2025-08-15 14:55:12', '2025-08-15 14:55:12', NULL, 'module_tasks_notes', 14, 'NOTE', '', '', 'Test 2'),
+(34, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 'module_tasks_notes', 15, 'NOTE', '', '', 'Test 3'),
+(35, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 'module_tasks_files', 2, 'UPLOAD', '', '', '{\"file\":\"IMG_9522.JPEG\"}'),
+(36, 1, 1, '2025-08-16 21:45:00', '2025-08-16 21:45:00', NULL, 'module_projects', 6, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Test\",\"description\":\"Test\",\"requirements\":\"Test\",\"specifications\":\"Test\",\"status\":\"55\",\"start_date\":\"2025-08-19\"}'),
+(37, 1, 1, '2025-08-16 21:45:29', '2025-08-16 21:45:29', NULL, 'module_projects', 7, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Test\",\"description\":\"Test\",\"requirements\":\"Test\",\"specifications\":\"Test\",\"status\":\"55\",\"start_date\":\"\"}'),
+(38, 1, 1, '2025-08-16 22:02:15', '2025-08-16 22:02:15', NULL, 'module_projects', 8, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"Dave\",\"description\":\"dave\",\"requirements\":\"dave\",\"specifications\":\"dave\",\"status\":\"30\",\"start_date\":\"2025-08-14\"}');
 
 -- --------------------------------------------------------
 
@@ -395,7 +401,87 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (84, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
 (85, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
 (86, 1, 1, '2025-08-15 14:27:48', '2025-08-15 14:27:48', NULL, 'module_task_assignments', 1, 'ASSIGN', 'Assigned user'),
-(87, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 'module_task_assignments', 2, 'ASSIGN', 'Assigned user');
+(87, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 'module_task_assignments', 2, 'ASSIGN', 'Assigned user'),
+(88, 1, 1, '2025-08-15 14:55:00', '2025-08-15 14:55:00', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(89, 1, 1, '2025-08-15 14:55:01', '2025-08-15 14:55:01', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(90, 1, 1, '2025-08-15 14:55:07', '2025-08-15 14:55:07', NULL, 'module_tasks', 6, 'UPDATE', 'Completed task'),
+(91, 1, 1, '2025-08-15 14:55:07', '2025-08-15 14:55:07', NULL, 'module_tasks', 6, 'UPDATE', 'Marked task incomplete'),
+(92, 1, 1, '2025-08-15 15:07:45', '2025-08-15 15:07:45', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
+(93, 1, 1, '2025-08-15 15:07:49', '2025-08-15 15:07:49', NULL, 'module_tasks', 1, 'UPDATE', 'Completed task'),
+(94, 1, 1, '2025-08-15 15:07:55', '2025-08-15 15:07:55', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(95, 1, 1, '2025-08-15 15:07:56', '2025-08-15 15:07:56', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(96, 1, 1, '2025-08-15 15:07:56', '2025-08-15 15:07:56', NULL, 'module_tasks', 6, 'UPDATE', 'Completed task'),
+(97, 1, 1, '2025-08-15 15:08:00', '2025-08-15 15:08:00', NULL, 'module_tasks', 6, 'UPDATE', 'Marked task incomplete'),
+(98, 1, 1, '2025-08-15 15:08:00', '2025-08-15 15:08:00', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(99, 1, 1, '2025-08-15 15:08:01', '2025-08-15 15:08:01', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(100, 1, 1, '2025-08-15 15:08:01', '2025-08-15 15:08:01', NULL, 'module_tasks', 1, 'UPDATE', 'Marked task incomplete'),
+(101, 1, 1, '2025-08-15 15:08:02', '2025-08-15 15:08:02', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(102, 1, 1, '2025-08-15 15:08:03', '2025-08-15 15:08:03', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(103, 1, 1, '2025-08-15 15:08:05', '2025-08-15 15:08:05', NULL, 'module_tasks', 1, 'UPDATE', 'Completed task'),
+(104, 1, 1, '2025-08-15 15:08:11', '2025-08-15 15:08:11', NULL, 'module_tasks', 1, 'UPDATE', 'Marked task incomplete'),
+(105, 1, 1, '2025-08-15 15:08:11', '2025-08-15 15:08:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(106, 1, 1, '2025-08-15 15:17:39', '2025-08-15 15:17:39', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
+(107, 1, 1, '2025-08-15 15:18:05', '2025-08-15 15:18:05', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(108, 1, 1, '2025-08-15 15:18:08', '2025-08-15 15:18:08', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(109, 1, 1, '2025-08-16 17:30:17', '2025-08-16 17:30:17', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(110, 1, 1, '2025-08-16 17:30:40', '2025-08-16 17:30:40', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(111, 1, 1, '2025-08-16 17:31:38', '2025-08-16 17:31:38', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(112, 1, 1, '2025-08-16 17:31:41', '2025-08-16 17:31:41', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(113, 1, 1, '2025-08-16 17:31:42', '2025-08-16 17:31:42', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(114, 1, 1, '2025-08-16 17:32:07', '2025-08-16 17:32:07', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(115, 1, 1, '2025-08-16 17:32:08', '2025-08-16 17:32:08', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(116, 1, 1, '2025-08-16 17:32:10', '2025-08-16 17:32:10', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(117, 1, 1, '2025-08-16 17:32:13', '2025-08-16 17:32:13', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(118, 1, 1, '2025-08-16 17:32:13', '2025-08-16 17:32:13', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(119, 1, 1, '2025-08-16 17:32:14', '2025-08-16 17:32:14', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(120, 1, 1, '2025-08-16 17:32:14', '2025-08-16 17:32:14', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(121, 1, 1, '2025-08-16 17:38:09', '2025-08-16 17:38:09', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(122, 1, 1, '2025-08-16 17:38:10', '2025-08-16 17:38:10', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(123, 1, 1, '2025-08-16 17:38:11', '2025-08-16 17:38:11', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(124, 1, 1, '2025-08-16 17:38:11', '2025-08-16 17:38:11', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(125, 1, 1, '2025-08-16 17:38:12', '2025-08-16 17:38:12', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(126, 1, 1, '2025-08-16 17:38:13', '2025-08-16 17:38:13', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(127, 1, 1, '2025-08-16 17:51:57', '2025-08-16 17:51:57', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(128, 1, 1, '2025-08-16 17:51:58', '2025-08-16 17:51:58', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
+(129, 1, 1, '2025-08-16 17:51:59', '2025-08-16 17:51:59', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(130, 1, 1, '2025-08-16 17:51:59', '2025-08-16 17:51:59', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(131, 1, 1, '2025-08-16 17:52:00', '2025-08-16 17:52:00', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(132, 1, 1, '2025-08-16 17:52:00', '2025-08-16 17:52:00', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(133, 1, 1, '2025-08-16 17:52:01', '2025-08-16 17:52:01', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(134, 1, 1, '2025-08-16 17:52:03', '2025-08-16 17:52:03', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
+(135, 1, 1, '2025-08-16 19:15:20', '2025-08-16 19:15:20', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
+(136, 1, 1, '2025-08-16 19:15:23', '2025-08-16 19:15:23', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(137, 1, 1, '2025-08-16 19:15:24', '2025-08-16 19:15:24', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(138, 1, 1, '2025-08-16 19:15:24', '2025-08-16 19:15:24', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(139, 1, 1, '2025-08-16 19:15:26', '2025-08-16 19:15:26', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(140, 1, 1, '2025-08-16 19:15:27', '2025-08-16 19:15:27', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(141, 1, 1, '2025-08-16 19:15:28', '2025-08-16 19:15:28', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
+(142, 1, 1, '2025-08-16 19:15:28', '2025-08-16 19:15:28', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
+(143, 1, 1, '2025-08-16 19:15:39', '2025-08-16 19:15:39', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
+(144, 1, 1, '2025-08-16 19:15:39', '2025-08-16 19:15:39', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(145, 1, 1, '2025-08-16 19:15:40', '2025-08-16 19:15:40', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(146, 1, 1, '2025-08-16 19:15:40', '2025-08-16 19:15:40', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
+(147, 1, 1, '2025-08-16 19:15:47', '2025-08-16 19:15:47', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(148, 1, 1, '2025-08-16 19:15:48', '2025-08-16 19:15:48', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(149, 1, 1, '2025-08-16 19:15:48', '2025-08-16 19:15:48', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
+(150, 1, 1, '2025-08-16 19:15:49', '2025-08-16 19:15:49', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
+(151, 1, 1, '2025-08-16 19:15:50', '2025-08-16 19:15:50', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(152, 1, 1, '2025-08-16 19:41:35', '2025-08-16 19:41:35', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(153, 1, 1, '2025-08-16 19:41:36', '2025-08-16 19:41:36', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(154, 1, 1, '2025-08-16 19:48:41', '2025-08-16 19:48:41', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(155, 1, 1, '2025-08-16 19:50:57', '2025-08-16 19:50:57', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(156, 1, 1, '2025-08-16 19:50:58', '2025-08-16 19:50:58', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(157, 1, 1, '2025-08-16 20:05:04', '2025-08-16 20:05:04', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(158, 1, 1, '2025-08-16 20:05:05', '2025-08-16 20:05:05', NULL, 'module_tasks', 4, 'UPDATE', 'Completed task'),
+(159, 1, 1, '2025-08-16 20:05:06', '2025-08-16 20:05:06', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(160, 1, 1, '2025-08-16 20:05:07', '2025-08-16 20:05:07', NULL, 'module_tasks', 4, 'UPDATE', 'Marked task incomplete'),
+(161, 1, 1, '2025-08-16 20:05:13', '2025-08-16 20:05:13', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(162, 1, 1, '2025-08-16 20:05:14', '2025-08-16 20:05:14', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(163, 1, 1, '2025-08-16 21:35:49', '2025-08-16 21:35:49', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(164, 1, 1, '2025-08-16 21:35:50', '2025-08-16 21:35:50', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(165, 1, 1, '2025-08-16 21:36:31', '2025-08-16 21:36:31', NULL, 'module_task_assignments', 3, 'ASSIGN', 'Assigned user'),
+(166, 1, 1, '2025-08-16 22:17:00', '2025-08-16 22:17:00', NULL, 'module_projects_assignments', 5, 'ASSIGN', 'Assigned user'),
+(167, 1, 1, '2025-08-16 22:17:02', '2025-08-16 22:17:02', NULL, 'module_projects_assignments', 6, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -656,7 +742,10 @@ CREATE TABLE `module_projects` (
 --
 
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
-(5, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '1', '2025-08-01', NULL, 0);
+(5, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '1', '2025-08-01', NULL, 0),
+(6, 1, 1, '2025-08-16 21:45:00', '2025-08-16 21:45:00', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', '55', NULL, '2025-08-19', NULL, 0),
+(7, 1, 1, '2025-08-16 21:45:29', '2025-08-16 21:45:29', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', '55', NULL, '0000-00-00', NULL, 0),
+(8, 1, 1, '2025-08-16 22:02:15', '2025-08-16 22:02:15', NULL, 1, 1, 'Dave', 'dave', 'dave', 'dave', '30', NULL, '2025-08-14', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -681,7 +770,9 @@ CREATE TABLE `module_projects_assignments` (
 
 INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `assigned_user_id`) VALUES
 (3, 1, 1, '2025-08-15 00:09:42', '2025-08-15 00:09:42', NULL, 5, 1),
-(4, 1, 1, '2025-08-15 00:12:46', '2025-08-15 00:12:46', NULL, 5, 2);
+(4, 1, 1, '2025-08-15 00:12:46', '2025-08-15 00:12:46', NULL, 5, 2),
+(5, 1, 1, '2025-08-16 22:17:00', '2025-08-16 22:17:00', NULL, 8, 1),
+(6, 1, 1, '2025-08-16 22:17:02', '2025-08-16 22:17:02', NULL, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -777,20 +868,20 @@ CREATE TABLE `module_tasks` (
 --
 
 INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
-(1, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:36', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(2, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:41', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:45', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-03-13', 0, NULL, 0),
-(4, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:47', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', '2025-03-19', 0, NULL, 0),
-(6, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
-(7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
-(8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, NULL, 0),
-(9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 14:25:03', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
+(1, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:11', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(2, 1, 1, '2025-08-14 22:21:21', '2025-08-16 21:35:50', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-16 20:05:14', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-08-16', 1, 1, 100),
+(4, 1, 1, '2025-08-14 22:21:21', '2025-08-16 20:05:07', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', NULL, 0, NULL, 0),
+(6, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:00', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
+(7, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:49', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
+(8, 1, 1, '2025-08-14 22:21:21', '2025-08-16 20:05:13', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-08-16', 1, 1, 100),
+(9, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:50:58', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', '2025-08-16', 1, NULL, 100),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:47', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
 (11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, NULL, 0),
 (12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, NULL, 0),
 (13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, NULL, 0),
-(15, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(16, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', '38', NULL, NULL, NULL, 0, NULL, 0);
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:50', NULL, 5, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(16, 1, 1, '2025-08-14 22:21:21', '2025-08-16 17:52:00', NULL, 5, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -818,7 +909,8 @@ CREATE TABLE `module_tasks_files` (
 --
 
 INSERT INTO `module_tasks_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(1, 1, 1, '2025-08-15 00:09:26', '2025-08-15 00:09:26', NULL, 6, NULL, 'Kratom-Colors-Chart-Final.png', '/module/task/uploads/task_6_1755238166_Kratom-Colors-Chart-Final.png', 939198, 'image/png');
+(1, 1, 1, '2025-08-15 00:09:26', '2025-08-15 00:09:26', NULL, 6, NULL, 'Kratom-Colors-Chart-Final.png', '/module/task/uploads/task_6_1755238166_Kratom-Colors-Chart-Final.png', 939198, 'image/png'),
+(2, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 6, 15, 'IMG_9522.JPEG', '/module/task/uploads/task_6_1755291321_IMG_9522.JPEG', 514284, 'image/jpeg');
 
 -- --------------------------------------------------------
 
@@ -853,7 +945,9 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (10, 1, 1, '2025-04-09 17:06:52', '2025-08-14 22:21:21', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.'),
 (11, 1, 1, '2025-08-15 00:09:17', '2025-08-15 00:09:17', NULL, 6, 'test'),
 (12, 1, 1, '2025-08-15 14:27:57', '2025-08-15 14:27:57', NULL, 10, 'test'),
-(13, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 10, 'test 2');
+(13, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 10, 'test 2'),
+(14, 1, 1, '2025-08-15 14:55:12', '2025-08-15 14:55:12', NULL, 6, 'Test 2'),
+(15, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 6, 'Test 3');
 
 -- --------------------------------------------------------
 
@@ -878,7 +972,8 @@ CREATE TABLE `module_task_assignments` (
 
 INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `assigned_user_id`) VALUES
 (1, 1, 1, '2025-08-15 14:27:48', '2025-08-15 14:27:48', NULL, 10, 1),
-(2, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 10, 2);
+(2, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 10, 2),
+(3, 1, 1, '2025-08-16 21:36:31', '2025-08-16 21:36:31', NULL, 11, 1);
 
 -- --------------------------------------------------------
 
@@ -986,7 +1081,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `username`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-12 19:47:55', NULL, 'dave@atlistechnologies.com', 'dave@atlistechnologies.com', '$2y$10$WGm3X9R063fNQ6Nw1Fy4GO7k8ulP9EjusL8.TFtp3xiz7YU1.E5Lq', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-12 15:42:05'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-16 17:30:14', NULL, 'dave@atlistechnologies.com', 'dave@atlistechnologies.com', '$2y$10$WGm3X9R063fNQ6Nw1Fy4GO7k8ulP9EjusL8.TFtp3xiz7YU1.E5Lq', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', 'USER', 1, NULL);
 
 -- --------------------------------------------------------
@@ -1012,8 +1107,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(1, 1, 1, '2025-08-08 21:31:59', '2025-08-08 21:32:02', NULL, '130195', '2025-08-08 21:41:59', 1),
-(2, 1, 1, '2025-08-12 15:42:05', '2025-08-12 15:42:08', NULL, '810773', '2025-08-12 15:52:05', 1);
+(3, 1, 1, '2025-08-16 17:30:14', '2025-08-16 17:30:17', NULL, '843412', '2025-08-16 17:40:14', 1);
 
 --
 -- Indexes for dumped tables
@@ -1188,8 +1282,7 @@ ALTER TABLE `module_tasks`
   ADD KEY `fk_module_tasks_agency_id` (`agency_id`),
   ADD KEY `fk_module_tasks_division_id` (`division_id`),
   ADD KEY `fk_module_tasks_status` (`status`),
-  ADD KEY `fk_module_tasks_priority` (`priority`),
-  ADD KEY `fk_module_tasks_completed_by` (`completed_by`);
+  ADD KEY `fk_module_tasks_priority` (`priority`);
 
 --
 -- Indexes for table `module_tasks_files`
@@ -1273,7 +1366,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -1303,7 +1396,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1345,13 +1438,13 @@ ALTER TABLE `module_organization`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -1375,19 +1468,19 @@ ALTER TABLE `module_tasks`
 -- AUTO_INCREMENT for table `module_tasks_files`
 --
 ALTER TABLE `module_tasks_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -1417,7 +1510,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -1484,8 +1577,7 @@ ALTER TABLE `module_projects_notes`
 ALTER TABLE `module_tasks`
   ADD CONSTRAINT `fk_module_tasks_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_tasks_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
-  ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
-  ADD CONSTRAINT `fk_module_tasks_completed_by` FOREIGN KEY (`completed_by`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
 -- Constraints for table `module_tasks_files`
