@@ -148,11 +148,13 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', function (event) {
       event.stopPropagation();
       const id = this.dataset.taskId;
-      fetch('index.php?action=create-edit&id=' + id)
+      fetch('index.php?action=create-edit&id=' + id + '&modal=1')
         .then(response => response.text())
         .then(html => {
           const modalEl = document.getElementById('taskEditModal');
           modalEl.querySelector('.modal-content').innerHTML = html;
+          const form = modalEl.querySelector('form');
+          if (form) { form.action = 'index.php?action=save'; }
           const modal = new bootstrap.Modal(modalEl);
           modal.show();
         });
