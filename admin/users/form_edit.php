@@ -110,3 +110,32 @@ if (!defined('IN_APP')) {
 </div>
 <a href="index.php" class="btn btn-secondary">Back</a>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const forms = document.querySelectorAll('[data-wizard-form]');
+  if (forms.length) {
+    const lastForm = forms[forms.length - 1];
+    lastForm.addEventListener('submit', function () {
+      lastForm.querySelectorAll('[data-wizard-cloned]').forEach(el => el.remove());
+      forms.forEach(form => {
+        if (form === lastForm) return;
+        const fd = new FormData(form);
+        fd.forEach((value, key) => {
+          const esc = window.CSS && CSS.escape ? CSS.escape(key) : key.replace(/([\.\[\]\:])/g, '\\$1');
+          const matches = lastForm.querySelectorAll(`[name="${esc}"]`);
+          const exists = Array.from(matches).some(el => el.value === value);
+          if (!exists) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            input.setAttribute('data-wizard-cloned', '1');
+            lastForm.appendChild(input);
+          }
+        });
+      });
+    });
+  }
+});
+</script>
+
