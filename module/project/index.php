@@ -37,6 +37,9 @@ $sql = "SELECT p.id,
                p.complete_date,
                li.label AS status_label,
                COALESCE(attr.attr_value, 'secondary') AS status_color,
+               p.priority,
+               lp.label AS priority_label,
+               COALESCE(pattr.attr_value, 'secondary') AS priority_color,
                a.name AS agency_name,
                d.name AS division_name,
                COUNT(t.id) AS total_tasks,
@@ -45,6 +48,8 @@ $sql = "SELECT p.id,
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
+        LEFT JOIN lookup_list_items lp ON p.priority = lp.id
+        LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = 'COLOR-CLASS'
         LEFT JOIN module_agency a ON p.agency_id = a.id
         LEFT JOIN module_division d ON p.division_id = d.id
         LEFT JOIN module_tasks t ON t.project_id = p.id
@@ -64,6 +69,9 @@ foreach ($projects as &$project) {
   $project['assignees'] = $assignments[$project['id']] ?? [];
 }
 unset($project);
+
+$statusItems   = get_lookup_items($pdo, 'PROJECT_STATUS');
+$priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
   if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
     $project_id = (int)($_GET['id'] ?? 0);
