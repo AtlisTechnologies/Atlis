@@ -186,6 +186,34 @@ if (!empty($current_project)) {
                     <div class="dz-message" data-dz-message="data-dz-message">
                       <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
                     </div>
+                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
+                      <div class="d-flex mb-3 pb-3 border-bottom border-translucent media">
+                        <div class="border p-2 rounded-2 me-2">
+                          <img class="rounded-2 dz-image" src="<?php echo getURLDir(); ?>assets/img/icons/file.png" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                        </div>
+                        <div class="flex-1 d-flex flex-between-center">
+                          <div>
+                            <h6 data-dz-name></h6>
+                            <div class="d-flex align-items-center">
+                              <p class="mb-0 fs-9 text-body-quaternary lh-1" data-dz-size></p>
+                              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                            </div>
+                            <span class="fs-10 text-danger" data-dz-errormessage></span>
+                          </div>
+                          <div class="dropdown">
+                            <button class="btn btn-link text-body-tertiary btn-sm dropdown-toggle btn-reveal dropdown-caret-none" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="fas fa-ellipsis-h"></span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end border border-translucent py-2">
+                              <a class="dropdown-item" href="#!" data-dz-remove>Remove File</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="dz-message" data-dz-message="data-dz-message">
+                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
+                    </div>
                     <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column"></div>
                   </form>
                 </div>
@@ -216,6 +244,7 @@ if (!empty($current_project)) {
                                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                 <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
                               </form>
+
                             <?php endif; ?>
                           </div>
                         <?php endforeach; ?>
@@ -241,6 +270,7 @@ if (!empty($current_project)) {
                               </form>
                             <?php endif; ?>
                           </div>
+
                           <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
                         </div>
                       </div>
