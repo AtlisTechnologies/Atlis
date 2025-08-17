@@ -77,6 +77,7 @@ $action = $_GET['action'] ?? 'list';
 $statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
 
 $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
+                             CONCAT(cp.first_name, " ", cp.last_name) AS completed_by_name,
                              COALESCE(p_attr.attr_value, "secondary") AS priority_color,
                              p.label AS priority_label,
                              pr.name AS project_name,
@@ -89,6 +90,8 @@ $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
                       LEFT JOIN lookup_list_items p ON t.priority = p.id
                       LEFT JOIN lookup_list_item_attributes p_attr
                              ON p.id = p_attr.item_id AND p_attr.attr_code = "COLOR-CLASS"
+                      LEFT JOIN users cb ON t.completed_by = cb.id
+                      LEFT JOIN person cp ON cb.id = cp.user_id
                       ORDER BY t.name');
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($tasks as &$task) {
@@ -103,16 +106,19 @@ if ($action === 'details') {
 
   $stmt = $pdo->prepare(
     'SELECT t.id, t.name, t.description, t.status, t.priority,
-            t.project_id, t.division_id, t.agency_id,
+            t.project_id, t.division_id, t.agency_id, t.completed, t.completed_by,
             p.name AS project_name,
             d.name AS division_name,
             a.name AS agency_name,
-            o.name AS organization_name
+            o.name AS organization_name,
+            CONCAT(cbp.first_name, " ", cbp.last_name) AS completed_by_name
      FROM module_tasks t
      LEFT JOIN module_projects p ON t.project_id = p.id
      LEFT JOIN module_division d ON t.division_id = d.id
      LEFT JOIN module_agency a ON t.agency_id = a.id
      LEFT JOIN module_organization o ON a.organization_id = o.id
+     LEFT JOIN users cb ON t.completed_by = cb.id
+     LEFT JOIN person cbp ON cb.id = cbp.user_id
      WHERE t.id = :id'
   );
 

@@ -768,6 +768,7 @@ CREATE TABLE `module_tasks` (
   `due_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0,
+  `completed_by` int(11) DEFAULT NULL,
   `progress_percent` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -775,21 +776,21 @@ CREATE TABLE `module_tasks` (
 -- Dumping data for table `module_tasks`
 --
 
-INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `progress_percent`) VALUES
-(1, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:36', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, 0),
-(2, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:41', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, 0),
-(3, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:45', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-03-13', 0, 0),
-(4, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:47', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', '2025-03-19', 0, 0),
-(6, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, 0),
-(7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, 0),
-(8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, 0),
-(9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 14:25:03', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, 0),
-(11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
-(12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, 0),
-(13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, 0),
-(15, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, 0),
-(16, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', '38', NULL, NULL, NULL, 0, 0);
+INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
+(1, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:36', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(2, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:41', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:45', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-03-13', 0, NULL, 0),
+(4, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:47', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', '2025-03-19', 0, NULL, 0),
+(6, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
+(7, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
+(8, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-03-19', 0, NULL, 0),
+(9, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-15 14:25:03', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '35', '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
+(11, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:54', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, NULL, 0),
+(12, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:23:52', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, NULL, 0),
+(13, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '35', '39', NULL, NULL, NULL, 0, NULL, 0),
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(16, 1, 1, '2025-08-14 22:21:21', '2025-08-14 22:26:41', NULL, 5, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1187,7 +1188,8 @@ ALTER TABLE `module_tasks`
   ADD KEY `fk_module_tasks_agency_id` (`agency_id`),
   ADD KEY `fk_module_tasks_division_id` (`division_id`),
   ADD KEY `fk_module_tasks_status` (`status`),
-  ADD KEY `fk_module_tasks_priority` (`priority`);
+  ADD KEY `fk_module_tasks_priority` (`priority`),
+  ADD KEY `fk_module_tasks_completed_by` (`completed_by`);
 
 --
 -- Indexes for table `module_tasks_files`
@@ -1482,7 +1484,8 @@ ALTER TABLE `module_projects_notes`
 ALTER TABLE `module_tasks`
   ADD CONSTRAINT `fk_module_tasks_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_tasks_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
-  ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+  ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_tasks_completed_by` FOREIGN KEY (`completed_by`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `module_tasks_files`
