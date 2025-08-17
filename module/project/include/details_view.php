@@ -74,14 +74,6 @@ if (!empty($current_project)) {
                       </td>
                       <td class="ps-1 py-1"><a class="fw-semibold d-block lh-sm" href="#!"><?= h($current_project['division_name'] ?? '') ?></a></td>
                     </tr>
-                    <tr>
-                      <td class="align-top py-1">
-                        <div class="d-flex"><span class="fa-regular fa-credit-card me-2 text-body-tertiary fs-9"></span>
-                          <h5 class="text-body mb-0 text-nowrap">Budget : </h5>
-                        </div>
-                      </td>
-                      <td class="fw-bold ps-1 py-1 text-body-highlight"><?= h($current_project['budget'] ?? '') ?></td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
