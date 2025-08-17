@@ -12,13 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   }
   require_permission('roles','delete');
   $delId = (int)$_POST['delete_id'];
+  // remove any permission group assignments
+  $oldGroupsStmt = $pdo->prepare('SELECT permission_group_id FROM admin_role_permission_groups WHERE role_id = :id');
+  $oldGroupsStmt->execute([':id' => $delId]);
+  $oldGroups = $oldGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
+  $pdo->prepare('DELETE FROM admin_role_permission_groups WHERE role_id = :id')->execute([':id' => $delId]);
+  admin_audit_log($pdo, $this_user_id, 'admin_role_permission_groups', $delId, 'DELETE', json_encode($oldGroups), json_encode([]), 'Removed role group assignments');
+
   $stmt = $pdo->prepare('DELETE FROM admin_roles WHERE id = :id');
   $stmt->execute([':id' => $delId]);
   admin_audit_log($pdo, $this_user_id, 'admin_roles', $delId, 'DELETE', null, null, 'Deleted role');
   $message = 'Role deleted.';
 }
 
-$stmt = $pdo->query('SELECT id, name, description FROM admin_roles ORDER BY name');
+$stmt = $pdo->query('SELECT r.id, r.name, r.description, GROUP_CONCAT(pg.name ORDER BY pg.name SEPARATOR ", ") AS groups'
+                  . ' FROM admin_roles r'
+                  . ' LEFT JOIN admin_role_permission_groups rpg ON r.id = rpg.role_id'
+                  . ' LEFT JOIN admin_permission_groups pg ON rpg.permission_group_id = pg.id'
+                  . ' GROUP BY r.id, r.name, r.description'
+                  . ' ORDER BY r.name');
 $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Roles</h2>
@@ -28,7 +40,7 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <a href="permissions.php" class="btn btn-sm btn-info">Permissions</a>
   <a href="matrix.php" class="btn btn-sm btn-secondary">Role Permissions</a>
 </div>
-<div id="roles" data-list='{"valueNames":["id","name","description"],"page":25,"pagination":true}'>
+<div id="roles" data-list='{"valueNames":["id","name","description","groups"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -41,6 +53,7 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <th class="sort" data-sort="id">ID</th>
           <th class="sort" data-sort="name">Name</th>
           <th class="sort" data-sort="description">Description</th>
+          <th class="sort" data-sort="groups">Permission Groups</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -50,6 +63,7 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="id"><?= htmlspecialchars($r['id']); ?></td>
             <td class="name"><?= htmlspecialchars($r['name']); ?></td>
             <td class="description"><?= htmlspecialchars($r['description']); ?></td>
+            <td class="groups"><?= htmlspecialchars($r['groups']); ?></td>
             <td>
               <a class="btn btn-sm btn-warning" href="edit.php?id=<?= $r['id']; ?>">Edit</a>
               <form method="post" class="d-inline">
