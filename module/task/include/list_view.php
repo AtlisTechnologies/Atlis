@@ -1,8 +1,9 @@
 <?php
 // Div-based task list view using Phoenix todo-list structure
+$completedCount = array_sum(array_column($tasks, 'completed'));
 ?>
-<div class="mb-9">
-  <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?php echo count($tasks); ?>)</span></h2>
+<div class="mb-9" id="todoList" data-list='{"valueNames":["task-name","status","priority"]}'>
+  <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(Total: <span id="total-count"><?php echo count($tasks); ?></span> | Completed: <span id="completed-count"><?php echo $completedCount; ?></span>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
     <div class="col-sm-auto">
       <div class="search-box">
@@ -14,17 +15,31 @@
     </div>
     <div class="col-sm-auto">
       <div class="d-flex">
-        <a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?php echo count($tasks); ?> tasks</a>
-        <a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a>
+        <select class="form-select form-select-sm" id="filter-status">
+          <option value="">All Statuses</option>
+          <?php foreach ($statusMap as $status): ?>
+            <option value="<?php echo h($status['label']); ?>"><?php echo h($status['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select class="form-select form-select-sm ms-2" id="filter-priority">
+          <option value="">All Priorities</option>
+          <?php foreach ($priorityMap as $priority): ?>
+            <option value="<?php echo h($priority['label']); ?>"><?php echo h($priority['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select class="form-select form-select-sm ms-2" id="sort-select">
+          <option value="task-name">Sort by Name</option>
+          <option value="priority">Sort by Priority</option>
+        </select>
       </div>
     </div>
     <div class="col-sm-auto ms-auto">
       <a href="index.php?action=create" class="btn btn-success btn-sm">New Task</a>
     </div>
   </div>
-  <div class="mb-4 todo-list">
+  <div class="mb-4 todo-list list">
     <?php foreach ($tasks as $task): ?>
-      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row">
+      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?php echo (int)$task['id']; ?>">
         <div class="col-auto">
           <button type="button" class="btn btn-warning btn-sm edit-task-btn me-2" data-task-id="<?php echo (int)$task['id']; ?>" data-event-propagation-prevent="data-event-propagation-prevent"><?php echo (int)$task['id']; ?></button>
         </div>
@@ -32,13 +47,23 @@
           <div>
             <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
               <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-task-id="<?php echo (int)$task['id']; ?>" data-original-status="<?php echo (int)$task['status']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> />
-              <span class="badge badge-phoenix fs-10 status-badge badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
-              <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
+              <span class="badge badge-phoenix fs-10 status-badge status badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
+              <select class="form-select form-select-sm status-select d-inline w-auto ms-2">
+                <?php foreach ($statusMap as $sid => $sinfo): ?>
+                  <option value="<?php echo (int)$sid; ?>"<?php echo ($sid == $task['status']) ? ' selected' : ''; ?>><?php echo h($sinfo['label']); ?></option>
+                <?php endforeach; ?>
+              </select>
+              <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 ms-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link task-name<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
             </div>
-            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
+            <span class="badge badge-phoenix fs-10 priority-badge priority badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
+            <select class="form-select form-select-sm priority-select d-inline w-auto ms-2">
+              <?php foreach ($priorityMap as $pid => $pinfo): ?>
+                <option value="<?php echo (int)$pid; ?>"<?php echo ($pid == $task['priority']) ? ' selected' : ''; ?>><?php echo h($pinfo['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
             <?php $hierarchy = $task['project_name'] ?? $task['division_name'] ?? $task['agency_name'] ?? ''; ?>
             <?php if ($hierarchy): ?>
-              <span class="badge badge-phoenix fs-10 badge-phoenix-dark me-2"><?php echo h($hierarchy); ?></span>
+              <span class="badge badge-phoenix fs-10 badge-phoenix-dark me-2 ms-2"><?php echo h($hierarchy); ?></span>
             <?php endif; ?>
           </div>
         </div>
@@ -55,6 +80,36 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  const todoList = new List('todoList', { valueNames: ['task-name', 'status', 'priority'] });
+
+  const statusFilter = document.getElementById('filter-status');
+  const priorityFilter = document.getElementById('filter-priority');
+  const sortSelect = document.getElementById('sort-select');
+
+  function applyFilters() {
+    const s = statusFilter.value;
+    const p = priorityFilter.value;
+    todoList.filter(item => {
+      const v = item.values();
+      const statusMatch = !s || v.status === s;
+      const priorityMatch = !p || v.priority === p;
+      return statusMatch && priorityMatch;
+    });
+  }
+
+  statusFilter.addEventListener('change', applyFilters);
+  priorityFilter.addEventListener('change', applyFilters);
+
+  sortSelect.addEventListener('change', function () {
+    todoList.sort(this.value);
+  });
+
+  todoList.on('updated', function (list) {
+    document.getElementById('total-count').textContent = list.matchingItems.length;
+    const completed = list.matchingItems.filter(item => item.elm.querySelector('input[type="checkbox"]').checked).length;
+    document.getElementById('completed-count').textContent = completed;
+  });
+
   document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function (checkbox) {
     checkbox.addEventListener('click', function (event) {
       event.stopPropagation();
@@ -75,18 +130,20 @@ document.addEventListener('DOMContentLoaded', function () {
             this.checked = data.completed == 1;
             if (badge && data.status_label && data.status_color) {
               badge.textContent = data.status_label;
-              badge.className = `badge badge-phoenix fs-10 status-badge me-2 badge-phoenix-${data.status_color}`;
+              badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.status_color} me-2`;
             }
           } else {
             this.checked = !newState;
           }
           link.classList.toggle('text-decoration-line-through', this.checked);
+          todoList.update();
         }).catch(() => {
           this.checked = !newState;
           link.classList.toggle('text-decoration-line-through', this.checked);
         });
     });
   });
+
   document.querySelectorAll('.todo-list .edit-task-btn').forEach(function (btn) {
     btn.addEventListener('click', function (event) {
       event.stopPropagation();
@@ -101,9 +158,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
   });
+
   document.querySelectorAll('.todo-list .task-name-link').forEach(function (link) {
     link.addEventListener('click', function (event) {
       event.stopPropagation();
+    });
+  });
+
+  document.querySelectorAll('.status-select').forEach(function (select) {
+    select.addEventListener('change', function () {
+      const row = this.closest('.task-row');
+      const taskId = row.dataset.taskId;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId, field: 'status', value: this.value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = data.label;
+            badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.color} me-2`;
+            todoList.update();
+          }
+        });
+    });
+  });
+
+  document.querySelectorAll('.priority-select').forEach(function (select) {
+    select.addEventListener('change', function () {
+      const row = this.closest('.task-row');
+      const taskId = row.dataset.taskId;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId, field: 'priority', value: this.value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const badge = row.querySelector('.priority-badge');
+            badge.textContent = data.label;
+            badge.className = `badge badge-phoenix fs-10 priority-badge priority badge-phoenix-${data.color}`;
+            todoList.update();
+          }
+        });
     });
   });
 });
