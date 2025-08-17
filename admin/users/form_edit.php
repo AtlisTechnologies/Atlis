@@ -47,7 +47,9 @@ if (!defined('IN_APP')) {
         </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
-        <form class="needs-validation" id="wizardStep2" novalidate data-wizard-form="2" method="post">
+
+        <form id="userWizardFinal" class="needs-validation" novalidate data-wizard-form="2" method="post">
+
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <div class="mb-3">
             <label class="form-label">First Name</label>
@@ -92,7 +94,10 @@ if (!defined('IN_APP')) {
       <button class="btn btn-primary px-6" type="button" data-wizard-next-btn="data-wizard-next-btn">
         Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span>
       </button>
-      <button class="btn btn-primary px-6 d-none" type="submit" data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
+      <button class="btn btn-primary px-6 d-none"
+              type="submit"
+              form="userWizardFinal"
+              data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
     </div>
   </div>
 </div>
