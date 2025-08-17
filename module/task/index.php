@@ -75,6 +75,7 @@ require_permission('task','read');
 $action = $_GET['action'] ?? 'list';
 
 $statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+$priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
 $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
                              CONCAT(cp.first_name, " ", cp.last_name) AS completed_by_name,
