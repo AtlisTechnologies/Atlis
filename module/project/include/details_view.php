@@ -26,6 +26,29 @@ if (!empty($current_project)) {
     $chartDates = array_keys($chartData);
     $chartValues = array_values($chartData);
     $progress = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
+
+    $timelineEvents = [];
+    foreach ($tasks as $t) {
+        if (!empty($t['completed']) && !empty($t['complete_date'])) {
+            $timelineEvents[] = [
+                'type' => 'task',
+                'date' => $t['complete_date'],
+                'name' => $t['name'] ?? ''
+            ];
+        }
+    }
+    foreach ($notes as $n) {
+        $timelineEvents[] = [
+            'type' => 'note',
+            'date' => $n['date_created'] ?? '',
+            'note_text' => $n['note_text'] ?? '',
+            'user_name' => $n['user_name'] ?? '',
+            'profile_pic' => $n['profile_pic'] ?? ''
+        ];
+    }
+    usort($timelineEvents, function($a, $b) {
+        return strtotime($b['date']) <=> strtotime($a['date']);
+    });
 }
 ?>
 <?php if (!empty($current_project)): ?>
@@ -36,12 +59,26 @@ if (!empty($current_project)) {
         <div class="d-flex justify-content-between">
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
         </div>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?>">
-          <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
-        </span>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?>">
-          <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
-        </span>
+        <div class="dropdown d-inline me-2">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="statusBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="statusBadge">
+            <?php foreach ($statusMap as $sid => $s): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="status" data-value="<?= (int)$sid ?>" data-color="<?= h($s['color_class'] ?? 'secondary') ?>"><?= h($s['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <div class="dropdown d-inline">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="priorityBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="priorityBadge">
+            <?php foreach ($priorityMap as $pid => $p): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="priority" data-value="<?= (int)$pid ?>" data-color="<?= h($p['color_class'] ?? 'secondary') ?>"><?= h($p['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
       </div>
       <div class="row gx-0 gx-sm-5 gy-8 mb-8">
         <div class="col-12 pe-xl-0">
@@ -140,47 +177,81 @@ if (!empty($current_project)) {
                 </div>
                 <?php if (user_has_permission('project','create|update|delete')): ?>
                 <div class="px-4 px-lg-6 py-4">
-                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
-                    <div class="input-group">
-                      <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
-                      <input class="form-control" type="file" name="file" id="projectFileUpload" aria-describedby="projectFileUpload" aria-label="Upload" required>
-                      <button class="btn btn-success" type="submit">Upload New</button>
+                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php"}'>
+                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                    <input type="hidden" name="note_id" value="">
+                    <div class="fallback">
+                      <input type="file" name="file" multiple />
                     </div>
+                    <div class="dz-message" data-dz-message="data-dz-message">
+                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
+                    </div>
+                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column"></div>
                   </form>
                 </div>
                 <?php endif; ?>
 
-                <?php if (!empty($files)): ?>
-                  <?php foreach ($files as $f): ?>
-                  <div class="border-top px-4 px-lg-6 py-4">
-                    <div class="me-n3">
-                      <div class="d-flex flex-between-center">
-                        <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                          <p class="text-body-highlight mb-0 lh-1">
-                            <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                              <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                            <?php else: ?>
-                              <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                <?php if (!empty($files)):
+                  $imageFiles = [];
+                  $otherFiles = [];
+                  foreach ($files as $f) {
+                    if (strpos($f['file_type'], 'image/') === 0) {
+                      $imageFiles[] = $f;
+                    } else {
+                      $otherFiles[] = $f;
+                    }
+                  }
+                ?>
+                  <?php if (!empty($imageFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <div class="row g-3">
+                        <?php foreach ($imageFiles as $f): ?>
+                          <div class="col-6 col-md-4 col-lg-3 position-relative">
+                            <a href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="project-gallery">
+                              <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
+                            </a>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
                             <?php endif; ?>
-                          </p>
-                        </div>
-                        <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
-                        <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                          <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                          <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
-                        </form>
-                        <?php endif; ?>
+                          </div>
+                        <?php endforeach; ?>
                       </div>
-                      <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
-                      <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
-                          <img class="rounded-2 mt-2" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
-                        </a>
-                      <?php endif; ?>
                     </div>
-                  </div>
-                  <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (!empty($otherFiles)): ?>
+                    <?php foreach ($otherFiles as $f): ?>
+                      <div class="border-top px-4 px-lg-6 py-4">
+                        <div class="me-n3">
+                          <div class="d-flex flex-between-center">
+                            <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
+                              <p class="text-body-highlight mb-0 lh-1">
+                                <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                              </p>
+                            </div>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
+                            <?php endif; ?>
+                          </div>
+                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (empty($imageFiles) && empty($otherFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
+                    </div>
+                  <?php endif; ?>
                 <?php else: ?>
                   <div class="border-top px-4 px-lg-6 py-4">
                     <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
@@ -209,6 +280,52 @@ if (!empty($current_project)) {
           <p class="text-body-secondary mb-4"><?= nl2br(h($current_project['specifications'] ?? '')) ?></p>
         </div>
       </div>
+    <?php endif; ?>
+
+    <div class="card mb-5">
+      <div class="card-body">
+        <h4 class="text-body-emphasis mb-3">Task completed over time</h4>
+        <div class="echart-completed-task-chart" style="min-height:200px;width:100%"></div>
+      </div>
+    </div>
+
+    <?php if (!empty($timelineEvents)): ?>
+    <div class="card mb-5">
+      <div class="card-body">
+        <h4 class="text-body-highlight fw-bold mb-4">Timeline</h4>
+        <div class="timeline-vertical">
+          <?php foreach ($timelineEvents as $e): ?>
+          <div class="timeline-item position-relative">
+            <div class="row g-md-3 mb-4">
+              <div class="col-12 col-md-auto d-flex">
+                <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                  <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                    <?= h(date('d M, Y', strtotime($e['date']))) ?><br class="d-none d-md-block" />
+                    <?= h(date('h:i A', strtotime($e['date']))) ?>
+                  </p>
+                </div>
+                <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                  <div class="icon-item icon-item-sm rounded-7 shadow-none <?= $e['type'] === 'task' ? 'bg-success-subtle' : 'bg-primary-subtle' ?>">
+                    <span class="fa-solid <?= $e['type'] === 'task' ? 'fa-check text-success-dark' : 'fa-note-sticky text-primary-dark' ?> fs-10"></span>
+                  </div><span class="timeline-bar border-end border-dashed"></span>
+                </div>
+              </div>
+              <div class="col">
+                <div class="timeline-item-content ps-6 ps-md-3">
+                  <?php if ($e['type'] === 'task'): ?>
+                    <p class="fs-9 lh-sm mb-1">Completed task: <?= h($e['name']) ?></p>
+                  <?php else: ?>
+                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($e['note_text'])) ?></p>
+                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-xs me-2" alt="" /><?= h($e['user_name']) ?></p>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
     <?php endif; ?>
 
     <div class="row">
@@ -319,7 +436,7 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="note-<?= (int)$n['id'] ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
                                       <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
@@ -399,6 +516,7 @@ if (!empty($current_project)) {
 <?php endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  var projectId = <?= (int)$current_project['id'] ?>;
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
@@ -538,6 +656,28 @@ document.addEventListener('DOMContentLoaded', function () {
       function save(){
         fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); p.addEventListener('click', arguments.callee); });
       }
+    });
+  });
+  document.querySelectorAll('.project-field-option').forEach(function(item){
+    item.addEventListener('click', function(e){
+      e.preventDefault();
+      var field = this.dataset.field;
+      var value = this.dataset.value;
+      var color = this.dataset.color;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ project_id: projectId, field: field, value: value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            var badge = document.getElementById(field + 'Badge');
+            if (badge) {
+              badge.textContent = this.textContent;
+              badge.className = 'badge badge-phoenix badge-phoenix-' + color + ' dropdown-toggle';
+            }
+          }
+        });
     });
   });
 });

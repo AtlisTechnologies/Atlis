@@ -97,6 +97,7 @@ unset($project);
           'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
           'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
           'lp.label AS priority_label, COALESCE(pattr.attr_value, "secondary") AS priority_color, ' .
+
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
