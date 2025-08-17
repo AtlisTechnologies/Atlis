@@ -19,7 +19,7 @@ if (!defined('IN_APP')) {
           <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Details</span></div>
         </a></li>
       <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab3" data-bs-toggle="tab" data-wizard-step="3">
-          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-users"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Roles</span></div>
+          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-check"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Done</span></div>
         </a></li>
     </ul>
   </div>
@@ -28,12 +28,10 @@ if (!defined('IN_APP')) {
       <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
         <form class="needs-validation" novalidate data-wizard-form="1" method="post">
           <div class="mb-3">
-
             <label class="form-label">Username</label>
             <input type="text" class="form-control" name="username" value="<?= htmlspecialchars($username); ?>" required>
           </div>
           <div class="mb-3">
-
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email); ?>" required>
           </div>
@@ -41,6 +39,18 @@ if (!defined('IN_APP')) {
             <label class="form-label">Password (leave blank to keep current)</label>
             <input type="password" class="form-control" name="password">
           </div>
+          <div class="mb-3">
+            <label class="form-label">Roles</label>
+              <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
+                  <label class="form-check-label" for="role<?= $r['id']; ?>">
+                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+          </div>
+
         </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
@@ -84,17 +94,7 @@ if (!defined('IN_APP')) {
       <div class="tab-pane" role="tabpanel" id="user-tab3" aria-labelledby="user-tab3">
         <form class="needs-validation" novalidate data-wizard-form="3" method="post">
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-          <div class="mb-3">
-            <label class="form-label">Roles</label>
-              <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
-                  <label class="form-check-label" for="role<?= $r['id']; ?>">
-                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
-                  </label>
-                </div>
-              <?php endforeach; ?>
-          </div>
+          <p class="fs-9 text-700 mb-0">Review your changes and click Save to update the user.</p>
         </form>
       </div>
     </div>
