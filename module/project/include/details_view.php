@@ -312,45 +312,6 @@ if (!empty($current_project)) {
       </div>
     <?php endif; ?>
 
-    <?php if (!empty($timelineEvents)): ?>
-    <div class="card mb-5">
-      <div class="card-body">
-        <h4 class="text-body-highlight fw-bold mb-4">Timeline</h4>
-        <div class="timeline-vertical">
-          <?php foreach ($timelineEvents as $e): ?>
-          <div class="timeline-item position-relative">
-            <div class="row g-md-3 mb-4">
-              <div class="col-12 col-md-auto d-flex">
-                <div class="timeline-item-date order-1 order-md-0 me-md-4">
-                  <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
-                    <?= h(date('d M, Y', strtotime($e['date']))) ?><br class="d-none d-md-block" />
-                    <?= h(date('h:i A', strtotime($e['date']))) ?>
-                  </p>
-                </div>
-                <div class="timeline-item-bar position-md-relative me-3 me-md-0">
-                  <div class="icon-item icon-item-sm rounded-7 shadow-none <?= $e['type'] === 'task' ? 'bg-success-subtle' : 'bg-primary-subtle' ?>">
-                    <span class="fa-solid <?= $e['type'] === 'task' ? 'fa-check text-success-dark' : 'fa-note-sticky text-primary-dark' ?> fs-10"></span>
-                  </div><span class="timeline-bar border-end border-dashed"></span>
-                </div>
-              </div>
-              <div class="col">
-                <div class="timeline-item-content ps-6 ps-md-3">
-                  <?php if ($e['type'] === 'task'): ?>
-                    <p class="fs-9 lh-sm mb-1">Completed task: <?= h($e['name']) ?></p>
-                  <?php else: ?>
-                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($e['note_text'])) ?></p>
-                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-m me-2" alt="" /><?= h($e['user_name']) ?></p>
-                  <?php endif; ?>
-                </div>
-              </div>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
-    <?php endif; ?>
-
     <div class="row">
       <div class="col-6 bg-light border-start border-top border-bottom">
         <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
@@ -391,7 +352,7 @@ if (!empty($current_project)) {
                         <?php else: ?>
                           <span class="fa-regular fa-user text-body-tertiary me-1"></span>
                         <?php endif; ?>
-                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
+                        <a class="mb-0 fw-bold fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
                       </div>
                     </div>
                   </div>
