@@ -17,104 +17,49 @@ foreach ($roles as $r) {
         $customerRoleId = $r['id'];
     }
 }
-?>
 
+<h2 class="mb-4">Add User</h2>
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
-  <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
-    <ul class="nav justify-content-between nav-wizard nav-wizard-success">
-      <li class="nav-item"><a class="nav-link active fw-semibold" href="#user-tab1" data-bs-toggle="tab" data-wizard-step="1">
-          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Account</span></div>
-        </a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#user-tab2" data-bs-toggle="tab" data-wizard-step="2">
-          <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Details</span></div>
-        </a></li>
-    </ul>
-  </div>
-  <div class="card-body pt-4 pb-0">
+  <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane active" role="tabpanel" id="user-tab1" aria-labelledby="user-tab1">
-        <form class="needs-validation" id="wizardStep1" novalidate data-wizard-form="1">
+      <div class="tab-pane active" id="step1" role="tabpanel">
+        <form id="wizardForm1" data-wizard-form="1">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" required>
+            <input type="email" name="email" class="form-control" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" required>
+            <input type="password" name="password" class="form-control">
           </div>
-          <div class="mb-3">
-            <label class="form-label">Roles</label>
-              <?php foreach($roles as $r): $rClass = $roleColors[$r['name']] ?? 'secondary'; ?>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>" id="role<?= $r['id']; ?>" <?= in_array($r['id'], $assigned) ? 'checked' : ''; ?>>
-                  <label class="form-check-label" for="role<?= $r['id']; ?>">
-                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($rClass); ?>"><span class="badge-label"><?= htmlspecialchars($r['name']); ?></span></span>
-                  </label>
-                </div>
-              <?php endforeach; ?>
-          </div>
-
         </form>
       </div>
-      <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
-
-        <form id="userWizardFinal" class="needs-validation" novalidate data-wizard-form="2" method="post">
-
-          <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+      <div class="tab-pane" id="step2" role="tabpanel">
+        <form id="wizardForm2" data-wizard-form="2">
           <div class="mb-3">
             <label class="form-label">First Name</label>
-            <input type="text" class="form-control" name="first_name">
+            <input type="text" name="first_name" class="form-control" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input type="text" class="form-control" name="last_name">
+            <input type="text" name="last_name" class="form-control" required>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Type</label>
-            <div>
-              <?php foreach($typeOptions as $code => $label): $class = $typeColors[$code] ?? 'secondary'; ?>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="type" id="type<?= $code; ?>" value="<?= htmlspecialchars($code); ?>">
-                  <label class="form-check-label" for="type<?= $code; ?>">
-                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
-                  </label>
-                </div>
-              <?php endforeach; ?>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Status</label>
-            <div>
-              <?php foreach($statusOptions as $code => $label): $class = $statusColors[$code] ?? 'secondary'; ?>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="status" id="status<?= $code; ?>" value="<?= htmlspecialchars($code); ?>">
-                  <label class="form-check-label" for="status<?= $code; ?>">
-                    <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($label); ?></span></span>
-                  </label>
-                </div>
-              <?php endforeach; ?>
-            </div>
-          </div>
-
         </form>
       </div>
     </div>
   </div>
-  <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
-    <div class="d-flex pager wizard list-inline mb-0">
-      <button class="btn btn-primary px-6" type="button" data-wizard-next-btn="data-wizard-next-btn">
-        Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span>
-      </button>
-      <button class="btn btn-primary px-6 d-none"
-              type="submit"
-              form="userWizardFinal"
-              data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
-    </div>
+  <div class="card-footer">
+    <form id="finalForm" method="post" action="new.php">
+      <button type="button" id="saveBtn" class="btn btn-success">Save</button>
+    </form>
   </div>
 </div>
-<a href="index.php" class="btn btn-secondary">Back</a>
-
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
   const forms = document.querySelectorAll('[data-wizard-form]');
   if (forms.length) {
@@ -157,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   const selectedType = document.querySelector('input[name="type"]:checked');
   if (selectedType) assignRole(selectedType.value);
+
 });
 </script>
-
+<?php require '../admin_footer.php'; ?>
