@@ -58,8 +58,9 @@ function user_has_permission($module, $action){
     return true;
   }
   $sql = "SELECT 1 FROM admin_user_roles ur "
-       . "JOIN admin_role_permissions rp ON ur.role_id = rp.role_id "
-       . "JOIN admin_permissions p ON rp.permission_id = p.id "
+       . "JOIN admin_role_permission_groups rpg ON ur.role_id = rpg.role_id "
+       . "JOIN admin_permission_group_permissions pgp ON rpg.permission_group_id = pgp.permission_group_id "
+       . "JOIN admin_permissions p ON pgp.permission_id = p.id "
        . "WHERE ur.user_account_id = :uid AND p.module = :module AND p.action = :action";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([':uid' => $this_user_id, ':module' => $module, ':action' => $action]);
