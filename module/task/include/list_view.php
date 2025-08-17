@@ -51,7 +51,6 @@ $completedCount = array_sum(array_column($tasks, 'completed'));
               <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link task-name<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
             </div>
             <span class="badge badge-phoenix fs-10 priority-badge priority badge-phoenix-<?php echo h($task['priority_color'] ?? 'primary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
-
             <?php $hierarchy = $task['project_name'] ?? $task['division_name'] ?? $task['agency_name'] ?? ''; ?>
             <?php if ($hierarchy): ?>
               <span class="badge badge-phoenix fs-10 badge-phoenix-dark me-2 ms-2"><?php echo h($hierarchy); ?></span>
@@ -117,20 +116,27 @@ document.addEventListener('DOMContentLoaded', function () {
         body: new URLSearchParams({ id: taskId, completed: newState, status: originalStatus })
       }).then(response => response.json())
         .then(data => {
+          let isChecked = newState;
           if (data.success) {
-            this.checked = data.completed == 1;
+            isChecked = data.completed == 1;
             if (badge && data.status_label && data.status_color) {
               badge.textContent = data.status_label;
               badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.status_color} me-2`;
             }
+            const item = todoList.items.find(i => i.elm.dataset.taskId === taskId);
+            if (item && data.status_label) {
+              item.values({ status: data.status_label });
+            }
           } else {
-            this.checked = !newState;
+            isChecked = !newState;
           }
-          link.classList.toggle('text-decoration-line-through', this.checked);
-          todoList.update();
+          link.classList.toggle('text-decoration-line-through', isChecked);
+          applyFilters();
+          this.checked = isChecked;
         }).catch(() => {
-          this.checked = !newState;
-          link.classList.toggle('text-decoration-line-through', this.checked);
+          const isChecked = !newState;
+          this.checked = isChecked;
+          link.classList.toggle('text-decoration-line-through', isChecked);
         });
     });
   });
