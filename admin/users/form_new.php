@@ -8,6 +8,7 @@ if (!defined('IN_APP')) {
     exit('No direct script access allowed');
 }
 ?>
+
 <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
   <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
     <ul class="nav justify-content-between nav-wizard nav-wizard-success">
@@ -45,6 +46,7 @@ if (!defined('IN_APP')) {
                 </div>
               <?php endforeach; ?>
           </div>
+
         </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab2" aria-labelledby="user-tab2">
@@ -83,6 +85,7 @@ if (!defined('IN_APP')) {
               <?php endforeach; ?>
             </div>
           </div>
+
         </form>
       </div>
       <div class="tab-pane" role="tabpanel" id="user-tab3" aria-labelledby="user-tab3">
@@ -102,3 +105,4 @@ if (!defined('IN_APP')) {
   </div>
 </div>
 <a href="index.php" class="btn btn-secondary">Back</a>
+

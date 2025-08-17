@@ -108,11 +108,7 @@ if (!empty($current_project)) {
               </div>
             </div>
           </div>
-          <div>
-            <div class="d-flex align-items-center"><span class="fa-solid fa-list-check me-2 text-body-tertiary fs-9"></span>
-              <h5 class="text-body-emphasis mb-0 me-2"><?= $totalTasks ?><span class="text-body fw-normal ms-2">tasks</span></h5><a class="fw-bold fs-9 mt-1" href="../task/index.php?action=list&project_id=<?= (int)$current_project['id'] ?>">See tasks <span class="fa-solid fa-chevron-right me-2 fs-10"></span></a>
-            </div>
-          </div>
+          
         </div>
         <div class="col-12 col-xl-9 col-xxl-8">
           <div class="row flex-between-center mb-3 g-3">
@@ -160,7 +156,7 @@ if (!empty($current_project)) {
                     <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                       <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                       <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-xmark"></span></button>
+                      <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-xmark"></span></button>
                     </form>
                   <?php endif; ?>
                 </div>
@@ -190,12 +186,12 @@ if (!empty($current_project)) {
           <div class="mb-4 todo-list">
             <?php if (!empty($tasks)): ?>
               <?php foreach ($tasks as $t): ?>
-                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 cursor-pointer border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
+                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
                   <div class="col-12 col-md-auto flex-1">
                     <div>
                       <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
                         <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
-                        <label class="form-check-label mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 cursor-pointer<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" for="checkbox-todo-<?= (int)$t['id'] ?>"><?= h($t['name']) ?></label><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a><span class="badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
                       </div>
                     </div>
                   </div>
@@ -238,35 +234,37 @@ if (!empty($current_project)) {
                 </div>
                 <div class="col">
                   <div class="timeline-item-content ps-6 ps-md-3">
-                    <div class="d-flex">
-                      <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
-                      <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
-                      <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
-                        <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
-                        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                        <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                      </form>
+                    <div class="border rounded-2 p-3">
+                      <div class="d-flex">
+                        <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
+                        <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
+                        <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
+                          <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
+                          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                          <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
+                      </div>
+                      <?php if (!empty($noteFiles[$n['id']])): ?>
+                        <ul class="list-unstyled mt-2">
+                          <?php foreach ($noteFiles[$n['id']] as $f): ?>
+                            <li class="mb-1">
+                              <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
+                                <p class="text-body-highlight mb-0 lh-1">
+                                  <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                                    <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                  <?php else: ?>
+                                    <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                  <?php endif; ?>
+                                </p>
+                              </div>
+                            </li>
+                          <?php endforeach; ?>
+                        </ul>
                       <?php endif; ?>
-                    </div>
-                    <?php if (!empty($noteFiles[$n['id']])): ?>
-                      <ul class="list-unstyled mt-2">
-                        <?php foreach ($noteFiles[$n['id']] as $f): ?>
-                          <li class="mb-1">
-                            <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                              <p class="text-body-highlight mb-0 lh-1">
-                                <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                  <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                                <?php else: ?>
-                                  <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                                <?php endif; ?>
-                              </p>
-                            </div>
-                          </li>
-                        <?php endforeach; ?>
-                      </ul>
-                    <?php endif; ?>
 
-                    <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                      <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($n['profile_pic'] ?? '') ?>" class="rounded-circle avatar avatar-m me-2" alt="" />by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -326,7 +324,7 @@ if (!empty($current_project)) {
               <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
                 <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
               </form>
               <?php endif; ?>
             </div>
@@ -407,14 +405,6 @@ if (!empty($current_project)) {
       });
     }
 
-    document.querySelectorAll('.todo-list .task-row').forEach(function(row){
-      row.addEventListener('click', function(){
-        var id = this.dataset.taskId;
-        if (id) {
-          window.location.href = '../task/index.php?action=details&id=' + id;
-        }
-      });
-    });
     document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function(cb){
       cb.addEventListener('click', function(e){ e.stopPropagation(); });
       cb.addEventListener('change', function(){
