@@ -16,7 +16,7 @@ if ($action === 'create') {
   require '../../includes/html_header.php';
   ?>
   <main class="main" id="top">
-    <?php require '../../includes/left_navigation.php'; ?>
+    <?php // require '../../includes/left_navigation.php'; ?>
     <?php require '../../includes/navigation.php'; ?>
     <div id="main_content" class="content">
       <?php require 'include/create_edit.php'; ?>
@@ -94,11 +94,16 @@ unset($project);
       }
 
         $tasksStmt = $pdo->prepare(
-          'SELECT t.id, t.name, t.status, t.due_date, t.completed, li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
+          'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+          'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
+          'lp.label AS priority_label, COALESCE(pattr.attr_value, "secondary") AS priority_color, ' .
+
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
           'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
+          'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
+          'LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = "COLOR-CLASS" ' .
           'WHERE t.project_id = :id ORDER BY t.status, t.due_date'
         );
       $tasksStmt->execute([':id' => $project_id]);
@@ -129,6 +134,9 @@ unset($project);
         unset($tTask);
       }
 
+      $taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
+      $taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
+
       $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
       $assignedStmt->execute([':id' => $project_id]);
       $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -156,7 +164,7 @@ if ($action === 'create-edit') {
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
-  <?php require '../../includes/left_navigation.php'; ?>
+  <?php // require '../../includes/left_navigation.php'; ?>
   <?php require '../../includes/navigation.php'; ?>
   <div id="main_content" class="content">
     <?php

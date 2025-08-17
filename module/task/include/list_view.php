@@ -145,11 +145,13 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', function (event) {
       event.stopPropagation();
       const id = this.dataset.taskId;
-      fetch('index.php?action=create-edit&id=' + id)
+      fetch('index.php?action=create-edit&id=' + id + '&modal=1')
         .then(response => response.text())
         .then(html => {
           const modalEl = document.getElementById('taskEditModal');
           modalEl.querySelector('.modal-content').innerHTML = html;
+          const form = modalEl.querySelector('form');
+          if (form) { form.action = 'index.php?action=save'; }
           const modal = new bootstrap.Modal(modalEl);
           modal.show();
         });
@@ -159,6 +161,46 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.todo-list .task-name-link').forEach(function (link) {
     link.addEventListener('click', function (event) {
       event.stopPropagation();
+    });
+  });
+
+  document.querySelectorAll('.status-select').forEach(function (select) {
+    select.addEventListener('change', function () {
+      const row = this.closest('.task-row');
+      const taskId = row.dataset.taskId;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId, field: 'status', value: this.value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const badge = row.querySelector('.status-badge');
+            badge.textContent = data.label;
+            badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.color} me-2`;
+            todoList.update();
+          }
+        });
+    });
+  });
+
+  document.querySelectorAll('.priority-select').forEach(function (select) {
+    select.addEventListener('change', function () {
+      const row = this.closest('.task-row');
+      const taskId = row.dataset.taskId;
+      fetch('functions/update_field.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ id: taskId, field: 'priority', value: this.value })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const badge = row.querySelector('.priority-badge');
+            badge.textContent = data.label;
+            badge.className = `badge badge-phoenix fs-10 priority-badge priority badge-phoenix-${data.color}`;
+            todoList.update();
+          }
+        });
     });
   });
 });

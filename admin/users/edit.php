@@ -1,126 +1,47 @@
 <?php
-if (!defined('IN_APP')) { define('IN_APP', true); }
 require '../admin_header.php';
 require_permission('users','update');
+header('Content-Type: application/json');
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if (!$id) {
-    header('Location: index.php');
-    exit;
+$errors = [];
+$username = trim($_POST['username'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$password = $_POST['password'] ?? '';
+$first_name = trim($_POST['first_name'] ?? '');
+$last_name = trim($_POST['last_name'] ?? '');
+
+if ($first_name === '') { $errors['first_name'] = 'First name required'; }
+if ($last_name === '') { $errors['last_name'] = 'Last name required'; }
+if ($username === '') { $errors['username'] = 'Username required'; }
+if ($email === '') { $errors['email'] = 'Email required'; }
+
+if ($errors) {
+  echo json_encode(['status' => 'error', 'errors' => $errors]);
+  exit;
 }
 
-$username = $email = $first_name = $last_name = $type = 'ADMIN';
-$status = 1;
-$assigned = [];
-$message = $error = '';
-$btnClass = 'btn-warning';
+try {
+  $pdo->beginTransaction();
+  $sql = 'UPDATE users SET username=:username, email=:email';
+  $params = [':username' => $username, ':email' => $email, ':uid' => $this_user_id, ':id' => $id];
+  if ($password) {
+    $sql .= ', password=:password';
+    $params[':password'] = password_hash($password, PASSWORD_DEFAULT);
+  }
+  $sql .= ', user_updated=:uid WHERE id=:id';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
 
-$stmt = $pdo->prepare('SELECT u.username, u.email, u.type, u.status, p.first_name, p.last_name FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
-$stmt->execute([':id' => $id]);
-if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $username   = $row['username'];
-    $email      = $row['email'];
-    $type       = $row['type'];
-    $status     = $row['status'];
-    $first_name = $row['first_name'] ?? '';
-    $last_name  = $row['last_name'] ?? '';
-} else {
-    die('User not found.');
+  $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name, last_name=:last_name, user_updated=:uid WHERE user_id=:id');
+  $stmt->execute([':first_name' => $first_name, ':last_name' => $last_name, ':uid' => $this_user_id, ':id' => $id]);
+
+  admin_audit_log($pdo, $this_user_id, 'users', $id, 'UPDATE', null, json_encode(['username'=>$username,'email'=>$email]));
+  admin_audit_log($pdo, $this_user_id, 'person', $id, 'UPDATE', null, json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name]));
+
+  $pdo->commit();
+  echo json_encode(['status' => 'success']);
+} catch (Exception $e) {
+  $pdo->rollBack();
+  echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-
-$stmt = $pdo->prepare('SELECT role_id FROM admin_user_roles WHERE user_account_id = :id');
-$stmt->execute([':id' => $id]);
-$assigned = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
-
-$roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-$roleColors = array_column(get_lookup_items($pdo, 'ADMIN_ROLE_BADGES'), 'color_class', 'code');
-
-$typeItems   = get_lookup_items($pdo, 'USER_TYPE');
-$typeOptions = array_column($typeItems, 'label', 'code');
-$typeColors  = array_column($typeItems, 'color_class', 'code');
-
-$statusItems   = get_lookup_items($pdo, 'USER_STATUS');
-$statusOptions = array_column($statusItems, 'label', 'code');
-$statusColors  = array_column($statusItems, 'color_class', 'code');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $postData = $_POST; // consolidated data from wizard steps
-    if (!hash_equals($token, $postData['csrf_token'] ?? '')) {
-        die('Invalid CSRF token');
-    }
-    $username   = trim($postData['username'] ?? '');
-    $email      = trim($postData['email'] ?? '');
-    $password   = $postData['password'] ?? '';
-    $type       = $postData['type'] ?? array_key_first($typeOptions);
-    if (!array_key_exists($type, $typeOptions)) {
-        $type = array_key_first($typeOptions);
-    }
-    $status = $postData['status'] ?? array_key_first($statusOptions);
-    if (!array_key_exists($status, $statusOptions)) {
-        $status = array_key_first($statusOptions);
-    }
-    $status     = (int)$status;
-    $first_name = trim($postData['first_name'] ?? '');
-    $last_name  = trim($postData['last_name'] ?? '');
-    $roleIds    = $postData['roles'] ?? [];
-
-    if ($username === '' || $email === '' || $first_name === '' || $last_name === '') {
-        $error = 'Username, email, first name and last name are required.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'Invalid email address.';
-    } elseif (strlen($first_name) > 100 || strlen($last_name) > 100) {
-        $error = 'First name and last name must be 100 characters or fewer.';
-    } else {
-        $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username AND id != :id');
-        $stmt->execute([':username'=>$username, ':id'=>$id]);
-        if ($stmt->fetchColumn()) {
-            $error = 'Username already exists.';
-        }
-        if (!$error) {
-            $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email AND id != :id');
-            $stmt->execute([':email'=>$email, ':id'=>$id]);
-            if ($stmt->fetchColumn()) {
-                $error = 'Email already exists.';
-            }
-        }
-    }
-
-    if (!$error) {
-        if ($password !== '') {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare('UPDATE users SET username=:username, email=:email, password=:password, type=:type, status=:status, user_updated=:uid WHERE id=:id');
-            $stmt->execute([':username'=>$username, ':email'=>$email, ':password'=>$hash, ':type'=>$type, ':status'=>$status, ':uid'=>$this_user_id, ':id'=>$id]);
-        } else {
-            $stmt = $pdo->prepare('UPDATE users SET username=:username, email=:email, type=:type, status=:status, user_updated=:uid WHERE id=:id');
-            $stmt->execute([':username'=>$username, ':email'=>$email, ':type'=>$type, ':status'=>$status, ':uid'=>$this_user_id, ':id'=>$id]);
-        }
-        audit_log($pdo, $this_user_id, 'users', $id, 'UPDATE', 'Updated user');
-        $stmt = $pdo->prepare('SELECT id FROM person WHERE user_id = :id');
-        $stmt->execute([':id' => $id]);
-        if ($stmt->fetchColumn()) {
-            $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name, last_name=:last_name, user_updated=:uid WHERE user_id=:id');
-            $stmt->execute([':first_name'=>$first_name, ':last_name'=>$last_name, ':uid'=>$this_user_id, ':id'=>$id]);
-        } else {
-            $stmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, user_updated) VALUES (:user_id, :first_name, :last_name, :uid)');
-            $stmt->execute([':user_id'=>$id, ':first_name'=>$first_name, ':last_name'=>$last_name, ':uid'=>$this_user_id]);
-        }
-        $stmt = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id = :id');
-        $stmt->execute([':id' => $id]);
-        foreach($roleIds as $roleId){
-            $stmt = $pdo->prepare('INSERT INTO admin_user_roles (user_id, user_updated, user_account_id, role_id) VALUES (:uid, :uid, :uid_account, :role_id)');
-            $stmt->execute([':uid'=>$this_user_id, ':uid_account'=>$id, ':role_id'=>$roleId]);
-        }
-        audit_log($pdo, $this_user_id, 'admin_user_roles', $id, 'UPDATE', 'Updated user roles');
-        $message = 'User updated.';
-    }
-}
-?>
-<h2 class="mb-4">Edit User</h2>
-<?php if($error){ echo '<div class="alert alert-danger">'.htmlspecialchars($error).'</div>'; } ?>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
-<?php include 'form_edit.php'; ?>
-<?php require '../admin_footer.php'; ?>
-

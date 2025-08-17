@@ -10,6 +10,8 @@
   --atlis-light: #e6f6f5;
   --atlis-dark: #006963;
   --atlis-text: #fff;
+  --atlis-lighter: #bff2ee;
+  --atlis-border: #86d1cf;
 }
 
 /* 1. Buttons */
@@ -49,6 +51,24 @@
   background: var(--atlis);
   color: var(--atlis-text);
   border-color: var(--atlis);
+}
+
+/* Subtle Button */
+.btn-subtle-atlis {
+  --phoenix-btn-color: var(--atlis-dark);
+  --phoenix-btn-bg: var(--atlis-light);
+  --phoenix-btn-border-color: var(--atlis-light);
+  --phoenix-btn-hover-color: var(--atlis-dark);
+  --phoenix-btn-hover-bg: var(--atlis-lighter);
+  --phoenix-btn-hover-border-color: var(--atlis-lighter);
+  --phoenix-btn-focus-shadow-rgb: 196, 226, 222;
+  --phoenix-btn-active-color: #000;
+  --phoenix-btn-active-bg: var(--atlis-light);
+  --phoenix-btn-active-border-color: var(--atlis-lighter);
+  --phoenix-btn-active-shadow: initial;
+  --phoenix-btn-disabled-color: #000;
+  --phoenix-btn-disabled-bg: var(--atlis-light);
+  --phoenix-btn-disabled-border-color: var(--atlis-light);
 }
 
 /* 2. Badges */
@@ -143,50 +163,47 @@
 
 /* Phoenix Buttons */
 .btn-phoenix-atlis {
-  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
-  color: #fff;
-  border: none;
-  font-weight: 600;
-  box-shadow: 0 3px 8px 0 rgba(0, 148, 142, 0.10);
-  transition: background 0.18s, box-shadow 0.18s;
-}
-.btn-phoenix-atlis:hover,
-.btn-phoenix-atlis:focus {
-  background: linear-gradient(90deg, #007e78 0%, #00948E 100%);
-  color: #fff;
-  box-shadow: 0 4px 14px 0 rgba(0, 148, 142, 0.15);
+  --phoenix-btn-color: var(--atlis);
+  --phoenix-btn-bg: #f5f7fa;
+  --phoenix-btn-border-color: #e3e6ed;
+  --phoenix-btn-hover-color: var(--atlis-dark);
+  --phoenix-btn-hover-bg: #e3e6ed;
+  --phoenix-btn-hover-border-color: #e6e9ef;
+  --phoenix-btn-focus-shadow-rgb: 196, 226, 222;
+  --phoenix-btn-active-color: var(--atlis);
+  --phoenix-btn-active-bg: #e3e6ed;
+  --phoenix-btn-active-border-color: #e6e9ef;
+  --phoenix-btn-active-shadow: initial;
+  --phoenix-btn-disabled-color: #000;
+  --phoenix-btn-disabled-bg: #f5f7fa;
+  --phoenix-btn-disabled-border-color: #e3e6ed;
 }
 
 .btn-outline-phoenix-atlis {
-  color: #00948E;
-  border: 2px solid #00948E;
+  color: var(--atlis);
+  border: 2px solid var(--atlis);
   background: transparent;
   font-weight: 600;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s;
 }
 .btn-outline-phoenix-atlis:hover,
 .btn-outline-phoenix-atlis:focus {
-  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
-  color: #fff;
-  border-color: #00948E;
+  background: var(--atlis);
+  color: var(--atlis-text);
+  border-color: var(--atlis);
   box-shadow: 0 4px 14px 0 rgba(0, 148, 142, 0.15);
 }
 
 /* Phoenix Badges */
 .badge-phoenix-atlis {
-  background: linear-gradient(90deg, #00948E 0%, #00b1a5 100%);
-  color: #fff;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  letter-spacing: 0.03em;
-  box-shadow: 0 1px 5px 0 rgba(0, 148, 142, 0.10);
+  --phoenix-badge-bg: var(--atlis-light);
+  --phoenix-badge-color: var(--atlis-dark);
+  --phoenix-badge-border-color: var(--atlis-border);
 }
 .badge-outline-phoenix-atlis {
-  background: #fff;
-  color: #00948E;
-  border: 1.5px solid #00948E;
-  font-weight: 600;
-  border-radius: 0.5rem;
+  --phoenix-badge-bg: #fff;
+  --phoenix-badge-color: var(--atlis);
+  --phoenix-badge-border-color: var(--atlis);
 }
 
 /* Phoenix Alerts */

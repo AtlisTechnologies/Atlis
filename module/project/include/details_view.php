@@ -26,6 +26,29 @@ if (!empty($current_project)) {
     $chartDates = array_keys($chartData);
     $chartValues = array_values($chartData);
     $progress = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
+
+    $timelineEvents = [];
+    foreach ($tasks as $t) {
+        if (!empty($t['completed']) && !empty($t['complete_date'])) {
+            $timelineEvents[] = [
+                'type' => 'task',
+                'date' => $t['complete_date'],
+                'name' => $t['name'] ?? ''
+            ];
+        }
+    }
+    foreach ($notes as $n) {
+        $timelineEvents[] = [
+            'type' => 'note',
+            'date' => $n['date_created'] ?? '',
+            'note_text' => $n['note_text'] ?? '',
+            'user_name' => $n['user_name'] ?? '',
+            'profile_pic' => $n['profile_pic'] ?? ''
+        ];
+    }
+    usort($timelineEvents, function($a, $b) {
+        return strtotime($b['date']) <=> strtotime($a['date']);
+    });
 }
 ?>
 <?php if (!empty($current_project)): ?>
@@ -36,12 +59,26 @@ if (!empty($current_project)) {
         <div class="d-flex justify-content-between">
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
         </div>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?>">
-          <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
-        </span>
-        <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?>">
-          <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
-        </span>
+        <div class="dropdown d-inline me-2">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="statusBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="statusBadge">
+            <?php foreach ($statusMap as $sid => $s): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="status" data-value="<?= (int)$sid ?>" data-color="<?= h($s['color_class'] ?? 'secondary') ?>"><?= h($s['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <div class="dropdown d-inline">
+          <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="priorityBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
+          </span>
+          <ul class="dropdown-menu" aria-labelledby="priorityBadge">
+            <?php foreach ($priorityMap as $pid => $p): ?>
+              <li><a class="dropdown-item project-field-option" href="#" data-field="priority" data-value="<?= (int)$pid ?>" data-color="<?= h($p['color_class'] ?? 'secondary') ?>"><?= h($p['label'] ?? '') ?></a></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
       </div>
       <div class="row gx-0 gx-sm-5 gy-8 mb-8">
         <div class="col-12 pe-xl-0">
@@ -111,7 +148,7 @@ if (!empty($current_project)) {
                           <li class="d-flex align-items-center mb-2">
                             <div class="avatar avatar-xl me-2">
                               <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>">
-                                <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
+                                <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($au['profile_pic'] ?? '') ?>" alt="<?= h($au['name']) ?>" />
                               </a>
                             </div>
                             <div class="d-flex align-items-center flex-grow-1">
@@ -140,47 +177,81 @@ if (!empty($current_project)) {
                 </div>
                 <?php if (user_has_permission('project','create|update|delete')): ?>
                 <div class="px-4 px-lg-6 py-4">
-                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
-                    <div class="input-group">
-                      <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
-                      <input class="form-control" type="file" name="file" id="projectFileUpload" aria-describedby="projectFileUpload" aria-label="Upload" required>
-                      <button class="btn btn-success" type="submit">Upload New</button>
+                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php"}'>
+                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                    <input type="hidden" name="note_id" value="">
+                    <div class="fallback">
+                      <input type="file" name="file" multiple />
                     </div>
+                    <div class="dz-message" data-dz-message="data-dz-message">
+                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
+                    </div>
+                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column"></div>
                   </form>
                 </div>
                 <?php endif; ?>
 
-                <?php if (!empty($files)): ?>
-                  <?php foreach ($files as $f): ?>
-                  <div class="border-top px-4 px-lg-6 py-4">
-                    <div class="me-n3">
-                      <div class="d-flex flex-between-center">
-                        <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
-                          <p class="text-body-highlight mb-0 lh-1">
-                            <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                              <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
-                            <?php else: ?>
-                              <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                <?php if (!empty($files)):
+                  $imageFiles = [];
+                  $otherFiles = [];
+                  foreach ($files as $f) {
+                    if (strpos($f['file_type'], 'image/') === 0) {
+                      $imageFiles[] = $f;
+                    } else {
+                      $otherFiles[] = $f;
+                    }
+                  }
+                ?>
+                  <?php if (!empty($imageFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <div class="row g-3">
+                        <?php foreach ($imageFiles as $f): ?>
+                          <div class="col-6 col-md-4 col-lg-3 position-relative">
+                            <a href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="project-gallery">
+                              <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
+                            </a>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
                             <?php endif; ?>
-                          </p>
-                        </div>
-                        <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
-                        <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                          <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                          <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
-                        </form>
-                        <?php endif; ?>
+                          </div>
+                        <?php endforeach; ?>
                       </div>
-                      <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
-                      <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
-                          <img class="rounded-2 mt-2" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="" style="width:320px" />
-                        </a>
-                      <?php endif; ?>
                     </div>
-                  </div>
-                  <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (!empty($otherFiles)): ?>
+                    <?php foreach ($otherFiles as $f): ?>
+                      <div class="border-top px-4 px-lg-6 py-4">
+                        <div class="me-n3">
+                          <div class="d-flex flex-between-center">
+                            <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
+                              <p class="text-body-highlight mb-0 lh-1">
+                                <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                              </p>
+                            </div>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
+                            <?php endif; ?>
+                          </div>
+                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+
+                  <?php if (empty($imageFiles) && empty($otherFiles)): ?>
+                    <div class="border-top px-4 px-lg-6 py-4">
+                      <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
+                    </div>
+                  <?php endif; ?>
                 <?php else: ?>
                   <div class="border-top px-4 px-lg-6 py-4">
                     <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
@@ -211,9 +282,48 @@ if (!empty($current_project)) {
       </div>
     <?php endif; ?>
 
+    <?php if (!empty($timelineEvents)): ?>
+    <div class="card mb-5">
+      <div class="card-body">
+        <h4 class="text-body-highlight fw-bold mb-4">Timeline</h4>
+        <div class="timeline-vertical">
+          <?php foreach ($timelineEvents as $e): ?>
+          <div class="timeline-item position-relative">
+            <div class="row g-md-3 mb-4">
+              <div class="col-12 col-md-auto d-flex">
+                <div class="timeline-item-date order-1 order-md-0 me-md-4">
+                  <p class="fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end">
+                    <?= h(date('d M, Y', strtotime($e['date']))) ?><br class="d-none d-md-block" />
+                    <?= h(date('h:i A', strtotime($e['date']))) ?>
+                  </p>
+                </div>
+                <div class="timeline-item-bar position-md-relative me-3 me-md-0">
+                  <div class="icon-item icon-item-sm rounded-7 shadow-none <?= $e['type'] === 'task' ? 'bg-success-subtle' : 'bg-primary-subtle' ?>">
+                    <span class="fa-solid <?= $e['type'] === 'task' ? 'fa-check text-success-dark' : 'fa-note-sticky text-primary-dark' ?> fs-10"></span>
+                  </div><span class="timeline-bar border-end border-dashed"></span>
+                </div>
+              </div>
+              <div class="col">
+                <div class="timeline-item-content ps-6 ps-md-3">
+                  <?php if ($e['type'] === 'task'): ?>
+                    <p class="fs-9 lh-sm mb-1">Completed task: <?= h($e['name']) ?></p>
+                  <?php else: ?>
+                    <p class="fs-9 lh-sm mb-1"><?= nl2br(h($e['note_text'])) ?></p>
+                    <p class="fs-9 mb-0 d-flex align-items-center"><img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($e['profile_pic']) ?>" class="rounded-circle avatar avatar-m me-2" alt="" /><?= h($e['user_name']) ?></p>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+
     <div class="row">
       <div class="col-6 bg-light border-start border-top border-bottom">
-        <div class="p-4">
+        <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
           <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
           <div class="row align-items-center g-3 mb-3">
             <div class="col-sm-auto">
@@ -228,15 +338,22 @@ if (!empty($current_project)) {
               <div class="d-flex"><a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?= count($tasks) ?> tasks</a><a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a></div>
             </div>
           </div>
-          <div class="mb-4 todo-list">
+          <form id="taskQuickAdd" class="d-flex mb-3">
+            <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+            <input class="form-control me-2" type="text" name="name" placeholder="Quick add task" required>
+            <button class="btn btn-success" type="submit">Add</button>
+          </form>
+          <div class="mb-4 todo-list list" id="taskListContainer">
             <?php if (!empty($tasks)): ?>
               <?php foreach ($tasks as $t): ?>
+                <?php $overdue = (!empty($t['due_date']) && strtotime($t['due_date']) < time() && empty($t['completed'])); ?>
                 <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
                   <div class="col-12 col-md-auto flex-1">
                     <div>
                       <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
                         <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
-                        <span class="me-2 badge badge-phoenix fs-10 badge-phoenix-<?= h($t['status_color']) ?>"><?= h($t['status_label']) ?></span>
+                        <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-<?= h($t['status_color']) ?>" data-value="<?= (int)$t['status'] ?>"><?= h($t['status_label']) ?></span>
+                        <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
                         <?php if (!empty($t['assignees'])): ?>
                           <?php foreach ($t['assignees'] as $a): ?>
                             <img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
@@ -244,14 +361,14 @@ if (!empty($current_project)) {
                         <?php else: ?>
                           <span class="fa-regular fa-user text-body-tertiary me-1"></span>
                         <?php endif; ?>
-                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
+                        <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 col-md-auto">
                     <div class="d-flex ms-4 lh-1 align-items-center">
                       <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span><?= (int)($t['attachment_count'] ?? 0) ?></button>
-                      <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
+                      <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0 task-due<?= $overdue ? ' text-danger' : '' ?>"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
                     </div>
                   </div>
                 </div>
@@ -259,6 +376,16 @@ if (!empty($current_project)) {
             <?php else: ?>
               <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
             <?php endif; ?>
+          </div>
+          <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
+            <div class="col-auto d-flex">
+              <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
+            </div>
+            <div class="col-auto d-flex">
+              <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+              <ul class="mb-0 pagination"></ul>
+              <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+            </div>
           </div>
         </div>
       </div>
@@ -286,7 +413,7 @@ if (!empty($current_project)) {
                     <div class="timeline-item-content ps-6 ps-md-3">
                       <div class="border rounded-2 p-3">
                         <div class="d-flex">
-                          <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
+                          <p class="fs-9 lh-sm mb-1 flex-grow-1 note-text" data-note-id="<?= (int)$n['id'] ?>"><?= nl2br(h($n['note_text'])) ?></p>
                           <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
                           <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
                             <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
@@ -302,7 +429,7 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="note-<?= (int)$n['id'] ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
                                       <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
@@ -326,7 +453,7 @@ if (!empty($current_project)) {
           </div>
           <?php if (user_has_permission('project','create|update|delete')): ?>
           <div class="mt-4">
-            <form action="functions/add_note.php" method="post" enctype="multipart/form-data">
+            <form action="functions/add_note.php" method="post" enctype="multipart/form-data" id="addNoteForm">
               <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
               <div class="mb-3">
                 <textarea class="form-control" name="note" rows="3" placeholder="Add a new Note" required></textarea>
@@ -382,6 +509,7 @@ if (!empty($current_project)) {
 <?php endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  var projectId = <?= (int)$current_project['id'] ?>;
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
@@ -403,28 +531,145 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+  var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
+  var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
 
-  document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function(cb){
-    cb.addEventListener('click', function(e){ e.stopPropagation(); });
-    cb.addEventListener('change', function(){
-      var id = this.dataset.taskId;
-      var newState = this.checked ? 1 : 0;
-      var label = this.nextElementSibling;
-      fetch('../task/functions/toggle_complete.php', {
+  function htmlToElement(html){ var div=document.createElement('div'); div.innerHTML=html.trim(); return div.firstChild; }
+
+  function renderTask(t){
+    var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
+    var assignees='';
+    if(t.assignees){ t.assignees.forEach(function(a){ assignees += `<img src="<?php echo getURLDir(); ?>module/users/uploads/${a.profile_pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
+    var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
+    return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
+      <div class="col-12 col-md-auto flex-1">
+        <div>
+          <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
+            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" data-task-id="${t.id}" ${t.completed ? 'checked' : ''} />
+            <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-${t.status_color}" data-value="${t.status}">${t.status_label}</span>
+            <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-${t.priority_color}" data-value="${t.priority}">${t.priority_label}</span>
+            ${assignees}
+            <a class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name${t.completed ? ' text-decoration-line-through' : ''}" href="../task/index.php?action=details&id=${t.id}">${t.name}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-auto">
+        <div class="d-flex ms-4 lh-1 align-items-center">
+          <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span>${t.attachment_count || 0}</button>
+          <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0 task-due${overdue ? ' text-danger':''}">${due}</p>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function attachTaskEvents(row){
+    var cb = row.querySelector('input[type="checkbox"][data-task-id]');
+    if(cb){
+      cb.addEventListener('change', function(){
+        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0});
+        fetch('../task/functions/toggle_complete.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
+          .then(r=>r.json()).then(d=>{ if(d.success){ updateRow(row,d.task); } else { cb.checked=!cb.checked; } });
+      });
+    }
+    row.querySelectorAll('.task-status,.task-priority').forEach(function(b){
+      b.addEventListener('click', function(){
+        var field = b.classList.contains('task-status') ? 'status':'priority';
+        var opts = field==='status'?statusOptions:priorityOptions;
+        var select=document.createElement('select');
+        select.className='form-select form-select-sm';
+        opts.forEach(function(o){ var op=document.createElement('option'); op.value=o.id; op.textContent=o.label; if(o.id==b.dataset.value) op.selected=true; select.appendChild(op); });
+        b.replaceWith(select);
+        select.focus();
+        select.addEventListener('change', function(){
+          var params=new URLSearchParams({id: row.dataset.taskId}); params.append(field, this.value);
+          fetch('../task/functions/update.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params}).then(r=>r.json()).then(d=>{ if(d.success){ updateRow(row,d.task); } });
+        });
+        select.addEventListener('blur', function(){
+          var span=document.createElement('span');
+          span.className=b.className;
+          span.dataset.value=b.dataset.value;
+          span.textContent=b.textContent;
+          select.replaceWith(span);
+          attachTaskEvents(row);
+        });
+      });
+    });
+  }
+
+  function updateRow(oldRow, task){
+    if(task && task.id){
+      var newEl = htmlToElement(renderTask(task));
+      oldRow.replaceWith(newEl);
+      attachTaskEvents(newEl);
+    }
+  }
+
+  document.querySelectorAll('.task-row').forEach(attachTaskEvents);
+
+  var addForm = document.getElementById('taskQuickAdd');
+  if(addForm){
+    addForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var fd = new FormData(addForm); fd.append('ajax',1);
+      fetch('../task/functions/create.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+        if(d.success){
+          var el = htmlToElement(renderTask(d.task));
+          document.getElementById('taskListContainer').prepend(el);
+          attachTaskEvents(el);
+          addForm.reset();
+        }
+      });
+    });
+  }
+
+  var noteForm = document.getElementById('addNoteForm');
+  if(noteForm){
+    noteForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var fd=new FormData(noteForm);
+      fetch('functions/add_note.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+        if(d.success){
+          document.querySelector('.timeline-vertical').insertAdjacentHTML('afterbegin', renderNote(d.note));
+          noteForm.reset();
+        }
+      });
+    });
+  }
+
+  function renderNote(n){
+    var files='';
+    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"<?php echo getURLDir(); ?>${f.file_path}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
+    return `<div class=\"timeline-item position-relative\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"<?php echo getURLDir(); ?>module/users/uploads/${n.profile_pic??''}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
+  }
+
+  document.querySelectorAll('.note-text').forEach(function(p){
+    p.addEventListener('click', function(){
+      var id = this.dataset.noteId; var original = this.innerText; var textarea = document.createElement('textarea'); textarea.className='form-control'; textarea.value=original; this.replaceWith(textarea); textarea.focus(); textarea.addEventListener('blur', save); textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); textarea.blur(); }});
+      function save(){
+        fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); p.addEventListener('click', arguments.callee); });
+      }
+    });
+  });
+  document.querySelectorAll('.project-field-option').forEach(function(item){
+    item.addEventListener('click', function(e){
+      e.preventDefault();
+      var field = this.dataset.field;
+      var value = this.dataset.value;
+      var color = this.dataset.color;
+      fetch('functions/update_field.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ id: id, completed: newState })
+        body: new URLSearchParams({ project_id: projectId, field: field, value: value })
       }).then(response => response.json())
         .then(data => {
           if (data.success) {
-            this.checked = data.completed == 1;
-          } else {
-            this.checked = !newState;
+            var badge = document.getElementById(field + 'Badge');
+            if (badge) {
+              badge.textContent = this.textContent;
+              badge.className = 'badge badge-phoenix badge-phoenix-' + color + ' dropdown-toggle';
+            }
           }
-          label.classList.toggle('text-decoration-line-through', this.checked);
-        }).catch(() => {
-          this.checked = !newState;
-          label.classList.toggle('text-decoration-line-through', this.checked);
         });
     });
   });

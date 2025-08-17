@@ -4363,6 +4363,10 @@
       });
       const hasWizardModal = wizard.hasAttribute('data-wizard-modal-disabled');
 
+      if (wizardFooter) {
+        wizardFooter.classList.remove('d-none');
+      }
+
       const tabs = Array.from(tabToggleButtonEl).map(item => {
         return window.bootstrap.Tab.getOrCreateInstance(item);
       });
@@ -4436,10 +4440,6 @@
               if (j > 0) {
                 tabToggleButtonEl[j - 1].classList.remove('complete');
               }
-            }
-
-            if (wizardFooter) {
-              wizardFooter.classList.remove('d-none');
             }
 
             if (count === tabToggleButtonEl.length - 1) {
