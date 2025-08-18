@@ -865,6 +865,7 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 -- --------------------------------------------------------
 
 --
+-- Lookup lists used for default selections must include exactly one item with attr_code 'DEFAULT' and attr_value 'true'.
 -- Table structure for table `lookup_list_item_attributes`
 --
 
