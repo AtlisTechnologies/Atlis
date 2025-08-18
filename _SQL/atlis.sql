@@ -1177,7 +1177,7 @@ CREATE TABLE `person` (
   `user_id` int(11) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
-  `gender`  ENUM('Male','Female','Other') DEFAULT NULL,
+  `gender_id` int(11) DEFAULT NULL,
   `phone`   VARCHAR(25)                   DEFAULT NULL,
   `dob`     DATE                          DEFAULT NULL,
   `address` TEXT                          DEFAULT NULL,
@@ -1191,8 +1191,8 @@ CREATE TABLE `person` (
 -- Update existing `person` tables with new contact columns
 --
 -- ALTER TABLE `person`
---   ADD COLUMN `gender`  ENUM('Male','Female','Other') DEFAULT NULL AFTER `last_name`,
---   ADD COLUMN `phone`   VARCHAR(25)                   DEFAULT NULL AFTER `gender`,
+--   ADD COLUMN `gender_id` INT(11)                     DEFAULT NULL AFTER `last_name`,
+--   ADD COLUMN `phone`     VARCHAR(25)                 DEFAULT NULL AFTER `gender_id`,
 --   ADD COLUMN `dob`     DATE                          DEFAULT NULL AFTER `phone`,
 --   ADD COLUMN `address` TEXT                          DEFAULT NULL AFTER `dob`;
 
@@ -1201,7 +1201,7 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
 (2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
 (4, 3, 'Tyler', 'Jessop', NULL, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
