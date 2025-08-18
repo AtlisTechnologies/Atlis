@@ -16,7 +16,7 @@ function get_lookup_items(PDO $pdo, int|string $list): array {
 
     $sql = "SELECT li.id, li.label, li.code, li.code AS value,
                    COALESCE(color_attr.attr_value, 'secondary') AS color_class,
-                   CASE WHEN def_attr.attr_value = 'true' THEN 1 ELSE 0 END AS is_default
+                   COALESCE(def_attr.attr_value = 'true', 0) AS is_default
             FROM lookup_list_items li
             JOIN lookup_lists l ON li.list_id = l.id
             LEFT JOIN lookup_list_item_attributes color_attr
