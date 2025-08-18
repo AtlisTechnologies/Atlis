@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $taskStmt = $pdo->prepare(
       'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
       'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
-      'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
+      'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color, ' .
+      '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
       'FROM module_tasks t ' .
       'LEFT JOIN lookup_list_items ls ON t.status = ls.id ' .
       'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
@@ -49,12 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
     $taskStmt->execute([':id'=>$id]);
     $taskRow = $taskStmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    echo json_encode([
-      'success'      => true,
-      'completed'    => (int)$taskRow['completed'],
-      'status_label' => $taskRow['status_label'],
-      'status_color' => $taskRow['status_color']
-    ]);
+    if($taskRow){
+      $assignStmt = $pdo->prepare(
+        'SELECT ta.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name '
+        . 'FROM module_task_assignments ta '
+        . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
+        . 'LEFT JOIN person p ON u.id = p.user_id '
+        . 'WHERE ta.task_id = :id'
+      );
+      $assignStmt->execute([':id'=>$id]);
+      $taskRow['assignees'] = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    echo json_encode(['success'=>true,'task'=>$taskRow]);
     exit;
   }
 }
