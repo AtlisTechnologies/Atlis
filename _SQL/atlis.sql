@@ -1177,6 +1177,10 @@ CREATE TABLE `person` (
   `user_id` int(11) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
+  `gender`  ENUM('Male','Female','Other') DEFAULT NULL,
+  `phone`   VARCHAR(25)                   DEFAULT NULL,
+  `dob`     DATE                          DEFAULT NULL,
+  `address` TEXT                          DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -1184,13 +1188,23 @@ CREATE TABLE `person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Update existing `person` tables with new contact columns
+--
+-- ALTER TABLE `person`
+--   ADD COLUMN `gender`  ENUM('Male','Female','Other') DEFAULT NULL AFTER `last_name`,
+--   ADD COLUMN `phone`   VARCHAR(25)                   DEFAULT NULL AFTER `gender`,
+--   ADD COLUMN `dob`     DATE                          DEFAULT NULL AFTER `phone`,
+--   ADD COLUMN `address` TEXT                          DEFAULT NULL AFTER `dob`;
+
+
+--
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
-(2, 2, 'Sean', 'Cadina', 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
-(4, 3, 'Tyler', 'Jessop', 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
+(4, 3, 'Tyler', 'Jessop', NULL, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
 
 -- --------------------------------------------------------
 
