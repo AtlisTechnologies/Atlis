@@ -63,7 +63,7 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td class="id"><?= htmlspecialchars($r['id']); ?></td>
             <td class="name"><?= htmlspecialchars($r['name']); ?></td>
             <td class="description"><?= htmlspecialchars($r['description']); ?></td>
-            <td class="groups"><?= htmlspecialchars($r['groups']); ?></td>
+            <td class="groups"><?= htmlspecialchars($r['groups'] ?: '-'); ?></td>
             <td>
               <a class="btn btn-sm btn-warning" href="edit.php?id=<?= $r['id']; ?>">Edit</a>
               <form method="post" class="d-inline">

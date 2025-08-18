@@ -18,7 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die('Invalid CSRF token');
   }
   require_permission('roles','update');
-  $rolePerms = $_POST['grp'] ?? [];
+  // sanitize submitted group assignments
+  $rolePerms = [];
+  foreach(($_POST['grp'] ?? []) as $rid => $gids){
+    if(is_array($gids)){
+      $rolePerms[(int)$rid] = array_unique(array_map('intval',$gids));
+    }
+  }
   $roles = $pdo->query('SELECT id FROM admin_roles')->fetchAll(PDO::FETCH_COLUMN);
   foreach ($roles as $roleId) {
     $old = json_encode($currentMap[$roleId] ?? []);

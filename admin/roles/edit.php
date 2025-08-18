@@ -33,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   $name = trim($_POST['name'] ?? '');
   $description = trim($_POST['description'] ?? '');
-  $selectedGroups = array_map('intval', $_POST['groups'] ?? []);
+  // sanitize group ids and remove duplicates
+  $selectedGroups = array_unique(array_map('intval', $_POST['groups'] ?? []));
   if ($id) {
     $old = json_encode(['name' => $row['name'], 'description' => $row['description']]);
     $stmt = $pdo->prepare('UPDATE admin_roles SET name = :name, description = :description, user_updated = :uid WHERE id = :id');

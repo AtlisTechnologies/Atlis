@@ -51,12 +51,22 @@ function admin_audit_log($pdo, $userId, $table, $recordId, $action, $oldValue, $
   ]);
 }
 
-// Checks if current user has a permission
+// Checks if current user has a permission using permission-group relationships
 function user_has_permission($module, $action){
   global $pdo, $this_user_id, $this_user_type, $restricted_admin_ids;
+  static $cache = [];
+
+  // unrestricted admins bypass permission checks
   if($this_user_type === 'ADMIN' && !in_array($this_user_id, $restricted_admin_ids)){
     return true;
   }
+
+  // simple in-memory cache to avoid repeated queries per request
+  $key = $this_user_id.'|'.$module.'|'.$action;
+  if(isset($cache[$key])){
+    return $cache[$key];
+  }
+
   $sql = "SELECT 1 FROM admin_user_roles ur "
        . "JOIN admin_role_permission_groups rpg ON ur.role_id = rpg.role_id "
        . "JOIN admin_permission_group_permissions pgp ON rpg.permission_group_id = pgp.permission_group_id "
@@ -64,7 +74,8 @@ function user_has_permission($module, $action){
        . "WHERE ur.user_account_id = :uid AND p.module = :module AND p.action = :action";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([':uid' => $this_user_id, ':module' => $module, ':action' => $action]);
-  return (bool)$stmt->fetchColumn();
+  $cache[$key] = (bool)$stmt->fetchColumn();
+  return $cache[$key];
 }
 
 // Enforces permission check
