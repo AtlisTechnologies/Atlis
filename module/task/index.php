@@ -101,34 +101,47 @@ require_permission('task','read');
 
 $action = $_GET['action'] ?? 'list';
 
-$statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
-$priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
+$taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
+$taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
 
-  $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
-                             CONCAT(cp.first_name, " ", cp.last_name) AS completed_by_name,
-                             COALESCE(p_attr.attr_value, "secondary") AS priority_color,
-                             p.label AS priority_label,
-                             pr.name AS project_name,
-                             d.name AS division_name,
-                             a.name AS agency_name
-                      FROM module_tasks t
-                      LEFT JOIN module_projects pr ON t.project_id = pr.id
-                      LEFT JOIN module_division d ON t.division_id = d.id
-                      LEFT JOIN module_agency a ON t.agency_id = a.id
-                      LEFT JOIN lookup_list_items p ON t.priority = p.id
-                      LEFT JOIN lookup_lists pl ON p.list_id = pl.id AND pl.name = "TASK_PRIORITY"
-                      LEFT JOIN lookup_list_item_attributes p_attr
-                             ON p.id = p_attr.item_id AND p_attr.attr_code = "COLOR-CLASS"
-                      LEFT JOIN users cb ON t.completed_by = cb.id
-                      LEFT JOIN person cp ON cb.id = cp.user_id
-                      ORDER BY t.name');
+$stmt = $pdo->query(
+  'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+  'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
+  'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color, ' .
+  '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
+  'FROM module_tasks t ' .
+  'LEFT JOIN lookup_list_items ls ON t.status = ls.id ' .
+  'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
+  'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
+  'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
+  'ORDER BY t.status, t.due_date'
+);
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-foreach ($tasks as &$task) {
-  $status = $statusMap[$task['status']] ?? null;
-  $task['status_label'] = $status['label'] ?? null;
-  $task['status_color'] = $status['color_class'] ?? 'secondary';
+
+if ($tasks) {
+  $taskIds = array_column($tasks, 'id');
+  $placeholders = implode(',', array_fill(0, count($taskIds), '?'));
+  $taskAssignStmt = $pdo->prepare(
+    'SELECT ta.task_id, ta.assigned_user_id, u.profile_pic, CONCAT(per.first_name, " ", per.last_name) AS name '
+    . 'FROM module_task_assignments ta '
+    . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
+    . 'LEFT JOIN person per ON u.id = per.user_id '
+    . 'WHERE ta.task_id IN (' . $placeholders . ')'
+  );
+  $taskAssignStmt->execute($taskIds);
+  $taskAssignments = [];
+  foreach ($taskAssignStmt as $row) {
+    $taskAssignments[$row['task_id']][] = [
+      'assigned_user_id' => $row['assigned_user_id'],
+      'profile_pic'      => $row['profile_pic'],
+      'name'             => $row['name']
+    ];
+  }
+  foreach ($tasks as &$tTask) {
+    $tTask['assignees'] = $taskAssignments[$tTask['id']] ?? [];
+  }
+  unset($tTask);
 }
-unset($task);
 
 if ($action === 'details') {
   $task_id = (int)($_GET['id'] ?? 0);
