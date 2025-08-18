@@ -296,3 +296,8 @@ blockquote {
   text-decoration: line-through !important;
   text-decoration-color: #000 !important;
 }
+
+.task-name.text-decoration-line-through {
+  color: var(--atlis) !important;
+  text-decoration-color: #000 !important;
+}
