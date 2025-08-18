@@ -1035,8 +1035,8 @@ CREATE TABLE `module_projects` (
   `description` text DEFAULT NULL,
   `requirements` text DEFAULT NULL,
   `specifications` text DEFAULT NULL,
-  `status` varchar(11) DEFAULT NULL,
-  `priority` varchar(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0
@@ -1047,10 +1047,10 @@ CREATE TABLE `module_projects` (
 --
 
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
-(5, 1, 1, '2025-08-14 22:17:14', '2025-08-17 10:31:31', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', '29', '1', '2025-08-01', NULL, 0),
-(6, 1, 1, '2025-08-16 21:45:00', '2025-08-16 21:45:00', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', '55', NULL, '2025-08-19', NULL, 0),
-(7, 1, 1, '2025-08-16 21:45:29', '2025-08-16 21:45:29', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', '55', NULL, '0000-00-00', NULL, 0),
-(8, 1, 1, '2025-08-16 22:02:15', '2025-08-17 11:03:59', NULL, 1, 1, 'Dave', 'dave', 'dave', 'dave', '29', '57', '2025-08-14', NULL, 0);
+(5, 1, 1, '2025-08-14 22:17:14', '2025-08-17 10:31:31', NULL, 2, 2, 'Emailing Sealed Documents', 'Court Clerks should be able to send sealed documents to eDefender and eProsecutor.', 'Send sealed documents to eDef and ePros via email.', 'Defined later.', 29, 57, '2025-08-01', NULL, 0),
+(6, 1, 1, '2025-08-16 21:45:00', '2025-08-16 21:45:00', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', 55, NULL, '2025-08-19', NULL, 0),
+(7, 1, 1, '2025-08-16 21:45:29', '2025-08-16 21:45:29', NULL, 2, 2, 'Test', 'Test', 'Test', 'Test', 55, NULL, '0000-00-00', NULL, 0),
+(8, 1, 1, '2025-08-16 22:02:15', '2025-08-17 11:03:59', NULL, 1, 1, 'Dave', 'dave', 'dave', 'dave', 29, 57, '2025-08-14', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1950,7 +1950,9 @@ ALTER TABLE `module_division`
 --
 ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
-  ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`);
+  ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
+  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_projects_priority_id` FOREIGN KEY (`priority`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_projects_assignments`
