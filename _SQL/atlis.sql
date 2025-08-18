@@ -697,7 +697,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (10, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'PROJECT_STATUS', 'Status values for projects'),
 (11, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_STATUS', 'Status values for tasks'),
 (12, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_PRIORITY', 'Priority levels for tasks'),
-(14, 1, 1, '2025-08-17 11:02:46', '2025-08-17 11:02:46', '', 'PROJECT_PRIORITY', '');
+(14, 1, 1, '2025-08-17 11:02:46', '2025-08-17 11:02:46', '', 'PROJECT_PRIORITY', ''),
+(15, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_GENDER', 'Gender options for users');
 
 -- --------------------------------------------------------
 
@@ -758,7 +759,11 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (55, 1, 1, '2025-08-14 22:15:47', '2025-08-14 22:15:47', NULL, 10, 'Backlog', 'BACKLOG', 0, '2025-08-14', NULL),
 (56, 1, 1, '2025-08-17 11:02:58', '2025-08-17 11:02:58', NULL, 14, 'High', 'HIGH', 0, '2025-08-17', NULL),
 (57, 1, 1, '2025-08-17 11:03:02', '2025-08-17 11:03:02', NULL, 14, 'Medium', 'MEDIUM', 0, '2025-08-17', NULL),
-(58, 1, 1, '2025-08-17 11:03:06', '2025-08-17 11:03:06', NULL, 14, 'Low', 'LOW', 0, '2025-08-17', NULL);
+(58, 1, 1, '2025-08-17 11:03:06', '2025-08-17 11:03:06', NULL, 14, 'Low', 'LOW', 0, '2025-08-17', NULL),
+(59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Male', 'MALE', 1, '2025-08-18', NULL),
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Female', 'FEMALE', 2, '2025-08-18', NULL),
+(61, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Nonbinary', 'NONBINARY', 3, '2025-08-18', NULL),
+(62, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Other', 'OTHER', 4, '2025-08-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -1177,7 +1182,7 @@ CREATE TABLE `person` (
   `user_id` int(11) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
-  `gender`  ENUM('Male','Female','Other') DEFAULT NULL,
+  `gender_id` int(11) DEFAULT NULL,
   `phone`   VARCHAR(25)                   DEFAULT NULL,
   `dob`     DATE                          DEFAULT NULL,
   `address` TEXT                          DEFAULT NULL,
@@ -1188,23 +1193,29 @@ CREATE TABLE `person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Update existing `person` tables with new contact columns
+-- Replace gender enum with lookup-based `gender_id` and add contact columns
 --
 -- ALTER TABLE `person`
---   ADD COLUMN `gender`  ENUM('Male','Female','Other') DEFAULT NULL AFTER `last_name`,
---   ADD COLUMN `phone`   VARCHAR(25)                   DEFAULT NULL AFTER `gender`,
+--   ADD COLUMN `gender_id` INT(11) DEFAULT NULL AFTER `last_name`,
+--   ADD COLUMN `phone`   VARCHAR(25)                   DEFAULT NULL AFTER `gender_id`,
 --   ADD COLUMN `dob`     DATE                          DEFAULT NULL AFTER `phone`,
---   ADD COLUMN `address` TEXT                          DEFAULT NULL AFTER `dob`;
+--   ADD COLUMN `address` TEXT                          DEFAULT NULL AFTER `dob`,
+--   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
+--
+-- To migrate existing data:
+--   1. Create lookup list `USER_GENDER` with items (Male, Female, Nonbinary, Other).
+--   2. UPDATE `person` SET `gender_id` = (SELECT id FROM `lookup_list_items` WHERE `list_id` = <USER_GENDER_ID> AND `label` = `gender`);
+--   3. ALTER TABLE `person` DROP COLUMN `gender`;
 
 
 --
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
-(4, 3, 'Tyler', 'Jessop', NULL, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', 59, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
+(2, 2, 'Sean', 'Cadina', 59, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
+(4, 3, 'Tyler', 'Jessop', 59, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -1638,13 +1649,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -1805,6 +1816,12 @@ ALTER TABLE `lookup_list_items`
 ALTER TABLE `lookup_list_item_attributes`
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `person`
+--
+ALTER TABLE `person`
+  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_division`
