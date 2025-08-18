@@ -33,7 +33,7 @@
                 <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
                 <?php if (!empty($t['assignees'])): ?>
                   <?php foreach ($t['assignees'] as $a): ?>
-                    <img src="<? echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
+                    <img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
                   <?php endforeach; ?>
                 <?php else: ?>
                   <span class="fa-regular fa-user text-body-tertiary me-1"></span>
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderTask(t){
     var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
     var assignees = '';
-    if(t.assignees){ t.assignees.forEach(function(a){ assignees += `<img src="<? echo getURLDir(); ?>module/users/uploads/${a.profile_pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    if(t.assignees){ t.assignees.forEach(function(a){ assignees += `<img src="<?php echo getURLDir(); ?>module/users/uploads/${a.profile_pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
     return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
@@ -111,19 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
           .then(r=>r.json()).then(d=>{
             var isChecked = cb.checked;
             if(d.success){
-              isChecked = d.completed === 1;
-              var badge = row.querySelector('.task-status');
-              if(badge && d.status_label && d.status_color){
-                badge.textContent = d.status_label;
-                badge.className = `me-2 badge badge-phoenix fs-10 task-status badge-phoenix-${d.status_color}`;
+              if(d.task){
+                row = updateRow(row, d.task);
+                cb = row.querySelector('input[type="checkbox"][data-task-id]');
+                isChecked = d.task.completed == 1;
               }
             } else {
               isChecked = !cb.checked;
             }
-            cb.checked = isChecked;
+            if(cb){ cb.checked = isChecked; }
             var link = row.querySelector('.task-name');
             if(link){ link.classList.toggle('text-decoration-line-through', isChecked); }
-          }).catch(()=>{ cb.checked = !cb.checked; });
+          }).catch(()=>{ if(cb){ cb.checked = !cb.checked; } });
       });
     }
     row.querySelectorAll('.task-status,.task-priority').forEach(function(b){
@@ -157,7 +156,9 @@ document.addEventListener('DOMContentLoaded', function () {
       var newEl = htmlToElement(renderTask(task));
       oldRow.replaceWith(newEl);
       attachTaskEvents(newEl);
+      return newEl;
     }
+    return oldRow;
   }
 
   document.querySelectorAll('.task-row').forEach(attachTaskEvents);

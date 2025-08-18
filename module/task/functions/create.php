@@ -8,7 +8,10 @@ if($isAjax){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = $_POST['name'] ?? '';
+  $name = trim($_POST['name'] ?? '');
+  if ($name === '') {
+    $name = 'Task ' . bin2hex(random_bytes(2));
+  }
   $status = $_POST['status'] ?? null;
   $priority = $_POST['priority'] ?? null;
   $description = $_POST['description'] ?? null;
