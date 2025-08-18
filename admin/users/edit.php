@@ -41,7 +41,6 @@ $_SESSION['csrf_token'] = $token;
     <ul class="nav justify-content-between nav-wizard">
       <li class="nav-item"><a class="nav-link active fw-semibold" href="#tab-account" data-bs-toggle="tab" data-wizard-step="1"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Account</span></div></a></li>
       <li class="nav-item"><a class="nav-link fw-semibold" href="#tab-personal" data-bs-toggle="tab" data-wizard-step="2"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Personal</span></div></a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#tab-billing" data-bs-toggle="tab" data-wizard-step="3"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-file-alt"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Billing</span></div></a></li>
       <li class="nav-item"><a class="nav-link fw-semibold" href="#tab-done" data-bs-toggle="tab" data-wizard-step="4"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-check"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Done</span></div></a></li>
     </ul>
   </div>
@@ -98,30 +97,6 @@ $_SESSION['csrf_token'] = $token;
         <div class="mb-3">
           <label class="form-label">Address</label>
           <textarea name="address" class="form-control" rows="3"><?php echo htmlspecialchars($address); ?></textarea>
-        </div>
-      </div>
-      <div class="tab-pane" id="tab-billing" role="tabpanel">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Card Number</label>
-            <input type="text" name="card_number" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Cardholder Name</label>
-            <input type="text" name="card_name" class="form-control">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">ZIP</label>
-            <input type="text" name="card_zip" class="form-control">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Expiry</label>
-            <input type="text" name="card_expiry" class="form-control" placeholder="MM/YY">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">CVV</label>
-            <input type="text" name="card_cvv" class="form-control">
-          </div>
         </div>
       </div>
       <div class="tab-pane" id="tab-done" role="tabpanel">
