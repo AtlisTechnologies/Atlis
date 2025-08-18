@@ -118,17 +118,17 @@ document.addEventListener('DOMContentLoaded', function () {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ id: taskId, completed: newState, status: originalStatus })
       }).then(response => response.json())
-        .then(data => {
+        .then(({ success, completed, status_label, status_color }) => {
           let isChecked = newState;
-          if (data.success) {
-            isChecked = data.completed == 1;
-            if (badge && data.status_label && data.status_color) {
-              badge.textContent = data.status_label;
-              badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.status_color} me-2`;
+          if (success) {
+            isChecked = completed === 1;
+            if (badge && status_label && status_color) {
+              badge.textContent = status_label;
+              badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${status_color} me-2`;
             }
             const item = todoList.items.find(i => i.elm.dataset.taskId === taskId);
-            if (item && data.status_label) {
-              item.values({ status: data.status_label });
+            if (item && status_label) {
+              item.values({ status: status_label });
             }
           } else {
             isChecked = !newState;
