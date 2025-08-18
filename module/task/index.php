@@ -103,7 +103,7 @@ $action = $_GET['action'] ?? 'list';
 $statusMap = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
 $priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
-$stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
+  $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
                              CONCAT(cp.first_name, " ", cp.last_name) AS completed_by_name,
                              COALESCE(p_attr.attr_value, "secondary") AS priority_color,
                              p.label AS priority_label,
@@ -115,6 +115,7 @@ $stmt = $pdo->query('SELECT t.id, t.name, t.status, t.priority, t.completed,
                       LEFT JOIN module_division d ON t.division_id = d.id
                       LEFT JOIN module_agency a ON t.agency_id = a.id
                       LEFT JOIN lookup_list_items p ON t.priority = p.id
+                      LEFT JOIN lookup_lists pl ON p.list_id = pl.id AND pl.name = "TASK_PRIORITY"
                       LEFT JOIN lookup_list_item_attributes p_attr
                              ON p.id = p_attr.item_id AND p_attr.attr_code = "COLOR-CLASS"
                       LEFT JOIN users cb ON t.completed_by = cb.id
