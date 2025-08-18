@@ -1,9 +1,8 @@
 <?php
-// Div-based task list view using Phoenix todo-list structure
-$completedCount = array_sum(array_column($tasks, 'completed'));
+// Task list view using project layout
 ?>
-<div class="mb-9" id="todoList" data-list='{"valueNames":["task-name","status","priority"]}'>
-  <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(Total: <span id="total-count"><?php echo count($tasks); ?></span> | Completed: <span id="completed-count"><?php echo $completedCount; ?></span>)</span></h2>
+<div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
+  <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
     <div class="col-sm-auto">
       <div class="search-box">
@@ -14,197 +13,171 @@ $completedCount = array_sum(array_column($tasks, 'completed'));
       </div>
     </div>
     <div class="col-sm-auto">
-      <div class="d-flex">
-        <select class="form-select form-select-sm" id="filter-status">
-          <option value="">All Statuses</option>
-          <?php foreach ($statusMap as $status): ?>
-            <option value="<?php echo h($status['label']); ?>"><?php echo h($status['label']); ?></option>
-          <?php endforeach; ?>
-        </select>
-        <select class="form-select form-select-sm ms-2" id="filter-priority">
-          <option value="">All Priorities</option>
-          <?php foreach ($priorityMap as $priority): ?>
-            <option value="<?php echo h($priority['label']); ?>"><?php echo h($priority['label']); ?></option>
-          <?php endforeach; ?>
-        </select>
-        <select class="form-select form-select-sm ms-2" id="sort-select">
-          <option value="task-name">Sort by Name</option>
-          <option value="priority">Sort by Priority</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-sm-auto ms-auto">
-      <a href="index.php?action=create" class="btn btn-success btn-sm">New Task</a>
+      <div class="d-flex"><a class="btn btn-link p-0 ms-sm-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-filter me-1 fw-extra-bold fs-10"></span><?= count($tasks) ?> tasks</a><a class="btn btn-link p-0 ms-3 fs-9 text-body-tertiary fw-bold" href="#!"><span class="fas fa-sort me-1 fw-extra-bold fs-10"></span>Sorting</a></div>
     </div>
   </div>
-  <div class="mb-4 todo-list list">
-    <?php foreach ($tasks as $task): ?>
-      <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?php echo (int)$task['id']; ?>">
-        <div class="col-auto">
-          <button type="button" class="btn btn-warning btn-sm edit-task-btn me-2" data-task-id="<?php echo (int)$task['id']; ?>">Edit</button>
-        </div>
-        <div class="col-auto d-flex align-items-center fw-bold me-2">
-          <?php echo (int)$task['id']; ?>
-        </div>
-        <div class="col-12 col-md flex-1 position-relative" style="z-index:1;">
-          <div>
-            <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
-              <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?php echo (int)$task['id']; ?>" data-task-id="<?php echo (int)$task['id']; ?>" data-original-status="<?php echo (int)$task['status']; ?>" <?php echo (!empty($task['completed']) ? 'checked' : ''); ?> onclick="event.stopPropagation();" />
-              <span class="badge badge-phoenix fs-10 status-badge status badge-phoenix-<?php echo h($task['status_color'] ?? 'secondary'); ?> me-2"><?php echo h($task['status_label'] ?? ''); ?></span>
-              <a href="index.php?action=details&amp;id=<?php echo (int)$task['id']; ?>" class="mb-0 fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 fw-bold task-name-link task-name<?php echo (!empty($task['completed']) ? ' text-decoration-line-through' : ''); ?>"><?php echo h($task['name'] ?? ''); ?></a>
+  <form id="taskQuickAdd" class="d-flex mb-3">
+    <input class="form-control me-2" type="text" name="name" placeholder="Quick add task" required>
+    <button class="btn btn-success" type="submit">Add</button>
+  </form>
+  <div class="mb-4 todo-list list" id="taskListContainer">
+    <?php if (!empty($tasks)): ?>
+      <?php foreach ($tasks as $t): ?>
+        <?php $overdue = (!empty($t['due_date']) && strtotime($t['due_date']) < time() && empty($t['completed'])); ?>
+        <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
+          <div class="col-12 col-md-auto flex-1">
+            <div>
+              <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
+                <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
+                <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-<?= h($t['status_color']) ?>" data-value="<?= (int)$t['status'] ?>"><?= h($t['status_label']) ?></span>
+                <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
+                <?php if (!empty($t['assignees'])): ?>
+                  <?php foreach ($t['assignees'] as $a): ?>
+                    <img src="<? echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <span class="fa-regular fa-user text-body-tertiary me-1"></span>
+                <?php endif; ?>
+                <a class="mb-0 fw-bold fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
+              </div>
             </div>
-            <span class="badge badge-phoenix fs-10 priority-badge priority badge-phoenix-<?php echo h($task['priority_color'] ?? 'secondary'); ?>"><?php echo h($task['priority_label'] ?? ''); ?></span>
-            <?php $hierarchy = $task['project_name'] ?? $task['division_name'] ?? $task['agency_name'] ?? ''; ?>
-            <?php if ($hierarchy): ?>
-              <span class="badge badge-phoenix fs-10 badge-phoenix-dark me-2 ms-2"><?php echo h($hierarchy); ?></span>
-            <?php endif; ?>
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="d-flex ms-4 lh-1 align-items-center">
+              <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span><?= (int)($t['attachment_count'] ?? 0) ?></button>
+              <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0 task-due<?= $overdue ? ' text-danger' : '' ?>"><?= !empty($t['due_date']) ? h(date('d M, Y', strtotime($t['due_date']))) : '' ?></p>
+            </div>
           </div>
         </div>
-      </div>
-    <?php endforeach; ?>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p class="fs-9 text-body-secondary mb-0">No tasks found.</p>
+    <?php endif; ?>
   </div>
-</div>
-
-<div class="modal fade" id="taskEditModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content"></div>
+  <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
+    <div class="col-auto d-flex">
+      <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
+    </div>
+    <div class="col-auto d-flex">
+      <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+      <ul class="mb-0 pagination"></ul>
+      <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+    </div>
   </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const todoList = new List('todoList', { valueNames: ['task-name', 'status', 'priority'] });
+  var taskList = new List('taskList', { valueNames: ['task-name','task-status','task-priority','task-due'], page: 10, pagination: true });
 
-  const statusFilter = document.getElementById('filter-status');
-  const priorityFilter = document.getElementById('filter-priority');
-  const sortSelect = document.getElementById('sort-select');
+  var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
+  var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
 
-  function applyFilters() {
-    const s = statusFilter.value;
-    const p = priorityFilter.value;
-    todoList.filter(item => {
-      const v = item.values();
-      const statusMatch = !s || v.status === s;
-      const priorityMatch = !p || v.priority === p;
-      return statusMatch && priorityMatch;
+  function htmlToElement(html){ var div=document.createElement('div'); div.innerHTML=html.trim(); return div.firstChild; }
+
+  function renderTask(t){
+    var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
+    var assignees = '';
+    if(t.assignees){ t.assignees.forEach(function(a){ assignees += `<img src="<? echo getURLDir(); ?>module/users/uploads/${a.profile_pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
+    var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
+    return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
+      <div class="col-12 col-md-auto flex-1">
+        <div>
+          <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
+            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" data-task-id="${t.id}" ${t.completed ? 'checked' : ''} />
+            <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-${t.status_color}" data-value="${t.status}">${t.status_label}</span>
+            <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-${t.priority_color}" data-value="${t.priority}">${t.priority_label}</span>
+            ${assignees}
+            <a class="mb-0 fw-bold fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name${t.completed ? ' text-decoration-line-through' : ''}" href="index.php?action=details&id=${t.id}">${t.name}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-auto">
+        <div class="d-flex ms-4 lh-1 align-items-center">
+          <button class="btn btn-link p-0 text-body-tertiary fs-10 me-2"><span class="fas fa-paperclip me-1"></span>${t.attachment_count || 0}</button>
+          <p class="text-body-tertiary fs-10 mb-md-0 me-2 me-md-3 mb-0 task-due${overdue ? ' text-danger' : ''}">${due}</p>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function attachTaskEvents(row){
+    var cb = row.querySelector('input[type="checkbox"][data-task-id]');
+    if(cb){
+      cb.addEventListener('change', function(){
+        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0});
+        fetch('functions/toggle_complete.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
+          .then(r=>r.json()).then(d=>{
+            var isChecked = cb.checked;
+            if(d.success){
+              isChecked = d.completed === 1;
+              var badge = row.querySelector('.task-status');
+              if(badge && d.status_label && d.status_color){
+                badge.textContent = d.status_label;
+                badge.className = `me-2 badge badge-phoenix fs-10 task-status badge-phoenix-${d.status_color}`;
+              }
+            } else {
+              isChecked = !cb.checked;
+            }
+            cb.checked = isChecked;
+            var link = row.querySelector('.task-name');
+            if(link){ link.classList.toggle('text-decoration-line-through', isChecked); }
+          }).catch(()=>{ cb.checked = !cb.checked; });
+      });
+    }
+    row.querySelectorAll('.task-status,.task-priority').forEach(function(b){
+      b.addEventListener('click', function(){
+        var field = b.classList.contains('task-status') ? 'status':'priority';
+        var opts = field==='status'?statusOptions:priorityOptions;
+        var select=document.createElement('select');
+        select.className='form-select form-select-sm';
+        opts.forEach(function(o){ var op=document.createElement('option'); op.value=o.id; op.textContent=o.label; if(o.id==b.dataset.value) op.selected=true; select.appendChild(op); });
+        b.replaceWith(select);
+        select.focus();
+        select.addEventListener('change', function(){
+          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value});
+          fetch('functions/update_field.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
+            .then(r=>r.json()).then(d=>{ if(d.success && d.task){ updateRow(row,d.task); } });
+        });
+        select.addEventListener('blur', function(){
+          var span=document.createElement('span');
+          span.className=b.className;
+          span.dataset.value=b.dataset.value;
+          span.textContent=b.textContent;
+          select.replaceWith(span);
+          attachTaskEvents(row);
+        });
+      });
     });
   }
 
-  statusFilter.addEventListener('change', applyFilters);
-  priorityFilter.addEventListener('change', applyFilters);
+  function updateRow(oldRow, task){
+    if(task && task.id){
+      var newEl = htmlToElement(renderTask(task));
+      oldRow.replaceWith(newEl);
+      attachTaskEvents(newEl);
+    }
+  }
 
-  sortSelect.addEventListener('change', function () {
-    todoList.sort(this.value);
-  });
+  document.querySelectorAll('.task-row').forEach(attachTaskEvents);
 
-  todoList.on('updated', function (list) {
-    document.getElementById('total-count').textContent = list.matchingItems.length;
-    const completed = list.matchingItems.filter(item => item.elm.querySelector('input[type="checkbox"]').checked).length;
-    document.getElementById('completed-count').textContent = completed;
-  });
-
-  document.querySelectorAll('.todo-list input[type="checkbox"][data-task-id]').forEach(function (checkbox) {
-    checkbox.addEventListener('click', function (event) {
-      event.stopPropagation();
+  var addForm = document.getElementById('taskQuickAdd');
+  if(addForm){
+    addForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var fd = new FormData(addForm); fd.append('ajax',1);
+      fetch('functions/create.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+        if(d.success && d.task){
+          var el = htmlToElement(renderTask(d.task));
+          document.getElementById('taskListContainer').prepend(el);
+          attachTaskEvents(el);
+          addForm.reset();
+          taskList.add({ 'task-name': d.task.name, 'task-status': d.task.status_label, 'task-priority': d.task.priority_label, 'task-due': d.task.due_date ? d.task.due_date : '' }, el);
+        }
+      });
     });
-    checkbox.addEventListener('change', function () {
-      const taskId = this.dataset.taskId;
-      const newState = this.checked ? 1 : 0;
-      const originalStatus = this.dataset.originalStatus;
-      const link = this.closest('.form-check').querySelector('.task-name-link');
-      const badge = this.closest('.form-check').querySelector('.status-badge');
-      fetch('functions/toggle_complete.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ id: taskId, completed: newState, status: originalStatus })
-      }).then(response => response.json())
-        .then(({ success, completed, status_label, status_color }) => {
-          let isChecked = newState;
-          if (success) {
-            isChecked = completed === 1;
-            if (badge && status_label && status_color) {
-              badge.textContent = status_label;
-              badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${status_color} me-2`;
-            }
-            const item = todoList.items.find(i => i.elm.dataset.taskId === taskId);
-            if (item && status_label) {
-              item.values({ status: status_label });
-            }
-          } else {
-            isChecked = !newState;
-          }
-          link.classList.toggle('text-decoration-line-through', isChecked);
-          applyFilters();
-          this.checked = isChecked;
-        }).catch(() => {
-          const isChecked = !newState;
-          this.checked = isChecked;
-          link.classList.toggle('text-decoration-line-through', isChecked);
-        });
-    });
-  });
-
-  document.querySelectorAll('.todo-list .edit-task-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (event) {
-      event.stopPropagation();
-      const id = this.dataset.taskId;
-      fetch('index.php?action=create-edit&id=' + id + '&modal=1')
-        .then(response => response.text())
-        .then(html => {
-          const modalEl = document.getElementById('taskEditModal');
-          modalEl.querySelector('.modal-content').innerHTML = html;
-          const form = modalEl.querySelector('form');
-          if (form) { form.action = 'index.php?action=save'; }
-          const modal = new bootstrap.Modal(modalEl);
-          modal.show();
-        });
-    });
-  });
-
-  document.querySelectorAll('.todo-list .task-name-link').forEach(function (link) {
-    link.addEventListener('click', function (event) {
-      event.stopPropagation();
-    });
-  });
-
-  document.querySelectorAll('.status-select').forEach(function (select) {
-    select.addEventListener('change', function () {
-      const row = this.closest('.task-row');
-      const taskId = row.dataset.taskId;
-      fetch('functions/update_field.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ id: taskId, field: 'status', value: this.value })
-      }).then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            const badge = row.querySelector('.status-badge');
-            badge.textContent = data.label;
-            badge.className = `badge badge-phoenix fs-10 status-badge status badge-phoenix-${data.color} me-2`;
-            todoList.update();
-          }
-        });
-    });
-  });
-
-  document.querySelectorAll('.priority-select').forEach(function (select) {
-    select.addEventListener('change', function () {
-      const row = this.closest('.task-row');
-      const taskId = row.dataset.taskId;
-      fetch('functions/update_field.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ id: taskId, field: 'priority', value: this.value })
-      }).then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            const badge = row.querySelector('.priority-badge');
-            badge.textContent = data.label;
-            badge.className = `badge badge-phoenix fs-10 priority-badge priority badge-phoenix-${data.color}`;
-            todoList.update();
-          }
-        });
-    });
-  });
+  }
 });
 </script>
+
