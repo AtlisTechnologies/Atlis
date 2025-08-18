@@ -139,7 +139,7 @@ if (!empty($current_project)) {
                     <div class="d-flex align-items-center mb-4">
                       <h4 class="text-body-emphasis mb-0 me-2">Assigned</h4>
                       <?php if (user_has_permission('project','create|update|delete')): ?>
-                        <button class="btn btn-sm btn-outline-atlis" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+                        <button class="btn btn-sm btn-success" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
                       <?php endif; ?>
                     </div>
                     <?php if (!empty($assignedUsers)): ?>
@@ -157,7 +157,7 @@ if (!empty($current_project)) {
                                 <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                                   <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                   <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                                  <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-xmark"></span></button>
+                                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-xmark"></span></button>
                                 </form>
                               <?php endif; ?>
                             </div>
@@ -235,14 +235,14 @@ if (!empty($current_project)) {
                       <div class="row g-3">
                         <?php foreach ($imageFiles as $f): ?>
                           <div class="col-6 col-md-4 col-lg-3 position-relative">
-                            <a href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="project-gallery">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
                               <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
                             </a>
                             <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
                               <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
                                 <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                               </form>
 
                             <?php endif; ?>
@@ -259,14 +259,14 @@ if (!empty($current_project)) {
                           <div class="d-flex flex-between-center">
                             <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
                               <p class="text-body-highlight mb-0 lh-1">
-                                <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                               </p>
                             </div>
                             <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
                               <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
                                 <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                               </form>
                             <?php endif; ?>
                           </div>
@@ -409,7 +409,7 @@ if (!empty($current_project)) {
                           <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
                             <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
                             <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                            <button class="p-0 text-danger bg-transparent border-0" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                           </form>
                           <?php endif; ?>
                         </div>
@@ -420,9 +420,9 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-gallery="note-<?= (int)$n['id'] ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
-                                      <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
                                   </p>
                                 </div>
@@ -631,7 +631,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderNote(n){
     var files='';
-    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"<?php echo getURLDir(); ?>${f.file_path}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
+    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#imageModal\" data-img-src=\"<?php echo getURLDir(); ?>${f.file_path}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
     return `<div class=\"timeline-item position-relative\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"<?php echo getURLDir(); ?>module/users/uploads/${n.profile_pic??''}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
   }
 
