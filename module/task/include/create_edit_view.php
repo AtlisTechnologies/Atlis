@@ -15,7 +15,19 @@ $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
     <label class="form-label">Status</label>
     <select name="status" class="form-select">
       <?php foreach ($statusMap as $id => $status): ?>
-        <option value="<?php echo h($id); ?>" <?php if (($current_task['status'] ?? '') == $id) echo 'selected'; ?>><?php echo h($status['label']); ?></option>
+        <?php
+          $selected = '';
+          if ($editing) {
+            if (($current_task['status'] ?? '') == $id) {
+              $selected = 'selected';
+            }
+          } else {
+            if (!empty($status['is_default'])) {
+              $selected = 'selected';
+            }
+          }
+        ?>
+        <option value="<?php echo h($id); ?>" <?php echo $selected; ?>><?php echo h($status['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -23,7 +35,19 @@ $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
     <label class="form-label">Priority</label>
     <select name="priority" class="form-select">
       <?php foreach ($priorityMap as $id => $priority): ?>
-        <option value="<?php echo h($id); ?>" <?php if (($current_task['priority'] ?? '') == $id) echo 'selected'; ?>><?php echo h($priority['label']); ?></option>
+        <?php
+          $selected = '';
+          if ($editing) {
+            if (($current_task['priority'] ?? '') == $id) {
+              $selected = 'selected';
+            }
+          } else {
+            if (!empty($priority['is_default'])) {
+              $selected = 'selected';
+            }
+          }
+        ?>
+        <option value="<?php echo h($id); ?>" <?php echo $selected; ?>><?php echo h($priority['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -33,4 +57,3 @@ $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
   </div>
   <button type="submit" class="btn <?php echo $editing ? 'btn-atlis' : 'btn-success'; ?>"><?php echo $editing ? 'Update' : 'Create'; ?></button>
 </form>
-
