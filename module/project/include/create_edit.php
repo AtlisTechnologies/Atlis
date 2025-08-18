@@ -20,10 +20,19 @@ require_permission('project','create');
       </div>
       <div class="col-sm-6 col-md-4">
         <div class="form-floating">
+          <?php
+            $hasStatusDefault = false;
+            foreach ($statusMap as $s) {
+              if (!empty($s['is_default'])) {
+                $hasStatusDefault = true;
+                break;
+              }
+            }
+          ?>
           <select class="form-select" id="projectStatus" name="status" required>
-            <option value="" selected>Select status</option>
+            <option value="" <?= $hasStatusDefault ? '' : 'selected'; ?>>Select status</option>
             <?php foreach ($statusMap as $s): ?>
-              <option value="<?= h($s['id']); ?>"><?= h($s['label']); ?></option>
+              <option value="<?= h($s['id']); ?>" <?= !empty($s['is_default']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
           <label for="projectStatus">Status</label>
