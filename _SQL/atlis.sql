@@ -1192,30 +1192,17 @@ CREATE TABLE `person` (
   `memo` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Replace gender enum with lookup-based `gender_id` and add contact columns
---
--- ALTER TABLE `person`
---   ADD COLUMN `gender_id` INT(11) DEFAULT NULL AFTER `last_name`,
---   ADD COLUMN `phone`   VARCHAR(25)                   DEFAULT NULL AFTER `gender_id`,
---   ADD COLUMN `dob`     DATE                          DEFAULT NULL AFTER `phone`,
---   ADD COLUMN `address` TEXT                          DEFAULT NULL AFTER `dob`,
---   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
---
--- To migrate existing data:
---   1. Create lookup list `USER_GENDER` with items (Male, Female, Nonbinary, Other).
---   2. UPDATE `person` SET `gender_id` = (SELECT id FROM `lookup_list_items` WHERE `list_id` = <USER_GENDER_ID> AND `label` = `gender`);
---   3. ALTER TABLE `person` DROP COLUMN `gender`;
-
 
 --
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', 59, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
-(2, 2, 'Sean', 'Cadina', 59, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
-(4, 3, 'Tyler', 'Jessop', 59, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
+
+(1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
+(4, 3, 'Tyler', 'Jessop', NULL, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
+
 
 -- --------------------------------------------------------
 
