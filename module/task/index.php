@@ -71,6 +71,7 @@ if ($action === 'create' || $action === 'edit') {
 }
 
 if ($action === 'create-edit' && isset($_GET['modal'])) {
+  $isModal = true;
   $id = (int)($_GET['id'] ?? 0);
   if ($id) {
     require_permission('task', 'update');
