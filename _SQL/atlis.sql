@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2025 at 10:21 PM
+-- Generation Time: Aug 18, 2025 at 03:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -189,15 +189,15 @@ CREATE TABLE `admin_permission_groups` (
 --
 
 INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
-(1,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,'Users','Permissions for managing users'),
-(2,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,'People','Permissions for managing people'),
-(3,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,'Agencies','Permissions for managing agencies'),
-(4,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Roles','Permissions for managing roles'),
-(5,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Organization','Permissions for managing organizations'),
-(6,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,'Division','Permissions for managing divisions'),
-(7,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,'System Properties','Permissions for system properties'),
-(8,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,'Projects','Permissions for managing projects'),
-(9,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,'Tasks','Permissions for managing tasks');
+(1, 1, 1, '2025-08-06 16:07:50', '2025-08-08 22:17:06', NULL, 'Users', 'Permissions for managing users'),
+(2, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:06', NULL, 'People', 'Permissions for managing people'),
+(3, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:06', NULL, 'Agencies', 'Permissions for managing agencies'),
+(4, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'Roles', 'Permissions for managing roles'),
+(5, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'Organization', 'Permissions for managing organizations'),
+(6, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'Division', 'Permissions for managing divisions'),
+(7, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'System Properties', 'Permissions for system properties'),
+(8, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Projects', 'Permissions for managing projects'),
+(9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks');
 
 -- --------------------------------------------------------
 
@@ -221,42 +221,42 @@ CREATE TABLE `admin_permission_group_permissions` (
 --
 
 INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `permission_group_id`, `permission_id`) VALUES
-(1,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,1),
-(2,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,2),
-(3,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,3),
-(4,1,1,'2025-08-06 16:07:50','2025-08-08 22:17:06',NULL,1,4),
-(5,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,5),
-(6,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,6),
-(7,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,7),
-(8,1,1,'2025-08-06 16:07:59','2025-08-08 22:17:06',NULL,2,8),
-(9,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,9),
-(10,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,10),
-(11,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,11),
-(12,1,1,'2025-08-06 19:39:18','2025-08-08 22:17:06',NULL,3,12),
-(13,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,13),
-(14,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,14),
-(15,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,15),
-(16,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,4,16),
-(17,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,17),
-(18,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,18),
-(19,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,19),
-(20,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,5,20),
-(21,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,21),
-(22,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,22),
-(23,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,23),
-(24,1,1,'2025-08-06 21:16:21','2025-08-08 22:17:06',NULL,6,24),
-(25,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,25),
-(26,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,26),
-(27,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,27),
-(28,1,1,'2025-08-12 19:38:17','2025-08-12 19:38:17',NULL,7,28),
-(29,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,29),
-(30,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,30),
-(31,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,31),
-(32,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,8,32),
-(33,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,33),
-(34,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,34),
-(35,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,35),
-(36,1,1,'2025-08-14 00:00:00','2025-08-14 00:00:00',NULL,9,36);
+(1, 1, 1, '2025-08-06 16:07:50', '2025-08-08 22:17:06', NULL, 1, 1),
+(2, 1, 1, '2025-08-06 16:07:50', '2025-08-08 22:17:06', NULL, 1, 2),
+(3, 1, 1, '2025-08-06 16:07:50', '2025-08-08 22:17:06', NULL, 1, 3),
+(4, 1, 1, '2025-08-06 16:07:50', '2025-08-08 22:17:06', NULL, 1, 4),
+(5, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:06', NULL, 2, 5),
+(6, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:06', NULL, 2, 6),
+(7, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:06', NULL, 2, 7),
+(8, 1, 1, '2025-08-06 16:07:59', '2025-08-08 22:17:06', NULL, 2, 8),
+(9, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:06', NULL, 3, 9),
+(10, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:06', NULL, 3, 10),
+(11, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:06', NULL, 3, 11),
+(12, 1, 1, '2025-08-06 19:39:18', '2025-08-08 22:17:06', NULL, 3, 12),
+(13, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 4, 13),
+(14, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 4, 14),
+(15, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 4, 15),
+(16, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 4, 16),
+(17, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 5, 17),
+(18, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 5, 18),
+(19, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 5, 19),
+(20, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 5, 20),
+(21, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 6, 21),
+(22, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 6, 22),
+(23, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 6, 23),
+(24, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 6, 24),
+(25, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 7, 25),
+(26, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 7, 26),
+(27, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 7, 27),
+(28, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 7, 28),
+(29, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 29),
+(30, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 30),
+(31, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 31),
+(32, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 8, 32),
+(33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 33),
+(34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 34),
+(35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 35),
+(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 36);
 
 -- --------------------------------------------------------
 
@@ -287,7 +287,7 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 
 -- --------------------------------------------------------
 
-
+--
 -- Table structure for table `admin_role_permissions`
 --
 
@@ -307,34 +307,34 @@ CREATE TABLE `admin_role_permissions` (
 --
 
 INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
-(1,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,1),
-(2,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,2),
-(3,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,3),
-(4,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,4),
-(5,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,5),
-(6,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,6),
-(7,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,7),
-(8,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,8),
-(9,1,1,'2025-08-17 14:19:36','2025-08-17 14:19:36',NULL,1,9),
-(10,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,1),
-(11,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,2),
-(12,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,3),
-(13,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,4),
-(14,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,5),
-(15,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,6),
-(16,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,7),
-(17,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,8),
-(18,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,10,9),
-(19,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,1),
-(20,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,2),
-(21,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,3),
-(22,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,4),
-(23,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,5),
-(24,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,6),
-(25,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,7),
-(26,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,8),
-(27,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,11,9),
-(28,1,1,'2025-08-17 14:19:37','2025-08-17 14:19:37',NULL,12,9);
+(1, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 1),
+(2, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 2),
+(3, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 3),
+(4, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 4),
+(5, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 5),
+(6, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 6),
+(7, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 7),
+(8, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 8),
+(9, 1, 1, '2025-08-17 14:19:36', '2025-08-17 14:19:36', NULL, 1, 9),
+(10, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 1),
+(11, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 2),
+(12, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 3),
+(13, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 4),
+(14, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 5),
+(15, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 6),
+(16, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 7),
+(17, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 8),
+(18, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 10, 9),
+(19, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 1),
+(20, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 2),
+(21, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 3),
+(22, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 4),
+(23, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 5),
+(24, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 6),
+(25, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 7),
+(26, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 8),
+(27, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 9),
+(28, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 9);
 
 -- --------------------------------------------------------
 
@@ -624,7 +624,45 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (236, 1, 1, '2025-08-17 11:03:53', '2025-08-17 11:03:53', NULL, 'module_projects', 8, 'UPDATE', 'Updated status to 29'),
 (237, 1, 1, '2025-08-17 11:03:55', '2025-08-17 11:03:55', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 58'),
 (238, 1, 1, '2025-08-17 11:03:57', '2025-08-17 11:03:57', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 58'),
-(239, 1, 1, '2025-08-17 11:03:59', '2025-08-17 11:03:59', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 57');
+(239, 1, 1, '2025-08-17 11:03:59', '2025-08-17 11:03:59', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 57'),
+(240, 1, 1, '2025-08-17 18:49:32', '2025-08-17 18:49:32', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(241, 1, 1, '2025-08-17 18:49:34', '2025-08-17 18:49:34', NULL, 'module_tasks', 11, 'UPDATE', 'Completed task'),
+(242, 1, 1, '2025-08-17 18:50:04', '2025-08-17 18:50:04', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
+(243, 1, 1, '2025-08-17 18:50:04', '2025-08-17 18:50:04', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
+(244, 1, 1, '2025-08-17 18:50:05', '2025-08-17 18:50:05', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(245, 1, 1, '2025-08-17 18:50:06', '2025-08-17 18:50:06', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
+(246, 1, 1, '2025-08-17 18:50:18', '2025-08-17 18:50:18', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
+(247, 1, 1, '2025-08-17 18:50:19', '2025-08-17 18:50:19', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
+(248, 1, 1, '2025-08-17 18:50:20', '2025-08-17 18:50:20', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(249, 1, 1, '2025-08-17 18:50:20', '2025-08-17 18:50:20', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(250, 1, 1, '2025-08-17 19:03:19', '2025-08-17 19:03:19', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
+(251, 1, 1, '2025-08-17 19:03:20', '2025-08-17 19:03:20', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
+(252, 1, 1, '2025-08-17 19:03:20', '2025-08-17 19:03:20', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
+(253, 1, 1, '2025-08-17 19:03:24', '2025-08-17 19:03:24', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(254, 1, 1, '2025-08-17 19:03:25', '2025-08-17 19:03:25', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(255, 1, 1, '2025-08-17 19:03:26', '2025-08-17 19:03:26', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(256, 1, 1, '2025-08-17 19:03:28', '2025-08-17 19:03:28', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
+(257, 1, 1, '2025-08-17 19:03:29', '2025-08-17 19:03:29', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
+(258, 1, 1, '2025-08-17 19:09:08', '2025-08-17 19:09:08', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(259, 1, 1, '2025-08-17 19:09:08', '2025-08-17 19:09:08', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(260, 1, 1, '2025-08-17 19:09:11', '2025-08-17 19:09:11', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(261, 1, 1, '2025-08-17 19:09:12', '2025-08-17 19:09:12', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
+(262, 1, 1, '2025-08-17 19:09:15', '2025-08-17 19:09:15', NULL, 'module_tasks', 15, 'UPDATE', 'Updated task'),
+(263, 1, 1, '2025-08-17 19:09:16', '2025-08-17 19:09:16', NULL, 'module_tasks', 16, 'UPDATE', 'Updated task'),
+(264, 1, 1, '2025-08-17 19:09:18', '2025-08-17 19:09:18', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
+(265, 1, 1, '2025-08-17 19:09:19', '2025-08-17 19:09:19', NULL, 'module_tasks', 18, 'UPDATE', 'Marked task incomplete'),
+(266, 1, 1, '2025-08-17 19:09:20', '2025-08-17 19:09:20', NULL, 'module_tasks', 19, 'UPDATE', 'Marked task incomplete'),
+(267, 1, 1, '2025-08-17 19:09:20', '2025-08-17 19:09:20', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(268, 1, 1, '2025-08-17 19:09:21', '2025-08-17 19:09:21', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
+(269, 1, 1, '2025-08-17 19:09:21', '2025-08-17 19:09:21', NULL, 'module_tasks', 4, 'UPDATE', 'Marked task incomplete'),
+(270, 1, 1, '2025-08-17 19:09:22', '2025-08-17 19:09:22', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
+(271, 1, 1, '2025-08-17 19:09:25', '2025-08-17 19:09:25', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
+(272, 1, 1, '2025-08-17 19:09:25', '2025-08-17 19:09:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
+(273, 1, 1, '2025-08-17 19:09:27', '2025-08-17 19:09:27', NULL, 'module_tasks', 10, 'UPDATE', 'Updated task'),
+(274, 1, 1, '2025-08-17 19:09:29', '2025-08-17 19:09:29', NULL, 'module_tasks', 9, 'UPDATE', 'Updated task'),
+(275, 1, 1, '2025-08-17 19:09:31', '2025-08-17 19:09:31', NULL, 'module_tasks', 8, 'UPDATE', 'Updated task'),
+(276, 1, 1, '2025-08-17 19:09:33', '2025-08-17 19:09:33', NULL, 'module_tasks', 4, 'UPDATE', 'Updated task'),
+(277, 1, 1, '2025-08-17 19:13:35', '2025-08-17 19:13:35', NULL, 'module_tasks', 11, 'UPDATE', 'Updated task');
 
 -- --------------------------------------------------------
 
@@ -1016,22 +1054,22 @@ CREATE TABLE `module_tasks` (
 
 INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
 (1, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:11', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(2, 1, 1, '2025-08-14 22:21:21', '2025-08-17 00:13:21', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 10:35:54', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-08-17', 1, 1, 100),
-(4, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:13:14', NULL, 5, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', '39', NULL, '2025-03-25', '2025-08-17', 1, 1, 100),
+(2, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:20', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:21', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(4, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:33', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-25', NULL, 0, NULL, 0),
 (6, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:00', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
 (7, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:49', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
-(8, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:00:14', NULL, 5, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', '38', NULL, '2025-03-27', '2025-08-17', 1, 1, 100),
-(9, 1, 1, '2025-08-14 22:21:21', '2025-08-17 00:13:20', NULL, 5, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:15:27', NULL, 5, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '34', '39', NULL, '2025-04-01', '2025-08-17', 1, 1, 100),
-(11, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:13:23', NULL, 5, 2, 2, 'Report K Update', NULL, NULL, NULL, '34', '39', NULL, NULL, NULL, 0, NULL, 0),
+(8, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:31', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-27', NULL, 0, NULL, 0),
+(9, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:29', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-27', NULL, 0, NULL, 0),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:27', NULL, 5, 2, 2, '', NULL, NULL, NULL, '33', NULL, NULL, '2025-04-01', NULL, 0, NULL, 0),
+(11, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:13:35', NULL, 5, 2, 2, '', NULL, NULL, NULL, NULL, '38', NULL, NULL, '2025-08-17', 1, 1, 100),
 (12, 1, 1, '2025-08-14 22:21:21', '2025-08-16 23:26:38', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, NULL, 0),
-(13, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:15:23', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '34', '39', NULL, NULL, '2025-08-17', 1, 1, 100),
-(15, 1, 1, '2025-08-14 22:21:21', '2025-08-17 01:00:28', NULL, 5, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(16, 1, 1, '2025-08-14 22:21:21', '2025-08-17 00:13:20', NULL, 5, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '34', '38', NULL, NULL, NULL, 0, NULL, 0),
+(13, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:03:28', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '34', '39', NULL, NULL, '2025-08-17', 1, 1, 100),
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:15', NULL, 5, 2, 2, '', NULL, NULL, NULL, '33', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(16, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:16', NULL, 5, 2, 2, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
 (17, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 8, 1, 2, 'test', NULL, NULL, NULL, '35', '40', NULL, NULL, NULL, 0, NULL, 0),
-(18, 1, 1, '2025-08-17 01:17:08', '2025-08-17 10:36:55', NULL, 5, NULL, NULL, 'Test', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 10:36:52', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(18, 1, 1, '2025-08-17 01:17:08', '2025-08-17 19:09:19', NULL, 5, NULL, NULL, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 19:09:20', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, 0, NULL, 0),
 (20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100);
 
 -- --------------------------------------------------------
@@ -1581,7 +1619,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -1700,6 +1738,8 @@ ALTER TABLE `users_2fa`
 --
 -- Constraints for dumped tables
 --
+
+--
 -- Constraints for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
@@ -1719,8 +1759,8 @@ ALTER TABLE `admin_permission_group_permissions`
 -- Constraints for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  ADD CONSTRAINT `fk_admin_role_permissions_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_role_permissions_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_role_permissions_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_role_permissions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_role_permissions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
@@ -1813,3 +1853,8 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
