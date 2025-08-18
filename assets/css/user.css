@@ -289,3 +289,10 @@ blockquote {
     margin: 1.5em .7rem;
     padding: .5em .7rem;
 }
+
+/* Override global strikethrough styling */
+.text-decoration-line-through {
+  color: var(--atlis) !important;
+  text-decoration: line-through !important;
+  text-decoration-color: #000 !important;
+}
