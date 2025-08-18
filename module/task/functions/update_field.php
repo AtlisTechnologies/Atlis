@@ -14,16 +14,23 @@ if ($id > 0 && in_array($field, ['status','priority'], true)) {
     ':uid' => $this_user_id,
     ':id' => $id
   ]);
-
-  $lookupStmt = $pdo->prepare("SELECT li.label, COALESCE(attr.attr_value, :default_color) AS color_class FROM lookup_list_items li LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS' WHERE li.id = :id LIMIT 1");
-  $lookupStmt->execute([':id' => $value, ':default_color' => $field === 'priority' ? 'primary' : 'secondary']);
-  $row = $lookupStmt->fetch(PDO::FETCH_ASSOC) ?: [];
   audit_log($pdo, $this_user_id, 'module_tasks', $id, 'UPDATE', 'Updated task ' . $field);
-  echo json_encode([
-    'success' => true,
-    'label' => $row['label'] ?? '',
-    'color' => $row['color_class'] ?? ($field === 'priority' ? 'primary' : 'secondary')
-  ]);
+
+  $taskStmt = $pdo->prepare(
+    'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+    'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
+    'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
+    'FROM module_tasks t ' .
+    'LEFT JOIN lookup_list_items ls ON t.status = ls.id ' .
+    'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
+    'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
+    'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
+    'WHERE t.id = :id'
+  );
+  $taskStmt->execute([':id' => $id]);
+  $taskRow = $taskStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+  echo json_encode(['success' => true, 'task' => $taskRow]);
   exit;
 }
 

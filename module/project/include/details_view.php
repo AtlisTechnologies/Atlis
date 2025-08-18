@@ -573,8 +573,9 @@ document.addEventListener('DOMContentLoaded', function () {
         b.replaceWith(select);
         select.focus();
         select.addEventListener('change', function(){
-          var params=new URLSearchParams({id: row.dataset.taskId}); params.append(field, this.value);
-          fetch('../task/functions/update.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params}).then(r=>r.json()).then(d=>{ if(d.success){ updateRow(row,d.task); } });
+          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value});
+          fetch('../task/functions/update_field.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
+            .then(r=>r.json()).then(d=>{ if(d.success && d.task){ updateRow(row,d.task); } });
         });
         select.addEventListener('blur', function(){
           var span=document.createElement('span');
