@@ -1272,7 +1272,6 @@ CREATE TABLE `users` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email_verified` tinyint(1) DEFAULT 0,
@@ -1286,10 +1285,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `username`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-16 17:30:14'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', 'USER', 1, NULL),
-(3, 1, 1, '2025-08-17 11:08:14', '2025-08-17 11:08:43', NULL, 'Soup@AtlisTechnologies.com', 'Soup@AtlisTechnologies.com', '$2y$10$WjasGZyR9C55WNVRikeptOAsPDTwXFTA.Jp5PDdIHwUqusfTjReaO', 0, NULL, 'USER', 1, NULL);
+INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-16 17:30:14'),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', 'USER', 1, NULL),
+(3, 1, 1, '2025-08-17 11:08:14', '2025-08-17 11:08:43', NULL, 'Soup@AtlisTechnologies.com', '$2y$10$WjasGZyR9C55WNVRikeptOAsPDTwXFTA.Jp5PDdIHwUqusfTjReaO', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
