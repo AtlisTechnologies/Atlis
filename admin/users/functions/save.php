@@ -16,8 +16,13 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
  $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
  $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
  $password = $_POST['password'] ?? '';
+ $confirm = $_POST['confirmPassword'] ?? '';
  $first_name = trim($_POST['first_name'] ?? '');
  $last_name = trim($_POST['last_name'] ?? '');
+ $gender = trim($_POST['gender'] ?? '');
+ $phone = trim($_POST['phone'] ?? '');
+ $dob = $_POST['dob'] ?? '';
+ $address = trim($_POST['address'] ?? '');
  $memo = $_POST['memo'] ?? null;
 
  $errors = [];
@@ -34,6 +39,9 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
 
 if (!$id && $password === '') {
   $errors[] = 'Password required';
+}
+if ($password !== '' && $password !== $confirm) {
+  $errors[] = 'Passwords do not match';
 }
 
 if ($errors) {
@@ -71,36 +79,61 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
   }
 }
 
- if ($id) {
-   $fields = 'email = :email, memo = :memo, user_updated = :uid';
-   $params = [
-     ':email' => $email,
-     ':memo' => $memo,
-     ':uid' => $this_user_id,
-     ':id' => $id
-   ];
-   if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
-   if ($profilePath) { $fields .= ', profile_pic = :pic'; $params[':pic'] = $profilePath; }
-   $sql = 'UPDATE users SET ' . $fields . ' WHERE id = :id';
-   $stmt = $pdo->prepare($sql);
-   $stmt->execute($params);
+ try {
+   $profileCols = $pdo->query('SHOW COLUMNS FROM person')->fetchAll(PDO::FETCH_COLUMN);
+   $hasGender = in_array('gender', $profileCols, true);
+   $hasPhone = in_array('phone', $profileCols, true);
+   $hasDob = in_array('dob', $profileCols, true);
+   $hasAddress = in_array('address', $profileCols, true);
 
-   $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, user_updated = :uid WHERE user_id = :uid_fk');
-   $pstmt->execute([':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id, ':uid_fk' => $id]);
- } else {
-   $sql = 'INSERT INTO users (user_id, user_updated, email, password, profile_pic, memo) VALUES (:uid, :uid, :email, :password, :pic, :memo)';
-   $stmt = $pdo->prepare($sql);
-   $stmt->execute([
-     ':uid' => $this_user_id,
-     ':email' => $email,
-     ':password' => $hash,
-     ':pic' => $profilePath,
-     ':memo' => $memo
-   ]);
-   $id = $pdo->lastInsertId();
+   if ($id) {
+     $fields = 'email = :email, memo = :memo, user_updated = :uid';
+     $params = [
+       ':email' => $email,
+       ':memo' => $memo,
+       ':uid' => $this_user_id,
+       ':id' => $id
+     ];
+     if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
+     if ($profilePath) { $fields .= ', profile_pic = :pic'; $params[':pic'] = $profilePath; }
+     $sql = 'UPDATE users SET ' . $fields . ' WHERE id = :id';
+     $stmt = $pdo->prepare($sql);
+     $stmt->execute($params);
 
-   $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, user_updated) VALUES (:uid_fk, :fn, :ln, :uid)');
-   $pstmt->execute([':uid_fk' => $id, ':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id]);
+     $pfields = ['first_name = :fn', 'last_name = :ln', 'user_updated = :uid'];
+     $pparams = [':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id, ':uid_fk' => $id];
+     if ($hasGender) { $pfields[] = 'gender = :gender'; $pparams[':gender'] = $gender; }
+     if ($hasPhone) { $pfields[] = 'phone = :phone'; $pparams[':phone'] = $phone; }
+     if ($hasDob) { $pfields[] = 'dob = :dob'; $pparams[':dob'] = $dob ?: null; }
+     if ($hasAddress) { $pfields[] = 'address = :address'; $pparams[':address'] = $address; }
+     $pstmt = $pdo->prepare('UPDATE person SET ' . implode(', ', $pfields) . ' WHERE user_id = :uid_fk');
+     $pstmt->execute($pparams);
+   } else {
+     $sql = 'INSERT INTO users (user_id, user_updated, email, password, profile_pic, memo) VALUES (:uid, :uid, :email, :password, :pic, :memo)';
+     $stmt = $pdo->prepare($sql);
+     $stmt->execute([
+       ':uid' => $this_user_id,
+       ':email' => $email,
+       ':password' => $hash,
+       ':pic' => $profilePath,
+       ':memo' => $memo
+     ]);
+     $id = $pdo->lastInsertId();
+
+     $cols = ['user_id','first_name','last_name','user_updated'];
+     $vals = [':uid_fk',':fn',':ln',':uid'];
+     $pparams = [':uid_fk' => $id, ':fn' => $first_name, ':ln' => $last_name, ':uid' => $this_user_id];
+     if ($hasGender) { $cols[] = 'gender'; $vals[] = ':gender'; $pparams[':gender'] = $gender; }
+     if ($hasPhone) { $cols[] = 'phone'; $vals[] = ':phone'; $pparams[':phone'] = $phone; }
+     if ($hasDob) { $cols[] = 'dob'; $vals[] = ':dob'; $pparams[':dob'] = $dob ?: null; }
+     if ($hasAddress) { $cols[] = 'address'; $vals[] = ':address'; $pparams[':address'] = $address; }
+     $pstmt = $pdo->prepare('INSERT INTO person (' . implode(',', $cols) . ') VALUES (' . implode(',', $vals) . ')');
+     $pstmt->execute($pparams);
+   }
+
+   $_SESSION['message'] = $id ? 'User updated.' : 'User created.';
+ } catch (Exception $e) {
+   $_SESSION['message'] = 'Error saving user.';
  }
 
  header('Location: ../index.php');
