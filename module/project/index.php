@@ -43,8 +43,8 @@ $sql = "SELECT p.id,
                a.name AS agency_name,
                d.name AS division_name,
                COUNT(t.id) AS total_tasks,
-               SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress,
-               SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks
+               SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks,
+               SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
