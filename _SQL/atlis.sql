@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2025 at 03:15 AM
+-- Generation Time: Aug 18, 2025 at 11:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -106,7 +106,16 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (57, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 1, 'SYNC', 'Updated role permissions', '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
 (58, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 10, 'SYNC', 'Updated role permissions', '[]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
 (59, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 11, 'SYNC', 'Updated role permissions', '[]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
-(60, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 12, 'SYNC', 'Updated role permissions', '[]', '[33,34,35]');
+(60, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 12, 'SYNC', 'Updated role permissions', '[]', '[33,34,35]'),
+(61, 1, 1, '2025-08-17 22:17:28', '2025-08-17 22:17:28', NULL, 'person', 4, 'DELETE', 'Deleted person', NULL, NULL),
+(62, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[]', '[3,6,5,2,8,4,7,9,1]'),
+(63, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(64, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(65, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(66, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9]', '[3,6,5,2,8,4,7,9,1]'),
+(67, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[]', '[3,6,5,2,8,9]'),
+(68, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[]', '[8,9]'),
+(69, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[8,9]');
 
 -- --------------------------------------------------------
 
@@ -335,6 +344,48 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (26, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 8),
 (27, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 9),
 (28, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_role_permission_groups`
+--
+
+CREATE TABLE `admin_role_permission_groups` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `role_id` int(11) NOT NULL,
+  `permission_group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_role_permission_groups`
+--
+
+INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
+(10, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 3),
+(11, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 6),
+(12, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 5),
+(13, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 2),
+(14, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 8),
+(15, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 4),
+(16, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 7),
+(17, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 9),
+(18, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 1),
+(19, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 3),
+(20, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 6),
+(21, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 5),
+(22, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 2),
+(23, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 8),
+(24, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 9),
+(25, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 8),
+(26, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 9),
+(27, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 8),
+(28, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 9);
 
 -- --------------------------------------------------------
 
@@ -662,7 +713,50 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (274, 1, 1, '2025-08-17 19:09:29', '2025-08-17 19:09:29', NULL, 'module_tasks', 9, 'UPDATE', 'Updated task'),
 (275, 1, 1, '2025-08-17 19:09:31', '2025-08-17 19:09:31', NULL, 'module_tasks', 8, 'UPDATE', 'Updated task'),
 (276, 1, 1, '2025-08-17 19:09:33', '2025-08-17 19:09:33', NULL, 'module_tasks', 4, 'UPDATE', 'Updated task'),
-(277, 1, 1, '2025-08-17 19:13:35', '2025-08-17 19:13:35', NULL, 'module_tasks', 11, 'UPDATE', 'Updated task');
+(277, 1, 1, '2025-08-17 19:13:35', '2025-08-17 19:13:35', NULL, 'module_tasks', 11, 'UPDATE', 'Updated task'),
+(278, 1, 1, '2025-08-17 21:14:43', '2025-08-17 21:14:43', NULL, 'lookup_list_items', 62, 'DELETE', 'Deleted lookup list item'),
+(279, 1, 1, '2025-08-17 21:14:45', '2025-08-17 21:14:45', NULL, 'lookup_list_items', 61, 'DELETE', 'Deleted lookup list item'),
+(280, 1, 1, '2025-08-17 22:21:54', '2025-08-17 22:21:54', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
+(281, 1, 1, '2025-08-17 22:21:57', '2025-08-17 22:21:57', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(282, 1, 1, '2025-08-17 22:23:52', '2025-08-17 22:23:52', NULL, 'lookup_list_item_attributes', 14, 'DELETE', 'Deleted item attribute'),
+(283, 1, 1, '2025-08-17 22:23:55', '2025-08-17 22:23:55', NULL, 'lookup_list_items', 33, 'DELETE', 'Deleted lookup list item'),
+(284, 1, 1, '2025-08-17 22:24:01', '2025-08-17 22:24:01', NULL, 'lookup_list_item_attributes', 33, 'UPDATE', 'Updated item attribute'),
+(285, 1, 1, '2025-08-17 22:24:09', '2025-08-17 22:24:09', NULL, 'lookup_list_item_attributes', 27, 'UPDATE', 'Updated item attribute'),
+(286, 1, 1, '2025-08-17 22:24:26', '2025-08-17 22:24:26', NULL, 'lookup_list_item_attributes', 37, 'CREATE', 'Created item attribute'),
+(287, 1, 1, '2025-08-17 22:24:39', '2025-08-17 22:24:39', NULL, 'lookup_list_item_attributes', 38, 'CREATE', 'Created item attribute'),
+(288, 1, 1, '2025-08-17 22:24:53', '2025-08-17 22:24:53', NULL, 'lookup_list_item_attributes', 39, 'CREATE', 'Created item attribute'),
+(289, 1, 1, '2025-08-17 22:25:11', '2025-08-17 22:25:11', NULL, 'lookup_list_item_attributes', 32, 'UPDATE', 'Updated item attribute'),
+(290, 1, 1, '2025-08-17 22:25:14', '2025-08-17 22:25:14', NULL, 'lookup_list_item_attributes', 11, 'UPDATE', 'Updated item attribute'),
+(291, 1, 1, '2025-08-17 22:25:20', '2025-08-17 22:25:20', NULL, 'lookup_list_item_attributes', 40, 'CREATE', 'Created item attribute'),
+(292, 1, 1, '2025-08-17 22:25:33', '2025-08-17 22:25:33', NULL, 'lookup_list_item_attributes', 41, 'CREATE', 'Created item attribute'),
+(293, 1, 1, '2025-08-17 22:25:45', '2025-08-17 22:25:45', NULL, 'lookup_list_item_attributes', 42, 'CREATE', 'Created item attribute'),
+(294, 1, 1, '2025-08-17 22:25:59', '2025-08-17 22:25:59', NULL, 'lookup_list_item_attributes', 43, 'CREATE', 'Created item attribute'),
+(295, 1, 1, '2025-08-17 22:26:05', '2025-08-17 22:26:05', NULL, 'lookup_list_item_attributes', 44, 'CREATE', 'Created item attribute'),
+(296, 1, 1, '2025-08-17 22:26:21', '2025-08-17 22:26:21', NULL, 'lookup_list_items', 63, 'CREATE', 'Created lookup list item'),
+(297, 1, 1, '2025-08-17 22:26:30', '2025-08-17 22:26:30', NULL, 'lookup_list_item_attributes', 45, 'CREATE', 'Created item attribute'),
+(298, 1, 1, '2025-08-17 22:26:34', '2025-08-17 22:26:34', NULL, 'lookup_list_item_attributes', 46, 'CREATE', 'Created item attribute'),
+(299, 1, 1, '2025-08-17 22:26:47', '2025-08-17 22:26:47', NULL, 'lookup_list_item_attributes', 47, 'CREATE', 'Created item attribute'),
+(300, 1, 1, '2025-08-17 22:26:56', '2025-08-17 22:26:56', NULL, 'lookup_list_item_attributes', 31, 'DELETE', 'Deleted item attribute'),
+(301, 1, 1, '2025-08-17 22:26:59', '2025-08-17 22:26:59', NULL, 'lookup_list_item_attributes', 48, 'CREATE', 'Created item attribute'),
+(302, 1, 1, '2025-08-17 22:27:07', '2025-08-17 22:27:07', NULL, 'lookup_list_item_attributes', 49, 'CREATE', 'Created item attribute'),
+(303, 1, 1, '2025-08-17 22:27:26', '2025-08-17 22:27:26', NULL, 'lookup_list_item_attributes', 49, 'UPDATE', 'Updated item attribute'),
+(304, 1, 1, '2025-08-17 22:27:30', '2025-08-17 22:27:30', NULL, 'lookup_list_item_attributes', 50, 'CREATE', 'Created item attribute'),
+(305, 1, 1, '2025-08-17 22:27:39', '2025-08-17 22:27:39', NULL, 'lookup_list_item_attributes', 51, 'CREATE', 'Created item attribute'),
+(306, 1, 1, '2025-08-17 22:27:44', '2025-08-17 22:27:44', NULL, 'lookup_list_item_attributes', 52, 'CREATE', 'Created item attribute'),
+(307, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 'lookup_list_item_attributes', 53, 'CREATE', 'Created item attribute'),
+(308, 1, 1, '2025-08-17 22:28:37', '2025-08-17 22:28:37', NULL, 'module_tasks', 19, 'UPDATE', 'Completed task'),
+(309, 1, 1, '2025-08-17 22:28:37', '2025-08-17 22:28:37', NULL, 'module_tasks', 19, 'UPDATE', 'Marked task incomplete'),
+(310, 1, 1, '2025-08-17 22:28:40', '2025-08-17 22:28:40', NULL, 'module_tasks', 19, 'UPDATE', 'Updated task status'),
+(311, 1, 1, '2025-08-17 22:28:42', '2025-08-17 22:28:42', NULL, 'module_tasks', 19, 'UPDATE', 'Completed task'),
+(312, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, 'module_tasks', 21, 'CREATE', 'Created task'),
+(313, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, 'module_tasks', 22, 'CREATE', 'Created task'),
+(314, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, 'module_tasks', 23, 'CREATE', 'Created task'),
+(315, 1, 1, '2025-08-18 14:33:18', '2025-08-18 14:33:18', NULL, 'module_tasks', 24, 'CREATE', 'Created task'),
+(316, 1, 1, '2025-08-18 15:29:37', '2025-08-18 15:29:37', NULL, 'lookup_lists', 16, 'CREATE', 'Created lookup list'),
+(317, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', NULL, 'lookup_lists', 17, 'CREATE', 'Created lookup list'),
+(318, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', NULL, 'lookup_lists', 18, 'CREATE', 'Created lookup list'),
+(319, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', NULL, 'lookup_lists', 19, 'CREATE', 'Created lookup list'),
+(320, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', NULL, 'lookup_lists', 20, 'CREATE', 'Created lookup list');
 
 -- --------------------------------------------------------
 
@@ -698,7 +792,12 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (11, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_STATUS', 'Status values for tasks'),
 (12, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_PRIORITY', 'Priority levels for tasks'),
 (14, 1, 1, '2025-08-17 11:02:46', '2025-08-17 11:02:46', '', 'PROJECT_PRIORITY', ''),
-(15, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_GENDER', 'Gender options for users');
+(15, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_GENDER', 'Gender options for users'),
+(16, 1, 1, '2025-08-18 15:29:37', '2025-08-18 15:29:37', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
+(17, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
+(18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
+(19, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', '', 'CONTRACTOR_FILE_TYPE', ''),
+(20, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', '', 'CONTRACTOR_CONTACT_TYPE', '');
 
 -- --------------------------------------------------------
 
@@ -745,7 +844,6 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (30, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 10, 'On Hold', 'ON_HOLD', 2, '2025-08-13', NULL),
 (31, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 10, 'Completed', 'COMPLETED', 3, '2025-08-13', NULL),
 (32, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 11, 'Active', 'ACTIVE', 1, '2025-08-13', NULL),
-(33, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 11, 'On Hold', 'ON_HOLD', 2, '2025-08-13', NULL),
 (34, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 11, 'Completed', 'COMPLETED', 3, '2025-08-13', NULL),
 (35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 11, 'Backlog', 'BACKLOG', 4, '2025-08-14', NULL),
 (37, 1, 1, '2025-08-14 00:00:00', '2025-08-13 23:38:23', NULL, 12, 'Low', 'LOW', 1, '2025-08-13', NULL),
@@ -760,10 +858,9 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (56, 1, 1, '2025-08-17 11:02:58', '2025-08-17 11:02:58', NULL, 14, 'High', 'HIGH', 0, '2025-08-17', NULL),
 (57, 1, 1, '2025-08-17 11:03:02', '2025-08-17 11:03:02', NULL, 14, 'Medium', 'MEDIUM', 0, '2025-08-17', NULL),
 (58, 1, 1, '2025-08-17 11:03:06', '2025-08-17 11:03:06', NULL, 14, 'Low', 'LOW', 0, '2025-08-17', NULL),
-(59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Male', 'MALE', 1, '2025-08-18', NULL),
-(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Female', 'FEMALE', 2, '2025-08-18', NULL),
-(61, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Nonbinary', 'NONBINARY', 3, '2025-08-18', NULL),
-(62, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 15, 'Other', 'OTHER', 4, '2025-08-18', NULL);
+(59, 1, 1, '2025-08-18 00:00:00', '2025-08-17 21:13:55', NULL, 15, 'Male', 'MALE', 1, '2025-08-17', NULL),
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-17 21:13:57', NULL, 15, 'Female', 'FEMALE', 2, '2025-08-17', NULL),
+(63, 1, 1, '2025-08-17 22:26:21', '2025-08-17 22:26:21', NULL, 5, 'Pending', 'PENDING', 0, '2025-08-17', NULL);
 
 -- --------------------------------------------------------
 
@@ -796,10 +893,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (7, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 9, 'COLOR-CLASS', 'atlis'),
 (8, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 10, 'COLOR-CLASS', 'primary'),
 (10, 1, 1, '2025-08-13 22:11:06', '2025-08-14 22:15:51', NULL, 29, 'COLOR-CLASS', 'primary'),
-(11, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 30, 'COLOR-CLASS', 'warning'),
+(11, 1, 1, '2025-08-13 22:16:23', '2025-08-17 22:25:14', NULL, 30, 'COLOR-CLASS', 'atlis'),
 (12, 1, 1, '2025-08-13 22:16:23', '2025-08-14 22:15:54', NULL, 31, 'COLOR-CLASS', 'success'),
 (13, 1, 1, '2025-08-13 22:16:23', '2025-08-13 23:39:49', NULL, 32, 'COLOR-CLASS', 'primary'),
-(14, 1, 1, '2025-08-13 22:16:23', '2025-08-13 22:16:23', NULL, 33, 'COLOR-CLASS', 'warning'),
 (17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 3, 'COLOR-CLASS', 'success'),
 (18, 1, 1, '2025-08-13 22:20:15', '2025-08-13 22:20:15', NULL, 4, 'COLOR-CLASS', 'danger'),
 (19, 1, 1, '2025-08-13 22:20:22', '2025-08-13 22:20:22', NULL, 28, 'COLOR-CLASS', 'warning'),
@@ -811,12 +907,28 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (26, 1, 1, '2025-08-13 23:39:19', '2025-08-13 23:39:19', NULL, 38, 'COLOR-CLASS', 'warning'),
 (27, 1, 1, '2025-08-13 23:39:33', '2025-08-13 23:39:33', NULL, 34, 'COLOR-CLASS', 'success'),
 (28, 1, 1, '2025-08-14 16:48:59', '2025-08-14 16:48:59', NULL, 8, 'COLOR-CLASS', 'danger'),
-(31, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 54, 'TEST', 'test'),
-(32, 1, 1, '2025-08-14 22:16:05', '2025-08-14 22:16:05', NULL, 55, 'COLOR-CLASS', 'info'),
-(33, 1, 1, '2025-08-14 22:22:53', '2025-08-14 22:22:53', NULL, 35, 'COLOR-CLASS', 'atlis'),
+(32, 1, 1, '2025-08-14 22:16:05', '2025-08-17 22:25:11', NULL, 55, 'COLOR-CLASS', 'warning'),
+(33, 1, 1, '2025-08-14 22:22:53', '2025-08-17 22:24:01', NULL, 35, 'COLOR-CLASS', 'warning'),
 (34, 1, 1, '2025-08-17 11:03:22', '2025-08-17 11:03:22', NULL, 56, 'COLOR-CLASS', 'danger'),
 (35, 1, 1, '2025-08-17 11:03:34', '2025-08-17 11:03:34', NULL, 58, 'COLOR-CLASS', 'primary'),
-(36, 1, 1, '2025-08-17 11:03:44', '2025-08-17 11:03:44', NULL, 57, 'COLOR-CLASS', 'warning');
+(36, 1, 1, '2025-08-17 11:03:44', '2025-08-17 11:03:44', NULL, 57, 'COLOR-CLASS', 'warning'),
+(37, 1, 1, '2025-08-17 22:24:26', '2025-08-17 22:24:26', NULL, 35, 'DEFAULT', 'true'),
+(38, 1, 1, '2025-08-17 22:24:39', '2025-08-17 22:24:39', NULL, 38, 'DEFAULT', 'true'),
+(39, 1, 1, '2025-08-17 22:24:53', '2025-08-17 22:24:53', NULL, 57, 'DEFAULT', 'true'),
+(40, 1, 1, '2025-08-17 22:25:20', '2025-08-17 22:25:20', NULL, 55, 'DEFAULT', 'true'),
+(41, 1, 1, '2025-08-17 22:25:33', '2025-08-17 22:25:33', NULL, 10, 'DEFAULT', 'true'),
+(42, 1, 1, '2025-08-17 22:25:45', '2025-08-17 22:25:45', NULL, 27, 'DEFAULT', 'true'),
+(43, 1, 1, '2025-08-17 22:25:59', '2025-08-17 22:25:59', NULL, 13, 'DEFAULT', 'true'),
+(44, 1, 1, '2025-08-17 22:26:05', '2025-08-17 22:26:05', NULL, 28, 'DEFAULT', 'true'),
+(45, 1, 1, '2025-08-17 22:26:30', '2025-08-17 22:26:30', NULL, 63, 'COLOR-CLASS', 'warning'),
+(46, 1, 1, '2025-08-17 22:26:34', '2025-08-17 22:26:34', NULL, 63, 'DEFAULT', 'true'),
+(47, 1, 1, '2025-08-17 22:26:47', '2025-08-17 22:26:47', NULL, 59, 'DEFAULT', 'true'),
+(48, 1, 1, '2025-08-17 22:26:59', '2025-08-17 22:26:59', NULL, 53, 'DEFAULT', 'true'),
+(49, 1, 1, '2025-08-17 22:27:07', '2025-08-17 22:27:26', NULL, 53, 'COLOR-CLASS', 'danger'),
+(50, 1, 1, '2025-08-17 22:27:30', '2025-08-17 22:27:30', NULL, 54, 'COLOR-CLASS', 'atlis'),
+(51, 1, 1, '2025-08-17 22:27:39', '2025-08-17 22:27:39', NULL, 51, 'COLOR-CLASS', 'danger'),
+(52, 1, 1, '2025-08-17 22:27:44', '2025-08-17 22:27:44', NULL, 51, 'DEFAULT', 'true'),
+(53, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 52, 'COLOR-CLASS', 'atlis');
 
 -- --------------------------------------------------------
 
@@ -1060,7 +1172,7 @@ CREATE TABLE `module_tasks` (
 INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
 (1, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:11', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
 (2, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:20', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:21', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 22:21:57', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-08-17', 1, 1, 100),
 (4, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:33', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-25', NULL, 0, NULL, 0),
 (6, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:00', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
 (7, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:49', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
@@ -1070,12 +1182,16 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (11, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:13:35', NULL, 5, 2, 2, '', NULL, NULL, NULL, NULL, '38', NULL, NULL, '2025-08-17', 1, 1, 100),
 (12, 1, 1, '2025-08-14 22:21:21', '2025-08-16 23:26:38', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, NULL, 0),
 (13, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:03:28', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '34', '39', NULL, NULL, '2025-08-17', 1, 1, 100),
-(15, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:15', NULL, 5, 2, 2, '', NULL, NULL, NULL, '33', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-17 22:21:54', NULL, 5, 2, 2, '', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
 (16, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:16', NULL, 5, 2, 2, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
 (17, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 8, 1, 2, 'test', NULL, NULL, NULL, '35', '40', NULL, NULL, NULL, 0, NULL, 0),
 (18, 1, 1, '2025-08-17 01:17:08', '2025-08-17 19:09:19', NULL, 5, NULL, NULL, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 19:09:20', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100);
+(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 22:28:42', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(21, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, NULL, NULL, NULL, 'Dave', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(22, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, NULL, NULL, NULL, 'Test 1', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(23, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, NULL, NULL, NULL, 'Test 2', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
+(24, 1, 1, '2025-08-18 14:33:18', '2025-08-18 14:33:18', NULL, NULL, NULL, NULL, '*person* (not sure how) unable to assign an Interpreter (per Kasper)', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1183,26 +1299,23 @@ CREATE TABLE `person` (
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
-  `phone`   VARCHAR(25)                   DEFAULT NULL,
-  `dob`     DATE                          DEFAULT NULL,
-  `address` TEXT                          DEFAULT NULL,
+  `phone` varchar(25) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `address` text DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 --
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-
 (1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
 (2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
-(4, 3, 'Tyler', 'Jessop', NULL, NULL, NULL, NULL, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL);
-
+(5, 4, 'Tyler', 'Jessop', NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -1286,7 +1399,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
 (1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', 'USER', 1, NULL),
-(3, 1, 1, '2025-08-17 11:08:14', '2025-08-17 11:08:43', NULL, 'Soup@AtlisTechnologies.com', '$2y$10$WjasGZyR9C55WNVRikeptOAsPDTwXFTA.Jp5PDdIHwUqusfTjReaO', 0, NULL, 'USER', 1, NULL);
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1371,6 +1484,14 @@ ALTER TABLE `admin_role_permissions`
   ADD KEY `fk_admin_role_permissions_user_updated` (`user_updated`),
   ADD KEY `fk_admin_role_permissions_role_id` (`role_id`),
   ADD KEY `fk_admin_role_permissions_permission_group_id` (`permission_group_id`);
+
+--
+-- Indexes for table `admin_role_permission_groups`
+--
+ALTER TABLE `admin_role_permission_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_arpg_role_group` (`role_id`,`permission_group_id`),
+  ADD KEY `fk_arpg_permission_group_id` (`permission_group_id`);
 
 --
 -- Indexes for table `admin_user_roles`
@@ -1541,7 +1662,8 @@ ALTER TABLE `module_task_assignments`
 ALTER TABLE `person`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
-  ADD KEY `fk_person_user_updated` (`user_updated`);
+  ADD KEY `fk_person_user_updated` (`user_updated`),
+  ADD KEY `fk_person_gender_id` (`gender_id`);
 
 --
 -- Indexes for table `system_properties`
@@ -1588,7 +1710,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -1621,6 +1743,12 @@ ALTER TABLE `admin_role_permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
+-- AUTO_INCREMENT for table `admin_role_permission_groups`
+--
+ALTER TABLE `admin_role_permission_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
 -- AUTO_INCREMENT for table `admin_user_roles`
 --
 ALTER TABLE `admin_user_roles`
@@ -1630,25 +1758,25 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -1696,7 +1824,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
@@ -1720,7 +1848,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -1738,7 +1866,7 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
@@ -1776,6 +1904,13 @@ ALTER TABLE `admin_role_permissions`
   ADD CONSTRAINT `fk_admin_role_permissions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `admin_role_permission_groups`
+--
+ALTER TABLE `admin_role_permission_groups`
+  ADD CONSTRAINT `fk_arpg_permission_group_id` FOREIGN KEY (`permission_group_id`) REFERENCES `admin_permission_groups` (`id`),
+  ADD CONSTRAINT `fk_arpg_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`);
+
+--
 -- Constraints for table `admin_user_roles`
 --
 ALTER TABLE `admin_user_roles`
@@ -1803,12 +1938,6 @@ ALTER TABLE `lookup_list_items`
 ALTER TABLE `lookup_list_item_attributes`
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `person`
---
-ALTER TABLE `person`
-  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_division`
@@ -1870,6 +1999,12 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `person`
+--
+ALTER TABLE `person`
+  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
