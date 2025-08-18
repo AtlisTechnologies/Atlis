@@ -49,7 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
     $taskStmt->execute([':id'=>$id]);
     $taskRow = $taskStmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    echo json_encode(['success' => true, 'task' => $taskRow]);
+    echo json_encode([
+      'success'      => true,
+      'completed'    => (int)$taskRow['completed'],
+      'status_label' => $taskRow['status_label'],
+      'status_color' => $taskRow['status_color']
+    ]);
     exit;
   }
 }
