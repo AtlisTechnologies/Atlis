@@ -83,7 +83,7 @@ require_permission('project','create');
             <a class="btn btn-warning px-5" href="index.php">Cancel</a>
           </div>
           <div class="col-auto">
-            <button class="btn atlis px-5 px-sm-15" type="submit">Create Project</button>
+            <button class="btn btn-success px-5 px-sm-15" type="submit">Create Project</button>
           </div>
         </div>
       </div>
