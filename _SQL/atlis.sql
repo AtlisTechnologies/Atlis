@@ -174,7 +174,31 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'create'),
 (34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'read'),
 (35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'update'),
-(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'delete');
+(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'task', 'delete'),
+(37, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor', 'create'),
+(38, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor', 'read'),
+(39, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor', 'update'),
+(40, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor', 'delete'),
+(41, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_note', 'create'),
+(42, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_note', 'read'),
+(43, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_note', 'update'),
+(44, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_note', 'delete'),
+(45, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_contact', 'create'),
+(46, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_contact', 'read'),
+(47, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_contact', 'update'),
+(48, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_contact', 'delete'),
+(49, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_compensation', 'create'),
+(50, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_compensation', 'read'),
+(51, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_compensation', 'update'),
+(52, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_compensation', 'delete'),
+(53, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_file', 'create'),
+(54, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_file', 'read'),
+(55, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_file', 'update'),
+(56, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_file', 'delete'),
+(57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'create'),
+(58, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'read'),
+(59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'update'),
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'delete');
 
 -- --------------------------------------------------------
 
@@ -206,7 +230,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (6, 1, 1, '2025-08-06 21:16:21', '2025-08-08 22:17:06', NULL, 'Division', 'Permissions for managing divisions'),
 (7, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'System Properties', 'Permissions for system properties'),
 (8, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Projects', 'Permissions for managing projects'),
-(9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks');
+(9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks'),
+(10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors');
 
 -- --------------------------------------------------------
 
@@ -265,7 +290,31 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (33, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 33),
 (34, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 34),
 (35, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 35),
-(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 36);
+(36, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 9, 36),
+(37, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 37),
+(38, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 38),
+(39, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 39),
+(40, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 40),
+(41, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 41),
+(42, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 42),
+(43, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 43),
+(44, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 44),
+(45, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 45),
+(46, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 46),
+(47, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 47),
+(48, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 48),
+(49, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 49),
+(50, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 50),
+(51, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 51),
+(52, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 52),
+(53, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 53),
+(54, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 54),
+(55, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 55),
+(56, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 56),
+(57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 57),
+(58, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 58),
+(59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 59),
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 60);
 
 -- --------------------------------------------------------
 
@@ -292,7 +341,9 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (1, 1, 1, '2025-08-06 16:07:43', '2025-08-08 22:17:38', NULL, 'Admin', 'System administrator with full permissions'),
 (10, 1, 1, '2025-08-17 14:15:24', '2025-08-17 14:15:24', NULL, 'Principle Project Manager', ''),
 (11, 1, 1, '2025-08-17 14:17:19', '2025-08-17 14:17:19', NULL, 'Project Manager', ''),
-(12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', '');
+(12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', ''),
+(13, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Admin', ''),
+(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', '');
 
 -- --------------------------------------------------------
 
@@ -343,7 +394,10 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (25, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 7),
 (26, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 8),
 (27, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 11, 9),
-(28, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 9);
+(28, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 9),
+(29, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 1, 10),
+(30, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 13, 10),
+(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10);
 
 -- --------------------------------------------------------
 
@@ -385,7 +439,10 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (25, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 8),
 (26, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 9),
 (27, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 8),
-(28, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 9);
+(28, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 9),
+(29, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 1, 10),
+(30, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 13, 10),
+(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10);
 
 -- --------------------------------------------------------
 
@@ -797,7 +854,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (17, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
 (19, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', '', 'CONTRACTOR_FILE_TYPE', ''),
-(20, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', '', 'CONTRACTOR_CONTACT_TYPE', '');
+(20, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', '', 'CONTRACTOR_CONTACT_TYPE', ''),
+(21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', '');
 
 -- --------------------------------------------------------
 
@@ -860,7 +918,25 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (58, 1, 1, '2025-08-17 11:03:06', '2025-08-17 11:03:06', NULL, 14, 'Low', 'LOW', 0, '2025-08-17', NULL),
 (59, 1, 1, '2025-08-18 00:00:00', '2025-08-17 21:13:55', NULL, 15, 'Male', 'MALE', 1, '2025-08-17', NULL),
 (60, 1, 1, '2025-08-18 00:00:00', '2025-08-17 21:13:57', NULL, 15, 'Female', 'FEMALE', 2, '2025-08-17', NULL),
-(63, 1, 1, '2025-08-17 22:26:21', '2025-08-17 22:26:21', NULL, 5, 'Pending', 'PENDING', 0, '2025-08-17', NULL);
+(63, 1, 1, '2025-08-17 22:26:21', '2025-08-17 22:26:21', NULL, 5, 'Pending', 'PENDING', 0, '2025-08-17', NULL),
+(64, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 16, 'Hourly', 'HOURLY', 1, '2025-08-18', NULL),
+(65, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 16, 'Salary', 'SALARY', 2, '2025-08-18', NULL),
+(66, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 17, 'Check', 'CHECK', 1, '2025-08-18', NULL),
+(67, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 17, 'ACH', 'ACH', 2, '2025-08-18', NULL),
+(68, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 17, 'Wire', 'WIRE', 3, '2025-08-18', NULL),
+(69, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 18, 'Individual', 'INDIVIDUAL', 1, '2025-08-18', NULL),
+(70, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 18, 'Company', 'COMPANY', 2, '2025-08-18', NULL),
+(71, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 18, 'Agency', 'AGENCY', 3, '2025-08-18', NULL),
+(72, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Resume', 'RESUME', 1, '2025-08-18', NULL),
+(73, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Contract', 'CONTRACT', 2, '2025-08-18', NULL),
+(74, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Certification', 'CERTIFICATION', 3, '2025-08-18', NULL),
+(75, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Email', 'EMAIL', 1, '2025-08-18', NULL),
+(76, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Phone', 'PHONE', 2, '2025-08-18', NULL),
+(77, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Meeting', 'MEETING', 3, '2025-08-18', NULL),
+(78, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Draft', 'DRAFT', 1, '2025-08-18', NULL),
+(79, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Active', 'ACTIVE', 2, '2025-08-18', NULL),
+(80, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Suspended', 'SUSPENDED', 3, '2025-08-18', NULL),
+(81, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Archived', 'ARCHIVED', 4, '2025-08-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -928,7 +1004,11 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (50, 1, 1, '2025-08-17 22:27:30', '2025-08-17 22:27:30', NULL, 54, 'COLOR-CLASS', 'atlis'),
 (51, 1, 1, '2025-08-17 22:27:39', '2025-08-17 22:27:39', NULL, 51, 'COLOR-CLASS', 'danger'),
 (52, 1, 1, '2025-08-17 22:27:44', '2025-08-17 22:27:44', NULL, 51, 'DEFAULT', 'true'),
-(53, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 52, 'COLOR-CLASS', 'atlis');
+(53, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 52, 'COLOR-CLASS', 'atlis'),
+(54, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 78, 'BADGE_CLASS', 'secondary'),
+(55, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 79, 'BADGE_CLASS', 'success'),
+(56, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 80, 'BADGE_CLASS', 'warning'),
+(57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 81, 'BADGE_CLASS', 'dark');
 
 -- --------------------------------------------------------
 
@@ -1286,6 +1366,128 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (3, 1, 1, '2025-08-16 21:36:31', '2025-08-16 21:36:31', NULL, 11, 1),
 (4, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 17, 1),
 (5, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 17, 2);
+
+-- --------------------------------------------------------
+--
+-- Table structure for table `module_contractors`
+--
+
+CREATE TABLE `module_contractors` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `person_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `contractor_type_id` int(11) NOT NULL,
+  `pay_type_id` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `current_rate` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_notes`
+--
+
+CREATE TABLE `module_contractors_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `note_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_contacts`
+--
+
+CREATE TABLE `module_contractors_contacts` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `contact_type_id` int(11) NOT NULL,
+  `contact_date` datetime DEFAULT current_timestamp(),
+  `summary` text DEFAULT NULL,
+  `contact_duration` int(11) DEFAULT NULL,
+  `contact_result` text DEFAULT NULL,
+  `related_module` varchar(255) DEFAULT NULL,
+  `related_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_compensation`
+--
+
+CREATE TABLE `module_contractors_compensation` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `compensation_type_id` int(11) NOT NULL,
+  `payment_method_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `effective_start` date NOT NULL,
+  `effective_end` date DEFAULT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_files`
+--
+
+CREATE TABLE `module_contractors_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `file_type_id` int(11) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `version` varchar(50) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_status_history`
+--
+
+CREATE TABLE `module_contractors_status_history` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `status_date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1703,6 +1905,68 @@ ALTER TABLE `users_2fa`
   ADD KEY `fk_users_2fa_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `module_contractors`
+--
+ALTER TABLE `module_contractors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_person_id` (`person_id`),
+  ADD KEY `fk_module_contractors_status_id` (`status_id`),
+  ADD KEY `fk_module_contractors_contractor_type_id` (`contractor_type_id`),
+  ADD KEY `fk_module_contractors_pay_type_id` (`pay_type_id`);
+
+--
+-- Indexes for table `module_contractors_notes`
+--
+ALTER TABLE `module_contractors_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_notes_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_notes_contractor_id` (`contractor_id`);
+
+--
+-- Indexes for table `module_contractors_contacts`
+--
+ALTER TABLE `module_contractors_contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_contacts_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_contacts_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_contacts_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_contacts_type_id` (`contact_type_id`);
+
+--
+-- Indexes for table `module_contractors_compensation`
+--
+ALTER TABLE `module_contractors_compensation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_compensation_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_compensation_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_compensation_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_compensation_type_id` (`compensation_type_id`),
+  ADD KEY `fk_module_contractors_compensation_payment_method_id` (`payment_method_id`);
+
+--
+-- Indexes for table `module_contractors_files`
+--
+ALTER TABLE `module_contractors_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_files_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_files_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_files_file_type_id` (`file_type_id`);
+
+--
+-- Indexes for table `module_contractors_status_history`
+--
+ALTER TABLE `module_contractors_status_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_status_history_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_status_history_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_status_history_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_status_history_status_id` (`status_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1716,37 +1980,37 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -1764,19 +2028,19 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -1843,6 +2107,44 @@ ALTER TABLE `module_tasks_notes`
 --
 ALTER TABLE `module_task_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `person`
+--
+-- AUTO_INCREMENT for table `module_contractors`
+--
+ALTER TABLE `module_contractors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_notes`
+--
+ALTER TABLE `module_contractors_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_contacts`
+--
+ALTER TABLE `module_contractors_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_compensation`
+--
+ALTER TABLE `module_contractors_compensation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_files`
+--
+ALTER TABLE `module_contractors_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_status_history`
+--
+ALTER TABLE `module_contractors_status_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -1999,6 +2301,64 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `person`
+--
+-- Constraints for table `module_contractors`
+--
+ALTER TABLE `module_contractors`
+  ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_contractors_notes`
+--
+ALTER TABLE `module_contractors_notes`
+  ADD CONSTRAINT `fk_module_contractors_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_notes_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`);
+
+--
+-- Constraints for table `module_contractors_contacts`
+--
+ALTER TABLE `module_contractors_contacts`
+  ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contacts_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_contractors_compensation`
+--
+ALTER TABLE `module_contractors_compensation`
+  ADD CONSTRAINT `fk_module_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_compensation_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_contractors_files`
+--
+ALTER TABLE `module_contractors_files`
+  ADD CONSTRAINT `fk_module_contractors_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_files_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_contractors_status_history`
+--
+ALTER TABLE `module_contractors_status_history`
+  ADD CONSTRAINT `fk_module_contractors_status_history_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_status_history_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_status_history_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `person`
