@@ -13,6 +13,10 @@ define('DB_NAME', 'atlis');
 define('DB_PASSWORD', '');
 define('DB_PORT', '3306');
 
+// Contractors module upload configuration
+define('CONTRACTOR_UPLOAD_DIR', __DIR__ . '/../module/contractors/uploads/');
+define('CONTRACTOR_MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB limit
+
 $dsn = "mysql:dbname=".DB_NAME.";host=".DB_HOST.";port=".DB_PORT.";charset=utf8mb4";
 $pdo = "";
 try{

@@ -97,6 +97,25 @@ function require_admin(){
   }
 }
 
+// Role based access checks
+function user_has_role(string $role): bool {
+  global $pdo, $this_user_id;
+  $stmt = $pdo->prepare('SELECT 1 FROM admin_user_roles ur JOIN admin_roles r ON ur.role_id = r.id WHERE ur.user_account_id = :uid AND r.name = :role');
+  $stmt->execute([':uid' => $this_user_id, ':role' => $role]);
+  return (bool)$stmt->fetchColumn();
+}
+
+function require_role(string ...$roles): void {
+  foreach($roles as $role){
+    if(user_has_role($role)){
+      return;
+    }
+  }
+  header('HTTP/1.1 403 Forbidden');
+  echo '403 Forbidden';
+  exit;
+}
+
 // Caching for system properties
 function load_system_properties(PDO $pdo, bool $useCache=true): array {
   global $__system_properties_cache;
