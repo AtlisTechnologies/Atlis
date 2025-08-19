@@ -1,5 +1,5 @@
 <?php
-require '../../includes/php_header.php';
+require __DIR__ . '/../../includes/php_header.php';
 require_permission('contractors','create');
 
 $first = trim($_POST['first_name'] ?? '');
