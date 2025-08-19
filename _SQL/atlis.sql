@@ -2306,6 +2306,7 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --
 -- Constraints for table `person`
 --
@@ -2370,6 +2371,8 @@ ALTER TABLE `admin_contractors_status_history`
 ALTER TABLE `person`
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 COMMIT;
