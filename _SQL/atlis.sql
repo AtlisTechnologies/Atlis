@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2025 at 06:27 AM
+-- Generation Time: Aug 19, 2025 at 07:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -115,7 +115,9 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (66, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9]', '[3,6,5,2,8,4,7,9,1]'),
 (67, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[]', '[3,6,5,2,8,9]'),
 (68, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[]', '[8,9]'),
-(69, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[8,9]');
+(69, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[8,9]'),
+(70, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 'module_projects_notes', 12, 'NOTE', '', '', 'PRIME DAY'),
+(71, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 'module_projects_files', 8, 'UPLOAD', '', '', '{\"file\":\"2025 JULY - PRIME DAY.txt\"}');
 
 -- --------------------------------------------------------
 
@@ -826,7 +828,15 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (330, 1, 1, '2025-08-18 22:23:49', '2025-08-18 22:23:49', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
 (331, 1, 1, '2025-08-18 22:23:51', '2025-08-18 22:23:51', NULL, 'module_tasks', 24, 'UPDATE', 'Marked task incomplete'),
 (332, 1, 1, '2025-08-18 22:24:10', '2025-08-18 22:24:10', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(333, 1, 1, '2025-08-18 22:24:11', '2025-08-18 22:24:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete');
+(333, 1, 1, '2025-08-18 22:24:11', '2025-08-18 22:24:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
+(334, 1, 1, '2025-08-18 22:46:29', '2025-08-18 22:46:29', NULL, 'module_tasks', 21, 'UPDATE', 'Completed task'),
+(335, 1, 1, '2025-08-18 22:46:33', '2025-08-18 22:46:33', NULL, 'module_tasks', 21, 'UPDATE', 'Marked task incomplete'),
+(336, 1, 1, '2025-08-18 22:46:37', '2025-08-18 22:46:37', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task status'),
+(337, 1, 1, '2025-08-18 22:46:43', '2025-08-18 22:46:43', NULL, 'module_tasks', 21, 'UPDATE', 'Completed task'),
+(338, 1, 1, '2025-08-18 22:46:47', '2025-08-18 22:46:47', NULL, 'module_tasks', 21, 'UPDATE', 'Marked task incomplete'),
+(339, 1, 1, '2025-08-18 22:48:12', '2025-08-18 22:48:12', NULL, 'module_projects_assignments', 7, 'DELETE', 'Removed user assignment'),
+(340, 1, 1, '2025-08-18 22:48:15', '2025-08-18 22:48:15', NULL, 'module_projects_assignments', 8, 'ASSIGN', 'Assigned user'),
+(341, 1, 1, '2025-08-18 22:48:17', '2025-08-18 22:48:17', NULL, 'module_projects_assignments', 9, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -1309,7 +1319,8 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (3, 1, 1, '2025-08-15 00:09:42', '2025-08-15 00:09:42', NULL, 5, 1),
 (5, 1, 1, '2025-08-16 22:17:00', '2025-08-16 22:17:00', NULL, 8, 1),
 (6, 1, 1, '2025-08-16 22:17:02', '2025-08-16 22:17:02', NULL, 8, 2),
-(7, 1, 1, '2025-08-17 00:08:57', '2025-08-17 00:08:57', NULL, 5, 2);
+(8, 1, 1, '2025-08-18 22:48:15', '2025-08-18 22:48:15', NULL, 5, 2),
+(9, 1, 1, '2025-08-18 22:48:17', '2025-08-18 22:48:17', NULL, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -1337,7 +1348,8 @@ CREATE TABLE `module_projects_files` (
 --
 
 INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(4, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 5, 7, 'IMG_9186.JPEG', '/module/project/uploads/project_5_1755285853_0_IMG_9186.JPEG', 1217423, 'image/jpeg');
+(4, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 5, 7, 'IMG_9186.JPEG', '/module/project/uploads/project_5_1755285853_0_IMG_9186.JPEG', 1217423, 'image/jpeg'),
+(8, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 5, 12, '2025 JULY - PRIME DAY.txt', '/module/project/uploads/project_5_1755578860_0_2025_JULY_-_PRIME_DAY.txt', 135, 'text/plain');
 
 -- --------------------------------------------------------
 
@@ -1365,7 +1377,8 @@ INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_crea
 (8, 1, 1, '2025-08-15 13:37:43', '2025-08-15 13:37:43', NULL, 5, 'No file.'),
 (9, 1, 1, '2025-08-15 13:37:49', '2025-08-15 13:37:49', NULL, 5, 'Not even another one.'),
 (10, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 5, 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
-(11, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 5, 'test');
+(11, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 5, 'test'),
+(12, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 5, 'PRIME DAY');
 
 -- --------------------------------------------------------
 
@@ -1421,7 +1434,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (18, 1, 1, '2025-08-17 01:17:08', '2025-08-18 22:17:50', NULL, 5, NULL, NULL, 'Task 18', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
 (19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 22:28:42', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
 (20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(21, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, NULL, NULL, NULL, 'Dave', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(21, 1, 1, '2025-08-17 22:28:55', '2025-08-18 22:46:47', NULL, NULL, NULL, NULL, 'Dave', NULL, NULL, NULL, '32', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
 (22, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, NULL, NULL, NULL, 'Test 1', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
 (23, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, NULL, NULL, NULL, 'Test 2', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
 (24, 1, 1, '2025-08-18 14:33:18', '2025-08-18 22:23:51', NULL, NULL, NULL, NULL, '*person* (not sure how) unable to assign an Interpreter (per Kasper)', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0);
@@ -1551,6 +1564,7 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
 (5, 4, 'Tyler', 'Jessop', NULL, NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
 
+
 -- --------------------------------------------------------
 
 --
@@ -1631,7 +1645,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-18 22:15:30', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 1, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-18 22:53:27', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 3, 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
 
@@ -1690,8 +1704,9 @@ CREATE TABLE `users_profile_pics` (
 --
 
 INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
-(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82);
+(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 22:53:27', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 83),
+(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82),
+(3, 1, 1, '2025-08-18 22:53:27', '2025-08-18 22:53:27', NULL, 'Xeon_CPU_1755579207.png', 'module/users/uploads/Xeon_CPU_1755579207.png', 55599, 'image/png', 'f69436b615c4add02f8e57dc5b323c646ea5d50244e85a07a85572337998be42', 693, 607, 1, 82);
 
 --
 -- Indexes for dumped tables
@@ -1824,9 +1839,9 @@ ALTER TABLE `module_agency`
 --
 ALTER TABLE `module_contractors`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fk_module_contractors_person_id` (`person_id`),
   ADD KEY `fk_module_contractors_user_id` (`user_id`),
   ADD KEY `fk_module_contractors_user_updated` (`user_updated`),
-  ADD UNIQUE KEY `fk_module_contractors_person_id` (`person_id`),
   ADD KEY `fk_module_contractors_status_id` (`status_id`),
   ADD KEY `fk_module_contractors_contractor_type_id` (`contractor_type_id`),
   ADD KEY `fk_module_contractors_pay_type_id` (`pay_type_id`);
@@ -2052,7 +2067,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -2100,7 +2115,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2184,19 +2199,19 @@ ALTER TABLE `module_projects`
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
@@ -2256,7 +2271,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -2327,57 +2342,57 @@ ALTER TABLE `lookup_list_item_attributes`
 -- Constraints for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
+  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE RESTRICT,
-  ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
-  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
-  ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_compensation`
 --
 ALTER TABLE `module_contractors_compensation`
-  ADD CONSTRAINT `fk_module_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_compensation_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
-  ADD CONSTRAINT `fk_module_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_contacts`
 --
 ALTER TABLE `module_contractors_contacts`
-  ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_contacts_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
-  ADD CONSTRAINT `fk_module_contractors_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_files_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_contractors_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_contractors_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_notes`
 --
 ALTER TABLE `module_contractors_notes`
+  ADD CONSTRAINT `fk_module_contractors_notes_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_contractors_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_notes_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_module_contractors_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_status_history`
 --
 ALTER TABLE `module_contractors_status_history`
-  ADD CONSTRAINT `fk_module_contractors_status_history_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_status_history_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_contractors_status_history_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_contractors_status_history_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_status_history_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_agency`

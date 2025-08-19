@@ -4,7 +4,9 @@ require '../../../includes/php_header.php';
 require_permission('contractors','update');
 
 $cid = (int)($_POST['contractor_id'] ?? 0);
-if($cid && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
+$file_type_id = (int)($_POST['file_type_id'] ?? 0);
+$description = trim($_POST['description'] ?? '');
+if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   $max = (int)get_system_property($pdo,'contractor_file_max_size');
   if(!$max){ $max = 10 * 1024 * 1024; }
   $allowedStr = get_system_property($pdo,'contractor_file_allowed_ext') ?: 'pdf,docx,jpg,png';
@@ -35,15 +37,15 @@ if($cid && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)
     }
   }
   if(move_uploaded_file($file['tmp_name'],$targetPath)){
-    $stmt = $pdo->prepare('INSERT INTO module_contractors_files (user_id,user_updated,contractor_id,file_name,file_path,file_size,file_type,version) VALUES (:uid,:uid,:cid,:name,:path,:size,:type,:ver)');
+    $stmt = $pdo->prepare('INSERT INTO module_contractors_files (user_id,user_updated,contractor_id,file_type_id,file_name,file_path,version,description) VALUES (:uid,:uid,:cid,:ftype,:name,:path,:ver,:desc)');
     $stmt->execute([
       ':uid'=>$this_user_id,
       ':cid'=>$cid,
+      ':ftype'=>$file_type_id,
       ':name'=>$fileName,
       ':path'=>$relativePath,
-      ':size'=>$file['size'],
-      ':type'=>$file['type'],
-      ':ver'=>$version
+      ':ver'=>$version,
+      ':desc'=>$description !== '' ? $description : null
     ]);
     $fid = $pdo->lastInsertId();
     admin_audit_log($pdo,$this_user_id,'module_contractors_files',$fid,'UPLOAD','',json_encode(['file'=>$fileName,'version'=>$version]));
