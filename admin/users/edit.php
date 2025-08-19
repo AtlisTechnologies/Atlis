@@ -92,7 +92,7 @@ $_SESSION['csrf_token'] = $token;
         <div class="mb-3">
           <label class="form-label">Profile Picture</label>
           <?php if ($profile_pic): ?>
-            <div class="mb-2"><img src="/<?php echo htmlspecialchars($profile_pic); ?>" alt="Profile Picture" class="img-thumbnail" style="max-width:150px;"></div>
+            <div class="mb-2"><img src="<?php echo getURLDir(); echo htmlspecialchars($profile_pic); ?>" alt="Profile Picture" class="img-thumbnail" style="max-width:150px;"></div>
           <?php endif; ?>
           <input type="file" name="profile_pic" accept="image/png,image/jpeg" class="form-control">
         </div>
