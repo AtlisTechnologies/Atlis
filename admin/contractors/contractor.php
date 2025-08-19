@@ -20,6 +20,9 @@ if ($id) {
 
 $statuses = get_lookup_items($pdo, 'CONTRACTOR_STATUS');
 $payTypes = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_TYPE');
+$contactTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_TYPE');
+$paymentMethods = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD');
+$fileTypes = get_lookup_items($pdo, 'CONTRACTOR_FILE_TYPE');
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
@@ -123,7 +126,7 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="contacts" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT * FROM module_contractors_contacts WHERE contractor_id = :id ORDER BY date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, l.label AS contact_type FROM module_contractors_contacts mcc LEFT JOIN lookup_list_items l ON mcc.contact_type_id = l.id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
@@ -132,19 +135,30 @@ $_SESSION['csrf_token'] = $token;
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="row g-2">
           <div class="col-md-3">
-            <input type="text" name="name" class="form-control form-control-sm" placeholder="Name" required>
+            <select name="contact_type_id" class="form-select form-select-sm" required>
+              <option value="">Type</option>
+              <?php foreach($contactTypes as $ct): ?>
+                <option value="<?= h($ct['id']); ?>"><?= h($ct['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
           <div class="col-md-3">
-            <input type="text" name="phone" class="form-control form-control-sm" placeholder="Phone">
+            <input type="datetime-local" name="contact_date" class="form-control form-control-sm">
           </div>
           <div class="col-md-3">
-            <input type="email" name="email" class="form-control form-control-sm" placeholder="Email">
+            <input type="number" name="contact_duration" class="form-control form-control-sm" placeholder="Duration (min)">
           </div>
           <div class="col-md-3">
+            <input type="text" name="contact_result" class="form-control form-control-sm" placeholder="Result">
+          </div>
+          <div class="col-md-3 mt-2">
             <input type="text" name="related_module" class="form-control form-control-sm" placeholder="Related Module">
           </div>
           <div class="col-md-3 mt-2">
             <input type="number" name="related_id" class="form-control form-control-sm" placeholder="Related ID">
+          </div>
+          <div class="col-md-12 mt-2">
+            <textarea name="summary" class="form-control form-control-sm" placeholder="Summary" required></textarea>
           </div>
           <div class="col-md-12 mt-2">
             <button class="btn btn-primary btn-sm">Add Contact</button>
@@ -154,7 +168,10 @@ $_SESSION['csrf_token'] = $token;
       <ul class="list-group">
         <?php foreach($contacts as $c): ?>
           <li class="list-group-item small">
-            <?= h($c['name']); ?><?php if($c['email']): ?> - <?= h($c['email']); ?><?php endif; ?><?php if($c['phone']): ?> - <?= h($c['phone']); ?><?php endif; ?>
+            <strong><?= h($c['contact_date']); ?></strong> - <?= h($c['contact_type']); ?>
+            <?php if($c['summary']): ?>: <?= h($c['summary']); ?><?php endif; ?>
+            <?php if($c['contact_duration']): ?> (<?= h($c['contact_duration']); ?> min)<?php endif; ?>
+            <?php if($c['contact_result']): ?> - <?= h($c['contact_result']); ?><?php endif; ?>
             <?php if($c['related_module'] && $c['related_id']): ?>
               <span class="text-muted">(<?= h($c['related_module']); ?> #<?= h($c['related_id']); ?>)</span>
             <?php endif; ?>
@@ -168,7 +185,7 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="compensation" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT * FROM module_contractors_compensation WHERE contractor_id = :id ORDER BY date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
@@ -177,16 +194,32 @@ $_SESSION['csrf_token'] = $token;
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="row g-2">
           <div class="col-md-3">
+            <select name="compensation_type_id" class="form-select form-select-sm" required>
+              <option value="">Type</option>
+              <?php foreach($payTypes as $p): ?>
+                <option value="<?= h($p['id']); ?>"><?= h($p['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select name="payment_method_id" class="form-select form-select-sm" required>
+              <option value="">Payment Method</option>
+              <?php foreach($paymentMethods as $pm): ?>
+                <option value="<?= h($pm['id']); ?>"><?= h($pm['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-md-3">
             <input type="number" step="0.01" name="amount" class="form-control form-control-sm" placeholder="Amount" required>
           </div>
           <div class="col-md-3">
-            <input type="text" name="type" class="form-control form-control-sm" placeholder="Type" required>
+            <input type="date" name="effective_start" class="form-control form-control-sm" required>
           </div>
-          <div class="col-md-3">
-            <input type="date" name="start_date" class="form-control form-control-sm">
+          <div class="col-md-3 mt-2">
+            <input type="date" name="effective_end" class="form-control form-control-sm">
           </div>
-          <div class="col-md-3">
-            <input type="date" name="end_date" class="form-control form-control-sm">
+          <div class="col-md-6 mt-2">
+            <textarea name="notes" class="form-control form-control-sm" placeholder="Notes"></textarea>
           </div>
           <div class="col-md-12 mt-2">
             <button class="btn btn-primary btn-sm">Add Compensation</button>
@@ -196,8 +229,9 @@ $_SESSION['csrf_token'] = $token;
       <ul class="list-group">
         <?php foreach($comps as $cp): ?>
           <li class="list-group-item small">
-            <?= h($cp['type']); ?>: <?= h($cp['amount']); ?>
-            <?php if($cp['start_date']): ?> (<?= h($cp['start_date']); ?><?php if($cp['end_date']): ?> - <?= h($cp['end_date']); ?><?php endif; ?>)<?php endif; ?>
+            <?= h($cp['type_label']); ?> (<?= h($cp['payment_method_label']); ?>): <?= h($cp['amount']); ?>
+            <?php if($cp['effective_start']): ?> (<?= h($cp['effective_start']); ?><?php if($cp['effective_end']): ?> - <?= h($cp['effective_end']); ?><?php endif; ?>)<?php endif; ?>
+            <?php if($cp['notes']): ?> - <?= h($cp['notes']); ?><?php endif; ?>
           </li>
         <?php endforeach; ?>
       </ul>
@@ -208,23 +242,32 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="files" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT * FROM module_contractors_files WHERE contractor_id = :id ORDER BY date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcf.*, l.label AS file_type FROM module_contractors_files mcf LEFT JOIN lookup_list_items l ON mcf.file_type_id = l.id WHERE mcf.contractor_id = :id ORDER BY mcf.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
       <form method="post" action="functions/upload_file.php" enctype="multipart/form-data" class="mb-3">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+        <select name="file_type_id" class="form-select mb-2" required>
+          <option value="">File Type</option>
+          <?php foreach($fileTypes as $ft): ?>
+            <option value="<?= h($ft['id']); ?>"><?= h($ft['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <input type="text" name="description" class="form-control mb-2" placeholder="Description">
         <input type="file" name="file" class="form-control mb-2" required>
         <button class="btn btn-primary btn-sm">Upload File</button>
       </form>
       <table class="table table-sm">
-        <thead><tr><th>File</th><th>Version</th><th></th></tr></thead>
+        <thead><tr><th>File</th><th>Type</th><th>Version</th><th>Description</th><th></th></tr></thead>
         <tbody>
           <?php foreach($files as $f): ?>
             <tr>
               <td><?= h($f['file_name']); ?></td>
+              <td><?= h($f['file_type']); ?></td>
               <td>v<?= h($f['version']); ?></td>
+              <td><?= h($f['description']); ?></td>
               <td><a class="btn btn-outline-secondary btn-sm" href="<?= h($f['file_path']); ?>" download>Download</a></td>
             </tr>
           <?php endforeach; ?>
