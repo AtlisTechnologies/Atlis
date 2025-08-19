@@ -17,7 +17,7 @@ $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
 
 function get_status_id(PDO $pdo, string $code): int {
-  $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' AND li.code = :code LIMIT 1");
+  $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
   $stmt->execute([':code' => $code]);
   return (int)$stmt->fetchColumn();
 }
@@ -26,20 +26,22 @@ $activeStatusId = get_status_id($pdo, 'ACTIVE');
 $inactiveStatusId = get_status_id($pdo, 'INACTIVE');
 
 if ($reactivatePicId && $id) {
-  $pdo->beginTransaction();
-  $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
-      ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
-  $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
-      ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
-
-  $picStmt = $pdo->prepare('SELECT file_path FROM users_profile_pics WHERE id = :pic');
-  $picStmt->execute([':pic' => $reactivatePicId]);
-  $picFile = basename((string)$picStmt->fetchColumn());
-  $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, profile_pic = :file, user_updated = :uid WHERE id = :user')
-      ->execute([':pic' => $reactivatePicId, ':file' => $picFile, ':uid' => $this_user_id, ':user' => $id]);
-
-  $pdo->commit();
-  $_SESSION['message'] = 'Profile picture updated.';
+  try {
+    $pdo->beginTransaction();
+    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
+        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+    $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
+        ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
+    $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
+        ->execute([':pic' => $reactivatePicId, ':uid' => $this_user_id, ':user' => $id]);
+    $pdo->commit();
+    $_SESSION['message'] = 'Profile picture updated.';
+  } catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+      $pdo->rollBack();
+    }
+    $_SESSION['message'] = 'Error updating profile picture.';
+  }
   header('Location: ../edit.php?id=' . $id);
   exit;
 }
@@ -186,28 +188,32 @@ try {
     $pdo->beginTransaction();
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
-    $pstmt = $pdo->prepare('INSERT INTO users_profile_pics (user_id, uploaded_by, file_path, file_size, mime_type, width, height, hash, status_id, user_updated) VALUES (:user_id, :uploaded_by, :file_path, :file_size, :mime_type, :width, :height, :hash, :status_id, :uid)');
+    $pstmt = $pdo->prepare('INSERT INTO users_profile_pics (user_id, uploaded_by, file_name, file_path, file_size, file_type, width, height, file_hash, status_id, user_updated) VALUES (:user_id, :uploaded_by, :file_name, :file_path, :file_size, :file_type, :width, :height, :file_hash, :status_id, :uid)');
     $pstmt->execute([
       ':user_id' => $id,
       ':uploaded_by' => $this_user_id,
+      ':file_name' => $filename,
       ':file_path' => $profilePath,
       ':file_size' => $fileSize,
-      ':mime_type' => $mime,
+      ':file_type' => $mime,
       ':width' => $width,
       ':height' => $height,
-      ':hash' => $hashFile,
+      ':file_hash' => $hashFile,
       ':status_id' => $activeStatusId,
       ':uid' => $this_user_id
     ]);
     $picId = (int)$pdo->lastInsertId();
-    $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, profile_pic = :file, user_updated = :uid WHERE id = :user')
-        ->execute([':pic' => $picId, ':file' => $filename, ':uid' => $this_user_id, ':user' => $id]);
+    $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
+        ->execute([':pic' => $picId, ':uid' => $this_user_id, ':user' => $id]);
 
     $pdo->commit();
   }
 
   $_SESSION['message'] = $isUpdate ? 'User updated.' : 'User created.';
 } catch (Exception $e) {
+  if ($pdo->inTransaction()) {
+    $pdo->rollBack();
+  }
   $_SESSION['message'] = 'Error saving user.';
 }
 
