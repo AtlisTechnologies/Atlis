@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   $message = 'Contractor deleted.';
 }
 
-$stmt = $pdo->query('SELECT id, first_name, last_name FROM module_contractors ORDER BY last_name, first_name');
+$stmt = $pdo->query('SELECT mc.id, p.first_name, p.last_name FROM module_contractors mc LEFT JOIN person p ON mc.person_id = p.id ORDER BY p.last_name, p.first_name');
 $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Contractors</h2>
@@ -35,8 +35,9 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="card h-100 shadow-sm">
           <div class="card-body d-flex flex-column justify-content-between">
+            <?php $fullName = trim(($c['first_name'] ?? '') . ' ' . ($c['last_name'] ?? '')); ?>
             <div>
-              <h5 class="name mb-1"><?= h(trim(($c['first_name'] ?? '').' '.($c['last_name'] ?? ''))); ?></h5>
+              <h5 class="name mb-1"><?= h($fullName ?: 'Unknown Person'); ?></h5>
             </div>
             <div>
               <a class="btn btn-sm btn-warning" href="contractor.php?id=<?= $c['id']; ?>">Edit</a>
