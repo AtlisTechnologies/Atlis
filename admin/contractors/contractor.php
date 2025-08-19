@@ -36,7 +36,7 @@ $_SESSION['csrf_token'] = $token;
 </ul>
 <div class="tab-content" id="contractorTabsContent">
   <div class="tab-pane fade show active" id="profile" role="tabpanel">
-    <form method="post" action="../module/contractors/functions/<?= $id ? 'update.php' : 'create.php'; ?>">
+    <form method="post" action="functions/<?= $id ? 'update.php' : 'create.php'; ?>">
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">
       <?php if($id): ?><input type="hidden" name="id" value="<?= $id; ?>"><?php endif; ?>
       <div class="mb-3">
@@ -57,7 +57,7 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="../module/contractors/functions/add_note.php" class="mb-3">
+      <form method="post" action="functions/add_note.php" class="mb-3">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <textarea name="note_text" class="form-control mb-2" required></textarea>
@@ -79,7 +79,7 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="../module/contractors/functions/add_contact.php" class="mb-3">
+      <form method="post" action="functions/add_contact.php" class="mb-3">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="row g-2">
@@ -124,7 +124,7 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="../module/contractors/functions/add_compensation.php" class="mb-3">
+      <form method="post" action="functions/add_compensation.php" class="mb-3">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="row g-2">
@@ -164,7 +164,7 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="../module/contractors/functions/upload_file.php" enctype="multipart/form-data" class="mb-3">
+      <form method="post" action="functions/upload_file.php" enctype="multipart/form-data" class="mb-3">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <input type="file" name="file" class="form-control mb-2" required>

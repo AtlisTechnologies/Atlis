@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('contractors','update');
 
 $cid  = (int)($_POST['contractor_id'] ?? 0);
@@ -20,5 +20,5 @@ if($cid && $amount !== '' && $type !== ''){
   $compId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_contractors_compensation',$compId,'CREATE','',json_encode(['amount'=>$amount,'type'=>$type]),'Added compensation');
 }
-header('Location: ../../../admin/contractors/contractor.php?id='.$cid.'#compensation');
+header('Location: ../contractor.php?id='.$cid.'#compensation');
 exit;

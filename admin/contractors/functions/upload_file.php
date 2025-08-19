@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 
 require_permission('contractors','update');
 
@@ -12,7 +12,7 @@ if($cid && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)
   $file = $_FILES['file'];
   $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
   if(!in_array($ext,$allowed) || $file['size'] > $max){
-    header('Location: ../../../admin/contractors/contractor.php?id='.$cid.'#files');
+    header('Location: ../contractor.php?id='.$cid.'#files');
     exit;
   }
   $baseDir = dirname(__DIR__) . '/uploads/' . $cid . '/';
@@ -20,7 +20,7 @@ if($cid && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)
   $fileName = basename($file['name']);
   $safeName = preg_replace('/[^A-Za-z0-9._-]/','_', $fileName);
   $targetPath = $baseDir . $safeName;
-  $relativePath = '/module/contractors/uploads/'.$cid.'/'.$safeName;
+  $relativePath = '/admin/contractors/uploads/'.$cid.'/'.$safeName;
   $stmt = $pdo->prepare('SELECT id,file_path,version FROM module_contractors_files WHERE contractor_id=:cid AND file_name=:name ORDER BY version DESC LIMIT 1');
   $stmt->execute([':cid'=>$cid, ':name'=>$fileName]);
   $prev = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,5 +49,5 @@ if($cid && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)
     admin_audit_log($pdo,$this_user_id,'module_contractors_files',$fid,'UPLOAD','',json_encode(['file'=>$fileName,'version'=>$version]));
   }
 }
-header('Location: ../../../admin/contractors/contractor.php?id='.$cid.'#files');
+header('Location: ../contractor.php?id='.$cid.'#files');
 exit;
