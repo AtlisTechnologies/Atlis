@@ -1370,10 +1370,10 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 
 -- --------------------------------------------------------
 --
--- Table structure for table `module_contractors`
+-- Table structure for table `admin_contractors`
 --
 
-CREATE TABLE `module_contractors` (
+CREATE TABLE `admin_contractors` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1392,10 +1392,10 @@ CREATE TABLE `module_contractors` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_contractors_notes`
+-- Table structure for table `admin_contractors_notes`
 --
 
-CREATE TABLE `module_contractors_notes` (
+CREATE TABLE `admin_contractors_notes` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1409,10 +1409,10 @@ CREATE TABLE `module_contractors_notes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_contractors_contacts`
+-- Table structure for table `admin_contractors_contacts`
 --
 
-CREATE TABLE `module_contractors_contacts` (
+CREATE TABLE `admin_contractors_contacts` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1432,10 +1432,10 @@ CREATE TABLE `module_contractors_contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_contractors_compensation`
+-- Table structure for table `admin_contractors_compensation`
 --
 
-CREATE TABLE `module_contractors_compensation` (
+CREATE TABLE `admin_contractors_compensation` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1454,10 +1454,10 @@ CREATE TABLE `module_contractors_compensation` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_contractors_files`
+-- Table structure for table `admin_contractors_files`
 --
 
-CREATE TABLE `module_contractors_files` (
+CREATE TABLE `admin_contractors_files` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1475,10 +1475,10 @@ CREATE TABLE `module_contractors_files` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_contractors_status_history`
+-- Table structure for table `admin_contractors_status_history`
 --
 
-CREATE TABLE `module_contractors_status_history` (
+CREATE TABLE `admin_contractors_status_history` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1906,66 +1906,66 @@ ALTER TABLE `users_2fa`
   ADD KEY `fk_users_2fa_user_updated` (`user_updated`);
 
 --
--- Indexes for table `module_contractors`
+-- Indexes for table `admin_contractors`
 --
-ALTER TABLE `module_contractors`
+ALTER TABLE `admin_contractors`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_person_id` (`person_id`),
-  ADD KEY `fk_module_contractors_status_id` (`status_id`),
-  ADD KEY `fk_module_contractors_contractor_type_id` (`contractor_type_id`),
-  ADD KEY `fk_module_contractors_pay_type_id` (`pay_type_id`);
+  ADD KEY `fk_admin_contractors_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_person_id` (`person_id`),
+  ADD KEY `fk_admin_contractors_status_id` (`status_id`),
+  ADD KEY `fk_admin_contractors_contractor_type_id` (`contractor_type_id`),
+  ADD KEY `fk_admin_contractors_pay_type_id` (`pay_type_id`);
 
 --
--- Indexes for table `module_contractors_notes`
+-- Indexes for table `admin_contractors_notes`
 --
-ALTER TABLE `module_contractors_notes`
+ALTER TABLE `admin_contractors_notes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_notes_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_notes_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_notes_contractor_id` (`contractor_id`);
+  ADD KEY `fk_admin_contractors_notes_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_notes_contractor_id` (`contractor_id`);
 
 --
--- Indexes for table `module_contractors_contacts`
+-- Indexes for table `admin_contractors_contacts`
 --
-ALTER TABLE `module_contractors_contacts`
+ALTER TABLE `admin_contractors_contacts`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_contacts_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_contacts_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_contacts_contractor_id` (`contractor_id`),
-  ADD KEY `fk_module_contractors_contacts_type_id` (`contact_type_id`);
+  ADD KEY `fk_admin_contractors_contacts_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_contacts_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_contacts_contractor_id` (`contractor_id`),
+  ADD KEY `fk_admin_contractors_contacts_type_id` (`contact_type_id`);
 
 --
--- Indexes for table `module_contractors_compensation`
+-- Indexes for table `admin_contractors_compensation`
 --
-ALTER TABLE `module_contractors_compensation`
+ALTER TABLE `admin_contractors_compensation`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_compensation_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_compensation_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_compensation_contractor_id` (`contractor_id`),
-  ADD KEY `fk_module_contractors_compensation_type_id` (`compensation_type_id`),
-  ADD KEY `fk_module_contractors_compensation_payment_method_id` (`payment_method_id`);
+  ADD KEY `fk_admin_contractors_compensation_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_compensation_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_compensation_contractor_id` (`contractor_id`),
+  ADD KEY `fk_admin_contractors_compensation_type_id` (`compensation_type_id`),
+  ADD KEY `fk_admin_contractors_compensation_payment_method_id` (`payment_method_id`);
 
 --
--- Indexes for table `module_contractors_files`
+-- Indexes for table `admin_contractors_files`
 --
-ALTER TABLE `module_contractors_files`
+ALTER TABLE `admin_contractors_files`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_files_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_files_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_files_contractor_id` (`contractor_id`),
-  ADD KEY `fk_module_contractors_files_file_type_id` (`file_type_id`);
+  ADD KEY `fk_admin_contractors_files_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_files_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_files_contractor_id` (`contractor_id`),
+  ADD KEY `fk_admin_contractors_files_file_type_id` (`file_type_id`);
 
 --
--- Indexes for table `module_contractors_status_history`
+-- Indexes for table `admin_contractors_status_history`
 --
-ALTER TABLE `module_contractors_status_history`
+ALTER TABLE `admin_contractors_status_history`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_contractors_status_history_user_id` (`user_id`),
-  ADD KEY `fk_module_contractors_status_history_user_updated` (`user_updated`),
-  ADD KEY `fk_module_contractors_status_history_contractor_id` (`contractor_id`),
-  ADD KEY `fk_module_contractors_status_history_status_id` (`status_id`);
+  ADD KEY `fk_admin_contractors_status_history_user_id` (`user_id`),
+  ADD KEY `fk_admin_contractors_status_history_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_contractors_status_history_contractor_id` (`contractor_id`),
+  ADD KEY `fk_admin_contractors_status_history_status_id` (`status_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2112,39 +2112,39 @@ ALTER TABLE `module_task_assignments`
 --
 -- AUTO_INCREMENT for table `person`
 --
--- AUTO_INCREMENT for table `module_contractors`
+-- AUTO_INCREMENT for table `admin_contractors`
 --
-ALTER TABLE `module_contractors`
+ALTER TABLE `admin_contractors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_contractors_notes`
+-- AUTO_INCREMENT for table `admin_contractors_notes`
 --
-ALTER TABLE `module_contractors_notes`
+ALTER TABLE `admin_contractors_notes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_contractors_contacts`
+-- AUTO_INCREMENT for table `admin_contractors_contacts`
 --
-ALTER TABLE `module_contractors_contacts`
+ALTER TABLE `admin_contractors_contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_contractors_compensation`
+-- AUTO_INCREMENT for table `admin_contractors_compensation`
 --
-ALTER TABLE `module_contractors_compensation`
+ALTER TABLE `admin_contractors_compensation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_contractors_files`
+-- AUTO_INCREMENT for table `admin_contractors_files`
 --
-ALTER TABLE `module_contractors_files`
+ALTER TABLE `admin_contractors_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_contractors_status_history`
+-- AUTO_INCREMENT for table `admin_contractors_status_history`
 --
-ALTER TABLE `module_contractors_status_history`
+ALTER TABLE `admin_contractors_status_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -2308,145 +2308,66 @@ ALTER TABLE `module_task_assignments`
 --
 -- Constraints for table `person`
 --
--- Constraints for table `module_contractors`
+-- Constraints for table `admin_contractors`
 --
-ALTER TABLE `module_contractors`
-  ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`);
+ALTER TABLE `admin_contractors`
+  ADD CONSTRAINT `fk_admin_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
--- Constraints for table `module_contractors_notes`
+-- Constraints for table `admin_contractors_notes`
 --
-ALTER TABLE `module_contractors_notes`
-  ADD CONSTRAINT `fk_module_contractors_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_notes_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`);
+ALTER TABLE `admin_contractors_notes`
+  ADD CONSTRAINT `fk_admin_contractors_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_notes_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `admin_contractors` (`id`);
 
 --
--- Constraints for table `module_contractors_contacts`
+-- Constraints for table `admin_contractors_contacts`
 --
-ALTER TABLE `module_contractors_contacts`
-  ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_contacts_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`);
+ALTER TABLE `admin_contractors_contacts`
+  ADD CONSTRAINT `fk_admin_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_contacts_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `admin_contractors` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
--- Constraints for table `module_contractors_compensation`
+-- Constraints for table `admin_contractors_compensation`
 --
-ALTER TABLE `module_contractors_compensation`
-  ADD CONSTRAINT `fk_module_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_compensation_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`);
+ALTER TABLE `admin_contractors_compensation`
+  ADD CONSTRAINT `fk_admin_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_compensation_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `admin_contractors` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
--- Constraints for table `module_contractors_files`
+-- Constraints for table `admin_contractors_files`
 --
-ALTER TABLE `module_contractors_files`
-  ADD CONSTRAINT `fk_module_contractors_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_files_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`);
+ALTER TABLE `admin_contractors_files`
+  ADD CONSTRAINT `fk_admin_contractors_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_files_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `admin_contractors` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
--- Constraints for table `module_contractors_status_history`
+-- Constraints for table `admin_contractors_status_history`
 --
-ALTER TABLE `module_contractors_status_history`
-  ADD CONSTRAINT `fk_module_contractors_status_history_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_status_history_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_status_history_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
+ALTER TABLE `admin_contractors_status_history`
+  ADD CONSTRAINT `fk_admin_contractors_status_history_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_contractors_status_history_contractor_id` FOREIGN KEY (`contractor_id`) REFERENCES `admin_contractors` (`id`),
+  ADD CONSTRAINT `fk_admin_contractors_status_history_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
-
--- --------------------------------------------------------
---
--- Table structure for table `module_contractors`
---
-CREATE TABLE `module_contractors` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `first_name` varchar(100) DEFAULT NULL,
-  `last_name` varchar(100) DEFAULT NULL
-);
-
--- --------------------------------------------------------
--- Table structure for table `module_contractors_notes`
-CREATE TABLE `module_contractors_notes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `contractor_id` int(11) NOT NULL,
-  `note_text` text NOT NULL
-);
-
--- --------------------------------------------------------
--- Table structure for table `module_contractors_contacts`
-CREATE TABLE `module_contractors_contacts` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `contractor_id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `related_module` varchar(100) DEFAULT NULL,
-  `related_id` int(11) DEFAULT NULL
-);
-
--- --------------------------------------------------------
--- Table structure for table `module_contractors_compensation`
-CREATE TABLE `module_contractors_compensation` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `contractor_id` int(11) NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL
-);
-
--- --------------------------------------------------------
--- Table structure for table `module_contractors_files`
-CREATE TABLE `module_contractors_files` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `contractor_id` int(11) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(100) DEFAULT NULL,
-  `version` int(11) DEFAULT 1
-);
-
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
