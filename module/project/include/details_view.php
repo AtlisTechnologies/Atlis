@@ -222,10 +222,6 @@ if (!empty($current_project)) {
                         </div>
                       </div>
                     </div>
-                    <div class="dz-message" data-dz-message="data-dz-message">
-                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
-                    </div>
-                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column"></div>
                   </form>
                 </div>
                 <?php endif; ?>
@@ -415,12 +411,6 @@ if (!empty($current_project)) {
       <div class="col-6 bg-light border">
         <div class="p-4 p-lg-6">
           <h3 class="text-body-highlight mb-4 fw-bold">Recent Activity</h3>
-          <div class="mb-3">
-            <button class="btn btn-sm btn-secondary me-1 timeline-filter active" data-filter="">All</button>
-            <button class="btn btn-sm btn-secondary me-1 timeline-filter" data-filter="note">Notes</button>
-            <button class="btn btn-sm btn-secondary me-1 timeline-filter" data-filter="file">Files</button>
-            <button class="btn btn-sm btn-secondary timeline-filter" data-filter="task">Tasks</button>
-          </div>
           <div class="timeline-vertical timeline-with-details" id="activityTimeline">
             <?php if (!empty($notes)): ?>
               <?php foreach ($notes as $n): ?>
