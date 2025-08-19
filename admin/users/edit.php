@@ -9,17 +9,18 @@ $phone = $dob = $address = '';
 
 $memo = [];
 $profile_pic = '';
+$profilePics = [];
 
 $errors = $_SESSION['form_errors'] ?? [];
 unset($_SESSION['form_errors']);
 
 if ($id) {
   require_permission('users','update');
-  $stmt = $pdo->prepare('SELECT u.email, u.profile_pic, u.memo, p.first_name, p.last_name, p.gender_id, p.phone, p.dob, p.address FROM users u LEFT JOIN person p ON u.id = p.user_id WHERE u.id = :id');
+  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.first_name, p.last_name, p.gender_id, p.phone, p.dob, p.address, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $email = $row['email'];
-    $profile_pic = $row['profile_pic'];
+    $profile_pic = $row['profile_path'];
     $memo = json_decode($row['memo'] ?? '{}', true);
     $first_name = $row['first_name'] ?? '';
     $last_name = $row['last_name'] ?? '';
@@ -27,6 +28,10 @@ if ($id) {
     $phone = $row['phone'] ?? '';
     $dob = $row['dob'] ?? '';
     $address = $row['address'] ?? '';
+
+    $picStmt = $pdo->prepare('SELECT up.id, up.file_path, up.width, up.height, up.status_id, up.date_created, li.label AS status_label, li.code AS status_code FROM users_profile_pics up LEFT JOIN lookup_list_items li ON up.status_id = li.id WHERE up.user_id = :uid ORDER BY up.date_created DESC');
+    $picStmt->execute([':uid' => $id]);
+    $profilePics = $picStmt->fetchAll(PDO::FETCH_ASSOC);
   }
 } else {
   require_permission('users','create');
@@ -96,6 +101,52 @@ $_SESSION['csrf_token'] = $token;
           <?php endif; ?>
           <input type="file" name="profile_pic" accept="image/png,image/jpeg" class="form-control">
         </div>
+        <?php if ($id && $profilePics): ?>
+        <div class="mb-3">
+          <div class="accordion" id="profilePicAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingPics">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePics" aria-expanded="false" aria-controls="collapsePics">Previous Profile Pictures</button>
+              </h2>
+              <div id="collapsePics" class="accordion-collapse collapse" data-bs-parent="#profilePicAccordion">
+                <div class="accordion-body p-0">
+                  <table class="table mb-0">
+                    <thead>
+                      <tr>
+                        <th>Thumbnail</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Dimensions</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($profilePics as $pic): ?>
+                        <tr>
+                          <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path']); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
+                          <td><?php echo htmlspecialchars($pic['status_label']); ?></td>
+                          <td><?php echo htmlspecialchars($pic['date_created']); ?></td>
+                          <td><?php echo htmlspecialchars($pic['width']); ?>x<?php echo htmlspecialchars($pic['height']); ?></td>
+                          <td>
+                            <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
+                              <form method="post" action="functions/save.php" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
+                                <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
+                                <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
+                              </form>
+                            <?php endif; ?>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
         <div class="mb-3">
           <label class="form-label">Gender</label>
           <select name="gender_id" class="form-select">
