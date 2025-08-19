@@ -173,6 +173,12 @@ if ($action === 'create-edit') {
   }
 }
 
+// Ensure variables are defined for included views
+$tasks = $tasks ?? [];
+$assignedUsers = $assignedUsers ?? [];
+$taskStatusItems = $taskStatusItems ?? [];
+$taskPriorityItems = $taskPriorityItems ?? [];
+
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">

@@ -121,12 +121,18 @@ if (!empty($current_project)) {
                     <table class="lh-sm">
                       <tbody>
                         <tr>
-                          <td class="align-top py-1 text-body text-nowrap fw-bold">Started : </td>
-                          <td class="text-body-tertiary text-opacity-85 fw-semibold ps-3"><?= !empty($current_project['start_date']) ? h(date('jS M, Y', strtotime($current_project['start_date']))) : '' ?></td>
+                          <td class="align-top py-1 text-body text-nowrap fw-bold">Started :</td>
+                          <td class="text-body-tertiary text-opacity-85 fw-semibold ps-3">
+                            <span id="startDateDisplay" data-field="start_date"><?= !empty($current_project['start_date']) ? h(date('jS M, Y', strtotime($current_project['start_date']))) : '' ?></span>
+                            <input type="text" class="d-none" id="startDateInput" value="<?= !empty($current_project['start_date']) ? h(date('Y-m-d', strtotime($current_project['start_date']))) : '' ?>">
+                          </td>
                         </tr>
                         <tr>
                           <td class="align-top py-1 text-body text-nowrap fw-bold">Deadline :</td>
-                          <td class="text-body-tertiary text-opacity-85 fw-semibold ps-3"><?= !empty($current_project['complete_date']) ? h(date('jS M, Y', strtotime($current_project['complete_date']))) : '' ?></td>
+                          <td class="text-body-tertiary text-opacity-85 fw-semibold ps-3">
+                            <span id="deadlineDisplay" data-field="complete_date"><?= !empty($current_project['complete_date']) ? h(date('jS M, Y', strtotime($current_project['complete_date']))) : '' ?></span>
+                            <input type="text" class="d-none" id="deadlineInput" value="<?= !empty($current_project['complete_date']) ? h(date('Y-m-d', strtotime($current_project['complete_date']))) : '' ?>">
+                          </td>
                         </tr>
                         <tr>
                           <td class="align-top py-1 text-body text-nowrap fw-bold">Progress :</td>
@@ -339,11 +345,30 @@ if (!empty($current_project)) {
             <input class="form-control me-2" type="text" name="name" placeholder="Quick add task" required>
             <button class="btn btn-success" type="submit">Add</button>
           </form>
+          <div class="row g-2 mb-3">
+            <div class="col-sm">
+              <select class="form-select" id="assigneeFilter">
+                <option value="">All Assignees</option>
+                <?php foreach ($assignedUsers as $au): ?>
+                  <option value="<?= (int)$au['user_id'] ?>"><?= h($au['name']) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-sm">
+              <select class="form-select" id="statusFilter">
+                <option value="">All Statuses</option>
+                <?php foreach ($taskStatusItems as $s): ?>
+                  <option value="<?= (int)$s['id'] ?>"><?= h($s['label']) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
           <div class="mb-4 todo-list list" id="taskListContainer">
             <?php if (!empty($tasks)): ?>
               <?php foreach ($tasks as $t): ?>
                 <?php $overdue = (!empty($t['due_date']) && strtotime($t['due_date']) < time() && empty($t['completed'])); ?>
-                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
+                <?php $assigneeIds = implode(',', array_column($t['assignees'] ?? [], 'assigned_user_id')); ?>
+                <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>" data-assignee-ids="<?= h($assigneeIds) ?>" data-status-id="<?= (int)$t['status'] ?>">
                   <div class="col-12 col-md-auto flex-1">
                     <div>
                       <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
@@ -389,11 +414,17 @@ if (!empty($current_project)) {
 
       <div class="col-6 bg-light border">
         <div class="p-4 p-lg-6">
-          <h3 class="text-body-highlight mb-4 fw-bold">Notes</h3>
-          <div class="timeline-vertical timeline-with-details">
+          <h3 class="text-body-highlight mb-4 fw-bold">Recent Activity</h3>
+          <div class="mb-3">
+            <button class="btn btn-sm btn-secondary me-1 timeline-filter active" data-filter="">All</button>
+            <button class="btn btn-sm btn-secondary me-1 timeline-filter" data-filter="note">Notes</button>
+            <button class="btn btn-sm btn-secondary me-1 timeline-filter" data-filter="file">Files</button>
+            <button class="btn btn-sm btn-secondary timeline-filter" data-filter="task">Tasks</button>
+          </div>
+          <div class="timeline-vertical timeline-with-details" id="activityTimeline">
             <?php if (!empty($notes)): ?>
               <?php foreach ($notes as $n): ?>
-              <div class="timeline-item position-relative">
+              <div class="timeline-item position-relative" data-type="note">
                 <div class="row g-md-3 mb-4">
                   <div class="col-12 col-md-auto d-flex">
                     <div class="timeline-item-date order-1 order-md-0 me-md-4">
@@ -532,6 +563,81 @@ document.addEventListener('DOMContentLoaded', function () {
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
 
+  var assigneeFilter = document.getElementById('assigneeFilter');
+  var statusFilter = document.getElementById('statusFilter');
+
+  function applyTaskFilters(){
+    var aVal = assigneeFilter ? assigneeFilter.value : '';
+    var sVal = statusFilter ? statusFilter.value : '';
+    document.querySelectorAll('.task-row').forEach(function(row){
+      var show = true;
+      if(aVal){
+        var ids = row.dataset.assigneeIds ? row.dataset.assigneeIds.split(',') : [];
+        if(ids.indexOf(aVal) === -1) show = false;
+      }
+      if(sVal && row.dataset.statusId !== sVal) show = false;
+      row.classList.toggle('d-none', !show);
+    });
+  }
+  if(assigneeFilter){ assigneeFilter.addEventListener('change', applyTaskFilters); }
+  if(statusFilter){ statusFilter.addEventListener('change', applyTaskFilters); }
+
+  var timelineButtons = document.querySelectorAll('.timeline-filter');
+  var currentTimelineFilter = '';
+  function applyTimelineFilter(){
+    document.querySelectorAll('#activityTimeline .timeline-item').forEach(function(item){
+      var hide = currentTimelineFilter && item.dataset.type !== currentTimelineFilter;
+      item.classList.toggle('d-none', hide);
+    });
+  }
+  timelineButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      timelineButtons.forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      currentTimelineFilter = this.dataset.filter;
+      applyTimelineFilter();
+    });
+  });
+  applyTimelineFilter();
+
+  var startSpan = document.getElementById('startDateDisplay');
+  var startInput = document.getElementById('startDateInput');
+  var deadlineSpan = document.getElementById('deadlineDisplay');
+  var deadlineInput = document.getElementById('deadlineInput');
+
+  function setupDateInline(span, input){
+    if(!span || !input || !window.flatpickr) return;
+    var field = span.getAttribute('data-field');
+    var fp = flatpickr(input, {
+      dateFormat: 'Y-m-d',
+      defaultDate: input.value || null,
+      onChange: function(selectedDates, dateStr){
+        fetch('functions/update_field.php',{
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body:new URLSearchParams({project_id: projectId, field: field, value: dateStr})
+        }).then(r=>r.json()).then(function(d){
+          if(d.success){
+            span.textContent = dateStr ? new Date(dateStr).toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'}) : '';
+          }
+          span.classList.remove('d-none');
+          input.classList.add('d-none');
+        });
+      }
+    });
+    span.addEventListener('click', function(){
+      span.classList.add('d-none');
+      input.classList.remove('d-none');
+      fp.open();
+    });
+    input.addEventListener('blur', function(){
+      span.classList.remove('d-none');
+      input.classList.add('d-none');
+    });
+  }
+  setupDateInline(startSpan, startInput);
+  setupDateInline(deadlineSpan, deadlineInput);
+
   function htmlToElement(html){ var div=document.createElement('div'); div.innerHTML=html.trim(); return div.firstChild; }
 
   function renderTask(t){
@@ -539,8 +645,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var assignees='';
     if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.file_path ? '<?php echo getURLDir(); ?>'+a.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
+    var assigneeIds = t.assignees ? t.assignees.map(function(a){ return a.assigned_user_id; }).join(',') : '';
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
-    return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
+    return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}" data-assignee-ids="${assigneeIds}" data-status-id="${t.status}">
       <div class="col-12 col-md-auto flex-1">
         <div>
           <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
@@ -601,10 +708,12 @@ document.addEventListener('DOMContentLoaded', function () {
       var newEl = htmlToElement(renderTask(task));
       oldRow.replaceWith(newEl);
       attachTaskEvents(newEl);
+      applyTaskFilters();
     }
   }
 
   document.querySelectorAll('.task-row').forEach(attachTaskEvents);
+  applyTaskFilters();
 
   var addForm = document.getElementById('taskQuickAdd');
   if(addForm){
@@ -617,6 +726,7 @@ document.addEventListener('DOMContentLoaded', function () {
           document.getElementById('taskListContainer').prepend(el);
           attachTaskEvents(el);
           addForm.reset();
+          applyTaskFilters();
         }
       });
     });
@@ -629,8 +739,11 @@ document.addEventListener('DOMContentLoaded', function () {
       var fd=new FormData(noteForm);
       fetch('functions/add_note.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
         if(d.success){
-          document.querySelector('.timeline-vertical').insertAdjacentHTML('afterbegin', renderNote(d.note));
+          document.getElementById('activityTimeline').insertAdjacentHTML('afterbegin', renderNote(d.note));
+          var newNote = document.getElementById('activityTimeline').querySelector('.note-text');
+          attachNoteEvents(newNote);
           noteForm.reset();
+          applyTimelineFilter();
         }
       });
     });
@@ -639,17 +752,20 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderNote(n){
     var files='';
     if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#imageModal\" data-img-src=\"<?php echo getURLDir(); ?>${f.file_path}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
-    return `<div class=\"timeline-item position-relative\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"${n.file_path ? '<?php echo getURLDir(); ?>'+n.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
+    return `<div class=\"timeline-item position-relative\" data-type=\"note\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"${n.file_path ? '<?php echo getURLDir(); ?>'+n.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
   }
 
-  document.querySelectorAll('.note-text').forEach(function(p){
-    p.addEventListener('click', function(){
+  function attachNoteEvents(p){
+    if(!p) return;
+    p.addEventListener('click', function handler(){
       var id = this.dataset.noteId; var original = this.innerText; var textarea = document.createElement('textarea'); textarea.className='form-control'; textarea.value=original; this.replaceWith(textarea); textarea.focus(); textarea.addEventListener('blur', save); textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); textarea.blur(); }});
+      var self=this;
       function save(){
-        fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); p.addEventListener('click', arguments.callee); });
+        fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); attachNoteEvents(p); });
       }
     });
-  });
+  }
+  document.querySelectorAll('.note-text').forEach(attachNoteEvents);
   document.querySelectorAll('.project-field-option').forEach(function(item){
     item.addEventListener('click', function(e){
       e.preventDefault();
