@@ -1636,10 +1636,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `profile_pic`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', NULL, 'USER', 1, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, NULL, 'USER', 1, NULL);
+INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
 
 
 -- --------------------------------------------------------
