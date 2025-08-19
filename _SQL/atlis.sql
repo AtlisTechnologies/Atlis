@@ -1021,10 +1021,23 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (51, 1, 1, '2025-08-17 22:27:39', '2025-08-17 22:27:39', NULL, 51, 'COLOR-CLASS', 'danger'),
 (52, 1, 1, '2025-08-17 22:27:44', '2025-08-17 22:27:44', NULL, 51, 'DEFAULT', 'true'),
 (53, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 52, 'COLOR-CLASS', 'atlis'),
-(54, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 78, 'BADGE_CLASS', 'secondary'),
-(55, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 79, 'BADGE_CLASS', 'success'),
-(56, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 80, 'BADGE_CLASS', 'warning'),
-(57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 81, 'BADGE_CLASS', 'dark');
+(54, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 78, 'COLOR-CLASS', 'secondary'),
+(55, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 79, 'COLOR-CLASS', 'success'),
+(56, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 80, 'COLOR-CLASS', 'warning'),
+(57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 81, 'COLOR-CLASS', 'dark'),
+(58, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 69, 'DEFAULT', 'true'),
+(59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 78, 'DEFAULT', 'true'),
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 64, 'DEFAULT', 'true'),
+(61, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 64, 'COLOR-CLASS', 'primary'),
+(62, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 65, 'COLOR-CLASS', 'success'),
+(63, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 66, 'DEFAULT', 'true'),
+(64, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 66, 'COLOR-CLASS', 'primary'),
+(65, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 67, 'COLOR-CLASS', 'success'),
+(66, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 68, 'COLOR-CLASS', 'warning'),
+(67, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 75, 'DEFAULT', 'true'),
+(68, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 75, 'COLOR-CLASS', 'primary'),
+(69, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 76, 'COLOR-CLASS', 'success'),
+(70, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 77, 'COLOR-CLASS', 'warning');
 
 -- --------------------------------------------------------
 
@@ -2103,7 +2116,7 @@ ALTER TABLE `lookup_list_items`
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
