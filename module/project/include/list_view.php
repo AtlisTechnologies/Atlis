@@ -77,13 +77,12 @@
           </td>
           <td class="align-middle ps-3 start"><?php echo !empty($project['start_date']) ? h(date('F jS, Y', strtotime($project['start_date']))) : ''; ?></td>
           <td class="align-middle ps-3 deadline"><?php echo !empty($project['complete_date']) ? h(date('F jS, Y', strtotime($project['complete_date']))) : ''; ?></td>
-          <?php $progress = ($project['total_tasks'] > 0 ? ($project['completed_tasks'] / $project['total_tasks']) * 100 : 0); ?>
           <td class="align-middle ps-3 projectprogress">
             <div class="d-flex align-items-center gap-2">
-              <div class="progress flex-grow-1" style="height:5px;">
-                <div class="progress-bar" role="progressbar" style="width: <?= round($progress); ?>%;" aria-valuenow="<?= round($progress); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress flex-grow-1" style="height:4px;">
+                <div class="progress-bar" style="width:<?= $project['total_tasks'] ? ($project['completed_tasks']/$project['total_tasks']*100) : 0; ?>%"></div>
               </div>
-              <span class="fs-10"><?= h($project['completed_tasks']); ?>/<?= h($project['total_tasks']); ?></span>
+              <span class="fs-9"><?= h($project['completed_tasks']); ?>/<?= h($project['total_tasks']); ?></span>
             </div>
           </td>
           <td class="align-middle ps-8 status"><span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['status_color']); ?>"><?php echo h($project['status_label']); ?></span></td>
