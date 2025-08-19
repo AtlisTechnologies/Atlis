@@ -68,9 +68,9 @@
           <td class="align-middle white-space-nowrap assignees ps-3">
             <div class="avatar-group avatar-group-dense">
               <?php foreach ($project['assignees'] as $assignee): ?>
-                <?php $pic = !empty($assignee['profile_pic']) ? 'module/users/uploads/' . $assignee['profile_pic'] : '../../assets/img/team/avatar.webp'; ?>
+                <?php $pic = !empty($assignee['file_path']) ? $assignee['file_path'] : 'assets/img/team/avatar.webp'; ?>
                 <div class="avatar avatar-s rounded-circle">
-                  <img class="rounded-circle" src="<? echo getURLDir(); ?><?= h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
+                  <img class="rounded-circle" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
                 </div>
               <?php endforeach; ?>
             </div>

@@ -50,7 +50,8 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <?php foreach ($assignedUsers as $au): ?>
                   <li class="d-flex align-items-center mb-2">
                     <div class="avatar avatar-xl me-2">
-                      <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?php echo h($au['profile_pic'] ?? ''); ?>" alt="<?php echo h($au['name']); ?>" />
+                      <?php $dpic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                      <img class="rounded-circle" src="<?php echo getURLDir() . h($dpic); ?>" alt="<?php echo h($au['name']); ?>" />
                     </div>
                     <div class="flex-grow-1">
                       <h6 class="mb-0"><?php echo h($au['name']); ?></h6>
