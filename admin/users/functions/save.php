@@ -13,18 +13,43 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
   die('Invalid CSRF token');
 }
 
- $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
- $isUpdate = $id > 0;
- $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
- $password = $_POST['password'] ?? '';
- $confirm = $_POST['confirmPassword'] ?? '';
- $first_name = trim($_POST['first_name'] ?? '');
- $last_name = trim($_POST['last_name'] ?? '');
- $gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
- $phone = preg_replace('/[^0-9]/', '', $_POST['phone'] ?? '');
- $dob = $_POST['dob'] ?? '';
- $address = trim($_POST['address'] ?? '');
- $memo = $_POST['memo'] ?? null;
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+$reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
+
+function get_status_id(PDO $pdo, string $code): int {
+  $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_STATUS' AND li.code = :code LIMIT 1");
+  $stmt->execute([':code' => $code]);
+  return (int)$stmt->fetchColumn();
+}
+
+$activeStatusId = get_status_id($pdo, 'ACTIVE');
+$inactiveStatusId = get_status_id($pdo, 'INACTIVE');
+
+if ($reactivatePicId && $id) {
+  $pdo->beginTransaction();
+  $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
+      ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+  $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
+      ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
+  $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
+      ->execute([':pic' => $reactivatePicId, ':uid' => $this_user_id, ':user' => $id]);
+  $pdo->commit();
+  $_SESSION['message'] = 'Profile picture updated.';
+  header('Location: ../edit.php?id=' . $id);
+  exit;
+}
+
+$isUpdate = $id > 0;
+$email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
+$password = $_POST['password'] ?? '';
+$confirm = $_POST['confirmPassword'] ?? '';
+$first_name = trim($_POST['first_name'] ?? '');
+$last_name = trim($_POST['last_name'] ?? '');
+$gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
+$phone = preg_replace('/[^0-9]/', '', $_POST['phone'] ?? '');
+$dob = $_POST['dob'] ?? '';
+$address = trim($_POST['address'] ?? '');
+$memo = $_POST['memo'] ?? null;
 
  $errors = [];
  if ($email === '') {
@@ -63,12 +88,8 @@ if ($password !== '' && $password !== $confirm) {
 $hash = $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : null;
 
 $profilePath = null;
-$oldProfile = null;
-if ($isUpdate) {
-  $stmt = $pdo->prepare('SELECT profile_pic FROM users WHERE id = :id');
-  $stmt->execute([':id' => $id]);
-  $oldProfile = $stmt->fetchColumn();
-}
+$fileSize = $mime = $hashFile = null;
+$width = $height = null;
 if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
   $file = $_FILES['profile_pic'];
   if ($file['size'] <= 10 * 1024 * 1024) {
@@ -87,75 +108,100 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
       $dest = $destDir . $filename;
       if (move_uploaded_file($file['tmp_name'], $dest)) {
         $profilePath = 'module/users/uploads/' . $filename;
-        if ($oldProfile && file_exists('../../../' . $oldProfile)) {
-          @unlink('../../../' . $oldProfile);
+        $fileSize = $file['size'];
+        $hashFile = hash_file('sha256', $dest);
+        $img = getimagesize($dest);
+        if ($img) {
+          $width = $img[0];
+          $height = $img[1];
         }
       }
     }
   }
 }
 
- try {
-   if ($isUpdate) {
-     $fields = 'email = :email, memo = :memo, user_updated = :uid';
-     $params = [
-       ':email' => $email,
-       ':memo' => $memo,
-       ':uid' => $this_user_id,
-       ':id' => $id
-     ];
-     if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
-     if ($profilePath) { $fields .= ', profile_pic = :pic'; $params[':pic'] = $profilePath; }
-     $stmt = $pdo->prepare('UPDATE users SET ' . $fields . ' WHERE id = :id');
-     $stmt->execute($params);
+try {
+  if ($isUpdate) {
+    $fields = 'email = :email, memo = :memo, user_updated = :uid';
+    $params = [
+      ':email' => $email,
+      ':memo' => $memo,
+      ':uid' => $this_user_id,
+      ':id' => $id
+    ];
+    if ($hash) { $fields .= ', password = :password'; $params[':password'] = $hash; }
+    $stmt = $pdo->prepare('UPDATE users SET ' . $fields . ' WHERE id = :id');
+    $stmt->execute($params);
 
-     $personExists = $pdo->prepare('SELECT id FROM person WHERE user_id = :uid_fk');
-     $personExists->execute([':uid_fk' => $id]);
-     $personParams = [
-       ':uid_fk' => $id,
-       ':fn' => $first_name,
-       ':ln' => $last_name,
-       ':gender_id' => $gender_id,
-       ':phone' => $phone,
-       ':dob' => $dob ?: null,
-       ':address' => $address,
-       ':uid_update' => $this_user_id
-     ];
-     if ($personExists->fetchColumn()) {
-       $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, phone = :phone, dob = :dob, address = :address, user_updated = :uid_update WHERE user_id = :uid_fk');
-       $pstmt->execute($personParams);
-     } else {
-       $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
-       $pstmt->execute($personParams);
-     }
-   } else {
-     $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, profile_pic, memo) VALUES (:uid, :uid, :email, :password, :pic, :memo)');
-     $stmt->execute([
-       ':uid' => $this_user_id,
-       ':email' => $email,
-       ':password' => $hash,
-       ':pic' => $profilePath,
-       ':memo' => $memo
-     ]);
-     $id = (int)$pdo->lastInsertId();
+    $personExists = $pdo->prepare('SELECT id FROM person WHERE user_id = :uid_fk');
+    $personExists->execute([':uid_fk' => $id]);
+    $personParams = [
+      ':uid_fk' => $id,
+      ':fn' => $first_name,
+      ':ln' => $last_name,
+      ':gender_id' => $gender_id,
+      ':phone' => $phone,
+      ':dob' => $dob ?: null,
+      ':address' => $address,
+      ':uid_update' => $this_user_id
+    ];
+    if ($personExists->fetchColumn()) {
+      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, phone = :phone, dob = :dob, address = :address, user_updated = :uid_update WHERE user_id = :uid_fk');
+      $pstmt->execute($personParams);
+    } else {
+      $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
+      $pstmt->execute($personParams);
+    }
+  } else {
+    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo) VALUES (:uid, :uid, :email, :password, :memo)');
+    $stmt->execute([
+      ':uid' => $this_user_id,
+      ':email' => $email,
+      ':password' => $hash,
+      ':memo' => $memo
+    ]);
+    $id = (int)$pdo->lastInsertId();
 
-     $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
-     $pstmt->execute([
-       ':uid_fk' => $id,
-       ':fn' => $first_name,
-       ':ln' => $last_name,
-       ':gender_id' => $gender_id,
-       ':phone' => $phone,
-       ':dob' => $dob ?: null,
-       ':address' => $address,
-       ':uid_update' => $this_user_id
-     ]);
-   }
+    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
+    $pstmt->execute([
+      ':uid_fk' => $id,
+      ':fn' => $first_name,
+      ':ln' => $last_name,
+      ':gender_id' => $gender_id,
+      ':phone' => $phone,
+      ':dob' => $dob ?: null,
+      ':address' => $address,
+      ':uid_update' => $this_user_id
+    ]);
+  }
 
-   $_SESSION['message'] = $isUpdate ? 'User updated.' : 'User created.';
- } catch (Exception $e) {
-   $_SESSION['message'] = 'Error saving user.';
- }
+  if ($profilePath) {
+    $pdo->beginTransaction();
+    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
+        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+    $pstmt = $pdo->prepare('INSERT INTO users_profile_pics (user_id, uploaded_by, file_path, file_size, mime_type, width, height, hash, status_id, user_updated) VALUES (:user_id, :uploaded_by, :file_path, :file_size, :mime_type, :width, :height, :hash, :status_id, :uid)');
+    $pstmt->execute([
+      ':user_id' => $id,
+      ':uploaded_by' => $this_user_id,
+      ':file_path' => $profilePath,
+      ':file_size' => $fileSize,
+      ':mime_type' => $mime,
+      ':width' => $width,
+      ':height' => $height,
+      ':hash' => $hashFile,
+      ':status_id' => $activeStatusId,
+      ':uid' => $this_user_id
+    ]);
+    $picId = (int)$pdo->lastInsertId();
+    $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
+        ->execute([':pic' => $picId, ':uid' => $this_user_id, ':user' => $id]);
+    $pdo->commit();
+  }
 
- header('Location: ../index.php');
- exit;
+  $_SESSION['message'] = $isUpdate ? 'User updated.' : 'User created.';
+} catch (Exception $e) {
+  $_SESSION['message'] = 'Error saving user.';
+}
+
+header('Location: ../index.php');
+exit;
