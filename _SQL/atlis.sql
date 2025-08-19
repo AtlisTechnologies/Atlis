@@ -1646,27 +1646,6 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users_profile_pics`
---
-
-CREATE TABLE `users_profile_pics` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `uploaded_by` int(11) DEFAULT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `mime_type` varchar(100) DEFAULT NULL,
-  `width` int(11) DEFAULT NULL,
-  `height` int(11) DEFAULT NULL,
-  `hash` varchar(64) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
 -- Dumping data for table `users_profile_pics`
 --
 
@@ -2039,17 +2018,6 @@ ALTER TABLE `users`
   ADD KEY `fk_users_current_profile_pic_id` (`current_profile_pic_id`);
 
 --
--- Indexes for table `users_profile_pics`
---
-ALTER TABLE `users_profile_pics`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
-  ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
-  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
-  ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`);
-
-
---
 -- Indexes for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
@@ -2414,20 +2382,14 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+-- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
 
---
--- Constraints for table `users_profile_pics`
---
-ALTER TABLE `users_profile_pics`
-  ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
