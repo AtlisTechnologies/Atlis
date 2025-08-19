@@ -139,7 +139,9 @@ if (!empty($current_project)) {
                     <div class="d-flex align-items-center mb-4">
                       <h4 class="text-body-emphasis mb-0 me-2">Assigned</h4>
                       <?php if (user_has_permission('project','create|update|delete')): ?>
-                        <button class="btn btn-sm btn-success" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">+</button>
+                        <button class="bg-transparent border-0 text-success fs-4" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal" aria-label="Assign user">
+                          <span class="fa-solid fa-plus"></span>
+                        </button>
                       <?php endif; ?>
                     </div>
                     <?php if (!empty($assignedUsers)): ?>
@@ -158,7 +160,9 @@ if (!empty($current_project)) {
                                 <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                                   <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                   <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
-                                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-xmark"></span></button>
+                                  <button class="bg-transparent border-0 text-danger fs-5" type="submit" aria-label="Unassign user">
+                                    <span class="fa-solid fa-xmark"></span>
+                                  </button>
                                 </form>
                               <?php endif; ?>
                             </div>
