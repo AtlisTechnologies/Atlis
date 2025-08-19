@@ -2327,7 +2327,7 @@ ALTER TABLE `lookup_list_item_attributes`
 ALTER TABLE `module_contractors`
   ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `module_person` (`id`) ON DELETE RESTRICT,
+  ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE RESTRICT,
   ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
   ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
   ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
