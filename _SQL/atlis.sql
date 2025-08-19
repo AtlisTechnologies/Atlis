@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2025 at 05:34 AM
+-- Generation Time: Aug 19, 2025 at 06:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -813,7 +813,20 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (317, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', NULL, 'lookup_lists', 17, 'CREATE', 'Created lookup list'),
 (318, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', NULL, 'lookup_lists', 18, 'CREATE', 'Created lookup list'),
 (319, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', NULL, 'lookup_lists', 19, 'CREATE', 'Created lookup list'),
-(320, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', NULL, 'lookup_lists', 20, 'CREATE', 'Created lookup list');
+(320, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', NULL, 'lookup_lists', 20, 'CREATE', 'Created lookup list'),
+(321, 1, 1, '2025-08-18 22:17:58', '2025-08-18 22:17:58', NULL, 'module_tasks', 4, 'UPDATE', 'Updated task status'),
+(322, 1, 1, '2025-08-18 22:18:05', '2025-08-18 22:18:05', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(323, 1, 1, '2025-08-18 22:18:08', '2025-08-18 22:18:08', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
+(324, 1, 1, '2025-08-18 22:18:11', '2025-08-18 22:18:11', NULL, 'module_tasks', 8, 'UPDATE', 'Updated task status'),
+(325, 1, 1, '2025-08-18 22:19:34', '2025-08-18 22:19:34', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
+(326, 1, 1, '2025-08-18 22:23:34', '2025-08-18 22:23:34', NULL, 'module_tasks', 24, 'UPDATE', 'Completed task'),
+(327, 1, 1, '2025-08-18 22:23:42', '2025-08-18 22:23:42', NULL, 'module_tasks', 12, 'UPDATE', 'Updated task priority'),
+(328, 1, 1, '2025-08-18 22:23:46', '2025-08-18 22:23:46', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
+(329, 1, 1, '2025-08-18 22:23:47', '2025-08-18 22:23:47', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
+(330, 1, 1, '2025-08-18 22:23:49', '2025-08-18 22:23:49', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
+(331, 1, 1, '2025-08-18 22:23:51', '2025-08-18 22:23:51', NULL, 'module_tasks', 24, 'UPDATE', 'Marked task incomplete'),
+(332, 1, 1, '2025-08-18 22:24:10', '2025-08-18 22:24:10', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
+(333, 1, 1, '2025-08-18 22:24:11', '2025-08-18 22:24:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete');
 
 -- --------------------------------------------------------
 
@@ -1376,29 +1389,29 @@ CREATE TABLE `module_tasks` (
 -- Dumping data for table `module_tasks`
 --
 
-INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
-(1, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:11', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(2, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:20', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 22:21:57', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', '38', NULL, '2025-03-17', '2025-08-17', 1, 1, 100),
-(4, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:33', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-25', NULL, 0, NULL, 0),
-(6, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:00', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
-(7, 1, 1, '2025-08-14 22:21:21', '2025-08-16 19:15:49', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
-(8, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:31', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-27', NULL, 0, NULL, 0),
-(9, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:29', NULL, 5, 2, 2, '', NULL, NULL, NULL, '32', NULL, NULL, '2025-03-27', NULL, 0, NULL, 0),
-(10, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:27', NULL, 5, 2, 2, '', NULL, NULL, NULL, '33', NULL, NULL, '2025-04-01', NULL, 0, NULL, 0),
-(11, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:13:35', NULL, 5, 2, 2, '', NULL, NULL, NULL, NULL, '38', NULL, NULL, '2025-08-17', 1, 1, 100),
-(12, 1, 1, '2025-08-14 22:21:21', '2025-08-16 23:26:38', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', '38', NULL, NULL, NULL, 0, NULL, 0),
-(13, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:03:28', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '34', '39', NULL, NULL, '2025-08-17', 1, 1, 100),
-(15, 1, 1, '2025-08-14 22:21:21', '2025-08-17 22:21:54', NULL, 5, 2, 2, '', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(16, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:09:16', NULL, 5, 2, 2, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(17, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 8, 1, 2, 'test', NULL, NULL, NULL, '35', '40', NULL, NULL, NULL, 0, NULL, 0),
-(18, 1, 1, '2025-08-17 01:17:08', '2025-08-17 19:09:19', NULL, 5, NULL, NULL, '', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 22:28:42', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
-(21, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, NULL, NULL, NULL, 'Dave', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(22, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, NULL, NULL, NULL, 'Test 1', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(23, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, NULL, NULL, NULL, 'Test 2', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0),
-(24, 1, 1, '2025-08-18 14:33:18', '2025-08-18 14:33:18', NULL, NULL, NULL, NULL, '*person* (not sure how) unable to assign an Interpreter (per Kasper)', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, 0, NULL, 0);
+INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `previous_status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
+(1, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:11', NULL, 5, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(2, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:24:11', NULL, 5, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '34', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-14 22:21:21', '2025-08-17 22:21:57', NULL, 5, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', NULL, '38', NULL, '2025-03-17', '2025-08-17', 1, 1, 100),
+(4, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:17:58', NULL, 5, 2, 2, 'Task 4', NULL, NULL, NULL, '35', NULL, NULL, NULL, '2025-03-25', NULL, 0, NULL, 0),
+(6, 1, 1, '2025-08-14 22:21:21', '2025-08-15 15:08:00', NULL, 5, 2, 2, 'Zoom Link', NULL, NULL, NULL, '35', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
+(7, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:23:49', NULL, 5, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '34', 35, '37', NULL, '2025-03-26', '2025-08-18', 1, 1, 100),
+(8, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:18:11', NULL, 5, 2, 2, 'Task 8', NULL, NULL, NULL, '35', NULL, NULL, NULL, '2025-03-27', NULL, 0, NULL, 0),
+(9, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:19:34', NULL, 5, 2, 2, 'Task 9', NULL, NULL, NULL, '34', 32, NULL, NULL, '2025-03-27', '2025-08-18', 1, 1, 100),
+(10, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:17:50', NULL, 5, 2, 2, 'Task 10', NULL, NULL, NULL, '33', NULL, NULL, NULL, '2025-04-01', NULL, 0, NULL, 0),
+(11, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:17:50', NULL, 5, 2, 2, 'Task 11', NULL, NULL, NULL, NULL, NULL, '38', NULL, NULL, '2025-08-17', 1, 1, 100),
+(12, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:23:42', NULL, 5, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '35', NULL, '37', NULL, NULL, NULL, 0, NULL, 0),
+(13, 1, 1, '2025-08-14 22:21:21', '2025-08-17 19:03:28', NULL, 5, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '34', NULL, '39', NULL, NULL, '2025-08-17', 1, 1, 100),
+(15, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:17:50', NULL, 5, 2, 2, 'Task 15', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(16, 1, 1, '2025-08-14 22:21:21', '2025-08-18 22:17:50', NULL, 5, 2, 2, 'Task 16', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(17, 1, NULL, '2025-08-17 01:02:06', '2025-08-17 01:02:06', NULL, 8, 1, 2, 'test', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
+(18, 1, 1, '2025-08-17 01:17:08', '2025-08-18 22:17:50', NULL, 5, NULL, NULL, 'Task 18', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(19, 1, 1, '2025-08-17 01:17:11', '2025-08-17 22:28:42', NULL, 5, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(20, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:36:46', NULL, 8, NULL, NULL, 'Test 2', NULL, NULL, NULL, '34', NULL, NULL, NULL, NULL, '2025-08-17', 1, 1, 100),
+(21, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, NULL, NULL, NULL, 'Dave', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(22, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, NULL, NULL, NULL, 'Test 1', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(23, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, NULL, NULL, NULL, 'Test 2', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(24, 1, 1, '2025-08-18 14:33:18', '2025-08-18 22:23:51', NULL, NULL, NULL, NULL, '*person* (not sure how) unable to assign an Interpreter (per Kasper)', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1520,7 +1533,7 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, NULL, NULL, NULL, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL),
+(1, 1, 'Dave', 'Wilkins', NULL, '', NULL, '', 1, '2025-08-08 21:52:52', '2025-08-18 22:25:13', NULL),
 (2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
 (5, 4, 'Tyler', 'Jessop', NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
 
@@ -1580,39 +1593,6 @@ INSERT INTO `system_properties_versions` (`id`, `user_id`, `user_updated`, `date
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users_profile_pics`
---
-
-CREATE TABLE `users_profile_pics` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(255) DEFAULT NULL,
-  `file_hash` varchar(255) DEFAULT NULL,
-  `width` int(11) DEFAULT NULL,
-  `height` int(11) DEFAULT NULL,
-  `uploaded_by` int(11) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `is_active` tinyint(1) GENERATED ALWAYS AS (status_id = 82) STORED
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users_profile_pics`
---
-
-INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
-(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -1637,18 +1617,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-18 22:15:30', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 1, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
 
-
--- --------------------------------------------------------
-
---
--- Dumping data for table `users_profile_pics`
---
-
---
 -- --------------------------------------------------------
 
 --
@@ -1673,6 +1645,39 @@ CREATE TABLE `users_2fa` (
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
 (3, 1, 1, '2025-08-16 17:30:14', '2025-08-16 17:30:17', NULL, '843412', '2025-08-16 17:40:14', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_profile_pics`
+--
+
+CREATE TABLE `users_profile_pics` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
+  `file_hash` varchar(255) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `uploaded_by` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_profile_pics`
+--
+
+INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
+(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
+(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82);
 
 --
 -- Indexes for dumped tables
@@ -1997,17 +2002,6 @@ ALTER TABLE `system_properties_versions`
   ADD KEY `fk_system_properties_versions_user_updated` (`user_updated`);
 
 --
--- Indexes for table `users_profile_pics`
---
-ALTER TABLE `users_profile_pics`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
-  ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
-  ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
-  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
-  ADD UNIQUE KEY `uq_users_profile_pics_user_active` (`user_id`,`is_active`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -2023,6 +2017,17 @@ ALTER TABLE `users_2fa`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_users_2fa_user_id` (`user_id`),
   ADD KEY `fk_users_2fa_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_users_profile_pics_user_active` (`user_id`,`is_active`),
+  ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
+  ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
+  ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
+  ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2080,7 +2085,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2221,12 +2226,6 @@ ALTER TABLE `system_properties_versions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `users_profile_pics`
---
-ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -2239,23 +2238,14 @@ ALTER TABLE `users_2fa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
---
-
---
--- Constraints for table `users_profile_pics`
+-- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for table `users`
+-- Constraints for dumped tables
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `admin_permission_groups`
@@ -2381,14 +2371,20 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
--- THIS IS THE END OF EVERYTHINGGGGGGGGGGGGGGGGG --
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
 
-
+--
+-- Constraints for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
