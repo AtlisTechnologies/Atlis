@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   $message = 'Person deleted.';
 }
 
-$stmt = $pdo->query('SELECT p.id, p.first_name, p.last_name, u.email FROM person p LEFT JOIN users u ON p.user_id = u.id ORDER BY p.last_name, p.first_name');
+$stmt = $pdo->query('SELECT id, first_name, last_name, email FROM person WHERE user_id IS NULL ORDER BY last_name, first_name');
 $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Persons</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <a href="edit.php" class="btn btn-sm btn-success mb-3">Add Person</a>
-<div id="persons" data-list='{"valueNames":["name","user"],"page":20,"pagination":true}'>
+<div id="persons" data-list='{"valueNames":["name","email"],"page":20,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -38,7 +38,7 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div>
               <h5 class="name mb-1"><?= htmlspecialchars(trim(($p['first_name'] ?? '').' '.($p['last_name'] ?? ''))); ?></h5>
               <?php if($p['email']): ?>
-                <p class="user text-muted small mb-2"><?= htmlspecialchars($p['email']); ?></p>
+                <p class="email text-muted small mb-2"><?= htmlspecialchars($p['email']); ?></p>
               <?php endif; ?>
             </div>
             <div>

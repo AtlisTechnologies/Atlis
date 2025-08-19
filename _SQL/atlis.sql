@@ -1531,6 +1531,7 @@ CREATE TABLE `person` (
   `user_id` int(11) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
   `phone` varchar(25) DEFAULT NULL,
   `dob` date DEFAULT NULL,
@@ -1545,10 +1546,10 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, '', NULL, '', 1, '2025-08-08 21:52:52', '2025-08-18 22:25:13', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
-(5, 4, 'Tyler', 'Jessop', NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', '', NULL, '', NULL, '', 1, '2025-08-08 21:52:52', '2025-08-18 22:25:13', NULL),
+(2, 2, 'Sean', 'Cadina', '', NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
+(5, 4, 'Tyler', 'Jessop', '', NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
 
 -- --------------------------------------------------------
 
