@@ -2369,6 +2369,8 @@ ALTER TABLE `admin_contractors_status_history`
 ALTER TABLE `person`
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`);
 
+=======
+>>>>>>> Stashed changes
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
