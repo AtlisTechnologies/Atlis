@@ -28,7 +28,7 @@
           <div class="col-12 col-md-auto flex-1">
             <div>
               <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
-                <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
+                <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" id="checkbox-todo-<?= (int)$t['id'] ?>" data-task-id="<?= (int)$t['id'] ?>" data-prev-status="<?= (int)($t['previous_status'] ?? $t['status']) ?>" <?= !empty($t['completed']) ? 'checked' : '' ?> />
                 <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-<?= h($t['status_color']) ?>" data-value="<?= (int)$t['status'] ?>"><?= h($t['status_label']) ?></span>
                 <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
                 <?php if (!empty($t['assignees'])): ?>
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="col-12 col-md-auto flex-1">
         <div>
           <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 position-relative" style="z-index:1;">
-            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" data-task-id="${t.id}" ${t.completed ? 'checked' : ''} />
+            <input class="form-check-input flex-shrink-0 form-check-line-through mt-0 me-2" type="checkbox" data-task-id="${t.id}" data-prev-status="${t.previous_status ? t.previous_status : t.status}" ${t.completed ? 'checked' : ''} />
             <span class="me-2 badge badge-phoenix fs-10 task-status badge-phoenix-${t.status_color}" data-value="${t.status}">${t.status_label}</span>
             <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-${t.priority_color}" data-value="${t.priority}">${t.priority_label}</span>
             ${assignees}
@@ -108,6 +108,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if(cb){
       cb.addEventListener('change', function(){
         var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0});
+        if(!cb.checked && cb.dataset.prevStatus){
+          params.append('status', cb.dataset.prevStatus);
+        }
         fetch('functions/toggle_complete.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
           .then(r=>r.json()).then(d=>{
             var isChecked = cb.checked;
