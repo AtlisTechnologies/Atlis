@@ -1626,7 +1626,6 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email_verified` tinyint(1) DEFAULT 0,
-  `profile_pic` varchar(255) DEFAULT NULL,
   `current_profile_pic_id` int(11) DEFAULT NULL,
   `type` enum('ADMIN','USER') DEFAULT 'USER',
   `status` tinyint(1) DEFAULT 1,
