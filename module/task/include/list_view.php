@@ -33,7 +33,8 @@
                 <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
                 <?php if (!empty($t['assignees'])): ?>
                   <?php foreach ($t['assignees'] as $a): ?>
-                    <img src="<?php echo getURLDir(); ?>module/users/uploads/<?= h($a['profile_pic']) ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
+                    <?php $tpic = !empty($a['file_path']) ? $a['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                    <img src="<?php echo getURLDir() . h($tpic); ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
                   <?php endforeach; ?>
                 <?php else: ?>
                   <span class="fa-regular fa-user text-body-tertiary me-1"></span>
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderTask(t){
     var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
     var assignees = '';
-    if(t.assignees){ t.assignees.forEach(function(a){ assignees += `<img src="<?php echo getURLDir(); ?>module/users/uploads/${a.profile_pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.file_path ? '<?php echo getURLDir(); ?>'+a.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
     return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">

@@ -28,8 +28,9 @@ if ($is_logged_in) {
   // STRINGS AREN'T FUN IN MySQL QUERIES
   $email = $_SESSION['this_user_email'];
 
-  $sql = "SELECT *
+  $sql = "SELECT u.*, upp.file_path
           FROM users u
+          LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
           WHERE u.email = :email";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -38,7 +39,7 @@ if ($is_logged_in) {
     $this_user_id = $row['id']; // primary key ID
     $this_user_email = $row['email']; // email user signed up with
     $this_user_email_verified = $row['email_verified']; // 1 or 0
-    $this_user_profile_pic = $row['profile_pic']; // just the image_name (not path!)
+    $this_user_profile_pic = $row['file_path'];
     $this_user_type = $row['type']; // either 'admin' or 'user'
     $this_user_status = $row['status']; // 1 or 0
     $this_user_date_created = $row['date_created'];
