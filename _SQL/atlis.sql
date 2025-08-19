@@ -2305,6 +2305,7 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
+<<<<<<< Updated upstream
 --
 -- Constraints for table `person`
 --
