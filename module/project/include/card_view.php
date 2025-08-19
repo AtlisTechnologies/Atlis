@@ -80,7 +80,7 @@ foreach ($projects as $proj) {
         <?php if (!empty($project['assignees'])): ?>
         <div class="avatar-group mt-3">
           <?php foreach ($project['assignees'] as $assignee):
-            $pic = !empty($assignee['profile_pic']) ? 'module/users/uploads/' . $assignee['profile_pic'] : 'assets/img/team/avatar.webp';
+            $pic = !empty($assignee['file_path']) ? $assignee['file_path'] : 'assets/img/team/avatar.webp';
           ?>
           <div class="avatar avatar-m rounded-circle">
             <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">

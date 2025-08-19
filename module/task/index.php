@@ -5,22 +5,33 @@ $action = $_GET['action'] ?? 'list';
 
 if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = $_POST['id'] ?? null;
-  $name = $_POST['name'] ?? '';
-  $status = $_POST['status'] ?? null;
-  $priority = $_POST['priority'] ?? null;
-  $project_id = $_POST['project_id'] ?? null;
-  $agency_id = $_POST['agency_id'] ?? null;
-  $division_id = $_POST['division_id'] ?? null;
   $assigned_users = $_POST['assigned_users'] ?? [];
 
   if ($id) {
     require_permission('task','update');
+    $existingStmt = $pdo->prepare('SELECT name, status, priority, project_id, agency_id, division_id FROM module_tasks WHERE id=?');
+    $existingStmt->execute([$id]);
+    $existing = $existingStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+    $name = array_key_exists('name', $_POST) ? $_POST['name'] : ($existing['name'] ?? null);
+    $status = array_key_exists('status', $_POST) ? $_POST['status'] : ($existing['status'] ?? null);
+    $priority = array_key_exists('priority', $_POST) ? $_POST['priority'] : ($existing['priority'] ?? null);
+    $project_id = array_key_exists('project_id', $_POST) ? $_POST['project_id'] : ($existing['project_id'] ?? null);
+    $agency_id = array_key_exists('agency_id', $_POST) ? $_POST['agency_id'] : ($existing['agency_id'] ?? null);
+    $division_id = array_key_exists('division_id', $_POST) ? $_POST['division_id'] : ($existing['division_id'] ?? null);
+
     $stmt = $pdo->prepare('UPDATE module_tasks SET user_updated=?, name=?, status=?, priority=?, project_id=?, agency_id=?, division_id=? WHERE id=?');
     $stmt->execute([$this_user_id, $name, $status, $priority, $project_id, $agency_id, $division_id, $id]);
     $taskId = $id;
     $pdo->prepare('DELETE FROM module_task_assignments WHERE task_id=?')->execute([$taskId]);
   } else {
     require_permission('task','create');
+    $name = $_POST['name'] ?? '';
+    $status = $_POST['status'] ?? null;
+    $priority = $_POST['priority'] ?? null;
+    $project_id = $_POST['project_id'] ?? null;
+    $agency_id = $_POST['agency_id'] ?? null;
+    $division_id = $_POST['division_id'] ?? null;
     $stmt = $pdo->prepare('INSERT INTO module_tasks (user_id, name, status, priority, project_id, agency_id, division_id) VALUES (?,?,?,?,?,?,?)');
     $stmt->execute([$this_user_id, $name, $status, $priority, $project_id, $agency_id, $division_id]);
     $taskId = $pdo->lastInsertId();
@@ -105,7 +116,7 @@ $taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
 $taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
 
 $stmt = $pdo->query(
-  'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+  'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
   'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
   'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color, ' .
   '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
@@ -121,21 +132,22 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($tasks) {
   $taskIds = array_column($tasks, 'id');
   $placeholders = implode(',', array_fill(0, count($taskIds), '?'));
-  $taskAssignStmt = $pdo->prepare(
-    'SELECT ta.task_id, ta.assigned_user_id, u.profile_pic, CONCAT(per.first_name, " ", per.last_name) AS name '
-    . 'FROM module_task_assignments ta '
-    . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
-    . 'LEFT JOIN person per ON u.id = per.user_id '
-    . 'WHERE ta.task_id IN (' . $placeholders . ')'
-  );
+    $taskAssignStmt = $pdo->prepare(
+      'SELECT ta.task_id, ta.assigned_user_id, upp.file_path, CONCAT(per.first_name, " ", per.last_name) AS name '
+      . 'FROM module_task_assignments ta '
+      . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
+      . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 '
+      . 'LEFT JOIN person per ON u.id = per.user_id '
+      . 'WHERE ta.task_id IN (' . $placeholders . ')'
+    );
   $taskAssignStmt->execute($taskIds);
   $taskAssignments = [];
   foreach ($taskAssignStmt as $row) {
-    $taskAssignments[$row['task_id']][] = [
-      'assigned_user_id' => $row['assigned_user_id'],
-      'profile_pic'      => $row['profile_pic'],
-      'name'             => $row['name']
-    ];
+      $taskAssignments[$row['task_id']][] = [
+        'assigned_user_id' => $row['assigned_user_id'],
+        'file_path'      => $row['file_path'],
+        'name'             => $row['name']
+      ];
   }
   foreach ($tasks as &$tTask) {
     $tTask['assignees'] = $taskAssignments[$tTask['id']] ?? [];
@@ -170,7 +182,7 @@ if ($action === 'details') {
   $availableUsers = [];
   if ($current_task) {
 
-    $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, u.profile_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
+      $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
     $assignedStmt->execute([':id' => $task_id]);
     $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
 

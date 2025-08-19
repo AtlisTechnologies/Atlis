@@ -17,7 +17,7 @@ if ($id > 0 && in_array($field, ['status','priority'], true)) {
   audit_log($pdo, $this_user_id, 'module_tasks', $id, 'UPDATE', 'Updated task ' . $field);
 
   $taskStmt = $pdo->prepare(
-    'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+    'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
     'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
     'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
     'FROM module_tasks t ' .

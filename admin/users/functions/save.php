@@ -31,11 +31,13 @@ if ($reactivatePicId && $id) {
       ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
   $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
       ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
+
   $picStmt = $pdo->prepare('SELECT file_path FROM users_profile_pics WHERE id = :pic');
   $picStmt->execute([':pic' => $reactivatePicId]);
   $picFile = basename((string)$picStmt->fetchColumn());
   $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, profile_pic = :file, user_updated = :uid WHERE id = :user')
       ->execute([':pic' => $reactivatePicId, ':file' => $picFile, ':uid' => $this_user_id, ':user' => $id]);
+
   $pdo->commit();
   $_SESSION['message'] = 'Profile picture updated.';
   header('Location: ../edit.php?id=' . $id);
@@ -94,6 +96,7 @@ $profilePath = null;
 $fileSize = $mime = $hashFile = null;
 $width = $height = null;
 $filename = null;
+
 if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
   $file = $_FILES['profile_pic'];
   if ($file['size'] <= 10 * 1024 * 1024) {
@@ -199,6 +202,7 @@ try {
     $picId = (int)$pdo->lastInsertId();
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, profile_pic = :file, user_updated = :uid WHERE id = :user')
         ->execute([':pic' => $picId, ':file' => $filename, ':uid' => $this_user_id, ':user' => $id]);
+
     $pdo->commit();
   }
 

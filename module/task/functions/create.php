@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if($isAjax){
     $taskStmt = $pdo->prepare(
-      'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+      'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
       'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
       'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
       'FROM module_tasks t ' .

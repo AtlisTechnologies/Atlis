@@ -855,7 +855,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
 (19, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', '', 'CONTRACTOR_FILE_TYPE', ''),
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', '', 'CONTRACTOR_CONTACT_TYPE', ''),
-(21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', '');
+(21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
+(22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures');
 
 -- --------------------------------------------------------
 
@@ -936,7 +937,9 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (78, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Draft', 'DRAFT', 1, '2025-08-18', NULL),
 (79, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Active', 'ACTIVE', 2, '2025-08-18', NULL),
 (80, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Suspended', 'SUSPENDED', 3, '2025-08-18', NULL),
-(81, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Archived', 'ARCHIVED', 4, '2025-08-18', NULL);
+(81, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 21, 'Archived', 'ARCHIVED', 4, '2025-08-18', NULL),
+(82, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 22, 'Active', 'ACTIVE', 1, '2025-08-18', NULL),
+(83, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 22, 'Inactive', 'INACTIVE', 2, '2025-08-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -1359,6 +1362,7 @@ CREATE TABLE `module_tasks` (
   `requirements` text DEFAULT NULL,
   `specifications` text DEFAULT NULL,
   `status` varchar(11) DEFAULT NULL,
+  `previous_status` int(11) DEFAULT NULL,
   `priority` varchar(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,
@@ -1576,6 +1580,39 @@ INSERT INTO `system_properties_versions` (`id`, `user_id`, `user_updated`, `date
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users_profile_pics`
+--
+
+CREATE TABLE `users_profile_pics` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
+  `file_hash` varchar(255) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `uploaded_by` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) GENERATED ALWAYS AS (status_id = 82) STORED
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_profile_pics`
+--
+
+INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
+(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
+(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -1604,6 +1641,7 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', NULL, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, NULL, 'USER', 1, NULL);
+
 
 -- --------------------------------------------------------
 
@@ -1981,6 +2019,17 @@ ALTER TABLE `system_properties_versions`
   ADD KEY `fk_system_properties_versions_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
+  ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
+  ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
+  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
+  ADD UNIQUE KEY `uq_users_profile_pics_user_active` (`user_id`,`is_active`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1998,6 +2047,7 @@ ALTER TABLE `users_profile_pics`
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
   ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
   ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`);
+
 
 --
 -- Indexes for table `users_2fa`
@@ -2069,13 +2119,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -2207,7 +2257,7 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2224,6 +2274,21 @@ ALTER TABLE `users_2fa`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `admin_permission_groups`

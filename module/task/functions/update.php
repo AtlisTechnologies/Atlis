@@ -8,6 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = (int)($_POST['id'] ?? 0);
 
   if ($id) {
+    $origStmt = $pdo->prepare('SELECT name, status, priority, description FROM module_tasks WHERE id = :id');
+    $origStmt->execute([':id' => $id]);
+    $existing = $origStmt->fetch(PDO::FETCH_ASSOC);
+    if (!$existing) {
+      echo json_encode(['success' => false]);
+      exit;
+    }
+
     $fields = [];
     $params = [
       ':uid' => $this_user_id,
@@ -39,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $taskStmt = $pdo->prepare(
-      'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+      'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
       'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
       'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color ' .
       'FROM module_tasks t ' .
