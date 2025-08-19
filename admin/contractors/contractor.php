@@ -4,14 +4,22 @@ require_permission('contractors', 'read');
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $contractor = null;
+$availableUsers = [];
+
 if ($id) {
-  $stmt = $pdo->prepare('SELECT * FROM module_contractors WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT mc.*, p.first_name, p.last_name FROM module_contractors mc JOIN person p ON mc.person_id = p.id WHERE mc.id = :id');
   $stmt->execute([':id' => $id]);
   $contractor = $stmt->fetch(PDO::FETCH_ASSOC);
   if (!$contractor) {
     $id = 0;
   }
+} else {
+  $stmt = $pdo->query('SELECT u.id, CONCAT(p.first_name, " ", p.last_name) AS full_name FROM users u JOIN person p ON u.id = p.user_id WHERE u.id NOT IN (SELECT user_id FROM module_contractors) ORDER BY p.first_name, p.last_name');
+  $availableUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+$statuses = get_lookup_items($pdo, 'CONTRACTOR_STATUS');
+$payTypes = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_TYPE');
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
@@ -39,14 +47,54 @@ $_SESSION['csrf_token'] = $token;
     <form method="post" action="functions/<?= $id ? 'update.php' : 'create.php'; ?>">
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">
       <?php if($id): ?><input type="hidden" name="id" value="<?= $id; ?>"><?php endif; ?>
+      <?php if(!$id): ?>
       <div class="mb-3">
-        <label class="form-label">First Name</label>
-        <input type="text" name="first_name" class="form-control" value="<?= h($contractor['first_name'] ?? ''); ?>" required>
+        <label class="form-label">User</label>
+        <select name="user_id" class="form-select" required>
+          <option value="">Select User</option>
+          <?php foreach($availableUsers as $u): ?>
+            <option value="<?= h($u['id']); ?>"><?= h($u['full_name']); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <?php else: ?>
+      <div class="mb-3">
+        <label class="form-label">User</label>
+        <input type="text" class="form-control" value="<?= h($contractor['first_name'] . ' ' . $contractor['last_name']); ?>" disabled>
       </div>
       <div class="mb-3">
-        <label class="form-label">Last Name</label>
-        <input type="text" name="last_name" class="form-control" value="<?= h($contractor['last_name'] ?? ''); ?>" required>
+        <label class="form-label">Status</label>
+        <select name="status_id" class="form-select">
+          <?php foreach($statuses as $s):
+            $selected = ($contractor['status_id'] ?? '') == $s['id'] ? 'selected' : '';
+          ?>
+          <option value="<?= h($s['id']); ?>" <?= $selected; ?>><?= h($s['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
       </div>
+      <div class="mb-3">
+        <label class="form-label">Pay Type</label>
+        <select name="pay_type_id" class="form-select">
+          <?php foreach($payTypes as $p):
+            $selected = ($contractor['pay_type_id'] ?? '') == $p['id'] ? 'selected' : '';
+          ?>
+          <option value="<?= h($p['id']); ?>" <?= $selected; ?>><?= h($p['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Start Date</label>
+        <input type="date" name="start_date" class="form-control" value="<?= h($contractor['start_date'] ?? ''); ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">End Date</label>
+        <input type="date" name="end_date" class="form-control" value="<?= h($contractor['end_date'] ?? ''); ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Current Rate</label>
+        <input type="number" step="0.01" name="current_rate" class="form-control" value="<?= h($contractor['current_rate'] ?? ''); ?>">
+      </div>
+      <?php endif; ?>
       <button class="btn <?= $id ? 'btn-warning' : 'btn-success'; ?>" type="submit">Save</button>
     </form>
   </div>
