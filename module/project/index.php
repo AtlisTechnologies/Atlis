@@ -72,6 +72,7 @@ foreach ($projects as &$project) {
 }
 unset($project);
 
+// Lookup lists passed to views for filtering options
 $statusItems   = get_lookup_items($pdo, 'PROJECT_STATUS');
 $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
