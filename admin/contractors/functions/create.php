@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('contractors','create');
 
 $first = trim($_POST['first_name'] ?? '');
@@ -9,8 +9,8 @@ if($first !== '' && $last !== ''){
   $stmt->execute([':uid'=>$this_user_id, ':first'=>$first, ':last'=>$last]);
   $id = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'CREATE',null,json_encode(['first_name'=>$first,'last_name'=>$last]),'Created contractor');
-  header('Location: ../../../admin/contractors/contractor.php?id='.$id);
+  header('Location: ../contractor.php?id='.$id);
   exit;
 }
-header('Location: ../../../admin/contractors/contractor.php');
+header('Location: ../contractor.php');
 exit;
