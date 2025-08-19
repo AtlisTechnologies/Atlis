@@ -105,7 +105,7 @@
 
         <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
             <div class="avatar avatar-l ">
-              <img class="rounded-circle" src="<?php echo getURLDir(); echo $this_user_profile_pic; ?>" alt="<?php echo $this_user_name; ?>" />
+              <img class="rounded-circle" src="<?php echo getURLDir(); ?>module/users/uploads/<?php echo $this_user_profile_pic; ?>" alt="<?php echo $this_user_name; ?>" />
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
