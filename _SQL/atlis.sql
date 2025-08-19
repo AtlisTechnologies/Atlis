@@ -1590,6 +1590,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email_verified` tinyint(1) DEFAULT 0,
   `profile_pic` varchar(255) DEFAULT NULL,
+  `current_profile_pic_id` int(11) DEFAULT NULL,
   `type` enum('ADMIN','USER') DEFAULT 'USER',
   `status` tinyint(1) DEFAULT 1,
   `last_login` datetime DEFAULT NULL
@@ -1599,11 +1600,39 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `profile_pic`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', 'ADMIN', 1, '2025-08-16 17:30:14'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', 'USER', 1, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
+INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `profile_pic`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-17 11:15:50', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 'dave_2.JPG', NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:13:55', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 'sean.jpg', NULL, 'USER', 1, NULL),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, NULL, 'USER', 1, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_profile_pics`
+--
+
+CREATE TABLE `users_profile_pics` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `uploaded_by` int(11) DEFAULT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `mime_type` varchar(100) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `hash` varchar(64) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_profile_pics`
+--
+
+--
 -- --------------------------------------------------------
 
 --
@@ -1957,7 +1986,18 @@ ALTER TABLE `system_properties_versions`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_users_user_id` (`user_id`),
-  ADD KEY `fk_users_user_updated` (`user_updated`);
+  ADD KEY `fk_users_user_updated` (`user_updated`),
+  ADD KEY `fk_users_current_profile_pic_id` (`current_profile_pic_id`);
+
+--
+-- Indexes for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
+  ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
+  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
+  ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`);
 
 --
 -- Indexes for table `users_2fa`
@@ -2164,6 +2204,12 @@ ALTER TABLE `system_properties_versions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -2302,6 +2348,21 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `users_profile_pics`
+--
+ALTER TABLE `users_profile_pics`
+  ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
