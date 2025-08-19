@@ -9,14 +9,9 @@
   </div>
   <div class="collapse navbar-collapse order-1 order-lg-0" id="navbarTopCollapse">
     <ul class="navbar-nav navbar-nav-top">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCRM" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="uil fs-8 me-2 fas fa-address-book"></span>CRM</a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownCRM">
-          <li><a class="dropdown-item" href="<?php echo getURLDir(); ?>admin/person/index.php">Persons</a></li>
-          <li><a class="dropdown-item" href="<?php echo getURLDir(); ?>admin/orgs/index.php">Organizations</a></li>
-          <li><a class="dropdown-item" href="<?php echo getURLDir(); ?>admin/contractors/index.php">Contractors</a></li>
-        </ul>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/users/index.php"><span class="uil fs-8 me-2 fas fa-users"></span>Users</a></li>
+      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/person/index.php"><span class="uil fs-8 me-2 fas fa-id-card"></span>Persons</a></li>
+      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/contractors/index.php"><span class="uil fs-8 me-2 fas fa-user-tie"></span>Contractors</a></li>
       <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/lookup-lists/index.php"><span class="uil fs-8 me-2 fas fa-list"></span>Lookup Lists</a></li>
       <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/roles/index.php"><span class="uil fs-8 me-2 fas fa-user-shield"></span>Roles</a></li>
     </ul>
