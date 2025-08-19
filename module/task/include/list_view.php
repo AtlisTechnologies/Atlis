@@ -1,7 +1,7 @@
 <?php
 // Task list view using project layout
 ?>
-<div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
+<div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":25,"pagination":true}'>
   <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
     <div class="col-sm-auto">
@@ -69,7 +69,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var taskList = new List('taskList', { valueNames: ['task-name','task-status','task-priority','task-due'], page: 10, pagination: true });
+  var taskList = new List('taskList', { valueNames: ['task-name','task-status','task-priority','task-due'], page: 25, pagination: true });
 
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
@@ -185,4 +185,3 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
-

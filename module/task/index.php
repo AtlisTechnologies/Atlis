@@ -125,7 +125,7 @@ $stmt = $pdo->query(
   'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
   'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
   'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
-  'ORDER BY t.status, t.due_date'
+  'ORDER BY t.status DESC, t.priority, t.due_date, t.name'
 );
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
