@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../../includes/php_header.php';
+require '../../../includes/php_header.php';
 require_permission('contractors','update');
 
 $id = (int)($_POST['id'] ?? 0);
@@ -29,4 +29,3 @@ if($id){
 }
 header('Location: ../contractor.php?id='.$id);
 exit;
-

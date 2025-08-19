@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../../includes/php_header.php';
+require '../../../includes/php_header.php';
 require_permission('contractors','update');
 
 $cid  = (int)($_POST['contractor_id'] ?? 0);

@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../../includes/php_header.php';
+require '../../../includes/php_header.php';
 require_permission('contractors','create');
 
 $userId = (int)($_POST['user_id'] ?? 0);
@@ -40,4 +40,3 @@ if($userId){
 }
 header('Location: ../contractor.php');
 exit;
-
