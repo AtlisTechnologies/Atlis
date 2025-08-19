@@ -1362,6 +1362,7 @@ CREATE TABLE `module_tasks` (
   `requirements` text DEFAULT NULL,
   `specifications` text DEFAULT NULL,
   `status` varchar(11) DEFAULT NULL,
+  `previous_status` int(11) DEFAULT NULL,
   `priority` varchar(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,

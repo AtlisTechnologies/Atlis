@@ -10,16 +10,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $statusId = isset($_POST['status']) ? (int)$_POST['status'] : 0;
   if ($id > 0) {
     if ($completed === 1) {
+      // store current status before switching to completed
+      $origStmt = $pdo->prepare('SELECT status FROM module_tasks WHERE id = :id');
+      $origStmt->execute([':id' => $id]);
+      $prevStatus = (int)$origStmt->fetchColumn();
+
       $statusStmt = $pdo->prepare("SELECT li.id, li.label, COALESCE(attr.attr_value, 'secondary') AS color_class FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS' WHERE l.name = 'TASK_STATUS' AND li.code = 'COMPLETED' LIMIT 1");
       $statusStmt->execute();
       $statusRow = $statusStmt->fetch(PDO::FETCH_ASSOC) ?: [];
       $statusId = (int)($statusRow['id'] ?? 0);
       $statusLabel = $statusRow['label'] ?? '';
       $statusColor = $statusRow['color_class'] ?? 'secondary';
-      $stmt = $pdo->prepare('UPDATE module_tasks SET completed = 1, completed_by = :uid, complete_date = NOW(), progress_percent = 100, user_updated = :uid, status = :status WHERE id = :id');
+
+      $stmt = $pdo->prepare('UPDATE module_tasks SET completed = 1, completed_by = :uid, complete_date = NOW(), progress_percent = 100, user_updated = :uid, status = :status, previous_status = :prev_status WHERE id = :id');
+      $stmt->execute([
+        ':uid' => $this_user_id,
+        ':id' => $id,
+        ':status' => $statusId,
+        ':prev_status' => $prevStatus
+      ]);
     } else {
       if (!$statusId) {
-        $origStmt = $pdo->prepare('SELECT status FROM module_tasks WHERE id = :id');
+        $origStmt = $pdo->prepare('SELECT previous_status FROM module_tasks WHERE id = :id');
         $origStmt->execute([':id' => $id]);
         $statusId = (int)$origStmt->fetchColumn();
       }
@@ -28,16 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $statusRow = $statusStmt->fetch(PDO::FETCH_ASSOC) ?: [];
       $statusLabel = $statusRow['label'] ?? '';
       $statusColor = $statusRow['color_class'] ?? 'secondary';
-      $stmt = $pdo->prepare('UPDATE module_tasks SET completed = 0, completed_by = NULL, complete_date = NULL, progress_percent = 0, user_updated = :uid, status = :status WHERE id = :id');
+
+      $stmt = $pdo->prepare('UPDATE module_tasks SET completed = 0, completed_by = NULL, complete_date = NULL, progress_percent = 0, user_updated = :uid, status = :status, previous_status = NULL WHERE id = :id');
+      $stmt->execute([
+        ':uid' => $this_user_id,
+        ':id' => $id,
+        ':status' => $statusId
+      ]);
     }
-    $stmt->execute([
-      ':uid' => $this_user_id,
-      ':id' => $id,
-      ':status' => $statusId
-    ]);
+
     audit_log($pdo, $this_user_id, 'module_tasks', $id, 'UPDATE', $completed ? 'Completed task' : 'Marked task incomplete');
+
     $taskStmt = $pdo->prepare(
-      'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
+      'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
       'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
       'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color, ' .
       '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
@@ -48,23 +63,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
       'WHERE t.id = :id'
     );
-    $taskStmt->execute([':id'=>$id]);
+    $taskStmt->execute([':id' => $id]);
     $taskRow = $taskStmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    if($taskRow){
+    if ($taskRow) {
       $assignStmt = $pdo->prepare(
-        'SELECT ta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name '
-        . 'FROM module_task_assignments ta '
-        . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
-        . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 '
-        . 'LEFT JOIN person p ON u.id = p.user_id '
-        . 'WHERE ta.task_id = :id'
+        'SELECT ta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name ' .
+        'FROM module_task_assignments ta ' .
+        'LEFT JOIN users u ON ta.assigned_user_id = u.id ' .
+        'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 ' .
+        'LEFT JOIN person p ON u.id = p.user_id ' .
+        'WHERE ta.task_id = :id'
       );
-      $assignStmt->execute([':id'=>$id]);
+      $assignStmt->execute([':id' => $id]);
       $taskRow['assignees'] = $assignStmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    echo json_encode(['success'=>true,'task'=>$taskRow]);
+
+    echo json_encode(['success' => true, 'task' => $taskRow]);
     exit;
   }
 }
 
 echo json_encode(['success' => false]);
+
