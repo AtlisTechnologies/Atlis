@@ -21,12 +21,28 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
     <?php endif; ?>
     <p class="mb-3 mt-3">
-      <span class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
+      <span id="statusBadge" class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
         <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
       </span>
-      <span class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($priorityMap[$current_task['priority']]['color_class'] ?? 'secondary'); ?>">
+      <span id="priorityBadge" class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($priorityMap[$current_task['priority']]['color_class'] ?? 'secondary'); ?>">
         <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
       </span>
+      <?php if (user_has_permission('task','update')): ?>
+      <form id="taskUpdateForm" class="d-inline ms-2">
+        <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
+        <select class="form-select form-select-sm d-inline w-auto" name="status">
+          <?php foreach ($statusMap as $s): ?>
+            <option value="<?php echo (int)$s['id']; ?>" <?php echo ((int)$current_task['status'] === (int)$s['id']) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select class="form-select form-select-sm d-inline w-auto ms-1" name="priority">
+          <?php foreach ($priorityMap as $p): ?>
+            <option value="<?php echo (int)$p['id']; ?>" <?php echo ((int)$current_task['priority'] === (int)$p['id']) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <button class="btn btn-atlis btn-sm ms-1" type="submit">Update</button>
+      </form>
+      <?php endif; ?>
     </p>
     <?php if (!empty($current_task['completed_by_name'])): ?>
       <p class="text-body-secondary mb-3">Completed by <?php echo h($current_task['completed_by_name']); ?></p>
@@ -244,6 +260,35 @@ require_once __DIR__ . '/../../../includes/functions.php';
         if (trigger && img) {
           img.src = trigger.getAttribute('data-img-src');
         }
+      });
+    }
+
+    var updateForm = document.getElementById('taskUpdateForm');
+    if (updateForm) {
+      updateForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(updateForm);
+        fetch('functions/update.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.success && data.task) {
+            var statusBadge = document.getElementById('statusBadge');
+            var priorityBadge = document.getElementById('priorityBadge');
+            if (statusBadge) {
+              statusBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.status_color || 'secondary');
+              var sLabel = statusBadge.querySelector('.badge-label');
+              if (sLabel) { sLabel.textContent = data.task.status_label || ''; }
+            }
+            if (priorityBadge) {
+              priorityBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.priority_color || 'secondary');
+              var pLabel = priorityBadge.querySelector('.badge-label');
+              if (pLabel) { pLabel.textContent = data.task.priority_label || ''; }
+            }
+          }
+        });
       });
     }
   });
