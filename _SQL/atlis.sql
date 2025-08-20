@@ -1696,7 +1696,8 @@ CREATE TABLE `users_profile_pics` (
   `height` int(11) DEFAULT NULL,
   `uploaded_by` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
-  `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED
+  `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
+  `active_user_id` int(11) GENERATED ALWAYS AS (IF(`status_id` = 82, `user_id`, NULL)) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2053,7 +2054,7 @@ ALTER TABLE `users_2fa`
 --
 ALTER TABLE `users_profile_pics`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_users_profile_pics_user_active` (`user_id`,`is_active`),
+  ADD UNIQUE KEY `uq_users_profile_pics_active_user` (`active_user_id`),
   ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
   ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
