@@ -529,7 +529,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
 (5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
 (6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL);
+(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(8, 'Navigation Links', 'navigation.php', 'settings', 8, 1, 1, NOW(), NOW(), NULL);
 
 -- --------------------------------------------------------
 
