@@ -17,6 +17,12 @@ return [
     'path' => 'roles/index.php',
     'icon' => 'shield',
     'description' => 'Manage user roles and permissions.'
+  ],
+  [
+    'title' => 'Navigation Links',
+    'path' => 'navigation.php',
+    'icon' => 'menu',
+    'description' => 'Manage site navigation links.'
   ]
 ];
 ?>

@@ -1,23 +1,58 @@
-<nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarAdmin" data-navbar-top="combo">
-  <div class="navbar-logo">
-    <button class="btn btn-secondary navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-    <a class="navbar-brand me-1 me-sm-3" href="<?php echo getURLDir(); ?>admin/">
-      <div class="d-flex align-items-center">
-        <div class="d-flex align-items-center"><img src="<?php echo getURLDir(); ?>images/wide.png" alt="Atlisware" class="img-fluid" /></div>
-      </div>
-    </a>
-  </div>
-  <div class="collapse navbar-collapse order-1 order-lg-0" id="navbarTopCollapse">
-    <ul class="navbar-nav navbar-nav-top">
-      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/users/index.php"><span class="uil fs-8 me-2 fas fa-users"></span>Users</a></li>
-      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>apps/crm/leads.php"><span class="uil fs-8 me-2 fas fa-id-card"></span>Leads</a></li>
-      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/contractors/index.php"><span class="uil fs-8 me-2 fas fa-user-tie"></span>Contractors</a></li>
-      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/lookup-lists/index.php"><span class="uil fs-8 me-2 fas fa-list"></span>Lookup Lists</a></li>
-      <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>admin/roles/index.php"><span class="uil fs-8 me-2 fas fa-user-shield"></span>Roles</a></li>
-    </ul>
-  </div>
-  <ul class="navbar-nav navbar-nav-icons flex-row">
-    <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>" data-bs-toggle="tooltip" title="Back to site"><span data-feather="arrow-left"></span></a></li>
-    <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>module/users/index.php?action=logout"><span data-feather="log-out"></span></a></li>
+<?php
+require '../admin_header.php';
+require_permission('navigation_links','read');
+
+$token = generate_csrf_token();
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF token');
+    }
+    require_permission('navigation_links','update');
+    $order = isset($_POST['order']) ? explode(',', $_POST['order']) : [];
+    $pdo->beginTransaction();
+    $stmt = $pdo->prepare('UPDATE admin_navigation_links SET sort_order = :sort WHERE id = :id');
+    foreach ($order as $index => $id) {
+        $id = (int)$id;
+        if ($id > 0) {
+            $stmt->execute([':sort' => $index, ':id' => $id]);
+        }
+    }
+    $pdo->commit();
+    $message = 'Navigation order updated.';
+}
+
+$stmt = $pdo->query('SELECT id, title, url FROM admin_navigation_links ORDER BY sort_order');
+$links = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<h2 class="mb-4">Navigation Links</h2>
+<?php if ($message): ?>
+  <div class="alert alert-success"><?= htmlspecialchars($message); ?></div>
+<?php endif; ?>
+<form method="post" id="navForm">
+  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+  <input type="hidden" name="order" id="navOrder">
+  <ul id="navList" class="list-group">
+    <?php foreach ($links as $link): ?>
+      <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<?= $link['id']; ?>">
+        <span><?= htmlspecialchars($link['title']); ?></span>
+        <small class="text-muted"><?= htmlspecialchars($link['url']); ?></small>
+      </li>
+    <?php endforeach; ?>
   </ul>
-</nav>
+  <button type="submit" class="btn btn-primary mt-3">Save Order</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script>
+$(function(){
+  $('#navList').sortable();
+  $('#navForm').on('submit', function(){
+    var order = $('#navList').sortable('toArray', {attribute: 'data-id'});
+    $('#navOrder').val(order.join(','));
+  });
+});
+</script>
+<?php require '../admin_footer.php'; ?>
