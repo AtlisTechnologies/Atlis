@@ -1,5 +1,5 @@
 <?php
-require '../admin_header.php';
+require 'admin_header.php';
 require_permission('navigation_links','read');
 
 $token = generate_csrf_token();
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = 'Navigation order updated.';
 }
 
-$stmt = $pdo->query('SELECT id, title, url FROM admin_navigation_links ORDER BY sort_order');
+$stmt = $pdo->query('SELECT id, title, path FROM admin_navigation_links ORDER BY sort_order');
 $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -38,7 +38,7 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php foreach ($links as $link): ?>
       <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<?= $link['id']; ?>">
         <span><?= htmlspecialchars($link['title']); ?></span>
-        <small class="text-muted"><?= htmlspecialchars($link['url']); ?></small>
+        <small class="text-muted"><?= htmlspecialchars($link['path']); ?></small>
       </li>
     <?php endforeach; ?>
   </ul>
