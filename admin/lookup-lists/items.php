@@ -19,13 +19,25 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
     $pdo->prepare('DELETE FROM lookup_list_items WHERE id=:id')->execute([':id'=>$delId]);
+
+    // UPDATE THE LOOKUP LIST date_updated
+    $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+    $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
     audit_log($pdo,$this_user_id,'lookup_list_items',$delId,'DELETE','Deleted lookup list item');
     $message='Item deleted.';
+
   }elseif(isset($_POST['attr_delete_id'])){
     $delId=(int)$_POST['attr_delete_id'];
     $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
+
+    // UPDATE THE LOOKUP LIST date_updated
+    $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+    $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
     audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
     $message='Attribute deleted.';
+
   }elseif(isset($_POST['attr_item_id'])){
     $attr_id=(int)($_POST['attr_id'] ?? 0);
     $item_id=(int)$_POST['attr_item_id'];
@@ -37,6 +49,11 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         try{
           $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
           $stmt->execute([':k'=>$key,':v'=>$value,':uid'=>$this_user_id,':id'=>$attr_id]);
+
+          // UPDATE THE LOOKUP LIST date_updated
+          $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+          $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
           audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
           $message='Attribute updated.';
         }catch(PDOException $e){
@@ -51,6 +68,11 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         try{
           $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
           $stmt->execute([':uid'=>$this_user_id,':item_id'=>$item_id,':k'=>$key,':v'=>$value]);
+
+          // UPDATE THE LOOKUP LIST date_updated
+          $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+          $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
           $attr_id=$pdo->lastInsertId();
           audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
           $message='Attribute added.';
@@ -94,11 +116,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
       if($item_id){
         $stmt=$pdo->prepare('UPDATE lookup_list_items SET label=:label, code=:code, active_from=:active_from, active_to=:active_to, user_updated=:uid WHERE id=:id');
         $stmt->execute([':label'=>$label, ':code'=>$code, ':active_from'=>$active_from, ':active_to'=>$active_to, ':uid'=>$this_user_id, ':id'=>$item_id]);
+
+        // UPDATE THE LOOKUP LIST date_updated
+        $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+        $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
         audit_log($pdo,$this_user_id,'lookup_list_items',$item_id,'UPDATE','Updated lookup list item');
         $message='Item updated.';
       }else{
         $stmt=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,code,active_from,active_to) VALUES (:uid,:uid,:list_id,:label,:code,:active_from,:active_to)');
         $stmt->execute([':uid'=>$this_user_id, ':list_id'=>$list_id, ':label'=>$label, ':code'=>$code, ':active_from'=>$active_from, ':active_to'=>$active_to]);
+
+        // UPDATE THE LOOKUP LIST date_updated
+        $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+        $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
         $item_id=$pdo->lastInsertId();
         audit_log($pdo,$this_user_id,'lookup_list_items',$item_id,'CREATE','Created lookup list item');
         $message='Item added.';

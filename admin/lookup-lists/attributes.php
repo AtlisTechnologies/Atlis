@@ -20,6 +20,11 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if(isset($_POST['delete_id'])){
     $delId=(int)$_POST['delete_id'];
     $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
+
+    // UPDATE THE LOOKUP LIST date_updated
+    $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW() WHERE id = :id');
+    $stmt->execute([':id'=>$list_id]);
+
     audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$delId,'DELETE','Deleted item attribute');
     $message='Attribute deleted.';
   }else{
@@ -31,11 +36,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
       if($attr_id){
         $stmt=$pdo->prepare('UPDATE lookup_list_item_attributes SET attr_code=:k, attr_value=:v, user_updated=:uid WHERE id=:id');
         $stmt->execute([':k'=>$key, ':v'=>$value, ':uid'=>$this_user_id, ':id'=>$attr_id]);
+
+        // UPDATE THE LOOKUP LIST date_updated
+        $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+        $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
         $message='Attribute updated.';
       }else{
         $stmt=$pdo->prepare('INSERT INTO lookup_list_item_attributes (user_id,user_updated,item_id,attr_code,attr_value) VALUES (:uid,:uid,:item_id,:k,:v)');
         $stmt->execute([':uid'=>$this_user_id, ':item_id'=>$item_id, ':k'=>$key, ':v'=>$value]);
+
+        // UPDATE THE LOOKUP LIST date_updated
+        $stmt=$pdo->prepare('UPDATE lookup_lists SET date_updated=NOW(), user_updated = :uid  WHERE id = :id');
+        $stmt->execute([':id'=>$list_id, ':uid'=>$this_user_id]);
+
         $attr_id=$pdo->lastInsertId();
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
         $message='Attribute added.';
