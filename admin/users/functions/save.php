@@ -15,6 +15,10 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
 
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
+$gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
+$phone = preg_replace('/[^0-9]/', '', $_POST['phone'] ?? '');
+$dob = $_POST['dob'] ?? '';
+$address = trim($_POST['address'] ?? '');
 
 function get_status_id(PDO $pdo, string $code): int {
   $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
@@ -28,8 +32,25 @@ $inactiveStatusId = get_status_id($pdo, 'INACTIVE');
 if ($reactivatePicId && $id) {
   try {
     $pdo->beginTransaction();
-    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
-        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
+
+    $personParams = [
+      ':uid_fk' => $id,
+      ':gender_id' => $gender_id,
+      ':phone' => $phone,
+      ':dob' => $dob ?: null,
+      ':address' => $address,
+      ':uid_update' => $this_user_id
+    ];
+    $pstmt = $pdo->prepare('UPDATE person SET gender_id = :gender_id, phone = :phone, dob = :dob, address = :address, user_updated = :uid_update WHERE user_id = :uid_fk');
+    $pstmt->execute($personParams);
+    if ($pstmt->rowCount() === 0) {
+      $pdo->prepare('INSERT INTO person (user_id, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :gender_id, :phone, :dob, :address, :uid_update)')
+          ->execute($personParams);
+    }
+
+    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
+        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
         ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
@@ -52,10 +73,6 @@ $password = $_POST['password'] ?? '';
 $confirm = $_POST['confirmPassword'] ?? '';
 $first_name = trim($_POST['first_name'] ?? '');
 $last_name = trim($_POST['last_name'] ?? '');
-$gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
-$phone = preg_replace('/[^0-9]/', '', $_POST['phone'] ?? '');
-$dob = $_POST['dob'] ?? '';
-$address = trim($_POST['address'] ?? '');
 $memo = $_POST['memo'] ?? null;
 
  $errors = [];

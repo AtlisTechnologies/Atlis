@@ -129,10 +129,14 @@ $_SESSION['csrf_token'] = $token;
                           <td><?php echo htmlspecialchars($pic['width']); ?>x<?php echo htmlspecialchars($pic['height']); ?></td>
                           <td>
                             <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
-                              <form method="post" action="functions/save.php" class="d-inline">
+                              <form method="post" action="functions/save.php" class="d-inline reactivate-form">
                                 <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                                 <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
+                                <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
+                                <input type="hidden" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
+                                <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
+                                <input type="hidden" name="address" value="<?php echo htmlspecialchars($address); ?>">
                                 <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
                               </form>
                             <?php endif; ?>
@@ -187,5 +191,20 @@ $_SESSION['csrf_token'] = $token;
     </div>
   </div>
 </form>
+
+<script>
+document.querySelectorAll('.reactivate-form').forEach(function(form){
+  form.addEventListener('submit', function(){
+    var gender = document.querySelector('select[name="gender_id"]');
+    var phone = document.querySelector('input[name="phone"]');
+    var dob = document.querySelector('input[name="dob"]');
+    var address = document.querySelector('textarea[name="address"]');
+    if (gender) form.querySelector('input[name="gender_id"]').value = gender.value;
+    if (phone) form.querySelector('input[name="phone"]').value = phone.value;
+    if (dob) form.querySelector('input[name="dob"]').value = dob.value;
+    if (address) form.querySelector('input[name="address"]').value = address.value;
+  });
+});
+</script>
 
 <?php require '../admin_footer.php'; ?>
