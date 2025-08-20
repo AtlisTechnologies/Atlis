@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2025 at 07:08 AM
+-- Generation Time: Aug 20, 2025 at 06:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1256,6 +1256,65 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_kanban_boards`
+--
+
+CREATE TABLE `module_kanban_boards` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_kanban_boards`
+--
+
+INSERT INTO `module_kanban_boards` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
+(1, 1, NULL, '2025-08-19 22:20:47', '2025-08-19 22:20:47', NULL, 'Dave\'s Tasks', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_kanban_board_projects`
+--
+
+CREATE TABLE `module_kanban_board_projects` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `board_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_kanban_board_statuses`
+--
+
+CREATE TABLE `module_kanban_board_statuses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `board_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `sort_order` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_organization`
 --
 
@@ -1581,10 +1640,9 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `phone`, `dob`, `address`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, NULL, '', NULL, '', 1, '2025-08-08 21:52:52', '2025-08-18 22:25:13', NULL),
+(1, 1, 'Dave', 'Wilkins', NULL, 59, '4357645615', '1992-02-20', '', 1, '2025-08-08 21:52:52', '2025-08-19 22:48:03', NULL),
 (2, 2, 'Sean', 'Cadina', NULL, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-15 00:12:39', NULL),
 (5, 4, 'Tyler', 'Jessop', NULL, NULL, '', NULL, '', 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL);
-
 
 -- --------------------------------------------------------
 
@@ -1666,8 +1724,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-18 22:53:27', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 3, 'ADMIN', 1, '2025-08-16 17:30:14'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-19 22:48:29', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$jN1XBh3o8MrgbwhNU9Q4ze68Fh6B/Mv1UO8GXAgBjLchYF0.YpK/q', 1, 5, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-17 22:17:49', NULL, 'soup@atlistechnologies.com', '$2y$10$RIcmMSjwTvMljhHAoEaJVuxVyUnxzYTE9RJehqRaTxj7aRyA4gaq2', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
@@ -1718,7 +1776,7 @@ CREATE TABLE `users_profile_pics` (
   `uploaded_by` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
-  `active_user_id` int(11) GENERATED ALWAYS AS (IF(`status_id` = 82, `user_id`, NULL)) STORED
+  `active_user_id` int(11) GENERATED ALWAYS AS (if(`status_id` = 82,`user_id`,NULL)) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1726,64 +1784,8 @@ CREATE TABLE `users_profile_pics` (
 --
 
 INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(1, 1, 1, '2025-08-18 00:00:00', '2025-08-18 22:53:27', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 83),
-(2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82),
-(3, 1, 1, '2025-08-18 22:53:27', '2025-08-18 22:53:27', NULL, 'Xeon_CPU_1755579207.png', 'module/users/uploads/Xeon_CPU_1755579207.png', 55599, 'image/png', 'f69436b615c4add02f8e57dc5b323c646ea5d50244e85a07a85572337998be42', 693, 607, 1, 82);
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_kanban_boards`
---
-
-CREATE TABLE `module_kanban_boards` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_kanban_board_projects`
---
-
-CREATE TABLE `module_kanban_board_projects` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `board_id` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_kanban_board_statuses`
---
-
-CREATE TABLE `module_kanban_board_statuses` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `board_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `sort_order` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+(4, 1, 1, '2025-08-19 22:48:03', '2025-08-19 22:48:29', NULL, 'speed_1755665283.jpg', 'module/users/uploads/speed_1755665283.jpg', 117837, 'image/jpeg', '1dd9ae8995d836d378a2aabecb5f0142a82bf9b7c18b9fbd6aac0d00d609d836', 750, 817, 1, 83),
+(5, 1, 1, '2025-08-19 22:48:29', '2025-08-19 22:48:29', NULL, 'Leather_Jacket_1755665309.png', 'module/users/uploads/Leather_Jacket_1755665309.png', 759776, 'image/png', '074e923fbf7f4341f67173b268650dd28103e65fb8be14bb9027ffe0f9083055', 531, 742, 1, 82);
 
 --
 -- Indexes for dumped tables
@@ -1985,6 +1987,34 @@ ALTER TABLE `module_division`
   ADD KEY `fk_module_division_status` (`status`);
 
 --
+-- Indexes for table `module_kanban_boards`
+--
+ALTER TABLE `module_kanban_boards`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_kanban_boards_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_boards_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_kanban_board_projects_board_project` (`board_id`,`project_id`),
+  ADD KEY `fk_module_kanban_board_projects_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_board_projects_user_updated` (`user_updated`),
+  ADD KEY `fk_module_kanban_board_projects_board_id` (`board_id`),
+  ADD KEY `fk_module_kanban_board_projects_project_id` (`project_id`);
+
+--
+-- Indexes for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_kanban_board_statuses_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_board_statuses_user_updated` (`user_updated`),
+  ADD KEY `fk_module_kanban_board_statuses_board_id` (`board_id`);
+
+--
 -- Indexes for table `module_organization`
 --
 ALTER TABLE `module_organization`
@@ -2076,34 +2106,6 @@ ALTER TABLE `module_task_assignments`
   ADD KEY `fk_module_task_assignments_user_updated` (`user_updated`),
   ADD KEY `fk_module_task_assignments_task_id` (`task_id`),
   ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
-
---
--- Indexes for table `module_kanban_boards`
---
-ALTER TABLE `module_kanban_boards`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_kanban_boards_user_id` (`user_id`),
-  ADD KEY `fk_module_kanban_boards_user_updated` (`user_updated`);
-
---
--- Indexes for table `module_kanban_board_projects`
---
-ALTER TABLE `module_kanban_board_projects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_kanban_board_projects_user_id` (`user_id`),
-  ADD KEY `fk_module_kanban_board_projects_user_updated` (`user_updated`),
-  ADD KEY `fk_module_kanban_board_projects_board_id` (`board_id`),
-  ADD KEY `fk_module_kanban_board_projects_project_id` (`project_id`),
-  ADD UNIQUE KEY `uk_module_kanban_board_projects_board_project` (`board_id`,`project_id`);
-
---
--- Indexes for table `module_kanban_board_statuses`
---
-ALTER TABLE `module_kanban_board_statuses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_kanban_board_statuses_user_id` (`user_id`),
-  ADD KEY `fk_module_kanban_board_statuses_user_updated` (`user_updated`),
-  ADD KEY `fk_module_kanban_board_statuses_board_id` (`board_id`);
 
 --
 -- Indexes for table `person`
@@ -2289,6 +2291,24 @@ ALTER TABLE `module_division`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `module_kanban_boards`
+--
+ALTER TABLE `module_kanban_boards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_organization`
 --
 ALTER TABLE `module_organization`
@@ -2343,28 +2363,10 @@ ALTER TABLE `module_task_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `module_kanban_boards`
---
-ALTER TABLE `module_kanban_boards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `module_kanban_board_projects`
---
-ALTER TABLE `module_kanban_board_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `module_kanban_board_statuses`
---
-ALTER TABLE `module_kanban_board_statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -2394,7 +2396,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -2462,6 +2464,16 @@ ALTER TABLE `lookup_list_item_attributes`
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_agency`
+--
+ALTER TABLE `module_agency`
+  ADD CONSTRAINT `fk_module_agency_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`),
+  ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_agency_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -2518,33 +2530,36 @@ ALTER TABLE `module_contractors_status_history`
   ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `module_agency`
---
-ALTER TABLE `module_agency`
-  ADD CONSTRAINT `fk_module_agency_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_agency_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE RESTRICT,
-  ADD CONSTRAINT `fk_module_agency_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
-
---
 -- Constraints for table `module_division`
 --
 ALTER TABLE `module_division`
-  ADD CONSTRAINT `fk_module_division_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_division_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_division_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_division_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_division_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_division_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  ADD CONSTRAINT `fk_module_kanban_board_projects_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_kanban_board_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  ADD CONSTRAINT `fk_module_kanban_board_statuses_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`);
 
 --
 -- Constraints for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  ADD CONSTRAINT `fk_module_organization_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_organization_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_organization_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_organization_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_module_organization_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_organization_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_organization_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_projects`
@@ -2604,33 +2619,20 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
--- Constraints for table `module_kanban_board_projects`
---
-ALTER TABLE `module_kanban_board_projects`
-  ADD CONSTRAINT `fk_module_kanban_board_projects_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_kanban_board_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `module_kanban_board_statuses`
---
-ALTER TABLE `module_kanban_board_statuses`
-  ADD CONSTRAINT `fk_module_kanban_board_statuses_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`);
-
---
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
+  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_users_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `users_profile_pics`
