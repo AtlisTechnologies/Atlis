@@ -283,6 +283,7 @@ $_SESSION['csrf_token'] = $token;
       <table class="table table-sm table-striped align-middle">
         <thead>
           <tr>
+            <th>Actions</th>
             <th>Title</th>
             <th>Pay Date</th>
             <th>Invoice #</th>
@@ -299,6 +300,23 @@ $_SESSION['csrf_token'] = $token;
         <tbody>
           <?php foreach($comps as $cp): ?>
             <tr>
+              <td>
+                <button type="button"
+                  class="btn btn-warning btn-sm edit-comp-btn"
+                  data-id="<?= h($cp['id']); ?>"
+                  data-title="<?= h($cp['title']); ?>"
+                  data-pay-date="<?= h($cp['pay_date']); ?>"
+                  data-invoice-number="<?= h($cp['invoice_number']); ?>"
+                  data-compensation-type-id="<?= h($cp['compensation_type_id']); ?>"
+                  data-payment-method-id="<?= h($cp['payment_method_id']); ?>"
+                  data-amount="<?= h($cp['amount']); ?>"
+                  data-effective-start="<?= h($cp['effective_start']); ?>"
+                  data-effective-end="<?= h($cp['effective_end']); ?>"
+                  data-notes="<?= h($cp['notes']); ?>"
+                  data-file-id="<?= h($cp['file_id']); ?>">
+                  Edit
+                </button>
+              </td>
               <td><?= h($cp['title']); ?></td>
               <td><?= h($cp['pay_date']); ?></td>
               <td><?= h($cp['invoice_number'] ?: '—'); ?></td>
@@ -319,10 +337,109 @@ $_SESSION['csrf_token'] = $token;
             </tr>
           <?php endforeach; ?>
           <?php if(!$comps): ?>
-            <tr><td colspan="11" class="text-center text-muted">No compensation found.</td></tr>
+            <tr><td colspan="12" class="text-center text-muted">No compensation found.</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
+      <div class="modal fade" id="editCompModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form method="post" action="functions/update_compensation.php" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Compensation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="id" id="edit_comp_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="row g-2">
+                  <div class="col-md-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" id="edit_comp_title" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Pay Date</label>
+                    <input type="date" name="pay_date" id="edit_comp_pay_date" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Invoice #</label>
+                    <input type="text" name="invoice_number" id="edit_comp_invoice_number" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Existing File</label>
+                    <select name="existing_file_id" id="edit_existing_file_id" class="form-select form-select-sm">
+                      <option value="">Select File</option>
+                      <?php foreach($existingFiles as $ef): ?>
+                        <option value="<?= h($ef['id']); ?>"><?= h($ef['file_name']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <select name="compensation_type_id" id="edit_compensation_type_id" class="form-select form-select-sm" required>
+                      <option value="">Type</option>
+                      <?php foreach($payTypes as $p): ?>
+                        <option value="<?= h($p['id']); ?>"><?= h($p['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <select name="payment_method_id" id="edit_payment_method_id" class="form-select form-select-sm" required>
+                      <option value="">Payment Method</option>
+                      <?php foreach($paymentMethods as $pm): ?>
+                        <option value="<?= h($pm['id']); ?>"><?= h($pm['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="edit_comp_amount" class="form-label">Amount</label>
+                    <input type="number" step="0.01" name="amount" id="edit_comp_amount" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="edit_effective_start" class="form-label">Effective Start</label>
+                    <input type="date" name="effective_start" id="edit_effective_start" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3 mt-2">
+                    <label for="edit_effective_end" class="form-label">Effective End</label>
+                    <input type="date" name="effective_end" id="edit_effective_end" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-3 mt-2">
+                    <label class="form-label">Attachment</label>
+                    <input type="file" name="attachment" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-6 mt-2">
+                    <label for="edit_comp_notes" class="form-label">Notes</label>
+                    <textarea name="notes" id="edit_comp_notes" class="form-control form-control-sm"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Update Compensation</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script>
+      document.querySelectorAll('.edit-comp-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('edit_comp_id').value = this.dataset.id;
+          document.getElementById('edit_comp_title').value = this.dataset.title || '';
+          document.getElementById('edit_comp_pay_date').value = this.dataset.payDate || '';
+          document.getElementById('edit_comp_invoice_number').value = this.dataset.invoiceNumber || '';
+          document.getElementById('edit_compensation_type_id').value = this.dataset.compensationTypeId || '';
+          document.getElementById('edit_payment_method_id').value = this.dataset.paymentMethodId || '';
+          document.getElementById('edit_comp_amount').value = this.dataset.amount || '';
+          document.getElementById('edit_effective_start').value = this.dataset.effectiveStart || '';
+          document.getElementById('edit_effective_end').value = this.dataset.effectiveEnd || '';
+          document.getElementById('edit_comp_notes').value = this.dataset.notes || '';
+          document.getElementById('edit_existing_file_id').value = this.dataset.fileId || '';
+          var modal = new bootstrap.Modal(document.getElementById('editCompModal'));
+          modal.show();
+        });
+      });
+      </script>
     <?php else: ?>
       <p class="text-muted">Save contractor to add compensation.</p>
     <?php endif; ?>
