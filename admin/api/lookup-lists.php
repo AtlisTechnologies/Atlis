@@ -20,6 +20,7 @@ try {
       echo json_encode(['success'=>false,'error'=>'Invalid entity']);
   }
 } catch (Exception $e) {
+  error_log($e->getMessage());
   echo json_encode(['success'=>false,'error'=>'Server error']);
 }
 
@@ -51,6 +52,7 @@ function handleList($action){
       audit_log($pdo,$this_user_id,'lookup_lists',$id,'CREATE','Created lookup list');
       echo json_encode(['success'=>true,'message'=>'Lookup list created','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Name already exists']);
       }else{
@@ -75,6 +77,7 @@ function handleList($action){
       audit_log($pdo,$this_user_id,'lookup_lists',$id,'UPDATE','Updated lookup list');
       echo json_encode(['success'=>true,'message'=>'Lookup list updated','list'=>['id'=>$id,'name'=>$name,'description'=>$description]]);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Name already exists']);
       }else{
@@ -89,6 +92,7 @@ function handleList($action){
       audit_log($pdo,$this_user_id,'lookup_lists',$id,'DELETE','Deleted lookup list');
       echo json_encode(['success'=>true,'message'=>'Lookup list deleted']);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'List is in use']);
       }else{
@@ -138,6 +142,7 @@ function handleItem($action){
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
       echo json_encode(['success'=>true,'message'=>'Item created','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'sort_order'=>0,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Label or code already exists']);
       }else{
@@ -174,6 +179,7 @@ function handleItem($action){
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'UPDATE','Updated lookup list item');
       echo json_encode(['success'=>true,'message'=>'Item updated','item'=>['id'=>$id,'label'=>$label,'code'=>$code,'active_from'=>$active_from,'active_to'=>$active_to]]);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Label or code already exists']);
       }else{
@@ -196,6 +202,7 @@ function handleItem($action){
       audit_log($pdo,$this_user_id,'lookup_list_items',$id,'DELETE','Deleted lookup list item');
       echo json_encode(['success'=>true,'message'=>'Item deleted']);
     }catch(PDOException $e){
+      error_log($e->getMessage());
       if($e->getCode()==='23000'){
         echo json_encode(['success'=>false,'error'=>'Item is in use']);
       }else{
@@ -228,6 +235,7 @@ function handleAttr($action){
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$id,'CREATE','Created item attribute');
         echo json_encode(['success'=>true,'message'=>'Attribute created','attr'=>['id'=>$id,'attr_code'=>$key,'attr_value'=>$value]]);
       }catch(PDOException $e){
+        error_log($e->getMessage());
         if($e->getCode()==='23000'){
           echo json_encode(['success'=>false,'error'=>'Attribute already exists for this item']);
         }else{
@@ -245,6 +253,7 @@ function handleAttr($action){
         audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$id,'UPDATE','Updated item attribute');
         echo json_encode(['success'=>true,'message'=>'Attribute updated','attr'=>['id'=>$id,'attr_code'=>$key,'attr_value'=>$value]]);
       }catch(PDOException $e){
+        error_log($e->getMessage());
         if($e->getCode()==='23000'){
           echo json_encode(['success'=>false,'error'=>'Attribute already exists for this item']);
         }else{
