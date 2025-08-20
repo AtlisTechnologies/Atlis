@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2025 at 08:44 AM
+-- Generation Time: Aug 20, 2025 at 08:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -956,7 +956,13 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (391, 1, 1, '2025-08-20 00:42:07', '2025-08-20 00:42:07', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 29'),
 (392, 1, 1, '2025-08-20 00:42:11', '2025-08-20 00:42:11', NULL, 'module_tasks', 20, 'UPDATE', 'Completed task'),
 (393, 1, 1, '2025-08-20 00:42:24', '2025-08-20 00:42:24', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 31'),
-(394, 1, 1, '2025-08-20 00:43:16', '2025-08-20 00:43:16', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task');
+(394, 1, 1, '2025-08-20 00:43:16', '2025-08-20 00:43:16', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
+(395, 1, 1, '2025-08-20 00:45:39', '2025-08-20 00:45:39', NULL, 'lookup_list_item_attributes', 63, 'DELETE', 'Deleted item attribute'),
+(396, 1, 1, '2025-08-20 00:45:53', '2025-08-20 00:45:53', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(397, 1, 1, '2025-08-20 00:45:58', '2025-08-20 00:45:58', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(398, 1, 1, '2025-08-20 00:46:08', '2025-08-20 00:46:08', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(399, 1, 1, '2025-08-20 00:46:11', '2025-08-20 00:46:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(400, 1, 1, '2025-08-20 00:46:18', '2025-08-20 00:46:18', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -994,7 +1000,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (14, 1, 1, '2025-08-17 11:02:46', '2025-08-19 23:21:00', '', 'PROJECT_PRIORITY', ''),
 (15, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_GENDER', 'Gender options for users'),
 (16, 1, 1, '2025-08-18 15:29:37', '2025-08-18 15:29:37', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
-(17, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
+(17, 1, 1, '2025-08-18 15:29:50', '2025-08-20 00:46:18', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
 (19, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', '', 'CONTRACTOR_FILE_TYPE', ''),
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', '', 'CONTRACTOR_CONTACT_TYPE', ''),
@@ -1092,7 +1098,9 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (92, 1, 1, '2025-08-20 00:23:22', '2025-08-20 00:24:00', NULL, 23, 'image/bmp', 'BMP', 0, '2025-08-19', NULL),
 (93, 1, 1, '2025-08-20 00:23:28', '2025-08-20 00:24:28', NULL, 23, 'image/svg+xml', 'SVG', 0, '2025-08-19', NULL),
 (94, 1, 1, '2025-08-20 00:23:34', '2025-08-20 00:24:32', NULL, 23, 'image/tiff', 'TIFF', 0, '2025-08-19', NULL),
-(95, 1, 1, '2025-08-20 00:23:41', '2025-08-20 00:24:18', NULL, 23, 'image/jpg', 'JPG', 0, '2025-08-19', NULL);
+(95, 1, 1, '2025-08-20 00:23:41', '2025-08-20 00:24:18', NULL, 23, 'image/jpg', 'JPG', 0, '2025-08-19', NULL),
+(96, 1, 1, '2025-08-20 00:45:53', '2025-08-20 00:45:53', NULL, 17, 'Direct Deposit', 'DD', 0, '2025-08-20', NULL),
+(97, 1, 1, '2025-08-20 00:45:58', '2025-08-20 00:45:58', NULL, 17, 'Venmo', 'VENMO', 0, '2025-08-20', NULL);
 
 -- --------------------------------------------------------
 
@@ -1170,7 +1178,6 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 64, 'DEFAULT', 'true'),
 (61, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 64, 'COLOR-CLASS', 'primary'),
 (62, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 65, 'COLOR-CLASS', 'success'),
-(63, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 66, 'DEFAULT', 'true'),
 (64, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 66, 'COLOR-CLASS', 'primary'),
 (65, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 67, 'COLOR-CLASS', 'success'),
 (66, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 68, 'COLOR-CLASS', 'warning'),
@@ -1178,7 +1185,10 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (68, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 75, 'COLOR-CLASS', 'primary'),
 (69, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 76, 'COLOR-CLASS', 'success'),
 (70, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 77, 'COLOR-CLASS', 'warning'),
-(71, 1, 1, '2025-08-19 23:21:00', '2025-08-19 23:21:00', NULL, 87, 'COLOR-CLASS', 'danger');
+(71, 1, 1, '2025-08-19 23:21:00', '2025-08-19 23:21:00', NULL, 87, 'COLOR-CLASS', 'danger'),
+(72, 1, 1, '2025-08-20 00:46:08', '2025-08-20 00:46:08', NULL, 97, 'COLOR-CLASS', 'info'),
+(73, 1, 1, '2025-08-20 00:46:11', '2025-08-20 00:46:11', NULL, 96, 'COLOR-CLASS', 'atlis'),
+(74, 1, 1, '2025-08-20 00:46:18', '2025-08-20 00:46:18', NULL, 96, 'DEFAULT', 'true');
 
 -- --------------------------------------------------------
 
@@ -2357,7 +2367,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=395;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2369,13 +2379,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
