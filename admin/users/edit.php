@@ -230,6 +230,17 @@ document.querySelectorAll('.reactivate-form').forEach(function(form){
     if (address) form.querySelector('input[name="address"]').value = address.value;
   });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  var uploadInput = document.getElementById('upload-avatar');
+  if (uploadInput) {
+    uploadInput.addEventListener('change', function () {
+      if (this.files.length && document.querySelector('input[name="id"]')) {
+        this.closest('form').submit();   // bypass validation and post immediately
+      }
+    });
+  }
+});
 </script>
 
 <?php require '../admin_footer.php'; ?>

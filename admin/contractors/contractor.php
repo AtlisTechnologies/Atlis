@@ -24,6 +24,21 @@ $contactTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_TYPE');
 $paymentMethods = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD');
 $fileTypes = get_lookup_items($pdo, 'CONTRACTOR_FILE_TYPE');
 
+$defaultCompTypeId = null;
+foreach ($payTypes as $p) {
+  if (!empty($p['is_default'])) {
+    $defaultCompTypeId = $p['id'];
+    break;
+  }
+}
+$defaultPaymentMethodId = null;
+foreach ($paymentMethods as $pm) {
+  if (!empty($pm['is_default'])) {
+    $defaultPaymentMethodId = $pm['id'];
+    break;
+  }
+}
+
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 ?>
@@ -185,7 +200,7 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="compensation" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label, CONCAT(p.first_name, " ", p.last_name) AS created_by_name FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id LEFT JOIN users u ON mcc.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
@@ -196,45 +211,73 @@ $_SESSION['csrf_token'] = $token;
           <div class="col-md-3">
             <select name="compensation_type_id" class="form-select form-select-sm" required>
               <option value="">Type</option>
-              <?php foreach($payTypes as $p): ?>
-                <option value="<?= h($p['id']); ?>"><?= h($p['label']); ?></option>
+              <?php foreach($payTypes as $idx => $p):
+                $selected = $defaultCompTypeId !== null ? ($p['id'] == $defaultCompTypeId) : ($idx === 0);
+              ?>
+              <option value="<?= h($p['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
           <div class="col-md-3">
             <select name="payment_method_id" class="form-select form-select-sm" required>
               <option value="">Payment Method</option>
-              <?php foreach($paymentMethods as $pm): ?>
-                <option value="<?= h($pm['id']); ?>"><?= h($pm['label']); ?></option>
+              <?php foreach($paymentMethods as $idx => $pm):
+                $selected = $defaultPaymentMethodId !== null ? ($pm['id'] == $defaultPaymentMethodId) : ($idx === 0);
+              ?>
+              <option value="<?= h($pm['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($pm['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
           <div class="col-md-3">
-            <input type="number" step="0.01" name="amount" class="form-control form-control-sm" placeholder="Amount" required>
+            <label for="comp_amount" class="form-label">Amount</label>
+            <input type="number" step="0.01" name="amount" id="comp_amount" class="form-control form-control-sm" required>
           </div>
           <div class="col-md-3">
-            <input type="date" name="effective_start" class="form-control form-control-sm" required>
+            <label for="effective_start" class="form-label">Effective Start</label>
+            <input type="date" name="effective_start" id="effective_start" class="form-control form-control-sm" required>
           </div>
           <div class="col-md-3 mt-2">
-            <input type="date" name="effective_end" class="form-control form-control-sm">
+            <label for="effective_end" class="form-label">Effective End</label>
+            <input type="date" name="effective_end" id="effective_end" class="form-control form-control-sm">
           </div>
           <div class="col-md-6 mt-2">
-            <textarea name="notes" class="form-control form-control-sm" placeholder="Notes"></textarea>
+            <label for="comp_notes" class="form-label">Notes</label>
+            <textarea name="notes" id="comp_notes" class="form-control form-control-sm"></textarea>
           </div>
           <div class="col-md-12 mt-2">
             <button class="btn btn-primary btn-sm">Add Compensation</button>
           </div>
         </div>
       </form>
-      <ul class="list-group">
-        <?php foreach($comps as $cp): ?>
-          <li class="list-group-item small">
-            <?= h($cp['type_label']); ?> (<?= h($cp['payment_method_label']); ?>): <?= h($cp['amount']); ?>
-            <?php if($cp['effective_start']): ?> (<?= h($cp['effective_start']); ?><?php if($cp['effective_end']): ?> - <?= h($cp['effective_end']); ?><?php endif; ?>)<?php endif; ?>
-            <?php if($cp['notes']): ?> - <?= h($cp['notes']); ?><?php endif; ?>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <table class="table table-sm table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Payment Method</th>
+            <th>Amount</th>
+            <th>Effective Start</th>
+            <th>Effective End</th>
+            <th>Notes</th>
+            <th>Created (date/user)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($comps as $cp): ?>
+            <tr>
+              <td><?= h($cp['type_label'] ?: '—'); ?></td>
+              <td><?= h($cp['payment_method_label'] ?: '—'); ?></td>
+              <td><?= h($cp['amount'] ?: '—'); ?></td>
+              <td><?= h($cp['effective_start'] ?: '—'); ?></td>
+              <td><?= h($cp['effective_end'] ?: '—'); ?></td>
+              <td><?= h($cp['notes'] ?: '—'); ?></td>
+              <td><?= h($cp['date_created'] ?: '—'); ?><br><span class="text-muted small"><?= h($cp['created_by_name'] ?: '—'); ?></span></td>
+            </tr>
+          <?php endforeach; ?>
+          <?php if(!$comps): ?>
+            <tr><td colspan="7" class="text-center text-muted">No compensation found.</td></tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
     <?php else: ?>
       <p class="text-muted">Save contractor to add compensation.</p>
     <?php endif; ?>

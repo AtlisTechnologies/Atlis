@@ -239,6 +239,11 @@ try {
   $_SESSION['error_message'] = substr($e->getMessage(), 0, 200);
   $_SESSION['message'] = 'Error saving user.';
 }
+// Redirect differently if updating and a new profile picture was uploaded
+if ($isUpdate && $profilePath) {
+  header('Location: ../edit.php?id=' . $id);
+  exit;
+}
 
 header('Location: ../index.php');
 exit;
