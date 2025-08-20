@@ -11,14 +11,19 @@ unset($_SESSION['message']);
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <a href="edit.php" class="btn btn-success mb-3">Add User</a>
 <table class="table table-striped">
-  <thead><tr><th>Email</th><th>Name</th><th>Avatar</th><th></th></tr></thead>
+  <thead><tr><th>Email</th></tr></thead>
   <tbody>
     <?php foreach ($users as $u): ?>
     <tr>
-      <td><?php echo htmlspecialchars($u['email']); ?></td>
-      <td><?php echo htmlspecialchars($u['name']); ?></td>
-      <td><img src="<?= getURLDir() . $u['file_path'] ?>" class="img-thumbnail" style="width:40px;height:40px;"></td>
-      <td><a href="edit.php?id=<?php echo $u['id']; ?>" class="btn btn-sm btn-primary">Edit</a></td>
+      <td>
+        <h4>
+          <a href="edit.php?id=<?php echo $u['id']; ?>">
+            <img src="<?php if(isset($u['file_path'])){ echo getURLDir() . $u['file_path']; }else{ echo '/_atlis/assets/img/team/avatar.webp';  }?>" class="img-thumbnail" style="width:40px;height:40px;">
+            <?php echo htmlspecialchars($u['name']); ?>
+          </a>
+        </h4>
+        <?php echo htmlspecialchars($u['email']); ?>
+      </td>
     </tr>
     <?php endforeach; ?>
   </tbody>
