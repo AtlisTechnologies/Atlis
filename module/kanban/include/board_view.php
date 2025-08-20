@@ -4,15 +4,15 @@
 <div class="container py-4">
   <h2 class="mb-4"><?= htmlspecialchars($board['name'] ?? 'Board') ?></h2>
   <div class="row g-3 kanban-board" data-board-id="<?= $board['id'] ?>">
-    <?php foreach ($statuses as $st): 
-      $tasks = fetch_tasks_for_status($pdo, $st['name']);
+    <?php foreach ($statuses as $st):
+      $tasks = fetch_tasks_for_status($pdo, $board['id'], $st['status_id']);
     ?>
     <div class="col-md-3">
       <div class="card h-100">
         <div class="card-header">
-          <h5 class="mb-0"><?= htmlspecialchars($st['name']) ?></h5>
+          <h5 class="mb-0"><?= htmlspecialchars($st['label']) ?></h5>
         </div>
-        <div class="card-body min-vh-50 kanban-column" data-status="<?= htmlspecialchars($st['name']) ?>">
+        <div class="card-body min-vh-50 kanban-column" data-status-id="<?= $st['status_id'] ?>">
           <?php foreach ($tasks as $t): ?>
             <div class="card mb-2 p-2 kanban-item" data-task-id="<?= $t['id'] ?>" draggable="true">
               <?= htmlspecialchars($t['name']) ?>
@@ -36,11 +36,11 @@ document.querySelectorAll('.kanban-column').forEach(col => {
   col.addEventListener('drop', function(e) {
     e.preventDefault();
     const taskId = e.dataTransfer.getData('text/plain');
-    const status = this.dataset.status;
+    const statusId = this.dataset.statusId;
     fetch('functions/update_task_status.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `task_id=${taskId}&status=${encodeURIComponent(status)}`
+      body: `task_id=${taskId}&status_id=${encodeURIComponent(statusId)}`
     });
     const item = document.querySelector(`.kanban-item[data-task-id="${taskId}"]`);
     if (item) this.appendChild(item);

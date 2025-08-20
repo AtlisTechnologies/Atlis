@@ -14,8 +14,11 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
   ?>
   <div class="mb-5">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
       <h2 class="text-body-emphasis fw-bolder mb-2"><?php echo h($current_task['name'] ?? ''); ?></h2>
+      <?php if (user_has_permission('task','update')): ?>
+      <button class="btn btn-warning btn-sm" id="editTaskBtn">Edit</button>
+      <?php endif; ?>
     </div>
     <?php if ($hierarchyParts): ?>
       <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
@@ -237,6 +240,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
       </div>
     </div>
   </div>
+  <?php if (user_has_permission('task','update')): ?>
+  <div class="modal fade" id="taskEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+  <?php endif; ?>
   <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -289,6 +299,33 @@ require_once __DIR__ . '/../../../includes/functions.php';
             }
           }
         });
+      });
+    }
+
+    var editBtn = document.getElementById('editTaskBtn');
+    if (editBtn) {
+      editBtn.addEventListener('click', function () {
+        fetch('index.php?action=create-edit&id=<?php echo (int)$current_task['id']; ?>&modal=1')
+          .then(function (res) { return res.text(); })
+          .then(function (html) {
+            var modalContent = document.querySelector('#taskEditModal .modal-content');
+            if (modalContent) {
+              modalContent.innerHTML = html;
+              var modal = new bootstrap.Modal(document.getElementById('taskEditModal'));
+              modal.show();
+              var form = modalContent.querySelector('form');
+              if (form) {
+                form.addEventListener('submit', function (ev) {
+                  ev.preventDefault();
+                  var fd = new FormData(form);
+                  fetch('index.php?action=save', {
+                    method: 'POST',
+                    body: fd
+                  }).then(function () { location.reload(); });
+                });
+              }
+            }
+          });
       });
     }
   });
