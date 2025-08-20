@@ -1,7 +1,8 @@
 <?php
-// Expects $board from index.php
+// Expects $board, $projects, $selectedProjects from index.php
 $board_id = $board['id'] ?? null;
 $name = $board['name'] ?? '';
+$selProjects = $selectedProjects ?? [];
 ?>
 <div class="container py-4">
   <h2 class="mb-4"><?= $board_id ? 'Edit Board' : 'Create Board' ?></h2>
@@ -10,6 +11,14 @@ $name = $board['name'] ?? '';
     <div class="mb-3">
       <label class="form-label">Board Name</label>
       <input class="form-control" name="name" value="<?= htmlspecialchars($name) ?>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Projects</label>
+      <select class="form-select" name="projects[]" multiple>
+        <?php foreach ($projects as $p): ?>
+          <option value="<?= $p['id'] ?>" <?= in_array($p['id'], $selProjects) ? 'selected' : '' ?>><?= htmlspecialchars($p['name']) ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
     <button class="btn btn-falcon-primary" type="submit">Save</button>
     <a class="btn btn-falcon-secondary" href="index.php">Cancel</a>
