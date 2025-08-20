@@ -1,12 +1,15 @@
-<?php $modules = require __DIR__ . '/modules.php'; ?>
+<?php
+$stmt = $pdo->query('SELECT title, path, icon FROM admin_navigation_links ORDER BY sort_order');
+$navLinks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <nav class="navbar navbar-vertical navbar-expand-lg">
   <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content">
       <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-        <?php foreach ($modules as $module): ?>
+        <?php foreach ($navLinks as $link): ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= htmlspecialchars($module['path']); ?>">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= htmlspecialchars($module['icon']); ?>"></span></span><span class="nav-link-text"><?= htmlspecialchars($module['title']); ?></span></div>
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= htmlspecialchars($link['path']); ?>">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= htmlspecialchars($link['icon']); ?>"></span></span><span class="nav-link-text"><?= htmlspecialchars($link['title']); ?></span></div>
           </a>
         </li>
         <?php endforeach; ?>
