@@ -52,147 +52,166 @@ $_SESSION['csrf_token'] = $token;
     </ul>
   </div>
 <?php endif; ?>
-<h2 class="mb-4"><?php echo $id ? 'Edit' : 'Create'; ?> User</h2>
-<form action="functions/save.php" method="post" enctype="multipart/form-data" class="card theme-wizard" data-theme-wizard="data-theme-wizard">
+<form action="functions/save.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
   <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
   <?php if ($id): ?>
     <input type="hidden" name="id" value="<?php echo $id; ?>">
   <?php endif; ?>
-  <div class="card-header bg-body-tertiary pt-3 pb-2">
-    <ul class="nav justify-content-between nav-wizard">
-      <li class="nav-item"><a class="nav-link active fw-semibold" href="#tab-account" data-bs-toggle="tab" data-wizard-step="1"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Account</span></div></a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#tab-personal" data-bs-toggle="tab" data-wizard-step="2"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Personal</span></div></a></li>
-      <li class="nav-item"><a class="nav-link fw-semibold" href="#tab-done" data-bs-toggle="tab" data-wizard-step="3"><div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-check"></span></span></span><span class="d-none d-md-block mt-1 fs-9">Done</span></div></a></li>
-    </ul>
+  <div class="border-bottom border-translucent mb-4">
+    <div class="d-sm-flex justify-content-between">
+      <h2 class="mb-0"><?php echo $id ? 'Edit' : 'Create'; ?> User</h2>
+      <div class="d-flex mb-2">
+        <a class="btn btn-phoenix-primary me-2 px-6" href="index.php">Cancel</a>
+        <button class="btn btn-primary px-6" type="submit"><?php echo $id ? 'Save' : 'Create'; ?></button>
+      </div>
+    </div>
   </div>
-  <div class="card-body pt-4 pb-0">
-    <div class="tab-content">
-      <div class="tab-pane active" id="tab-account" role="tabpanel">
-        <div class="row g-3 mb-3">
-          <div class="col-sm-6">
-            <label class="form-label">First Name</label>
-            <input type="text" name="first_name" class="form-control" value="<?php echo htmlspecialchars($first_name); ?>" required>
-          </div>
-          <div class="col-sm-6">
-            <label class="form-label">Last Name</label>
-            <input type="text" name="last_name" class="form-control" value="<?php echo htmlspecialchars($last_name); ?>" required>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($email); ?>" required>
-        </div>
-        <div class="row g-3 mb-3">
-          <div class="col-sm-6">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" <?php echo $id ? '' : 'required'; ?>>
-          </div>
-          <div class="col-sm-6">
-            <label class="form-label">Confirm Password</label>
-            <input type="password" name="confirmPassword" class="form-control" <?php echo $id ? '' : 'required'; ?>>
+  <div class="row">
+    <div class="col-xl-9">
+      <div class="d-flex align-items-end position-relative mb-4">
+        <input class="d-none" id="upload-avatar" type="file" name="profile_pic" accept="image/png,image/jpeg" />
+        <div class="hoverbox" style="width: 150px; height: 150px">
+          <div class="hoverbox-content rounded-circle d-flex flex-center z-1" style="--phoenix-bg-opacity:.56;"><span class="fa-solid fa-camera fs-1 text-body-quaternary"></span></div>
+          <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center">
+            <div class="avatar avatar-5xl"><img class="rounded-circle" src="<?php echo $profile_pic ? getURLDir() . htmlspecialchars($profile_pic) : getURLDir() . 'assets/img/team/150x150/58.webp'; ?>" alt="" /></div>
+            <label class="w-100 h-100 position-absolute z-1" for="upload-avatar"></label>
           </div>
         </div>
       </div>
-      <div class="tab-pane" id="tab-personal" role="tabpanel">
-        <div class="mb-3">
-          <label class="form-label">Profile Picture</label>
-          <?php if ($profile_pic): ?>
-            <div class="mb-2"><img src="<?php echo getURLDir(); echo htmlspecialchars($profile_pic); ?>" alt="Profile Picture" class="img-thumbnail" style="max-width:150px;"></div>
-          <?php endif; ?>
-          <input type="file" name="profile_pic" accept="image/png,image/jpeg" class="form-control">
-        </div>
-        <?php if ($id && $profilePics): ?>
-        <div class="mb-3">
-          <div class="accordion" id="profilePicAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingPics">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePics" aria-expanded="false" aria-controls="collapsePics">Previous Profile Pictures</button>
-              </h2>
-              <div id="collapsePics" class="accordion-collapse collapse" data-bs-parent="#profilePicAccordion">
-                <div class="accordion-body p-0">
-                  <table class="table mb-0">
-                    <thead>
+      <?php if ($id && $profilePics): ?>
+      <div class="mb-3">
+        <div class="accordion" id="profilePicAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPics">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePics" aria-expanded="false" aria-controls="collapsePics">Previous Profile Pictures</button>
+            </h2>
+            <div id="collapsePics" class="accordion-collapse collapse" data-bs-parent="#profilePicAccordion">
+              <div class="accordion-body p-0">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th>Thumbnail</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Dimensions</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($profilePics as $pic): ?>
                       <tr>
-                        <th>Thumbnail</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Dimensions</th>
-                        <th></th>
+                        <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path']); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
+                        <td><?php echo htmlspecialchars($pic['status_label']); ?></td>
+                        <td><?php echo htmlspecialchars($pic['date_created']); ?></td>
+                        <td><?php echo htmlspecialchars($pic['width']); ?>x<?php echo htmlspecialchars($pic['height']); ?></td>
+                        <td>
+                          <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
+                            <form method="post" action="functions/save.php" class="d-inline reactivate-form">
+                              <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
+                              <input type="hidden" name="id" value="<?php echo $id; ?>">
+                              <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
+                              <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
+                              <input type="hidden" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
+                              <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
+                              <input type="hidden" name="address" value="<?php echo htmlspecialchars($address); ?>">
+                              <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
+                            </form>
+                          <?php endif; ?>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <?php foreach ($profilePics as $pic): ?>
-                        <tr>
-                          <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path']); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
-                          <td><?php echo htmlspecialchars($pic['status_label']); ?></td>
-                          <td><?php echo htmlspecialchars($pic['date_created']); ?></td>
-                          <td><?php echo htmlspecialchars($pic['width']); ?>x<?php echo htmlspecialchars($pic['height']); ?></td>
-                          <td>
-                            <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
-                              <form method="post" action="functions/save.php" class="d-inline reactivate-form">
-                                <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
-                                <input type="hidden" name="id" value="<?php echo $id; ?>">
-                                <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
-                                <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
-                                <input type="hidden" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
-                                <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
-                                <input type="hidden" name="address" value="<?php echo htmlspecialchars($address); ?>">
-                                <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
-                              </form>
-                            <?php endif; ?>
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    </tbody>
-                  </table>
-                </div>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
-        <?php endif; ?>
-        <div class="mb-3">
-          <label class="form-label">Gender</label>
-          <select name="gender_id" class="form-select">
-            <option value="">Select...</option>
-            <?php foreach ($genderItems as $item): ?>
-              <option value="<?php echo $item['id']; ?>" <?php echo (int)$gender_id === (int)$item['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($item['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Phone</label>
-          <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($phone); ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date of Birth</label>
-          <input type="date" name="dob" class="form-control" value="<?php echo htmlspecialchars($dob); ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Address</label>
-          <textarea name="address" class="form-control" rows="3"><?php echo htmlspecialchars($address); ?></textarea>
-        </div>
       </div>
-      <div class="tab-pane" id="tab-done" role="tabpanel">
-        <div class="text-center py-4">
-          <h4>All set!</h4>
-          <p>Click submit to save this user.</p>
+      <?php endif; ?>
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
+            <label for="first_name">First Name</label>
+            <div class="invalid-feedback">Please provide a first name.</div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
-    <div class="d-flex pager wizard list-inline mb-0">
-      <button class="d-none btn btn-link ps-0" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Previous</button>
-      <div class="flex-1 text-end">
-        <button class="btn btn-success px-6 px-sm-6" type="button" data-wizard-next-btn="data-wizard-next-btn">Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"></span></button>
-        <button class="btn btn-success px-6 px-sm-6 d-none" type="submit" data-wizard-submit-btn="data-wizard-submit-btn">Save</button>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="<?php echo htmlspecialchars($last_name); ?>" required>
+            <label for="last_name">Last Name</label>
+            <div class="invalid-feedback">Please provide a last name.</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>" required>
+            <label for="email">Email</label>
+            <div class="invalid-feedback">Please provide a valid email.</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" <?php echo $id ? '' : 'required'; ?>>
+            <label for="password">Password</label>
+            <div class="invalid-feedback">Please provide a password.</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" <?php echo $id ? '' : 'required'; ?>>
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="invalid-feedback">Please confirm password.</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <select class="form-select" id="gender_id" name="gender_id">
+              <option value="">Select...</option>
+              <?php foreach ($genderItems as $item): ?>
+                <option value="<?php echo $item['id']; ?>" <?php echo (int)$gender_id === (int)$item['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($item['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="gender_id">Gender</label>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" value="<?php echo htmlspecialchars($phone); ?>">
+            <label for="phone">Phone</label>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="form-floating">
+            <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of Birth" value="<?php echo htmlspecialchars($dob); ?>">
+            <label for="dob">Date of Birth</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-floating">
+            <textarea class="form-control" id="address" name="address" placeholder="Address" style="height:100px"><?php echo htmlspecialchars($address); ?></textarea>
+            <label for="address">Address</label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </form>
-
 <script>
+(function () {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})();
+
 document.querySelectorAll('.reactivate-form').forEach(function(form){
   form.addEventListener('submit', function(){
     var gender = document.querySelector('select[name="gender_id"]');
