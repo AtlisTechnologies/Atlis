@@ -50,6 +50,7 @@ if ($reactivatePicId && $id) {
 
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :active, user_updated = :uid WHERE id = :pic')
         ->execute([':active' => $activeStatusId, ':uid' => $this_user_id, ':pic' => $reactivatePicId]);
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
@@ -202,8 +203,8 @@ try {
 
   if ($profilePath) {
     $pdo->beginTransaction();
-    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user')
-        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id]);
+    $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
+        ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
     $pstmt = $pdo->prepare('INSERT INTO users_profile_pics (user_id, uploaded_by, file_name, file_path, file_size, file_type, width, height, file_hash, status_id, user_updated) VALUES (:user_id, :uploaded_by, :file_name, :file_path, :file_size, :file_type, :width, :height, :file_hash, :status_id, :uid)');
     $pstmt->execute([
       ':user_id' => $id,
