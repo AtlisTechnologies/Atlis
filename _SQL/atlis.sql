@@ -200,7 +200,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'create'),
 (58, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'read'),
 (59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'update'),
-(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'delete');
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'contractor_status_history', 'delete'),
+(61, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'create'),
+(62, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'read'),
+(63, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'update'),
+(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'delete');
 
 -- --------------------------------------------------------
 
@@ -233,7 +237,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (7, 1, 1, '2025-08-12 19:38:17', '2025-08-12 19:38:17', NULL, 'System Properties', 'Permissions for system properties'),
 (8, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Projects', 'Permissions for managing projects'),
 (9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks'),
-(10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors');
+(10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors'),
+(11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards');
 
 -- --------------------------------------------------------
 
@@ -316,7 +321,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (57, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 57),
 (58, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 58),
 (59, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 59),
-(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 60);
+(60, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 10, 60),
+(61, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 61),
+(62, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 62),
+(63, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 63),
+(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 64);
 
 -- --------------------------------------------------------
 
@@ -399,7 +408,13 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (28, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 12, 9),
 (29, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 1, 10),
 (30, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 13, 10),
-(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10);
+(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10),
+(32, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 1, 11),
+(33, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 10, 11),
+(34, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 11),
+(35, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 12, 11),
+(36, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 13, 11),
+(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11);
 
 -- --------------------------------------------------------
 
@@ -444,7 +459,13 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (28, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 9),
 (29, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 1, 10),
 (30, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 13, 10),
-(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10);
+(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10),
+(32, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 1, 11),
+(33, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 10, 11),
+(34, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 11),
+(35, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 12, 11),
+(36, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 13, 11),
+(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11);
 
 -- --------------------------------------------------------
 
@@ -1709,6 +1730,61 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (2, 2, 2, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'sean.jpg', 'module/users/uploads/sean.jpg', NULL, NULL, NULL, NULL, NULL, 2, 82),
 (3, 1, 1, '2025-08-18 22:53:27', '2025-08-18 22:53:27', NULL, 'Xeon_CPU_1755579207.png', 'module/users/uploads/Xeon_CPU_1755579207.png', 55599, 'image/png', 'f69436b615c4add02f8e57dc5b323c646ea5d50244e85a07a85572337998be42', 693, 607, 1, 82);
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_kanban_boards`
+--
+
+CREATE TABLE `module_kanban_boards` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_kanban_board_projects`
+--
+
+CREATE TABLE `module_kanban_board_projects` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `board_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_kanban_board_statuses`
+--
+
+CREATE TABLE `module_kanban_board_statuses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `board_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `sort_order` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Indexes for dumped tables
 --
@@ -2002,6 +2078,34 @@ ALTER TABLE `module_task_assignments`
   ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
+-- Indexes for table `module_kanban_boards`
+--
+ALTER TABLE `module_kanban_boards`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_kanban_boards_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_boards_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_kanban_board_projects_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_board_projects_user_updated` (`user_updated`),
+  ADD KEY `fk_module_kanban_board_projects_board_id` (`board_id`),
+  ADD KEY `fk_module_kanban_board_projects_project_id` (`project_id`),
+  ADD UNIQUE KEY `uk_module_kanban_board_projects_board_project` (`board_id`,`project_id`);
+
+--
+-- Indexes for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_kanban_board_statuses_user_id` (`user_id`),
+  ADD KEY `fk_module_kanban_board_statuses_user_updated` (`user_updated`),
+  ADD KEY `fk_module_kanban_board_statuses_board_id` (`board_id`);
+
+--
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
@@ -2074,19 +2178,19 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -2098,13 +2202,13 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -2237,6 +2341,24 @@ ALTER TABLE `module_tasks_notes`
 --
 ALTER TABLE `module_task_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `module_kanban_boards`
+--
+ALTER TABLE `module_kanban_boards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -2480,6 +2602,19 @@ ALTER TABLE `module_tasks_notes`
 ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `module_kanban_board_projects`
+--
+ALTER TABLE `module_kanban_board_projects`
+  ADD CONSTRAINT `fk_module_kanban_board_projects_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_kanban_board_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `module_kanban_board_statuses`
+--
+ALTER TABLE `module_kanban_board_statuses`
+  ADD CONSTRAINT `fk_module_kanban_board_statuses_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`);
 
 --
 -- Constraints for table `person`
