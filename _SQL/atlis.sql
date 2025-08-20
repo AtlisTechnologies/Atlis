@@ -536,6 +536,39 @@ INSERT INTO `admin_user_roles` (`id`, `user_id`, `user_updated`, `date_created`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin_navigation_links`
+--
+
+CREATE TABLE `admin_navigation_links` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_navigation_links`
+--
+
+INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 'Dashboard', 'index.php', 'home', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(3, 'Persons', 'person/index.php', 'users', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
+(8, 'Navigation Links', 'navigation.php', 'settings', 8, 1, 1, NOW(), NOW(), NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `audit_log`
 --
 
