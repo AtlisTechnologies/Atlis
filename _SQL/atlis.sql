@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2025 at 08:29 AM
+-- Generation Time: Aug 20, 2025 at 08:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -125,7 +125,12 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (76, 1, 1, '2025-08-19 23:23:51', '2025-08-19 23:23:51', NULL, 'module_contractors', 2, 'CREATE', 'Created contractor', NULL, '{\"user_id\":2,\"person_id\":2}'),
 (77, 1, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 'module_contractors', 3, 'CREATE', 'Created contractor', NULL, '{\"user_id\":4,\"person_id\":5}'),
 (78, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 'module_tasks_notes', 11, 'NOTE', '', '', 'Done through System Property.'),
-(79, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:15:31', NULL, 'module_projects', 3, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Fee Waiver Icon in Case Header\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"start_date\":\"2025-04-26\"}');
+(79, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:15:31', NULL, 'module_projects', 3, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Fee Waiver Icon in Case Header\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"start_date\":\"2025-04-26\"}'),
+(80, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 1, 'UPLOAD', '', '', '{\"file\":\"Capture43434.PNG\"}'),
+(81, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 2, 'UPLOAD', '', '', '{\"file\":\"DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt\"}'),
+(82, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 3, 'UPLOAD', '', '', '{\"file\":\"Feedback from CC and Leah Balzer.txt\"}'),
+(83, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 4, 'UPLOAD', '', '', '{\"file\":\"FeeWaiver Entity.PNG\"}'),
+(84, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 5, 'UPLOAD', '', '', '{\"file\":\"unnamed (2).png\"}');
 
 -- --------------------------------------------------------
 
@@ -151,13 +156,14 @@ CREATE TABLE `admin_navigation_links` (
 --
 
 INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 'Dashboard', 'index.php', 'home', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(3, 'Persons', 'person/index.php', 'users', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL);
+(1, 'Dashboard', 'index.php', 'home', 0, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(2, 'Users', 'users/index.php', 'user', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(3, 'Persons', 'person/index.php', 'users', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(4, 'Contractors', 'contractors/index.php', 'briefcase', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(6, 'Roles', 'roles/index.php', 'shield', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(7, 'System Properties', 'system-properties/index.php', 'sliders', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(8, 'Navigation Links', 'navigation.php', 'settings', 7, 1, 1, '2025-08-20 00:37:23', '2025-08-20 00:39:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -532,39 +538,6 @@ INSERT INTO `admin_user_roles` (`id`, `user_id`, `user_updated`, `date_created`,
 (1, 1, 1, '2025-08-07 00:47:07', '2025-08-12 19:38:55', NULL, 1, 1),
 (17, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 2, 8),
 (18, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 2, 9);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_navigation_links`
---
-
-CREATE TABLE `admin_navigation_links` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `icon` varchar(50) DEFAULT NULL,
-  `sort_order` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_navigation_links`
---
-
-INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 'Dashboard', 'index.php', 'home', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(3, 'Persons', 'person/index.php', 'users', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:00:00', NULL),
-(8, 'Navigation Links', 'navigation.php', 'settings', 8, 1, 1, NOW(), NOW(), NULL);
 
 -- --------------------------------------------------------
 
@@ -978,7 +951,12 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (386, 1, 1, '2025-08-20 00:24:25', '2025-08-20 00:24:25', NULL, 'lookup_list_items', 89, 'UPDATE', 'Updated lookup list item'),
 (387, 1, 1, '2025-08-20 00:24:28', '2025-08-20 00:24:28', NULL, 'lookup_list_items', 93, 'UPDATE', 'Updated lookup list item'),
 (388, 1, 1, '2025-08-20 00:24:32', '2025-08-20 00:24:32', NULL, 'lookup_list_items', 94, 'UPDATE', 'Updated lookup list item'),
-(389, 1, 1, '2025-08-20 00:24:36', '2025-08-20 00:24:36', NULL, 'lookup_list_items', 91, 'UPDATE', 'Updated lookup list item');
+(389, 1, 1, '2025-08-20 00:24:36', '2025-08-20 00:24:36', NULL, 'lookup_list_items', 91, 'UPDATE', 'Updated lookup list item'),
+(390, 1, 1, '2025-08-20 00:42:04', '2025-08-20 00:42:04', NULL, 'module_projects', 3, 'UPDATE', 'Updated priority to 57'),
+(391, 1, 1, '2025-08-20 00:42:07', '2025-08-20 00:42:07', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 29'),
+(392, 1, 1, '2025-08-20 00:42:11', '2025-08-20 00:42:11', NULL, 'module_tasks', 20, 'UPDATE', 'Completed task'),
+(393, 1, 1, '2025-08-20 00:42:24', '2025-08-20 00:42:24', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 31'),
+(394, 1, 1, '2025-08-20 00:43:16', '2025-08-20 00:43:16', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task');
 
 -- --------------------------------------------------------
 
@@ -1533,7 +1511,7 @@ CREATE TABLE `module_projects` (
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
 (1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
 (2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
-(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:15:31', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 55, NULL, '2025-04-26', NULL, 0);
+(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, '2025-04-26', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1586,6 +1564,17 @@ CREATE TABLE `module_projects_files` (
   `file_size` int(11) DEFAULT NULL,
   `file_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_files`
+--
+
+INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(1, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'Capture43434.PNG', '/module/project/uploads/project_3_1755672059_Capture43434.PNG', 136873, 'image/png'),
+(2, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt', '/module/project/uploads/project_3_1755672059_DOCUMENT_THIS_WHAT_I_DID_FOR_LAKE_FOR_NEW_ICON_IN_HEADER.txt', 1910, 'text/plain'),
+(3, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'Feedback from CC and Leah Balzer.txt', '/module/project/uploads/project_3_1755672059_Feedback_from_CC_and_Leah_Balzer.txt', 886, 'text/plain'),
+(4, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'FeeWaiver Entity.PNG', '/module/project/uploads/project_3_1755672059_FeeWaiver_Entity.PNG', 291893, 'image/png'),
+(5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png');
 
 -- --------------------------------------------------------
 
@@ -1642,7 +1631,7 @@ CREATE TABLE `module_tasks` (
 INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `previous_status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
 (1, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
 (2, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', NULL, '38', NULL, '2025-03-17', '2025-03-13', 0, NULL, 0),
+(3, 1, 1, '2025-08-19 22:58:03', '2025-08-20 00:43:16', NULL, 3, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-17', '2025-08-20', 1, 1, 100),
 (4, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', NULL, '39', NULL, '2025-03-25', '2025-03-19', 0, NULL, 0),
 (6, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:59:41', NULL, NULL, 2, 2, 'Zoom Link', NULL, NULL, NULL, '32', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
 (7, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
@@ -1657,7 +1646,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (17, 1, 1, '2025-08-19 23:01:26', '2025-08-20 00:13:56', NULL, 1, 2, 2, 'Initial Demo to Judge Novak - July 31st', NULL, NULL, NULL, '32', 32, '39', NULL, NULL, '2025-08-20', 1, 1, 100),
 (18, 1, 1, '2025-08-19 23:02:12', '2025-08-19 23:24:25', NULL, 2, NULL, NULL, 'Bench View Discussion', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
 (19, 1, 1, '2025-08-20 00:13:16', '2025-08-20 00:13:16', NULL, 1, NULL, NULL, 'Show [Seal Type] in Documents Viewer', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
-(20, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:21:25', NULL, 3, NULL, NULL, 'Create the Widget', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(20, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:42:11', NULL, 3, NULL, NULL, 'Create the Widget', NULL, NULL, NULL, '34', 32, '38', NULL, NULL, '2025-08-20', 1, 1, 100);
 
 -- --------------------------------------------------------
 
@@ -1736,7 +1725,8 @@ CREATE TABLE `module_task_assignments` (
 
 INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `assigned_user_id`) VALUES
 (1, 1, 1, '2025-08-19 23:02:19', '2025-08-19 23:02:19', NULL, 18, 1),
-(2, 1, NULL, '2025-08-20 00:12:26', '2025-08-20 00:12:26', NULL, 17, 1);
+(2, 1, NULL, '2025-08-20 00:12:26', '2025-08-20 00:12:26', NULL, 17, 1),
+(3, 1, NULL, '2025-08-20 00:43:09', '2025-08-20 00:43:09', NULL, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -2313,13 +2303,13 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -2367,7 +2357,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=395;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2475,7 +2465,7 @@ ALTER TABLE `module_projects_assignments`
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
@@ -2505,13 +2495,13 @@ ALTER TABLE `module_tasks_notes`
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
