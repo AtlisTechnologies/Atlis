@@ -1268,6 +1268,10 @@ CREATE TABLE `module_contractors_compensation` (
   `contractor_id` int(11) NOT NULL,
   `compensation_type_id` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `pay_date` date NOT NULL,
+  `invoice_number` varchar(100) DEFAULT NULL,
+  `file_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
   `effective_start` date NOT NULL,
   `effective_end` date DEFAULT NULL,
@@ -2073,7 +2077,8 @@ ALTER TABLE `module_contractors_compensation`
   ADD KEY `fk_module_contractors_compensation_user_updated` (`user_updated`),
   ADD KEY `fk_module_contractors_compensation_contractor_id` (`contractor_id`),
   ADD KEY `fk_module_contractors_compensation_type_id` (`compensation_type_id`),
-  ADD KEY `fk_module_contractors_compensation_payment_method_id` (`payment_method_id`);
+  ADD KEY `fk_module_contractors_compensation_payment_method_id` (`payment_method_id`),
+  ADD KEY `fk_module_contractors_compensation_file_id` (`file_id`);
 
 --
 -- Indexes for table `module_contractors_contacts`
@@ -2644,7 +2649,8 @@ ALTER TABLE `module_contractors_compensation`
   ADD CONSTRAINT `fk_module_contractors_compensation_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_compensation_type_id` FOREIGN KEY (`compensation_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_compensation_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_module_contractors_compensation_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_compensation_file_id` FOREIGN KEY (`file_id`) REFERENCES `module_contractors_files` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_contacts`

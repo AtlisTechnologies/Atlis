@@ -23,6 +23,12 @@ $payTypes = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_TYPE');
 $contactTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_TYPE');
 $paymentMethods = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD');
 $fileTypes = get_lookup_items($pdo, 'CONTRACTOR_FILE_TYPE');
+$existingFiles = [];
+if ($id) {
+  $stmt = $pdo->prepare('SELECT id, file_name FROM module_contractors_files WHERE contractor_id = :id ORDER BY date_created DESC');
+  $stmt->execute([':id' => $id]);
+  $existingFiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 $defaultCompTypeId = null;
 foreach ($payTypes as $p) {
@@ -200,14 +206,35 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="compensation" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label, CONCAT(p.first_name, " ", p.last_name) AS created_by_name FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id LEFT JOIN users u ON mcc.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label, CONCAT(p.first_name, " ", p.last_name) AS created_by_name, f.file_path, f.file_name FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id LEFT JOIN module_contractors_files f ON mcc.file_id = f.id LEFT JOIN users u ON mcc.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="functions/add_compensation.php" class="mb-3">
+      <form method="post" action="functions/add_compensation.php" class="mb-3" enctype="multipart/form-data">
         <input type="hidden" name="contractor_id" value="<?= $id; ?>">
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control form-control-sm" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Pay Date</label>
+            <input type="date" name="pay_date" class="form-control form-control-sm" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Invoice #</label>
+            <input type="text" name="invoice_number" class="form-control form-control-sm">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Existing File</label>
+            <select name="existing_file_id" class="form-select form-select-sm">
+              <option value="">Select File</option>
+              <?php foreach($existingFiles as $ef): ?>
+                <option value="<?= h($ef['id']); ?>"><?= h($ef['file_name']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
           <div class="col-md-3">
             <select name="compensation_type_id" class="form-select form-select-sm" required>
               <option value="">Type</option>
@@ -240,6 +267,10 @@ $_SESSION['csrf_token'] = $token;
             <label for="effective_end" class="form-label">Effective End</label>
             <input type="date" name="effective_end" id="effective_end" class="form-control form-control-sm">
           </div>
+          <div class="col-md-3 mt-2">
+            <label class="form-label">Attachment</label>
+            <input type="file" name="attachment" class="form-control form-control-sm">
+          </div>
           <div class="col-md-6 mt-2">
             <label for="comp_notes" class="form-label">Notes</label>
             <textarea name="notes" id="comp_notes" class="form-control form-control-sm"></textarea>
@@ -252,6 +283,10 @@ $_SESSION['csrf_token'] = $token;
       <table class="table table-sm table-striped align-middle">
         <thead>
           <tr>
+            <th>Title</th>
+            <th>Pay Date</th>
+            <th>Invoice #</th>
+            <th>File</th>
             <th>Type</th>
             <th>Payment Method</th>
             <th>Amount</th>
@@ -264,6 +299,16 @@ $_SESSION['csrf_token'] = $token;
         <tbody>
           <?php foreach($comps as $cp): ?>
             <tr>
+              <td><?= h($cp['title']); ?></td>
+              <td><?= h($cp['pay_date']); ?></td>
+              <td><?= h($cp['invoice_number'] ?: '—'); ?></td>
+              <td>
+                <?php if($cp['file_path']): ?>
+                  <a class="btn btn-outline-secondary btn-sm" href="<?= h($cp['file_path']); ?>" download>Download</a>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </td>
               <td><?= h($cp['type_label'] ?: '—'); ?></td>
               <td><?= h($cp['payment_method_label'] ?: '—'); ?></td>
               <td><?= h($cp['amount'] ?: '—'); ?></td>
@@ -274,7 +319,7 @@ $_SESSION['csrf_token'] = $token;
             </tr>
           <?php endforeach; ?>
           <?php if(!$comps): ?>
-            <tr><td colspan="7" class="text-center text-muted">No compensation found.</td></tr>
+            <tr><td colspan="11" class="text-center text-muted">No compensation found.</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
