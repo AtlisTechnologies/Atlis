@@ -156,7 +156,7 @@ if (!empty($current_project)) {
                           <li class="d-flex align-items-center mb-2">
                             <div class="avatar avatar-xl me-2">
                           <?php $pic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($pic); ?>" data-file-type="image/*">
                             <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($au['name']) ?>" />
                           </a>
                             </div>
@@ -242,7 +242,7 @@ if (!empty($current_project)) {
                       <div class="row g-3">
                         <?php foreach ($imageFiles as $f): ?>
                           <div class="col-6 col-md-4 col-lg-3 position-relative">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>">
                               <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
                             </a>
                             <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
@@ -266,7 +266,7 @@ if (!empty($current_project)) {
                           <div class="d-flex flex-between-center">
                             <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
                               <p class="text-body-highlight mb-0 lh-1">
-                                <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>"><?= h($f['file_name']) ?></a>
                               </p>
                             </div>
                             <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
@@ -447,9 +447,9 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
                                   </p>
                                 </div>
@@ -459,7 +459,7 @@ if (!empty($current_project)) {
                         <?php endif; ?>
 
                         <?php $npic = !empty($n['file_path']) ? $n['file_path'] : 'assets/img/team/avatar.webp'; ?>
-                        <p class="fs-9 mb-0 d-flex align-items-center"><a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($npic); ?>"><img src="<?php echo getURLDir() . h($npic); ?>" class="rounded-circle avatar avatar-m me-2" alt="" /></a>by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                        <p class="fs-9 mb-0 d-flex align-items-center"><a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($npic); ?>" data-file-type="image/*"><img src="<?php echo getURLDir() . h($npic); ?>" class="rounded-circle avatar avatar-m me-2" alt="" /></a>by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
                       </div>
                     </div>
                   </div>
@@ -490,16 +490,14 @@ if (!empty($current_project)) {
   </div>
 </div>
 
-<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="fileModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Image preview</h5>
+        <h5 class="modal-title">File preview</h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body text-center">
-        <img id="modalImage" src="" class="img-fluid" alt="Preview">
-      </div>
+      <div class="modal-body" id="modalContent"></div>
     </div>
   </div>
 </div>
@@ -556,15 +554,27 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     chart.setOption(option);
   }
-  var imageModal = document.getElementById('imageModal');
-  if (imageModal) {
-    imageModal.addEventListener('show.bs.modal', function (event) {
+  function escapeHtml(text){ var div=document.createElement('div'); div.textContent=text; return div.innerHTML; }
+  var fileModal = document.getElementById('fileModal');
+  if (fileModal) {
+    fileModal.addEventListener('show.bs.modal', function (event) {
       var trigger = event.relatedTarget;
-      var img = document.getElementById('modalImage');
-      if (trigger && img) {
-        img.src = trigger.getAttribute('data-img-src');
+      var src = trigger ? trigger.getAttribute('data-file-src') : '';
+      var type = trigger ? trigger.getAttribute('data-file-type') : '';
+      var content = document.getElementById('modalContent');
+      if (!content) return;
+      content.innerHTML = '';
+      if (type && type.startsWith('image/')) {
+        content.innerHTML = '<img src="' + src + '" class="img-fluid" alt="Preview">';
+      } else if (type === 'text/plain') {
+        fetch(src).then(function(r){ return r.text(); }).then(function(text){ content.innerHTML = '<pre class="text-start">' + escapeHtml(text) + '</pre>'; });
+      } else if (type === 'application/pdf') {
+        content.innerHTML = '<iframe src="' + src + '" class="w-100" style="height:80vh;"></iframe>';
+      } else {
+        content.innerHTML = '<a href="' + src + '" download>Download</a>';
       }
     });
+    fileModal.addEventListener('hidden.bs.modal', function(){ var content=document.getElementById('modalContent'); if(content){ content.innerHTML=''; } });
   }
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
@@ -757,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderNote(n){
     var files='';
-    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#imageModal\" data-img-src=\"<?php echo getURLDir(); ?>${f.file_path}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
+    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#fileModal\" data-file-src=\"<?php echo getURLDir(); ?>${f.file_path}\" data-file-type=\"${f.file_type}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
     return `<div class=\"timeline-item position-relative\" data-type=\"note\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"${n.file_path ? '<?php echo getURLDir(); ?>'+n.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
   }
 
