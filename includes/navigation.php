@@ -58,14 +58,16 @@
         <?php // ================ ?>
 
 
-      <?php // KANBAN NAV LINK ?>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>#">
-          <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
-      </li>
-      <?php // ================ ?>
-      <?php // END KANBAN NAV LINK ?>
-      <?php // ================ ?>
+        <?php // KANBAN NAV LINK ?>
+        <?php if (user_has_permission('kanban','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/kanban/">
+            <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END KANBAN NAV LINK ?>
+        <?php // ================ ?>
 
     </ul>
   </div>

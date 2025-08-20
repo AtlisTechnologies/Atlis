@@ -38,11 +38,13 @@
                     </a>
                   </li>
                   <?php endif; ?>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/kanban">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Kanban</span>
-                    </div>
-                  </a>
-                </li>
+                  <?php if (user_has_permission('kanban','read')): ?>
+                  <li class="nav-item"><a class="nav-link" href="<?php echo getURLDir(); ?>/module/kanban/">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-columns"></span></span><span class="nav-link-text">Kanban</span>
+                      </div>
+                    </a>
+                  </li>
+                  <?php endif; ?>
                 <?php // Add future module links below ?>
               </ul>
             </div>
