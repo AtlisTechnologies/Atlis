@@ -124,9 +124,11 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
-    $allowed = ['image/jpeg', 'image/png'];
+    $typeItems = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
+    $allowed   = array_column($typeItems, 'code');
+    $extMap    = array_column($typeItems, 'label', 'code');
     if (in_array($mime, $allowed, true)) {
-      $ext = $mime === 'image/png' ? 'png' : 'jpg';
+      $ext = $extMap[$mime] ?? pathinfo($file['name'], PATHINFO_EXTENSION);
       $safe = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($file['name'], PATHINFO_FILENAME));
       $filename = $safe . '_' . time() . '.' . $ext;
       $destDir = '../../../module/users/uploads/';

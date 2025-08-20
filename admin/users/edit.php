@@ -37,6 +37,7 @@ if ($id) {
   require_permission('users','create');
 }
 
+$imageTypes = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
 $genderItems = get_lookup_items($pdo, 'USER_GENDER');
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
@@ -65,7 +66,7 @@ $_SESSION['csrf_token'] = $token;
   <div class="row">
     <div class="col-xl-9">
       <div class="d-flex align-items-end position-relative mb-4">
-        <input class="d-none" id="upload-avatar" type="file" name="profile_pic" accept="image/png,image/jpeg" />
+        <input class="d-none" id="upload-avatar" type="file" name="profile_pic" accept="<?= implode(',', array_column($imageTypes, 'code')) ?>" />
         <div class="hoverbox" style="width: 150px; height: 150px">
           <div class="hoverbox-content rounded-circle d-flex flex-center z-1" style="--phoenix-bg-opacity:.56;"><span class="fa-solid fa-camera fs-1 text-body-quaternary"></span></div>
           <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center">
@@ -74,6 +75,9 @@ $_SESSION['csrf_token'] = $token;
           </div>
         </div>
       </div>
+      <?php if ($imageTypes): ?>
+        <div class="text-body-tertiary small mb-3">Allowed formats: <?= implode(', ', array_column($imageTypes, 'label')); ?></div>
+      <?php endif; ?>
       <?php if ($id && $profilePics): ?>
       <div class="mb-3">
         <div class="accordion" id="profilePicAccordion">
