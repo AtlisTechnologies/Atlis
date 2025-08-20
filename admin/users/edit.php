@@ -218,16 +218,15 @@ $_SESSION['csrf_token'] = $token;
   })
 })();
 
-document.querySelectorAll('.reactivate-form').forEach(function(form){
-  form.addEventListener('submit', function(){
-    var gender = document.querySelector('select[name="gender_id"]');
-    var phone = document.querySelector('input[name="phone"]');
-    var dob = document.querySelector('input[name="dob"]');
-    var address = document.querySelector('textarea[name="address"]');
-    if (gender) form.querySelector('input[name="gender_id"]').value = gender.value;
-    if (phone) form.querySelector('input[name="phone"]').value = phone.value;
-    if (dob) form.querySelector('input[name="dob"]').value = dob.value;
-    if (address) form.querySelector('input[name="address"]').value = address.value;
+document.querySelectorAll('.reactivate-form').forEach(form => {
+  form.addEventListener('submit', () => {
+    ['gender_id', 'phone', 'dob', 'address'].forEach(id => {
+      const hidden = form.querySelector(`[name="${id}"]`);
+      const source = document.getElementById(id);
+      if (hidden && source) {
+        hidden.value = source.value;
+      }
+    });
   });
 });
 
