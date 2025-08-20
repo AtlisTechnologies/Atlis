@@ -40,6 +40,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
           audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'UPDATE','Updated item attribute');
           $message='Attribute updated.';
         }catch(PDOException $e){
+          error_log($e->getMessage());
           if($e->getCode()==='23000'){
             $error='Attribute already exists for this item.';
           }else{
@@ -54,6 +55,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
           audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$attr_id,'CREATE','Created item attribute');
           $message='Attribute added.';
         }catch(PDOException $e){
+          error_log($e->getMessage());
           if($e->getCode()==='23000'){
             $error='Attribute already exists for this item.';
           }else{

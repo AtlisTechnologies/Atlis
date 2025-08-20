@@ -61,6 +61,8 @@ if ($reactivatePicId && $id) {
     if ($pdo->inTransaction()) {
       $pdo->rollBack();
     }
+    error_log($e->getMessage());
+    $_SESSION['error_message'] = substr($e->getMessage(), 0, 200);
     $_SESSION['message'] = 'Error updating profile picture.';
   }
   header('Location: ../edit.php?id=' . $id);
@@ -231,6 +233,8 @@ try {
   if ($pdo->inTransaction()) {
     $pdo->rollBack();
   }
+  error_log($e->getMessage());
+  $_SESSION['error_message'] = substr($e->getMessage(), 0, 200);
   $_SESSION['message'] = 'Error saving user.';
 }
 
