@@ -3,10 +3,16 @@ require '../../../includes/php_header.php';
 require_permission('project','update');
 
 $project_id = (int)($_POST['project_id'] ?? 0);
+if (!$project_id) {
+    http_response_code(400);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Missing project_id']);
+    exit;
+}
 $note_id = isset($_POST['note_id']) && $_POST['note_id'] !== '' ? (int)$_POST['note_id'] : null;
 $response = [];
 
-if ($project_id && !empty($_FILES['file'])) {
+if (!empty($_FILES['file'])) {
     $uploadDir = '../uploads/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
