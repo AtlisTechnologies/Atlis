@@ -29,6 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
+  // Default priority if not provided
+  if (!$priority) {
+    foreach (get_lookup_items($pdo, 'TASK_PRIORITY') as $item) {
+      if (!empty($item['is_default'])) {
+        $priority = $item['id'];
+        break;
+      }
+    }
+  }
+
   $stmt = $pdo->prepare('INSERT INTO module_tasks (user_id, user_updated, project_id, agency_id, division_id, name, status, priority, description) VALUES (:uid, :uid, :project_id, :agency_id, :division_id, :name, :status, :priority, :description)');
   $stmt->bindValue(':uid', $this_user_id, PDO::PARAM_INT);
   $stmt->bindValue(':project_id', $project_id);

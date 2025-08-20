@@ -529,6 +529,22 @@ if (!empty($current_project)) {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var projectId = <?= (int)$current_project['id'] ?>;
+  if (window.Dropzone) {
+    Dropzone.autoDiscover = false;
+    const dz = new Dropzone('#project-file-dropzone', {
+      url: 'functions/upload_file.php',
+      paramName: 'file',
+      init() {
+        this.on('sending', (file, xhr, formData) => {
+          formData.append('project_id', projectId);
+          formData.append('note_id', '');
+        });
+        this.on('queuecomplete', () => {
+          window.location.reload();
+        });
+      }
+    });
+  }
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
