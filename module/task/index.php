@@ -86,23 +86,27 @@ if ($action === 'create-edit' && isset($_GET['modal'])) {
   $id = (int)($_GET['id'] ?? 0);
   if ($id) {
     require_permission('task', 'update');
-    $stmt = $pdo->prepare('SELECT * FROM module_tasks WHERE id=?');
-    $stmt->execute([$id]);
+    $stmt = $pdo->prepare(
+      'SELECT id, user_id, user_updated, date_created, date_updated, memo, project_id, agency_id, division_id, ' .
+      'name, description, requirements, specifications, status, previous_status, priority, start_date, due_date, ' .
+      'complete_date, completed, completed_by, progress_percent FROM module_tasks WHERE id = :id'
+    );
+    $stmt->execute([':id' => $id]);
     $task = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    $assignedUsers = $pdo->prepare('SELECT assigned_user_id FROM module_task_assignments WHERE task_id=?');
-    $assignedUsers->execute([$id]);
-    $assignedUsers = $assignedUsers->fetchAll(PDO::FETCH_COLUMN);
+    $assignedStmt = $pdo->prepare('SELECT assigned_user_id FROM module_task_assignments WHERE task_id = :id');
+    $assignedStmt->execute([':id' => $id]);
+    $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_COLUMN);
   } else {
     require_permission('task', 'create');
     $task = [];
     $assignedUsers = [];
   }
-  $statusMap = get_lookup_items($pdo, 'TASK_STATUS');
+  $statusMap   = get_lookup_items($pdo, 'TASK_STATUS');
   $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
-  $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-  $agencies = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-  $divisions = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-  $users = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
+  $projects    = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $agencies    = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $divisions   = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $users       = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
 
   require 'include/form.php';
   exit;

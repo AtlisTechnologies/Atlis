@@ -17,7 +17,17 @@ function save_board(PDO $pdo, ?int $id, string $name, int $user_id): int {
     }
     $stmt = $pdo->prepare('INSERT INTO module_kanban_boards (user_id, name) VALUES (?,?)');
     $stmt->execute([$user_id, $name]);
-    return (int)$pdo->lastInsertId();
+    $board_id = (int)$pdo->lastInsertId();
+
+    // Seed board statuses with all TASK_STATUS values
+    $statusStmt = $pdo->prepare('SELECT li.id, li.sort_order FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = ? ORDER BY li.sort_order');
+    $statusStmt->execute(['TASK_STATUS']);
+    $insertStatus = $pdo->prepare('INSERT INTO module_kanban_board_statuses (user_id, board_id, status_id, sort_order) VALUES (?,?,?,?)');
+    foreach ($statusStmt as $row) {
+        $insertStatus->execute([$user_id, $board_id, $row['id'], $row['sort_order']]);
+    }
+
+    return $board_id;
 }
 
 function delete_board(PDO $pdo, int $id): void {
@@ -25,13 +35,41 @@ function delete_board(PDO $pdo, int $id): void {
 }
 
 function fetch_statuses(PDO $pdo, int $board_id): array {
-    $stmt = $pdo->prepare('SELECT id, name, sort_order FROM module_kanban_statuses WHERE board_id=? ORDER BY sort_order');
+    $sql = 'SELECT bs.status_id, li.label, bs.sort_order
+            FROM module_kanban_board_statuses bs
+            JOIN lookup_list_items li ON bs.status_id = li.id
+            WHERE bs.board_id=?
+            ORDER BY bs.sort_order';
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([$board_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function fetch_tasks_for_status(PDO $pdo, string $status): array {
-    $stmt = $pdo->prepare('SELECT id, name FROM module_tasks WHERE status=? ORDER BY id');
-    $stmt->execute([$status]);
+function fetch_board_projects(PDO $pdo, int $board_id): array {
+    $stmt = $pdo->prepare('SELECT project_id FROM module_kanban_board_projects WHERE board_id=?');
+    $stmt->execute([$board_id]);
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+function save_board_projects(PDO $pdo, int $board_id, array $projects, int $user_id): void {
+    $pdo->prepare('DELETE FROM module_kanban_board_projects WHERE board_id=?')->execute([$board_id]);
+    if (!$projects) {
+        return;
+    }
+    $stmt = $pdo->prepare('INSERT INTO module_kanban_board_projects (user_id, board_id, project_id) VALUES (?,?,?)');
+    foreach ($projects as $pid) {
+        $stmt->execute([$user_id, $board_id, $pid]);
+    }
+}
+
+function fetch_tasks_for_status(PDO $pdo, int $board_id, int $status_id): array {
+    $projectIds = fetch_board_projects($pdo, $board_id);
+    if (!$projectIds) {
+        return [];
+    }
+    $placeholders = implode(',', array_fill(0, count($projectIds), '?'));
+    $sql = "SELECT id, name FROM module_tasks WHERE status=? AND project_id IN ($placeholders) ORDER BY id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array_merge([$status_id], $projectIds));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
