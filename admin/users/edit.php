@@ -60,10 +60,6 @@ $_SESSION['csrf_token'] = $token;
   <div class="border-bottom border-translucent mb-4">
     <div class="d-sm-flex justify-content-between">
       <h2 class="mb-0"><?php echo $id ? 'Edit' : 'Create'; ?> User</h2>
-      <div class="d-flex mb-2">
-        <a class="btn btn-phoenix-primary me-2 px-6" href="index.php">Cancel</a>
-        <button class="btn btn-primary px-6" type="submit"><?php echo $id ? 'Save' : 'Create'; ?></button>
-      </div>
     </div>
   </div>
   <div class="row">
@@ -193,6 +189,12 @@ $_SESSION['csrf_token'] = $token;
             <label for="address">Address</label>
           </div>
         </div>
+        <center>
+          <div class="d-flex mb-2">
+            <a class="btn btn-outline-warning me-2 px-6" href="index.php">Cancel</a>
+            <button class="btn btn-atlis px-6" type="submit"><?php echo $id ? 'Save' : 'Create'; ?></button>
+          </div>
+        </center>
       </div>
     </div>
   </div>
