@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2025 at 07:31 AM
+-- Generation Time: Aug 20, 2025 at 07:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1714,7 +1714,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-19 23:03:53', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$iAASQFwFPAcpsfgSUYFA7.esy11I7og5S8lstSkuIgRuThz7naUbq', 1, 1, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-19 23:43:09', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$iAASQFwFPAcpsfgSUYFA7.esy11I7og5S8lstSkuIgRuThz7naUbq', 1, 4, 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -1777,7 +1777,8 @@ CREATE TABLE `users_profile_pics` (
 --
 
 INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(1, 1, 1, '2025-08-19 23:03:53', '2025-08-19 23:03:53', NULL, 'dave_2_1755666233.jpg', 'module/users/uploads/dave_2_1755666233.jpg', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82);
+(3, 1, 1, '2025-08-19 23:41:11', '2025-08-19 23:43:09', NULL, 'speed_1755668471.jpg', 'module/users/uploads/speed_1755668471.jpg', 117837, 'image/jpeg', '1dd9ae8995d836d378a2aabecb5f0142a82bf9b7c18b9fbd6aac0d00d609d836', 750, 817, 1, 83),
+(4, 1, 1, '2025-08-19 23:43:09', '2025-08-19 23:43:09', NULL, 'emrydave-55_1755668589.jpg', 'module/users/uploads/emrydave-55_1755668589.jpg', 1211198, 'image/jpeg', 'ff59399a9e05bebc8204cdc696b69287d9150dcb0b3bdde95fa278c3029d8b7a', 1424, 2136, 1, 82);
 
 --
 -- Indexes for dumped tables
@@ -2358,7 +2359,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -2388,7 +2389,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
