@@ -24,13 +24,14 @@ $defaultAddrStatus = null; foreach ($addrStatusItems as $a) { if (!empty($a['is_
 $defaultPhoneStatus = null; foreach ($phoneStatusItems as $a) { if (!empty($a['is_default'])) { $defaultPhoneStatus = $a['id']; break; } }
 $stmt = $pdo->prepare('SELECT p.id, p.first_name, p.last_name, p.email,
                                o.name AS org_name, a.name AS agency_name, d.name AS division_name,
-                               pp.phone_number, pa.address_line1, pa.city, pa.state, pa.postal_code
+                               pp.phone_number, pa.address_line1, pa.city, s.code AS state_code, pa.postal_code
                         FROM person p
                         LEFT JOIN module_organization o ON p.organization_id = o.id
                         LEFT JOIN module_agency a ON p.agency_id = a.id
                         LEFT JOIN module_division d ON p.division_id = d.id
                         LEFT JOIN person_phones pp ON p.id = pp.person_id AND pp.status_id = :ph_status
                         LEFT JOIN person_addresses pa ON p.id = pa.person_id AND pa.status_id = :addr_status
+                        LEFT JOIN lookup_list_items s ON pa.state_id = s.id
                         WHERE p.user_id IS NULL
                         ORDER BY p.last_name, p.first_name');
 $stmt->execute([':ph_status'=>$defaultPhoneStatus, ':addr_status'=>$defaultAddrStatus]);
@@ -66,7 +67,7 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <p class="text-muted small mb-1">📞 <?= htmlspecialchars($p['phone_number']); ?></p>
               <?php endif; ?>
               <?php if($p['address_line1']): ?>
-                <p class="text-muted small mb-2">🏠 <?= htmlspecialchars($p['address_line1']); ?><?= $p['city'] ? ', '.htmlspecialchars($p['city']) : ''; ?><?= $p['state'] ? ' '.htmlspecialchars($p['state']) : ''; ?><?= $p['postal_code'] ? ' '.htmlspecialchars($p['postal_code']) : ''; ?></p>
+                <p class="text-muted small mb-2">🏠 <?= htmlspecialchars($p['address_line1']); ?><?= $p['city'] ? ', '.htmlspecialchars($p['city']) : ''; ?><?= $p['state_code'] ? ' '.htmlspecialchars($p['state_code']) : ''; ?><?= $p['postal_code'] ? ' '.htmlspecialchars($p['postal_code']) : ''; ?></p>
               <?php endif; ?>
             </div>
             <div>
