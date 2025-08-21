@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 09:08 AM
+-- Generation Time: Aug 21, 2025 at 09:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -144,7 +144,18 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (95, 1, 1, '2025-08-20 20:47:54', '2025-08-20 20:47:54', NULL, 'module_contractors', 6, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":98,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"78\",\"pay_type_id\":\"98\",\"start_date\":\"\",\"end_date\":\"\",\"current_rate\":\"\"}'),
 (96, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 'module_contractors_contacts', 1, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Initial Contact - Hey Emma, I hope things are going well for you. \\r\\nQuick question, are you interested in doing some side gig work building PowerBI \\/ Tableau dashboards and other Business Intelligence products specifically for eSeries?\\r\\nCompensation would be around\\r\\n$100\\/hr and\\/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you\\u2019re interested. If not, no hard feelings at all.\\r\\nThanks !\"}'),
 (97, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 'module_contractors_compensation', 6, 'CREATE', 'Added compensation', '', '{\"amount\":\"555\",\"type\":98,\"title\":\"test\"}'),
-(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"phone\":\"\",\"gender_id\":59,\"dob\":null,\"address\":\"\"}');
+(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"phone\":\"\",\"gender_id\":59,\"dob\":null,\"address\":\"\"}'),
+(99, 1, 1, '2025-08-21 01:43:32', '2025-08-21 01:43:32', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
+(100, 1, 1, '2025-08-21 01:50:27', '2025-08-21 01:50:27', NULL, 'module_contractors_files', 3, 'UPLOAD', '', '', '{\"file\":\"45.jpg\",\"version\":1}'),
+(101, 1, 1, '2025-08-21 01:50:57', '2025-08-21 01:50:57', NULL, 'module_contractors_files', 3, 'DELETE', 'Deleted file', '', NULL),
+(102, 1, 1, '2025-08-21 01:53:22', '2025-08-21 01:53:22', NULL, 'module_contractors_files', 4, 'UPLOAD', '', '', '{\"file\":\"FIRST CONTACT.txt\",\"version\":1}'),
+(103, 1, 1, '2025-08-21 01:54:03', '2025-08-21 01:54:03', NULL, 'module_contractors_files', 5, 'UPLOAD', '', '', '{\"file\":\"INITIAL CALL.txt\",\"version\":1}'),
+(104, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 'module_contractors_files', 6, 'UPLOAD', '', '', '{\"file\":\"KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf\",\"version\":1}'),
+(105, 1, 1, '2025-08-21 01:56:21', '2025-08-21 01:56:21', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
+(106, 1, 1, '2025-08-21 01:56:50', '2025-08-21 01:56:50', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":\"2025-06-21\",\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-06-11\",\"title_role\":\"BI Analyst \\/ Report Writer\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
+(107, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 'module_contractors_contacts', 2, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.\"}'),
+(108, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 'module_contractors_contacts', 3, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !\"}'),
+(109, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 'module_contractors_contacts', 4, 'CREATE', 'Added contact', '', '{\"contact_type_id\":75,\"summary\":\"SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172\"}');
 
 -- --------------------------------------------------------
 
@@ -1037,7 +1048,22 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (457, 1, 1, '2025-08-20 21:14:38', '2025-08-20 21:14:38', NULL, 'lookup_list_items', 118, 'UPDATE', 'Updated lookup list item'),
 (458, 1, 1, '2025-08-20 21:14:43', '2025-08-20 21:14:43', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (459, 1, 1, '2025-08-20 21:14:49', '2025-08-20 21:14:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(460, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
+(460, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(461, 1, 1, '2025-08-21 01:44:58', '2025-08-21 01:44:58', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item'),
+(462, 1, 1, '2025-08-21 01:45:07', '2025-08-21 01:45:07', NULL, 'lookup_list_items', 74, 'UPDATE', 'Updated lookup list item'),
+(463, 1, 1, '2025-08-21 01:45:13', '2025-08-21 01:45:13', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(464, 1, 1, '2025-08-21 01:45:20', '2025-08-21 01:45:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(465, 1, 1, '2025-08-21 01:45:31', '2025-08-21 01:45:31', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(466, 1, 1, '2025-08-21 01:45:47', '2025-08-21 01:45:47', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(467, 1, 1, '2025-08-21 01:45:57', '2025-08-21 01:45:57', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(468, 1, 1, '2025-08-21 01:46:46', '2025-08-21 01:46:46', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(469, 1, 1, '2025-08-21 01:47:01', '2025-08-21 01:47:01', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(470, 1, 1, '2025-08-21 01:47:10', '2025-08-21 01:47:10', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(471, 1, 1, '2025-08-21 01:47:45', '2025-08-21 01:47:45', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(472, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(473, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(474, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(475, 1, 1, '2025-08-21 01:54:31', '2025-08-21 01:54:31', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item');
 
 -- --------------------------------------------------------
 
@@ -1077,7 +1103,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (16, 1, 1, '2025-08-18 15:29:37', '2025-08-20 15:07:28', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
 (17, 1, 1, '2025-08-18 15:29:50', '2025-08-20 14:37:41', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
-(19, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', '', 'CONTRACTOR_FILE_TYPE', ''),
+(19, 1, 1, '2025-08-18 15:30:20', '2025-08-21 01:54:31', '', 'CONTRACTOR_FILE_TYPE', ''),
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-20 20:48:24', '', 'CONTRACTOR_CONTACT_TYPE', ''),
 (21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
@@ -1160,8 +1186,8 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (70, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 18, 'Company', 'COMPANY', 2, '2025-08-18', NULL),
 (71, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 18, 'Agency', 'AGENCY', 3, '2025-08-18', NULL),
 (72, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Resume', 'RESUME', 1, '2025-08-18', NULL),
-(73, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Contract', 'CONTRACT', 2, '2025-08-18', NULL),
-(74, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 19, 'Certification', 'CERTIFICATION', 3, '2025-08-18', NULL),
+(73, 1, 1, '2025-08-18 00:00:00', '2025-08-21 01:54:31', NULL, 19, 'Atlis - Contract', 'ATLIS-CONTRACT', 2, '2025-08-18', NULL),
+(74, 1, 1, '2025-08-18 00:00:00', '2025-08-21 01:45:07', NULL, 19, 'CJIS Certification', 'CJISCERTIFICATION', 3, '2025-08-18', NULL),
 (75, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Email', 'EMAIL', 1, '2025-08-18', NULL),
 (76, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Phone', 'PHONE', 2, '2025-08-18', NULL),
 (77, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 20, 'Meeting', 'MEETING', 3, '2025-08-18', NULL),
@@ -1202,7 +1228,15 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (115, 1, 1, '2025-08-20 21:13:44', '2025-08-20 21:13:44', NULL, 26, 'Office', 'OFFICE', 0, '2025-08-20', NULL),
 (116, 1, 1, '2025-08-20 21:14:13', '2025-08-20 21:14:13', NULL, 24, 'Text', 'TEXT', 0, '2025-08-20', NULL),
 (117, 1, 1, '2025-08-20 21:14:17', '2025-08-20 21:14:17', NULL, 24, 'Email', 'EMAIL', 0, '2025-08-20', NULL),
-(118, 1, 1, '2025-08-20 21:14:22', '2025-08-20 21:14:38', NULL, 24, 'Phone Call', 'PHONECALL', 0, '2025-08-20', NULL);
+(118, 1, 1, '2025-08-20 21:14:22', '2025-08-20 21:14:38', NULL, 24, 'Phone Call', 'PHONECALL', 0, '2025-08-20', NULL),
+(119, 1, 1, '2025-08-21 01:45:47', '2025-08-21 01:45:47', NULL, 19, 'Note', 'NOTE', 0, '2025-08-20', NULL),
+(120, 1, 1, '2025-08-21 01:46:46', '2025-08-21 01:46:46', NULL, 19, 'Atlis - Background Consent', 'ATLIS-BACKGROUNDCONSENT', 0, '2025-08-21', NULL),
+(121, 1, 1, '2025-08-21 01:47:01', '2025-08-21 01:47:01', NULL, 19, 'Atlis - Direct Deposit', 'ATLIS-DIRECTDEPOSIT', 0, '2025-08-21', NULL),
+(122, 1, 1, '2025-08-21 01:47:10', '2025-08-21 01:47:10', NULL, 19, 'Atlis - W9', 'ATLIS-W9', 0, '2025-08-21', NULL),
+(123, 1, 1, '2025-08-21 01:47:45', '2025-08-21 01:47:45', NULL, 19, 'Lake - AUP - #1', 'LAKE-AUP-1', 0, '2025-08-21', NULL),
+(124, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 19, 'Lake - AUP - #2', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
+(125, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 19, 'Lake - AUP - #3', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
+(126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL);
 
 -- --------------------------------------------------------
 
@@ -1317,7 +1351,11 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (100, 1, 1, '2025-08-20 21:14:29', '2025-08-20 21:14:29', NULL, 117, 'COLOR-CLASS', 'atlis'),
 (101, 1, 1, '2025-08-20 21:14:43', '2025-08-20 21:14:43', NULL, 118, 'COLOR-CLASS', 'warning'),
 (102, 1, 1, '2025-08-20 21:14:49', '2025-08-20 21:14:49', NULL, 116, 'COLOR-CLASS', 'primary'),
-(103, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 117, 'DEFAULT', 'true');
+(103, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 117, 'DEFAULT', 'true'),
+(104, 1, 1, '2025-08-21 01:45:13', '2025-08-21 01:45:13', NULL, 73, 'COLOR-CLASS', 'atlis'),
+(105, 1, 1, '2025-08-21 01:45:20', '2025-08-21 01:45:20', NULL, 72, 'COLOR-CLASS', 'primary'),
+(106, 1, 1, '2025-08-21 01:45:31', '2025-08-21 01:45:31', NULL, 74, 'COLOR-CLASS', 'warning'),
+(107, 1, 1, '2025-08-21 01:45:57', '2025-08-21 01:45:57', NULL, 119, 'COLOR-CLASS', 'success');
 
 -- --------------------------------------------------------
 
@@ -1382,7 +1420,7 @@ INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created
 (1, 1, 1, '2025-08-19 23:23:43', '2025-08-19 23:23:43', NULL, 1, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 2, 1, '2025-08-19 23:23:51', '2025-08-20 14:39:03', NULL, 2, 79, 69, NULL, NULL, NULL, NULL, '2025-06-11', '2025-08-31'),
 (3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 8, 1, '2025-08-20 15:13:26', '2025-08-20 15:13:26', NULL, 23, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 8, 1, '2025-08-20 15:13:26', '2025-08-21 01:56:50', NULL, 23, 78, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL),
 (5, 9, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 24, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -1452,7 +1490,10 @@ CREATE TABLE `module_contractors_contacts` (
 --
 
 INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `contractor_id`, `contact_type_id`, `contact_date`, `summary`, `contact_duration`, `contact_result`, `related_module`, `related_id`) VALUES
-(1, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 6, 99, '2025-07-26 16:36:00', 'Initial Contact - Hey Emma, I hope things are going well for you. \r\nQuick question, are you interested in doing some side gig work building PowerBI / Tableau dashboards and other Business Intelligence products specifically for eSeries?\r\nCompensation would be around\r\n$100/hr and/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you’re interested. If not, no hard feelings at all.\r\nThanks !', NULL, NULL, NULL, NULL);
+(1, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 6, 99, '2025-07-26 16:36:00', 'Initial Contact - Hey Emma, I hope things are going well for you. \r\nQuick question, are you interested in doing some side gig work building PowerBI / Tableau dashboards and other Business Intelligence products specifically for eSeries?\r\nCompensation would be around\r\n$100/hr and/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you’re interested. If not, no hard feelings at all.\r\nThanks !', NULL, NULL, NULL, NULL),
+(2, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 4, 99, '2025-06-11 13:56:00', 'Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.', NULL, NULL, NULL, NULL),
+(3, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 4, 99, '2025-06-12 14:00:00', 'KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !', NULL, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 4, 75, '2025-06-21 14:00:00', 'SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1480,7 +1521,10 @@ CREATE TABLE `module_contractors_files` (
 --
 
 INSERT INTO `module_contractors_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `contractor_id`, `file_type_id`, `file_name`, `file_path`, `version`, `description`) VALUES
-(1, 1, 1, '2025-08-20 16:54:07', '2025-08-20 16:54:07', NULL, 2, 73, 'Atlis Technologies Work Agreement - With Summer 2025 - D_SIGNED.pdf', '/admin/contractors/uploads/2/Atlis_Technologies_Work_Agreement_-_With_Summer_2025_-_D_SIGNED.pdf', '1', '#3 - Summer 2025');
+(1, 1, 1, '2025-08-20 16:54:07', '2025-08-20 16:54:07', NULL, 2, 73, 'Atlis Technologies Work Agreement - With Summer 2025 - D_SIGNED.pdf', '/admin/contractors/uploads/2/Atlis_Technologies_Work_Agreement_-_With_Summer_2025_-_D_SIGNED.pdf', '1', '#3 - Summer 2025'),
+(4, 1, 1, '2025-08-21 01:53:22', '2025-08-21 01:53:22', NULL, 4, 119, 'FIRST CONTACT.txt', '/admin/contractors/uploads/4/FIRST_CONTACT.txt', '1', 'First Contact'),
+(5, 1, 1, '2025-08-21 01:54:03', '2025-08-21 01:54:03', NULL, 4, 119, 'INITIAL CALL.txt', '/admin/contractors/uploads/4/INITIAL_CALL.txt', '1', 'Initial Call'),
+(6, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 4, 73, 'KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '/admin/contractors/uploads/4/KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '1', '1st Contract with Atlis');
 
 -- --------------------------------------------------------
 
@@ -2484,7 +2528,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2538,7 +2582,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=461;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=476;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2550,13 +2594,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -2580,13 +2624,13 @@ ALTER TABLE `module_contractors_compensation`
 -- AUTO_INCREMENT for table `module_contractors_contacts`
 --
 ALTER TABLE `module_contractors_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_notes`
@@ -2800,8 +2844,8 @@ ALTER TABLE `module_agency`
 -- Constraints for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
-  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_acquaintance_type_id` FOREIGN KEY (`acquaintance_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
