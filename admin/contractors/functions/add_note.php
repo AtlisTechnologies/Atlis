@@ -2,6 +2,11 @@
 require '../../../includes/php_header.php';
 require_permission('contractors','update');
 
+if(!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')){
+  header('Location: ../contractor.php?id='.(int)($_POST['contractor_id'] ?? 0).'#notes');
+  exit;
+}
+
 $cid  = (int)($_POST['contractor_id'] ?? 0);
 $note = trim($_POST['note_text'] ?? '');
 $ok = false;

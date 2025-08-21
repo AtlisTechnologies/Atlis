@@ -1366,23 +1366,25 @@ CREATE TABLE `module_contractors` (
   `person_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `contractor_type_id` int(11) NOT NULL,
-  `pay_type_id` int(11) NOT NULL,
+  `initial_contact_date` date DEFAULT NULL,
+  `title_role` varchar(255) DEFAULT NULL,
+  `acquaintance` text DEFAULT NULL,
+  `acquaintance_type_id` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  `current_rate` decimal(10,2) DEFAULT NULL
+  `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_contractors`
 --
 
-INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `status_id`, `contractor_type_id`, `pay_type_id`, `start_date`, `end_date`, `current_rate`) VALUES
-(1, 1, 1, '2025-08-19 23:23:43', '2025-08-19 23:23:43', NULL, 1, 78, 69, 64, NULL, NULL, NULL),
-(2, 2, 1, '2025-08-19 23:23:51', '2025-08-20 14:39:03', NULL, 2, 79, 69, 65, '2025-06-11', '2025-08-31', 681.82),
-(3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, 64, NULL, NULL, NULL),
-(4, 8, 1, '2025-08-20 15:13:26', '2025-08-20 15:13:26', NULL, 23, 78, 69, 98, NULL, NULL, NULL),
-(5, 9, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 24, 78, 69, 98, NULL, NULL, NULL),
-(6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, 98, NULL, NULL, NULL);
+INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `status_id`, `contractor_type_id`, `initial_contact_date`, `title_role`, `acquaintance`, `acquaintance_type_id`, `start_date`, `end_date`) VALUES
+(1, 1, 1, '2025-08-19 23:23:43', '2025-08-19 23:23:43', NULL, 1, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, 1, '2025-08-19 23:23:51', '2025-08-20 14:39:03', NULL, 2, 79, 69, NULL, NULL, NULL, NULL, '2025-06-11', '2025-08-31'),
+(3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 8, 1, '2025-08-20 15:13:26', '2025-08-20 15:13:26', NULL, 23, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 9, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 24, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2231,7 +2233,7 @@ ALTER TABLE `module_contractors`
   ADD KEY `fk_module_contractors_user_updated` (`user_updated`),
   ADD KEY `fk_module_contractors_status_id` (`status_id`),
   ADD KEY `fk_module_contractors_contractor_type_id` (`contractor_type_id`),
-  ADD KEY `fk_module_contractors_pay_type_id` (`pay_type_id`);
+  ADD KEY `fk_module_contractors_acquaintance_type_id` (`acquaintance_type_id`);
 
 --
 -- Indexes for table `module_contractors_compensation`
@@ -2799,7 +2801,7 @@ ALTER TABLE `module_agency`
 --
 ALTER TABLE `module_contractors`
   ADD CONSTRAINT `fk_module_contractors_contractor_type_id` FOREIGN KEY (`contractor_type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_contractors_pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_acquaintance_type_id` FOREIGN KEY (`acquaintance_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   ADD CONSTRAINT `fk_module_contractors_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,

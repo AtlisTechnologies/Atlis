@@ -23,6 +23,7 @@ $payTypes = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_TYPE');
 $contactTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_TYPE');
 $paymentMethods = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD');
 $fileTypes = get_lookup_items($pdo, 'CONTRACTOR_FILE_TYPE');
+$acqTypes = get_lookup_items($pdo, 'CONTRACTOR_ACQUAINTANCE_TYPE');
 $existingFiles = [];
 if ($id) {
   $stmt = $pdo->prepare('SELECT id, file_name FROM module_contractors_files WHERE contractor_id = :id ORDER BY date_created DESC');
@@ -31,10 +32,17 @@ if ($id) {
 }
 
 $messages = [
-  'note-added'    => 'Note added',
-  'contact-added' => 'Contact added',
-  'comp-saved'    => 'Compensation saved',
-  'file-uploaded' => 'File uploaded'
+  'note-added'      => 'Note added',
+  'note-updated'    => 'Note updated',
+  'note-deleted'    => 'Note deleted',
+  'contact-added'   => 'Contact added',
+  'contact-updated' => 'Contact updated',
+  'contact-deleted' => 'Contact deleted',
+  'comp-saved'      => 'Compensation saved',
+  'comp-deleted'    => 'Compensation deleted',
+  'file-uploaded'   => 'File uploaded',
+  'file-updated'    => 'File updated',
+  'file-deleted'    => 'File deleted'
 ];
 
 $defaultCompTypeId = null;
@@ -104,12 +112,25 @@ $_SESSION['csrf_token'] = $token;
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label">Pay Type</label>
-        <select name="pay_type_id" class="form-select">
-          <?php foreach($payTypes as $p):
-            $selected = ($contractor['pay_type_id'] ?? '') == $p['id'] ? 'selected' : '';
+        <label class="form-label">Initial Contact Date</label>
+        <input type="date" name="initial_contact_date" class="form-control" value="<?= h($contractor['initial_contact_date'] ?? ''); ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Title/Role</label>
+        <input type="text" name="title_role" class="form-control" value="<?= h($contractor['title_role'] ?? ''); ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Acquaintance</label>
+        <textarea name="acquaintance" class="form-control"><?= h($contractor['acquaintance'] ?? ''); ?></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Acquaintance Type</label>
+        <select name="acquaintance_type_id" class="form-select">
+          <option value="">Select Type</option>
+          <?php foreach($acqTypes as $a):
+            $selected = ($contractor['acquaintance_type_id'] ?? '') == $a['id'] ? 'selected' : '';
           ?>
-          <option value="<?= h($p['id']); ?>" <?= $selected; ?>><?= h($p['label']); ?></option>
+          <option value="<?= h($a['id']); ?>" <?= $selected; ?>><?= h($a['label']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -120,10 +141,6 @@ $_SESSION['csrf_token'] = $token;
       <div class="mb-3">
         <label class="form-label">End Date</label>
         <input type="date" name="end_date" class="form-control" value="<?= h($contractor['end_date'] ?? ''); ?>">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Current Rate</label>
-        <input type="number" step="0.01" name="current_rate" class="form-control" value="<?= h($contractor['current_rate'] ?? ''); ?>">
       </div>
       <?php endif; ?>
       <button class="btn <?= $id ? 'btn-warning' : 'btn-success'; ?>" type="submit">Save</button>
@@ -136,17 +153,77 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="functions/add_note.php" class="mb-3">
-        <input type="hidden" name="contractor_id" value="<?= $id; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-        <textarea name="note_text" class="form-control mb-2" required></textarea>
-        <button class="btn btn-primary btn-sm">Add Note</button>
-      </form>
+      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addNoteModal">Add Note</button>
       <ul class="list-group">
         <?php foreach($notes as $n): ?>
-          <li class="list-group-item small"><strong><?= h($n['date_created']); ?>:</strong> <?= h($n['note_text']); ?></li>
+          <li class="list-group-item small d-flex justify-content-between align-items-start">
+            <span><strong><?= h($n['date_created']); ?>:</strong> <?= h($n['note_text']); ?></span>
+            <span>
+              <button type="button" class="btn btn-warning btn-sm edit-note-btn" data-id="<?= h($n['id']); ?>" data-text="<?= h($n['note_text']); ?>">Edit</button>
+              <form method="post" action="functions/delete_note.php" class="d-inline" onsubmit="return confirm('Delete note?');">
+                <input type="hidden" name="id" value="<?= h($n['id']); ?>">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <button class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </span>
+          </li>
         <?php endforeach; ?>
+        <?php if(!$notes): ?><li class="list-group-item text-muted">No notes found.</li><?php endif; ?>
       </ul>
+      <div class="modal fade" id="addNoteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/add_note.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <textarea name="note_text" class="form-control" required></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save Note</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="editNoteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/update_note.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="id" id="edit_note_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <textarea name="note_text" id="edit_note_text" class="form-control" required></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Update Note</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script>
+      document.querySelectorAll('.edit-note-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('edit_note_id').value = this.dataset.id;
+          document.getElementById('edit_note_text').value = this.dataset.text || '';
+          var modal = new bootstrap.Modal(document.getElementById('editNoteModal'));
+          modal.show();
+        });
+      });
+      </script>
     <?php else: ?>
       <p class="text-muted">Save contractor to add notes.</p>
     <?php endif; ?>
@@ -158,54 +235,153 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="functions/add_contact.php" class="mb-3">
-        <input type="hidden" name="contractor_id" value="<?= $id; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-        <div class="row g-2">
-          <div class="col-md-3">
-            <select name="contact_type_id" class="form-select form-select-sm" required>
-              <option value="">Type</option>
-              <?php foreach($contactTypes as $ct): ?>
-                <option value="<?= h($ct['id']); ?>"><?= h($ct['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <input type="datetime-local" name="contact_date" class="form-control form-control-sm">
-          </div>
-          <div class="col-md-3">
-            <input type="number" name="contact_duration" class="form-control form-control-sm" placeholder="Duration (min)">
-          </div>
-          <div class="col-md-3">
-            <input type="text" name="contact_result" class="form-control form-control-sm" placeholder="Result">
-          </div>
-          <div class="col-md-3 mt-2">
-            <input type="text" name="related_module" class="form-control form-control-sm" placeholder="Related Module">
-          </div>
-          <div class="col-md-3 mt-2">
-            <input type="number" name="related_id" class="form-control form-control-sm" placeholder="Related ID">
-          </div>
-          <div class="col-md-12 mt-2">
-            <textarea name="summary" class="form-control form-control-sm" placeholder="Summary" required></textarea>
-          </div>
-          <div class="col-md-12 mt-2">
-            <button class="btn btn-primary btn-sm">Add Contact</button>
-          </div>
-        </div>
-      </form>
+      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addContactModal">Add Contact</button>
       <ul class="list-group">
         <?php foreach($contacts as $c): ?>
-          <li class="list-group-item small">
-            <strong><?= h($c['contact_date']); ?></strong> - <?= h($c['contact_type']); ?>
-            <?php if($c['summary']): ?>: <?= h($c['summary']); ?><?php endif; ?>
-            <?php if($c['contact_duration']): ?> (<?= h($c['contact_duration']); ?> min)<?php endif; ?>
-            <?php if($c['contact_result']): ?> - <?= h($c['contact_result']); ?><?php endif; ?>
-            <?php if($c['related_module'] && $c['related_id']): ?>
-              <span class="text-muted">(<?= h($c['related_module']); ?> #<?= h($c['related_id']); ?>)</span>
-            <?php endif; ?>
+          <li class="list-group-item small d-flex justify-content-between align-items-start">
+            <span>
+              <strong><?= h($c['contact_date']); ?></strong> - <?= h($c['contact_type']); ?>
+              <?php if($c['summary']): ?>: <?= h($c['summary']); ?><?php endif; ?>
+              <?php if($c['contact_duration']): ?> (<?= h($c['contact_duration']); ?> min)<?php endif; ?>
+              <?php if($c['contact_result']): ?> - <?= h($c['contact_result']); ?><?php endif; ?>
+              <?php if($c['related_module'] && $c['related_id']): ?>
+                <span class="text-muted">(<?= h($c['related_module']); ?> #<?= h($c['related_id']); ?>)</span>
+              <?php endif; ?>
+            </span>
+            <span>
+              <button type="button" class="btn btn-warning btn-sm edit-contact-btn"
+                data-id="<?= h($c['id']); ?>"
+                data-type="<?= h($c['contact_type_id']); ?>"
+                data-date="<?= h($c['contact_date']); ?>"
+                data-duration="<?= h($c['contact_duration']); ?>"
+                data-result="<?= h($c['contact_result']); ?>"
+                data-module="<?= h($c['related_module']); ?>"
+                data-rid="<?= h($c['related_id']); ?>"
+                data-summary="<?= h($c['summary']); ?>">Edit</button>
+              <form method="post" action="functions/delete_contact.php" class="d-inline" onsubmit="return confirm('Delete contact?');">
+                <input type="hidden" name="id" value="<?= h($c['id']); ?>">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <button class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </span>
           </li>
         <?php endforeach; ?>
+        <?php if(!$contacts): ?><li class="list-group-item text-muted">No contacts found.</li><?php endif; ?>
       </ul>
+      <div class="modal fade" id="addContactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form method="post" action="functions/add_contact.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <select name="contact_type_id" class="form-select" required>
+                      <option value="">Type</option>
+                      <?php foreach($contactTypes as $ct): ?>
+                        <option value="<?= h($ct['id']); ?>"><?= h($ct['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="datetime-local" name="contact_date" class="form-control">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="number" name="contact_duration" class="form-control" placeholder="Duration (min)">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="text" name="contact_result" class="form-control" placeholder="Result">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="text" name="related_module" class="form-control" placeholder="Related Module">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="number" name="related_id" class="form-control" placeholder="Related ID">
+                  </div>
+                  <div class="col-12 mt-2">
+                    <textarea name="summary" class="form-control" placeholder="Summary" required></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save Contact</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="editContactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form method="post" action="functions/update_contact.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="id" id="edit_contact_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <select name="contact_type_id" id="edit_contact_type" class="form-select" required>
+                      <option value="">Type</option>
+                      <?php foreach($contactTypes as $ct): ?>
+                        <option value="<?= h($ct['id']); ?>"><?= h($ct['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="datetime-local" name="contact_date" id="edit_contact_date" class="form-control">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="number" name="contact_duration" id="edit_contact_duration" class="form-control" placeholder="Duration (min)">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="text" name="contact_result" id="edit_contact_result" class="form-control" placeholder="Result">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="text" name="related_module" id="edit_related_module" class="form-control" placeholder="Related Module">
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <input type="number" name="related_id" id="edit_related_id" class="form-control" placeholder="Related ID">
+                  </div>
+                  <div class="col-12 mt-2">
+                    <textarea name="summary" id="edit_contact_summary" class="form-control" placeholder="Summary" required></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Update Contact</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script>
+      document.querySelectorAll('.edit-contact-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('edit_contact_id').value = this.dataset.id;
+          document.getElementById('edit_contact_type').value = this.dataset.type || '';
+          document.getElementById('edit_contact_date').value = this.dataset.date ? this.dataset.date.replace(' ', 'T') : '';
+          document.getElementById('edit_contact_duration').value = this.dataset.duration || '';
+          document.getElementById('edit_contact_result').value = this.dataset.result || '';
+          document.getElementById('edit_related_module').value = this.dataset.module || '';
+          document.getElementById('edit_related_id').value = this.dataset.rid || '';
+          document.getElementById('edit_contact_summary').value = this.dataset.summary || '';
+          var modal = new bootstrap.Modal(document.getElementById('editContactModal'));
+          modal.show();
+        });
+      });
+      </script>
     <?php else: ?>
       <p class="text-muted">Save contractor to add contacts.</p>
     <?php endif; ?>
@@ -217,76 +393,90 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="functions/add_compensation.php" class="mb-3" enctype="multipart/form-data">
-        <input type="hidden" name="contractor_id" value="<?= $id; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-        <div class="row g-2">
-          <div class="col-md-3">
-            <label class="form-label">Title</label>
-            <input type="text" name="title" class="form-control form-control-sm" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Pay Date</label>
-            <input type="date" name="pay_date" class="form-control form-control-sm" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Invoice #</label>
-            <input type="text" name="invoice_number" class="form-control form-control-sm">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Existing File</label>
-            <select name="existing_file_id" class="form-select form-select-sm">
-              <option value="">Select File</option>
-              <?php foreach($existingFiles as $ef): ?>
-                <option value="<?= h($ef['id']); ?>"><?= h($ef['file_name']); ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <select name="compensation_type_id" class="form-select form-select-sm" required>
-              <option value="">Type</option>
-              <?php foreach($payTypes as $idx => $p):
-                $selected = $defaultCompTypeId !== null ? ($p['id'] == $defaultCompTypeId) : ($idx === 0);
-              ?>
-              <option value="<?= h($p['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <select name="payment_method_id" class="form-select form-select-sm" required>
-              <option value="">Payment Method</option>
-              <?php foreach($paymentMethods as $idx => $pm):
-                $selected = $defaultPaymentMethodId !== null ? ($pm['id'] == $defaultPaymentMethodId) : ($idx === 0);
-              ?>
-              <option value="<?= h($pm['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($pm['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="comp_amount" class="form-label">Amount</label>
-            <input type="number" step="0.01" name="amount" id="comp_amount" class="form-control form-control-sm" required>
-          </div>
-          <div class="col-md-3">
-            <label for="effective_start" class="form-label">Effective Start</label>
-            <input type="date" name="effective_start" id="effective_start" class="form-control form-control-sm" required>
-          </div>
-          <div class="col-md-3 mt-2">
-            <label for="effective_end" class="form-label">Effective End</label>
-            <input type="date" name="effective_end" id="effective_end" class="form-control form-control-sm">
-          </div>
-          <div class="col-md-3 mt-2">
-            <label class="form-label">Attachment</label>
-            <input type="file" name="attachment" class="form-control form-control-sm">
-          </div>
-          <div class="col-md-6 mt-2">
-            <label for="comp_notes" class="form-label">Notes</label>
-            <textarea name="notes" id="comp_notes" class="form-control form-control-sm"></textarea>
-          </div>
-          <div class="col-md-12 mt-2">
-            <button class="btn btn-primary btn-sm">Add Compensation</button>
+      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addCompModal">Add Compensation</button>
+      <div class="modal fade" id="addCompModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form method="post" action="functions/add_compensation.php" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Compensation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="row g-2">
+                  <div class="col-md-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Pay Date</label>
+                    <input type="date" name="pay_date" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Invoice #</label>
+                    <input type="text" name="invoice_number" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Existing File</label>
+                    <select name="existing_file_id" class="form-select form-select-sm">
+                      <option value="">Select File</option>
+                      <?php foreach($existingFiles as $ef): ?>
+                        <option value="<?= h($ef['id']); ?>"><?= h($ef['file_name']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <select name="compensation_type_id" class="form-select form-select-sm" required>
+                      <option value="">Type</option>
+                      <?php foreach($payTypes as $idx => $p):
+                        $selected = $defaultCompTypeId !== null ? ($p['id'] == $defaultCompTypeId) : ($idx === 0);
+                      ?>
+                      <option value="<?= h($p['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <select name="payment_method_id" class="form-select form-select-sm" required>
+                      <option value="">Payment Method</option>
+                      <?php foreach($paymentMethods as $idx => $pm):
+                        $selected = $defaultPaymentMethodId !== null ? ($pm['id'] == $defaultPaymentMethodId) : ($idx === 0);
+                      ?>
+                      <option value="<?= h($pm['id']); ?>" <?= $selected ? 'selected' : ''; ?>><?= h($pm['label']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="comp_amount" class="form-label">Amount</label>
+                    <input type="number" step="0.01" name="amount" id="comp_amount" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="effective_start" class="form-label">Effective Start</label>
+                    <input type="date" name="effective_start" id="effective_start" class="form-control form-control-sm" required>
+                  </div>
+                  <div class="col-md-3 mt-2">
+                    <label for="effective_end" class="form-label">Effective End</label>
+                    <input type="date" name="effective_end" id="effective_end" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-3 mt-2">
+                    <label class="form-label">Attachment</label>
+                    <input type="file" name="attachment" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-6 mt-2">
+                    <label for="comp_notes" class="form-label">Notes</label>
+                    <textarea name="notes" id="comp_notes" class="form-control form-control-sm"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save Compensation</button>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
+      </div>
       <table class="table table-sm table-striped align-middle">
         <thead>
           <tr>
@@ -323,6 +513,12 @@ $_SESSION['csrf_token'] = $token;
                   data-file-id="<?= h($cp['file_id']); ?>">
                   Edit
                 </button>
+                <form method="post" action="functions/delete_compensation.php" class="d-inline" onsubmit="return confirm('Delete compensation?');">
+                  <input type="hidden" name="id" value="<?= h($cp['id']); ?>">
+                  <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-danger btn-sm">Delete</button>
+                </form>
               </td>
               <td><?= h($cp['title']); ?></td>
               <td><?= h($cp['pay_date']); ?></td>
@@ -458,21 +654,9 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <form method="post" action="functions/upload_file.php" enctype="multipart/form-data" class="mb-3">
-        <input type="hidden" name="contractor_id" value="<?= $id; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-        <select name="file_type_id" class="form-select mb-2" required>
-          <option value="">File Type</option>
-          <?php foreach($fileTypes as $ft): ?>
-            <option value="<?= h($ft['id']); ?>"><?= h($ft['label']); ?></option>
-          <?php endforeach; ?>
-        </select>
-        <input type="text" name="description" class="form-control mb-2" placeholder="Description">
-        <input type="file" name="file" class="form-control mb-2" required>
-        <button class="btn btn-primary btn-sm">Upload File</button>
-      </form>
+      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addFileModal">Upload File</button>
       <table class="table table-sm">
-        <thead><tr><th>File</th><th>Type</th><th>Version</th><th>Description</th><th></th></tr></thead>
+        <thead><tr><th>File</th><th>Type</th><th>Version</th><th>Description</th><th>Actions</th></tr></thead>
         <tbody>
           <?php foreach($files as $f): ?>
             <tr>
@@ -480,11 +664,89 @@ $_SESSION['csrf_token'] = $token;
               <td><?= h($f['file_type']); ?></td>
               <td>v<?= h($f['version']); ?></td>
               <td><?= h($f['description']); ?></td>
-              <td><a class="btn btn-outline-secondary btn-sm" href="<?= h($f['file_path']); ?>" download>Download</a></td>
+              <td>
+                <a class="btn btn-outline-secondary btn-sm" href="<?= h($f['file_path']); ?>" download>Download</a>
+                <button type="button" class="btn btn-warning btn-sm edit-file-btn" data-id="<?= h($f['id']); ?>" data-type="<?= h($f['file_type_id']); ?>" data-desc="<?= h($f['description']); ?>">Edit</button>
+                <form method="post" action="functions/delete_file.php" class="d-inline" onsubmit="return confirm('Delete file?');">
+                  <input type="hidden" name="id" value="<?= h($f['id']); ?>">
+                  <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              </td>
             </tr>
           <?php endforeach; ?>
+          <?php if(!$files): ?><tr><td colspan="5" class="text-muted text-center">No files found.</td></tr><?php endif; ?>
         </tbody>
       </table>
+      <div class="modal fade" id="addFileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/upload_file.php" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title">Upload File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <select name="file_type_id" class="form-select mb-2" required>
+                  <option value="">File Type</option>
+                  <?php foreach($fileTypes as $ft): ?>
+                    <option value="<?= h($ft['id']); ?>"><?= h($ft['label']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <input type="text" name="description" class="form-control mb-2" placeholder="Description">
+                <input type="file" name="file" class="form-control mb-2" required>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Upload</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="editFileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/update_file.php" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="id" id="edit_file_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <select name="file_type_id" id="edit_file_type" class="form-select mb-2" required>
+                  <option value="">File Type</option>
+                  <?php foreach($fileTypes as $ft): ?>
+                    <option value="<?= h($ft['id']); ?>"><?= h($ft['label']); ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <input type="text" name="description" id="edit_file_desc" class="form-control mb-2" placeholder="Description">
+                <input type="file" name="file" class="form-control mb-2">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script>
+      document.querySelectorAll('.edit-file-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('edit_file_id').value = this.dataset.id;
+          document.getElementById('edit_file_type').value = this.dataset.type || '';
+          document.getElementById('edit_file_desc').value = this.dataset.desc || '';
+          var modal = new bootstrap.Modal(document.getElementById('editFileModal'));
+          modal.show();
+        });
+      });
+      </script>
     <?php else: ?>
       <p class="text-muted">Save contractor to manage files.</p>
     <?php endif; ?>

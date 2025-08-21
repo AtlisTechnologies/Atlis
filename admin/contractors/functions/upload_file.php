@@ -6,7 +6,12 @@ require_permission('contractors','update');
 $cid = (int)($_POST['contractor_id'] ?? 0);
 $file_type_id = (int)($_POST['file_type_id'] ?? 0);
 $description = trim($_POST['description'] ?? '');
+$token = $_POST['csrf_token'] ?? '';
 $ok = false;
+if($token !== ($_SESSION['csrf_token'] ?? '')){
+  header('Location: ../contractor.php?id='.$cid.'#files');
+  exit;
+}
 if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   $max = (int)get_system_property($pdo,'contractor_file_max_size');
   if(!$max){ $max = 10 * 1024 * 1024; }
@@ -24,19 +29,19 @@ if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] =
   $safeName = preg_replace('/[^A-Za-z0-9._-]/','_', $fileName);
   $targetPath = $baseDir . $safeName;
   $relativePath = '/admin/contractors/uploads/'.$cid.'/'.$safeName;
-  $stmt = $pdo->prepare('SELECT id,file_path,version FROM module_contractors_files WHERE contractor_id=:cid AND file_name=:name ORDER BY version DESC LIMIT 1');
-  $stmt->execute([':cid'=>$cid, ':name'=>$fileName]);
-  $prev = $stmt->fetch(PDO::FETCH_ASSOC);
-  $version = 1;
-  if($prev){
-    $version = $prev['version'] + 1;
-    $prevPath = $baseDir . basename($prev['file_path']);
-    if(file_exists($prevPath)){
-      $verDir = $baseDir . 'versioned/v' . $prev['version'] . '/';
-      if(!is_dir($verDir)){ mkdir($verDir,0777,true); }
-      rename($prevPath, $verDir . basename($prevPath));
-    }
-  }
+      $stmt = $pdo->prepare('SELECT id,file_path,version FROM module_contractors_files WHERE contractor_id=:cid AND file_name=:name ORDER BY version DESC LIMIT 1');
+      $stmt->execute([':cid'=>$cid, ':name'=>$fileName]);
+      $prev = $stmt->fetch(PDO::FETCH_ASSOC);
+      $version = 1;
+      if($prev){
+        $version = $prev['version'] + 1;
+        $prevPath = $baseDir . basename($prev['file_path']);
+        if(file_exists($prevPath)){
+          $verDir = $baseDir . 'versioned/';
+          if(!is_dir($verDir)){ mkdir($verDir,0777,true); }
+          rename($prevPath, $verDir . 'v'.$prev['version'].'_'.basename($prevPath));
+        }
+      }
   if(move_uploaded_file($file['tmp_name'],$targetPath)){
     $stmt = $pdo->prepare('INSERT INTO module_contractors_files (user_id,user_updated,contractor_id,file_type_id,file_name,file_path,version,description) VALUES (:uid,:uid,:cid,:ftype,:name,:path,:ver,:desc)');
     $stmt->execute([

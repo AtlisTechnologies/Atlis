@@ -4,6 +4,11 @@ require_permission('contractors','update');
 
 $id  = (int)($_POST['id'] ?? 0);
 $cid = (int)($_POST['contractor_id'] ?? 0);
+$token = $_POST['csrf_token'] ?? '';
+if($token !== ($_SESSION['csrf_token'] ?? '')){
+  header('Location: ../contractor.php?id='.$cid.'#compensation');
+  exit;
+}
 $comp_type_id = (int)($_POST['compensation_type_id'] ?? 0);
 $payment_method_id = (int)($_POST['payment_method_id'] ?? 0);
 $title = trim($_POST['title'] ?? '');
