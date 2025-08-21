@@ -144,7 +144,7 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (95, 1, 1, '2025-08-20 20:47:54', '2025-08-20 20:47:54', NULL, 'module_contractors', 6, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":98,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"78\",\"pay_type_id\":\"98\",\"start_date\":\"\",\"end_date\":\"\",\"current_rate\":\"\"}'),
 (96, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 'module_contractors_contacts', 1, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Initial Contact - Hey Emma, I hope things are going well for you. \\r\\nQuick question, are you interested in doing some side gig work building PowerBI \\/ Tableau dashboards and other Business Intelligence products specifically for eSeries?\\r\\nCompensation would be around\\r\\n$100\\/hr and\\/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you\\u2019re interested. If not, no hard feelings at all.\\r\\nThanks !\"}'),
 (97, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 'module_contractors_compensation', 6, 'CREATE', 'Added compensation', '', '{\"amount\":\"555\",\"type\":98,\"title\":\"test\"}'),
-(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"phone\":\"\",\"gender_id\":59,\"dob\":null,\"address\":\"\"}'),
+(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"dob\":null}'),
 (99, 1, 1, '2025-08-21 01:43:32', '2025-08-21 01:43:32', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
 (100, 1, 1, '2025-08-21 01:50:27', '2025-08-21 01:50:27', NULL, 'module_contractors_files', 3, 'UPLOAD', '', '', '{\"file\":\"45.jpg\",\"version\":1}'),
 (101, 1, 1, '2025-08-21 01:50:57', '2025-08-21 01:50:57', NULL, 'module_contractors_files', 3, 'DELETE', 'Deleted file', '', NULL),
@@ -160,12 +160,12 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (111, 1, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 'person_addresses', 3, 'CREATE', 'Added address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1}'),
 (112, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 'module_agency', 3, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"Office of the Public Defender\",\"main_person\":30,\"status\":28}'),
 (113, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person', 31, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
-(114, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person_phones', 5, 'CREATE', 'Added phone', NULL, '{\":pid\":\"31\",\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":ext\":\"\",\":uid\":1}'),
+(114, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person_phones', 5, 'CREATE', 'Added phone', NULL, '{\":pid\":\"31\",\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":uid\":1}'),
 (115, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 'module_agency', 4, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":28}'),
 (116, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-20 21:03:51\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":null,\"dob\":null}'),
 (117, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
 (118, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person', 31, 'UPDATE', 'Updated person', '{\"id\":31,\"user_id\":null,\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-21 02:15:50\",\"date_updated\":\"2025-08-21 02:15:50\",\"memo\":null}', '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":4,\"division_id\":null,\"dob\":null}'),
-(119, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person_phones', 5, 'UPDATE', 'Updated phone', NULL, '{\":pid\":31,\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":ext\":\"\",\":uid\":1,\":id\":5}'),
+(119, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person_phones', 5, 'UPDATE', 'Updated phone', NULL, '{\":pid\":31,\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":uid\":1,\":id\":5}'),
 (120, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}'),
 (121, 1, 1, '2025-08-21 11:35:35', '2025-08-21 11:35:35', NULL, 'module_contractors_compensation', 7, 'CREATE', 'Added compensation', '', '{\"amount\":\"681.82\",\"type\":98,\"title\":\"Pay Period\"}'),
 (122, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:34', NULL, 'module_contractors_files', 7, 'UPLOAD', '', '', '{\"file\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}'),
@@ -2084,20 +2084,19 @@ CREATE TABLE `person_phones` (
   `status_id` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `phone_number` varchar(25) DEFAULT NULL,
-  `extension` varchar(10) DEFAULT NULL
+  `phone_number` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `person_phones`
 --
 
-INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `phone_number`, `extension`) VALUES
-(1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 115, 105, '2025-08-08', NULL, '4357645615', NULL),
-(2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 115, 105, '2025-08-20', NULL, '4357601327', NULL),
-(3, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 24, 115, 105, '2025-08-20', NULL, '4358902363', NULL),
-(4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726', NULL),
-(5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938', '');
+INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `phone_number`) VALUES
+(1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 115, 105, '2025-08-08', NULL, '4357645615'),
+(2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 115, 105, '2025-08-20', NULL, '4357601327'),
+(3, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 24, 115, 105, '2025-08-20', NULL, '4358902363'),
+(4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726'),
+(5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938');
 
 -- --------------------------------------------------------
 

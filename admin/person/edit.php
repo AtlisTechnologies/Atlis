@@ -144,17 +144,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':start_date'=>$ph['start_date'] !== '' ? $ph['start_date'] : null,
         ':end_date'=>$ph['end_date'] !== '' ? $ph['end_date'] : null,
         ':number'=>trim($ph['phone_number'] ?? ''),
-        ':ext'=>trim($ph['extension'] ?? ''),
         ':uid'=>$this_user_id
       ];
       if ($phId) {
         $data[':id']=$phId;
-        $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,extension=:ext,user_updated=:uid WHERE id=:id AND person_id=:pid');
+        $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
         $stmt->execute($data);
         admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
         $submittedPhoneIds[] = $phId;
       } else {
-        $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,extension,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:ext,:uid)');
+        $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid)');
         $stmt->execute($data);
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
