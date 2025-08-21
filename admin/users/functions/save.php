@@ -17,6 +17,8 @@ $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
 $gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
 $dob = $_POST['dob'] ?? '';
+$phone = trim($_POST['phone'] ?? '');
+$address = trim($_POST['address'] ?? '');
 
 function get_status_id(PDO $pdo, string $code): int {
   $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
@@ -34,15 +36,21 @@ if ($reactivatePicId && $id) {
     $personParams = [
       ':uid_fk' => $id,
       ':gender_id' => $gender_id,
+      ':phone' => $phone,
       ':dob' => $dob ?: null,
+      ':address' => $address,
       ':uid_update' => $this_user_id
     ];
-    $pstmt = $pdo->prepare('UPDATE person SET gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE user_id = :uid_fk');
-    $pstmt->execute($personParams);
-    if ($pstmt->rowCount() === 0) {
-      $pdo->prepare('INSERT INTO person (user_id, gender_id, dob, user_updated) VALUES (:uid_fk, :gender_id, :dob, :uid_update)')
-          ->execute($personParams);
-    }
+    $pdo->prepare(
+      'INSERT INTO person (user_id, gender_id, phone, dob, address, user_updated)
+       VALUES (:uid_fk, :gender_id, :phone, :dob, :address, :uid_update)
+       ON DUPLICATE KEY UPDATE
+         gender_id = VALUES(gender_id),
+         phone = VALUES(phone),
+         dob = VALUES(dob),
+         address = VALUES(address),
+         user_updated = VALUES(user_updated)'
+    )->execute($personParams);
 
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
