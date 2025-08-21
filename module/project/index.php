@@ -84,10 +84,16 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
+    $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
+    $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
+    $modalWidths = [
+      'PDF' => 1000,
+      'URL' => 1000
+    ];
 
     if ($action === 'details' && $current_project) {
 
-      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NULL ORDER BY f.date_created DESC');
+      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.description, f.file_type_code, f.file_status_code, f.sort_order, f.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NULL ORDER BY f.sort_order, f.date_created DESC');
 
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -96,7 +102,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.note_id, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NOT NULL ORDER BY f.date_created DESC');
+      $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.description, f.file_type_code, f.file_status_code, f.sort_order, f.date_created, f.note_id, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.project_id = :id AND f.note_id IS NOT NULL ORDER BY f.sort_order, f.date_created DESC');
       $noteFilesStmt->execute([':id' => $project_id]);
       $noteFilesRaw = $noteFilesStmt->fetchAll(PDO::FETCH_ASSOC);
       $noteFiles = [];
