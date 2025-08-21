@@ -9,8 +9,21 @@ if (!$project_id) {
     echo json_encode(['error' => 'Missing project_id']);
     exit;
 }
-$note_id = isset($_POST['note_id']) && $_POST['note_id'] !== '' ? (int)$_POST['note_id'] : null;
+$note_id    = isset($_POST['note_id']) && $_POST['note_id'] !== '' ? (int)$_POST['note_id'] : null;
+$description = trim($_POST['description'] ?? '');
+$file_type_id = (int)($_POST['file_type_id'] ?? 0);
+$status_id    = (int)($_POST['status_id'] ?? 0);
+$sort_order   = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
 $response = [];
+
+if (!$file_type_id) {
+    $defaultType = array_filter(get_lookup_items($pdo, 'PROJECT_FILE_TYPE'), fn($i) => !empty($i['is_default']));
+    $file_type_id = $defaultType ? array_values($defaultType)[0]['id'] : null;
+}
+if (!$status_id) {
+    $defaultStatus = array_filter(get_lookup_items($pdo, 'PROJECT_FILE_STATUS'), fn($i) => !empty($i['is_default']));
+    $status_id = $defaultStatus ? array_values($defaultStatus)[0]['id'] : null;
+}
 
 if (!empty($_FILES['file'])) {
     $uploadDir = '../uploads/';
@@ -39,11 +52,15 @@ if (!empty($_FILES['file'])) {
         $targetPath = $uploadDir . $targetName;
         if (move_uploaded_file($files['tmp_name'][$index], $targetPath)) {
             $filePathDb = '/module/project/uploads/' . $targetName;
-            $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,note_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:nid,:name,:path,:size,:type)');
+            $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,note_id,description,file_type_id,status_id,sort_order,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:nid,:description,:file_type_id,:status_id,:sort_order,:name,:path,:size,:type)');
             $stmt->execute([
                 ':uid' => $this_user_id,
                 ':pid' => $project_id,
                 ':nid' => $note_id,
+                ':description' => $description !== '' ? $description : null,
+                ':file_type_id' => $file_type_id,
+                ':status_id' => $status_id,
+                ':sort_order' => $sort_order,
                 ':name' => $baseName,
                 ':path' => $filePathDb,
                 ':size' => $files['size'][$index],

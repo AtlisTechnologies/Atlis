@@ -243,55 +243,36 @@ if (!empty($current_project)) {
                   <?php if (!empty($imageFiles)): ?>
                     <div class="border-top px-4 px-lg-6 py-4">
                       <div class="row g-3">
-                          <?php foreach ($imageFiles as $f): ?>
-                            <div class="col-6 col-md-4 col-lg-3 position-relative">
-                              <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-modal-width="<?= (int)($modalWidths[$f['file_type_code']] ?? 800) ?>">
-                                <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
-                              </a>
-                              <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
-                                <button class="bg-transparent border-0 text-warning position-absolute top-0 start-0 m-2" type="button" data-bs-toggle="modal" data-bs-target="#editFileModal" data-file-id="<?= (int)$f['id'] ?>" data-description="<?= h($f['description'] ?? '') ?>" data-type-code="<?= h($f['file_type_code'] ?? '') ?>" data-status-code="<?= h($f['file_status_code'] ?? '') ?>" data-sort-order="<?= (int)($f['sort_order'] ?? 0) ?>"><span class="fa-solid fa-pen"></span></button>
-                                <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
-                                  <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                                  <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                                </form>
-                              <?php endif; ?>
-                              <div class="mt-1">
-                                <?php if (!empty($f['description'])): ?><p class="fs-10 mb-1"><?= h($f['description']) ?></p><?php endif; ?>
-                                <span class="badge badge-phoenix badge-phoenix-<?= h($fileTypeMap[$f['file_type_code']]['color_class'] ?? 'secondary') ?>"><?= h($fileTypeMap[$f['file_type_code']]['label'] ?? '') ?></span>
-                                <span class="badge badge-phoenix badge-phoenix-<?= h($fileStatusMap[$f['file_status_code']]['color_class'] ?? 'secondary') ?>"><?= h($fileStatusMap[$f['file_status_code']]['label'] ?? '') ?></span>
-                              </div>
-                            </div>
-                          <?php endforeach; ?>
+
+                        <?php foreach ($imageFiles as $f): ?>
+                          <div class="col-6 col-md-4 col-lg-3 position-relative">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>">
+                              <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
+                            </a>
+                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                              <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
+                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                              </form>
+
+                            <?php endif; ?>
+                          </div>
+                        <?php endforeach; ?>
+
                       </div>
                     </div>
                   <?php endif; ?>
 
-                    <?php if (!empty($otherFiles)): ?>
-                      <?php foreach ($otherFiles as $f): ?>
-                        <div class="border-top px-4 px-lg-6 py-4">
-                          <div class="me-n3">
-                            <div class="d-flex flex-between-center">
-                              <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
-                                <p class="text-body-highlight mb-0 lh-1">
-                                  <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-modal-width="<?= (int)($modalWidths[$f['file_type_code']] ?? 800) ?>"><?= h($f['file_name']) ?></a>
-                                </p>
-                              </div>
-                              <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
-                                <div class="d-flex">
-                                  <button class="bg-transparent border-0 text-warning me-2" type="button" data-bs-toggle="modal" data-bs-target="#editFileModal" data-file-id="<?= (int)$f['id'] ?>" data-description="<?= h($f['description'] ?? '') ?>" data-type-code="<?= h($f['file_type_code'] ?? '') ?>" data-status-code="<?= h($f['file_status_code'] ?? '') ?>" data-sort-order="<?= (int)($f['sort_order'] ?? 0) ?>"><span class="fa-solid fa-pen"></span></button>
-                                  <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                                    <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                    <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                                  </form>
-                                </div>
-                              <?php endif; ?>
-                            </div>
-                            <?php if (!empty($f['description'])): ?><p class="fs-10 mb-1"><?= h($f['description']) ?></p><?php endif; ?>
-                            <div class="mb-1">
-                              <span class="badge badge-phoenix badge-phoenix-<?= h($fileTypeMap[$f['file_type_code']]['color_class'] ?? 'secondary') ?>"><?= h($fileTypeMap[$f['file_type_code']]['label'] ?? '') ?></span>
-                              <span class="badge badge-phoenix badge-phoenix-<?= h($fileStatusMap[$f['file_status_code']]['color_class'] ?? 'secondary') ?>"><?= h($fileStatusMap[$f['file_status_code']]['label'] ?? '') ?></span>
+                  <?php if (!empty($otherFiles)): ?>
+                    <?php foreach ($otherFiles as $f): ?>
+                      <div class="border-top px-4 px-lg-6 py-4">
+                        <div class="me-n3">
+                          <div class="d-flex flex-between-center">
+                            <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
+                              <p class="text-body-highlight mb-0 lh-1">
+                                <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
+                              </p>
                             </div>
                             <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
                           </div>
@@ -462,9 +443,9 @@ if (!empty($current_project)) {
                                 <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
                                   <p class="text-body-highlight mb-0 lh-1">
                                     <?php if (strpos($f['file_type'], 'image/') === 0): ?>
-                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-modal-width="<?= (int)($modalWidths[$f['file_type_code']] ?? 800) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                                     <?php else: ?>
-                                        <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-modal-width="<?= (int)($modalWidths[$f['file_type_code']] ?? 800) ?>"><?= h($f['file_name']) ?></a>
+                                      <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
                                   </p>
                                 </div>
@@ -612,43 +593,39 @@ document.addEventListener('DOMContentLoaded', function () {
     chart.setOption(option);
   }
   function escapeHtml(text){ var div=document.createElement('div'); div.textContent=text; return div.innerHTML; }
-    var fileModal = document.getElementById('fileModal');
-    if (fileModal) {
-      fileModal.addEventListener('show.bs.modal', function (event) {
-        var trigger = event.relatedTarget;
-        var src = trigger ? trigger.getAttribute('data-file-src') : '';
-        var type = trigger ? trigger.getAttribute('data-file-type') : '';
-        var width = trigger ? trigger.getAttribute('data-modal-width') : '800';
-        var dialog = fileModal.querySelector('.modal-dialog');
-        if (dialog) { dialog.style.width = width + 'px'; }
-        var content = document.getElementById('modalContent');
-        if (!content) return;
-        content.innerHTML = '';
-        if (type && type.startsWith('image/')) {
-          content.innerHTML = '<img src="' + src + '" class="img-fluid" alt="Preview">';
-        } else if (type === 'text/plain') {
-          fetch(src).then(function(r){ return r.text(); }).then(function(text){ content.innerHTML = '<pre class="text-start">' + escapeHtml(text) + '</pre>'; });
-        } else {
-          content.innerHTML = '<iframe src="' + src + '" class="w-100" style="height:80vh;"></iframe>';
-        }
-      });
-      fileModal.addEventListener('hidden.bs.modal', function(){ var content=document.getElementById('modalContent'); if(content){ content.innerHTML=''; } var dialog=fileModal.querySelector('.modal-dialog'); if(dialog){ dialog.style.width=''; } });
-    }
-    var editFileModal = document.getElementById('editFileModal');
-    if (editFileModal) {
-      editFileModal.addEventListener('show.bs.modal', function(event){
-        var trigger = event.relatedTarget;
-        if(!trigger) return;
-        editFileModal.querySelector('input[name="id"]').value = trigger.getAttribute('data-file-id') || '';
-        editFileModal.querySelector('textarea[name="description"]').value = trigger.getAttribute('data-description') || '';
-        editFileModal.querySelector('select[name="file_type_code"]').value = trigger.getAttribute('data-type-code') || '';
-        editFileModal.querySelector('select[name="file_status_code"]').value = trigger.getAttribute('data-status-code') || '';
-        editFileModal.querySelector('input[name="sort_order"]').value = trigger.getAttribute('data-sort-order') || '';
-      });
-    }
-    var modalWidths = <?= json_encode($modalWidths ?? []) ?>;
-    var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
+  var fileModal = document.getElementById('fileModal');
+  if (fileModal) {
+    fileModal.addEventListener('show.bs.modal', function (event) {
+      var trigger = event.relatedTarget;
+      var src = trigger ? trigger.getAttribute('data-file-src') : '';
+      var type = trigger ? trigger.getAttribute('data-file-type') : '';
+      var code = trigger ? trigger.getAttribute('data-file-code') : '';
+      var content = document.getElementById('modalContent');
+      if (!content) return;
+      content.innerHTML = '';
+      if (type && type.startsWith('image/')) {
+        content.innerHTML = '<img src="' + src + '" class="img-fluid" alt="Preview">';
+      } else if (type === 'text/plain') {
+        fetch(src).then(function(r){ return r.text(); }).then(function(text){ content.innerHTML = '<pre class="text-start">' + escapeHtml(text) + '</pre>'; });
+      } else if (type === 'application/pdf') {
+        content.innerHTML = '<iframe src="' + src + '" class="w-100" style="height:80vh;"></iframe>';
+      } else {
+        content.innerHTML = '<a href="' + src + '" download>Download</a>';
+      }
+      var dialog = fileModal.querySelector('.modal-dialog');
+      if (dialog) {
+        var w = modalWidths[code] ? modalWidths[code] : '';
+        dialog.style.maxWidth = w ? w + 'px' : '';
+      }
+    });
+    fileModal.addEventListener('hidden.bs.modal', function(){ var content=document.getElementById('modalContent'); if(content){ content.innerHTML=''; } });
+  }
+  var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
+
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
+  var fileTypeItems = <?= json_encode($fileTypeItems ?? []) ?>;
+  var fileStatusItems = <?= json_encode($fileStatusItems ?? []) ?>;
+  var modalWidths = <?= json_encode($modalWidths ?? []) ?>;
 
   var assigneeFilter = document.getElementById('assigneeFilter');
   var statusFilter = document.getElementById('statusFilter');
@@ -838,7 +815,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderNote(n){
     var files='';
-    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#fileModal\" data-file-src=\"<?php echo getURLDir(); ?>${f.file_path}\" data-file-type=\"${f.file_type}\" data-modal-width=\"${modalWidths[f.file_type_code || ''] || 800}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
+    if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#fileModal\" data-file-src=\"<?php echo getURLDir(); ?>${f.file_path}\" data-file-type=\"${f.file_type}\" data-file-code=\"${f.type_code||''}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
     return `<div class=\"timeline-item position-relative\" data-type=\"note\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"${n.file_path ? '<?php echo getURLDir(); ?>'+n.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
   }
 
