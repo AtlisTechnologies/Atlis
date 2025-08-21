@@ -2,30 +2,39 @@
 require '../../../includes/php_header.php';
 require_permission('contractors','update');
 
+if(!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')){
+  header('Location: ../contractor.php');
+  exit;
+}
+
 $id = (int)($_POST['id'] ?? 0);
 $statusId = $_POST['status_id'] ?? null;
-$payTypeId = $_POST['pay_type_id'] ?? null;
+$initial = $_POST['initial_contact_date'] ?? null;
+$title = $_POST['title_role'] ?? null;
+$acquaintance = $_POST['acquaintance'] ?? null;
+$acqTypeId = $_POST['acquaintance_type_id'] ?? null;
 $start = $_POST['start_date'] ?? null;
 $end = $_POST['end_date'] ?? null;
-$rate = $_POST['current_rate'] ?? null;
 
 if($id){
-  $stmtOld = $pdo->prepare('SELECT status_id,pay_type_id,start_date,end_date,current_rate FROM module_contractors WHERE id=:id');
+  $stmtOld = $pdo->prepare('SELECT status_id,initial_contact_date,title_role,acquaintance,acquaintance_type_id,start_date,end_date FROM module_contractors WHERE id=:id');
   $stmtOld->execute([':id'=>$id]);
   $old = $stmtOld->fetch(PDO::FETCH_ASSOC);
 
-  $stmt = $pdo->prepare('UPDATE module_contractors SET status_id=:status,pay_type_id=:pay,start_date=:start,end_date=:end,current_rate=:rate,user_updated=:uid WHERE id=:id');
+  $stmt = $pdo->prepare('UPDATE module_contractors SET status_id=:status,initial_contact_date=:initial,title_role=:title,acquaintance=:acquaintance,acquaintance_type_id=:acq_type,start_date=:start,end_date=:end,user_updated=:uid WHERE id=:id');
   $stmt->execute([
     ':status'=>$statusId,
-    ':pay'=>$payTypeId,
+    ':initial'=>$initial !== '' ? $initial : null,
+    ':title'=>$title !== '' ? $title : null,
+    ':acquaintance'=>$acquaintance !== '' ? $acquaintance : null,
+    ':acq_type'=>$acqTypeId !== '' ? $acqTypeId : null,
     ':start'=>$start !== '' ? $start : null,
     ':end'=>$end !== '' ? $end : null,
-    ':rate'=>$rate !== '' ? $rate : null,
     ':uid'=>$this_user_id,
     ':id'=>$id
   ]);
 
-  admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'UPDATE',json_encode($old),json_encode(['status_id'=>$statusId,'pay_type_id'=>$payTypeId,'start_date'=>$start,'end_date'=>$end,'current_rate'=>$rate]),'Updated contractor');
+  admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'UPDATE',json_encode($old),json_encode(['status_id'=>$statusId,'initial_contact_date'=>$initial,'title_role'=>$title,'acquaintance'=>$acquaintance,'acquaintance_type_id'=>$acqTypeId,'start_date'=>$start,'end_date'=>$end]),'Updated contractor');
 }
 header('Location: ../contractor.php?id='.$id);
 exit;

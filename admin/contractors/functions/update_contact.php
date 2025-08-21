@@ -1,8 +1,10 @@
 <?php
 require '../../../includes/php_header.php';
-$cid  = (int)($_POST['contractor_id'] ?? 0);
-$token = $_POST['csrf_token'] ?? '';
 require_permission('contractors','update');
+
+$cid  = (int)($_POST['contractor_id'] ?? 0);
+$id   = (int)($_POST['id'] ?? 0);
+$token = $_POST['csrf_token'] ?? '';
 
 if($token !== ($_SESSION['csrf_token'] ?? '')){
   header('Location: ../contractor.php?id='.$cid.'#contacts');
@@ -17,26 +19,28 @@ $contact_result = trim($_POST['contact_result'] ?? '');
 $related_module = trim($_POST['related_module'] ?? '');
 $related_id = $_POST['related_id'] !== '' ? (int)$_POST['related_id'] : null;
 
-$ok = false;
-if($cid && $contact_type_id && $summary !== ''){
+if($cid && $id && $contact_type_id && $summary !== ''){
   $cdate = $contact_date !== '' ? date('Y-m-d H:i:s', strtotime($contact_date)) : null;
-  $stmt = $pdo->prepare('INSERT INTO module_contractors_contacts (user_id,user_updated,contractor_id,contact_type_id,contact_date,summary,contact_duration,contact_result,related_module,related_id) VALUES (:uid,:uid,:cid,:type,:cdate,:summary,:duration,:result,:rmod,:rid)');
+  $stmt = $pdo->prepare('UPDATE module_contractors_contacts SET user_updated=:uid, contact_type_id=:type, contact_date=:cdate, summary=:summary, contact_duration=:duration, contact_result=:result, related_module=:rmod, related_id=:rid WHERE id=:id AND contractor_id=:cid');
   $stmt->execute([
     ':uid'=>$this_user_id,
-    ':cid'=>$cid,
     ':type'=>$contact_type_id,
     ':cdate'=>$cdate,
     ':summary'=>$summary,
     ':duration'=>$contact_duration,
     ':result'=>$contact_result !== '' ? $contact_result : null,
     ':rmod'=>$related_module !== '' ? $related_module : null,
-    ':rid'=>$related_id
+    ':rid'=>$related_id,
+    ':id'=>$id,
+    ':cid'=>$cid
   ]);
-  $contactId = $pdo->lastInsertId();
-  admin_audit_log($pdo,$this_user_id,'module_contractors_contacts',$contactId,'CREATE','',json_encode(['contact_type_id'=>$contact_type_id,'summary'=>$summary]),'Added contact');
-  $ok = true;
+  admin_audit_log($pdo,$this_user_id,'module_contractors_contacts',$id,'UPDATE','',json_encode(['contact_type_id'=>$contact_type_id,'summary'=>$summary]),'Updated contact');
+  $msg = 'contact-updated';
+} else {
+  $msg = null;
 }
+
 $loc = '../contractor.php?id='.$cid;
-$loc .= $ok ? '&msg=contact-added#contacts' : '#contacts';
+$loc .= $msg ? '&msg='.$msg.'#contacts' : '#contacts';
 header('Location: '.$loc);
 exit;
