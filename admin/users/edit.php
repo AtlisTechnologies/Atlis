@@ -6,6 +6,8 @@ $email = '';
 $first_name = $last_name = '';
 $gender_id = null;
 $dob = '';
+$addresses = [];
+$phones = [];
 
 $memo = [];
 $profile_pic = '';
@@ -16,7 +18,7 @@ unset($_SESSION['form_errors']);
 
 if ($id) {
   require_permission('users','update');
-  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.first_name, p.last_name, p.gender_id, p.dob, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
+  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.id AS person_id, p.first_name, p.last_name, p.gender_id, p.dob, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $email = $row['email'];
@@ -26,6 +28,17 @@ if ($id) {
     $last_name = $row['last_name'] ?? '';
     $gender_id = $row['gender_id'] ?? null;
     $dob = $row['dob'] ?? '';
+    $person_id = $row['person_id'] ?? null;
+
+    if ($person_id) {
+      $stmt = $pdo->prepare('SELECT * FROM person_addresses WHERE person_id = :pid');
+      $stmt->execute([':pid' => $person_id]);
+      $addresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $stmt = $pdo->prepare('SELECT * FROM person_phones WHERE person_id = :pid');
+      $stmt->execute([':pid' => $person_id]);
+      $phones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     $picStmt = $pdo->prepare('SELECT up.id, up.file_path, up.width, up.height, up.status_id, up.date_created, li.label AS status_label, li.code AS status_code FROM users_profile_pics up LEFT JOIN lookup_list_items li ON up.status_id = li.id WHERE up.user_id = :uid ORDER BY up.date_created DESC');
     $picStmt->execute([':uid' => $id]);
@@ -37,6 +50,20 @@ if ($id) {
 
 $imageTypes = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
 $genderItems = get_lookup_items($pdo, 'USER_GENDER');
+$addressTypeItems   = get_lookup_items($pdo, 'PERSON_ADDRESS_TYPE');
+$addressStatusItems = get_lookup_items($pdo, 'PERSON_ADDRESS_STATUS');
+$stateItems         = get_lookup_items($pdo, 'US_STATES');
+$phoneTypeItems     = get_lookup_items($pdo, 'PERSON_PHONE_TYPE');
+$phoneStatusItems   = get_lookup_items($pdo, 'PERSON_PHONE_STATUS');
+
+function get_default_id(array $items) {
+  foreach ($items as $i) { if (!empty($i['is_default'])) return $i['id']; }
+  return null;
+}
+$defaultAddressTypeId   = get_default_id($addressTypeItems);
+$defaultAddressStatusId = get_default_id($addressStatusItems);
+$defaultPhoneTypeId     = get_default_id($phoneTypeItems);
+$defaultPhoneStatusId   = get_default_id($phoneStatusItems);
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
@@ -177,16 +204,36 @@ $_SESSION['csrf_token'] = $token;
             <label for="dob">Date of Birth</label>
           </div>
         </div>
+        <div class="col-12">
+          <h5 class="mt-4">Phone Numbers</h5>
+          <div id="phones-container">
+            <?php foreach ($phones as $i => $ph) { $index = $i; $phRow = $ph; include __DIR__.'/../person/_phone_row.php'; } ?>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-phone">Add Phone</button>
+        </div>
+        <div class="col-12">
+          <h5>Addresses</h5>
+          <div id="addresses-container">
+            <?php foreach ($addresses as $i => $addr) { $index = $i; $addrRow = $addr; include __DIR__.'/../person/_address_row.php'; } ?>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-address">Add Address</button>
+        </div>
         <center>
           <div class="d-flex mb-2">
             <a class="btn btn-outline-warning me-2 px-6" href="index.php">Cancel</a>
             <button class="btn btn-atlis px-6" type="submit"><?php echo $id ? 'Save' : 'Create'; ?></button>
           </div>
         </center>
-      </div>
-    </div>
+  </div>
+  </div>
   </div>
 </form>
+<template id="phone-template">
+<?php $index='__INDEX__'; $phRow=[]; include __DIR__.'/../person/_phone_row.php'; ?>
+</template>
+<template id="address-template">
+<?php $index='__INDEX__'; $addrRow=[]; include __DIR__.'/../person/_address_row.php'; ?>
+</template>
 <script>
 (function () {
   'use strict'
@@ -221,6 +268,66 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+</script>
+
+<script>
+(function(){
+  function updateBadges(container){
+    container.querySelectorAll('select').forEach(function(sel){
+      var badge = sel.parentElement.querySelector('.lookup-badge');
+      if(badge){
+        var color = sel.options[sel.selectedIndex].dataset.color || 'secondary';
+        badge.className = 'badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-' + color;
+      }
+    });
+  }
+  document.querySelectorAll('.address-item,.phone-item').forEach(updateBadges);
+  document.addEventListener('change', function(e){
+    if(e.target.matches('.address-type, .address-status, .phone-type, .phone-status')){
+      updateBadges(e.target.closest('.address-item, .phone-item'));
+    }
+  });
+  document.getElementById('add-phone').addEventListener('click', function(){
+    var tpl = document.getElementById('phone-template').innerHTML.replace(/__INDEX__/g, document.querySelectorAll('#phones-container .phone-item').length);
+    var div = document.createElement('div'); div.innerHTML = tpl.trim();
+    var item = div.firstElementChild; document.getElementById('phones-container').appendChild(item); updateBadges(item);
+  });
+  document.getElementById('phones-container').addEventListener('click', function(e){
+    if(e.target.classList.contains('remove-phone')){ e.target.closest('.phone-item').remove(); }
+  });
+  document.getElementById('add-address').addEventListener('click', function(){
+    var tpl = document.getElementById('address-template').innerHTML.replace(/__INDEX__/g, document.querySelectorAll('#addresses-container .address-item').length);
+    var div = document.createElement('div'); div.innerHTML = tpl.trim();
+    var item = div.firstElementChild; document.getElementById('addresses-container').appendChild(item); updateBadges(item);
+  });
+  document.getElementById('addresses-container').addEventListener('click', function(e){
+    if(e.target.classList.contains('remove-address')){ e.target.closest('.address-item').remove(); }
+  });
+  document.getElementById('addresses-container').addEventListener('change', function(e){
+    if(e.target.classList.contains('postal-lookup')){
+      var zip = e.target.value.trim();
+      if(zip.length === 5){
+        fetch('https://api.zippopotam.us/us/' + zip)
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(data){
+            if(!data) return;
+            var item = e.target.closest('.address-item');
+            var place = data.places && data.places[0];
+            if(place){
+              var cityInput = item.querySelector('.city-input');
+              if(cityInput) cityInput.value = place['place name'];
+              var abbr = place['state abbreviation'];
+              var stateSelect = item.querySelector('.state-select');
+              if(stateSelect){
+                stateSelect.value = '';
+                Array.from(stateSelect.options).forEach(function(opt){ if(opt.dataset.code === abbr){ stateSelect.value = opt.value; } });
+              }
+            }
+          });
+      }
+    }
+  });
+})();
 </script>
 
 <?php require '../admin_footer.php'; ?>
