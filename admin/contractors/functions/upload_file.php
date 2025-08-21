@@ -6,6 +6,7 @@ require_permission('contractors','update');
 $cid = (int)($_POST['contractor_id'] ?? 0);
 $file_type_id = (int)($_POST['file_type_id'] ?? 0);
 $description = trim($_POST['description'] ?? '');
+$ok = false;
 if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   $max = (int)get_system_property($pdo,'contractor_file_max_size');
   if(!$max){ $max = 10 * 1024 * 1024; }
@@ -49,7 +50,10 @@ if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] =
     ]);
     $fid = $pdo->lastInsertId();
     admin_audit_log($pdo,$this_user_id,'module_contractors_files',$fid,'UPLOAD','',json_encode(['file'=>$fileName,'version'=>$version]));
+    $ok = true;
   }
 }
-header('Location: ../contractor.php?id='.$cid.'#files');
+$loc = '../contractor.php?id='.$cid;
+$loc .= $ok ? '&msg=file-uploaded#files' : '#files';
+header('Location: '.$loc);
 exit;
