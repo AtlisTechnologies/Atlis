@@ -1268,7 +1268,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (124, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 19, 'Lake - AUP - #2', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
 (125, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 19, 'Lake - AUP - #3', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
 (126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL),
-(127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL);
+(127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL),
+(128, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 24, 'Callback', 'CALLBACK', 1, '2025-08-21', NULL),
+(129, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 24, 'Email Reply', 'EMAILREPLY', 2, '2025-08-21', NULL),
+(130, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 24, 'Send Proposal', 'SENDPROPOSAL', 3, '2025-08-21', NULL);
 
 -- --------------------------------------------------------
 
@@ -1395,7 +1398,10 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (112, 1, 1, '2025-08-21 11:37:48', '2025-08-21 11:37:48', NULL, 123, 'COLOR-CLASS', 'warning'),
 (114, 1, 1, '2025-08-21 11:37:56', '2025-08-21 11:37:56', NULL, 124, 'COLOR-CLASS', 'warning'),
 (115, 1, 1, '2025-08-21 11:37:59', '2025-08-21 11:37:59', NULL, 125, 'COLOR-CLASS', 'warning'),
-(116, 1, 1, '2025-08-21 11:38:01', '2025-08-21 11:38:01', NULL, 126, 'COLOR-CLASS', 'warning');
+(116, 1, 1, '2025-08-21 11:38:01', '2025-08-21 11:38:01', NULL, 126, 'COLOR-CLASS', 'warning'),
+(117, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 128, 'COLOR-CLASS', 'primary'),
+(118, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 129, 'COLOR-CLASS', 'info'),
+(119, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 130, 'COLOR-CLASS', 'success');
 
 -- --------------------------------------------------------
 
@@ -1537,6 +1543,29 @@ INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `dat
 (2, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 4, 99, '2025-06-11 13:56:00', 'Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.', NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 4, 99, '2025-06-12 14:00:00', 'KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !', NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 4, 75, '2025-06-21 14:00:00', 'SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_contractors_contacts_response`
+--
+
+CREATE TABLE `module_contractors_contacts_response` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contact_id` int(11) NOT NULL,
+  `response_type_id` int(11) NOT NULL,
+  `response_text` text DEFAULT NULL,
+  `is_urgent` tinyint(1) DEFAULT 0,
+  `deadline_date` datetime DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `is_completed` tinyint(1) DEFAULT 0,
+  `completed_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2416,6 +2445,17 @@ ALTER TABLE `module_contractors_contacts`
   ADD KEY `fk_module_contractors_contacts_type_id` (`contact_type_id`);
 
 --
+-- Indexes for table `module_contractors_contacts_response`
+--
+ALTER TABLE `module_contractors_contacts_response`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_contacts_response_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_contacts_response_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_contacts_response_contact_id` (`contact_id`),
+  ADD KEY `fk_module_contractors_contacts_response_type_id` (`response_type_id`),
+  ADD KEY `fk_module_contractors_contacts_response_assigned_to` (`assigned_to`);
+
+--
 -- Indexes for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
@@ -2733,13 +2773,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -2764,6 +2804,12 @@ ALTER TABLE `module_contractors_compensation`
 --
 ALTER TABLE `module_contractors_contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_contacts_response`
+--
+ALTER TABLE `module_contractors_contacts_response`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_files`
@@ -3020,6 +3066,16 @@ ALTER TABLE `module_contractors_contacts`
   ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_contractors_contacts_response`
+--
+ALTER TABLE `module_contractors_contacts_response`
+  ADD CONSTRAINT `fk_module_contractors_contacts_response_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `module_contractors_contacts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_contacts_response_type_id` FOREIGN KEY (`response_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contacts_response_assigned_to` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contacts_response_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contacts_response_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_files`
