@@ -15,7 +15,7 @@ if($token !== ($_SESSION['csrf_token'] ?? '')){
 if($cid && $file_type_id && isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   $max = (int)get_system_property($pdo,'contractor_file_max_size');
   if(!$max){ $max = 10 * 1024 * 1024; }
-  $allowedStr = get_system_property($pdo,'contractor_file_allowed_ext') ?: 'pdf,docx,jpg,png';
+  $allowedStr = get_system_property($pdo,'contractor_file_allowed_ext') ?: 'pdf,docx,jpg,png,txt,doc,jpeg,webp';
   $allowed = array_map('trim', explode(',', strtolower($allowedStr)));
   $file = $_FILES['file'];
   $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
