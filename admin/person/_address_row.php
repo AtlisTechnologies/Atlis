@@ -3,6 +3,7 @@ $addrRow = $addrRow ?? [];
 $index = $index ?? 0;
 $selType = $addrRow['type_id'] ?? $defaultAddressTypeId;
 $selStatus = $addrRow['status_id'] ?? $defaultAddressStatusId;
+$selState  = $addrRow['state_id'] ?? null;
 $typeColor = 'secondary';
 foreach ($addressTypeItems as $it) { if ($it['id']==$selType) { $typeColor=$it['color_class']; break; } }
 $statusColor = 'secondary';
@@ -33,24 +34,29 @@ foreach ($addressStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor
       <label class="form-label mb-0">Line 1</label>
       <input type="text" name="addresses[<?= $index; ?>][address_line1]" class="form-control form-control-sm" value="<?= h($addrRow['address_line1'] ?? ''); ?>">
     </div>
-    <div class="col-md-3">
-      <label class="form-label mb-0">City</label>
-      <input type="text" name="addresses[<?= $index; ?>][city]" class="form-control form-control-sm" value="<?= h($addrRow['city'] ?? ''); ?>">
+    <div class="col-md-2">
+      <label class="form-label mb-0">Postal</label>
+      <input type="text" name="addresses[<?= $index; ?>][postal_code]" class="form-control form-control-sm postal-lookup" value="<?= h($addrRow['postal_code'] ?? ''); ?>">
     </div>
-    <div class="col-md-1 d-flex align-items-end">
+    <div class="col-md-2 d-flex align-items-end">
       <button type="button" class="btn btn-danger btn-sm remove-address">X</button>
     </div>
     <div class="col-md-4 mt-2">
       <label class="form-label mb-0">Line 2</label>
       <input type="text" name="addresses[<?= $index; ?>][address_line2]" class="form-control form-control-sm" value="<?= h($addrRow['address_line2'] ?? ''); ?>">
     </div>
-    <div class="col-md-2 mt-2">
-      <label class="form-label mb-0">State</label>
-      <input type="text" name="addresses[<?= $index; ?>][state]" class="form-control form-control-sm" value="<?= h($addrRow['state'] ?? ''); ?>">
+    <div class="col-md-3 mt-2">
+      <label class="form-label mb-0">City</label>
+      <input type="text" name="addresses[<?= $index; ?>][city]" class="form-control form-control-sm city-input" value="<?= h($addrRow['city'] ?? ''); ?>">
     </div>
     <div class="col-md-2 mt-2">
-      <label class="form-label mb-0">Postal</label>
-      <input type="text" name="addresses[<?= $index; ?>][postal_code]" class="form-control form-control-sm" value="<?= h($addrRow['postal_code'] ?? ''); ?>">
+      <label class="form-label mb-0">State</label>
+      <select name="addresses[<?= $index; ?>][state_id]" class="form-select form-select-sm state-select">
+        <option value=""></option>
+        <?php foreach($stateItems as $st): $selected = ($selState == $st['id']) ? 'selected' : ''; ?>
+          <option value="<?= h($st['id']); ?>" data-code="<?= h($st['code']); ?>" <?= $selected; ?>><?= h($st['code']); ?> - <?= h($st['label']); ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
     <div class="col-md-2 mt-2">
       <label class="form-label mb-0">Country</label>

@@ -1144,7 +1144,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (26, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:14:03', '', 'PERSON_PHONE_TYPE', ''),
 (27, 1, 1, '2025-08-20 21:07:13', '2025-08-20 21:13:19', '', 'PERSON_ADDRESS_TYPE', ''),
 (28, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:12:32', '', 'PERSON_ADDRESS_STATUS', ''),
-(29, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:10:50', '', 'PERSON_PHONE_STATUS', '');
+(29, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:10:50', '', 'PERSON_PHONE_STATUS', ''),
+(30, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 'US_STATES', 'United States states and DC');
 
 -- --------------------------------------------------------
 
@@ -1268,7 +1269,58 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (124, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 19, 'Lake - AUP - #2', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
 (125, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 19, 'Lake - AUP - #3', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
 (126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL),
-(127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL);
+(127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL),
+(128, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Alabama', 'AL', 1, '2025-08-21', NULL),
+(129, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Alaska', 'AK', 2, '2025-08-21', NULL),
+(130, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Arizona', 'AZ', 3, '2025-08-21', NULL),
+(131, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Arkansas', 'AR', 4, '2025-08-21', NULL),
+(132, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'California', 'CA', 5, '2025-08-21', NULL),
+(133, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Colorado', 'CO', 6, '2025-08-21', NULL),
+(134, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Connecticut', 'CT', 7, '2025-08-21', NULL),
+(135, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Delaware', 'DE', 8, '2025-08-21', NULL),
+(136, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'District of Columbia', 'DC', 9, '2025-08-21', NULL),
+(137, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Florida', 'FL', 10, '2025-08-21', NULL),
+(138, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Georgia', 'GA', 11, '2025-08-21', NULL),
+(139, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Hawaii', 'HI', 12, '2025-08-21', NULL),
+(140, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Idaho', 'ID', 13, '2025-08-21', NULL),
+(141, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Illinois', 'IL', 14, '2025-08-21', NULL),
+(142, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Indiana', 'IN', 15, '2025-08-21', NULL),
+(143, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Iowa', 'IA', 16, '2025-08-21', NULL),
+(144, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Kansas', 'KS', 17, '2025-08-21', NULL),
+(145, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Kentucky', 'KY', 18, '2025-08-21', NULL),
+(146, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Louisiana', 'LA', 19, '2025-08-21', NULL),
+(147, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Maine', 'ME', 20, '2025-08-21', NULL),
+(148, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Maryland', 'MD', 21, '2025-08-21', NULL),
+(149, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Massachusetts', 'MA', 22, '2025-08-21', NULL),
+(150, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Michigan', 'MI', 23, '2025-08-21', NULL),
+(151, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Minnesota', 'MN', 24, '2025-08-21', NULL),
+(152, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Mississippi', 'MS', 25, '2025-08-21', NULL),
+(153, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Missouri', 'MO', 26, '2025-08-21', NULL),
+(154, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Montana', 'MT', 27, '2025-08-21', NULL),
+(155, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Nebraska', 'NE', 28, '2025-08-21', NULL),
+(156, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Nevada', 'NV', 29, '2025-08-21', NULL),
+(157, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'New Hampshire', 'NH', 30, '2025-08-21', NULL),
+(158, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'New Jersey', 'NJ', 31, '2025-08-21', NULL),
+(159, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'New Mexico', 'NM', 32, '2025-08-21', NULL),
+(160, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'New York', 'NY', 33, '2025-08-21', NULL),
+(161, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'North Carolina', 'NC', 34, '2025-08-21', NULL),
+(162, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'North Dakota', 'ND', 35, '2025-08-21', NULL),
+(163, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Ohio', 'OH', 36, '2025-08-21', NULL),
+(164, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Oklahoma', 'OK', 37, '2025-08-21', NULL),
+(165, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Oregon', 'OR', 38, '2025-08-21', NULL),
+(166, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Pennsylvania', 'PA', 39, '2025-08-21', NULL),
+(167, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Rhode Island', 'RI', 40, '2025-08-21', NULL),
+(168, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'South Carolina', 'SC', 41, '2025-08-21', NULL),
+(169, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'South Dakota', 'SD', 42, '2025-08-21', NULL),
+(170, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Tennessee', 'TN', 43, '2025-08-21', NULL),
+(171, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Texas', 'TX', 44, '2025-08-21', NULL),
+(172, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Utah', 'UT', 45, '2025-08-21', NULL),
+(173, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Vermont', 'VT', 46, '2025-08-21', NULL),
+(174, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Virginia', 'VA', 47, '2025-08-21', NULL),
+(175, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Washington', 'WA', 48, '2025-08-21', NULL),
+(176, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'West Virginia', 'WV', 49, '2025-08-21', NULL),
+(177, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Wisconsin', 'WI', 50, '2025-08-21', NULL),
+(178, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Wyoming', 'WY', 51, '2025-08-21', NULL);
 
 -- --------------------------------------------------------
 
@@ -2052,7 +2104,7 @@ CREATE TABLE `person_addresses` (
   `address_line1` varchar(255) DEFAULT NULL,
   `address_line2` varchar(255) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
-  `state` varchar(100) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
   `postal_code` varchar(20) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2061,10 +2113,10 @@ CREATE TABLE `person_addresses` (
 -- Dumping data for table `person_addresses`
 --
 
-INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state`, `postal_code`, `country`) VALUES
+INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state_id`, `postal_code`, `country`) VALUES
 (1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 111, 108, '2025-08-08', NULL, '3124 S 340 W Nibley, UT 84321', NULL, NULL, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 'Utah', '84321', 'USA');
+(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 172, '84321', 'USA');
 
 -- --------------------------------------------------------
 
@@ -2597,7 +2649,8 @@ ALTER TABLE `person_addresses`
   ADD KEY `fk_person_addresses_user_updated` (`user_updated`),
   ADD KEY `fk_person_addresses_person_id` (`person_id`),
   ADD KEY `fk_person_addresses_type_id` (`type_id`),
-  ADD KEY `fk_person_addresses_status_id` (`status_id`);
+  ADD KEY `fk_person_addresses_status_id` (`status_id`),
+  ADD KEY `fk_person_addresses_state_id` (`state_id`);
 
 --
 -- Indexes for table `person_phones`
@@ -2727,13 +2780,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -3154,6 +3207,7 @@ ALTER TABLE `person_addresses`
   ADD CONSTRAINT `fk_person_addresses_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_person_addresses_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_addresses_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_addresses_state_id` FOREIGN KEY (`state_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_addresses_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_addresses_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
