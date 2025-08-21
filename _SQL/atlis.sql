@@ -1822,6 +1822,10 @@ CREATE TABLE `module_projects_files` (
   `memo` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   `note_id` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `file_type_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT 0,
   `file_name` varchar(255) DEFAULT NULL,
   `file_path` varchar(255) DEFAULT NULL,
   `file_size` int(11) DEFAULT NULL,
@@ -1832,12 +1836,12 @@ CREATE TABLE `module_projects_files` (
 -- Dumping data for table `module_projects_files`
 --
 
-INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
-(1, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'Capture43434.PNG', '/module/project/uploads/project_3_1755672059_Capture43434.PNG', 136873, 'image/png'),
-(2, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt', '/module/project/uploads/project_3_1755672059_DOCUMENT_THIS_WHAT_I_DID_FOR_LAKE_FOR_NEW_ICON_IN_HEADER.txt', 1910, 'text/plain'),
-(3, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'Feedback from CC and Leah Balzer.txt', '/module/project/uploads/project_3_1755672059_Feedback_from_CC_and_Leah_Balzer.txt', 886, 'text/plain'),
-(4, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'FeeWaiver Entity.PNG', '/module/project/uploads/project_3_1755672059_FeeWaiver_Entity.PNG', 291893, 'image/png'),
-(5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png');
+INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_id`, `description`, `file_type_id`, `status_id`, `sort_order`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(1, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'Capture43434.PNG', '/module/project/uploads/project_3_1755672059_Capture43434.PNG', 136873, 'image/png'),
+(2, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt', '/module/project/uploads/project_3_1755672059_DOCUMENT_THIS_WHAT_I_DID_FOR_LAKE_FOR_NEW_ICON_IN_HEADER.txt', 1910, 'text/plain'),
+(3, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'Feedback from CC and Leah Balzer.txt', '/module/project/uploads/project_3_1755672059_Feedback_from_CC_and_Leah_Balzer.txt', 886, 'text/plain'),
+(4, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'FeeWaiver Entity.PNG', '/module/project/uploads/project_3_1755672059_FeeWaiver_Entity.PNG', 291893, 'image/png'),
+(5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png');
 
 -- --------------------------------------------------------
 
@@ -2523,7 +2527,9 @@ ALTER TABLE `module_projects_files`
   ADD KEY `fk_module_projects_files_user_id` (`user_id`),
   ADD KEY `fk_module_projects_files_user_updated` (`user_updated`),
   ADD KEY `fk_module_projects_files_project_id` (`project_id`),
-  ADD KEY `fk_module_projects_files_note_id` (`note_id`);
+  ADD KEY `fk_module_projects_files_note_id` (`note_id`),
+  ADD KEY `fk_module_projects_files_file_type_id` (`file_type_id`),
+  ADD KEY `fk_module_projects_files_status_id` (`status_id`);
 
 --
 -- Indexes for table `module_projects_notes`
@@ -3100,7 +3106,9 @@ ALTER TABLE `module_projects_assignments`
 --
 ALTER TABLE `module_projects_files`
   ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`),
-  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+  ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_projects_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_projects_files_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_projects_notes`
