@@ -186,7 +186,7 @@ if (!empty($current_project)) {
                 <div class="px-4 px-lg-6">
                   <h3 class="text-body-highlight fw-bold">Files</h3>
                 </div>
-                <?php if (user_has_permission('project','create|update|delete')): ?>
+                <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($current_project['user_id'] ?? 0) == $this_user_id)): ?>
                 <div class="px-4 px-lg-6 py-4">
                   <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php"}'>
                     <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
@@ -227,6 +227,9 @@ if (!empty($current_project)) {
                 <?php endif; ?>
 
                 <?php if (!empty($files)):
+                  $fileTypeMap = array_column($fileTypes ?? [], null, 'code');
+                  $fileStatusMap = array_column($fileStatuses ?? [], null, 'code');
+                  usort($files, function($a, $b){ return ($a['sort_order'] ?? 0) <=> ($b['sort_order'] ?? 0); });
                   $imageFiles = [];
                   $otherFiles = [];
                   foreach ($files as $f) {
@@ -240,6 +243,7 @@ if (!empty($current_project)) {
                   <?php if (!empty($imageFiles)): ?>
                     <div class="border-top px-4 px-lg-6 py-4">
                       <div class="row g-3">
+
                         <?php foreach ($imageFiles as $f): ?>
                           <div class="col-6 col-md-4 col-lg-3 position-relative">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>">
@@ -255,6 +259,7 @@ if (!empty($current_project)) {
                             <?php endif; ?>
                           </div>
                         <?php endforeach; ?>
+
                       </div>
                     </div>
                   <?php endif; ?>
@@ -269,20 +274,11 @@ if (!empty($current_project)) {
                                 <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                               </p>
                             </div>
-                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
-                              <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                              </form>
-                            <?php endif; ?>
+                            <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
                           </div>
-
-                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
                         </div>
-                      </div>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
 
                   <?php if (empty($imageFiles) && empty($otherFiles)): ?>
                     <div class="border-top px-4 px-lg-6 py-4">
@@ -501,10 +497,52 @@ if (!empty($current_project)) {
     </div>
   </div>
 </div>
-<?php if (user_has_permission('project','create|update|delete')): ?>
-<div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" method="post" action="functions/assign_user.php">
+  <?php if (user_has_permission('project','create|update|delete')): ?>
+  <div class="modal fade" id="editFileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" method="post" action="functions/edit_file.php">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit file</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+          <input type="hidden" name="id" value="">
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Type</label>
+            <select class="form-select" name="file_type_code">
+              <?php foreach ($fileTypes ?? [] as $ft): ?>
+                <option value="<?= h($ft['code']) ?>"><?= h($ft['label']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" name="file_status_code">
+              <?php foreach ($fileStatuses ?? [] as $fs): ?>
+                <option value="<?= h($fs['code']) ?>"><?= h($fs['label']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Sort Order</label>
+            <input type="number" class="form-control" name="sort_order">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" method="post" action="functions/assign_user.php">
       <div class="modal-header">
         <h5 class="modal-title">Assign User</h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -583,6 +621,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fileModal.addEventListener('hidden.bs.modal', function(){ var content=document.getElementById('modalContent'); if(content){ content.innerHTML=''; } });
   }
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
+
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
   var fileTypeItems = <?= json_encode($fileTypeItems ?? []) ?>;
   var fileStatusItems = <?= json_encode($fileStatusItems ?? []) ?>;

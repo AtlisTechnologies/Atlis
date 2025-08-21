@@ -24,6 +24,9 @@ $contactTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_TYPE');
 $paymentMethods = get_lookup_items($pdo, 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD');
 $fileTypes = get_lookup_items($pdo, 'CONTRACTOR_FILE_TYPE');
 $acqTypes = get_lookup_items($pdo, 'CONTRACTOR_ACQUAINTANCE_TYPE');
+$responseTypes = get_lookup_items($pdo, 'CONTRACTOR_CONTACT_RESPONSE_TYPE');
+$stmt = $pdo->query('SELECT u.id, CONCAT(p.first_name, " ", p.last_name) AS full_name FROM users u JOIN person p ON u.id = p.user_id ORDER BY p.first_name, p.last_name');
+$allUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $existingFiles = [];
 if ($id) {
   $stmt = $pdo->prepare('SELECT id, file_name FROM module_contractors_files WHERE contractor_id = :id ORDER BY date_created DESC');
@@ -38,6 +41,8 @@ $messages = [
   'contact-added'   => 'Contact added',
   'contact-updated' => 'Contact updated',
   'contact-deleted' => 'Contact deleted',
+  'response-saved'  => 'Response saved',
+  'response-deleted'=> 'Response deleted',
   'comp-saved'      => 'Compensation saved',
   'comp-deleted'    => 'Compensation deleted',
   'file-uploaded'   => 'File uploaded',
@@ -56,6 +61,13 @@ $defaultPaymentMethodId = null;
 foreach ($paymentMethods as $pm) {
   if (!empty($pm['is_default'])) {
     $defaultPaymentMethodId = $pm['id'];
+    break;
+  }
+}
+$defaultResponseTypeId = null;
+foreach ($responseTypes as $rt) {
+  if (!empty($rt['is_default'])) {
+    $defaultResponseTypeId = $rt['id'];
     break;
   }
 }
@@ -270,8 +282,14 @@ function format_display_date($dt) {
         </thead>
         <tbody>
         <?php foreach($contacts as $c): ?>
+          <?php
+            $stmtR = $pdo->prepare('SELECT r.*, l.label AS response_type, COALESCE(la.attr_value, "secondary") AS response_color, CONCAT(p.first_name, " ", p.last_name) AS assigned_name FROM module_contractors_contact_responses r LEFT JOIN lookup_list_items l ON r.response_type_id = l.id LEFT JOIN lookup_list_item_attributes la ON l.id = la.item_id AND la.attr_code = "COLOR-CLASS" LEFT JOIN users u ON r.assigned_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE r.contact_id = :cid ORDER BY r.date_created DESC');
+            $stmtR->execute([':cid'=>$c['id']]);
+            $responses = $stmtR->fetchAll(PDO::FETCH_ASSOC);
+          ?>
           <tr>
             <td>
+              <button type="button" class="btn btn-info btn-sm add-response-btn" data-contact="<?= h($c['id']); ?>"><span class="fa-solid fa-reply"></span><span class="visually-hidden">Add Response</span></button>
               <button type="button" class="btn btn-warning btn-sm edit-contact-btn"
                 data-id="<?= h($c['id']); ?>"
                 data-type="<?= h($c['contact_type_id']); ?>"
@@ -302,6 +320,49 @@ function format_display_date($dt) {
             <td><?= h($c['contact_result']); ?></td>
             <td><?= h($c['related_module']); ?></td>
             <td><?= h($c['related_id']); ?></td>
+          </tr>
+          <tr class="table-light">
+            <td colspan="15">
+              <table class="table table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>Actions</th><th>Type</th><th>Urgent</th><th>Deadline</th><th>Response</th><th>Assigned To</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php foreach($responses as $r): ?>
+                  <tr>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm edit-response-btn"
+                        data-id="<?= h($r['id']); ?>"
+                        data-contact="<?= h($c['id']); ?>"
+                        data-type="<?= h($r['response_type_id']); ?>"
+                        data-urgent="<?= h($r['is_urgent']); ?>"
+                        data-deadline="<?= h($r['deadline']); ?>"
+                        data-text="<?= h($r['response_text']); ?>"
+                        data-assigned="<?= h($r['assigned_user_id']); ?>"
+                        data-completed="<?= h($r['completed_date']); ?>">
+                        <span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span>
+                      </button>
+                      <form method="post" action="functions/delete_contact_response.php" class="d-inline" onsubmit="return confirm('Delete response?');">
+                        <input type="hidden" name="id" value="<?= h($r['id']); ?>">
+                        <input type="hidden" name="contact_id" value="<?= h($c['id']); ?>">
+                        <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                        <button class="btn btn-danger btn-sm"><span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span></button>
+                      </form>
+                    </td>
+                    <td><?php if($r['response_type']): ?><span class="badge badge-phoenix-<?= h($r['response_color']); ?>"><?= h($r['response_type']); ?></span><?php endif; ?></td>
+                    <td><?= $r['is_urgent'] ? '<span class="fa-solid fa-circle-exclamation text-danger"></span>' : ''; ?></td>
+                    <td><?= h(format_display_date($r['deadline'])); ?></td>
+                    <td><?= h($r['response_text']); ?></td>
+                    <td><?= h($r['assigned_name']); ?></td>
+                  </tr>
+                <?php endforeach; ?>
+                <?php if(!$responses): ?><tr><td colspan="6" class="text-muted text-center">No responses.</td></tr><?php endif; ?>
+                </tbody>
+              </table>
+            </td>
           </tr>
         <?php endforeach; ?>
         <?php if(!$contacts): ?><tr><td colspan="15" class="text-muted text-center">No contacts found.</td></tr><?php endif; ?>
@@ -404,6 +465,94 @@ function format_display_date($dt) {
           </div>
         </div>
       </div>
+      <div class="modal fade" id="addResponseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/add_contact_response.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Response</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="contact_id" id="add_response_contact_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="mb-2">
+                  <select name="response_type_id" class="form-select" required>
+                    <option value="">Type</option>
+                    <?php foreach($responseTypes as $rt): ?>
+                      <option value="<?= h($rt['id']); ?>" <?= $rt['id']==$defaultResponseTypeId ? 'selected' : ''; ?>><?= h($rt['label']); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="is_urgent" id="add_response_urgent" value="1">
+                  <label class="form-check-label" for="add_response_urgent">Urgent</label>
+                </div>
+                <div class="mb-2"><input type="datetime-local" name="deadline" class="form-control" placeholder="Deadline"></div>
+                <div class="mb-2"><textarea name="response_text" class="form-control" placeholder="Response" required></textarea></div>
+                <div class="mb-2">
+                  <select name="assigned_user_id" class="form-select">
+                    <option value="">Assign to</option>
+                    <?php foreach($allUsers as $u): ?>
+                      <option value="<?= h($u['id']); ?>"><?= h($u['full_name']); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="editResponseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="post" action="functions/update_contact_response.php">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Response</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="id" id="edit_response_id">
+                <input type="hidden" name="contact_id" id="edit_response_contact_id">
+                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                <div class="mb-2">
+                  <select name="response_type_id" id="edit_response_type" class="form-select" required>
+                    <option value="">Type</option>
+                    <?php foreach($responseTypes as $rt): ?>
+                      <option value="<?= h($rt['id']); ?>"><?= h($rt['label']); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="is_urgent" id="edit_response_urgent" value="1">
+                  <label class="form-check-label" for="edit_response_urgent">Urgent</label>
+                </div>
+                <div class="mb-2"><input type="datetime-local" name="deadline" id="edit_response_deadline" class="form-control" placeholder="Deadline"></div>
+                <div class="mb-2"><textarea name="response_text" id="edit_response_text" class="form-control" placeholder="Response" required></textarea></div>
+                <div class="mb-2">
+                  <select name="assigned_user_id" id="edit_assigned_user" class="form-select">
+                    <option value="">Assign to</option>
+                    <?php foreach($allUsers as $u): ?>
+                      <option value="<?= h($u['id']); ?>"><?= h($u['full_name']); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="mb-2"><input type="datetime-local" name="completed_date" id="edit_completed_date" class="form-control" placeholder="Completed"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <script>
       document.querySelectorAll('.edit-contact-btn').forEach(btn => {
         btn.addEventListener('click', function(){
@@ -416,6 +565,27 @@ function format_display_date($dt) {
           document.getElementById('edit_related_id').value = this.dataset.rid || '';
           document.getElementById('edit_contact_summary').value = this.dataset.summary || '';
           var modal = new bootstrap.Modal(document.getElementById('editContactModal'));
+          modal.show();
+        });
+      });
+      document.querySelectorAll('.add-response-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('add_response_contact_id').value = this.dataset.contact;
+          var modal = new bootstrap.Modal(document.getElementById('addResponseModal'));
+          modal.show();
+        });
+      });
+      document.querySelectorAll('.edit-response-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.getElementById('edit_response_id').value = this.dataset.id;
+          document.getElementById('edit_response_contact_id').value = this.dataset.contact;
+          document.getElementById('edit_response_type').value = this.dataset.type || '';
+          document.getElementById('edit_response_urgent').checked = this.dataset.urgent == '1';
+          document.getElementById('edit_response_deadline').value = this.dataset.deadline ? this.dataset.deadline.replace(' ', 'T') : '';
+          document.getElementById('edit_response_text').value = this.dataset.text || '';
+          document.getElementById('edit_assigned_user').value = this.dataset.assigned || '';
+          document.getElementById('edit_completed_date').value = this.dataset.completed ? this.dataset.completed.replace(' ', 'T') : '';
+          var modal = new bootstrap.Modal(document.getElementById('editResponseModal'));
           modal.show();
         });
       });

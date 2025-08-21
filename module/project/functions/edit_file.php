@@ -1,6 +1,5 @@
 <?php
 require '../../../includes/php_header.php';
-
 $id         = (int)($_POST['id'] ?? 0);
 $project_id = (int)($_POST['project_id'] ?? 0);
 $description = trim($_POST['description'] ?? '');
@@ -35,4 +34,4 @@ if ($id && $project_id) {
 }
 
 header('Location: ../index.php?action=details&id=' . $project_id);
-exit;
+

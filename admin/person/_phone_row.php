@@ -33,10 +33,6 @@ foreach ($phoneStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$
       <label class="form-label mb-0">Number</label>
       <input type="text" name="phones[<?= $index; ?>][phone_number]" class="form-control form-control-sm" value="<?= h($phRow['phone_number'] ?? ''); ?>">
     </div>
-    <div class="col-md-1">
-      <label class="form-label mb-0">Ext</label>
-      <input type="text" name="phones[<?= $index; ?>][extension]" class="form-control form-control-sm" value="<?= h($phRow['extension'] ?? ''); ?>">
-    </div>
     <div class="col-md-2">
       <label class="form-label mb-0">Start</label>
       <input type="date" name="phones[<?= $index; ?>][start_date]" class="form-control form-control-sm" value="<?= h($phRow['start_date'] ?? ''); ?>">
@@ -45,7 +41,7 @@ foreach ($phoneStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$
       <label class="form-label mb-0">End</label>
       <input type="date" name="phones[<?= $index; ?>][end_date]" class="form-control form-control-sm" value="<?= h($phRow['end_date'] ?? ''); ?>">
     </div>
-    <div class="col-md-2 d-flex justify-content-end">
+    <div class="col-md-1 d-flex justify-content-end">
       <button type="button" class="btn btn-danger btn-sm remove-phone">X</button>
     </div>
   </div>

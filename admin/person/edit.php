@@ -49,6 +49,7 @@ $agencyItems        = $pdo->query('SELECT id, name FROM module_agency ORDER BY n
 $divisionItems      = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 $addressTypeItems   = get_lookup_items($pdo, 'PERSON_ADDRESS_TYPE');
 $addressStatusItems = get_lookup_items($pdo, 'PERSON_ADDRESS_STATUS');
+$stateItems         = get_lookup_items($pdo, 'US_STATES');
 $phoneTypeItems     = get_lookup_items($pdo, 'PERSON_PHONE_TYPE');
 $phoneStatusItems   = get_lookup_items($pdo, 'PERSON_PHONE_STATUS');
 
@@ -104,19 +105,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':line1'=>trim($addr['address_line1'] ?? ''),
         ':line2'=>trim($addr['address_line2'] ?? ''),
         ':city'=>trim($addr['city'] ?? ''),
-        ':state'=>trim($addr['state'] ?? ''),
+        ':state_id'=>$addr['state_id'] !== '' ? (int)$addr['state_id'] : null,
         ':postal'=>trim($addr['postal_code'] ?? ''),
         ':country'=>trim($addr['country'] ?? ''),
         ':uid'=>$this_user_id
       ];
       if ($addrId) {
         $data[':id']=$addrId;
-        $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state=:state,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
+        $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state_id=:state_id,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
         $stmt->execute($data);
         admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($data),'Updated address');
         $submittedAddrIds[] = $addrId;
       } else {
-        $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state,postal_code,country,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state,:postal,:country,:uid)');
+        $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid)');
         $stmt->execute($data);
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_addresses',$newId,'CREATE',null,json_encode($data),'Added address');
@@ -144,17 +145,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':start_date'=>$ph['start_date'] !== '' ? $ph['start_date'] : null,
         ':end_date'=>$ph['end_date'] !== '' ? $ph['end_date'] : null,
         ':number'=>trim($ph['phone_number'] ?? ''),
-        ':ext'=>trim($ph['extension'] ?? ''),
         ':uid'=>$this_user_id
       ];
       if ($phId) {
         $data[':id']=$phId;
-        $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,extension=:ext,user_updated=:uid WHERE id=:id AND person_id=:pid');
+        $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
         $stmt->execute($data);
         admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
         $submittedPhoneIds[] = $phId;
       } else {
-        $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,extension,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:ext,:uid)');
+        $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid)');
         $stmt->execute($data);
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
@@ -289,6 +289,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   });
   document.getElementById('addresses-container').addEventListener('click', function(e){
     if(e.target.classList.contains('remove-address')){ e.target.closest('.address-item').remove(); }
+  });
+  document.getElementById('addresses-container').addEventListener('change', function(e){
+    if(e.target.classList.contains('postal-lookup')){
+      var zip = e.target.value.trim();
+      if(zip.length === 5){
+        fetch('https://api.zippopotam.us/us/' + zip)
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(data){
+            if(!data) return;
+            var item = e.target.closest('.address-item');
+            var place = data.places && data.places[0];
+            if(place){
+              var cityInput = item.querySelector('.city-input');
+              if(cityInput) cityInput.value = place['place name'];
+              var abbr = place['state abbreviation'];
+              var stateSelect = item.querySelector('.state-select');
+              if(stateSelect){
+                stateSelect.value = '';
+                Array.from(stateSelect.options).forEach(function(opt){ if(opt.dataset.code === abbr){ stateSelect.value = opt.value; } });
+              }
+            }
+          });
+      }
+    }
   });
 })();
 </script>
