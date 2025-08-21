@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 09:07 AM
+-- Generation Time: Aug 21, 2025 at 09:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2469,7 +2469,6 @@ ALTER TABLE `users_2fa`
 --
 ALTER TABLE `users_profile_pics`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_users_profile_pics_active_user` (`active_user_id`),
   ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
   ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
