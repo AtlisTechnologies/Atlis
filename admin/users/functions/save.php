@@ -26,6 +26,12 @@ function get_status_id(PDO $pdo, string $code): int {
 
 $activeStatusId = get_status_id($pdo, 'ACTIVE');
 $inactiveStatusId = get_status_id($pdo, 'INACTIVE');
+if (!$activeStatusId || !$inactiveStatusId) {
+  $_SESSION['error_message'] = 'Profile picture status values not configured.';
+  $_SESSION['message'] = 'Error updating profile picture.';
+  header('Location: ../index.php');
+  exit;
+}
 
 if ($reactivatePicId && $id) {
   try {

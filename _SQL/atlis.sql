@@ -2235,7 +2235,7 @@ CREATE TABLE `users_profile_pics` (
   `width` int(11) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
   `uploaded_by` int(11) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
+  `status_id` int(11) NOT NULL,
   `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
   `active_user_id` int(11) GENERATED ALWAYS AS (if(`status_id` = 82,`user_id`,NULL)) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2245,7 +2245,7 @@ CREATE TABLE `users_profile_pics` (
 --
 
 INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(5, 1, 1, '2025-08-21 02:40:16', '2025-08-21 02:40:16', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', NULL, NULL, NULL, NULL, NULL, 1, NULL);
+(5, 1, 1, '2025-08-21 02:40:16', '2025-08-21 02:40:16', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', NULL, NULL, NULL, NULL, NULL, 1, 82);
 
 --
 -- Indexes for dumped tables
@@ -3179,7 +3179,7 @@ ALTER TABLE `users`
 -- Constraints for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_profile_pics_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE RESTRICT,
   ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
