@@ -30,6 +30,13 @@ if ($id) {
   $existingFiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+$messages = [
+  'note-added'    => 'Note added',
+  'contact-added' => 'Contact added',
+  'comp-saved'    => 'Compensation saved',
+  'file-uploaded' => 'File uploaded'
+];
+
 $defaultCompTypeId = null;
 foreach ($payTypes as $p) {
   if (!empty($p['is_default'])) {
@@ -366,4 +373,28 @@ $_SESSION['csrf_token'] = $token;
     <?php endif; ?>
   </div>
 </div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+  <div id="action-toast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<script>
+const messages = <?= json_encode($messages); ?>;
+document.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash;
+  if (hash) {
+    const tabTrigger = document.querySelector(`[data-bs-target="${hash}"]`);
+    tabTrigger && new bootstrap.Tab(tabTrigger).show();
+  }
+  const msg = new URLSearchParams(window.location.search).get('msg');
+  const toastEl = document.getElementById('action-toast');
+  if (msg && toastEl) {
+    toastEl.querySelector('.toast-body').textContent = messages[msg] || 'Saved successfully';
+    new bootstrap.Toast(toastEl).show();
+  }
+});
+</script>
 <?php require '../admin_footer.php'; ?>

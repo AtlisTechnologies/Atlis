@@ -11,6 +11,7 @@ $contact_result = trim($_POST['contact_result'] ?? '');
 $related_module = trim($_POST['related_module'] ?? '');
 $related_id = $_POST['related_id'] !== '' ? (int)$_POST['related_id'] : null;
 
+$ok = false;
 if($cid && $contact_type_id && $summary !== ''){
   $cdate = $contact_date !== '' ? date('Y-m-d H:i:s', strtotime($contact_date)) : null;
   $stmt = $pdo->prepare('INSERT INTO module_contractors_contacts (user_id,user_updated,contractor_id,contact_type_id,contact_date,summary,contact_duration,contact_result,related_module,related_id) VALUES (:uid,:uid,:cid,:type,:cdate,:summary,:duration,:result,:rmod,:rid)');
@@ -27,6 +28,9 @@ if($cid && $contact_type_id && $summary !== ''){
   ]);
   $contactId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_contractors_contacts',$contactId,'CREATE','',json_encode(['contact_type_id'=>$contact_type_id,'summary'=>$summary]),'Added contact');
+  $ok = true;
 }
-header('Location: ../contractor.php?id='.$cid.'#contacts');
+$loc = '../contractor.php?id='.$cid;
+$loc .= $ok ? '&msg=contact-added#contacts' : '#contacts';
+header('Location: '.$loc);
 exit;

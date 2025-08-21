@@ -16,6 +16,7 @@ $notes = trim($_POST['notes'] ?? '');
 
 $file_id = $existing_file_id ?: null;
 
+$ok = false;
 if($cid && $comp_type_id && $payment_method_id && $title !== '' && $pay_date !== '' && $amount !== '' && $start !== ''){
   if(isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK){
     $max = (int)get_system_property($pdo,'contractor_file_max_size');
@@ -85,6 +86,9 @@ if($cid && $comp_type_id && $payment_method_id && $title !== '' && $pay_date !==
   ]);
   $compId = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_contractors_compensation',$compId,'CREATE','',json_encode(['amount'=>$amount,'type'=>$comp_type_id,'title'=>$title]),'Added compensation');
+  $ok = true;
 }
-header('Location: ../contractor.php?id='.$cid.'#compensation');
+$loc = '../contractor.php?id='.$cid;
+$loc .= $ok ? '&msg=comp-saved#compensation' : '#compensation';
+header('Location: '.$loc);
 exit;
