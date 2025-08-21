@@ -18,7 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
   $message = 'Person deleted.';
 }
 
-$stmt = $pdo->query('SELECT id, first_name, last_name, email FROM person WHERE user_id IS NULL ORDER BY last_name, first_name');
+$addrStatusItems = get_lookup_items($pdo, 'PERSON_ADDRESS_STATUS');
+$phoneStatusItems = get_lookup_items($pdo, 'PERSON_PHONE_STATUS');
+$defaultAddrStatus = null; foreach ($addrStatusItems as $a) { if (!empty($a['is_default'])) { $defaultAddrStatus = $a['id']; break; } }
+$defaultPhoneStatus = null; foreach ($phoneStatusItems as $a) { if (!empty($a['is_default'])) { $defaultPhoneStatus = $a['id']; break; } }
+$stmt = $pdo->prepare('SELECT p.id, p.first_name, p.last_name, p.email,
+                               o.name AS org_name, a.name AS agency_name, d.name AS division_name,
+                               pp.phone_number, pa.address_line1, pa.city, pa.state, pa.postal_code
+                        FROM person p
+                        LEFT JOIN module_organization o ON p.organization_id = o.id
+                        LEFT JOIN module_agency a ON p.agency_id = a.id
+                        LEFT JOIN module_division d ON p.division_id = d.id
+                        LEFT JOIN person_phones pp ON p.id = pp.person_id AND pp.status_id = :ph_status
+                        LEFT JOIN person_addresses pa ON p.id = pa.person_id AND pa.status_id = :addr_status
+                        WHERE p.user_id IS NULL
+                        ORDER BY p.last_name, p.first_name');
+$stmt->execute([':ph_status'=>$defaultPhoneStatus, ':addr_status'=>$defaultAddrStatus]);
 $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Persons</h2>
@@ -38,7 +53,20 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div>
               <h5 class="name mb-1"><?= htmlspecialchars(trim(($p['first_name'] ?? '').' '.($p['last_name'] ?? ''))); ?></h5>
               <?php if($p['email']): ?>
-                <p class="email text-muted small mb-2"><?= htmlspecialchars($p['email']); ?></p>
+                <p class="email text-muted small mb-1"><?= htmlspecialchars($p['email']); ?></p>
+              <?php endif; ?>
+              <?php if($p['org_name'] || $p['agency_name'] || $p['division_name']): ?>
+                <p class="text-muted small mb-1">
+                  <?= htmlspecialchars($p['org_name'] ?? ''); ?>
+                  <?php if($p['agency_name']): ?>/ <?= htmlspecialchars($p['agency_name']); ?><?php endif; ?>
+                  <?php if($p['division_name']): ?>/ <?= htmlspecialchars($p['division_name']); ?><?php endif; ?>
+                </p>
+              <?php endif; ?>
+              <?php if($p['phone_number']): ?>
+                <p class="text-muted small mb-1">📞 <?= htmlspecialchars($p['phone_number']); ?></p>
+              <?php endif; ?>
+              <?php if($p['address_line1']): ?>
+                <p class="text-muted small mb-2">🏠 <?= htmlspecialchars($p['address_line1']); ?><?= $p['city'] ? ', '.htmlspecialchars($p['city']) : ''; ?><?= $p['state'] ? ' '.htmlspecialchars($p['state']) : ''; ?><?= $p['postal_code'] ? ' '.htmlspecialchars($p['postal_code']) : ''; ?></p>
               <?php endif; ?>
             </div>
             <div>

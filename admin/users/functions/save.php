@@ -16,9 +16,7 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
 $gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
-$phone = preg_replace('/[^0-9]/', '', $_POST['phone'] ?? '');
 $dob = $_POST['dob'] ?? '';
-$address = trim($_POST['address'] ?? '');
 
 function get_status_id(PDO $pdo, string $code): int {
   $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
@@ -36,15 +34,13 @@ if ($reactivatePicId && $id) {
     $personParams = [
       ':uid_fk' => $id,
       ':gender_id' => $gender_id,
-      ':phone' => $phone,
       ':dob' => $dob ?: null,
-      ':address' => $address,
       ':uid_update' => $this_user_id
     ];
-    $pstmt = $pdo->prepare('UPDATE person SET gender_id = :gender_id, phone = :phone, dob = :dob, address = :address, user_updated = :uid_update WHERE user_id = :uid_fk');
+    $pstmt = $pdo->prepare('UPDATE person SET gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE user_id = :uid_fk');
     $pstmt->execute($personParams);
     if ($pstmt->rowCount() === 0) {
-      $pdo->prepare('INSERT INTO person (user_id, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :gender_id, :phone, :dob, :address, :uid_update)')
+      $pdo->prepare('INSERT INTO person (user_id, gender_id, dob, user_updated) VALUES (:uid_fk, :gender_id, :dob, :uid_update)')
           ->execute($personParams);
     }
 
@@ -170,16 +166,14 @@ try {
       ':fn' => $first_name,
       ':ln' => $last_name,
       ':gender_id' => $gender_id,
-      ':phone' => $phone,
       ':dob' => $dob ?: null,
-      ':address' => $address,
       ':uid_update' => $this_user_id
     ];
     if ($personExists->fetchColumn()) {
-      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, phone = :phone, dob = :dob, address = :address, user_updated = :uid_update WHERE user_id = :uid_fk');
+      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE user_id = :uid_fk');
       $pstmt->execute($personParams);
     } else {
-      $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
+      $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
       $pstmt->execute($personParams);
     }
   } else {
@@ -192,15 +186,13 @@ try {
     ]);
     $id = (int)$pdo->lastInsertId();
 
-    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, phone, dob, address, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :phone, :dob, :address, :uid_update)');
+    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
     $pstmt->execute([
       ':uid_fk' => $id,
       ':fn' => $first_name,
       ':ln' => $last_name,
       ':gender_id' => $gender_id,
-      ':phone' => $phone,
       ':dob' => $dob ?: null,
-      ':address' => $address,
       ':uid_update' => $this_user_id
     ]);
   }
