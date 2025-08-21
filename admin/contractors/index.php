@@ -79,13 +79,17 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="row g-0 align-items-center border-bottom py-2">
           <div class="col-auto px-2" style="width:120px;">
             <?php if (user_has_permission('contractors','update')): ?>
-              <a class="btn btn-warning btn-sm me-1" href="contractor.php?id=<?= $c['id']; ?>">Edit</a>
+              <a class="btn btn-warning btn-sm me-1" href="contractor.php?id=<?= $c['id']; ?>" title="Edit">
+                <span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span>
+              </a>
             <?php endif; ?>
             <?php if (user_has_permission('contractors','delete')): ?>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $c['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this contractor?');">Delete</button>
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this contractor?');" title="Delete">
+                  <span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span>
+                </button>
               </form>
             <?php endif; ?>
           </div>
@@ -99,10 +103,12 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
           </div>
           <div class="col px-2 email"><a href="mailto:<?= h($c['email'] ?? ''); ?>"><?= h($c['email'] ?? ''); ?></a></div>
-          <div class="col px-2 phone"><a href="tel:<?= h($c['phone'] ?? ''); ?>"><?= h($c['phone'] ?? ''); ?></a></div>
+          <div class="col px-2 phone"><?= h($c['phone'] ?? ''); ?></div>
           <div class="col px-2 status">
             <?php if (!empty($c['status_label'])): ?>
-              <span class="badge badge-phoenix-<?= h($c['status_color'] ?? 'secondary'); ?>"><?= h($c['status_label']); ?></span>
+              <span class="badge badge-phoenix-<?= h($c['status_color'] ?? 'secondary'); ?>">
+                <?= h($c['status_label']); ?>
+              </span>
             <?php endif; ?>
           </div>
           <div class="col px-2 start"><?= !empty($c['start_date']) ? h(date('M j, Y', strtotime($c['start_date']))) : ''; ?></div>
