@@ -62,6 +62,18 @@ foreach ($paymentMethods as $pm) {
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
+
+function format_display_date($dt) {
+  if (empty($dt)) {
+    return '';
+  }
+  $ts  = strtotime($dt);
+  $out = date('M jS, Y', $ts);
+  if (date('His', $ts) !== '000000') {
+    $out .= ' ' . date('g:ia', $ts);
+  }
+  return $out;
+}
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Contractor</h2>
 <ul class="nav nav-tabs mb-3" id="contractorTabs" role="tablist">
@@ -143,7 +155,7 @@ $_SESSION['csrf_token'] = $token;
         <input type="date" name="end_date" class="form-control" value="<?= h($contractor['end_date'] ?? ''); ?>">
       </div>
       <?php endif; ?>
-      <button class="btn <?= $id ? 'btn-warning' : 'btn-success'; ?>" type="submit">Save</button>
+      <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
     </form>
   </div>
   <div class="tab-pane fade" id="notes" role="tabpanel">
@@ -153,24 +165,38 @@ $_SESSION['csrf_token'] = $token;
         $stmt->execute([':id'=>$id]);
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addNoteModal">Add Note</button>
-      <ul class="list-group">
-        <?php foreach($notes as $n): ?>
-          <li class="list-group-item small d-flex justify-content-between align-items-start">
-            <span><strong><?= h($n['date_created']); ?>:</strong> <?= h($n['note_text']); ?></span>
-            <span>
-              <button type="button" class="btn btn-warning btn-sm edit-note-btn" data-id="<?= h($n['id']); ?>" data-text="<?= h($n['note_text']); ?>">Edit</button>
-              <form method="post" action="functions/delete_note.php" class="d-inline" onsubmit="return confirm('Delete note?');">
-                <input type="hidden" name="id" value="<?= h($n['id']); ?>">
-                <input type="hidden" name="contractor_id" value="<?= $id; ?>">
-                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </form>
-            </span>
-          </li>
-        <?php endforeach; ?>
-        <?php if(!$notes): ?><li class="list-group-item text-muted">No notes found.</li><?php endif; ?>
-      </ul>
+      <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addNoteModal"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></button>
+      <table class="table table-sm table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Actions</th><th>ID</th><th>User ID</th><th>User Updated</th><th>Created</th><th>Updated</th><th>Memo</th><th>Contractor ID</th><th>Note Text</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($notes as $n): ?>
+            <tr>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm edit-note-btn" data-id="<?= h($n['id']); ?>" data-text="<?= h($n['note_text']); ?>"><span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span></button>
+                <form method="post" action="functions/delete_note.php" class="d-inline" onsubmit="return confirm('Delete note?');">
+                  <input type="hidden" name="id" value="<?= h($n['id']); ?>">
+                  <input type="hidden" name="contractor_id" value="<?= $id; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-danger btn-sm"><span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span></button>
+                </form>
+              </td>
+              <td><?= h($n['id']); ?></td>
+              <td><?= h($n['user_id']); ?></td>
+              <td><?= h($n['user_updated']); ?></td>
+              <td><?= h(format_display_date($n['date_created'])); ?></td>
+              <td><?= h(format_display_date($n['date_updated'])); ?></td>
+              <td><?= h($n['memo']); ?></td>
+              <td><?= h($n['contractor_id']); ?></td>
+              <td><?= h($n['note_text']); ?></td>
+            </tr>
+          <?php endforeach; ?>
+          <?php if(!$notes): ?><tr><td colspan="9" class="text-muted text-center">No notes found.</td></tr><?php endif; ?>
+        </tbody>
+      </table>
       <div class="modal fade" id="addNoteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -186,7 +212,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Save Note</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -208,7 +234,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Update Note</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -231,24 +257,21 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="contacts" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT mcc.*, l.label AS contact_type FROM module_contractors_contacts mcc LEFT JOIN lookup_list_items l ON mcc.contact_type_id = l.id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, l.label AS contact_type, COALESCE(la.attr_value, "secondary") AS contact_color FROM module_contractors_contacts mcc LEFT JOIN lookup_list_items l ON mcc.contact_type_id = l.id LEFT JOIN lookup_list_item_attributes la ON l.id = la.item_id AND la.attr_code = "COLOR-CLASS" WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addContactModal">Add Contact</button>
-      <ul class="list-group">
+      <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addContactModal"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></button>
+      <table class="table table-sm table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Actions</th><th>ID</th><th>User ID</th><th>User Updated</th><th>Created</th><th>Updated</th><th>Memo</th><th>Contractor ID</th><th>Type</th><th>Date</th><th>Summary</th><th>Duration</th><th>Result</th><th>Related Module</th><th>Related ID</th>
+          </tr>
+        </thead>
+        <tbody>
         <?php foreach($contacts as $c): ?>
-          <li class="list-group-item small d-flex justify-content-between align-items-start">
-            <span>
-              <strong><?= h($c['contact_date']); ?></strong> - <?= h($c['contact_type']); ?>
-              <?php if($c['summary']): ?>: <?= h($c['summary']); ?><?php endif; ?>
-              <?php if($c['contact_duration']): ?> (<?= h($c['contact_duration']); ?> min)<?php endif; ?>
-              <?php if($c['contact_result']): ?> - <?= h($c['contact_result']); ?><?php endif; ?>
-              <?php if($c['related_module'] && $c['related_id']): ?>
-                <span class="text-muted">(<?= h($c['related_module']); ?> #<?= h($c['related_id']); ?>)</span>
-              <?php endif; ?>
-            </span>
-            <span>
+          <tr>
+            <td>
               <button type="button" class="btn btn-warning btn-sm edit-contact-btn"
                 data-id="<?= h($c['id']); ?>"
                 data-type="<?= h($c['contact_type_id']); ?>"
@@ -257,18 +280,33 @@ $_SESSION['csrf_token'] = $token;
                 data-result="<?= h($c['contact_result']); ?>"
                 data-module="<?= h($c['related_module']); ?>"
                 data-rid="<?= h($c['related_id']); ?>"
-                data-summary="<?= h($c['summary']); ?>">Edit</button>
+                data-summary="<?= h($c['summary']); ?>"><span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span></button>
               <form method="post" action="functions/delete_contact.php" class="d-inline" onsubmit="return confirm('Delete contact?');">
                 <input type="hidden" name="id" value="<?= h($c['id']); ?>">
                 <input type="hidden" name="contractor_id" value="<?= $id; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-danger btn-sm">Delete</button>
+                <button class="btn btn-danger btn-sm"><span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span></button>
               </form>
-            </span>
-          </li>
+            </td>
+            <td><?= h($c['id']); ?></td>
+            <td><?= h($c['user_id']); ?></td>
+            <td><?= h($c['user_updated']); ?></td>
+            <td><?= h(format_display_date($c['date_created'])); ?></td>
+            <td><?= h(format_display_date($c['date_updated'])); ?></td>
+            <td><?= h($c['memo']); ?></td>
+            <td><?= h($c['contractor_id']); ?></td>
+            <td><?php if($c['contact_type']): ?><span class="badge badge-phoenix-<?= h($c['contact_color']); ?>"><?= h($c['contact_type']); ?></span><?php endif; ?></td>
+            <td><?= h(format_display_date($c['contact_date'])); ?></td>
+            <td><?= h($c['summary']); ?></td>
+            <td><?= h($c['contact_duration']); ?></td>
+            <td><?= h($c['contact_result']); ?></td>
+            <td><?= h($c['related_module']); ?></td>
+            <td><?= h($c['related_id']); ?></td>
+          </tr>
         <?php endforeach; ?>
-        <?php if(!$contacts): ?><li class="list-group-item text-muted">No contacts found.</li><?php endif; ?>
-      </ul>
+        <?php if(!$contacts): ?><tr><td colspan="15" class="text-muted text-center">No contacts found.</td></tr><?php endif; ?>
+        </tbody>
+      </table>
       <div class="modal fade" id="addContactModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -311,7 +349,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Save Contact</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -360,7 +398,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Update Contact</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -389,11 +427,11 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="compensation" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, pm.label AS payment_method_label, CONCAT(p.first_name, " ", p.last_name) AS created_by_name, f.file_path, f.file_name FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id LEFT JOIN module_contractors_files f ON mcc.file_id = f.id LEFT JOIN users u ON mcc.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcc.*, t.label AS type_label, COALESCE(ta.attr_value, "secondary") AS type_color, pm.label AS payment_method_label, COALESCE(pma.attr_value, "secondary") AS payment_color, CONCAT(p.first_name, " ", p.last_name) AS created_by_name, f.file_path, f.file_name FROM module_contractors_compensation mcc LEFT JOIN lookup_list_items t ON mcc.compensation_type_id = t.id LEFT JOIN lookup_list_item_attributes ta ON t.id = ta.item_id AND ta.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_items pm ON mcc.payment_method_id = pm.id LEFT JOIN lookup_list_item_attributes pma ON pm.id = pma.item_id AND pma.attr_code = "COLOR-CLASS" LEFT JOIN module_contractors_files f ON mcc.file_id = f.id LEFT JOIN users u ON mcc.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE mcc.contractor_id = :id ORDER BY mcc.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $comps = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addCompModal">Add Compensation</button>
+      <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addCompModal"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></button>
       <div class="modal fade" id="addCompModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -471,7 +509,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Save Compensation</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -480,18 +518,7 @@ $_SESSION['csrf_token'] = $token;
       <table class="table table-sm table-striped align-middle">
         <thead>
           <tr>
-            <th>Actions</th>
-            <th>Title</th>
-            <th>Pay Date</th>
-            <th>Invoice #</th>
-            <th>File</th>
-            <th>Type</th>
-            <th>Payment Method</th>
-            <th>Amount</th>
-            <th>Effective Start</th>
-            <th>Effective End</th>
-            <th>Notes</th>
-            <th>Created (date/user)</th>
+            <th>Actions</th><th>ID</th><th>User ID</th><th>User Updated</th><th>Created</th><th>Updated</th><th>Memo</th><th>Contractor ID</th><th>Title</th><th>Pay Date</th><th>Invoice #</th><th>File ID</th><th>File</th><th>Type</th><th>Payment Method</th><th>Amount</th><th>Effective Start</th><th>Effective End</th><th>Notes</th>
           </tr>
         </thead>
         <tbody>
@@ -510,19 +537,25 @@ $_SESSION['csrf_token'] = $token;
                   data-effective-start="<?= h($cp['effective_start']); ?>"
                   data-effective-end="<?= h($cp['effective_end']); ?>"
                   data-notes="<?= h($cp['notes']); ?>"
-                  data-file-id="<?= h($cp['file_id']); ?>">
-                  Edit
-                </button>
+                  data-file-id="<?= h($cp['file_id']); ?>"><span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span></button>
                 <form method="post" action="functions/delete_compensation.php" class="d-inline" onsubmit="return confirm('Delete compensation?');">
                   <input type="hidden" name="id" value="<?= h($cp['id']); ?>">
                   <input type="hidden" name="contractor_id" value="<?= $id; ?>">
                   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                  <button class="btn btn-danger btn-sm">Delete</button>
+                  <button class="btn btn-danger btn-sm"><span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span></button>
                 </form>
               </td>
+              <td><?= h($cp['id']); ?></td>
+              <td><?= h($cp['user_id']); ?></td>
+              <td><?= h($cp['user_updated']); ?></td>
+              <td><?= h(format_display_date($cp['date_created'])); ?></td>
+              <td><?= h(format_display_date($cp['date_updated'])); ?></td>
+              <td><?= h($cp['memo']); ?></td>
+              <td><?= h($cp['contractor_id']); ?></td>
               <td><?= h($cp['title']); ?></td>
-              <td><?= h($cp['pay_date']); ?></td>
-              <td><?= h($cp['invoice_number'] ?: '—'); ?></td>
+              <td><?= h(format_display_date($cp['pay_date'])); ?></td>
+              <td><?= h($cp['invoice_number']); ?></td>
+              <td><?= h($cp['file_id']); ?></td>
               <td>
                 <?php if($cp['file_path']): ?>
                   <a class="btn btn-outline-secondary btn-sm" href="<?= h($cp['file_path']); ?>" download>Download</a>
@@ -530,17 +563,16 @@ $_SESSION['csrf_token'] = $token;
                   —
                 <?php endif; ?>
               </td>
-              <td><?= h($cp['type_label'] ?: '—'); ?></td>
-              <td><?= h($cp['payment_method_label'] ?: '—'); ?></td>
-              <td><?= h($cp['amount'] ?: '—'); ?></td>
-              <td><?= h($cp['effective_start'] ?: '—'); ?></td>
-              <td><?= h($cp['effective_end'] ?: '—'); ?></td>
-              <td><?= h($cp['notes'] ?: '—'); ?></td>
-              <td><?= h($cp['date_created'] ?: '—'); ?><br><span class="text-muted small"><?= h($cp['created_by_name'] ?: '—'); ?></span></td>
+              <td><?php if($cp['type_label']): ?><span class="badge badge-phoenix-<?= h($cp['type_color']); ?>"><?= h($cp['type_label']); ?></span><?php endif; ?></td>
+              <td><?php if($cp['payment_method_label']): ?><span class="badge badge-phoenix-<?= h($cp['payment_color']); ?>"><?= h($cp['payment_method_label']); ?></span><?php endif; ?></td>
+              <td><?= h($cp['amount']); ?></td>
+              <td><?= h(format_display_date($cp['effective_start'])); ?></td>
+              <td><?= h(format_display_date($cp['effective_end'])); ?></td>
+              <td><?= h($cp['notes']); ?></td>
             </tr>
           <?php endforeach; ?>
           <?php if(!$comps): ?>
-            <tr><td colspan="12" class="text-center text-muted">No compensation found.</td></tr>
+            <tr><td colspan="19" class="text-center text-muted">No compensation found.</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
@@ -618,7 +650,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Update Compensation</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -650,33 +682,45 @@ $_SESSION['csrf_token'] = $token;
   <div class="tab-pane fade" id="files" role="tabpanel">
     <?php if($id): ?>
       <?php
-        $stmt = $pdo->prepare('SELECT mcf.*, l.label AS file_type FROM module_contractors_files mcf LEFT JOIN lookup_list_items l ON mcf.file_type_id = l.id WHERE mcf.contractor_id = :id ORDER BY mcf.date_created DESC');
+        $stmt = $pdo->prepare('SELECT mcf.*, l.label AS file_type, COALESCE(la.attr_value, "secondary") AS file_color FROM module_contractors_files mcf LEFT JOIN lookup_list_items l ON mcf.file_type_id = l.id LEFT JOIN lookup_list_item_attributes la ON l.id = la.item_id AND la.attr_code = "COLOR-CLASS" WHERE mcf.contractor_id = :id ORDER BY mcf.date_created DESC');
         $stmt->execute([':id'=>$id]);
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
-      <button class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addFileModal">Upload File</button>
-      <table class="table table-sm">
-        <thead><tr><th>File</th><th>Type</th><th>Version</th><th>Description</th><th>Actions</th></tr></thead>
+      <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addFileModal"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></button>
+      <table class="table table-sm table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Actions</th><th>ID</th><th>User ID</th><th>User Updated</th><th>Created</th><th>Updated</th><th>Memo</th><th>Contractor ID</th><th>Type</th><th>File Name</th><th>File Path</th><th>Version</th><th>Description</th>
+          </tr>
+        </thead>
         <tbody>
           <?php foreach($files as $f): ?>
             <tr>
-              <td><?= h($f['file_name']); ?></td>
-              <td><?= h($f['file_type']); ?></td>
-              <td>v<?= h($f['version']); ?></td>
-              <td><?= h($f['description']); ?></td>
               <td>
                 <a class="btn btn-outline-secondary btn-sm" href="<?= h($f['file_path']); ?>" download>Download</a>
-                <button type="button" class="btn btn-warning btn-sm edit-file-btn" data-id="<?= h($f['id']); ?>" data-type="<?= h($f['file_type_id']); ?>" data-desc="<?= h($f['description']); ?>">Edit</button>
+                <button type="button" class="btn btn-warning btn-sm edit-file-btn" data-id="<?= h($f['id']); ?>" data-type="<?= h($f['file_type_id']); ?>" data-desc="<?= h($f['description']); ?>"><span class="fa-solid fa-pen"></span><span class="visually-hidden">Edit</span></button>
                 <form method="post" action="functions/delete_file.php" class="d-inline" onsubmit="return confirm('Delete file?');">
                   <input type="hidden" name="id" value="<?= h($f['id']); ?>">
                   <input type="hidden" name="contractor_id" value="<?= $id; ?>">
                   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                  <button class="btn btn-danger btn-sm">Delete</button>
+                  <button class="btn btn-danger btn-sm"><span class="fa-solid fa-trash"></span><span class="visually-hidden">Delete</span></button>
                 </form>
               </td>
+              <td><?= h($f['id']); ?></td>
+              <td><?= h($f['user_id']); ?></td>
+              <td><?= h($f['user_updated']); ?></td>
+              <td><?= h(format_display_date($f['date_created'])); ?></td>
+              <td><?= h(format_display_date($f['date_updated'])); ?></td>
+              <td><?= h($f['memo']); ?></td>
+              <td><?= h($f['contractor_id']); ?></td>
+              <td><?php if($f['file_type']): ?><span class="badge badge-phoenix-<?= h($f['file_color']); ?>"><?= h($f['file_type']); ?></span><?php endif; ?></td>
+              <td><?= h($f['file_name']); ?></td>
+              <td><?= h($f['file_path']); ?></td>
+              <td><?= h($f['version']); ?></td>
+              <td><?= h($f['description']); ?></td>
             </tr>
           <?php endforeach; ?>
-          <?php if(!$files): ?><tr><td colspan="5" class="text-muted text-center">No files found.</td></tr><?php endif; ?>
+          <?php if(!$files): ?><tr><td colspan="13" class="text-muted text-center">No files found.</td></tr><?php endif; ?>
         </tbody>
       </table>
       <div class="modal fade" id="addFileModal" tabindex="-1" aria-hidden="true">
@@ -701,7 +745,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Upload</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>
@@ -730,7 +774,7 @@ $_SESSION['csrf_token'] = $token;
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
               </div>
             </form>
           </div>

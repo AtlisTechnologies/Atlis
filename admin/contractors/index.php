@@ -48,7 +48,7 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="row g-3 justify-content-between mb-4">
     <div class="col-auto">
       <?php if (user_has_permission('contractors','create')): ?>
-        <a href="contractor.php" class="btn btn-success"><span class="fas fa-plus me-2"></span>Add Contractor</a>
+        <a href="contractor.php" class="btn btn-success"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></a>
       <?php endif; ?>
       <button class="btn btn-link text-body px-0"><span class="fa-solid fa-file-export fs-9 me-2"></span>Export</button>
     </div>
@@ -109,7 +109,7 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </span>
             <?php endif; ?>
           </div>
-          <div class="col px-2 start"><?= !empty($c['start_date']) ? h(date('M j, Y', strtotime($c['start_date']))) : ''; ?></div>
+          <div class="col px-2 start"><?= !empty($c['start_date']) ? h(date('M jS, Y', strtotime($c['start_date']))) : ''; ?></div>
         </div>
       <?php endforeach; ?>
     </div>
