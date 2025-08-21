@@ -220,12 +220,9 @@ $_SESSION['csrf_token'] = $token;
 
 document.querySelectorAll('.reactivate-form').forEach(form => {
   form.addEventListener('submit', () => {
-    ['gender_id', 'phone', 'dob', 'address'].forEach(id => {
-      const hidden = form.querySelector(`[name="${id}"]`);
-      const source = document.getElementById(id);
-      if (hidden && source) {
-        hidden.value = source.value;
-      }
+    ['gender_id','phone','dob','address'].forEach(id => {
+      form.querySelector(`[name="${id}"]`).value =
+        document.getElementById(id).value;
     });
   });
 });
