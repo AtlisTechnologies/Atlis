@@ -1541,6 +1541,32 @@ INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_contractors_contact_responses`
+--
+
+CREATE TABLE `module_contractors_contact_responses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contact_id` int(11) NOT NULL,
+  `response_type_id` int(11) NOT NULL,
+  `is_urgent` tinyint(1) DEFAULT 0,
+  `deadline` datetime DEFAULT NULL,
+  `response_text` text DEFAULT NULL,
+  `assigned_user_id` int(11) DEFAULT NULL,
+  `completed_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_contractors_contact_responses`
+--
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_contractors_files`
 --
 
@@ -2416,6 +2442,17 @@ ALTER TABLE `module_contractors_contacts`
   ADD KEY `fk_module_contractors_contacts_type_id` (`contact_type_id`);
 
 --
+-- Indexes for table `module_contractors_contact_responses`
+--
+ALTER TABLE `module_contractors_contact_responses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_contractors_contact_responses_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_contact_responses_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_contact_responses_contact_id` (`contact_id`),
+  ADD KEY `fk_module_contractors_contact_responses_type_id` (`response_type_id`),
+  ADD KEY `fk_module_contractors_contact_responses_assigned_user_id` (`assigned_user_id`);
+
+--
 -- Indexes for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
@@ -2766,6 +2803,12 @@ ALTER TABLE `module_contractors_contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `module_contractors_contact_responses`
+--
+ALTER TABLE `module_contractors_contact_responses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
@@ -3020,6 +3063,16 @@ ALTER TABLE `module_contractors_contacts`
   ADD CONSTRAINT `fk_module_contractors_contacts_type_id` FOREIGN KEY (`contact_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_contractors_contacts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_contractors_contacts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_contractors_contact_responses`
+--
+ALTER TABLE `module_contractors_contact_responses`
+  ADD CONSTRAINT `fk_module_contractors_contact_responses_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `module_contractors_contacts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_contact_responses_type_id` FOREIGN KEY (`response_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_contractors_contact_responses_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contact_responses_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_contact_responses_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors_files`
