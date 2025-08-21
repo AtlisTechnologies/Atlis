@@ -25,14 +25,14 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody class="list">
+      <tbody class="list fw-bold">
         <?php foreach($lists as $l): ?>
           <tr data-id="<?= htmlspecialchars($l['id']); ?>">
             <td class="id"><?= htmlspecialchars($l['id']); ?></td>
             <td class="name"><a href="items.php?list_id=<?= $l['id']; ?>"><?= htmlspecialchars($l['name']); ?></a></td>
             <td class="description"><?= htmlspecialchars($l['description']); ?></td>
             <td class="date_updated"><?= htmlspecialchars($l['date_updated']); ?></td>
-            <td class="item-count"><?= (int)$l['item_count']; ?></td>
+            <td class="item-count"><span class="badge rounded-pill text-bg-dark"><?= (int)$l['item_count']; ?></span></td>
             <td>
               <button class="btn btn-sm btn-warning edit-list" data-id="<?= $l['id']; ?>" data-name="<?= htmlspecialchars($l['name'], ENT_QUOTES); ?>" data-description="<?= htmlspecialchars($l['description'], ENT_QUOTES); ?>" data-memo="<?= h($l['memo']); ?>">Edit</button>
               <button class="btn btn-sm btn-danger delete-list" data-id="<?= $l['id']; ?>">Delete</button>
