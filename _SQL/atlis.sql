@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 10:33 AM
+-- Generation Time: Aug 21, 2025 at 07:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -166,7 +166,10 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (117, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
 (118, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person', 31, 'UPDATE', 'Updated person', '{\"id\":31,\"user_id\":null,\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-21 02:15:50\",\"date_updated\":\"2025-08-21 02:15:50\",\"memo\":null}', '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":4,\"division_id\":null,\"dob\":null}'),
 (119, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person_phones', 5, 'UPDATE', 'Updated phone', NULL, '{\":pid\":31,\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":ext\":\"\",\":uid\":1,\":id\":5}'),
-(120, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}');
+(120, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}'),
+(121, 1, 1, '2025-08-21 11:35:35', '2025-08-21 11:35:35', NULL, 'module_contractors_compensation', 7, 'CREATE', 'Added compensation', '', '{\"amount\":\"681.82\",\"type\":98,\"title\":\"Pay Period\"}'),
+(122, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:34', NULL, 'module_contractors_files', 7, 'UPLOAD', '', '', '{\"file\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}'),
+(123, 1, 1, '2025-08-21 11:38:47', '2025-08-21 11:38:47', NULL, 'module_contractors_files', 7, 'UPDATE', 'Updated file', '', '{\"file_name\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}');
 
 -- --------------------------------------------------------
 
@@ -1077,7 +1080,21 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (474, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (475, 1, 1, '2025-08-21 01:54:31', '2025-08-21 01:54:31', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item'),
 (476, 1, 1, '2025-08-21 02:31:08', '2025-08-21 02:31:08', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
-(477, 1, 1, '2025-08-21 02:31:25', '2025-08-21 02:31:25', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item');
+(477, 1, 1, '2025-08-21 02:31:25', '2025-08-21 02:31:25', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
+(478, 1, 1, '2025-08-21 09:51:56', '2025-08-21 09:51:56', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(479, 1, 1, '2025-08-21 09:52:19', '2025-08-21 09:52:19', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
+(480, 1, 1, '2025-08-21 09:52:20', '2025-08-21 09:52:20', NULL, 'module_tasks', 4, 'UPDATE', 'Completed task'),
+(481, 1, 1, '2025-08-21 11:34:01', '2025-08-21 11:34:01', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(482, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(483, 1, 1, '2025-08-21 11:37:30', '2025-08-21 11:37:30', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(484, 1, 1, '2025-08-21 11:37:35', '2025-08-21 11:37:35', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(485, 1, 1, '2025-08-21 11:37:39', '2025-08-21 11:37:39', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(486, 1, 1, '2025-08-21 11:37:42', '2025-08-21 11:37:42', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(487, 1, 1, '2025-08-21 11:37:48', '2025-08-21 11:37:48', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(488, 1, 1, '2025-08-21 11:37:56', '2025-08-21 11:37:56', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(489, 1, 1, '2025-08-21 11:37:59', '2025-08-21 11:37:59', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(490, 1, 1, '2025-08-21 11:38:01', '2025-08-21 11:38:01', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(491, 1, 1, '2025-08-21 11:38:08', '2025-08-21 11:38:08', NULL, 'lookup_list_item_attributes', 106, 'UPDATE', 'Updated item attribute');
 
 -- --------------------------------------------------------
 
@@ -1117,7 +1134,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (16, 1, 1, '2025-08-18 15:29:37', '2025-08-20 15:07:28', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
 (17, 1, 1, '2025-08-18 15:29:50', '2025-08-20 14:37:41', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
-(19, 1, 1, '2025-08-18 15:30:20', '2025-08-21 01:54:31', '', 'CONTRACTOR_FILE_TYPE', ''),
+(19, 1, 1, '2025-08-18 15:30:20', '2025-08-21 11:38:08', '', 'CONTRACTOR_FILE_TYPE', ''),
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-20 20:48:24', '', 'CONTRACTOR_CONTACT_TYPE', ''),
 (21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
@@ -1250,7 +1267,8 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (123, 1, 1, '2025-08-21 01:47:45', '2025-08-21 01:47:45', NULL, 19, 'Lake - AUP - #1', 'LAKE-AUP-1', 0, '2025-08-21', NULL),
 (124, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 19, 'Lake - AUP - #2', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
 (125, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 19, 'Lake - AUP - #3', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
-(126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL);
+(126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL),
+(127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL);
 
 -- --------------------------------------------------------
 
@@ -1368,8 +1386,16 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (103, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 117, 'DEFAULT', 'true'),
 (104, 1, 1, '2025-08-21 01:45:13', '2025-08-21 01:45:13', NULL, 73, 'COLOR-CLASS', 'atlis'),
 (105, 1, 1, '2025-08-21 01:45:20', '2025-08-21 01:45:20', NULL, 72, 'COLOR-CLASS', 'primary'),
-(106, 1, 1, '2025-08-21 01:45:31', '2025-08-21 01:45:31', NULL, 74, 'COLOR-CLASS', 'warning'),
-(107, 1, 1, '2025-08-21 01:45:57', '2025-08-21 01:45:57', NULL, 119, 'COLOR-CLASS', 'success');
+(106, 1, 1, '2025-08-21 01:45:31', '2025-08-21 11:38:08', NULL, 74, 'COLOR-CLASS', 'info'),
+(107, 1, 1, '2025-08-21 01:45:57', '2025-08-21 01:45:57', NULL, 119, 'COLOR-CLASS', 'success'),
+(108, 1, 1, '2025-08-21 11:37:30', '2025-08-21 11:37:30', NULL, 127, 'COLOR-CLASS', 'success'),
+(109, 1, 1, '2025-08-21 11:37:35', '2025-08-21 11:37:35', NULL, 122, 'COLOR-CLASS', 'atlis'),
+(110, 1, 1, '2025-08-21 11:37:39', '2025-08-21 11:37:39', NULL, 121, 'COLOR-CLASS', 'atlis'),
+(111, 1, 1, '2025-08-21 11:37:42', '2025-08-21 11:37:42', NULL, 120, 'COLOR-CLASS', 'atlis'),
+(112, 1, 1, '2025-08-21 11:37:48', '2025-08-21 11:37:48', NULL, 123, 'COLOR-CLASS', 'warning'),
+(114, 1, 1, '2025-08-21 11:37:56', '2025-08-21 11:37:56', NULL, 124, 'COLOR-CLASS', 'warning'),
+(115, 1, 1, '2025-08-21 11:37:59', '2025-08-21 11:37:59', NULL, 125, 'COLOR-CLASS', 'warning'),
+(116, 1, 1, '2025-08-21 11:38:01', '2025-08-21 11:38:01', NULL, 126, 'COLOR-CLASS', 'warning');
 
 -- --------------------------------------------------------
 
@@ -1476,7 +1502,8 @@ INSERT INTO `module_contractors_compensation` (`id`, `user_id`, `user_updated`, 
 (3, 1, 1, '2025-08-20 16:35:55', '2025-08-20 16:52:25', NULL, 2, 98, 97, '', '2025-07-28 16:52:14', NULL, 155.00, '2025-07-14', '2025-07-27', NULL, 'Separated the payments to use $155 from Venmo balance. - pay date was 7/28/25'),
 (4, 1, 1, '2025-08-20 16:36:25', '2025-08-20 16:52:32', NULL, 2, 98, 97, '', '2025-08-12 16:52:29', NULL, 526.82, '2025-07-28', '2025-08-10', NULL, 'Separated the payments to use $155 from Venmo balance. - pay date was 7/28/25'),
 (5, 1, 1, '2025-08-20 18:05:57', '2025-08-20 18:05:57', NULL, 4, 98, 97, 'First Payment', '2025-08-01 00:00:00', NULL, 500.00, '2025-08-01', '2025-08-01', NULL, 'I felt bad that the Reports SoW is taking forever and requiring an Addendum so I paid Kenny $500 to  keep him interested. He said up to this point, he\'s spent about 9 hours on work.'),
-(6, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 3, 98, 97, 'test', '2025-08-21 00:00:00', NULL, 555.00, '2025-08-27', NULL, 55, NULL);
+(6, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 3, 98, 97, 'test', '2025-08-21 00:00:00', NULL, 555.00, '2025-08-27', NULL, 55, NULL),
+(7, 1, 1, '2025-08-21 11:35:35', '2025-08-21 11:35:35', NULL, 2, 98, 97, 'Pay Period', '2025-08-21 00:00:00', NULL, 681.82, '2025-08-11', '2025-08-24', NULL, 'Sean requested to be paid 4 days early, so I sent $681.82 via Venmo today, Aug 21st, at 11:30am instead of the scheduled pay date of Aug 24th.  No worries.\r\nHe sent the request to me over DM\'s on Slack.');
 
 -- --------------------------------------------------------
 
@@ -1540,7 +1567,8 @@ INSERT INTO `module_contractors_files` (`id`, `user_id`, `user_updated`, `date_c
 (1, 1, 1, '2025-08-20 16:54:07', '2025-08-20 16:54:07', NULL, 2, 73, 'Atlis Technologies Work Agreement - With Summer 2025 - D_SIGNED.pdf', '/admin/contractors/uploads/2/Atlis_Technologies_Work_Agreement_-_With_Summer_2025_-_D_SIGNED.pdf', '1', '#3 - Summer 2025'),
 (4, 1, 1, '2025-08-21 01:53:22', '2025-08-21 01:53:22', NULL, 4, 119, 'FIRST CONTACT.txt', '/admin/contractors/uploads/4/FIRST_CONTACT.txt', '1', 'First Contact'),
 (5, 1, 1, '2025-08-21 01:54:03', '2025-08-21 01:54:03', NULL, 4, 119, 'INITIAL CALL.txt', '/admin/contractors/uploads/4/INITIAL_CALL.txt', '1', 'Initial Call'),
-(6, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 4, 73, 'KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '/admin/contractors/uploads/4/KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '1', '1st Contract with Atlis');
+(6, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 4, 73, 'KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '/admin/contractors/uploads/4/KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '1', '1st Contract with Atlis'),
+(7, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:47', NULL, 2, 127, 'Aug_21st_2025 - request to be paid 4 days early.PNG', '/admin/contractors/uploads/2/Aug_21st_2025_-_request_to_be_paid_4_days_early.PNG', '1', 'Sean requested to be paid 4 days early, so I sent $681.82 via Venmo today, Aug 21st, at 11:30am instead of the scheduled pay date of Aug 24th. No worries. He sent the request to me over DM\'s on Slack.');
 
 -- --------------------------------------------------------
 
@@ -1867,10 +1895,10 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (1, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
 (2, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
 (3, 1, 1, '2025-08-19 22:58:03', '2025-08-20 00:43:16', NULL, 3, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-17', '2025-08-20', 1, 1, 100),
-(4, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', NULL, '39', NULL, '2025-03-25', '2025-03-19', 0, NULL, 0),
+(4, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:20', NULL, NULL, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', 34, '39', NULL, '2025-03-25', '2025-08-21', 1, 1, 100),
 (6, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:59:41', NULL, NULL, 2, 2, 'Zoom Link', NULL, NULL, NULL, '32', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
 (7, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
-(8, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', NULL, '38', NULL, '2025-03-27', '2025-03-19', 0, NULL, 0),
+(8, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:19', NULL, NULL, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-27', '2025-08-21', 1, 1, 100),
 (9, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', NULL, '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
 (10, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '3', NULL, '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
 (11, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Report K Update', NULL, NULL, NULL, '3', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
@@ -2151,7 +2179,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-21 02:31:57', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-21 11:33:59', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 5, 'ADMIN', 1, '2025-08-21 11:33:59'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2184,7 +2212,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(3, 1, 1, '2025-08-16 17:30:14', '2025-08-16 17:30:17', NULL, '843412', '2025-08-16 17:40:14', 1);
+(5, 1, 1, '2025-08-21 11:33:59', '2025-08-21 11:34:01', NULL, '988825', '2025-08-21 11:43:59', 1);
 
 -- --------------------------------------------------------
 
@@ -2211,6 +2239,13 @@ CREATE TABLE `users_profile_pics` (
   `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
   `active_user_id` int(11) GENERATED ALWAYS AS (if(`status_id` = 82,`user_id`,NULL)) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_profile_pics`
+--
+
+INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
+(5, 1, 1, '2025-08-21 02:40:16', '2025-08-21 02:40:16', NULL, 'dave_2.jpg', 'module/users/uploads/dave_2.jpg', NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -2632,7 +2667,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2686,7 +2721,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=478;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=492;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2698,13 +2733,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -2722,7 +2757,7 @@ ALTER TABLE `module_contractors`
 -- AUTO_INCREMENT for table `module_contractors_compensation`
 --
 ALTER TABLE `module_contractors_compensation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_contacts`
@@ -2734,7 +2769,7 @@ ALTER TABLE `module_contractors_contacts`
 -- AUTO_INCREMENT for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_notes`
@@ -2866,13 +2901,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
