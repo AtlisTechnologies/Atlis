@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 09:58 AM
+-- Generation Time: Aug 21, 2025 at 10:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -155,7 +155,18 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (106, 1, 1, '2025-08-21 01:56:50', '2025-08-21 01:56:50', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":\"2025-06-21\",\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-06-11\",\"title_role\":\"BI Analyst \\/ Report Writer\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
 (107, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 'module_contractors_contacts', 2, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.\"}'),
 (108, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 'module_contractors_contacts', 3, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !\"}'),
-(109, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 'module_contractors_contacts', 4, 'CREATE', 'Added contact', '', '{\"contact_type_id\":75,\"summary\":\"SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172\"}');
+(109, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 'module_contractors_contacts', 4, 'CREATE', 'Added contact', '', '{\"contact_type_id\":75,\"summary\":\"SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172\"}'),
+(110, 1, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-20 21:03:51\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(111, 1, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 'person_addresses', 3, 'CREATE', 'Added address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1}'),
+(112, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 'module_agency', 3, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"Office of the Public Defender\",\"main_person\":30,\"status\":28}'),
+(113, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person', 31, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(114, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person_phones', 5, 'CREATE', 'Added phone', NULL, '{\":pid\":\"31\",\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":ext\":\"\",\":uid\":1}'),
+(115, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 'module_agency', 4, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":28}'),
+(116, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-20 21:03:51\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":null,\"dob\":null}'),
+(117, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
+(118, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person', 31, 'UPDATE', 'Updated person', '{\"id\":31,\"user_id\":null,\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-21 02:15:50\",\"date_updated\":\"2025-08-21 02:15:50\",\"memo\":null}', '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":4,\"division_id\":null,\"dob\":null}'),
+(119, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person_phones', 5, 'UPDATE', 'Updated phone', NULL, '{\":pid\":31,\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":ext\":\"\",\":uid\":1,\":id\":5}'),
+(120, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}');
 
 -- --------------------------------------------------------
 
@@ -182,13 +193,14 @@ CREATE TABLE `admin_navigation_links` (
 
 INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 'Dashboard', 'index.php', 'home', 0, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(2, 'Users', 'users/index.php', 'user', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
-(3, 'Persons', 'person/index.php', 'users', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(4, 'Contractors', 'contractors/index.php', 'briefcase', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
-(6, 'Roles', 'roles/index.php', 'shield', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(7, 'System Properties', 'system-properties/index.php', 'sliders', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(8, 'Navigation Links', 'navigation.php', 'settings', 7, 1, 1, '2025-08-20 00:37:23', '2025-08-20 00:39:14', NULL);
+(2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(3, 'Persons', 'person/index.php', 'users', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
+(8, 'Navigation Links', 'navigation.php', 'settings', 8, 1, 1, '2025-08-20 00:37:23', '2025-08-21 02:22:37', NULL),
+(9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -1063,7 +1075,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (472, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (473, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (474, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(475, 1, 1, '2025-08-21 01:54:31', '2025-08-21 01:54:31', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item');
+(475, 1, 1, '2025-08-21 01:54:31', '2025-08-21 01:54:31', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item'),
+(476, 1, 1, '2025-08-21 02:31:08', '2025-08-21 02:31:08', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
+(477, 1, 1, '2025-08-21 02:31:25', '2025-08-21 02:31:25', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item');
 
 -- --------------------------------------------------------
 
@@ -1107,7 +1121,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-20 20:48:24', '', 'CONTRACTOR_CONTACT_TYPE', ''),
 (21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
-(23, 1, 1, '2025-08-20 00:22:10', '2025-08-20 00:24:36', '', 'IMAGE_FILE_TYPES', ''),
+(23, 1, 1, '2025-08-20 00:22:10', '2025-08-21 02:31:25', '', 'IMAGE_FILE_TYPES', ''),
 (24, 1, 1, '2025-08-20 20:50:24', '2025-08-20 21:14:54', '', 'CONTRACTOR_CONTACT_RESPONSE_TYPE', 'Response Type\'s from a person'),
 (25, 1, 1, '2025-08-20 20:55:43', '2025-08-20 20:58:49', '', 'CONTRACTOR_ACQUAINTANCE_TYPE', 'How do we know this Contractor?'),
 (26, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:14:03', '', 'PERSON_PHONE_TYPE', ''),
@@ -1205,7 +1219,7 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (92, 1, 1, '2025-08-20 00:23:22', '2025-08-20 00:24:00', NULL, 23, 'image/bmp', 'BMP', 0, '2025-08-19', NULL),
 (93, 1, 1, '2025-08-20 00:23:28', '2025-08-20 00:24:28', NULL, 23, 'image/svg+xml', 'SVG', 0, '2025-08-19', NULL),
 (94, 1, 1, '2025-08-20 00:23:34', '2025-08-20 00:24:32', NULL, 23, 'image/tiff', 'TIFF', 0, '2025-08-19', NULL),
-(95, 1, 1, '2025-08-20 00:23:41', '2025-08-20 00:24:18', NULL, 23, 'image/jpg', 'JPG', 0, '2025-08-19', NULL),
+(95, 1, 1, '2025-08-20 00:23:41', '2025-08-21 02:31:25', NULL, 23, 'image/jpg', 'JPG', 0, '2025-08-19', NULL),
 (96, 1, 1, '2025-08-20 00:45:53', '2025-08-20 00:45:53', NULL, 17, 'Direct Deposit', 'DD', 0, '2025-08-20', NULL),
 (97, 1, 1, '2025-08-20 00:45:58', '2025-08-20 00:45:58', NULL, 17, 'Venmo', 'VENMO', 0, '2025-08-20', NULL),
 (98, 1, 1, '2025-08-20 14:38:06', '2025-08-20 14:38:06', NULL, 16, 'Single Payment', 'SINGLE', 0, '2025-08-19', NULL),
@@ -1386,7 +1400,9 @@ CREATE TABLE `module_agency` (
 
 INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
 (1, 1, 1, '2025-08-06 16:27:31', '2025-08-08 21:56:30', NULL, 1, 'Atlis Technologies', 1, 3, 'main_logo_dark_bg.png', '/module/agency/uploads/agency_1.png', 67568, 'image/png'),
-(2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL);
+(2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
+(3, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 2, 'Office of the Public Defender', 30, 28, NULL, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1588,7 +1604,8 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 (1, 1, 1, '2025-08-06 16:27:41', '2025-08-08 21:58:10', NULL, 1, 'Atlis', 1, 5),
 (2, 1, 1, '2025-08-06 16:28:28', '2025-08-08 21:58:10', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5),
-(4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5);
+(4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5),
+(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 3, 'Public Defender', 30, 27);
 
 -- --------------------------------------------------------
 
@@ -1969,6 +1986,9 @@ CREATE TABLE `person` (
   `memo` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `person`
+--
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 1, 'Dave', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
@@ -1980,7 +2000,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
 (24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
 (27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL);
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, 2, 3, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -2014,7 +2035,8 @@ CREATE TABLE `person_addresses` (
 
 INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state`, `postal_code`, `country`) VALUES
 (1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 111, 108, '2025-08-08', NULL, '3124 S 340 W Nibley, UT 84321', NULL, NULL, NULL, NULL, NULL),
-(2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, NULL);
+(2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, NULL),
+(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 'Utah', '84321', 'USA');
 
 -- --------------------------------------------------------
 
@@ -2046,7 +2068,8 @@ INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 115, 105, '2025-08-08', NULL, '4357645615', NULL),
 (2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 115, 105, '2025-08-20', NULL, '4357601327', NULL),
 (3, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 24, 115, 105, '2025-08-20', NULL, '4358902363', NULL),
-(4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726', NULL);
+(4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726', NULL),
+(5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938', '');
 
 -- --------------------------------------------------------
 
@@ -2128,7 +2151,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-19 23:43:09', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$iAASQFwFPAcpsfgSUYFA7.esy11I7og5S8lstSkuIgRuThz7naUbq', 1, 4, 'ADMIN', 1, '2025-08-16 17:30:14'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-21 02:31:57', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, NULL, 'ADMIN', 1, '2025-08-16 17:30:14'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-18 22:15:34', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, NULL, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2188,14 +2211,6 @@ CREATE TABLE `users_profile_pics` (
   `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
   `active_user_id` int(11) GENERATED ALWAYS AS (if(`status_id` = 82,`user_id`,NULL)) STORED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users_profile_pics`
---
-
-INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(3, 1, 1, '2025-08-19 23:41:11', '2025-08-19 23:43:09', NULL, 'speed_1755668471.jpg', 'module/users/uploads/speed_1755668471.jpg', 117837, 'image/jpeg', '1dd9ae8995d836d378a2aabecb5f0142a82bf9b7c18b9fbd6aac0d00d609d836', 750, 817, 1, 83),
-(4, 1, 1, '2025-08-19 23:43:09', '2025-08-19 23:43:09', NULL, 'emrydave-55_1755668589.jpg', 'module/users/uploads/emrydave-55_1755668589.jpg', 1211198, 'image/jpeg', 'ff59399a9e05bebc8204cdc696b69287d9150dcb0b3bdde95fa278c3029d8b7a', 1424, 2136, 1, 82);
 
 --
 -- Indexes for dumped tables
@@ -2527,6 +2542,18 @@ ALTER TABLE `module_task_assignments`
   ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
+-- Indexes for table `person`
+--
+ALTER TABLE `person`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
+  ADD KEY `fk_person_user_updated` (`user_updated`),
+  ADD KEY `fk_person_gender_id` (`gender_id`),
+  ADD KEY `fk_person_organization_id` (`organization_id`),
+  ADD KEY `fk_person_agency_id` (`agency_id`),
+  ADD KEY `fk_person_division_id` (`division_id`);
+
+--
 -- Indexes for table `person_addresses`
 --
 ALTER TABLE `person_addresses`
@@ -2547,18 +2574,6 @@ ALTER TABLE `person_phones`
   ADD KEY `fk_person_phones_person_id` (`person_id`),
   ADD KEY `fk_person_phones_type_id` (`type_id`),
   ADD KEY `fk_person_phones_status_id` (`status_id`);
-
---
--- Indexes for table `person`
---
-ALTER TABLE `person`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
-  ADD KEY `fk_person_user_updated` (`user_updated`),
-  ADD KEY `fk_person_gender_id` (`gender_id`),
-  ADD KEY `fk_person_organization_id` (`organization_id`),
-  ADD KEY `fk_person_agency_id` (`agency_id`),
-  ADD KEY `fk_person_division_id` (`division_id`);
 
 --
 -- Indexes for table `system_properties`
@@ -2617,13 +2632,13 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
@@ -2671,7 +2686,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=476;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=478;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2695,7 +2710,7 @@ ALTER TABLE `lookup_list_item_attributes`
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_contractors`
@@ -2737,7 +2752,7 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -2812,22 +2827,22 @@ ALTER TABLE `module_task_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `person`
+--
+ALTER TABLE `person`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
 -- AUTO_INCREMENT for table `person_addresses`
 --
 ALTER TABLE `person_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `person_phones`
 --
 ALTER TABLE `person_phones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `person`
---
-ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -3087,12 +3102,23 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
+-- Constraints for table `person`
+--
+ALTER TABLE `person`
+  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `person_addresses`
 --
 ALTER TABLE `person_addresses`
   ADD CONSTRAINT `fk_person_addresses_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_person_addresses_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_addresses_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_addresses_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_addresses_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_addresses_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
@@ -3101,21 +3127,10 @@ ALTER TABLE `person_addresses`
 --
 ALTER TABLE `person_phones`
   ADD CONSTRAINT `fk_person_phones_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_person_phones_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_phones_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_phones_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_phones_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_phones_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `person`
---
-ALTER TABLE `person`
-  ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `users`
