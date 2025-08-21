@@ -55,4 +55,4 @@ $(function(){
   });
 });
 </script>
-<?php require '../admin_footer.php'; ?>
+<?php require 'admin_footer.php'; ?>

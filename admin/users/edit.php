@@ -5,7 +5,7 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $email = '';
 $first_name = $last_name = '';
 $gender_id = null;
-$phone = $dob = $address = '';
+$dob = '';
 
 $memo = [];
 $profile_pic = '';
@@ -16,7 +16,7 @@ unset($_SESSION['form_errors']);
 
 if ($id) {
   require_permission('users','update');
-  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.first_name, p.last_name, p.gender_id, p.phone, p.dob, p.address, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
+  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.first_name, p.last_name, p.gender_id, p.dob, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $email = $row['email'];
@@ -25,9 +25,7 @@ if ($id) {
     $first_name = $row['first_name'] ?? '';
     $last_name = $row['last_name'] ?? '';
     $gender_id = $row['gender_id'] ?? null;
-    $phone = $row['phone'] ?? '';
     $dob = $row['dob'] ?? '';
-    $address = $row['address'] ?? '';
 
     $picStmt = $pdo->prepare('SELECT up.id, up.file_path, up.width, up.height, up.status_id, up.date_created, li.label AS status_label, li.code AS status_code FROM users_profile_pics up LEFT JOIN lookup_list_items li ON up.status_id = li.id WHERE up.user_id = :uid ORDER BY up.date_created DESC');
     $picStmt->execute([':uid' => $id]);
@@ -111,9 +109,7 @@ $_SESSION['csrf_token'] = $token;
                               <input type="hidden" name="id" value="<?php echo $id; ?>">
                               <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
                               <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
-                              <input type="hidden" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
                               <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
-                              <input type="hidden" name="address" value="<?php echo htmlspecialchars($address); ?>">
                               <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
                             </form>
                           <?php endif; ?>
@@ -177,20 +173,8 @@ $_SESSION['csrf_token'] = $token;
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" value="<?php echo htmlspecialchars($phone); ?>">
-            <label for="phone">Phone</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="form-floating">
             <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of Birth" value="<?php echo htmlspecialchars($dob); ?>">
             <label for="dob">Date of Birth</label>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-floating">
-            <textarea class="form-control" id="address" name="address" placeholder="Address" style="height:100px"><?php echo htmlspecialchars($address); ?></textarea>
-            <label for="address">Address</label>
           </div>
         </div>
         <center>
@@ -220,7 +204,7 @@ $_SESSION['csrf_token'] = $token;
 
 document.querySelectorAll('.reactivate-form').forEach(form => {
   form.addEventListener('submit', () => {
-    ['gender_id','phone','dob','address'].forEach(id => {
+    ['gender_id','dob'].forEach(id => {
       form.querySelector(`[name="${id}"]`).value =
         document.getElementById(id).value;
     });
