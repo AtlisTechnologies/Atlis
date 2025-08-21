@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 04:59 AM
+-- Generation Time: Aug 21, 2025 at 05:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -143,7 +143,8 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (94, 1, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 'module_contractors', 6, 'CREATE', 'Created contractor', NULL, '{\"user_id\":10,\"person_id\":27}'),
 (95, 1, 1, '2025-08-20 20:47:54', '2025-08-20 20:47:54', NULL, 'module_contractors', 6, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":98,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"78\",\"pay_type_id\":\"98\",\"start_date\":\"\",\"end_date\":\"\",\"current_rate\":\"\"}'),
 (96, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 'module_contractors_contacts', 1, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Initial Contact - Hey Emma, I hope things are going well for you. \\r\\nQuick question, are you interested in doing some side gig work building PowerBI \\/ Tableau dashboards and other Business Intelligence products specifically for eSeries?\\r\\nCompensation would be around\\r\\n$100\\/hr and\\/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you\\u2019re interested. If not, no hard feelings at all.\\r\\nThanks !\"}'),
-(97, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 'module_contractors_compensation', 6, 'CREATE', 'Added compensation', '', '{\"amount\":\"555\",\"type\":98,\"title\":\"test\"}');
+(97, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 'module_contractors_compensation', 6, 'CREATE', 'Added compensation', '', '{\"amount\":\"555\",\"type\":98,\"title\":\"test\"}'),
+(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"phone\":\"\",\"gender_id\":59,\"dob\":null,\"address\":\"\"}');
 
 -- --------------------------------------------------------
 
@@ -170,10 +171,10 @@ CREATE TABLE `admin_navigation_links` (
 
 INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 'Dashboard', 'index.php', 'home', 0, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(2, 'Users', 'users/index.php', 'user', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(2, 'Users', 'users/index.php', 'user', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
 (3, 'Persons', 'person/index.php', 'users', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(4, 'Contractors', 'contractors/index.php', 'briefcase', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
+(4, 'Contractors', 'contractors/index.php', 'briefcase', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-20 21:00:35', NULL),
 (6, 'Roles', 'roles/index.php', 'shield', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
 (7, 'System Properties', 'system-properties/index.php', 'sliders', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
 (8, 'Navigation Links', 'navigation.php', 'settings', 7, 1, 1, '2025-08-20 00:37:23', '2025-08-20 00:39:14', NULL);
@@ -997,7 +998,46 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (418, 1, 1, '2025-08-20 20:58:29', '2025-08-20 20:58:29', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (419, 1, 1, '2025-08-20 20:58:35', '2025-08-20 20:58:35', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (420, 1, 1, '2025-08-20 20:58:45', '2025-08-20 20:58:45', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(421, 1, 1, '2025-08-20 20:58:49', '2025-08-20 20:58:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
+(421, 1, 1, '2025-08-20 20:58:49', '2025-08-20 20:58:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(422, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:07:06', NULL, 'lookup_lists', 26, 'CREATE', 'Created lookup list'),
+(423, 1, 1, '2025-08-20 21:07:13', '2025-08-20 21:07:13', NULL, 'lookup_lists', 27, 'CREATE', 'Created lookup list'),
+(424, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:07:53', NULL, 'lookup_lists', 28, 'CREATE', 'Created lookup list'),
+(425, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:07:59', NULL, 'lookup_lists', 29, 'CREATE', 'Created lookup list'),
+(426, 1, 1, '2025-08-20 21:10:20', '2025-08-20 21:10:20', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(427, 1, 1, '2025-08-20 21:10:26', '2025-08-20 21:10:26', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(428, 1, 1, '2025-08-20 21:10:32', '2025-08-20 21:10:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(429, 1, 1, '2025-08-20 21:10:39', '2025-08-20 21:10:39', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(430, 1, 1, '2025-08-20 21:10:42', '2025-08-20 21:10:42', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(431, 1, 1, '2025-08-20 21:10:45', '2025-08-20 21:10:45', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(432, 1, 1, '2025-08-20 21:10:50', '2025-08-20 21:10:50', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(433, 1, 1, '2025-08-20 21:12:03', '2025-08-20 21:12:03', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(434, 1, 1, '2025-08-20 21:12:08', '2025-08-20 21:12:08', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(435, 1, 1, '2025-08-20 21:12:14', '2025-08-20 21:12:14', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(436, 1, 1, '2025-08-20 21:12:18', '2025-08-20 21:12:18', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(437, 1, 1, '2025-08-20 21:12:23', '2025-08-20 21:12:23', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(438, 1, 1, '2025-08-20 21:12:27', '2025-08-20 21:12:27', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(439, 1, 1, '2025-08-20 21:12:32', '2025-08-20 21:12:32', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(440, 1, 1, '2025-08-20 21:12:49', '2025-08-20 21:12:49', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(441, 1, 1, '2025-08-20 21:12:56', '2025-08-20 21:12:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(442, 1, 1, '2025-08-20 21:13:02', '2025-08-20 21:13:02', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(443, 1, 1, '2025-08-20 21:13:10', '2025-08-20 21:13:10', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(444, 1, 1, '2025-08-20 21:13:15', '2025-08-20 21:13:15', NULL, 'lookup_list_item_attributes', 93, 'UPDATE', 'Updated item attribute'),
+(445, 1, 1, '2025-08-20 21:13:19', '2025-08-20 21:13:19', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(446, 1, 1, '2025-08-20 21:13:33', '2025-08-20 21:13:33', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(447, 1, 1, '2025-08-20 21:13:39', '2025-08-20 21:13:39', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(448, 1, 1, '2025-08-20 21:13:44', '2025-08-20 21:13:44', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(449, 1, 1, '2025-08-20 21:13:50', '2025-08-20 21:13:50', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(450, 1, 1, '2025-08-20 21:13:54', '2025-08-20 21:13:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(451, 1, 1, '2025-08-20 21:13:58', '2025-08-20 21:13:58', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(452, 1, 1, '2025-08-20 21:14:03', '2025-08-20 21:14:03', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(453, 1, 1, '2025-08-20 21:14:13', '2025-08-20 21:14:13', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(454, 1, 1, '2025-08-20 21:14:17', '2025-08-20 21:14:17', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(455, 1, 1, '2025-08-20 21:14:22', '2025-08-20 21:14:22', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(456, 1, 1, '2025-08-20 21:14:29', '2025-08-20 21:14:29', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(457, 1, 1, '2025-08-20 21:14:38', '2025-08-20 21:14:38', NULL, 'lookup_list_items', 118, 'UPDATE', 'Updated lookup list item'),
+(458, 1, 1, '2025-08-20 21:14:43', '2025-08-20 21:14:43', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(459, 1, 1, '2025-08-20 21:14:49', '2025-08-20 21:14:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(460, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -1042,8 +1082,12 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
 (23, 1, 1, '2025-08-20 00:22:10', '2025-08-20 00:24:36', '', 'IMAGE_FILE_TYPES', ''),
-(24, 1, 1, '2025-08-20 20:50:24', '2025-08-20 20:50:24', '', 'CONTRACTOR_CONTACT_RESPONSE_TYPE', 'Response Type\'s from a person'),
-(25, 1, 1, '2025-08-20 20:55:43', '2025-08-20 20:58:49', '', 'CONTRACTOR_ACQUAINTANCE_TYPE', 'How do we know this Contractor?');
+(24, 1, 1, '2025-08-20 20:50:24', '2025-08-20 21:14:54', '', 'CONTRACTOR_CONTACT_RESPONSE_TYPE', 'Response Type\'s from a person'),
+(25, 1, 1, '2025-08-20 20:55:43', '2025-08-20 20:58:49', '', 'CONTRACTOR_ACQUAINTANCE_TYPE', 'How do we know this Contractor?'),
+(26, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:14:03', '', 'PERSON_PHONE_TYPE', ''),
+(27, 1, 1, '2025-08-20 21:07:13', '2025-08-20 21:13:19', '', 'PERSON_ADDRESS_TYPE', ''),
+(28, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:12:32', '', 'PERSON_ADDRESS_STATUS', ''),
+(29, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:10:50', '', 'PERSON_PHONE_STATUS', '');
 
 -- --------------------------------------------------------
 
@@ -1144,7 +1188,21 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (101, 1, 1, '2025-08-20 20:56:02', '2025-08-20 20:56:02', NULL, 25, 'Friend', 'FRIEND', 0, '2025-08-19', NULL),
 (102, 1, 1, '2025-08-20 20:56:13', '2025-08-20 20:56:13', NULL, 25, 'Coworker', 'COWORKER', 0, '2025-08-19', NULL),
 (103, 1, 1, '2025-08-20 20:56:27', '2025-08-20 20:56:27', NULL, 25, 'Random', 'RANDOM', 0, '2025-08-19', NULL),
-(104, 1, 1, '2025-08-20 20:56:42', '2025-08-20 20:56:42', NULL, 25, 'Unknown', 'UNKNOWN', 0, '2025-08-19', NULL);
+(104, 1, 1, '2025-08-20 20:56:42', '2025-08-20 20:56:42', NULL, 25, 'Unknown', 'UNKNOWN', 0, '2025-08-19', NULL),
+(105, 1, 1, '2025-08-20 21:10:20', '2025-08-20 21:10:20', NULL, 29, 'Active', 'ACTIVE', 0, '2025-08-20', NULL),
+(106, 1, 1, '2025-08-20 21:10:26', '2025-08-20 21:10:26', NULL, 29, 'Previous', 'PREVIOUS', 0, '2025-08-20', NULL),
+(107, 1, 1, '2025-08-20 21:10:32', '2025-08-20 21:10:32', NULL, 29, 'Unknown', 'UNKNOWN', 0, '2025-08-20', NULL),
+(108, 1, 1, '2025-08-20 21:12:03', '2025-08-20 21:12:03', NULL, 28, 'Active', 'ACTIVE', 0, '2025-08-20', NULL),
+(109, 1, 1, '2025-08-20 21:12:08', '2025-08-20 21:12:08', NULL, 28, 'Previous', 'PREVIOUS', 0, '2025-08-20', NULL),
+(110, 1, 1, '2025-08-20 21:12:14', '2025-08-20 21:12:14', NULL, 28, 'Unknown', 'UNKNOWN', 0, '2025-08-20', NULL),
+(111, 1, 1, '2025-08-20 21:12:49', '2025-08-20 21:12:49', NULL, 27, 'Work / Office', 'WORK-OFFICE', 0, '2025-08-20', NULL),
+(112, 1, 1, '2025-08-20 21:12:56', '2025-08-20 21:12:56', NULL, 27, 'Home', 'HOME', 0, '2025-08-20', NULL),
+(113, 1, 1, '2025-08-20 21:13:33', '2025-08-20 21:13:33', NULL, 26, 'Cell', 'CELL', 0, '2025-08-20', NULL),
+(114, 1, 1, '2025-08-20 21:13:39', '2025-08-20 21:13:39', NULL, 26, 'Home', 'HOME', 0, '2025-08-20', NULL),
+(115, 1, 1, '2025-08-20 21:13:44', '2025-08-20 21:13:44', NULL, 26, 'Office', 'OFFICE', 0, '2025-08-20', NULL),
+(116, 1, 1, '2025-08-20 21:14:13', '2025-08-20 21:14:13', NULL, 24, 'Text', 'TEXT', 0, '2025-08-20', NULL),
+(117, 1, 1, '2025-08-20 21:14:17', '2025-08-20 21:14:17', NULL, 24, 'Email', 'EMAIL', 0, '2025-08-20', NULL),
+(118, 1, 1, '2025-08-20 21:14:22', '2025-08-20 21:14:38', NULL, 24, 'Phone Call', 'PHONECALL', 0, '2025-08-20', NULL);
 
 -- --------------------------------------------------------
 
@@ -1240,7 +1298,26 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (81, 1, 1, '2025-08-20 20:58:29', '2025-08-20 20:58:29', NULL, 102, 'COLOR-CLASS', 'info'),
 (82, 1, 1, '2025-08-20 20:58:35', '2025-08-20 20:58:35', NULL, 101, 'COLOR-CLASS', 'success'),
 (83, 1, 1, '2025-08-20 20:58:45', '2025-08-20 20:58:45', NULL, 103, 'COLOR-CLASS', 'warning'),
-(84, 1, 1, '2025-08-20 20:58:49', '2025-08-20 20:58:49', NULL, 104, 'COLOR-CLASS', 'danger');
+(84, 1, 1, '2025-08-20 20:58:49', '2025-08-20 20:58:49', NULL, 104, 'COLOR-CLASS', 'danger'),
+(85, 1, 1, '2025-08-20 21:10:39', '2025-08-20 21:10:39', NULL, 105, 'COLOR-CLASS', 'success'),
+(86, 1, 1, '2025-08-20 21:10:42', '2025-08-20 21:10:42', NULL, 106, 'COLOR-CLASS', 'warning'),
+(87, 1, 1, '2025-08-20 21:10:45', '2025-08-20 21:10:45', NULL, 107, 'COLOR-CLASS', 'danger'),
+(88, 1, 1, '2025-08-20 21:10:50', '2025-08-20 21:10:50', NULL, 105, 'DEFAULT', 'true'),
+(89, 1, 1, '2025-08-20 21:12:18', '2025-08-20 21:12:18', NULL, 108, 'COLOR-CLASS', 'success'),
+(90, 1, 1, '2025-08-20 21:12:23', '2025-08-20 21:12:23', NULL, 109, 'COLOR-CLASS', 'warning'),
+(91, 1, 1, '2025-08-20 21:12:27', '2025-08-20 21:12:27', NULL, 110, 'COLOR-CLASS', 'danger'),
+(92, 1, 1, '2025-08-20 21:12:32', '2025-08-20 21:12:32', NULL, 108, 'DEFAULT', 'true'),
+(93, 1, 1, '2025-08-20 21:13:02', '2025-08-20 21:13:15', NULL, 112, 'COLOR-CLASS', 'primary'),
+(94, 1, 1, '2025-08-20 21:13:10', '2025-08-20 21:13:10', NULL, 111, 'COLOR-CLASS', 'atlis'),
+(95, 1, 1, '2025-08-20 21:13:19', '2025-08-20 21:13:19', NULL, 111, 'DEFAULT', 'true'),
+(96, 1, 1, '2025-08-20 21:13:50', '2025-08-20 21:13:50', NULL, 113, 'COLOR-CLASS', 'success'),
+(97, 1, 1, '2025-08-20 21:13:54', '2025-08-20 21:13:54', NULL, 114, 'COLOR-CLASS', 'warning'),
+(98, 1, 1, '2025-08-20 21:13:58', '2025-08-20 21:13:58', NULL, 115, 'COLOR-CLASS', 'atlis'),
+(99, 1, 1, '2025-08-20 21:14:03', '2025-08-20 21:14:03', NULL, 115, 'DEFAULT', 'true'),
+(100, 1, 1, '2025-08-20 21:14:29', '2025-08-20 21:14:29', NULL, 117, 'COLOR-CLASS', 'atlis'),
+(101, 1, 1, '2025-08-20 21:14:43', '2025-08-20 21:14:43', NULL, 118, 'COLOR-CLASS', 'warning'),
+(102, 1, 1, '2025-08-20 21:14:49', '2025-08-20 21:14:49', NULL, 116, 'COLOR-CLASS', 'primary'),
+(103, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 117, 'DEFAULT', 'true');
 
 -- --------------------------------------------------------
 
@@ -1858,7 +1935,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (14, 7, 'Mileny', 'Valdez', NULL, 60, '', NULL, '', 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
 (23, 8, 'Kenny', 'Reynolds', NULL, 59, '4357601327', NULL, 'kennydrenolds@gmail.com', 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
 (24, 9, 'Richard', 'Sprague', NULL, 59, '4358902363', NULL, '', 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
-(27, 10, 'Emma', 'Baylor', NULL, 60, '4436179726', NULL, '', 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL);
+(27, 10, 'Emma', 'Baylor', NULL, 60, '4436179726', NULL, '', 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, '', NULL, '', 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -2405,7 +2483,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2459,25 +2537,25 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=422;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=461;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -2603,7 +2681,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
