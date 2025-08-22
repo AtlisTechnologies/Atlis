@@ -118,7 +118,7 @@ $organizations = array_values($organizations);
     <tbody>
       <?php foreach ($organizations as $org): ?>
         <tr>
-          <td><?= htmlspecialchars($org['name']); ?></td>
+          <td class="ps-2"><?= htmlspecialchars($org['name']); ?></td>
           <td>
             <?= render_status_badge($orgStatuses, $org['status']) ?>
           </td>
@@ -138,7 +138,7 @@ $organizations = array_values($organizations);
         </tr>
         <?php foreach ($org['agencies'] as $agency): ?>
           <tr class="bg-body-tertiary">
-            <td class="ps-4">Agency: <?= htmlspecialchars($agency['name']); ?>
+            <td class="ps-8"><b>Agency:</b> <?= htmlspecialchars($agency['name']); ?>
               <?php if (!empty($agency['file_path'])): ?>
                 <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
               <?php endif; ?>
@@ -162,7 +162,7 @@ $organizations = array_values($organizations);
           </tr>
           <?php foreach ($agency['divisions'] as $division): ?>
             <tr class="bg-body-secondary">
-              <td class="ps-5">Division: <?= htmlspecialchars($division['name']); ?></td>
+              <td class="ps-12"><b>Division:</b> <?= htmlspecialchars($division['name']); ?></td>
               <td>
                 <?= render_status_badge($divisionStatuses, $division['status']) ?>
               </td>
