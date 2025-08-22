@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'SELECT ta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name ' .
         'FROM module_task_assignments ta ' .
         'LEFT JOIN users u ON ta.assigned_user_id = u.id ' .
-        'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 ' .
+          'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id ' .
         'LEFT JOIN person p ON u.id = p.user_id ' .
         'WHERE ta.task_id = :id'
       );
