@@ -4,10 +4,8 @@ $index = $index ?? 0;
 $selType = $addrRow['type_id'] ?? $defaultAddressTypeId;
 $selStatus = $addrRow['status_id'] ?? $defaultAddressStatusId;
 $selState  = $addrRow['state_id'] ?? null;
-$typeColor = 'secondary';
-foreach ($addressTypeItems as $it) { if ($it['id']==$selType) { $typeColor=$it['color_class']; break; } }
-$statusColor = 'secondary';
-foreach ($addressStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$it['color_class']; break; } }
+$addressTypeMap = array_column($addressTypeItems, null, 'id');
+$addressStatusMap = array_column($addressStatusItems, null, 'id');
 ?>
 <div class="address-item border p-2 mb-2">
   <input type="hidden" name="addresses[<?= $index; ?>][id]" value="<?= h($addrRow['id'] ?? ''); ?>">
@@ -19,7 +17,7 @@ foreach ($addressStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor
           <option value="<?= h($pt['id']); ?>" data-color="<?= h($pt['color_class']); ?>" <?= $selected; ?>><?= h($pt['label']); ?></option>
         <?php endforeach; ?>
       </select>
-      <span class="badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-<?= h($typeColor); ?>"></span>
+      <?= render_status_badge($addressTypeMap, $selType, 'fs-10 ms-1 lookup-badge') ?>
     </div>
     <div class="col-md-2">
       <label class="form-label mb-0">Status</label>
@@ -28,7 +26,7 @@ foreach ($addressStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor
           <option value="<?= h($ps['id']); ?>" data-color="<?= h($ps['color_class']); ?>" <?= $selected; ?>><?= h($ps['label']); ?></option>
         <?php endforeach; ?>
       </select>
-      <span class="badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-<?= h($statusColor); ?>"></span>
+      <?= render_status_badge($addressStatusMap, $selStatus, 'fs-10 ms-1 lookup-badge') ?>
     </div>
     <div class="col-md-4">
       <label class="form-label mb-0">Line 1</label>

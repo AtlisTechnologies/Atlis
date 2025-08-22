@@ -60,9 +60,12 @@ if (!empty($current_project)) {
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
         </div>
         <div class="dropdown d-inline me-2">
-          <span class="badge badge-phoenix badge-phoenix-<?= h($statusMap[$current_project['status']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="statusBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-            <?= h($statusMap[$current_project['status']]['label'] ?? '') ?>
-          </span>
+          <?= render_status_badge(
+                $statusMap,
+                $current_project['status'],
+                'dropdown-toggle',
+                ['id' => 'statusBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
+            ) ?>
           <ul class="dropdown-menu" aria-labelledby="statusBadge">
             <?php foreach ($statusMap as $sid => $s): ?>
               <li><a class="dropdown-item project-field-option" href="#" data-field="status" data-value="<?= (int)$sid ?>" data-color="<?= h($s['color_class'] ?? 'secondary') ?>"><?= h($s['label'] ?? '') ?></a></li>
@@ -70,9 +73,12 @@ if (!empty($current_project)) {
           </ul>
         </div>
         <div class="dropdown d-inline">
-          <span class="badge badge-phoenix badge-phoenix-<?= h($priorityMap[$current_project['priority']]['color_class'] ?? 'secondary') ?> dropdown-toggle" id="priorityBadge" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-            <?= h($priorityMap[$current_project['priority']]['label'] ?? '') ?>
-          </span>
+          <?= render_status_badge(
+                $priorityMap,
+                $current_project['priority'],
+                'dropdown-toggle',
+                ['id' => 'priorityBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
+            ) ?>
           <ul class="dropdown-menu" aria-labelledby="priorityBadge">
             <?php foreach ($priorityMap as $pid => $p): ?>
               <li><a class="dropdown-item project-field-option" href="#" data-field="priority" data-value="<?= (int)$pid ?>" data-color="<?= h($p['color_class'] ?? 'secondary') ?>"><?= h($p['label'] ?? '') ?></a></li>

@@ -16,9 +16,7 @@
             <tr>
               <td class="align-middle name"><?php echo htmlspecialchars($agency['name']); ?></td>
               <td class="align-middle status">
-                <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($agency['status_color'] ?? 'secondary'); ?>">
-                  <span class="badge-label"><?php echo htmlspecialchars($agency['status_label'] ?? ''); ?></span>
-                </span>
+                <?= render_status_badge($statusList, $agency['status']) ?>
               </td>
             </tr>
           <?php endforeach; ?>

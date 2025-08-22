@@ -120,8 +120,7 @@ $organizations = array_values($organizations);
         <tr>
           <td><?= htmlspecialchars($org['name']); ?></td>
           <td>
-            <?php $status = $orgStatuses[$org['status']] ?? null; $class = $status['color_class'] ?? 'secondary'; ?>
-            <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($class); ?>"><span class="badge-label"><?= htmlspecialchars($status['label'] ?? ''); ?></span></span>
+            <?= render_status_badge($orgStatuses, $org['status']) ?>
           </td>
           <td>
             <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
@@ -145,8 +144,7 @@ $organizations = array_values($organizations);
               <?php endif; ?>
             </td>
             <td>
-              <?php $aStatus = $agencyStatuses[$agency['status']] ?? null; $aClass = $aStatus['color_class'] ?? 'secondary'; ?>
-              <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($aClass); ?>"><span class="badge-label"><?= htmlspecialchars($aStatus['label'] ?? ''); ?></span></span>
+              <?= render_status_badge($agencyStatuses, $agency['status']) ?>
             </td>
             <td>
               <a class="btn btn-sm btn-warning" href="agency_edit.php?id=<?= $agency['id']; ?>">Edit</a>
@@ -166,8 +164,7 @@ $organizations = array_values($organizations);
             <tr class="bg-body-secondary">
               <td class="ps-5">Division: <?= htmlspecialchars($division['name']); ?></td>
               <td>
-                <?php $dStatus = $divisionStatuses[$division['status']] ?? null; $dClass = $dStatus['color_class'] ?? 'secondary'; ?>
-                <span class="badge badge-phoenix fs-10 badge-phoenix-<?= htmlspecialchars($dClass); ?>"><span class="badge-label"><?= htmlspecialchars($dStatus['label'] ?? ''); ?></span></span>
+                <?= render_status_badge($divisionStatuses, $division['status']) ?>
               </td>
               <td>
                 <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $division['id']; ?>">Edit</a>
