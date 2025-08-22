@@ -3,6 +3,8 @@
 require_once __DIR__ . '/../../../includes/functions.php';
 
 if (!empty($current_project)) {
+    $statusId  = $current_project['status'] ?? null;
+    $priorityId = $current_project['priority'] ?? null;
     $totalTasks = count($tasks ?? []);
     $completedTasks = 0;
     $chartData = [];
@@ -60,12 +62,16 @@ if (!empty($current_project)) {
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
         </div>
         <div class="dropdown d-inline me-2">
-          <?= render_status_badge(
-                $statusMap,
-                $current_project['status'],
-                'dropdown-toggle',
-                ['id' => 'statusBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
-            ) ?>
+          <?php if ($statusId !== null): ?>
+            <?= render_status_badge(
+                  $statusMap,
+                  $statusId,
+                  'dropdown-toggle',
+                  ['id' => 'statusBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
+              ) ?>
+          <?php else: ?>
+            <span class="text-muted">No status</span>
+          <?php endif; ?>
           <ul class="dropdown-menu" aria-labelledby="statusBadge">
             <?php foreach ($statusMap as $sid => $s): ?>
               <li><a class="dropdown-item project-field-option" href="#" data-field="status" data-value="<?= (int)$sid ?>" data-color="<?= h($s['color_class'] ?? 'secondary') ?>"><?= h($s['label'] ?? '') ?></a></li>
@@ -73,12 +79,16 @@ if (!empty($current_project)) {
           </ul>
         </div>
         <div class="dropdown d-inline">
-          <?= render_status_badge(
-                $priorityMap,
-                $current_project['priority'],
-                'dropdown-toggle',
-                ['id' => 'priorityBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
-            ) ?>
+          <?php if ($priorityId !== null): ?>
+            <?= render_status_badge(
+                  $priorityMap,
+                  $priorityId,
+                  'dropdown-toggle',
+                  ['id' => 'priorityBadge', 'data-bs-toggle' => 'dropdown', 'role' => 'button', 'aria-expanded' => 'false']
+              ) ?>
+          <?php else: ?>
+            <span class="text-muted">No priority</span>
+          <?php endif; ?>
           <ul class="dropdown-menu" aria-labelledby="priorityBadge">
             <?php foreach ($priorityMap as $pid => $p): ?>
               <li><a class="dropdown-item project-field-option" href="#" data-field="priority" data-value="<?= (int)$pid ?>" data-color="<?= h($p['color_class'] ?? 'secondary') ?>"><?= h($p['label'] ?? '') ?></a></li>

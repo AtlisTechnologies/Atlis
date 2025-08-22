@@ -37,16 +37,20 @@ function get_lookup_items(PDO $pdo, int|string $list): array {
 /**
  * Render a Phoenix badge for a lookup item.
  *
- * @param array       $lookupList Associative array of lookup items keyed by ID.
- * @param int|string  $id         Lookup item ID.
- * @param string|null $classes    Optional additional classes (size etc.).
- * @param array       $attributes Optional attribute key/value pairs.
- * @return string                  HTML span markup for the badge.
+ * @param array             $lookupList Associative array of lookup items keyed by ID.
+ * @param int|string|null   $id         Lookup item ID or null.
+ * @param string|null       $classes    Optional additional classes (size etc.).
+ * @param array             $attributes Optional attribute key/value pairs.
+ * @return string                        HTML span markup for the badge.
  */
-function render_status_badge(array $lookupList, int|string $id, ?string $classes = 'fs-10', array $attributes = []): string {
-    $item  = $lookupList[$id] ?? [];
+function render_status_badge(array $lookupList, int|string|null $id, ?string $classes = 'fs-10', array $attributes = []): string {
+    if ($id === null) {
+        return '';
+    }
+
+    $item  = $lookupList[$id] ?? ['color_class' => 'secondary', 'label' => 'Unknown'];
     $color = $item['color_class'] ?? 'secondary';
-    $label = $item['label'] ?? '';
+    $label = $item['label'] ?? 'Unknown';
 
     $attrString = '';
     foreach ($attributes as $attr => $value) {
