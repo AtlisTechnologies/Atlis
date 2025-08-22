@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2025 at 04:28 PM
+-- Generation Time: Aug 23, 2025 at 12:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -190,7 +190,13 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (141, 1, 1, '2025-08-21 22:28:04', '2025-08-21 22:28:04', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
 (142, 1, 1, '2025-08-21 22:28:05', '2025-08-21 22:28:05', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
 (143, 1, 1, '2025-08-21 22:28:09', '2025-08-21 22:28:09', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(144, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.');
+(144, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
+(145, 1, 1, '2025-08-22 08:33:05', '2025-08-22 08:33:05', NULL, 'module_division', 6, 'CREATE', 'Created division', NULL, '{\"agency_id\":4,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":27}'),
+(146, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 'module_projects', 9, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Multiple Interpreter per Event\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"start_date\":\"\"}'),
+(147, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 'module_projects_notes', 6, 'NOTE', '', '', 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY'),
+(148, 1, 1, '2025-08-22 15:54:19', '2025-08-22 15:54:19', NULL, 'module_organization', 3, 'CREATE', 'Created organization', NULL, '{\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":13}'),
+(149, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 'module_agency', 5, 'CREATE', 'Created agency', NULL, '{\"organization_id\":3,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":28}'),
+(150, 1, 1, '2025-08-22 15:54:34', '2025-08-22 15:54:34', NULL, 'module_division', 7, 'CREATE', 'Created division', NULL, '{\"agency_id\":5,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":27}');
 
 -- --------------------------------------------------------
 
@@ -1157,7 +1163,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (530, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (531, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (532, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(533, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
+(533, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(534, 1, 1, '2025-08-22 15:53:58', '2025-08-22 15:53:58', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
+(535, 1, 1, '2025-08-22 15:54:04', '2025-08-22 15:54:04', NULL, 'users', 1, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -1555,7 +1563,8 @@ INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (1, 1, 1, '2025-08-06 16:27:31', '2025-08-08 21:56:30', NULL, 1, 'Atlis Technologies', 1, 3, 'main_logo_dark_bg.png', '/module/agency/uploads/agency_1.png', 67568, 'image/png'),
 (2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 2, 'Office of the Public Defender', 30, 28, NULL, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL);
+(4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL),
+(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1815,7 +1824,9 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 (2, 1, 1, '2025-08-06 16:28:28', '2025-08-21 15:48:03', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5),
-(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6);
+(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6),
+(6, 1, 1, '2025-08-22 08:33:05', '2025-08-22 08:33:05', NULL, 4, 'State\'s Attorney Office', 31, 27),
+(7, 1, 1, '2025-08-22 15:54:34', '2025-08-22 15:54:34', NULL, 5, 'McLean County, IL', NULL, 27);
 
 -- --------------------------------------------------------
 
@@ -1921,7 +1932,8 @@ CREATE TABLE `module_organization` (
 
 INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`) VALUES
 (1, 1, 1, '2025-08-06 16:27:19', '2025-08-08 22:19:06', NULL, 'Atlis Technologies LLC', 1, 1),
-(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1);
+(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1),
+(3, 1, 1, '2025-08-22 15:54:19', '2025-08-22 15:54:19', NULL, 'McLean County, IL', NULL, 13);
 
 -- --------------------------------------------------------
 
@@ -1960,7 +1972,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0),
 (5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, '2025-08-21', NULL, 0),
 (6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, '2025-08-21', NULL, 0),
-(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0);
+(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0),
+(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, '0000-00-00', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2061,7 +2074,8 @@ CREATE TABLE `module_projects_notes` (
 INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_text`) VALUES
 (1, 1, 1, '2025-08-21 22:23:10', '2025-08-21 22:23:10', NULL, 6, 'Sean Cadina will be Account Manager for McLean.'),
 (4, 1, 1, '2025-08-21 22:27:53', '2025-08-21 22:28:09', NULL, 7, '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.');
+(5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
+(6, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 9, 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY');
 
 -- --------------------------------------------------------
 
@@ -2394,7 +2408,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 08:26:16', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-21 11:33:59'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 15:54:01', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 15:54:01'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2427,7 +2441,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(5, 1, 1, '2025-08-21 11:33:59', '2025-08-21 11:34:01', NULL, '988825', '2025-08-21 11:43:59', 1);
+(6, 1, 1, '2025-08-22 15:54:01', '2025-08-22 15:54:04', NULL, '876984', '2025-08-22 16:04:01', 1);
 
 -- --------------------------------------------------------
 
@@ -2907,7 +2921,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2961,7 +2975,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=534;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=536;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2985,7 +2999,7 @@ ALTER TABLE `lookup_list_item_attributes`
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_contractors`
@@ -3039,7 +3053,7 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3063,13 +3077,13 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
@@ -3087,7 +3101,7 @@ ALTER TABLE `module_projects_files`
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
@@ -3153,7 +3167,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
