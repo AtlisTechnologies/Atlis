@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/helpers.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
