@@ -23,6 +23,7 @@ if ($id) {
   }
 } else {
   require_permission('organization','create');
+  $status = (int)get_system_property($pdo, 'DEFAULT_ORGANIZATION_STATUS');
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));

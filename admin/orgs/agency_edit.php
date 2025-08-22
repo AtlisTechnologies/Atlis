@@ -32,6 +32,7 @@ if ($id) {
   }
 } else {
   require_permission('agency','create');
+  $status = (int)get_system_property($pdo, 'DEFAULT_AGENCY_STATUS');
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));

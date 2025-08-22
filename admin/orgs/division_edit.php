@@ -24,6 +24,7 @@ if ($id) {
   }
 } else {
   require_permission('division','create');
+  $status = (int)get_system_property($pdo, 'DEFAULT_DIVISION_STATUS');
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
