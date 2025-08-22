@@ -106,6 +106,18 @@ $personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 $statusItems   = get_lookup_items($pdo, 'AGENCY_STATUS');
 $statusOptions = array_column($statusItems, 'label', 'id');
+$roleItems     = get_lookup_items($pdo, 'AGENCY_PERSON_ROLES');
+$roleOptions   = array_column($roleItems, 'label', 'id');
+$assignedPersons = [];
+if ($id) {
+  $apStmt = $pdo->prepare('SELECT ap.id, ap.person_id, ap.role_id, ap.is_lead, CONCAT(p.first_name," ",p.last_name) AS name, li.label AS role_label
+                            FROM module_agency_persons ap
+                            JOIN person p ON ap.person_id = p.id
+                            LEFT JOIN lookup_list_items li ON ap.role_id = li.id
+                            WHERE ap.agency_id = :id');
+  $apStmt->execute([':id'=>$id]);
+  $assignedPersons = $apStmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 require '../admin_header.php';
 ?>
@@ -157,4 +169,57 @@ require '../admin_header.php';
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
   <a href="index.php" class="btn btn-secondary">Cancel</a>
 </form>
+<?php if ($id): ?>
+  <hr class="my-4">
+  <h4>Assigned Persons</h4>
+  <table class="table table-sm">
+    <thead>
+      <tr><th>Name</th><th>Role</th><th>Lead</th><th></th></tr>
+    </thead>
+    <tbody>
+      <?php foreach($assignedPersons as $ap): ?>
+        <tr>
+          <td><?= htmlspecialchars($ap['name']); ?></td>
+          <td><?= htmlspecialchars($ap['role_label'] ?? ''); ?></td>
+          <td><?= $ap['is_lead'] ? 'Yes' : 'No'; ?></td>
+          <td>
+            <form method="post" action="functions/agency_remove_person.php" class="d-inline">
+              <input type="hidden" name="assignment_id" value="<?= $ap['id']; ?>">
+              <input type="hidden" name="agency_id" value="<?= $id; ?>">
+              <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+              <button class="btn btn-sm btn-danger" onclick="return confirm('Remove this person?');">Remove</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+  <form method="post" action="functions/agency_assign_person.php" class="row g-2">
+    <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+    <input type="hidden" name="agency_id" value="<?= $id; ?>">
+    <div class="col-md-4">
+      <select name="person_id" class="form-select" required>
+        <option value="">-- Person --</option>
+        <?php foreach($personOptions as $pid=>$pname): ?>
+          <option value="<?= $pid; ?>"><?= htmlspecialchars($pname); ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <select name="role_id" class="form-select">
+        <option value="">-- Role --</option>
+        <?php foreach($roleOptions as $rid=>$rlabel): ?>
+          <option value="<?= $rid; ?>"><?= htmlspecialchars($rlabel); ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="col-md-2 form-check d-flex align-items-center">
+      <input class="form-check-input" type="checkbox" value="1" name="is_lead" id="agencyLeadChk">
+      <label class="form-check-label ms-2" for="agencyLeadChk">Lead</label>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary" type="submit">Assign</button>
+    </div>
+  </form>
+<?php endif; ?>
 <?php require '../admin_footer.php'; ?>
