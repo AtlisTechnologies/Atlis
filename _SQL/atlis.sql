@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2025 at 11:43 PM
+-- Generation Time: Aug 22, 2025 at 02:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -172,7 +172,12 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (123, 1, 1, '2025-08-21 11:38:47', '2025-08-21 11:38:47', NULL, 'module_contractors_files', 7, 'UPDATE', 'Updated file', '', '{\"file_name\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}'),
 (124, 1, 1, '2025-08-21 15:36:27', '2025-08-21 15:36:27', NULL, 'module_contractors_contact_responses', 1, 'CREATE', 'Added contact response', '', '{\"response_type_id\":117,\"response_text\":\"No worries -- I certainly don\'t expect a response while on vacation !\\r\\nI definitely still have a need for a BI Analyst building dashboards. I can email you some more specifics if you want to provide me with your personal email address.\"}'),
 (125, 1, 1, '2025-08-21 15:37:03', '2025-08-21 15:37:03', NULL, 'module_contractors_contact_responses', 2, 'CREATE', 'Added contact response', '', '{\"response_type_id\":117,\"response_text\":\"emmabaylor@gmail.com\"}'),
-(126, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"ATLIS TECHNOLOGIES - CORE PROJECT\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-21\"}');
+(126, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"ATLIS TECHNOLOGIES - CORE PROJECT\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-21\"}'),
+(127, 1, 1, '2025-08-21 15:47:56', '2025-08-21 15:47:56', NULL, 'module_division', 2, 'UPDATE', 'Updated division', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":5}', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":6}'),
+(128, 1, 1, '2025-08-21 15:48:03', '2025-08-21 15:48:03', NULL, 'module_division', 2, 'UPDATE', 'Updated division', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":6}', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":5}'),
+(129, 1, 1, '2025-08-21 15:48:10', '2025-08-21 15:48:10', NULL, 'module_division', 5, 'UPDATE', 'Updated division', '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}', '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":6}'),
+(130, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 'module_projects', 5, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"3\",\"name\":\"Judge Mass Reassignment\",\"description\":\"Hi Gia & Davey,\\r\\n\\r\\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don\\u2019t want to make this any more complex than necessary\\u2014at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\\r\\n\\r\\n\\r\\nThanks,\\r\\nDave\\r\\n\",\"requirements\":\"1) What gets reassigned\\r\\n-\\tReassign all future events currently assigned to Judge A over to Judge B.\\r\\no\\t\\u201cAll\\u201d assumes no filters (Case Type, Event Type, etc.).\\r\\no\\t\\u201cFuture\\u201d assumes we are not modifying past events.\\r\\n-\\tShould any case-level or caseAssignment fields also be updated (for Judge A and\\/or Judge B)?\\r\\n\\r\\n\\r\\n2) Audit, validation, and proof checking\\r\\n-\\tDo you need audit artifacts (e.g., before\\/after counts, per-case change logs with timestamp\\/user, downloadable CSV)?\\r\\n-\\tShould we add guardrails (e.g., exclude sealed\\/closed cases, skip in-progress or same-day events)?\\r\\n\\r\\n\\r\\n3) Execution & UX\\r\\n-\\tOnce Judge A \\u2192 Judge B is selected, should the process run automatically in the background, or would you prefer a preview\\/confirm step with progress tracking?\\r\\n-\\tWould a summary be useful (e.g., via Search, Report, or Email notification)?\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-21\"}'),
+(131, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 'module_tasks_notes', 12, 'NOTE', '', '', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave');
 
 -- --------------------------------------------------------
 
@@ -1116,7 +1121,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (507, 1, 1, '2025-08-21 15:38:48', '2025-08-21 15:38:48', NULL, 'module_tasks', 21, 'CREATE', 'Created task'),
 (508, 1, 1, '2025-08-21 15:38:52', '2025-08-21 15:38:52', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task priority'),
 (509, 1, 1, '2025-08-21 15:38:59', '2025-08-21 15:38:59', NULL, 'module_task_assignments', 5, 'ASSIGN', 'Assigned user'),
-(510, 1, 1, '2025-08-21 15:39:01', '2025-08-21 15:39:01', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task');
+(510, 1, 1, '2025-08-21 15:39:01', '2025-08-21 15:39:01', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task'),
+(511, 1, 1, '2025-08-21 18:09:03', '2025-08-21 18:09:03', NULL, 'module_tasks', 22, 'CREATE', 'Created task'),
+(512, 1, 1, '2025-08-21 18:09:25', '2025-08-21 18:09:25', NULL, 'module_tasks', 22, 'UPDATE', 'Updated task');
 
 -- --------------------------------------------------------
 
@@ -1763,10 +1770,10 @@ CREATE TABLE `module_division` (
 
 INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `name`, `main_person`, `status`) VALUES
 (1, 1, 1, '2025-08-06 16:27:41', '2025-08-08 21:58:10', NULL, 1, 'Atlis', 1, 5),
-(2, 1, 1, '2025-08-06 16:28:28', '2025-08-08 21:58:10', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
+(2, 1, 1, '2025-08-06 16:28:28', '2025-08-21 15:48:03', NULL, 2, 'Judicial Information Services & Technology', NULL, 5),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5),
-(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 3, 'Public Defender', 30, 27);
+(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6);
 
 -- --------------------------------------------------------
 
@@ -1908,7 +1915,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
 (2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
 (3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, '2025-04-26', NULL, 0),
-(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0);
+(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0),
+(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, '2025-08-21', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2051,7 +2059,8 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (18, 1, 1, '2025-08-19 23:02:12', '2025-08-21 15:31:46', NULL, 2, NULL, NULL, 'Bench View Discussion', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (19, 1, 1, '2025-08-20 00:13:16', '2025-08-20 00:13:16', NULL, 1, NULL, NULL, 'Show [Seal Type] in Documents Viewer', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
 (20, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:42:11', NULL, 3, NULL, NULL, 'Create the Widget', NULL, NULL, NULL, '34', 32, '38', NULL, NULL, '2025-08-20', 1, 1, 100),
-(21, 1, 1, '2025-08-21 15:38:48', '2025-08-21 15:38:52', NULL, 4, NULL, NULL, 'Sean is Account Manager for McLean County, IL', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0);
+(21, 1, 1, '2025-08-21 15:38:48', '2025-08-21 15:38:52', NULL, 4, NULL, NULL, 'Sean is Account Manager for McLean County, IL', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(22, 1, 1, '2025-08-21 18:09:03', '2025-08-21 18:09:25', NULL, 5, NULL, NULL, 'Email Davey & Gia about Specifications and Requirements', NULL, NULL, NULL, '32', NULL, '39', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2105,7 +2114,8 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (8, 1, 1, '2025-04-08 14:04:57', '2025-08-19 22:58:03', NULL, 16, 'METADATA created on eCourt Test - 4/8/25\r\n\r\ncfInterpreterOrdered2\r\ncfInterpreterPresent2\r\ncfInterpreterRequired2\r\ncfInterpreterMemo2\r\n\r\ncfInterpreterOrdered3\r\ncfInterpreterPresent3\r\ncfInterpreterRequired3\r\ncfInterpreterMemo3'),
 (9, 1, 1, '2025-04-09 16:22:02', '2025-08-19 22:58:03', NULL, 9, 'ISSUE TO CONSIDER: Some Judge\'s have multiple DirPerson, Persons, PersonIdentifiers, and Users.\r\n***issue particularly when using the LU-Judges or S-Judges and multiple are options to select... should just be 1 !'),
 (10, 1, 1, '2025-04-09 17:06:52', '2025-08-19 22:58:03', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.'),
-(11, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 19, 'Done through System Property.');
+(11, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 19, 'Done through System Property.'),
+(12, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 22, 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave');
 
 -- --------------------------------------------------------
 
@@ -2322,7 +2332,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-21 15:30:39', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 1, 'ADMIN', 1, '2025-08-21 11:33:59'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-21 18:15:15', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, NULL, 'ADMIN', 1, '2025-08-21 11:33:59'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2388,7 +2398,6 @@ CREATE TABLE `users_profile_pics` (
 --
 
 INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `file_name`, `file_path`, `file_size`, `file_type`, `file_hash`, `width`, `height`, `uploaded_by`, `status_id`) VALUES
-(1, 1, 1, '2025-08-21 15:30:39', '2025-08-21 15:30:39', NULL, '1_1755811839.JPEG', 'module/users/uploads/1_1755811839.JPEG', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
 (2, 2, 1, '2025-08-21 15:31:21', '2025-08-21 15:31:21', NULL, 'Sean_Cadina_1755811881.JPEG', 'module/users/uploads/Sean_Cadina_1755811881.JPEG', 148386, 'image/jpeg', 'db6b656882af3a187bce2bab7d48b07c10a4b3198db54179686f38d68006dbeb', 800, 800, 1, 82);
 
 --
@@ -2836,7 +2845,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2890,7 +2899,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=511;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=513;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2998,7 +3007,7 @@ ALTER TABLE `module_organization`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
@@ -3022,7 +3031,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
@@ -3034,7 +3043,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
@@ -3046,7 +3055,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3088,7 +3097,7 @@ ALTER TABLE `users_2fa`
 -- AUTO_INCREMENT for table `users_profile_pics`
 --
 ALTER TABLE `users_profile_pics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
