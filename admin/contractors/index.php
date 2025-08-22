@@ -36,7 +36,7 @@ $sql = "SELECT mc.id,
         LEFT JOIN lookup_list_item_attributes sa ON s.id = sa.item_id AND sa.attr_code = 'COLOR-CLASS'
         LEFT JOIN lookup_list_items t ON mc.contractor_type_id = t.id
         LEFT JOIN users u ON p.user_id = u.id
-        LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1
+        LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
         ORDER BY p.last_name, p.first_name";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();

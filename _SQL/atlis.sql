@@ -2388,9 +2388,7 @@ CREATE TABLE `users_profile_pics` (
   `width` int(11) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
   `uploaded_by` int(11) DEFAULT NULL,
-  `status_id` int(11) NOT NULL,
-  `is_active` tinyint(1) GENERATED ALWAYS AS (`status_id` = 82) STORED,
-  `active_user_id` int(11) GENERATED ALWAYS AS (if(`status_id` = 82,`user_id`,NULL)) STORED
+  `status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2830,12 +2828,22 @@ ALTER TABLE `users_2fa`
 --
 -- Indexes for table `users_profile_pics`
 --
+-- Determine the ACTIVE status id for user profile pictures
+SET @active_user_profile_pic_status_id = (
+  SELECT li.id
+  FROM lookup_list_items li
+  INNER JOIN lookup_lists ll ON li.list_id = ll.id
+  WHERE ll.name = 'USER_PROFILE_PIC_STATUS'
+    AND li.code = 'ACTIVE'
+);
+
 ALTER TABLE `users_profile_pics`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
   ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
-  ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
+  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
+  ADD UNIQUE KEY `uq_users_profile_pics_active_user` ((CASE WHEN `status_id` = @active_user_profile_pic_status_id THEN `user_id` END));
 
 --
 -- AUTO_INCREMENT for dumped tables
