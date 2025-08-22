@@ -125,10 +125,10 @@ $_SESSION['csrf_token'] = $token;
                   <tbody>
                     <?php foreach ($profilePics as $pic): ?>
                       <tr>
-                        <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path']); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
-                        <td><?php echo htmlspecialchars($pic['status_label']); ?></td>
-                        <td><?php echo htmlspecialchars($pic['date_created']); ?></td>
-                        <td><?php echo htmlspecialchars($pic['width']); ?>x<?php echo htmlspecialchars($pic['height']); ?></td>
+                        <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path'] ?? ''); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
+                        <td><?php echo htmlspecialchars($pic['status_label'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($pic['date_created'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($pic['width'] ?? ''); ?>x<?php echo htmlspecialchars($pic['height'] ?? ''); ?></td>
                         <td>
                           <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
                             <form method="post" action="functions/save.php" class="d-inline reactivate-form">
@@ -136,7 +136,7 @@ $_SESSION['csrf_token'] = $token;
                               <input type="hidden" name="id" value="<?php echo $id; ?>">
                               <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
                               <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
-                              <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
+                              <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob ?? ''); ?>">
                               <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
                             </form>
                           <?php endif; ?>
