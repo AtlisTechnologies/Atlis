@@ -2842,8 +2842,7 @@ ALTER TABLE `users_profile_pics`
   ADD KEY `fk_users_profile_pics_user_id` (`user_id`),
   ADD KEY `fk_users_profile_pics_user_updated` (`user_updated`),
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
-  ADD KEY `fk_users_profile_pics_status_id` (`status_id`),
-  ADD UNIQUE KEY `uq_users_profile_pics_active_user` ((CASE WHEN `status_id` = @active_user_profile_pic_status_id THEN `user_id` END));
+  ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
