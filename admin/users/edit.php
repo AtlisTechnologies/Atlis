@@ -131,14 +131,7 @@ $_SESSION['csrf_token'] = $token;
                         <td><?php echo htmlspecialchars($pic['width'] ?? ''); ?>x<?php echo htmlspecialchars($pic['height'] ?? ''); ?></td>
                         <td>
                           <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
-                            <form method="post" action="functions/save.php" class="d-inline reactivate-form">
-                              <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
-                              <input type="hidden" name="id" value="<?php echo $id; ?>">
-                              <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
-                              <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
-                              <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob ?? ''); ?>">
-                              <button type="submit" class="btn btn-sm btn-primary">Reactivate</button>
-                            </form>
+                            <button type="submit" class="btn btn-sm btn-primary" form="reactivate-form-<?php echo $pic['id']; ?>">Reactivate</button>
                           <?php endif; ?>
                         </td>
                       </tr>
@@ -228,6 +221,17 @@ $_SESSION['csrf_token'] = $token;
   </div>
   </div>
 </form>
+<?php if ($id && $profilePics): ?>
+  <?php foreach ($profilePics as $pic): ?>
+    <form id="reactivate-form-<?php echo $pic['id']; ?>" method="post" action="functions/save.php" class="reactivate-form d-none">
+      <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
+      <input type="hidden" name="id" value="<?php echo $id; ?>">
+      <input type="hidden" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>">
+      <input type="hidden" name="gender_id" value="<?php echo htmlspecialchars($gender_id ?? ''); ?>">
+      <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
+    </form>
+  <?php endforeach; ?>
+<?php endif; ?>
 <template id="phone-template">
 <?php $index='__INDEX__'; $phRow=[]; include __DIR__.'/../person/_phone_row.php'; ?>
 </template>

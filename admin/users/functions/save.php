@@ -37,20 +37,22 @@ if ($reactivatePicId && $id) {
   try {
     $pdo->beginTransaction();
 
-    $personParams = [
-      ':uid_fk' => $id,
-      ':gender_id' => $gender_id,
-      ':dob' => $dob ?: null,
-      ':uid_update' => $this_user_id
-    ];
-    $pdo->prepare(
-      'INSERT INTO person (user_id, gender_id, dob, user_updated)
-       VALUES (:uid_fk, :gender_id, :dob, :uid_update)
-       ON DUPLICATE KEY UPDATE
-         gender_id = VALUES(gender_id),
-         dob = VALUES(dob),
-         user_updated = VALUES(user_updated)'
-    )->execute($personParams);
+    if ($gender_id !== null || $dob !== '') {
+      $personParams = [
+        ':uid_fk' => $id,
+        ':gender_id' => $gender_id,
+        ':dob' => $dob ?: null,
+        ':uid_update' => $this_user_id
+      ];
+      $pdo->prepare(
+        'INSERT INTO person (user_id, gender_id, dob, user_updated)
+         VALUES (:uid_fk, :gender_id, :dob, :uid_update)
+         ON DUPLICATE KEY UPDATE
+           gender_id = VALUES(gender_id),
+           dob = VALUES(dob),
+           user_updated = VALUES(user_updated)'
+      )->execute($personParams);
+    }
 
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
