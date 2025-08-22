@@ -82,6 +82,8 @@ $confirm = $_POST['confirmPassword'] ?? '';
 $first_name = trim($_POST['first_name'] ?? '');
 $last_name = trim($_POST['last_name'] ?? '');
 $memo = $_POST['memo'] ?? null;
+$addresses = $_POST['addresses'] ?? [];
+$phones    = $_POST['phones'] ?? [];
 
  $errors = [];
  if ($email === '') {
@@ -157,6 +159,8 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
 }
 
 try {
+  $pdo->beginTransaction();
+  $person_id = 0;
   if ($isUpdate) {
     $fields = 'email = :email, memo = :memo, user_updated = :uid';
     $params = [
@@ -169,9 +173,10 @@ try {
     $stmt = $pdo->prepare('UPDATE users SET ' . $fields . ' WHERE id = :id');
     $stmt->execute($params);
 
-    $personExists = $pdo->prepare('SELECT id FROM person WHERE user_id = :uid_fk');
-    $personExists->execute([':uid_fk' => $id]);
-    $personParams = [
+    $personStmt = $pdo->prepare('SELECT * FROM person WHERE user_id = :uid_fk');
+    $personStmt->execute([':uid_fk' => $id]);
+    $existingPerson = $personStmt->fetch(PDO::FETCH_ASSOC);
+    $personData = [
       ':uid_fk' => $id,
       ':fn' => $first_name,
       ':ln' => $last_name,
@@ -179,12 +184,17 @@ try {
       ':dob' => $dob ?: null,
       ':uid_update' => $this_user_id
     ];
-    if ($personExists->fetchColumn()) {
-      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE user_id = :uid_fk');
-      $pstmt->execute($personParams);
+    if ($existingPerson) {
+      $person_id = (int)$existingPerson['id'];
+      $personData[':pid'] = $person_id;
+      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE id = :pid');
+      $pstmt->execute($personData);
+      admin_audit_log($pdo,$this_user_id,'person',$person_id,'UPDATE',json_encode($existingPerson),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Updated person');
     } else {
       $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
-      $pstmt->execute($personParams);
+      $pstmt->execute($personData);
+      $person_id = (int)$pdo->lastInsertId();
+      admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Created person');
     }
   } else {
     $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo) VALUES (:uid, :uid, :email, :password, :memo)');
@@ -196,16 +206,100 @@ try {
     ]);
     $id = (int)$pdo->lastInsertId();
 
-    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
-    $pstmt->execute([
+    $personData = [
       ':uid_fk' => $id,
       ':fn' => $first_name,
       ':ln' => $last_name,
       ':gender_id' => $gender_id,
       ':dob' => $dob ?: null,
       ':uid_update' => $this_user_id
-    ]);
+    ];
+    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
+    $pstmt->execute($personData);
+    $person_id = (int)$pdo->lastInsertId();
+    admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Created person');
   }
+
+  $stmt = $pdo->prepare('SELECT id FROM person_addresses WHERE person_id = :id');
+  $stmt->execute([':id'=>$person_id]);
+  $existingAddrIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+  $submittedAddrIds = [];
+  foreach ($addresses as $addr) {
+    $addrId = !empty($addr['id']) ? (int)$addr['id'] : 0;
+    $data = [
+      ':pid'=>$person_id,
+      ':type_id'=>$addr['type_id'] !== '' ? (int)$addr['type_id'] : null,
+      ':status_id'=>$addr['status_id'] !== '' ? (int)$addr['status_id'] : null,
+      ':start_date'=>$addr['start_date'] !== '' ? $addr['start_date'] : null,
+      ':end_date'=>$addr['end_date'] !== '' ? $addr['end_date'] : null,
+      ':line1'=>trim($addr['address_line1'] ?? ''),
+      ':line2'=>trim($addr['address_line2'] ?? ''),
+      ':city'=>trim($addr['city'] ?? ''),
+      ':state_id'=>$addr['state_id'] !== '' ? (int)$addr['state_id'] : null,
+      ':postal'=>trim($addr['postal_code'] ?? ''),
+      ':country'=>trim($addr['country'] ?? ''),
+      ':uid'=>$this_user_id
+    ];
+    if ($addrId) {
+      $data[':id']=$addrId;
+      $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state_id=:state_id,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
+      $stmt->execute($data);
+      admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($data),'Updated address');
+      $submittedAddrIds[]=$addrId;
+    } else {
+      $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid)');
+      $stmt->execute($data);
+      $newId = $pdo->lastInsertId();
+      admin_audit_log($pdo,$this_user_id,'person_addresses',$newId,'CREATE',null,json_encode($data),'Added address');
+      $submittedAddrIds[]=$newId;
+    }
+  }
+  foreach ($existingAddrIds as $eid) {
+    if (!in_array($eid,$submittedAddrIds)) {
+      $stmt = $pdo->prepare('DELETE FROM person_addresses WHERE id=:id');
+      $stmt->execute([':id'=>$eid]);
+      admin_audit_log($pdo,$this_user_id,'person_addresses',$eid,'DELETE',null,null,'Deleted address');
+    }
+  }
+
+  $stmt = $pdo->prepare('SELECT id FROM person_phones WHERE person_id = :id');
+  $stmt->execute([':id'=>$person_id]);
+  $existingPhoneIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+  $submittedPhoneIds = [];
+  foreach ($phones as $ph) {
+    $phId = !empty($ph['id']) ? (int)$ph['id'] : 0;
+    $data = [
+      ':pid'=>$person_id,
+      ':type_id'=>$ph['type_id'] !== '' ? (int)$ph['type_id'] : null,
+      ':status_id'=>$ph['status_id'] !== '' ? (int)$ph['status_id'] : null,
+      ':start_date'=>$ph['start_date'] !== '' ? $ph['start_date'] : null,
+      ':end_date'=>$ph['end_date'] !== '' ? $ph['end_date'] : null,
+      ':number'=>trim($ph['phone_number'] ?? ''),
+      ':uid'=>$this_user_id
+    ];
+    if ($phId) {
+      $data[':id']=$phId;
+      $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
+      $stmt->execute($data);
+      admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
+      $submittedPhoneIds[]=$phId;
+    } else {
+      $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid)');
+      $stmt->execute($data);
+      $newId = $pdo->lastInsertId();
+      admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
+      $submittedPhoneIds[]=$newId;
+    }
+  }
+  foreach ($existingPhoneIds as $eid) {
+    if (!in_array($eid,$submittedPhoneIds)) {
+      $stmt = $pdo->prepare('DELETE FROM person_phones WHERE id=:id');
+      $stmt->execute([':id'=>$eid]);
+      admin_audit_log($pdo,$this_user_id,'person_phones',$eid,'DELETE',null,null,'Deleted phone');
+    }
+  }
+
+  $pdo->commit();
 
   if ($profilePath) {
     $pdo->beginTransaction();
