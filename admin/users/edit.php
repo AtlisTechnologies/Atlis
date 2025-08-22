@@ -200,14 +200,14 @@ $_SESSION['csrf_token'] = $token;
         <div class="col-12">
           <h5 class="mt-4">Phone Numbers</h5>
           <div id="phones-container">
-            <?php foreach ($phones as $i => $ph) { $index = $i; $phRow = $ph; include __DIR__.'/../person/_phone_row.php'; } ?>
+            <?php foreach ($phones as $i => $ph) { $index = $i; $phRow = $ph; include __DIR__.'/../../includes/person_phone_row.php'; } ?>
           </div>
           <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-phone">Add Phone</button>
         </div>
         <div class="col-12">
           <h5>Addresses</h5>
           <div id="addresses-container">
-            <?php foreach ($addresses as $i => $addr) { $index = $i; $addrRow = $addr; include __DIR__.'/../person/_address_row.php'; } ?>
+            <?php foreach ($addresses as $i => $addr) { $index = $i; $addrRow = $addr; include __DIR__.'/../../includes/person_address_row.php'; } ?>
           </div>
           <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-address">Add Address</button>
         </div>
@@ -233,10 +233,10 @@ $_SESSION['csrf_token'] = $token;
   <?php endforeach; ?>
 <?php endif; ?>
 <template id="phone-template">
-<?php $index='__INDEX__'; $phRow=[]; include __DIR__.'/../person/_phone_row.php'; ?>
+<?php $index='__INDEX__'; $phRow=[]; include __DIR__.'/../../includes/person_phone_row.php'; ?>
 </template>
 <template id="address-template">
-<?php $index='__INDEX__'; $addrRow=[]; include __DIR__.'/../person/_address_row.php'; ?>
+<?php $index='__INDEX__'; $addrRow=[]; include __DIR__.'/../../includes/person_address_row.php'; ?>
 </template>
 <script>
 (function () {
@@ -295,64 +295,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<script>
-(function(){
-  function updateBadges(container){
-    container.querySelectorAll('select').forEach(function(sel){
-      var badge = sel.parentElement.querySelector('.lookup-badge');
-      if(badge){
-        var color = sel.options[sel.selectedIndex].dataset.color || 'secondary';
-        badge.className = 'badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-' + color;
-      }
-    });
-  }
-  document.querySelectorAll('.address-item,.phone-item').forEach(updateBadges);
-  document.addEventListener('change', function(e){
-    if(e.target.matches('.address-type, .address-status, .phone-type, .phone-status')){
-      updateBadges(e.target.closest('.address-item, .phone-item'));
-    }
-  });
-  document.getElementById('add-phone').addEventListener('click', function(){
-    var tpl = document.getElementById('phone-template').innerHTML.replace(/__INDEX__/g, document.querySelectorAll('#phones-container .phone-item').length);
-    var div = document.createElement('div'); div.innerHTML = tpl.trim();
-    var item = div.firstElementChild; document.getElementById('phones-container').appendChild(item); updateBadges(item);
-  });
-  document.getElementById('phones-container').addEventListener('click', function(e){
-    if(e.target.classList.contains('remove-phone')){ e.target.closest('.phone-item').remove(); }
-  });
-  document.getElementById('add-address').addEventListener('click', function(){
-    var tpl = document.getElementById('address-template').innerHTML.replace(/__INDEX__/g, document.querySelectorAll('#addresses-container .address-item').length);
-    var div = document.createElement('div'); div.innerHTML = tpl.trim();
-    var item = div.firstElementChild; document.getElementById('addresses-container').appendChild(item); updateBadges(item);
-  });
-  document.getElementById('addresses-container').addEventListener('click', function(e){
-    if(e.target.classList.contains('remove-address')){ e.target.closest('.address-item').remove(); }
-  });
-  document.getElementById('addresses-container').addEventListener('change', function(e){
-    if(e.target.classList.contains('postal-lookup')){
-      var zip = e.target.value.trim();
-      if(zip.length === 5){
-        fetch('https://api.zippopotam.us/us/' + zip)
-          .then(function(r){ return r.ok ? r.json() : null; })
-          .then(function(data){
-            if(!data) return;
-            var item = e.target.closest('.address-item');
-            var place = data.places && data.places[0];
-            if(place){
-              var cityInput = item.querySelector('.city-input');
-              if(cityInput) cityInput.value = place['place name'];
-              var abbr = place['state abbreviation'];
-              var stateSelect = item.querySelector('.state-select');
-              if(stateSelect){
-                stateSelect.value = '';
-                Array.from(stateSelect.options).forEach(function(opt){ if(opt.dataset.code === abbr){ stateSelect.value = opt.value; } });
-              }
-            }
-          });
-      }
-    }
-  });
-})();
-</script>
+<script src="<?php echo getURLDir(); ?>assets/js/person_contact_rows.js"></script>
 
 <?php require '../admin_footer.php'; ?>
