@@ -7,7 +7,11 @@
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
           <div class="card-body">
-            <h5 class="card-title mb-1"><?php echo htmlspecialchars($agency['name']); ?></h5>
+            <h5 class="card-title mb-1">
+              <?php echo htmlspecialchars($agency['name']); ?>
+              <span class="badge bg-primary-subtle text-primary ms-1"><?= (int)$agency['user_count']; ?></span>
+              <span class="badge bg-secondary-subtle text-secondary ms-1"><?= (int)$agency['person_count']; ?></span>
+            </h5>
             <p class="mb-0">
               <?= render_status_badge($statusList, $agency['status']) ?>
             </p>
