@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../../../includes/functions.php';
 require_permission('project','create');
+
+// Ensure lookup lists are available
+$statusMap   = $statusMap   ?? get_lookup_items($pdo, 'PROJECT_STATUS');
+$priorityMap = $priorityMap ?? get_lookup_items($pdo, 'PROJECT_PRIORITY');
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -36,6 +40,26 @@ require_permission('project','create');
             <?php endforeach; ?>
           </select>
           <label for="projectStatus">Status</label>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <?php
+            $hasPriorityDefault = false;
+            foreach ($priorityMap as $p) {
+              if (!empty($p['is_default'])) {
+                $hasPriorityDefault = true;
+                break;
+              }
+            }
+          ?>
+          <select class="form-select" id="projectPriority" name="priority" required>
+            <option value="" <?= $hasPriorityDefault ? '' : 'selected'; ?>>Select priority</option>
+            <?php foreach ($priorityMap as $p): ?>
+              <option value="<?= h($p['id']); ?>" <?= !empty($p['is_default']) ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label for="projectPriority">Priority</label>
         </div>
       </div>
       <div class="col-sm-6 col-md-4">
