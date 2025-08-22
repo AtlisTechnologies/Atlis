@@ -1,5 +1,7 @@
 <?php
-require '../admin_header.php';
+require_once __DIR__ . '/../../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../includes/helpers.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $agency_id = isset($_GET['agency_id']) ? (int)$_GET['agency_id'] : null;
@@ -27,15 +29,6 @@ if ($id) {
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
-$agencyStmt = $pdo->query('SELECT a.id, CONCAT(o.name, " - ", a.name) AS name FROM module_agency a JOIN module_organization o ON a.organization_id = o.id ORDER BY o.name, a.name');
-$agencyOptions = $agencyStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
-$personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$statusItems   = get_lookup_items($pdo, 'DIVISION_STATUS');
-$statusOptions = array_column($statusItems, 'label', 'id');
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
@@ -57,6 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Location: index.php');
   exit;
 }
+
+$agencyStmt = $pdo->query('SELECT a.id, CONCAT(o.name, " - ", a.name) AS name FROM module_agency a JOIN module_organization o ON a.organization_id = o.id ORDER BY o.name, a.name');
+$agencyOptions = $agencyStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
+$personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$statusItems   = get_lookup_items($pdo, 'DIVISION_STATUS');
+$statusOptions = array_column($statusItems, 'label', 'id');
+
+require '../admin_header.php';
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Division</h2>
 <form method="post">
