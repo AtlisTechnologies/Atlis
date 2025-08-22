@@ -264,11 +264,32 @@ document.querySelectorAll('.reactivate-form').forEach(form => {
 
 document.addEventListener('DOMContentLoaded', function () {
   var uploadInput = document.getElementById('upload-avatar');
-  if (uploadInput) {
+  var userIdInput = document.querySelector('input[name="id"]');
+  var csrfInput = document.querySelector('input[name="csrf_token"]');
+  var previewImg = document.querySelector('.avatar.avatar-5xl img');
+  var baseURL = '<?php echo getURLDir(); ?>';
+  if (uploadInput && userIdInput && csrfInput && previewImg) {
     uploadInput.addEventListener('change', function () {
-      if (this.files.length && document.querySelector('input[name="id"]')) {
-        this.closest('form').submit();   // bypass validation and post immediately
-      }
+      if (!this.files.length) { return; }
+      var fd = new FormData();
+      fd.append('profile_pic', this.files[0]);
+      fd.append('id', userIdInput.value);
+      fd.append('csrf_token', csrfInput.value);
+      fetch('functions/upload_pic.php', {
+        method: 'POST',
+        body: fd
+      }).then(function(r){ return r.json(); })
+        .then(function(data){
+          if(data.success && data.path){
+            previewImg.src = baseURL + data.path + '?t=' + Date.now();
+          } else {
+            alert(data.error || 'Upload failed');
+          }
+          uploadInput.value = '';
+        }).catch(function(){
+          alert('Upload failed');
+          uploadInput.value = '';
+        });
     });
   }
 });
