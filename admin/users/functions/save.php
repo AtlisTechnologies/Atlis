@@ -234,32 +234,36 @@ try {
   $submittedAddrIds = [];
   foreach ($addresses as $addr) {
     $addrId = !empty($addr['id']) ? (int)$addr['id'] : 0;
+    $line1 = trim($addr['address_line1'] ?? '');
+    if ($line1 === '') {
+      continue;
+    }
     $data = [
-      ':pid'=>$person_id,
-      ':type_id'=>$addr['type_id'] !== '' ? (int)$addr['type_id'] : null,
-      ':status_id'=>$addr['status_id'] !== '' ? (int)$addr['status_id'] : null,
-      ':start_date'=>$addr['start_date'] !== '' ? $addr['start_date'] : null,
-      ':end_date'=>$addr['end_date'] !== '' ? $addr['end_date'] : null,
-      ':line1'=>trim($addr['address_line1'] ?? ''),
-      ':line2'=>trim($addr['address_line2'] ?? ''),
-      ':city'=>trim($addr['city'] ?? ''),
-      ':state_id'=>$addr['state_id'] !== '' ? (int)$addr['state_id'] : null,
-      ':postal'=>trim($addr['postal_code'] ?? ''),
-      ':country'=>trim($addr['country'] ?? ''),
-      ':uid'=>$this_user_id
+      ':pid'      => $person_id,
+      ':type_id'  => $addr['type_id'] !== '' ? (int)$addr['type_id'] : null,
+      ':status_id'=> $addr['status_id'] !== '' ? (int)$addr['status_id'] : null,
+      ':start_date'=> $addr['start_date'] !== '' ? $addr['start_date'] : null,
+      ':end_date'  => $addr['end_date'] !== '' ? $addr['end_date'] : null,
+      ':line1'     => $line1,
+      ':line2'     => trim($addr['address_line2'] ?? ''),
+      ':city'      => trim($addr['city'] ?? ''),
+      ':state_id'  => $addr['state_id'] !== '' ? (int)$addr['state_id'] : null,
+      ':postal'    => trim($addr['postal_code'] ?? ''),
+      ':country'   => trim($addr['country'] ?? ''),
+      ':uid'       => $this_user_id
     ];
     if ($addrId) {
-      $data[':id']=$addrId;
+      $data[':id'] = $addrId;
       $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state_id=:state_id,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
       $stmt->execute($data);
       admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($data),'Updated address');
-      $submittedAddrIds[]=$addrId;
+      $submittedAddrIds[] = $addrId;
     } else {
-      $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid)');
+      $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid,:uid)');
       $stmt->execute($data);
       $newId = $pdo->lastInsertId();
       admin_audit_log($pdo,$this_user_id,'person_addresses',$newId,'CREATE',null,json_encode($data),'Added address');
-      $submittedAddrIds[]=$newId;
+      $submittedAddrIds[] = $newId;
     }
   }
   foreach ($existingAddrIds as $eid) {
@@ -276,27 +280,31 @@ try {
   $submittedPhoneIds = [];
   foreach ($phones as $ph) {
     $phId = !empty($ph['id']) ? (int)$ph['id'] : 0;
+    $number = trim($ph['phone_number'] ?? '');
+    if ($number === '') {
+      continue;
+    }
     $data = [
-      ':pid'=>$person_id,
-      ':type_id'=>$ph['type_id'] !== '' ? (int)$ph['type_id'] : null,
-      ':status_id'=>$ph['status_id'] !== '' ? (int)$ph['status_id'] : null,
-      ':start_date'=>$ph['start_date'] !== '' ? $ph['start_date'] : null,
-      ':end_date'=>$ph['end_date'] !== '' ? $ph['end_date'] : null,
-      ':number'=>trim($ph['phone_number'] ?? ''),
-      ':uid'=>$this_user_id
+      ':pid'       => $person_id,
+      ':type_id'   => $ph['type_id'] !== '' ? (int)$ph['type_id'] : null,
+      ':status_id' => $ph['status_id'] !== '' ? (int)$ph['status_id'] : null,
+      ':start_date'=> $ph['start_date'] !== '' ? $ph['start_date'] : null,
+      ':end_date'  => $ph['end_date'] !== '' ? $ph['end_date'] : null,
+      ':number'    => $number,
+      ':uid'       => $this_user_id
     ];
     if ($phId) {
-      $data[':id']=$phId;
+      $data[':id'] = $phId;
       $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
       $stmt->execute($data);
       admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
-      $submittedPhoneIds[]=$phId;
+      $submittedPhoneIds[] = $phId;
     } else {
-      $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid)');
+      $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid,:uid)');
       $stmt->execute($data);
       $newId = $pdo->lastInsertId();
       admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
-      $submittedPhoneIds[]=$newId;
+      $submittedPhoneIds[] = $newId;
     }
   }
   foreach ($existingPhoneIds as $eid) {
