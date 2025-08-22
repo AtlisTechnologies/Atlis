@@ -1217,7 +1217,10 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (28, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:12:32', '', 'PERSON_ADDRESS_STATUS', ''),
 (29, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:10:50', '', 'PERSON_PHONE_STATUS', ''),
 (30, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 'US_STATES', 'United States states and DC'),
-(31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.');
+(31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.'),
+(32, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'ORGANIZATION_PERSON_ROLES', 'Roles for persons assigned to organizations'),
+(33, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'AGENCY_PERSON_ROLES', 'Roles for persons assigned to agencies'),
+(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions');
 
 -- --------------------------------------------------------
 
@@ -1397,7 +1400,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (180, 1, 1, '2025-08-21 15:32:54', '2025-08-21 15:32:54', NULL, 24, 'Email Reply', 'EMAILREPLY', 0, '2025-08-21', NULL),
 (181, 1, 1, '2025-08-21 15:33:04', '2025-08-21 15:33:04', NULL, 24, 'Send Proposal', 'SENDPROPOSAL', 0, '2025-08-21', NULL),
 (182, 1, 1, '2025-08-22 08:17:19', '2025-08-22 08:17:19', NULL, 31, 'Project', 'PROJECT', 0, '2025-08-22', NULL),
-(183, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 31, 'Statement of Work', 'STATEMENTOFWORK', 0, '2025-08-22', NULL);
+(183, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 31, 'Statement of Work', 'STATEMENTOFWORK', 0, '2025-08-22', NULL),
+(184, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 32, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
+(185, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 33, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
+(186, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 34, 'Member', 'MEMBER', 1, '2025-08-22', NULL);
 
 -- --------------------------------------------------------
 
@@ -1831,6 +1837,63 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_organization_persons`
+--
+
+CREATE TABLE `module_organization_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `organization_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_agency_persons`
+--
+
+CREATE TABLE `module_agency_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_division_persons`
+--
+
+CREATE TABLE `module_division_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `division_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_kanban_boards`
 --
 
@@ -2234,9 +2297,6 @@ CREATE TABLE `person` (
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
-  `organization_id` int(11) DEFAULT NULL,
-  `agency_id` int(11) DEFAULT NULL,
-  `division_id` int(11) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
@@ -2248,18 +2308,18 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
-(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
-(12, 5, 'RJ', 'Calara', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
-(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
-(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
-(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
-(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
-(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, 2, 3, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
-(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', NULL, 59, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
+(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
+(12, 5, 'RJ', 'Calara', NULL, 59, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
+(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
+(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
+(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
+(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
+(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -2707,6 +2767,39 @@ ALTER TABLE `module_division`
   ADD KEY `fk_module_division_status` (`status`);
 
 --
+-- Indexes for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_organization_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_organization_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_organization_persons_organization_id` (`organization_id`),
+  ADD KEY `fk_module_organization_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_organization_persons_role_id` (`role_id`);
+
+--
+-- Indexes for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_persons_agency_id` (`agency_id`),
+  ADD KEY `fk_module_agency_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
+
+--
+-- Indexes for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_division_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_division_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_division_persons_division_id` (`division_id`),
+  ADD KEY `fk_module_division_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_division_persons_role_id` (`role_id`);
+
+--
 -- Indexes for table `module_kanban_boards`
 --
 ALTER TABLE `module_kanban_boards`
@@ -2838,9 +2931,7 @@ ALTER TABLE `person`
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
   ADD KEY `fk_person_user_updated` (`user_updated`),
   ADD KEY `fk_person_gender_id` (`gender_id`),
-  ADD KEY `fk_person_organization_id` (`organization_id`),
-  ADD KEY `fk_person_agency_id` (`agency_id`),
-  ADD KEY `fk_person_division_id` (`division_id`);
+  ADD KEY `fk_person_gender_id` (`gender_id`);
 
 --
 -- Indexes for table `person_addresses`
@@ -2982,13 +3073,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -3055,6 +3146,24 @@ ALTER TABLE `module_contractors_status_history`
 --
 ALTER TABLE `module_division`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3345,6 +3454,36 @@ ALTER TABLE `module_division`
   ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD CONSTRAINT `fk_module_organization_persons_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_organization_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_organization_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD CONSTRAINT `fk_module_agency_persons_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  ADD CONSTRAINT `fk_module_division_persons_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_division_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_division_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_division_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_division_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_kanban_board_projects`
 --
 ALTER TABLE `module_kanban_board_projects`
@@ -3430,10 +3569,7 @@ ALTER TABLE `module_task_assignments`
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
-  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
