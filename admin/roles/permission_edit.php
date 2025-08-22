@@ -1,5 +1,6 @@
 <?php
-require '../admin_header.php';
+require_once __DIR__ . '/../../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/helpers.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $module = '';
@@ -41,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Location: permissions.php');
   exit;
 }
+
+require '../admin_header.php';
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit Permission' : 'Add Permission'; ?></h2>
 <form method="post">
