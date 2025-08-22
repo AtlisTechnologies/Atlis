@@ -1956,6 +1956,7 @@ CREATE TABLE `module_projects` (
   `specifications` text DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0
@@ -1964,7 +1965,6 @@ CREATE TABLE `module_projects` (
 --
 -- Dumping data for table `module_projects`
 --
-
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
 (1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
 (2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
@@ -2754,7 +2754,8 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_agency_id` (`agency_id`),
   ADD KEY `fk_module_projects_division_id` (`division_id`),
   ADD KEY `fk_module_projects_status` (`status`),
-  ADD KEY `fk_module_projects_priority` (`priority`);
+  ADD KEY `fk_module_projects_priority` (`priority`),
+  ADD KEY `fk_module_projects_type` (`type`);
 
 --
 -- Indexes for table `module_projects_assignments`
@@ -3372,7 +3373,8 @@ ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
   ADD CONSTRAINT `fk_module_projects_priority_id` FOREIGN KEY (`priority`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_projects_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_projects_assignments`

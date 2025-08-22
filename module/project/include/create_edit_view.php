@@ -3,6 +3,13 @@
 require_once __DIR__ . '/../../../includes/functions.php';
 $editing = !empty($current_project);
 $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
+$defaultTypeId = '';
+foreach ($typeMap as $id => $t) {
+  if (!empty($t['is_default'])) {
+    $defaultTypeId = $id;
+    break;
+  }
+}
 ?>
 <form class="row g-3 mb-6" method="post" action="<?php echo $actionUrl; ?>">
   <?php if ($editing): ?>
@@ -22,6 +29,19 @@ $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
         <?php endforeach; ?>
       </select>
       <label for="projectStatus">Status</label>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-floating">
+      <select class="form-select" id="projectType" name="type">
+        <option value="" <?php echo $defaultTypeId ? '' : 'selected'; ?>>Select type</option>
+        <?php foreach ($typeMap as $id => $type): ?>
+          <option value="<?php echo h($id); ?>" <?php
+            echo ($editing ? (($current_project['type'] ?? '') == $id) : ($defaultTypeId == $id)) ? 'selected' : '';
+          ?>><?php echo h($type['label']); ?></option>
+        <?php endforeach; ?>
+      </select>
+      <label for="projectType">Type</label>
     </div>
   </div>
   <div class="col-12 gy-3">
