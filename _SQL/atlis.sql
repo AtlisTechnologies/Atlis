@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2025 at 04:28 PM
+-- Generation Time: Aug 23, 2025 at 12:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -190,7 +190,13 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (141, 1, 1, '2025-08-21 22:28:04', '2025-08-21 22:28:04', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
 (142, 1, 1, '2025-08-21 22:28:05', '2025-08-21 22:28:05', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
 (143, 1, 1, '2025-08-21 22:28:09', '2025-08-21 22:28:09', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(144, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.');
+(144, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
+(145, 1, 1, '2025-08-22 08:33:05', '2025-08-22 08:33:05', NULL, 'module_division', 6, 'CREATE', 'Created division', NULL, '{\"agency_id\":4,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":27}'),
+(146, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 'module_projects', 9, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Multiple Interpreter per Event\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"start_date\":\"\"}'),
+(147, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 'module_projects_notes', 6, 'NOTE', '', '', 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY'),
+(148, 1, 1, '2025-08-22 15:54:19', '2025-08-22 15:54:19', NULL, 'module_organization', 3, 'CREATE', 'Created organization', NULL, '{\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":13}'),
+(149, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 'module_agency', 5, 'CREATE', 'Created agency', NULL, '{\"organization_id\":3,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":28}'),
+(150, 1, 1, '2025-08-22 15:54:34', '2025-08-22 15:54:34', NULL, 'module_division', 7, 'CREATE', 'Created division', NULL, '{\"agency_id\":5,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":27}');
 
 -- --------------------------------------------------------
 
@@ -1157,7 +1163,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (530, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (531, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (532, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(533, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
+(533, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(534, 1, 1, '2025-08-22 15:53:58', '2025-08-22 15:53:58', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
+(535, 1, 1, '2025-08-22 15:54:04', '2025-08-22 15:54:04', NULL, 'users', 1, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -1209,7 +1217,10 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (28, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:12:32', '', 'PERSON_ADDRESS_STATUS', ''),
 (29, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:10:50', '', 'PERSON_PHONE_STATUS', ''),
 (30, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 'US_STATES', 'United States states and DC'),
-(31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.');
+(31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.'),
+(32, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'ORGANIZATION_PERSON_ROLES', 'Roles for persons assigned to organizations'),
+(33, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'AGENCY_PERSON_ROLES', 'Roles for persons assigned to agencies'),
+(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions');
 
 -- --------------------------------------------------------
 
@@ -1389,7 +1400,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (180, 1, 1, '2025-08-21 15:32:54', '2025-08-21 15:32:54', NULL, 24, 'Email Reply', 'EMAILREPLY', 0, '2025-08-21', NULL),
 (181, 1, 1, '2025-08-21 15:33:04', '2025-08-21 15:33:04', NULL, 24, 'Send Proposal', 'SENDPROPOSAL', 0, '2025-08-21', NULL),
 (182, 1, 1, '2025-08-22 08:17:19', '2025-08-22 08:17:19', NULL, 31, 'Project', 'PROJECT', 0, '2025-08-22', NULL),
-(183, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 31, 'Statement of Work', 'STATEMENTOFWORK', 0, '2025-08-22', NULL);
+(183, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 31, 'Statement of Work', 'STATEMENTOFWORK', 0, '2025-08-22', NULL),
+(184, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 32, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
+(185, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 33, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
+(186, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 34, 'Member', 'MEMBER', 1, '2025-08-22', NULL);
 
 -- --------------------------------------------------------
 
@@ -1555,7 +1569,8 @@ INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (1, 1, 1, '2025-08-06 16:27:31', '2025-08-08 21:56:30', NULL, 1, 'Atlis Technologies', 1, 3, 'main_logo_dark_bg.png', '/module/agency/uploads/agency_1.png', 67568, 'image/png'),
 (2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 2, 'Office of the Public Defender', 30, 28, NULL, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL);
+(4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL),
+(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1814,12 +1829,71 @@ CREATE TABLE `module_division` (
 -- Dumping data for table `module_division`
 --
 
+
 INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
 (1, 1, 1, '2025-08-06 16:27:41', '2025-08-08 21:58:10', NULL, 1, 'Atlis', 1, 5, NULL, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-06 16:28:28', '2025-08-21 15:48:03', NULL, 2, 'Judicial Information Services & Technology', NULL, 5, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5, NULL, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL);
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_organization_persons`
+--
+
+CREATE TABLE `module_organization_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `organization_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_agency_persons`
+--
+
+CREATE TABLE `module_agency_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_division_persons`
+--
+
+CREATE TABLE `module_division_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `division_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1931,6 +2005,7 @@ INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_create
 (1, 1, 1, '2025-08-06 16:27:19', '2025-08-08 22:19:06', NULL, 'Atlis Technologies LLC', 1, 1, NULL, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1, NULL, NULL, NULL, NULL);
 
+
 -- --------------------------------------------------------
 
 --
@@ -1952,6 +2027,7 @@ CREATE TABLE `module_projects` (
   `specifications` text DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0
@@ -1960,7 +2036,6 @@ CREATE TABLE `module_projects` (
 --
 -- Dumping data for table `module_projects`
 --
-
 INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
 (1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
 (2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
@@ -1968,7 +2043,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0),
 (5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, '2025-08-21', NULL, 0),
 (6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, '2025-08-21', NULL, 0),
-(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0);
+(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0),
+(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, '0000-00-00', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2069,7 +2145,8 @@ CREATE TABLE `module_projects_notes` (
 INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `note_text`) VALUES
 (1, 1, 1, '2025-08-21 22:23:10', '2025-08-21 22:23:10', NULL, 6, 'Sean Cadina will be Account Manager for McLean.'),
 (4, 1, 1, '2025-08-21 22:27:53', '2025-08-21 22:28:09', NULL, 7, '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.');
+(5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
+(6, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 9, 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY');
 
 -- --------------------------------------------------------
 
@@ -2228,9 +2305,6 @@ CREATE TABLE `person` (
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
-  `organization_id` int(11) DEFAULT NULL,
-  `agency_id` int(11) DEFAULT NULL,
-  `division_id` int(11) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
@@ -2242,18 +2316,18 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
-(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
-(12, 5, 'RJ', 'Calara', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
-(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
-(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
-(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
-(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
-(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, 2, 3, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
-(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', NULL, 59, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
+(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
+(12, 5, 'RJ', 'Calara', NULL, 59, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
+(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
+(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
+(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
+(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
+(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -2347,7 +2421,10 @@ CREATE TABLE `system_properties` (
 --
 
 INSERT INTO `system_properties` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `category_id`, `name`, `value`, `type_id`, `description`) VALUES
-(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 30, 'logo', '/assets/logo.png', 32, 'Default site logo');
+(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 30, 'logo', '/assets/logo.png', 32, 'Default site logo'),
+(2, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_ORGANIZATION_STATUS', '1', 32, 'Default status for new organizations'),
+(3, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_AGENCY_STATUS', '3', 32, 'Default status for new agencies'),
+(4, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_DIVISION_STATUS', '5', 32, 'Default status for new divisions');
 
 -- --------------------------------------------------------
 
@@ -2402,7 +2479,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 08:26:16', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-21 11:33:59'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 15:54:01', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 15:54:01'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2435,7 +2512,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(5, 1, 1, '2025-08-21 11:33:59', '2025-08-21 11:34:01', NULL, '988825', '2025-08-21 11:43:59', 1);
+(6, 1, 1, '2025-08-22 15:54:01', '2025-08-22 15:54:04', NULL, '876984', '2025-08-22 16:04:01', 1);
 
 -- --------------------------------------------------------
 
@@ -2701,6 +2778,39 @@ ALTER TABLE `module_division`
   ADD KEY `fk_module_division_status` (`status`);
 
 --
+-- Indexes for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_organization_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_organization_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_organization_persons_organization_id` (`organization_id`),
+  ADD KEY `fk_module_organization_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_organization_persons_role_id` (`role_id`);
+
+--
+-- Indexes for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_persons_agency_id` (`agency_id`),
+  ADD KEY `fk_module_agency_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
+
+--
+-- Indexes for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_division_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_division_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_division_persons_division_id` (`division_id`),
+  ADD KEY `fk_module_division_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_division_persons_role_id` (`role_id`);
+
+--
 -- Indexes for table `module_kanban_boards`
 --
 ALTER TABLE `module_kanban_boards`
@@ -2748,7 +2858,8 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_agency_id` (`agency_id`),
   ADD KEY `fk_module_projects_division_id` (`division_id`),
   ADD KEY `fk_module_projects_status` (`status`),
-  ADD KEY `fk_module_projects_priority` (`priority`);
+  ADD KEY `fk_module_projects_priority` (`priority`),
+  ADD KEY `fk_module_projects_type` (`type`);
 
 --
 -- Indexes for table `module_projects_assignments`
@@ -2831,9 +2942,7 @@ ALTER TABLE `person`
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
   ADD KEY `fk_person_user_updated` (`user_updated`),
   ADD KEY `fk_person_gender_id` (`gender_id`),
-  ADD KEY `fk_person_organization_id` (`organization_id`),
-  ADD KEY `fk_person_agency_id` (`agency_id`),
-  ADD KEY `fk_person_division_id` (`division_id`);
+  ADD KEY `fk_person_gender_id` (`gender_id`);
 
 --
 -- Indexes for table `person_addresses`
@@ -2915,7 +3024,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2969,19 +3078,19 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=534;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=536;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -2993,7 +3102,7 @@ ALTER TABLE `lookup_list_item_attributes`
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_contractors`
@@ -3047,7 +3156,25 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3071,13 +3198,13 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
@@ -3095,7 +3222,7 @@ ALTER TABLE `module_projects_files`
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
@@ -3161,7 +3288,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -3338,6 +3465,36 @@ ALTER TABLE `module_division`
   ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD CONSTRAINT `fk_module_organization_persons_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_organization_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_organization_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD CONSTRAINT `fk_module_agency_persons_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_division_persons`
+--
+ALTER TABLE `module_division_persons`
+  ADD CONSTRAINT `fk_module_division_persons_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_division_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_division_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_division_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_division_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_kanban_board_projects`
 --
 ALTER TABLE `module_kanban_board_projects`
@@ -3366,7 +3523,8 @@ ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
   ADD CONSTRAINT `fk_module_projects_priority_id` FOREIGN KEY (`priority`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_projects_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_projects_assignments`
@@ -3422,10 +3580,7 @@ ALTER TABLE `module_task_assignments`
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
-  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 

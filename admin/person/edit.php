@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../includes/helpers.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $first_name = $last_name = $email = $dob = '';
-$gender_id = $organization_id = $agency_id = $division_id = null;
+$gender_id = null;
 $existing = null;
 $addresses = [];
 $phones = [];
@@ -26,9 +26,6 @@ if ($id) {
     $email      = $row['email'] ?? '';
     $gender_id  = $row['gender_id'] ?? null;
     $dob        = $row['dob'] ?? '';
-    $organization_id = $row['organization_id'] ?? null;
-    $agency_id       = $row['agency_id'] ?? null;
-    $division_id     = $row['division_id'] ?? null;
 
     $stmt = $pdo->prepare('SELECT * FROM person_addresses WHERE person_id = :id');
     $stmt->execute([':id'=>$id]);
@@ -46,9 +43,6 @@ $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
 $genderItems        = get_lookup_items($pdo, 'USER_GENDER');
-$orgItems           = $pdo->query('SELECT id, name FROM module_organization ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-$agencyItems        = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-$divisionItems      = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 $addressTypeItems   = get_lookup_items($pdo, 'PERSON_ADDRESS_TYPE');
 $addressStatusItems = get_lookup_items($pdo, 'PERSON_ADDRESS_STATUS');
 $stateItems         = get_lookup_items($pdo, 'US_STATES');
@@ -73,23 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email      = trim($_POST['email'] ?? '');
   $gender_id  = $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
   $dob        = $_POST['dob'] !== '' ? $_POST['dob'] : null;
-  $organization_id = $_POST['organization_id'] !== '' ? (int)$_POST['organization_id'] : null;
-  $agency_id       = $_POST['agency_id'] !== '' ? (int)$_POST['agency_id'] : null;
-  $division_id     = $_POST['division_id'] !== '' ? (int)$_POST['division_id'] : null;
   $addresses = $_POST['addresses'] ?? [];
   $phones    = $_POST['phones'] ?? [];
 
   $pdo->beginTransaction();
   try {
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,organization_id=:organization_id,agency_id=:agency_id,division_id=:division_id,dob=:dob,user_updated=:uid WHERE id=:id');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
-      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Updated person');
+      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,dob=:dob,user_updated=:uid WHERE id=:id');
+      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
+      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Updated person');
     } else {
-      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,organization_id,agency_id,division_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:organization_id,:agency_id,:division_id,:dob,:uid)');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id]);
+      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:dob,:uid)');
+      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id]);
       $id = $pdo->lastInsertId();
-      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Created person');
+      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Created person');
     }
 
     $stmt = $pdo->prepare('SELECT id FROM person_addresses WHERE person_id = :id');
@@ -214,33 +205,6 @@ require_once '../admin_header.php';
   <div class="mb-3">
     <label class="form-label">Email</label>
     <input type="email" name="email" class="form-control" value="<?= h($email); ?>">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Organization</label>
-    <select name="organization_id" class="form-select">
-      <option value="">-- Select --</option>
-      <?php foreach($orgItems as $o): ?>
-        <option value="<?= h($o['id']); ?>" <?= (int)$organization_id === (int)$o['id'] ? 'selected' : ''; ?>><?= h($o['name']); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Agency</label>
-    <select name="agency_id" class="form-select">
-      <option value="">-- Select --</option>
-      <?php foreach($agencyItems as $o): ?>
-        <option value="<?= h($o['id']); ?>" <?= (int)$agency_id === (int)$o['id'] ? 'selected' : ''; ?>><?= h($o['name']); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Division</label>
-    <select name="division_id" class="form-select">
-      <option value="">-- Select --</option>
-      <?php foreach($divisionItems as $o): ?>
-        <option value="<?= h($o['id']); ?>" <?= (int)$division_id === (int)$o['id'] ? 'selected' : ''; ?>><?= h($o['name']); ?></option>
-      <?php endforeach; ?>
-    </select>
   </div>
   <div class="mb-3">
     <label class="form-label">Gender</label>

@@ -96,6 +96,37 @@ foreach ($rows as $row) {
   }
 }
 
+// Attach assigned persons
+$orgPeople = $pdo->query('SELECT op.organization_id, CONCAT(p.first_name," ",p.last_name) AS name, op.is_lead, li.label AS role_label FROM module_organization_persons op JOIN person p ON op.person_id = p.id LEFT JOIN lookup_list_items li ON op.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
+foreach ($orgPeople as $p) {
+  $organizations[$p['organization_id']]['persons'][] = $p;
+}
+
+$agencyPeople = $pdo->query('SELECT ap.agency_id, CONCAT(p.first_name," ",p.last_name) AS name, ap.is_lead, li.label AS role_label FROM module_agency_persons ap JOIN person p ON ap.person_id = p.id LEFT JOIN lookup_list_items li ON ap.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
+foreach ($agencyPeople as $p) {
+  foreach ($organizations as &$org) {
+    if (isset($org['agencies'][$p['agency_id']])) {
+      $org['agencies'][$p['agency_id']]['persons'][] = $p;
+      break;
+    }
+  }
+  unset($org);
+}
+
+$divisionPeople = $pdo->query('SELECT dp.division_id, CONCAT(p.first_name," ",p.last_name) AS name, dp.is_lead, li.label AS role_label FROM module_division_persons dp JOIN person p ON dp.person_id = p.id LEFT JOIN lookup_list_items li ON dp.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
+foreach ($divisionPeople as $p) {
+  foreach ($organizations as &$org) {
+    foreach ($org['agencies'] as &$agency) {
+      if (isset($agency['divisions'][$p['division_id']])) {
+        $agency['divisions'][$p['division_id']]['persons'][] = $p;
+        break 2;
+      }
+    }
+    unset($agency);
+  }
+  unset($org);
+}
+
 // Re-index children arrays for easy iteration in the view
 foreach ($organizations as &$org) {
   $org['agencies'] = array_values($org['agencies']);
@@ -129,6 +160,21 @@ $organizations = array_values($organizations);
           <td class="ps-2"><?= htmlspecialchars($org['name']); ?>
             <?php if (!empty($org['file_path'])): ?>
               <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
+          <td class="ps-2">
+            <?= htmlspecialchars($org['name']); ?>
+            <?php if (!empty($org['persons'])): ?>
+              <br><small>
+                <?php
+                  $parts = [];
+                  foreach ($org['persons'] as $p) {
+                    $label = $p['name'];
+                    if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
+                    if ($p['is_lead']) $label .= ' [Lead]';
+                    $parts[] = htmlspecialchars($label);
+                  }
+                  echo implode(', ', $parts);
+                ?>
+              </small>
             <?php endif; ?>
           </td>
           <td>
@@ -153,6 +199,20 @@ $organizations = array_values($organizations);
             <td class="ps-8"><b>Agency:</b> <?= htmlspecialchars($agency['name']); ?>
               <?php if (!empty($agency['file_path'])): ?>
                 <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
+              <?php endif; ?>
+              <?php if (!empty($agency['persons'])): ?>
+                <br><small>
+                  <?php
+                    $parts = [];
+                    foreach ($agency['persons'] as $p) {
+                      $label = $p['name'];
+                      if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
+                      if ($p['is_lead']) $label .= ' [Lead]';
+                      $parts[] = htmlspecialchars($label);
+                    }
+                    echo implode(', ', $parts);
+                  ?>
+                </small>
               <?php endif; ?>
             </td>
             <td>

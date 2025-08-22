@@ -11,6 +11,7 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($action === 'create') {
   require_permission('project', 'create');
   $statusMap = get_lookup_items($pdo, 'PROJECT_STATUS');
+  $typeMap   = get_lookup_items($pdo, 'PROJECT_TYPE');
   $agencies = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   require '../../includes/html_header.php';
@@ -84,6 +85,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
+    $typeMap     = array_column(get_lookup_items($pdo,'PROJECT_TYPE'), null, 'id');
     $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
     $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
     $modalWidths = [
@@ -176,14 +178,17 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         $availableStmt = $pdo->query("SELECT u.id AS user_id, CONCAT(p.first_name, ' ', p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name");
       }
       $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
-    }
   }
+}
 
 if ($action === 'create-edit') {
   if (!empty($current_project)) {
     require_permission('project', 'update');
   } else {
     require_permission('project', 'create');
+    $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
+    $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
+    $typeMap     = array_column(get_lookup_items($pdo,'PROJECT_TYPE'), null, 'id');
   }
 }
 
