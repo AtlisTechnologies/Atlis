@@ -5,6 +5,7 @@ require_permission('contractors', 'read');
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $contractor = null;
 $availableUsers = [];
+$currentPhone = $currentAddress = null;
 
 if ($id) {
   $stmt = $pdo->prepare('SELECT mc.*, p.first_name, p.last_name FROM module_contractors mc JOIN person p ON mc.person_id = p.id WHERE mc.id = :id');
@@ -12,6 +13,24 @@ if ($id) {
   $contractor = $stmt->fetch(PDO::FETCH_ASSOC);
   if (!$contractor) {
     $id = 0;
+  }
+  if ($contractor) {
+    $stmt = $pdo->prepare('SELECT phone_number FROM person_phones WHERE person_id = :pid ORDER BY date_updated DESC, id DESC LIMIT 1');
+    $stmt->execute([':pid' => $contractor['person_id']]);
+    $currentPhone = $stmt->fetchColumn();
+    $stmt = $pdo->prepare('SELECT address_line1, address_line2, city, state_id, postal_code, country FROM person_addresses WHERE person_id = :pid ORDER BY date_updated DESC, id DESC LIMIT 1');
+    $stmt->execute([':pid' => $contractor['person_id']]);
+    if($addr = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $parts = array_filter([
+        $addr['address_line1'] ?? null,
+        $addr['address_line2'] ?? null,
+        $addr['city'] ?? null,
+        $addr['state_id'] ?? null,
+        $addr['postal_code'] ?? null,
+        $addr['country'] ?? null
+      ]);
+      $currentAddress = implode(', ', $parts);
+    }
   }
 } else {
   $stmt = $pdo->query('SELECT u.id, CONCAT(p.first_name, " ", p.last_name) AS full_name FROM users u JOIN person p ON u.id = p.user_id WHERE u.id NOT IN (SELECT user_id FROM module_contractors) ORDER BY p.first_name, p.last_name');
@@ -110,6 +129,12 @@ function format_display_date($dt) {
     <form method="post" action="functions/<?= $id ? 'update.php' : 'create.php'; ?>">
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">
       <?php if($id): ?><input type="hidden" name="id" value="<?= $id; ?>"><?php endif; ?>
+      <?php if($id): ?>
+      <div class="alert alert-secondary small mb-3">
+        <strong>Phone:</strong> <?= h($currentPhone ?? 'N/A'); ?><br>
+        <strong>Address:</strong> <?= h($currentAddress ?? 'N/A'); ?>
+      </div>
+      <?php endif; ?>
       <?php if(!$id): ?>
       <div class="mb-3">
         <label class="form-label">User</label>

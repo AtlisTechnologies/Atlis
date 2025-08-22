@@ -6,6 +6,7 @@ date_default_timezone_set('America/Denver');
 // connect to Database
 require 'config.php';
 require_once __DIR__ . '/lookup_helpers.php';
+require_once __DIR__ . '/contractor_helpers.php';
 
 $today = date('Y-m-d H:i:s');
 $today_date = date('Y-m-d');

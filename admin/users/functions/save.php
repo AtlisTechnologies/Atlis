@@ -307,6 +307,11 @@ try {
     }
   }
 
+  // Refresh contractor contact info if applicable
+  if($person_id){
+    update_contractor_contact($pdo, $person_id);
+  }
+
   if ($profilePath) {
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
