@@ -38,9 +38,68 @@ $orgStatuses      = array_column(get_lookup_items($pdo, 'ORGANIZATION_STATUS'), 
 $agencyStatuses   = array_column(get_lookup_items($pdo, 'AGENCY_STATUS'), null, 'id');
 $divisionStatuses = array_column(get_lookup_items($pdo, 'DIVISION_STATUS'), null, 'id');
 
+// Load organizations, agencies and divisions in a single query
+$sql = 'SELECT o.id AS org_id, o.name AS org_name, o.status AS org_status,
+               a.id AS agency_id, a.name AS agency_name, a.status AS agency_status,
+               a.file_path, a.file_name, a.file_type,
+               d.id AS division_id, d.name AS division_name, d.status AS division_status
+        FROM module_organization o
+        LEFT JOIN module_agency a ON a.organization_id = o.id
+        LEFT JOIN module_division d ON d.agency_id = a.id
+        ORDER BY o.name, a.name, d.name';
 
-$orgStmt = $pdo->query('SELECT id, name, status FROM module_organization ORDER BY name');
-$organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->query($sql);
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Group the results by organization and agencies
+$organizations = [];
+foreach ($rows as $row) {
+  $orgId = $row['org_id'];
+  if (!isset($organizations[$orgId])) {
+    $organizations[$orgId] = [
+      'id'       => $orgId,
+      'name'     => $row['org_name'],
+      'status'   => $row['org_status'],
+      'agencies' => []
+    ];
+  }
+
+  if (!empty($row['agency_id'])) {
+    $agencyId = $row['agency_id'];
+    if (!isset($organizations[$orgId]['agencies'][$agencyId])) {
+      $organizations[$orgId]['agencies'][$agencyId] = [
+        'id'        => $agencyId,
+        'name'      => $row['agency_name'],
+        'status'    => $row['agency_status'],
+        'file_path' => $row['file_path'],
+        'file_name' => $row['file_name'],
+        'file_type' => $row['file_type'],
+        'divisions' => []
+      ];
+    }
+
+    if (!empty($row['division_id'])) {
+      $organizations[$orgId]['agencies'][$agencyId]['divisions'][$row['division_id']] = [
+        'id'     => $row['division_id'],
+        'name'   => $row['division_name'],
+        'status' => $row['division_status']
+      ];
+    }
+  }
+}
+
+// Re-index children arrays for easy iteration in the view
+foreach ($organizations as &$org) {
+  $org['agencies'] = array_values($org['agencies']);
+  foreach ($org['agencies'] as &$agency) {
+    $agency['divisions'] = array_values($agency['divisions']);
+  }
+  unset($agency);
+}
+unset($org);
+
+// Convert to a simple indexed array
+$organizations = array_values($organizations);
 ?>
 <h2 class="mb-4">Organizations</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
@@ -57,7 +116,7 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
       </tr>
     </thead>
     <tbody>
-      <?php foreach($organizations as $org): ?>
+      <?php foreach ($organizations as $org): ?>
         <tr>
           <td><?= htmlspecialchars($org['name']); ?></td>
           <td>
@@ -78,14 +137,10 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
           </td>
         </tr>
-        <?php
-          $agencyStmt = $pdo->prepare('SELECT id, name, status, file_path, file_name, file_type FROM module_agency WHERE organization_id = :oid ORDER BY name');
-          $agencyStmt->execute([':oid' => $org['id']]);
-          $agencies = $agencyStmt->fetchAll(PDO::FETCH_ASSOC);
-          foreach($agencies as $agency): ?>
+        <?php foreach ($org['agencies'] as $agency): ?>
           <tr class="bg-body-tertiary">
             <td class="ps-4">Agency: <?= htmlspecialchars($agency['name']); ?>
-              <?php if(!empty($agency['file_path'])): ?>
+              <?php if (!empty($agency['file_path'])): ?>
                 <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
               <?php endif; ?>
             </td>
@@ -107,11 +162,7 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
               <?php endif; ?>
             </td>
           </tr>
-          <?php
-            $divisionStmt = $pdo->prepare('SELECT id, name, status FROM module_division WHERE agency_id = :aid ORDER BY name');
-            $divisionStmt->execute([':aid' => $agency['id']]);
-            $divisions = $divisionStmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach($divisions as $division): ?>
+          <?php foreach ($agency['divisions'] as $division): ?>
             <tr class="bg-body-secondary">
               <td class="ps-5">Division: <?= htmlspecialchars($division['name']); ?></td>
               <td>
@@ -129,8 +180,8 @@ $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endif; ?>
               </td>
             </tr>
-            <?php endforeach; ?>
           <?php endforeach; ?>
+        <?php endforeach; ?>
       <?php endforeach; ?>
     </tbody>
   </table>
