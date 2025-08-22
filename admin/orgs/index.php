@@ -40,9 +40,11 @@ $divisionStatuses = array_column(get_lookup_items($pdo, 'DIVISION_STATUS'), null
 
 // Load organizations, agencies and divisions in a single query
 $sql = 'SELECT o.id AS org_id, o.name AS org_name, o.status AS org_status,
+               o.file_path AS org_file_path, o.file_name AS org_file_name, o.file_type AS org_file_type,
                a.id AS agency_id, a.name AS agency_name, a.status AS agency_status,
-               a.file_path, a.file_name, a.file_type,
-               d.id AS division_id, d.name AS division_name, d.status AS division_status
+               a.file_path AS agency_file_path, a.file_name AS agency_file_name, a.file_type AS agency_file_type,
+               d.id AS division_id, d.name AS division_name, d.status AS division_status,
+               d.file_path AS division_file_path, d.file_name AS division_file_name, d.file_type AS division_file_type
         FROM module_organization o
         LEFT JOIN module_agency a ON a.organization_id = o.id
         LEFT JOIN module_division d ON d.agency_id = a.id
@@ -57,10 +59,13 @@ foreach ($rows as $row) {
   $orgId = $row['org_id'];
   if (!isset($organizations[$orgId])) {
     $organizations[$orgId] = [
-      'id'       => $orgId,
-      'name'     => $row['org_name'],
-      'status'   => $row['org_status'],
-      'agencies' => []
+      'id'        => $orgId,
+      'name'      => $row['org_name'],
+      'status'    => $row['org_status'],
+      'file_path' => $row['org_file_path'],
+      'file_name' => $row['org_file_name'],
+      'file_type' => $row['org_file_type'],
+      'agencies'  => []
     ];
   }
 
@@ -71,18 +76,21 @@ foreach ($rows as $row) {
         'id'        => $agencyId,
         'name'      => $row['agency_name'],
         'status'    => $row['agency_status'],
-        'file_path' => $row['file_path'],
-        'file_name' => $row['file_name'],
-        'file_type' => $row['file_type'],
+        'file_path' => $row['agency_file_path'],
+        'file_name' => $row['agency_file_name'],
+        'file_type' => $row['agency_file_type'],
         'divisions' => []
       ];
     }
 
     if (!empty($row['division_id'])) {
       $organizations[$orgId]['agencies'][$agencyId]['divisions'][$row['division_id']] = [
-        'id'     => $row['division_id'],
-        'name'   => $row['division_name'],
-        'status' => $row['division_status']
+        'id'        => $row['division_id'],
+        'name'      => $row['division_name'],
+        'status'    => $row['division_status'],
+        'file_path' => $row['division_file_path'],
+        'file_name' => $row['division_file_name'],
+        'file_type' => $row['division_file_type']
       ];
     }
   }
@@ -149,6 +157,9 @@ $organizations = array_values($organizations);
     <tbody>
       <?php foreach ($organizations as $org): ?>
         <tr>
+          <td class="ps-2"><?= htmlspecialchars($org['name']); ?>
+            <?php if (!empty($org['file_path'])): ?>
+              <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
           <td class="ps-2">
             <?= htmlspecialchars($org['name']); ?>
             <?php if (!empty($org['persons'])): ?>
@@ -224,19 +235,8 @@ $organizations = array_values($organizations);
           <?php foreach ($agency['divisions'] as $division): ?>
             <tr class="bg-body-secondary">
               <td class="ps-12"><b>Division:</b> <?= htmlspecialchars($division['name']); ?>
-                <?php if (!empty($division['persons'])): ?>
-                  <br><small>
-                    <?php
-                      $parts = [];
-                      foreach ($division['persons'] as $p) {
-                        $label = $p['name'];
-                        if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
-                        if ($p['is_lead']) $label .= ' [Lead]';
-                        $parts[] = htmlspecialchars($label);
-                      }
-                      echo implode(', ', $parts);
-                    ?>
-                  </small>
+                <?php if (!empty($division['file_path'])): ?>
+                  <br><a href="/module/division/download.php?id=<?= $division['id']; ?>" target="_blank">View File</a>
                 <?php endif; ?>
               </td>
               <td>
