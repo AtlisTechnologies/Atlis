@@ -1,6 +1,4 @@
 <?php
-require '../admin_header.php';
-
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $name = '';
 $main_person = null;
@@ -51,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Location: index.php');
   exit;
 }
+
+require '../admin_header.php';
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Organization</h2>
 <form method="post">
