@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../includes/admin_guard.php';
 require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/helpers.php';
