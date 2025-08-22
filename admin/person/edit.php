@@ -177,6 +177,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
     }
 
+    // Sync contractor contact info
+    update_contractor_contact($pdo, $id);
+
     $pdo->commit();
     header('Location: index.php');
     exit;

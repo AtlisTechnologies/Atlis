@@ -32,6 +32,7 @@ if($userId){
       ':type_id'=>$typeId
     ]);
     $id = $pdo->lastInsertId();
+    update_contractor_contact($pdo, $personId);
     admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'CREATE',null,json_encode(['user_id'=>$userId,'person_id'=>$personId]),'Created contractor');
     header('Location: ../contractor.php?id='.$id);
     exit;

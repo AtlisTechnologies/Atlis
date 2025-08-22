@@ -34,6 +34,12 @@ if($id){
     ':id'=>$id
   ]);
 
+  $pidStmt = $pdo->prepare('SELECT person_id FROM module_contractors WHERE id=:id');
+  $pidStmt->execute([':id'=>$id]);
+  if($personId = $pidStmt->fetchColumn()){
+    update_contractor_contact($pdo, (int)$personId);
+  }
+
   admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'UPDATE',json_encode($old),json_encode(['status_id'=>$statusId,'initial_contact_date'=>$initial,'title_role'=>$title,'acquaintance'=>$acquaintance,'acquaintance_type_id'=>$acqTypeId,'start_date'=>$start,'end_date'=>$end]),'Updated contractor');
 }
 header('Location: ../contractor.php?id='.$id);

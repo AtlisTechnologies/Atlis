@@ -1538,7 +1538,9 @@ CREATE TABLE `module_contractors` (
   `acquaintance` text DEFAULT NULL,
   `acquaintance_type_id` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL
+  `end_date` date DEFAULT NULL,
+  `contact_phone` varchar(50) DEFAULT NULL,
+  `contact_address` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
