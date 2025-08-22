@@ -135,25 +135,33 @@ if (!empty($_FILES['profile_pic']['name']) && $_FILES['profile_pic']['error'] ==
     $typeItems = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
     $allowed   = array_column($typeItems, 'code');
     $extMap    = array_column($typeItems, 'label', 'code');
-    if (in_array($mime, $allowed, true)) {
-      $ext = $extMap[$mime] ?? pathinfo($file['name'], PATHINFO_EXTENSION);
-      $safe = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($file['name'], PATHINFO_FILENAME));
-      $filename = $safe . '_' . time() . '.' . $ext;
-      $destDir = '../../../module/users/uploads/';
-      if (!is_dir($destDir)) {
-        mkdir($destDir, 0755, true);
-      }
-      $dest = $destDir . $filename;
-      if (move_uploaded_file($file['tmp_name'], $dest)) {
-        $profilePath = 'module/users/uploads/' . $filename;
-        $fileSize = $file['size'];
-        $hashFile = hash_file('sha256', $dest);
-        $img = getimagesize($dest);
-        if ($img) {
-          $width = $img[0];
-          $height = $img[1];
-        }
-      }
+    if (!in_array($mime, $allowed, true)) {
+      $_SESSION['error_message'] = 'Unsupported image type.';
+      $_SESSION['message'] = 'Error uploading profile picture.';
+      header('Location: ../edit.php?id=' . $id);
+      exit;
+    }
+    $ext = $extMap[$mime] ?? pathinfo($file['name'], PATHINFO_EXTENSION);
+    $safe = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($file['name'], PATHINFO_FILENAME));
+    $filename = $safe . '_' . time() . '.' . $ext;
+    $destDir = '../../../module/users/uploads/';
+    if (!is_dir($destDir)) {
+      mkdir($destDir, 0755, true);
+    }
+    $dest = $destDir . $filename;
+    if (!move_uploaded_file($file['tmp_name'], $dest)) {
+      $_SESSION['error_message'] = 'Failed to move uploaded file.';
+      $_SESSION['message'] = 'Error uploading profile picture.';
+      header('Location: ../edit.php?id=' . $id);
+      exit;
+    }
+    $profilePath = 'module/users/uploads/' . $filename;
+    $fileSize = $file['size'];
+    $hashFile = hash_file('sha256', $dest);
+    $img = getimagesize($dest);
+    if ($img) {
+      $width = $img[0];
+      $height = $img[1];
     }
   }
 }
