@@ -1,5 +1,7 @@
 <?php
-require '../admin_header.php';
+require_once __DIR__ . '/../../includes/admin_guard.php';
+require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../includes/helpers.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $organization_id = isset($_GET['organization_id']) ? (int)$_GET['organization_id'] : null;
@@ -34,15 +36,6 @@ if ($id) {
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
-
-$orgStmt = $pdo->query('SELECT id, name FROM module_organization ORDER BY name');
-$orgOptions = $orgStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
-$personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$statusItems   = get_lookup_items($pdo, 'AGENCY_STATUS');
-$statusOptions = array_column($statusItems, 'label', 'id');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
@@ -104,6 +97,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Location: index.php');
   exit;
 }
+
+$orgStmt = $pdo->query('SELECT id, name FROM module_organization ORDER BY name');
+$orgOptions = $orgStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$personStmt = $pdo->query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM person ORDER BY first_name, last_name');
+$personOptions = $personStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$statusItems   = get_lookup_items($pdo, 'AGENCY_STATUS');
+$statusOptions = array_column($statusItems, 'label', 'id');
+
+require '../admin_header.php';
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Agency</h2>
 
