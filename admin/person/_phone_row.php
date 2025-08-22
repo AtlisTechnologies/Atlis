@@ -3,10 +3,8 @@ $phRow = $phRow ?? [];
 $index = $index ?? 0;
 $selType = $phRow['type_id'] ?? $defaultPhoneTypeId;
 $selStatus = $phRow['status_id'] ?? $defaultPhoneStatusId;
-$typeColor = 'secondary';
-foreach ($phoneTypeItems as $it) { if ($it['id']==$selType) { $typeColor=$it['color_class']; break; } }
-$statusColor = 'secondary';
-foreach ($phoneStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$it['color_class']; break; } }
+$phoneTypeMap = array_column($phoneTypeItems, null, 'id');
+$phoneStatusMap = array_column($phoneStatusItems, null, 'id');
 ?>
 <div class="phone-item border p-2 mb-2">
   <input type="hidden" name="phones[<?= $index; ?>][id]" value="<?= h($phRow['id'] ?? ''); ?>">
@@ -18,7 +16,7 @@ foreach ($phoneStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$
           <option value="<?= h($pt['id']); ?>" data-color="<?= h($pt['color_class']); ?>" <?= $selected; ?>><?= h($pt['label']); ?></option>
         <?php endforeach; ?>
       </select>
-      <span class="badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-<?= h($typeColor); ?>"></span>
+      <?= render_status_badge($phoneTypeMap, $selType, 'fs-10 ms-1 lookup-badge') ?>
     </div>
     <div class="col-md-2">
       <label class="form-label mb-0">Status</label>
@@ -27,7 +25,7 @@ foreach ($phoneStatusItems as $it) { if ($it['id']==$selStatus) { $statusColor=$
           <option value="<?= h($ps['id']); ?>" data-color="<?= h($ps['color_class']); ?>" <?= $selected; ?>><?= h($ps['label']); ?></option>
         <?php endforeach; ?>
       </select>
-      <span class="badge badge-phoenix fs-10 ms-1 lookup-badge badge-phoenix-<?= h($statusColor); ?>"></span>
+      <?= render_status_badge($phoneStatusMap, $selStatus, 'fs-10 ms-1 lookup-badge') ?>
     </div>
     <div class="col-md-3">
       <label class="form-label mb-0">Number</label>

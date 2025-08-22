@@ -34,4 +34,28 @@ function get_lookup_items(PDO $pdo, int|string $list): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Render a Phoenix badge for a lookup item.
+ *
+ * @param array       $lookupList Associative array of lookup items keyed by ID.
+ * @param int|string  $id         Lookup item ID.
+ * @param string|null $classes    Optional additional classes (size etc.).
+ * @param array       $attributes Optional attribute key/value pairs.
+ * @return string                  HTML span markup for the badge.
+ */
+function render_status_badge(array $lookupList, int|string $id, ?string $classes = 'fs-10', array $attributes = []): string {
+    $item  = $lookupList[$id] ?? [];
+    $color = $item['color_class'] ?? 'secondary';
+    $label = $item['label'] ?? '';
+
+    $attrString = '';
+    foreach ($attributes as $attr => $value) {
+        $attrString .= ' ' . htmlspecialchars($attr) . '="' . htmlspecialchars($value) . '"';
+    }
+
+    $classString = trim('badge badge-phoenix badge-phoenix-' . htmlspecialchars($color) . ' ' . ($classes ?? ''));
+
+    return '<span class="' . $classString . '"' . $attrString . '><span class="badge-label">' . htmlspecialchars($label) . '</span></span>';
+}
+
 ?>

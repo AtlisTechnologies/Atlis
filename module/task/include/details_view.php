@@ -24,23 +24,19 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
     <?php endif; ?>
     <p class="mb-3 mt-3">
-      <span id="statusBadge" class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($statusMap[$current_task['status']]['color_class'] ?? 'secondary'); ?>">
-        <span class="badge-label"><?php echo h($statusMap[$current_task['status']]['label'] ?? ''); ?></span>
-      </span>
-      <span id="priorityBadge" class="badge badge-phoenix fs-8 badge-phoenix-<?php echo h($priorityMap[$current_task['priority']]['color_class'] ?? 'secondary'); ?>">
-        <span class="badge-label"><?php echo h($priorityMap[$current_task['priority']]['label'] ?? ''); ?></span>
-      </span>
+      <?= render_status_badge($statusMap, $current_task['status'], 'fs-8', ['id' => 'statusBadge']) ?>
+      <?= render_status_badge($priorityMap, $current_task['priority'], 'fs-8', ['id' => 'priorityBadge']) ?>
       <?php if (user_has_permission('task','update')): ?>
       <form id="taskUpdateForm" class="d-inline ms-2">
         <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
         <select class="form-select form-select-sm d-inline w-auto" name="status">
           <?php foreach ($statusMap as $s): ?>
-            <option value="<?php echo (int)$s['id']; ?>" <?php echo ((int)$current_task['status'] === (int)$s['id']) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
+            <option value="<?php echo (int)$s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$s['id']) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <select class="form-select form-select-sm d-inline w-auto ms-1" name="priority">
           <?php foreach ($priorityMap as $p): ?>
-            <option value="<?php echo (int)$p['id']; ?>" <?php echo ((int)$current_task['priority'] === (int)$p['id']) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
+            <option value="<?php echo (int)$p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$p['id']) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <button class="btn btn-atlis btn-sm ms-1" type="submit">Update</button>
