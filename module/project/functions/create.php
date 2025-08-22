@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'] ?? '';
   $status   = $_POST['status'] ?? null;
   $priority = $_POST['priority'] ?? null;
+  $type     = $_POST['type'] ?? null;
   $description = $_POST['description'] ?? null;
   $requirements = $_POST['requirements'] ?? null;
   $specifications = $_POST['specifications'] ?? null;
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $agency_id = $_POST['agency_id'] ?? null;
   $division_id = $_POST['division_id'] ?? null;
 
-  $stmt = $pdo->prepare('INSERT INTO module_projects (user_id, user_updated, agency_id, division_id, name, description, requirements, specifications, status, priority, start_date) VALUES (:uid, :uid, :agency_id, :division_id, :name, :description, :requirements, :specifications, :status, :priority, :start_date)');
+  $stmt = $pdo->prepare('INSERT INTO module_projects (user_id, user_updated, agency_id, division_id, name, description, requirements, specifications, status, priority, type, start_date) VALUES (:uid, :uid, :agency_id, :division_id, :name, :description, :requirements, :specifications, :status, :priority, :type, :start_date)');
   $stmt->execute([
     ':uid' => $this_user_id,
     ':agency_id' => $agency_id,
@@ -26,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ':specifications' => $specifications,
     ':status' => $status,
     ':priority' => $priority,
+    ':type' => $type,
     ':start_date' => $start_date
   ]);
   $id = $pdo->lastInsertId();
@@ -46,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'specifications' => $specifications,
       'status' => $status,
       'priority' => $priority,
+      'type' => $type,
       'start_date' => $start_date
     ]),
     'Created project'

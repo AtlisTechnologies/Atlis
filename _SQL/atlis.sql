@@ -1944,6 +1944,7 @@ CREATE TABLE `module_projects` (
   `specifications` text DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `complete_date` date DEFAULT NULL,
   `completed` tinyint(1) DEFAULT 0
@@ -1953,14 +1954,14 @@ CREATE TABLE `module_projects` (
 -- Dumping data for table `module_projects`
 --
 
-INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
-(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
-(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
-(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, '2025-04-26', NULL, 0),
-(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0),
-(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, '2025-08-21', NULL, 0),
-(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, '2025-08-21', NULL, 0),
-(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0);
+INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `type`, `start_date`, `complete_date`, `completed`) VALUES
+(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, NULL, '2025-08-01', NULL, 0),
+(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, NULL, '2025-08-01', NULL, 0),
+(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, NULL, '2025-04-26', NULL, 0),
+(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', ', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
+(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2740,7 +2741,8 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_agency_id` (`agency_id`),
   ADD KEY `fk_module_projects_division_id` (`division_id`),
   ADD KEY `fk_module_projects_status` (`status`),
-  ADD KEY `fk_module_projects_priority` (`priority`);
+  ADD KEY `fk_module_projects_priority` (`priority`),
+  ADD KEY `fk_module_projects_type` (`type`);
 
 --
 -- Indexes for table `module_projects_assignments`
@@ -3358,7 +3360,8 @@ ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_projects_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
   ADD CONSTRAINT `fk_module_projects_priority_id` FOREIGN KEY (`priority`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`);
+  ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_projects_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `module_projects_assignments`

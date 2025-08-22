@@ -5,6 +5,7 @@ require_permission('project','create');
 // Ensure lookup lists are available
 $statusMap   = $statusMap   ?? get_lookup_items($pdo, 'PROJECT_STATUS');
 $priorityMap = $priorityMap ?? get_lookup_items($pdo, 'PROJECT_PRIORITY');
+$typeMap     = $typeMap     ?? get_lookup_items($pdo, 'PROJECT_TYPE');
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -60,6 +61,26 @@ $priorityMap = $priorityMap ?? get_lookup_items($pdo, 'PROJECT_PRIORITY');
             <?php endforeach; ?>
           </select>
           <label for="projectPriority">Priority</label>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <?php
+            $hasTypeDefault = false;
+            foreach ($typeMap as $t) {
+              if (!empty($t['is_default'])) {
+                $hasTypeDefault = true;
+                break;
+              }
+            }
+          ?>
+          <select class="form-select" id="projectType" name="type" required>
+            <option value="" <?= $hasTypeDefault ? '' : 'selected'; ?>>Select type</option>
+            <?php foreach ($typeMap as $t): ?>
+              <option value="<?= h($t['id']); ?>" <?= !empty($t['is_default']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label for="projectType">Type</label>
         </div>
       </div>
       <div class="col-sm-6 col-md-4">
