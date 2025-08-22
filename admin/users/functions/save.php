@@ -299,10 +299,7 @@ try {
     }
   }
 
-  $pdo->commit();
-
   if ($profilePath) {
-    $pdo->beginTransaction();
     $pdo->prepare('UPDATE users_profile_pics SET status_id = :inactive, user_updated = :uid WHERE user_id = :user AND status_id = :active')
         ->execute([':inactive' => $inactiveStatusId, ':uid' => $this_user_id, ':user' => $id, ':active' => $activeStatusId]);
     $pstmt = $pdo->prepare('INSERT INTO users_profile_pics (user_id, uploaded_by, file_name, file_path, file_size, file_type, width, height, file_hash, status_id, user_updated) VALUES (:user_id, :uploaded_by, :file_name, :file_path, :file_size, :file_type, :width, :height, :file_hash, :status_id, :uid)');
@@ -322,9 +319,9 @@ try {
     $picId = (int)$pdo->lastInsertId();
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
         ->execute([':pic' => $picId, ':uid' => $this_user_id, ':user' => $id]);
-
-    $pdo->commit();
   }
+
+  $pdo->commit();
 
   $_SESSION['message'] = $isUpdate ? 'User updated.' : 'User created.';
 } catch (Exception $e) {
