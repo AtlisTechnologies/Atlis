@@ -196,8 +196,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 }
- 
-require '../admin_header.php';
+
+require_once '../admin_header.php';
+
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Person</h2>
 <form method="post">
