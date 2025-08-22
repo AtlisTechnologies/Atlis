@@ -61,7 +61,7 @@ $projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 $assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path, CONCAT(per.first_name, ' ', per.last_name) AS name
                            FROM module_projects_assignments pa
                            LEFT JOIN users u ON pa.assigned_user_id = u.id
-                           LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1
+                           LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
                            LEFT JOIN person per ON u.id = per.user_id");
 $assignments = [];
 foreach ($assignStmt as $row) {
@@ -107,7 +107,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
+        $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
       $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.note_id, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NOT NULL ORDER BY f.sort_order, f.date_created DESC');
@@ -141,7 +141,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
             'SELECT ta.task_id, ta.assigned_user_id, upp.file_path, CONCAT(per.first_name, " ", per.last_name) AS name '
             . 'FROM module_task_assignments ta '
             . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
-            . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 '
+            . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id '
             . 'LEFT JOIN person per ON u.id = per.user_id '
             . 'WHERE ta.task_id IN (' . $placeholders . ')'
           );
@@ -163,7 +163,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
       $taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
 
-        $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id AND upp.is_active = 1 LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
+        $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
       $assignedStmt->execute([':id' => $project_id]);
       $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
 
