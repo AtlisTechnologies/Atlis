@@ -90,12 +90,6 @@
           <label for="divisionSelect">Division</label>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="form-check form-switch mt-4">
-          <input class="form-check-input" id="isPrivate" type="checkbox" name="is_private" value="1" <?php if (!empty($task['is_private'])) echo 'checked'; ?>>
-          <label class="form-check-label" for="isPrivate">Private (no project)</label>
-        </div>
-      </div>
       <div class="col-12">
         <div class="form-floating form-floating-advance-select">
           <label for="assignedUsers">Assigned Users</label>
@@ -243,20 +237,14 @@
               <option value="<?php echo $d['id']; ?>" <?php if (($task['division_id'] ?? '') == $d['id']) echo 'selected'; ?>><?php echo h($d['name']); ?></option>
             <?php endforeach; ?>
           </select>
-      <label for="divisionSelect">Division</label>
-    </div>
-  </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="form-check form-switch mt-4">
-          <input class="form-check-input" id="isPrivate" type="checkbox" name="is_private" value="1" <?php if (!empty($task['is_private'])) echo 'checked'; ?>>
-          <label class="form-check-label" for="isPrivate">Private (no project)</label>
+          <label for="divisionSelect">Division</label>
         </div>
       </div>
-  <div class="col-12">
-    <div class="form-floating form-floating-advance-select">
-      <label for="assignedUsers">Assigned Users</label>
-      <select class="form-select" id="assignedUsers" name="assigned_users[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-        <?php foreach ($users as $u): ?>
+      <div class="col-12">
+        <div class="form-floating form-floating-advance-select">
+          <label for="assignedUsers">Assigned Users</label>
+          <select class="form-select" id="assignedUsers" name="assigned_users[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <?php foreach ($users as $u): ?>
               <option value="<?php echo $u['id']; ?>" <?php if (in_array($u['id'], $assignedUsers)) echo 'selected'; ?>><?php echo h($u['email']); ?></option>
             <?php endforeach; ?>
           </select>
