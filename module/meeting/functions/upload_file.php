@@ -90,5 +90,5 @@ if (!empty($_FILES['file'])) {
 }
 
 header('Content-Type: application/json');
-echo json_encode(['files' => $response]);
+echo json_encode(['success' => true, 'files' => $response]);
 exit;
