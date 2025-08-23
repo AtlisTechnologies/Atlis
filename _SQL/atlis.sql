@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 08:01 PM
+-- Generation Time: Aug 23, 2025 at 11:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -97,7 +97,47 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (48, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 'module_projects_questions', 2, 'QUESTION', '', '', 'What was was the color of George Washington\'s white horse?'),
 (49, 1, 1, '2025-08-23 11:04:36', '2025-08-23 11:04:36', NULL, 'module_projects_answers', 2, 'ANSWER', '', '', 'White, dummy.'),
 (50, 1, 1, '2025-08-23 11:04:46', '2025-08-23 11:04:46', NULL, 'module_projects_answers', 3, 'ANSWER', '', '', 'Yeah, it was obviously white.'),
-(51, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 'module_projects', 20, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"6\",\"division_id\":\"8\",\"is_private\":0,\"name\":\"DAVE - AROUND THE HOUSE\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"56\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}');
+(51, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 'module_projects', 20, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"6\",\"division_id\":\"8\",\"is_private\":0,\"name\":\"DAVE - AROUND THE HOUSE\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"56\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}'),
+(52, 1, 1, '2025-08-23 12:11:39', '2025-08-23 12:11:39', NULL, 'admin_permissions', 69, 'CREATE', 'Created permission', NULL, '{\"module\":\"calendar\",\"action\":\"create\"}'),
+(53, 1, 1, '2025-08-23 12:11:41', '2025-08-23 12:11:41', NULL, 'admin_permissions', 70, 'CREATE', 'Created permission', NULL, '{\"module\":\"calendar\",\"action\":\"read\"}'),
+(54, 1, 1, '2025-08-23 12:11:45', '2025-08-23 12:11:45', NULL, 'admin_permissions', 71, 'CREATE', 'Created permission', NULL, '{\"module\":\"calendar\",\"action\":\"update\"}'),
+(55, 1, 1, '2025-08-23 12:11:50', '2025-08-23 12:11:50', NULL, 'admin_permissions', 72, 'CREATE', 'Created permission', NULL, '{\"module\":\"calendar\",\"action\":\"delete\"}'),
+(56, 1, 1, '2025-08-23 12:12:24', '2025-08-23 12:12:24', NULL, 'admin_roles', 44, 'CREATE', 'Created role', NULL, '{\"name\":\"Feedback\",\"description\":\"Permissions for managing feedback records.\"}'),
+(57, 1, 1, '2025-08-23 12:12:24', '2025-08-23 12:12:24', NULL, 'admin_role_permission_groups', 44, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(58, 1, 1, '2025-08-23 12:12:39', '2025-08-23 12:12:39', NULL, 'admin_roles', 45, 'CREATE', 'Created role', NULL, '{\"name\":\"Calendar\",\"description\":\"Permissions for managing calendar records.\"}'),
+(59, 1, 1, '2025-08-23 12:12:39', '2025-08-23 12:12:39', NULL, 'admin_role_permission_groups', 45, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(60, 1, 1, '2025-08-23 12:12:42', '2025-08-23 12:12:42', NULL, 'admin_role_permission_groups', 39, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(61, 1, 1, '2025-08-23 12:12:42', '2025-08-23 12:12:42', NULL, 'admin_roles', 39, 'DELETE', 'Deleted role', NULL, NULL),
+(62, 1, 1, '2025-08-23 12:12:44', '2025-08-23 12:12:44', NULL, 'admin_role_permission_groups', 38, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(63, 1, 1, '2025-08-23 12:12:44', '2025-08-23 12:12:44', NULL, 'admin_roles', 38, 'DELETE', 'Deleted role', NULL, NULL),
+(64, 1, 1, '2025-08-23 12:12:46', '2025-08-23 12:12:46', NULL, 'admin_role_permission_groups', 40, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(65, 1, 1, '2025-08-23 12:12:46', '2025-08-23 12:12:46', NULL, 'admin_roles', 40, 'DELETE', 'Deleted role', NULL, NULL),
+(66, 1, 1, '2025-08-23 12:12:47', '2025-08-23 12:12:47', NULL, 'admin_role_permission_groups', 41, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(67, 1, 1, '2025-08-23 12:12:47', '2025-08-23 12:12:47', NULL, 'admin_roles', 41, 'DELETE', 'Deleted role', NULL, NULL),
+(68, 1, 1, '2025-08-23 12:12:49', '2025-08-23 12:12:49', NULL, 'admin_role_permission_groups', 42, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(69, 1, 1, '2025-08-23 12:12:49', '2025-08-23 12:12:49', NULL, 'admin_roles', 42, 'DELETE', 'Deleted role', NULL, NULL),
+(70, 1, 1, '2025-08-23 12:12:51', '2025-08-23 12:12:51', NULL, 'admin_role_permission_groups', 37, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(71, 1, 1, '2025-08-23 12:12:51', '2025-08-23 12:12:51', NULL, 'admin_roles', 37, 'DELETE', 'Deleted role', NULL, NULL),
+(72, 1, 1, '2025-08-23 12:12:52', '2025-08-23 12:12:52', NULL, 'admin_role_permission_groups', 43, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(73, 1, 1, '2025-08-23 12:12:52', '2025-08-23 12:12:52', NULL, 'admin_roles', 43, 'DELETE', 'Deleted role', NULL, NULL),
+(74, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9,10,11]', '[3,10,6,12,11,5,2,8,4,7,9,1]'),
+(75, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[2,3,5,6,8,9,11]', '[3,6,11,5,2,8,9]'),
+(76, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[8,9,11]', '[11,8,9]'),
+(77, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[8,9,11]', '[11,8,9]'),
+(78, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 13, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(79, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 14, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(80, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 44, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(81, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 'admin_role_permission_groups', 45, 'SYNC', 'Updated role group assignments', '[]', '[]'),
+(82, 1, 1, '2025-08-23 12:13:27', '2025-08-23 12:13:27', NULL, 'admin_role_permission_groups', 44, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(83, 1, 1, '2025-08-23 12:13:27', '2025-08-23 12:13:27', NULL, 'admin_roles', 44, 'DELETE', 'Deleted role', NULL, NULL),
+(84, 1, 1, '2025-08-23 12:13:32', '2025-08-23 12:13:32', NULL, 'admin_role_permission_groups', 45, 'DELETE', 'Removed role group assignments', '[]', '[]'),
+(85, 1, 1, '2025-08-23 12:13:32', '2025-08-23 12:13:32', NULL, 'admin_roles', 45, 'DELETE', 'Deleted role', NULL, NULL),
+(86, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'person', 59, 'CREATE', 'Created person', NULL, '{\"user_id\":14,\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(87, 1, 1, '2025-08-23 15:00:58', '2025-08-23 15:00:58', NULL, 'person', 59, 'UPDATE', 'Updated person', '{\"id\":59,\"user_id\":14,\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-23 15:00:41\",\"date_updated\":\"2025-08-23 15:00:41\",\"memo\":null}', '{\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(88, 1, 1, '2025-08-23 15:01:24', '2025-08-23 15:01:24', NULL, 'person', 59, 'UPDATE', 'Updated person', '{\"id\":59,\"user_id\":14,\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-23 15:00:41\",\"date_updated\":\"2025-08-23 15:00:41\",\"memo\":null}', '{\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(89, 1, 1, '2025-08-23 15:01:24', '2025-08-23 15:01:24', NULL, 'person_phones', 8, 'CREATE', 'Added phone', NULL, '{\":pid\":59,\":type_id\":113,\":status_id\":105,\":start_date\":\"2025-08-23\",\":end_date\":null,\":number\":\"6514921467\",\":uid\":1}'),
+(90, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person', 27, 'UPDATE', 'Updated person', '{\"id\":27,\"user_id\":10,\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 20:47:24\",\"date_updated\":\"2025-08-20 20:47:24\",\"memo\":null}', '{\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(91, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person_phones', 4, 'UPDATE', 'Updated phone', NULL, '{\":pid\":27,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-20\",\":end_date\":null,\":number\":\"4436179726\",\":uid\":1,\":id\":4}');
 
 -- --------------------------------------------------------
 
@@ -222,7 +262,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (65, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'create'),
 (66, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'read'),
 (67, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'update'),
-(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'delete');
+(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'delete'),
+(69, 1, 1, '2025-08-23 12:11:39', '2025-08-23 12:11:39', NULL, 'calendar', 'create'),
+(70, 1, 1, '2025-08-23 12:11:41', '2025-08-23 12:11:41', NULL, 'calendar', 'read'),
+(71, 1, 1, '2025-08-23 12:11:45', '2025-08-23 12:11:45', NULL, 'calendar', 'update'),
+(72, 1, 1, '2025-08-23 12:11:50', '2025-08-23 12:11:50', NULL, 'calendar', 'delete');
 
 -- --------------------------------------------------------
 
@@ -377,14 +421,7 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (11, 1, 1, '2025-08-17 14:17:19', '2025-08-17 14:17:19', NULL, 'Project Manager', ''),
 (12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', ''),
 (13, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Admin', ''),
-(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', ''),
-(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, '14', '11'),
-(38, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '1', '12'),
-(39, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '10', '12'),
-(40, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '11', '12'),
-(41, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '12', '12'),
-(42, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '13', '12'),
-(43, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '14', '12');
+(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', '');
 
 -- --------------------------------------------------------
 
@@ -474,34 +511,35 @@ CREATE TABLE `admin_role_permission_groups` (
 --
 
 INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
-(10, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 3),
-(11, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 6),
-(12, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 5),
-(13, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 2),
-(14, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 8),
-(15, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 4),
-(16, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 7),
-(17, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 9),
-(18, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 1, 1),
-(19, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 3),
-(20, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 6),
-(21, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 5),
-(22, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 2),
-(23, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 8),
-(24, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 10, 9),
-(25, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 8),
-(26, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 11, 9),
-(27, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 8),
-(28, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 12, 9),
-(29, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 1, 10),
-(30, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 13, 10),
-(31, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 14, 10),
-(32, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 1, 11),
-(33, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 10, 11),
-(34, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 11),
-(35, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 12, 11),
-(36, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 13, 11),
-(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11);
+(40, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 3),
+(41, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 10),
+(42, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 6),
+(43, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 12),
+(44, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 11),
+(45, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 5),
+(46, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 2),
+(47, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 8),
+(48, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 4),
+(49, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 7),
+(50, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 9),
+(51, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 1),
+(52, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 3),
+(53, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 6),
+(54, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 11),
+(55, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 5),
+(56, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 2),
+(57, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 8),
+(58, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 9),
+(59, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 11),
+(60, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 8),
+(61, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 9),
+(62, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 11),
+(63, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 8),
+(64, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 9),
+(65, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 13, 10),
+(66, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 13, 11),
+(67, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 14, 10),
+(68, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 14, 11);
 
 -- --------------------------------------------------------
 
@@ -593,7 +631,20 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (38, 1, 1, '2025-08-23 11:10:01', '2025-08-23 11:10:01', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (39, 1, 1, '2025-08-23 12:00:50', '2025-08-23 12:00:50', NULL, 'module_tasks', 68, 'CREATE', 'Created task'),
 (40, 1, 1, '2025-08-23 12:01:00', '2025-08-23 12:01:00', NULL, 'module_tasks', 69, 'CREATE', 'Created task'),
-(41, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 'module_tasks', 70, 'CREATE', 'Created task');
+(41, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 'module_tasks', 70, 'CREATE', 'Created task'),
+(42, 1, 1, '2025-08-23 12:03:54', '2025-08-23 12:03:54', NULL, 'module_projects_assignments', 23, 'ASSIGN', 'Assigned user'),
+(43, 1, 1, '2025-08-23 12:03:58', '2025-08-23 12:03:58', NULL, 'module_task_assignments', 7, 'ASSIGN', 'Assigned user'),
+(44, 1, 1, '2025-08-23 12:08:29', '2025-08-23 12:08:29', NULL, 'module_task_assignments', 8, 'ASSIGN', 'Assigned user'),
+(45, 1, 1, '2025-08-23 12:08:32', '2025-08-23 12:08:32', NULL, 'module_task_assignments', 9, 'ASSIGN', 'Assigned user'),
+(46, 1, 1, '2025-08-23 12:08:49', '2025-08-23 12:08:49', NULL, 'module_projects_assignments', 24, 'ASSIGN', 'Assigned user'),
+(47, 1, 1, '2025-08-23 12:08:58', '2025-08-23 12:08:58', NULL, 'module_task_assignments', 10, 'ASSIGN', 'Assigned user'),
+(48, 1, 1, '2025-08-23 12:09:06', '2025-08-23 12:09:06', NULL, 'module_task_assignments', 11, 'ASSIGN', 'Assigned user'),
+(49, 1, 1, '2025-08-23 12:09:08', '2025-08-23 12:09:08', NULL, 'module_task_assignments', 12, 'ASSIGN', 'Assigned user'),
+(50, 1, 1, '2025-08-23 12:09:10', '2025-08-23 12:09:10', NULL, 'module_task_assignments', 13, 'ASSIGN', 'Assigned user'),
+(51, 1, 1, '2025-08-23 12:09:13', '2025-08-23 12:09:13', NULL, 'module_task_assignments', 14, 'ASSIGN', 'Assigned user'),
+(52, 1, 1, '2025-08-23 12:09:26', '2025-08-23 12:09:26', NULL, 'module_task_assignments', 15, 'ASSIGN', 'Assigned user'),
+(53, 1, 1, '2025-08-23 12:09:28', '2025-08-23 12:09:28', NULL, 'module_task_assignments', 16, 'ASSIGN', 'Assigned user'),
+(54, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 'module_task_assignments', 17, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -1126,7 +1177,7 @@ INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created
 (3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 8, 1, '2025-08-20 15:13:26', '2025-08-23 02:27:57', NULL, 23, 79, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL, '4357601327', 'kennydrenolds@gmail.com, USA'),
 (5, 9, 1, '2025-08-20 15:14:43', '2025-08-23 02:28:02', NULL, 24, 79, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4358902363', NULL),
-(6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 10, 1, '2025-08-20 20:47:36', '2025-08-23 15:03:55', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4436179726', NULL),
 (7, 11, 1, '2025-08-22 18:07:25', '2025-08-22 18:08:56', NULL, 56, 78, 69, '2025-05-01', 'Systems Analyst / Configurator / Developer ', 'Dave\'s Brother', 100, '2025-08-22', NULL, '', NULL),
 (8, 13, 1, '2025-08-23 10:57:10', '2025-08-23 10:57:42', NULL, 58, 78, 69, '2025-08-23', NULL, 'Zach is an ex-JTI employee. He worked on the eCourt Implementation team(s). Very skilled.', 102, NULL, NULL, '8017875849', NULL);
 
@@ -1679,7 +1730,9 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (19, 1, 1, '2025-08-23 00:26:05', '2025-08-23 00:26:05', NULL, 12, 1),
 (20, 1, 1, '2025-08-23 00:26:11', '2025-08-23 00:26:11', NULL, 17, 1),
 (21, 1, 1, '2025-08-23 01:48:43', '2025-08-23 01:48:43', NULL, 16, 1),
-(22, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 14, 1);
+(22, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 14, 1),
+(23, 1, 1, '2025-08-23 12:03:54', '2025-08-23 12:03:54', NULL, 20, 1),
+(24, 1, 1, '2025-08-23 12:08:49', '2025-08-23 12:08:49', NULL, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -2055,7 +2108,18 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (2, 1, NULL, '2025-08-20 00:12:26', '2025-08-20 00:12:26', NULL, 17, 1),
 (3, 1, NULL, '2025-08-20 00:43:09', '2025-08-20 00:43:09', NULL, 3, 1),
 (4, 1, 1, '2025-08-21 15:31:49', '2025-08-21 15:31:49', NULL, 18, 2),
-(6, 1, 1, '2025-08-23 02:30:45', '2025-08-23 02:30:45', NULL, 40, 1);
+(6, 1, 1, '2025-08-23 02:30:45', '2025-08-23 02:30:45', NULL, 40, 1),
+(7, 1, 1, '2025-08-23 12:03:58', '2025-08-23 12:03:58', NULL, 68, 1),
+(8, 1, 1, '2025-08-23 12:08:29', '2025-08-23 12:08:29', NULL, 69, 1),
+(9, 1, 1, '2025-08-23 12:08:32', '2025-08-23 12:08:32', NULL, 70, 1),
+(10, 1, 1, '2025-08-23 12:08:58', '2025-08-23 12:08:58', NULL, 61, 1),
+(11, 1, 1, '2025-08-23 12:09:06', '2025-08-23 12:09:06', NULL, 60, 1),
+(12, 1, 1, '2025-08-23 12:09:08', '2025-08-23 12:09:08', NULL, 54, 1),
+(13, 1, 1, '2025-08-23 12:09:10', '2025-08-23 12:09:10', NULL, 51, 1),
+(14, 1, 1, '2025-08-23 12:09:13', '2025-08-23 12:09:13', NULL, 39, 1),
+(15, 1, 1, '2025-08-23 12:09:26', '2025-08-23 12:09:26', NULL, 47, 1),
+(16, 1, 1, '2025-08-23 12:09:28', '2025-08-23 12:09:28', NULL, 48, 1),
+(17, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 62, 1);
 
 -- --------------------------------------------------------
 
@@ -2098,7 +2162,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
 (56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
 (57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL),
-(58, 13, 'Zach', 'Jenks', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL);
+(58, 13, 'Zach', 'Jenks', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL),
+(59, 14, 'Nancy', 'Crandall', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -2167,7 +2232,8 @@ INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726'),
 (5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938'),
 (6, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 1, 114, 106, '1992-02-20', '2011-05-13', '4357520708'),
-(7, 1, 1, '2025-08-23 10:57:03', '2025-08-23 10:57:03', NULL, 58, 113, 105, '2025-08-23', NULL, '8017875849');
+(7, 1, 1, '2025-08-23 10:57:03', '2025-08-23 10:57:03', NULL, 58, 113, 105, '2025-08-23', NULL, '8017875849'),
+(8, 1, 1, '2025-08-23 15:01:24', '2025-08-23 15:01:24', NULL, 59, 113, 105, '2025-08-23', NULL, '6514921467');
 
 -- --------------------------------------------------------
 
@@ -2263,7 +2329,8 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL),
 (11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
 (12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL),
-(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL);
+(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL),
+(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2870,7 +2937,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2882,7 +2949,7 @@ ALTER TABLE `admin_navigation_links`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
@@ -2900,7 +2967,7 @@ ALTER TABLE `admin_permission_group_permissions`
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
@@ -2912,7 +2979,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -2924,7 +2991,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3080,7 +3147,7 @@ ALTER TABLE `module_projects_answers`
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -3140,13 +3207,13 @@ ALTER TABLE `module_tasks_questions`
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3158,7 +3225,7 @@ ALTER TABLE `person_addresses`
 -- AUTO_INCREMENT for table `person_phones`
 --
 ALTER TABLE `person_phones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -3176,7 +3243,7 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
