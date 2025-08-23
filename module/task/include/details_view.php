@@ -30,13 +30,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <form id="taskUpdateForm" class="d-inline ms-2">
         <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
         <select class="form-select form-select-sm d-inline w-auto" name="status">
-          <?php foreach ($statusMap as $s): ?>
-            <option value="<?php echo (int)$s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$s['id']) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
+          <?php foreach ($statusMap as $sid => $s): ?>
+            <option value="<?php echo (int)$sid; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$sid) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <select class="form-select form-select-sm d-inline w-auto ms-1" name="priority">
-          <?php foreach ($priorityMap as $p): ?>
-            <option value="<?php echo (int)$p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$p['id']) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
+          <?php foreach ($priorityMap as $pid => $p): ?>
+            <option value="<?php echo (int)$pid; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$pid) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <button class="btn btn-atlis btn-sm ms-1" type="submit">Update</button>
@@ -177,15 +177,64 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <div class="mb-3">
                 <input class="form-control" type="file" name="files[]" multiple>
               </div>
-              <center><button class="btn btn-success" type="submit">Add Note</button></center>
-            </form>
-          </div>
-          <?php endif; ?>
-        </div>
-        <hr>
-        <div class="px-4 px-lg-6">
-          <h3 class="text-body-highlight fw-bold">Files</h3>
-        </div>
+          <center><button class="btn btn-success" type="submit">Add Note</button></center>
+        </form>
+      </div>
+      <?php endif; ?>
+      <?php if (user_has_permission('task','create|update|delete')): ?>
+      <div class="mt-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addQuestionModal">Questions</button>
+      </div>
+      <?php endif; ?>
+      <div class="mt-4">
+        <h3 class="text-body-highlight fw-bold">Questions</h3>
+        <?php if (!empty($questions)): ?>
+          <?php foreach ($questions as $q): ?>
+            <div class="mb-3 border-top pt-3">
+              <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
+              <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <?php if (!empty($questionAnswers[$q['id']])): ?>
+                <ul class="list-unstyled ms-3">
+                  <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
+                    <li class="mb-2">
+                      <p class="mb-1"><?= h($ans['answer_text']); ?></p>
+                      <p class="fs-9 text-body-secondary mb-0">by <?= h($ans['user_name']); ?> on <?= h($ans['date_created']); ?></p>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+              <?php if (user_has_permission('task','create|update|delete')): ?>
+              <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addAnswerModal<?= (int)$q['id']; ?>">Add Answer</button>
+              <div class="modal fade" id="addAnswerModal<?= (int)$q['id']; ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form class="modal-content" method="post" action="functions/add_answer.php">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add Answer</h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                      <input type="hidden" name="question_id" value="<?= (int)$q['id']; ?>">
+                      <textarea class="form-control" name="answer_text" rows="3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit">Add Answer</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <?php endif; ?>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p class="fs-9 text-body-secondary mb-0">No questions have been asked.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+    <hr>
+    <div class="px-4 px-lg-6">
+      <h3 class="text-body-highlight fw-bold">Files</h3>
+    </div>
         <?php if (user_has_permission('task','create|update|delete')): ?>
         <div class="px-4 px-lg-6 py-4">
           <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
@@ -236,6 +285,25 @@ require_once __DIR__ . '/../../../includes/functions.php';
       </div>
     </div>
   </div>
+  <?php if (user_has_permission('task','create|update|delete')): ?>
+  <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" method="post" action="functions/add_question.php">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Question</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+          <textarea class="form-control" name="question_text" rows="3" required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="submit">Add Question</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <?php endif; ?>
   <?php if (user_has_permission('task','update')): ?>
   <div class="modal fade" id="taskEditModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

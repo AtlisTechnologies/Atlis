@@ -45,7 +45,8 @@ $sql = "SELECT p.id,
                d.name AS division_name,
                COUNT(t.id) AS total_tasks,
                SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks,
-               SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress
+               SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress,
+               pp.id AS pinned
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
@@ -53,11 +54,14 @@ $sql = "SELECT p.id,
         LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = 'COLOR-CLASS'
         LEFT JOIN module_agency a ON p.agency_id = a.id
         LEFT JOIN module_division d ON p.division_id = d.id
+        LEFT JOIN module_projects_pins pp ON pp.project_id = p.id AND pp.user_id = :uid
         LEFT JOIN module_tasks t ON t.project_id = p.id
         GROUP BY p.id
-        ORDER BY p.name";
+        ORDER BY (pp.id IS NOT NULL) DESC, p.name";
 
-$projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':uid' => $this_user_id]);
+$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path, CONCAT(per.first_name, ' ', per.last_name) AS name
                            FROM module_projects_assignments pa
@@ -86,6 +90,10 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
     $typeMap     = array_column(get_lookup_items($pdo,'PROJECT_TYPE'), null, 'id');
+    if ($action === 'details') {
+      $agencies  = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+      $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+    }
     $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
     $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
     $modalWidths = [
@@ -118,6 +126,20 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $noteFiles = [];
       foreach ($noteFilesRaw as $nf) {
         $noteFiles[$nf['note_id']][] = $nf;
+      }
+
+      $questionsStmt = $pdo->prepare('SELECT q.id, q.user_id, q.question_text, q.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE q.project_id = :id ORDER BY q.date_created DESC');
+      $questionsStmt->execute([':id' => $project_id]);
+      $questions = $questionsStmt->fetchAll(PDO::FETCH_ASSOC);
+      $questionAnswers = [];
+      if ($questions) {
+        $qIds = array_column($questions, 'id');
+        $placeholders = implode(',', array_fill(0, count($qIds), '?'));
+        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
+        $ansStmt->execute($qIds);
+        foreach ($ansStmt as $arow) {
+          $questionAnswers[$arow['question_id']][] = $arow;
+        }
       }
 
         $tasksStmt = $pdo->prepare(
@@ -200,6 +222,11 @@ $taskPriorityItems = $taskPriorityItems ?? [];
 $fileTypeItems = $fileTypeItems ?? [];
 $fileStatusItems = $fileStatusItems ?? [];
 $modalWidths = $modalWidths ?? [];
+
+$questions = $questions ?? [];
+$questionAnswers = $questionAnswers ?? [];
+$agencies = $agencies ?? [];
+$divisions = $divisions ?? [];
 
 require '../../includes/html_header.php';
 ?>

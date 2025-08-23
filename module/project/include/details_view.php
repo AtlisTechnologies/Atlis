@@ -60,6 +60,9 @@ if (!empty($current_project)) {
       <div class="mb-5">
         <div class="d-flex justify-content-between">
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
+          <?php if (user_has_permission('project','update')): ?>
+            <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editProjectModal">Edit</button>
+          <?php endif; ?>
         </div>
         <div class="dropdown d-inline me-2">
           <?php if ($statusId !== null): ?>
@@ -333,7 +336,7 @@ if (!empty($current_project)) {
 
     <div class="row">
       <div class="col-6 bg-light border-start border-top border-bottom">
-        <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
+        <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":25,"pagination":true}'>
           <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
           <div class="row align-items-center g-3 mb-3">
             <div class="col-sm-auto">
@@ -496,11 +499,89 @@ if (!empty($current_project)) {
               </form>
           </div>
           <?php endif; ?>
+
+          <hr class="my-5">
+          <div id="questions">
+            <div class="d-flex align-items-center mb-3">
+              <h3 class="text-body-highlight mb-0 fw-bold flex-grow-1">Questions</h3>
+              <?php if (user_has_permission('project','create|update|delete')): ?>
+                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addQuestionModal">Questions</button>
+              <?php endif; ?>
+            </div>
+            <?php if (!empty($questions)): ?>
+              <?php foreach ($questions as $q): ?>
+                <div class="border rounded-2 p-3 mb-3">
+                  <p class="mb-1 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
+                  <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
+                  <?php if (!empty($questionAnswers[$q['id']])): ?>
+                    <ul class="list-unstyled ps-3 mb-3">
+                      <?php foreach ($questionAnswers[$q['id']] as $a): ?>
+                        <li class="mb-2">
+                          <p class="mb-1"><?= nl2br(h($a['answer_text'])) ?></p>
+                          <p class="fs-10 text-body-secondary mb-0"><?= h(date('d M, Y h:i A', strtotime($a['date_created']))) ?> by <?= h($a['user_name'] ?? '') ?></p>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
+                  <?php if (user_has_permission('project','create|update|delete')): ?>
+                    <button class="btn btn-link p-0 fs-9" type="button" data-bs-toggle="modal" data-bs-target="#addAnswerModal<?= (int)$q['id'] ?>">Add Answer</button>
+                  <?php endif; ?>
+                </div>
+
+                <?php if (user_has_permission('project','create|update|delete')): ?>
+                <div class="modal fade" id="addAnswerModal<?= (int)$q['id'] ?>" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form class="modal-content" method="post" action="functions/add_answer.php">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Add Answer</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                        <input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
+                        <div class="mb-3">
+                          <textarea class="form-control" name="answer_text" rows="3" required></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Add Answer</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <p class="fs-9 text-body-secondary mb-0">No questions found.</p>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<?php if (user_has_permission('project','create|update|delete')): ?>
+<div class="modal fade" id="addQuestionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="post" action="functions/add_question.php">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Question</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+        <div class="mb-3">
+          <textarea class="form-control" name="question_text" rows="3" required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" type="submit">Add Question</button>
+      </div>
+    </form>
+  </div>
+</div>
+<?php endif; ?>
 
 <div class="modal fade" id="fileModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -511,9 +592,74 @@ if (!empty($current_project)) {
       </div>
       <div class="modal-body" id="modalContent"></div>
     </div>
+</div>
+</div>
+<?php if (user_has_permission('project','update')): ?>
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="post" action="functions/update.php">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Project</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
+        <div class="mb-3">
+          <label class="form-label" for="editProjectName">Name</label>
+          <input class="form-control" id="editProjectName" type="text" name="name" value="<?= h($current_project['name'] ?? '') ?>" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectDescription">Description</label>
+          <textarea class="form-control" id="editProjectDescription" name="description"><?= h($current_project['description'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectRequirements">Requirements</label>
+          <textarea class="form-control" id="editProjectRequirements" name="requirements"><?= h($current_project['requirements'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectSpecifications">Specifications</label>
+          <textarea class="form-control" id="editProjectSpecifications" name="specifications"><?= h($current_project['specifications'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectStatus">Status</label>
+          <select class="form-select" id="editProjectStatus" name="status">
+            <?php foreach ($statusMap as $sid => $s): ?>
+              <option value="<?= h($sid) ?>" <?= ((int)($current_project['status'] ?? 0) === (int)$sid) ? 'selected' : '' ?>><?= h($s['label']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editStartDate">Start date</label>
+          <input class="form-control datetimepicker" id="editStartDate" type="text" name="start_date" value="<?= !empty($current_project['start_date']) ? h(date('Y-m-d', strtotime($current_project['start_date']))) : '' ?>" data-options='{"disableMobile":true}'>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editAgency">Agency</label>
+          <select class="form-select" id="editAgency" name="agency_id">
+            <option value=""></option>
+            <?php foreach ($agencies as $agency): ?>
+              <option value="<?= h($agency['id']) ?>" <?= ((int)($current_project['agency_id'] ?? 0) === (int)$agency['id']) ? 'selected' : '' ?>><?= h($agency['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editDivision">Division</label>
+          <select class="form-select" id="editDivision" name="division_id">
+            <option value=""></option>
+            <?php foreach ($divisions as $division): ?>
+              <option value="<?= h($division['id']) ?>" <?= ((int)($current_project['division_id'] ?? 0) === (int)$division['id']) ? 'selected' : '' ?>><?= h($division['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
   </div>
 </div>
-  <?php if (user_has_permission('project','create|update|delete')): ?>
+<?php endif; ?>
+<?php if (user_has_permission('project','create|update|delete')): ?>
   <div class="modal fade" id="editFileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form class="modal-content" method="post" action="functions/edit_file.php">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 12:24 AM
+-- Generation Time: Aug 23, 2025 at 08:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,162 +41,6 @@ CREATE TABLE `admin_audit_log` (
   `old_value` text DEFAULT NULL,
   `new_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_audit_log`
---
-
-INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
-(1, 1, 1, '2025-08-12 19:46:44', '2025-08-12 19:46:44', NULL, 'admin_roles', 6, 'CREATE', 'Created role', NULL, '{\"name\":\"Manage System Properties\",\"description\":\"\"}'),
-(2, 1, 1, '2025-08-13 16:46:02', '2025-08-13 16:46:02', NULL, 'admin_roles', 6, 'DELETE', 'Deleted role', NULL, NULL),
-(3, 1, 1, '2025-08-13 23:34:27', '2025-08-13 23:34:27', NULL, 'module_projects_notes', 1, 'NOTE', '', '', 'First note.'),
-(4, 1, 1, '2025-08-13 23:34:36', '2025-08-13 23:34:36', NULL, 'module_projects_files', 1, 'UPLOAD', '', '', '{\"file\":\"atlisware.png\"}'),
-(5, 1, 1, '2025-08-13 23:48:42', '2025-08-13 23:48:42', NULL, 'module_projects', 2, 'CREATE', 'Created project', NULL, '{\"name\":\"Dave\",\"status\":\"29\",\"description\":\"\"}'),
-(6, 1, 1, '2025-08-14 11:33:59', '2025-08-14 11:33:59', NULL, 'module_projects', 3, 'CREATE', 'Created project', NULL, '{\"name\":\"Emailing Sealed Documents\",\"status\":\"29\",\"description\":\"\"}'),
-(7, 1, 1, '2025-08-14 15:21:21', '2025-08-14 15:21:21', NULL, 'module_projects_notes', 2, 'NOTE', '', '', 'From the First Note !'),
-(8, 1, 1, '2025-08-14 16:43:46', '2025-08-14 16:43:46', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"Dave\",\"description\":\"Dave\",\"requirements\":\"Dave\",\"specifications\":\"Dave\",\"status\":\"29\",\"start_date\":\"2025-08-14\"}'),
-(9, 1, 1, '2025-08-14 22:11:35', '2025-08-14 22:11:35', NULL, 'module_projects_notes', 3, 'NOTE', '', '', 'test'),
-(10, 1, 1, '2025-08-14 22:12:05', '2025-08-14 22:12:05', NULL, 'module_projects_notes', 4, 'NOTE', '', '', 'test @'),
-(11, 1, 1, '2025-08-14 22:12:13', '2025-08-14 22:12:13', NULL, 'module_projects_files', 2, 'UPLOAD', '', '', '{\"file\":\"Image from iOS.jpg\"}'),
-(12, 1, 1, '2025-08-14 22:17:14', '2025-08-14 22:17:14', NULL, 'module_projects', 5, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Emailing Sealed Documents\",\"description\":\"Court Clerks should be able to send sealed documents to eDefender and eProsecutor.\",\"requirements\":\"Send sealed documents to eDef and ePros via email.\",\"specifications\":\"Defined later.\",\"status\":\"29\",\"start_date\":\"2025-08-01\"}'),
-(13, 1, 1, '2025-08-14 22:26:57', '2025-08-14 22:26:57', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'This is the first note.'),
-(14, 1, 1, '2025-08-14 22:27:02', '2025-08-14 22:27:02', NULL, 'module_projects_notes', 6, 'NOTE', '', '', 'FROM THE FIRST NOTE !'),
-(15, 1, 1, '2025-08-14 22:27:08', '2025-08-14 22:27:08', NULL, 'module_projects_files', 3, 'UPLOAD', '', '', '{\"file\":\"Image from iOS.jpg\"}'),
-(16, 1, 1, '2025-08-15 00:09:17', '2025-08-15 00:09:17', NULL, 'module_tasks_notes', 11, 'NOTE', '', '', 'test'),
-(17, 1, 1, '2025-08-15 00:09:26', '2025-08-15 00:09:26', NULL, 'module_tasks_files', 1, 'UPLOAD', '', '', '{\"file\":\"Kratom-Colors-Chart-Final.png\"}'),
-(18, 1, 1, '2025-08-15 00:12:39', '2025-08-15 00:12:39', NULL, 'person', 2, 'UPDATE', 'Updated person', '{\"user_id\":2,\"first_name\":\"ADMIN\",\"last_name\":\"ADMIN\"}', '{\"user_id\":2,\"first_name\":\"Sean\",\"last_name\":\"Cadina\"}'),
-(19, 1, 1, '2025-08-15 13:22:34', '2025-08-15 13:22:34', NULL, 'module_projects_notes', 6, 'DELETE', '', 'FROM THE FIRST NOTE !', ''),
-(20, 1, 1, '2025-08-15 13:22:39', '2025-08-15 13:22:39', NULL, 'module_projects_files', 3, 'DELETE', '', '{\"file\":\"Image from iOS.jpg\"}', ''),
-(21, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 'module_projects_notes', 7, 'NOTE', '', '', 'Kratom'),
-(22, 1, 1, '2025-08-15 13:24:13', '2025-08-15 13:24:13', NULL, 'module_projects_files', 4, 'UPLOAD', '', '', '{\"file\":\"IMG_9186.JPEG\"}'),
-(23, 1, 1, '2025-08-15 13:28:35', '2025-08-15 13:28:35', NULL, 'module_projects_notes', 5, 'DELETE', '', 'This is the first note.', ''),
-(24, 1, 1, '2025-08-15 13:31:17', '2025-08-15 13:31:17', NULL, 'module_projects_files', 5, 'UPLOAD', '', '', '{\"file\":\"brand_trust.PNG\"}'),
-(25, 1, 1, '2025-08-15 13:37:43', '2025-08-15 13:37:43', NULL, 'module_projects_notes', 8, 'NOTE', '', '', 'No file.'),
-(26, 1, 1, '2025-08-15 13:37:49', '2025-08-15 13:37:49', NULL, 'module_projects_notes', 9, 'NOTE', '', '', 'Not even another one.'),
-(27, 1, 1, '2025-08-15 13:46:48', '2025-08-15 13:46:48', NULL, 'module_projects_files', 6, 'UPLOAD', '', '', '{\"file\":\"LPP Affilaite Doc.pdf\"}'),
-(28, 1, 1, '2025-08-15 13:46:54', '2025-08-15 13:46:54', NULL, 'module_projects_files', 7, 'UPLOAD', '', '', '{\"file\":\"Document.png\"}'),
-(29, 1, 1, '2025-08-15 13:48:07', '2025-08-15 13:48:07', NULL, 'module_projects_notes', 10, 'NOTE', '', '', 'Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one. Not even another one.'),
-(30, 1, 1, '2025-08-15 13:48:50', '2025-08-15 13:48:50', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'test'),
-(31, 1, 1, '2025-08-15 14:27:57', '2025-08-15 14:27:57', NULL, 'module_tasks_notes', 12, 'NOTE', '', '', 'test'),
-(32, 1, 1, '2025-08-15 14:27:59', '2025-08-15 14:27:59', NULL, 'module_tasks_notes', 13, 'NOTE', '', '', 'test 2'),
-(33, 1, 1, '2025-08-15 14:55:12', '2025-08-15 14:55:12', NULL, 'module_tasks_notes', 14, 'NOTE', '', '', 'Test 2'),
-(34, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 'module_tasks_notes', 15, 'NOTE', '', '', 'Test 3'),
-(35, 1, 1, '2025-08-15 14:55:21', '2025-08-15 14:55:21', NULL, 'module_tasks_files', 2, 'UPLOAD', '', '', '{\"file\":\"IMG_9522.JPEG\"}'),
-(36, 1, 1, '2025-08-16 21:45:00', '2025-08-16 21:45:00', NULL, 'module_projects', 6, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Test\",\"description\":\"Test\",\"requirements\":\"Test\",\"specifications\":\"Test\",\"status\":\"55\",\"start_date\":\"2025-08-19\"}'),
-(37, 1, 1, '2025-08-16 21:45:29', '2025-08-16 21:45:29', NULL, 'module_projects', 7, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Test\",\"description\":\"Test\",\"requirements\":\"Test\",\"specifications\":\"Test\",\"status\":\"55\",\"start_date\":\"\"}'),
-(38, 1, 1, '2025-08-16 22:02:15', '2025-08-16 22:02:15', NULL, 'module_projects', 8, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"Dave\",\"description\":\"dave\",\"requirements\":\"dave\",\"specifications\":\"dave\",\"status\":\"30\",\"start_date\":\"2025-08-14\"}'),
-(39, 1, 1, '2025-08-16 23:44:55', '2025-08-16 23:44:55', NULL, 'person', 3, 'CREATE', 'Created person', NULL, '{\"user_id\":null,\"first_name\":\"Tyler\",\"last_name\":\"Jessop\"}'),
-(40, 1, 1, '2025-08-17 00:10:59', '2025-08-17 00:10:59', NULL, 'module_projects_files', 5, 'DELETE', '', '{\"file\":\"brand_trust.PNG\"}', ''),
-(41, 1, 1, '2025-08-17 00:11:03', '2025-08-17 00:11:03', NULL, 'module_projects_files', 6, 'DELETE', '', '{\"file\":\"LPP Affilaite Doc.pdf\"}', ''),
-(42, 1, 1, '2025-08-17 00:11:04', '2025-08-17 00:11:04', NULL, 'module_projects_files', 7, 'DELETE', '', '{\"file\":\"Document.png\"}', ''),
-(43, 1, 1, '2025-08-17 00:30:48', '2025-08-17 00:30:48', NULL, 'person', 3, 'DELETE', 'Deleted person', NULL, NULL),
-(44, 1, 1, '2025-08-17 11:08:14', '2025-08-17 11:08:14', NULL, 'users', 3, 'CREATE', 'Created user', NULL, '{\"username\":\"soup@atlistechnologies.com\",\"email\":\"soup@atlistechnologies.com\",\"type\":\"USER\",\"status\":1}'),
-(45, 1, 1, '2025-08-17 11:08:43', '2025-08-17 11:08:43', NULL, 'users', 3, 'UPDATE', 'Updated user', '{\"username\":\"soup@atlistechnologies.com\",\"email\":\"soup@atlistechnologies.com\",\"type\":\"USER\",\"status\":1}', '{\"username\":\"Soup@AtlisTechnologies.com\",\"email\":\"Soup@AtlisTechnologies.com\",\"type\":\"USER\",\"status\":1}'),
-(46, 1, 1, '2025-08-17 11:10:30', '2025-08-17 11:10:30', NULL, 'person', 4, 'CREATE', 'Created person', NULL, '{\"user_id\":3,\"first_name\":\"Tyler\",\"last_name\":\"Jessop\"}'),
-(47, 1, 1, '2025-08-17 14:14:57', '2025-08-17 14:14:57', NULL, 'admin_roles', 9, 'DELETE', 'Deleted role', NULL, NULL),
-(48, 1, 1, '2025-08-17 14:14:59', '2025-08-17 14:14:59', NULL, 'admin_roles', 7, 'DELETE', 'Deleted role', NULL, NULL),
-(49, 1, 1, '2025-08-17 14:14:59', '2025-08-17 14:14:59', NULL, 'admin_roles', 8, 'DELETE', 'Deleted role', NULL, NULL),
-(50, 1, 1, '2025-08-17 14:15:00', '2025-08-17 14:15:00', NULL, 'admin_roles', 2, 'DELETE', 'Deleted role', NULL, NULL),
-(51, 1, 1, '2025-08-17 14:15:01', '2025-08-17 14:15:01', NULL, 'admin_roles', 4, 'DELETE', 'Deleted role', NULL, NULL),
-(52, 1, 1, '2025-08-17 14:15:02', '2025-08-17 14:15:02', NULL, 'admin_roles', 5, 'DELETE', 'Deleted role', NULL, NULL),
-(53, 1, 1, '2025-08-17 14:15:03', '2025-08-17 14:15:03', NULL, 'admin_roles', 3, 'DELETE', 'Deleted role', NULL, NULL),
-(54, 1, 1, '2025-08-17 14:15:24', '2025-08-17 14:15:24', NULL, 'admin_roles', 10, 'CREATE', 'Created role', NULL, '{\"name\":\"Principle Project Manager\",\"description\":\"\"}'),
-(55, 1, 1, '2025-08-17 14:17:19', '2025-08-17 14:17:19', NULL, 'admin_roles', 11, 'CREATE', 'Created role', NULL, '{\"name\":\"Project Manager\",\"description\":\"\"}'),
-(56, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'admin_roles', 12, 'CREATE', 'Created role', NULL, '{\"name\":\"Developer\",\"description\":\"\"}'),
-(57, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 1, 'SYNC', 'Updated role permissions', '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
-(58, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 10, 'SYNC', 'Updated role permissions', '[]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
-(59, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 11, 'SYNC', 'Updated role permissions', '[]', '[9,12,10,11,21,24,22,23,17,20,18,19,5,8,6,7,29,32,30,31,13,16,14,15,25,28,26,27,33,36,34,35,1,4,2,3]'),
-(60, 1, 1, '2025-08-17 14:19:37', '2025-08-17 14:19:37', NULL, 'admin_role_permissions', 12, 'SYNC', 'Updated role permissions', '[]', '[33,34,35]'),
-(61, 1, 1, '2025-08-17 22:17:28', '2025-08-17 22:17:28', NULL, 'person', 4, 'DELETE', 'Deleted person', NULL, NULL),
-(62, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[]', '[3,6,5,2,8,4,7,9,1]'),
-(63, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[]', '[]'),
-(64, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[]', '[]'),
-(65, 1, 1, '2025-08-17 22:20:25', '2025-08-17 22:20:25', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[]'),
-(66, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9]', '[3,6,5,2,8,4,7,9,1]'),
-(67, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[]', '[3,6,5,2,8,9]'),
-(68, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[]', '[8,9]'),
-(69, 1, 1, '2025-08-17 22:21:27', '2025-08-17 22:21:27', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[]', '[8,9]'),
-(70, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 'module_projects_notes', 12, 'NOTE', '', '', 'PRIME DAY'),
-(71, 1, 1, '2025-08-18 22:47:40', '2025-08-18 22:47:40', NULL, 'module_projects_files', 8, 'UPLOAD', '', '', '{\"file\":\"2025 JULY - PRIME DAY.txt\"}'),
-(72, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:01:08', NULL, 'module_projects', 1, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Emailing Sealed Documents (E.S.D)\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-01\"}'),
-(73, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:02:03', NULL, 'module_projects', 2, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"3\",\"name\":\"Bench View\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"start_date\":\"2025-08-01\"}'),
-(74, 1, 1, '2025-08-19 23:23:43', '2025-08-19 23:23:43', NULL, 'module_contractors', 1, 'CREATE', 'Created contractor', NULL, '{\"user_id\":1,\"person_id\":1}'),
-(75, 1, 1, '2025-08-19 23:23:45', '2025-08-19 23:23:45', NULL, 'module_contractors', 1, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":64,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"78\",\"pay_type_id\":\"64\",\"start_date\":\"\",\"end_date\":\"\",\"current_rate\":\"\"}'),
-(76, 1, 1, '2025-08-19 23:23:51', '2025-08-19 23:23:51', NULL, 'module_contractors', 2, 'CREATE', 'Created contractor', NULL, '{\"user_id\":2,\"person_id\":2}'),
-(77, 1, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 'module_contractors', 3, 'CREATE', 'Created contractor', NULL, '{\"user_id\":4,\"person_id\":5}'),
-(78, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 'module_tasks_notes', 11, 'NOTE', '', '', 'Done through System Property.'),
-(79, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:15:31', NULL, 'module_projects', 3, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Fee Waiver Icon in Case Header\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"start_date\":\"2025-04-26\"}'),
-(80, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 1, 'UPLOAD', '', '', '{\"file\":\"Capture43434.PNG\"}'),
-(81, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 2, 'UPLOAD', '', '', '{\"file\":\"DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt\"}'),
-(82, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 3, 'UPLOAD', '', '', '{\"file\":\"Feedback from CC and Leah Balzer.txt\"}'),
-(83, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 4, 'UPLOAD', '', '', '{\"file\":\"FeeWaiver Entity.PNG\"}'),
-(84, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 'module_projects_files', 5, 'UPLOAD', '', '', '{\"file\":\"unnamed (2).png\"}'),
-(85, 1, 1, '2025-08-20 14:36:44', '2025-08-20 14:36:44', NULL, 'module_contractors_compensation', 1, 'CREATE', 'Added compensation', '', '{\"amount\":\"681.82\",\"type\":65}'),
-(86, 1, 1, '2025-08-20 14:39:03', '2025-08-20 14:39:03', NULL, 'module_contractors', 2, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":64,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"79\",\"pay_type_id\":\"65\",\"start_date\":\"2025-06-11\",\"end_date\":\"2025-08-31\",\"current_rate\":\"681.82\"}'),
-(87, 1, 1, '2025-08-20 14:40:35', '2025-08-20 14:40:35', NULL, 'module_contractors_compensation', 2, 'CREATE', 'Added compensation', '', '{\"amount\":\"681.82\",\"type\":98}'),
-(88, 1, 1, '2025-08-20 15:13:26', '2025-08-20 15:13:26', NULL, 'module_contractors', 4, 'CREATE', 'Created contractor', NULL, '{\"user_id\":8,\"person_id\":23}'),
-(89, 1, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 'module_contractors', 5, 'CREATE', 'Created contractor', NULL, '{\"user_id\":9,\"person_id\":24}'),
-(90, 1, 1, '2025-08-20 16:35:55', '2025-08-20 16:35:55', NULL, 'module_contractors_compensation', 3, 'CREATE', 'Added compensation', '', '{\"amount\":\"155\",\"type\":98}'),
-(91, 1, 1, '2025-08-20 16:36:25', '2025-08-20 16:36:25', NULL, 'module_contractors_compensation', 4, 'CREATE', 'Added compensation', '', '{\"amount\":\"526.82\",\"type\":98}'),
-(92, 1, 1, '2025-08-20 16:54:07', '2025-08-20 16:54:07', NULL, 'module_contractors_files', 1, 'UPLOAD', '', '', '{\"file\":\"Atlis Technologies Work Agreement - With Summer 2025 - D_SIGNED.pdf\",\"version\":1}'),
-(93, 1, 1, '2025-08-20 18:05:57', '2025-08-20 18:05:57', NULL, 'module_contractors_compensation', 5, 'CREATE', 'Added compensation', '', '{\"amount\":\"500\",\"type\":98,\"title\":\"First Payment\"}'),
-(94, 1, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 'module_contractors', 6, 'CREATE', 'Created contractor', NULL, '{\"user_id\":10,\"person_id\":27}'),
-(95, 1, 1, '2025-08-20 20:47:54', '2025-08-20 20:47:54', NULL, 'module_contractors', 6, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"pay_type_id\":98,\"start_date\":null,\"end_date\":null,\"current_rate\":null}', '{\"status_id\":\"78\",\"pay_type_id\":\"98\",\"start_date\":\"\",\"end_date\":\"\",\"current_rate\":\"\"}'),
-(96, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 'module_contractors_contacts', 1, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Initial Contact - Hey Emma, I hope things are going well for you. \\r\\nQuick question, are you interested in doing some side gig work building PowerBI \\/ Tableau dashboards and other Business Intelligence products specifically for eSeries?\\r\\nCompensation would be around\\r\\n$100\\/hr and\\/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you\\u2019re interested. If not, no hard feelings at all.\\r\\nThanks !\"}'),
-(97, 1, 1, '2025-08-20 20:51:08', '2025-08-20 20:51:08', NULL, 'module_contractors_compensation', 6, 'CREATE', 'Added compensation', '', '{\"amount\":\"555\",\"type\":98,\"title\":\"test\"}'),
-(98, 1, 1, '2025-08-20 21:03:51', '2025-08-20 21:03:51', NULL, 'person', 30, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"dob\":null}'),
-(99, 1, 1, '2025-08-21 01:43:32', '2025-08-21 01:43:32', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
-(100, 1, 1, '2025-08-21 01:50:27', '2025-08-21 01:50:27', NULL, 'module_contractors_files', 3, 'UPLOAD', '', '', '{\"file\":\"45.jpg\",\"version\":1}'),
-(101, 1, 1, '2025-08-21 01:50:57', '2025-08-21 01:50:57', NULL, 'module_contractors_files', 3, 'DELETE', 'Deleted file', '', NULL),
-(102, 1, 1, '2025-08-21 01:53:22', '2025-08-21 01:53:22', NULL, 'module_contractors_files', 4, 'UPLOAD', '', '', '{\"file\":\"FIRST CONTACT.txt\",\"version\":1}'),
-(103, 1, 1, '2025-08-21 01:54:03', '2025-08-21 01:54:03', NULL, 'module_contractors_files', 5, 'UPLOAD', '', '', '{\"file\":\"INITIAL CALL.txt\",\"version\":1}'),
-(104, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 'module_contractors_files', 6, 'UPLOAD', '', '', '{\"file\":\"KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf\",\"version\":1}'),
-(105, 1, 1, '2025-08-21 01:56:21', '2025-08-21 01:56:21', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
-(106, 1, 1, '2025-08-21 01:56:50', '2025-08-21 01:56:50', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":\"2025-06-21\",\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-06-11\",\"title_role\":\"BI Analyst \\/ Report Writer\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
-(107, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 'module_contractors_contacts', 2, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.\"}'),
-(108, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 'module_contractors_contacts', 3, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !\"}'),
-(109, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 'module_contractors_contacts', 4, 'CREATE', 'Added contact', '', '{\"contact_type_id\":75,\"summary\":\"SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172\"}'),
-(110, 1, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-20 21:03:51\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
-(111, 1, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 'person_addresses', 3, 'CREATE', 'Added address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1}'),
-(112, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 'module_agency', 3, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"Office of the Public Defender\",\"main_person\":30,\"status\":28}'),
-(113, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person', 31, 'CREATE', 'Created person', NULL, '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
-(114, 1, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 'person_phones', 5, 'CREATE', 'Added phone', NULL, '{\":pid\":\"31\",\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":uid\":1}'),
-(115, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 'module_agency', 4, 'CREATE', 'Created agency', NULL, '{\"organization_id\":2,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":28}'),
-(116, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-20 21:03:51\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":null,\"dob\":null}'),
-(117, 1, 1, '2025-08-21 02:17:10', '2025-08-21 02:17:10', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state\":\"Utah\",\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
-(118, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person', 31, 'UPDATE', 'Updated person', '{\"id\":31,\"user_id\":null,\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-21 02:15:50\",\"date_updated\":\"2025-08-21 02:15:50\",\"memo\":null}', '{\"first_name\":\"Lonnie\",\"last_name\":\"Renda\",\"email\":\"LRenda@LakeCountyIL.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":4,\"division_id\":null,\"dob\":null}'),
-(119, 1, 1, '2025-08-21 02:17:20', '2025-08-21 02:17:20', NULL, 'person_phones', 5, 'UPDATE', 'Updated phone', NULL, '{\":pid\":31,\":type_id\":115,\":status_id\":105,\":start_date\":null,\":end_date\":null,\":number\":\"(224) 236-7938\",\":uid\":1,\":id\":5}'),
-(120, 1, 1, '2025-08-21 02:22:59', '2025-08-21 02:22:59', NULL, 'module_division', 5, 'CREATE', 'Created division', NULL, '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}'),
-(121, 1, 1, '2025-08-21 11:35:35', '2025-08-21 11:35:35', NULL, 'module_contractors_compensation', 7, 'CREATE', 'Added compensation', '', '{\"amount\":\"681.82\",\"type\":98,\"title\":\"Pay Period\"}'),
-(122, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:34', NULL, 'module_contractors_files', 7, 'UPLOAD', '', '', '{\"file\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}'),
-(123, 1, 1, '2025-08-21 11:38:47', '2025-08-21 11:38:47', NULL, 'module_contractors_files', 7, 'UPDATE', 'Updated file', '', '{\"file_name\":\"Aug_21st_2025 - request to be paid 4 days early.PNG\",\"version\":1}'),
-(124, 1, 1, '2025-08-21 15:36:27', '2025-08-21 15:36:27', NULL, 'module_contractors_contact_responses', 1, 'CREATE', 'Added contact response', '', '{\"response_type_id\":117,\"response_text\":\"No worries -- I certainly don\'t expect a response while on vacation !\\r\\nI definitely still have a need for a BI Analyst building dashboards. I can email you some more specifics if you want to provide me with your personal email address.\"}'),
-(125, 1, 1, '2025-08-21 15:37:03', '2025-08-21 15:37:03', NULL, 'module_contractors_contact_responses', 2, 'CREATE', 'Added contact response', '', '{\"response_type_id\":117,\"response_text\":\"emmabaylor@gmail.com\"}'),
-(126, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 'module_projects', 4, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"ATLIS TECHNOLOGIES - CORE PROJECT\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-21\"}'),
-(127, 1, 1, '2025-08-21 15:47:56', '2025-08-21 15:47:56', NULL, 'module_division', 2, 'UPDATE', 'Updated division', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":5}', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":6}'),
-(128, 1, 1, '2025-08-21 15:48:03', '2025-08-21 15:48:03', NULL, 'module_division', 2, 'UPDATE', 'Updated division', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":6}', '{\"agency_id\":2,\"name\":\"Judicial Information Services & Technology\",\"main_person\":null,\"status\":5}'),
-(129, 1, 1, '2025-08-21 15:48:10', '2025-08-21 15:48:10', NULL, 'module_division', 5, 'UPDATE', 'Updated division', '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":27}', '{\"agency_id\":3,\"name\":\"Public Defender\",\"main_person\":30,\"status\":6}'),
-(130, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 'module_projects', 5, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"3\",\"name\":\"Judge Mass Reassignment\",\"description\":\"Hi Gia & Davey,\\r\\n\\r\\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don\\u2019t want to make this any more complex than necessary\\u2014at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\\r\\n\\r\\n\\r\\nThanks,\\r\\nDave\\r\\n\",\"requirements\":\"1) What gets reassigned\\r\\n-\\tReassign all future events currently assigned to Judge A over to Judge B.\\r\\no\\t\\u201cAll\\u201d assumes no filters (Case Type, Event Type, etc.).\\r\\no\\t\\u201cFuture\\u201d assumes we are not modifying past events.\\r\\n-\\tShould any case-level or caseAssignment fields also be updated (for Judge A and\\/or Judge B)?\\r\\n\\r\\n\\r\\n2) Audit, validation, and proof checking\\r\\n-\\tDo you need audit artifacts (e.g., before\\/after counts, per-case change logs with timestamp\\/user, downloadable CSV)?\\r\\n-\\tShould we add guardrails (e.g., exclude sealed\\/closed cases, skip in-progress or same-day events)?\\r\\n\\r\\n\\r\\n3) Execution & UX\\r\\n-\\tOnce Judge A \\u2192 Judge B is selected, should the process run automatically in the background, or would you prefer a preview\\/confirm step with progress tracking?\\r\\n-\\tWould a summary be useful (e.g., via Search, Report, or Email notification)?\",\"specifications\":\"\",\"status\":\"29\",\"start_date\":\"2025-08-21\"}'),
-(131, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 'module_tasks_notes', 12, 'NOTE', '', '', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave'),
-(132, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 'module_projects', 6, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"McLean County, IL\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"56\",\"start_date\":\"2025-08-21\"}'),
-(133, 1, 1, '2025-08-21 22:23:10', '2025-08-21 22:23:10', NULL, 'module_projects_notes', 1, 'NOTE', '', '', 'Sean Cadina will be Account Manager for McLean.'),
-(134, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 'module_projects', 7, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"JIT 2025 User Conference\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"30\",\"priority\":\"87\",\"start_date\":\"2025-11-13\"}'),
-(135, 1, 1, '2025-08-21 22:27:01', '2025-08-21 22:27:01', NULL, 'module_projects_notes', 2, 'NOTE', '', '', 'https://info.journaltech.com/uc2025'),
-(136, 1, 1, '2025-08-21 22:27:16', '2025-08-21 22:27:16', NULL, 'module_projects_notes', 3, 'NOTE', '', '', '<a href=\"https://info.journaltech.com/uc2025\">JTI User Conference</a>'),
-(137, 1, 1, '2025-08-21 22:27:23', '2025-08-21 22:27:23', NULL, 'module_projects_notes', 3, 'DELETE', '', '<a href=\"https://info.journaltech.com/uc2025\">JTI User Conference</a>', ''),
-(138, 1, 1, '2025-08-21 22:27:25', '2025-08-21 22:27:25', NULL, 'module_projects_notes', 2, 'DELETE', '', 'https://info.journaltech.com/uc2025', ''),
-(139, 1, 1, '2025-08-21 22:27:53', '2025-08-21 22:27:53', NULL, 'module_projects_notes', 4, 'NOTE', '', '', '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(140, 1, 1, '2025-08-21 22:27:56', '2025-08-21 22:27:56', NULL, 'module_projects_notes', 4, 'UPDATE', '', '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>', 'JTI 2025 User Conference'),
-(141, 1, 1, '2025-08-21 22:28:04', '2025-08-21 22:28:04', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
-(142, 1, 1, '2025-08-21 22:28:05', '2025-08-21 22:28:05', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', 'JTI 2025 User Conference'),
-(143, 1, 1, '2025-08-21 22:28:09', '2025-08-21 22:28:09', NULL, 'module_projects_notes', 4, 'UPDATE', '', 'JTI 2025 User Conference', '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
-(144, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 'module_projects_notes', 5, 'NOTE', '', '', 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
-(145, 1, 1, '2025-08-22 08:33:05', '2025-08-22 08:33:05', NULL, 'module_division', 6, 'CREATE', 'Created division', NULL, '{\"agency_id\":4,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":27}'),
-(146, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 'module_projects', 9, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"2\",\"division_id\":\"2\",\"name\":\"Multiple Interpreter per Event\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"start_date\":\"\"}'),
-(147, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 'module_projects_notes', 6, 'NOTE', '', '', 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY'),
-(148, 1, 1, '2025-08-22 15:54:19', '2025-08-22 15:54:19', NULL, 'module_organization', 3, 'CREATE', 'Created organization', NULL, '{\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":13}'),
-(149, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 'module_agency', 5, 'CREATE', 'Created agency', NULL, '{\"organization_id\":3,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":28}'),
-(150, 1, 1, '2025-08-22 15:54:34', '2025-08-22 15:54:34', NULL, 'module_division', 7, 'CREATE', 'Created division', NULL, '{\"agency_id\":5,\"name\":\"McLean County, IL\",\"main_person\":null,\"status\":27}');
 
 -- --------------------------------------------------------
 
@@ -625,548 +469,6 @@ CREATE TABLE `audit_log` (
   `details` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `audit_log`
---
-
-INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
-(1, 1, 1, '2025-08-13 16:43:57', '2025-08-13 16:43:57', NULL, 'lookup_lists', 8, 'UPDATE', 'Updated lookup list'),
-(2, 1, 1, '2025-08-13 16:44:21', '2025-08-13 16:44:21', NULL, 'lookup_lists', 9, 'UPDATE', 'Updated lookup list'),
-(3, 1, 1, '2025-08-13 16:44:53', '2025-08-13 16:44:53', NULL, 'lookup_lists', 8, 'UPDATE', 'Updated lookup list'),
-(4, 1, 1, '2025-08-13 16:45:03', '2025-08-13 16:45:03', NULL, 'lookup_lists', 9, 'UPDATE', 'Updated lookup list'),
-(5, 1, 1, '2025-08-13 21:13:45', '2025-08-13 21:13:45', NULL, 'lookup_list_item_attributes', 2, 'CREATE', 'Created item attribute'),
-(6, 1, 1, '2025-08-13 21:37:35', '2025-08-13 21:37:35', NULL, 'lookup_list_item_attributes', 3, 'CREATE', 'Created item attribute'),
-(7, 1, 1, '2025-08-13 21:37:48', '2025-08-13 21:37:48', NULL, 'lookup_list_item_attributes', 4, 'CREATE', 'Created item attribute'),
-(8, 1, 1, '2025-08-13 21:38:05', '2025-08-13 21:38:05', NULL, 'lookup_list_item_attributes', 5, 'CREATE', 'Created item attribute'),
-(9, 1, 1, '2025-08-13 21:38:13', '2025-08-13 21:38:13', NULL, 'lookup_list_item_attributes', 6, 'CREATE', 'Created item attribute'),
-(10, 1, 1, '2025-08-13 21:38:34', '2025-08-13 21:38:34', NULL, 'lookup_list_item_attributes', 7, 'CREATE', 'Created item attribute'),
-(11, 1, 1, '2025-08-13 21:44:09', '2025-08-13 21:44:09', NULL, 'lookup_list_item_attributes', 8, 'CREATE', 'Created item attribute'),
-(12, 1, 1, '2025-08-13 21:44:18', '2025-08-13 21:44:18', NULL, 'lookup_list_item_attributes', 9, 'CREATE', 'Created item attribute'),
-(13, 1, 1, '2025-08-13 21:46:02', '2025-08-13 21:46:02', NULL, 'lookup_list_item_attributes', 9, 'DELETE', 'Deleted item attribute'),
-(14, 1, 1, '2025-08-13 22:08:42', '2025-08-13 22:08:42', NULL, 'lookup_lists', 10, 'CREATE', 'Created lookup list'),
-(15, 1, 1, '2025-08-13 22:09:01', '2025-08-13 22:09:01', NULL, 'lookup_list_items', 33, 'CREATE', 'Created lookup list item'),
-(16, 1, 1, '2025-08-13 22:11:06', '2025-08-13 22:11:06', NULL, 'lookup_list_item_attributes', 10, 'CREATE', 'Created item attribute'),
-(17, 1, 1, '2025-08-13 22:20:03', '2025-08-13 22:20:03', NULL, 'lookup_list_item_attributes', 17, 'CREATE', 'Created item attribute'),
-(18, 1, 1, '2025-08-13 22:20:15', '2025-08-13 22:20:15', NULL, 'lookup_list_item_attributes', 18, 'CREATE', 'Created item attribute'),
-(19, 1, 1, '2025-08-13 22:20:22', '2025-08-13 22:20:22', NULL, 'lookup_list_item_attributes', 19, 'CREATE', 'Created item attribute'),
-(20, 1, 1, '2025-08-13 22:28:51', '2025-08-13 22:28:51', NULL, 'lookup_lists', 12, 'CREATE', 'Created lookup list'),
-(21, 1, 1, '2025-08-13 22:29:14', '2025-08-13 22:29:14', NULL, 'lookup_list_items', 40, 'CREATE', 'Created lookup list item'),
-(22, 1, 1, '2025-08-13 22:30:05', '2025-08-13 22:30:05', NULL, 'lookup_list_items', 36, 'DELETE', 'Deleted lookup list item'),
-(23, 1, 1, '2025-08-13 22:30:08', '2025-08-13 22:30:08', NULL, 'lookup_list_items', 38, 'DELETE', 'Deleted lookup list item'),
-(24, 1, 1, '2025-08-13 22:30:09', '2025-08-13 22:30:09', NULL, 'lookup_list_items', 37, 'DELETE', 'Deleted lookup list item'),
-(25, 1, 1, '2025-08-13 22:30:09', '2025-08-13 22:30:09', NULL, 'lookup_list_items', 35, 'DELETE', 'Deleted lookup list item'),
-(26, 1, 1, '2025-08-13 22:30:10', '2025-08-13 22:30:10', NULL, 'lookup_list_items', 39, 'DELETE', 'Deleted lookup list item'),
-(27, 1, 1, '2025-08-13 22:30:49', '2025-08-13 22:30:49', NULL, 'lookup_list_item_attributes', 20, 'CREATE', 'Created item attribute'),
-(28, 1, 1, '2025-08-13 22:31:01', '2025-08-13 22:31:01', NULL, 'lookup_list_items', 40, 'DELETE', 'Deleted lookup list item'),
-(29, 1, 1, '2025-08-13 22:31:17', '2025-08-13 22:31:17', NULL, 'lookup_lists', 11, 'DELETE', 'Deleted lookup list'),
-(30, 1, 1, '2025-08-13 22:31:42', '2025-08-13 22:31:42', NULL, 'lookup_list_items', 41, 'CREATE', 'Created lookup list item'),
-(31, 1, 1, '2025-08-13 22:36:04', '2025-08-13 22:36:04', NULL, 'lookup_list_items', 42, 'CREATE', 'Created lookup list item'),
-(32, 1, 1, '2025-08-13 22:36:34', '2025-08-13 22:36:34', NULL, 'lookup_list_item_attributes', 21, 'CREATE', 'Created item attribute'),
-(33, 1, 1, '2025-08-13 22:36:48', '2025-08-13 22:36:48', NULL, 'lookup_list_item_attributes', 22, 'CREATE', 'Created item attribute'),
-(34, 1, 1, '2025-08-13 22:38:51', '2025-08-13 22:38:51', NULL, 'lookup_list_items', 43, 'CREATE', 'Created lookup list item'),
-(35, 1, 1, '2025-08-13 22:41:14', '2025-08-13 22:41:14', NULL, 'lookup_list_items', 44, 'CREATE', 'Created lookup list item'),
-(36, 1, 1, '2025-08-13 22:42:01', '2025-08-13 22:42:01', NULL, 'lookup_list_items', 45, 'CREATE', 'Created lookup list item'),
-(37, 1, 1, '2025-08-13 22:45:22', '2025-08-13 22:45:22', NULL, 'lookup_list_items', 46, 'CREATE', 'Created lookup list item'),
-(38, 1, 1, '2025-08-13 22:46:17', '2025-08-13 22:46:17', NULL, 'lookup_list_items', 47, 'CREATE', 'Created lookup list item'),
-(39, 1, 1, '2025-08-13 22:46:34', '2025-08-13 22:46:34', NULL, 'lookup_list_items', 48, 'CREATE', 'Created lookup list item'),
-(40, 1, 1, '2025-08-13 23:38:55', '2025-08-13 23:38:55', NULL, 'lookup_list_item_attributes', 23, 'CREATE', 'Created item attribute'),
-(41, 1, 1, '2025-08-13 23:39:07', '2025-08-13 23:39:07', NULL, 'lookup_list_item_attributes', 24, 'CREATE', 'Created item attribute'),
-(42, 1, 1, '2025-08-13 23:39:14', '2025-08-13 23:39:14', NULL, 'lookup_list_item_attributes', 25, 'CREATE', 'Created item attribute'),
-(43, 1, 1, '2025-08-13 23:39:19', '2025-08-13 23:39:19', NULL, 'lookup_list_item_attributes', 26, 'CREATE', 'Created item attribute'),
-(44, 1, 1, '2025-08-13 23:39:33', '2025-08-13 23:39:33', NULL, 'lookup_list_item_attributes', 27, 'CREATE', 'Created item attribute'),
-(45, 1, 1, '2025-08-13 23:39:38', '2025-08-13 23:39:38', NULL, 'lookup_list_item_attributes', 15, 'DELETE', 'Deleted item attribute'),
-(46, 1, 1, '2025-08-13 23:39:49', '2025-08-13 23:39:49', NULL, 'lookup_list_item_attributes', 13, 'UPDATE', 'Updated item attribute'),
-(47, 1, 1, '2025-08-13 23:54:56', '2025-08-13 23:54:56', NULL, 'lookup_list_items', 49, 'CREATE', 'Created lookup list item'),
-(48, 1, 1, '2025-08-13 23:55:07', '2025-08-13 23:55:07', NULL, 'lookup_list_items', 49, 'DELETE', 'Deleted lookup list item'),
-(49, 1, 1, '2025-08-14 16:48:59', '2025-08-14 16:48:59', NULL, 'lookup_list_item_attributes', 28, 'CREATE', 'Created item attribute'),
-(50, 1, 1, '2025-08-14 16:50:26', '2025-08-14 16:50:26', NULL, 'lookup_list_item_attributes', 29, 'CREATE', 'Created item attribute'),
-(51, 1, 1, '2025-08-14 16:50:40', '2025-08-14 16:50:40', NULL, 'lookup_list_item_attributes', 29, 'DELETE', 'Deleted item attribute'),
-(52, 1, 1, '2025-08-14 16:52:01', '2025-08-14 16:52:01', NULL, 'lookup_lists', 13, 'CREATE', 'Created lookup list'),
-(53, 1, 1, '2025-08-14 16:52:09', '2025-08-14 16:52:09', NULL, 'lookup_list_items', 50, 'CREATE', 'Created lookup list item'),
-(54, 1, 1, '2025-08-14 16:52:32', '2025-08-14 16:52:32', NULL, 'lookup_list_items', 50, 'DELETE', 'Deleted lookup list item'),
-(55, 1, 1, '2025-08-14 16:52:35', '2025-08-14 16:52:35', NULL, 'lookup_lists', 13, 'DELETE', 'Deleted lookup list'),
-(56, 1, 1, '2025-08-14 17:16:47', '2025-08-14 17:16:47', NULL, 'lookup_list_items', 51, 'CREATE', 'Created lookup list item'),
-(57, 1, 1, '2025-08-14 17:16:54', '2025-08-14 17:16:54', NULL, 'lookup_list_items', 52, 'CREATE', 'Created lookup list item'),
-(58, 1, 1, '2025-08-14 17:18:21', '2025-08-14 17:18:21', NULL, 'lookup_list_items', 53, 'CREATE', 'Created lookup list item'),
-(59, 1, 1, '2025-08-14 20:46:43', '2025-08-14 20:46:43', NULL, 'lookup_list_item_attributes', 30, 'CREATE', 'Created item attribute'),
-(60, 1, 1, '2025-08-14 20:46:48', '2025-08-14 20:46:48', NULL, 'lookup_list_item_attributes', 30, 'DELETE', 'Deleted item attribute'),
-(61, 1, 1, '2025-08-14 20:47:55', '2025-08-14 20:47:55', NULL, 'lookup_list_items', 54, 'CREATE', 'Created lookup list item'),
-(62, 1, 1, '2025-08-14 20:48:19', '2025-08-14 20:48:19', NULL, 'lookup_list_item_attributes', 31, 'CREATE', 'Created item attribute'),
-(63, 1, 1, '2025-08-14 22:11:40', '2025-08-14 22:11:40', NULL, 'module_projects_users', 1, 'ASSIGN', 'Assigned user'),
-(64, 1, 1, '2025-08-14 22:11:45', '2025-08-14 22:11:45', NULL, 'module_tasks', 4, 'CREATE', 'Created task'),
-(65, 1, 1, '2025-08-14 22:15:47', '2025-08-14 22:15:47', NULL, 'lookup_list_items', 55, 'CREATE', 'Created lookup list item'),
-(66, 1, 1, '2025-08-14 22:15:51', '2025-08-14 22:15:51', NULL, 'lookup_list_item_attributes', 10, 'UPDATE', 'Updated item attribute'),
-(67, 1, 1, '2025-08-14 22:15:54', '2025-08-14 22:15:54', NULL, 'lookup_list_item_attributes', 12, 'UPDATE', 'Updated item attribute'),
-(68, 1, 1, '2025-08-14 22:16:05', '2025-08-14 22:16:05', NULL, 'lookup_list_item_attributes', 32, 'CREATE', 'Created item attribute'),
-(69, 1, 1, '2025-08-14 22:16:26', '2025-08-14 22:16:26', NULL, 'lookup_list_items', 29, 'UPDATE', 'Updated lookup list item'),
-(70, 1, 1, '2025-08-14 22:22:53', '2025-08-14 22:22:53', NULL, 'lookup_list_item_attributes', 33, 'CREATE', 'Created item attribute'),
-(71, 1, 1, '2025-08-15 00:06:43', '2025-08-15 00:06:43', NULL, 'module_projects_assignments', 2, 'ASSIGN', 'Assigned user'),
-(72, 1, 1, '2025-08-15 00:09:39', '2025-08-15 00:09:39', NULL, 'module_projects_assignments', 2, 'DELETE', 'Removed user assignment'),
-(73, 1, 1, '2025-08-15 00:09:42', '2025-08-15 00:09:42', NULL, 'module_projects_assignments', 3, 'ASSIGN', 'Assigned user'),
-(74, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:11:11', NULL, 'users', 2, 'CREATE', 'Created user'),
-(75, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:11:11', NULL, 'person', 2, 'CREATE', 'Created person for user'),
-(76, 1, 1, '2025-08-15 00:11:11', '2025-08-15 00:11:11', NULL, 'admin_user_roles', 2, 'CREATE', 'Assigned roles to user'),
-(77, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 'users', 2, 'UPDATE', 'Updated user'),
-(78, 1, 1, '2025-08-15 00:11:51', '2025-08-15 00:11:51', NULL, 'admin_user_roles', 2, 'UPDATE', 'Updated user roles'),
-(79, 1, 1, '2025-08-15 00:12:46', '2025-08-15 00:12:46', NULL, 'module_projects_assignments', 4, 'ASSIGN', 'Assigned user'),
-(80, 1, 1, '2025-08-15 13:21:18', '2025-08-15 13:21:18', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(81, 1, 1, '2025-08-15 13:21:19', '2025-08-15 13:21:19', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(82, 1, 1, '2025-08-15 13:49:24', '2025-08-15 13:49:24', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(83, 1, 1, '2025-08-15 13:49:25', '2025-08-15 13:49:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(84, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(85, 1, 1, '2025-08-15 14:25:03', '2025-08-15 14:25:03', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(86, 1, 1, '2025-08-15 14:27:48', '2025-08-15 14:27:48', NULL, 'module_task_assignments', 1, 'ASSIGN', 'Assigned user'),
-(87, 1, 1, '2025-08-15 14:27:50', '2025-08-15 14:27:50', NULL, 'module_task_assignments', 2, 'ASSIGN', 'Assigned user'),
-(88, 1, 1, '2025-08-15 14:55:00', '2025-08-15 14:55:00', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(89, 1, 1, '2025-08-15 14:55:01', '2025-08-15 14:55:01', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(90, 1, 1, '2025-08-15 14:55:07', '2025-08-15 14:55:07', NULL, 'module_tasks', 6, 'UPDATE', 'Completed task'),
-(91, 1, 1, '2025-08-15 14:55:07', '2025-08-15 14:55:07', NULL, 'module_tasks', 6, 'UPDATE', 'Marked task incomplete'),
-(92, 1, 1, '2025-08-15 15:07:45', '2025-08-15 15:07:45', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(93, 1, 1, '2025-08-15 15:07:49', '2025-08-15 15:07:49', NULL, 'module_tasks', 1, 'UPDATE', 'Completed task'),
-(94, 1, 1, '2025-08-15 15:07:55', '2025-08-15 15:07:55', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(95, 1, 1, '2025-08-15 15:07:56', '2025-08-15 15:07:56', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(96, 1, 1, '2025-08-15 15:07:56', '2025-08-15 15:07:56', NULL, 'module_tasks', 6, 'UPDATE', 'Completed task'),
-(97, 1, 1, '2025-08-15 15:08:00', '2025-08-15 15:08:00', NULL, 'module_tasks', 6, 'UPDATE', 'Marked task incomplete'),
-(98, 1, 1, '2025-08-15 15:08:00', '2025-08-15 15:08:00', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(99, 1, 1, '2025-08-15 15:08:01', '2025-08-15 15:08:01', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(100, 1, 1, '2025-08-15 15:08:01', '2025-08-15 15:08:01', NULL, 'module_tasks', 1, 'UPDATE', 'Marked task incomplete'),
-(101, 1, 1, '2025-08-15 15:08:02', '2025-08-15 15:08:02', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(102, 1, 1, '2025-08-15 15:08:03', '2025-08-15 15:08:03', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(103, 1, 1, '2025-08-15 15:08:05', '2025-08-15 15:08:05', NULL, 'module_tasks', 1, 'UPDATE', 'Completed task'),
-(104, 1, 1, '2025-08-15 15:08:11', '2025-08-15 15:08:11', NULL, 'module_tasks', 1, 'UPDATE', 'Marked task incomplete'),
-(105, 1, 1, '2025-08-15 15:08:11', '2025-08-15 15:08:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(106, 1, 1, '2025-08-15 15:17:39', '2025-08-15 15:17:39', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(107, 1, 1, '2025-08-15 15:18:05', '2025-08-15 15:18:05', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(108, 1, 1, '2025-08-15 15:18:08', '2025-08-15 15:18:08', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(109, 1, 1, '2025-08-16 17:30:17', '2025-08-16 17:30:17', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(110, 1, 1, '2025-08-16 17:30:40', '2025-08-16 17:30:40', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(111, 1, 1, '2025-08-16 17:31:38', '2025-08-16 17:31:38', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(112, 1, 1, '2025-08-16 17:31:41', '2025-08-16 17:31:41', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(113, 1, 1, '2025-08-16 17:31:42', '2025-08-16 17:31:42', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(114, 1, 1, '2025-08-16 17:32:07', '2025-08-16 17:32:07', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(115, 1, 1, '2025-08-16 17:32:08', '2025-08-16 17:32:08', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(116, 1, 1, '2025-08-16 17:32:10', '2025-08-16 17:32:10', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(117, 1, 1, '2025-08-16 17:32:13', '2025-08-16 17:32:13', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(118, 1, 1, '2025-08-16 17:32:13', '2025-08-16 17:32:13', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(119, 1, 1, '2025-08-16 17:32:14', '2025-08-16 17:32:14', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(120, 1, 1, '2025-08-16 17:32:14', '2025-08-16 17:32:14', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(121, 1, 1, '2025-08-16 17:38:09', '2025-08-16 17:38:09', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(122, 1, 1, '2025-08-16 17:38:10', '2025-08-16 17:38:10', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(123, 1, 1, '2025-08-16 17:38:11', '2025-08-16 17:38:11', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(124, 1, 1, '2025-08-16 17:38:11', '2025-08-16 17:38:11', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(125, 1, 1, '2025-08-16 17:38:12', '2025-08-16 17:38:12', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(126, 1, 1, '2025-08-16 17:38:13', '2025-08-16 17:38:13', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(127, 1, 1, '2025-08-16 17:51:57', '2025-08-16 17:51:57', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(128, 1, 1, '2025-08-16 17:51:58', '2025-08-16 17:51:58', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(129, 1, 1, '2025-08-16 17:51:59', '2025-08-16 17:51:59', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(130, 1, 1, '2025-08-16 17:51:59', '2025-08-16 17:51:59', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(131, 1, 1, '2025-08-16 17:52:00', '2025-08-16 17:52:00', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(132, 1, 1, '2025-08-16 17:52:00', '2025-08-16 17:52:00', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(133, 1, 1, '2025-08-16 17:52:01', '2025-08-16 17:52:01', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(134, 1, 1, '2025-08-16 17:52:03', '2025-08-16 17:52:03', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(135, 1, 1, '2025-08-16 19:15:20', '2025-08-16 19:15:20', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
-(136, 1, 1, '2025-08-16 19:15:23', '2025-08-16 19:15:23', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(137, 1, 1, '2025-08-16 19:15:24', '2025-08-16 19:15:24', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(138, 1, 1, '2025-08-16 19:15:24', '2025-08-16 19:15:24', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(139, 1, 1, '2025-08-16 19:15:26', '2025-08-16 19:15:26', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(140, 1, 1, '2025-08-16 19:15:27', '2025-08-16 19:15:27', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(141, 1, 1, '2025-08-16 19:15:28', '2025-08-16 19:15:28', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(142, 1, 1, '2025-08-16 19:15:28', '2025-08-16 19:15:28', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
-(143, 1, 1, '2025-08-16 19:15:39', '2025-08-16 19:15:39', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(144, 1, 1, '2025-08-16 19:15:39', '2025-08-16 19:15:39', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(145, 1, 1, '2025-08-16 19:15:40', '2025-08-16 19:15:40', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(146, 1, 1, '2025-08-16 19:15:40', '2025-08-16 19:15:40', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
-(147, 1, 1, '2025-08-16 19:15:47', '2025-08-16 19:15:47', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(148, 1, 1, '2025-08-16 19:15:48', '2025-08-16 19:15:48', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(149, 1, 1, '2025-08-16 19:15:48', '2025-08-16 19:15:48', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(150, 1, 1, '2025-08-16 19:15:49', '2025-08-16 19:15:49', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
-(151, 1, 1, '2025-08-16 19:15:50', '2025-08-16 19:15:50', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(152, 1, 1, '2025-08-16 19:41:35', '2025-08-16 19:41:35', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(153, 1, 1, '2025-08-16 19:41:36', '2025-08-16 19:41:36', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(154, 1, 1, '2025-08-16 19:48:41', '2025-08-16 19:48:41', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(155, 1, 1, '2025-08-16 19:50:57', '2025-08-16 19:50:57', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(156, 1, 1, '2025-08-16 19:50:58', '2025-08-16 19:50:58', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(157, 1, 1, '2025-08-16 20:05:04', '2025-08-16 20:05:04', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(158, 1, 1, '2025-08-16 20:05:05', '2025-08-16 20:05:05', NULL, 'module_tasks', 4, 'UPDATE', 'Completed task'),
-(159, 1, 1, '2025-08-16 20:05:06', '2025-08-16 20:05:06', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(160, 1, 1, '2025-08-16 20:05:07', '2025-08-16 20:05:07', NULL, 'module_tasks', 4, 'UPDATE', 'Marked task incomplete'),
-(161, 1, 1, '2025-08-16 20:05:13', '2025-08-16 20:05:13', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(162, 1, 1, '2025-08-16 20:05:14', '2025-08-16 20:05:14', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(163, 1, 1, '2025-08-16 21:35:49', '2025-08-16 21:35:49', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(164, 1, 1, '2025-08-16 21:35:50', '2025-08-16 21:35:50', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(165, 1, 1, '2025-08-16 21:36:31', '2025-08-16 21:36:31', NULL, 'module_task_assignments', 3, 'ASSIGN', 'Assigned user'),
-(166, 1, 1, '2025-08-16 22:17:00', '2025-08-16 22:17:00', NULL, 'module_projects_assignments', 5, 'ASSIGN', 'Assigned user'),
-(167, 1, 1, '2025-08-16 22:17:02', '2025-08-16 22:17:02', NULL, 'module_projects_assignments', 6, 'ASSIGN', 'Assigned user'),
-(168, 1, 1, '2025-08-16 23:26:29', '2025-08-16 23:26:29', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(169, 1, 1, '2025-08-16 23:26:31', '2025-08-16 23:26:31', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(170, 1, 1, '2025-08-16 23:26:35', '2025-08-16 23:26:35', NULL, 'module_tasks', 12, 'UPDATE', 'Completed task'),
-(171, 1, 1, '2025-08-16 23:26:36', '2025-08-16 23:26:36', NULL, 'module_tasks', 12, 'UPDATE', 'Marked task incomplete'),
-(172, 1, 1, '2025-08-16 23:26:37', '2025-08-16 23:26:37', NULL, 'module_tasks', 12, 'UPDATE', 'Completed task'),
-(173, 1, 1, '2025-08-16 23:26:37', '2025-08-16 23:26:37', NULL, 'module_tasks', 12, 'UPDATE', 'Marked task incomplete'),
-(174, 1, 1, '2025-08-16 23:26:37', '2025-08-16 23:26:37', NULL, 'module_tasks', 12, 'UPDATE', 'Completed task'),
-(175, 1, 1, '2025-08-16 23:26:38', '2025-08-16 23:26:38', NULL, 'module_tasks', 12, 'UPDATE', 'Marked task incomplete'),
-(176, 1, 1, '2025-08-16 23:26:39', '2025-08-16 23:26:39', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(177, 1, 1, '2025-08-16 23:26:41', '2025-08-16 23:26:41', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(178, 1, 1, '2025-08-16 23:26:42', '2025-08-16 23:26:42', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(179, 1, 1, '2025-08-16 23:26:43', '2025-08-16 23:26:43', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(180, 1, 1, '2025-08-16 23:26:44', '2025-08-16 23:26:44', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(181, 1, 1, '2025-08-16 23:26:44', '2025-08-16 23:26:44', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
-(182, 1, 1, '2025-08-17 00:08:43', '2025-08-17 00:08:43', NULL, 'module_projects', 5, 'UPDATE', 'Updated status to 30'),
-(183, 1, 1, '2025-08-17 00:08:53', '2025-08-17 00:08:53', NULL, 'module_projects_assignments', 4, 'DELETE', 'Removed user assignment'),
-(184, 1, 1, '2025-08-17 00:08:57', '2025-08-17 00:08:57', NULL, 'module_projects_assignments', 7, 'ASSIGN', 'Assigned user'),
-(185, 1, 1, '2025-08-17 00:13:02', '2025-08-17 00:13:02', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(186, 1, 1, '2025-08-17 00:13:03', '2025-08-17 00:13:03', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(187, 1, 1, '2025-08-17 00:13:05', '2025-08-17 00:13:05', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(188, 1, 1, '2025-08-17 00:13:05', '2025-08-17 00:13:05', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(189, 1, 1, '2025-08-17 00:13:05', '2025-08-17 00:13:05', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(190, 1, 1, '2025-08-17 00:13:05', '2025-08-17 00:13:05', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(191, 1, 1, '2025-08-17 00:13:05', '2025-08-17 00:13:05', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(192, 1, 1, '2025-08-17 00:13:06', '2025-08-17 00:13:06', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(193, 1, 1, '2025-08-17 00:13:06', '2025-08-17 00:13:06', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(194, 1, 1, '2025-08-17 00:13:10', '2025-08-17 00:13:10', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(195, 1, 1, '2025-08-17 00:13:13', '2025-08-17 00:13:13', NULL, 'module_tasks', 2, 'UPDATE', 'Updated task status'),
-(196, 1, 1, '2025-08-17 00:13:15', '2025-08-17 00:13:15', NULL, 'module_tasks', 2, 'UPDATE', 'Updated task status'),
-(197, 1, 1, '2025-08-17 00:13:16', '2025-08-17 00:13:16', NULL, 'module_tasks', 2, 'UPDATE', 'Updated task status'),
-(198, 1, 1, '2025-08-17 00:13:17', '2025-08-17 00:13:17', NULL, 'module_tasks', 2, 'UPDATE', 'Updated task status'),
-(199, 1, 1, '2025-08-17 00:13:20', '2025-08-17 00:13:20', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(200, 1, 1, '2025-08-17 00:13:20', '2025-08-17 00:13:20', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(201, 1, 1, '2025-08-17 00:13:21', '2025-08-17 00:13:21', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(202, 1, 1, '2025-08-17 00:13:26', '2025-08-17 00:13:26', NULL, 'module_tasks', 13, 'UPDATE', 'Updated task priority'),
-(203, 1, 1, '2025-08-17 00:13:26', '2025-08-17 00:13:26', NULL, 'module_tasks', 13, 'UPDATE', 'Updated task priority'),
-(204, 1, 1, '2025-08-17 00:13:27', '2025-08-17 00:13:27', NULL, 'module_tasks', 13, 'UPDATE', 'Updated task priority'),
-(205, 1, 1, '2025-08-17 01:00:14', '2025-08-17 01:00:14', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(206, 1, 1, '2025-08-17 01:00:28', '2025-08-17 01:00:28', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(207, 1, 1, '2025-08-17 01:00:29', '2025-08-17 01:00:29', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(208, 1, 1, '2025-08-17 01:00:30', '2025-08-17 01:00:30', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(209, 1, 1, '2025-08-17 01:00:30', '2025-08-17 01:00:30', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(210, 1, 1, '2025-08-17 01:00:30', '2025-08-17 01:00:30', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(211, 1, 1, '2025-08-17 01:00:30', '2025-08-17 01:00:30', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(212, 1, 1, '2025-08-17 01:13:03', '2025-08-17 01:13:03', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(213, 1, 1, '2025-08-17 01:13:14', '2025-08-17 01:13:14', NULL, 'module_tasks', 4, 'UPDATE', 'Completed task'),
-(214, 1, 1, '2025-08-17 01:13:21', '2025-08-17 01:13:21', NULL, 'module_tasks', 11, 'UPDATE', 'Completed task'),
-(215, 1, 1, '2025-08-17 01:13:23', '2025-08-17 01:13:23', NULL, 'module_tasks', 11, 'UPDATE', 'Marked task incomplete'),
-(216, 1, 1, '2025-08-17 01:15:23', '2025-08-17 01:15:23', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(217, 1, 1, '2025-08-17 01:15:24', '2025-08-17 01:15:24', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(218, 1, 1, '2025-08-17 01:15:27', '2025-08-17 01:15:27', NULL, 'module_tasks', 10, 'UPDATE', 'Completed task'),
-(219, 1, 1, '2025-08-17 01:17:08', '2025-08-17 01:17:08', NULL, 'module_tasks', 18, 'CREATE', 'Created task'),
-(220, 1, 1, '2025-08-17 01:17:11', '2025-08-17 01:17:11', NULL, 'module_tasks', 19, 'CREATE', 'Created task'),
-(221, 1, 1, '2025-08-17 10:31:31', '2025-08-17 10:31:31', NULL, 'module_projects', 5, 'UPDATE', 'Updated status to 29'),
-(222, 1, 1, '2025-08-17 10:34:41', '2025-08-17 10:34:41', NULL, 'module_tasks', 20, 'CREATE', 'Created task'),
-(223, 1, 1, '2025-08-17 10:35:53', '2025-08-17 10:35:53', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(224, 1, 1, '2025-08-17 10:35:54', '2025-08-17 10:35:54', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(225, 1, 1, '2025-08-17 10:36:46', '2025-08-17 10:36:46', NULL, 'module_tasks', 20, 'UPDATE', 'Completed task'),
-(226, 1, 1, '2025-08-17 10:36:52', '2025-08-17 10:36:52', NULL, 'module_tasks', 19, 'UPDATE', 'Completed task'),
-(227, 1, 1, '2025-08-17 10:36:55', '2025-08-17 10:36:55', NULL, 'module_tasks', 18, 'UPDATE', 'Completed task'),
-(228, 1, 1, '2025-08-17 11:02:46', '2025-08-17 11:02:46', NULL, 'lookup_lists', 14, 'CREATE', 'Created lookup list'),
-(229, 1, 1, '2025-08-17 11:02:58', '2025-08-17 11:02:58', NULL, 'lookup_list_items', 56, 'CREATE', 'Created lookup list item'),
-(230, 1, 1, '2025-08-17 11:03:02', '2025-08-17 11:03:02', NULL, 'lookup_list_items', 57, 'CREATE', 'Created lookup list item'),
-(231, 1, 1, '2025-08-17 11:03:06', '2025-08-17 11:03:06', NULL, 'lookup_list_items', 58, 'CREATE', 'Created lookup list item'),
-(232, 1, 1, '2025-08-17 11:03:09', '2025-08-17 11:03:09', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 56'),
-(233, 1, 1, '2025-08-17 11:03:22', '2025-08-17 11:03:22', NULL, 'lookup_list_item_attributes', 34, 'CREATE', 'Created item attribute'),
-(234, 1, 1, '2025-08-17 11:03:34', '2025-08-17 11:03:34', NULL, 'lookup_list_item_attributes', 35, 'CREATE', 'Created item attribute'),
-(235, 1, 1, '2025-08-17 11:03:44', '2025-08-17 11:03:44', NULL, 'lookup_list_item_attributes', 36, 'CREATE', 'Created item attribute'),
-(236, 1, 1, '2025-08-17 11:03:53', '2025-08-17 11:03:53', NULL, 'module_projects', 8, 'UPDATE', 'Updated status to 29'),
-(237, 1, 1, '2025-08-17 11:03:55', '2025-08-17 11:03:55', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 58'),
-(238, 1, 1, '2025-08-17 11:03:57', '2025-08-17 11:03:57', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 58'),
-(239, 1, 1, '2025-08-17 11:03:59', '2025-08-17 11:03:59', NULL, 'module_projects', 8, 'UPDATE', 'Updated priority to 57'),
-(240, 1, 1, '2025-08-17 18:49:32', '2025-08-17 18:49:32', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(241, 1, 1, '2025-08-17 18:49:34', '2025-08-17 18:49:34', NULL, 'module_tasks', 11, 'UPDATE', 'Completed task'),
-(242, 1, 1, '2025-08-17 18:50:04', '2025-08-17 18:50:04', NULL, 'module_tasks', 16, 'UPDATE', 'Completed task'),
-(243, 1, 1, '2025-08-17 18:50:04', '2025-08-17 18:50:04', NULL, 'module_tasks', 16, 'UPDATE', 'Marked task incomplete'),
-(244, 1, 1, '2025-08-17 18:50:05', '2025-08-17 18:50:05', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(245, 1, 1, '2025-08-17 18:50:06', '2025-08-17 18:50:06', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
-(246, 1, 1, '2025-08-17 18:50:18', '2025-08-17 18:50:18', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(247, 1, 1, '2025-08-17 18:50:19', '2025-08-17 18:50:19', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
-(248, 1, 1, '2025-08-17 18:50:20', '2025-08-17 18:50:20', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(249, 1, 1, '2025-08-17 18:50:20', '2025-08-17 18:50:20', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(250, 1, 1, '2025-08-17 19:03:19', '2025-08-17 19:03:19', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(251, 1, 1, '2025-08-17 19:03:20', '2025-08-17 19:03:20', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
-(252, 1, 1, '2025-08-17 19:03:20', '2025-08-17 19:03:20', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(253, 1, 1, '2025-08-17 19:03:24', '2025-08-17 19:03:24', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(254, 1, 1, '2025-08-17 19:03:25', '2025-08-17 19:03:25', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(255, 1, 1, '2025-08-17 19:03:26', '2025-08-17 19:03:26', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(256, 1, 1, '2025-08-17 19:03:28', '2025-08-17 19:03:28', NULL, 'module_tasks', 13, 'UPDATE', 'Marked task incomplete'),
-(257, 1, 1, '2025-08-17 19:03:29', '2025-08-17 19:03:29', NULL, 'module_tasks', 13, 'UPDATE', 'Completed task'),
-(258, 1, 1, '2025-08-17 19:09:08', '2025-08-17 19:09:08', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(259, 1, 1, '2025-08-17 19:09:08', '2025-08-17 19:09:08', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(260, 1, 1, '2025-08-17 19:09:11', '2025-08-17 19:09:11', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(261, 1, 1, '2025-08-17 19:09:12', '2025-08-17 19:09:12', NULL, 'module_tasks', 15, 'UPDATE', 'Marked task incomplete'),
-(262, 1, 1, '2025-08-17 19:09:15', '2025-08-17 19:09:15', NULL, 'module_tasks', 15, 'UPDATE', 'Updated task'),
-(263, 1, 1, '2025-08-17 19:09:16', '2025-08-17 19:09:16', NULL, 'module_tasks', 16, 'UPDATE', 'Updated task'),
-(264, 1, 1, '2025-08-17 19:09:18', '2025-08-17 19:09:18', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(265, 1, 1, '2025-08-17 19:09:19', '2025-08-17 19:09:19', NULL, 'module_tasks', 18, 'UPDATE', 'Marked task incomplete'),
-(266, 1, 1, '2025-08-17 19:09:20', '2025-08-17 19:09:20', NULL, 'module_tasks', 19, 'UPDATE', 'Marked task incomplete'),
-(267, 1, 1, '2025-08-17 19:09:20', '2025-08-17 19:09:20', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(268, 1, 1, '2025-08-17 19:09:21', '2025-08-17 19:09:21', NULL, 'module_tasks', 3, 'UPDATE', 'Marked task incomplete'),
-(269, 1, 1, '2025-08-17 19:09:21', '2025-08-17 19:09:21', NULL, 'module_tasks', 4, 'UPDATE', 'Marked task incomplete'),
-(270, 1, 1, '2025-08-17 19:09:22', '2025-08-17 19:09:22', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(271, 1, 1, '2025-08-17 19:09:25', '2025-08-17 19:09:25', NULL, 'module_tasks', 9, 'UPDATE', 'Marked task incomplete'),
-(272, 1, 1, '2025-08-17 19:09:25', '2025-08-17 19:09:25', NULL, 'module_tasks', 10, 'UPDATE', 'Marked task incomplete'),
-(273, 1, 1, '2025-08-17 19:09:27', '2025-08-17 19:09:27', NULL, 'module_tasks', 10, 'UPDATE', 'Updated task'),
-(274, 1, 1, '2025-08-17 19:09:29', '2025-08-17 19:09:29', NULL, 'module_tasks', 9, 'UPDATE', 'Updated task'),
-(275, 1, 1, '2025-08-17 19:09:31', '2025-08-17 19:09:31', NULL, 'module_tasks', 8, 'UPDATE', 'Updated task'),
-(276, 1, 1, '2025-08-17 19:09:33', '2025-08-17 19:09:33', NULL, 'module_tasks', 4, 'UPDATE', 'Updated task'),
-(277, 1, 1, '2025-08-17 19:13:35', '2025-08-17 19:13:35', NULL, 'module_tasks', 11, 'UPDATE', 'Updated task'),
-(278, 1, 1, '2025-08-17 21:14:43', '2025-08-17 21:14:43', NULL, 'lookup_list_items', 62, 'DELETE', 'Deleted lookup list item'),
-(279, 1, 1, '2025-08-17 21:14:45', '2025-08-17 21:14:45', NULL, 'lookup_list_items', 61, 'DELETE', 'Deleted lookup list item'),
-(280, 1, 1, '2025-08-17 22:21:54', '2025-08-17 22:21:54', NULL, 'module_tasks', 15, 'UPDATE', 'Completed task'),
-(281, 1, 1, '2025-08-17 22:21:57', '2025-08-17 22:21:57', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(282, 1, 1, '2025-08-17 22:23:52', '2025-08-17 22:23:52', NULL, 'lookup_list_item_attributes', 14, 'DELETE', 'Deleted item attribute'),
-(283, 1, 1, '2025-08-17 22:23:55', '2025-08-17 22:23:55', NULL, 'lookup_list_items', 33, 'DELETE', 'Deleted lookup list item'),
-(284, 1, 1, '2025-08-17 22:24:01', '2025-08-17 22:24:01', NULL, 'lookup_list_item_attributes', 33, 'UPDATE', 'Updated item attribute'),
-(285, 1, 1, '2025-08-17 22:24:09', '2025-08-17 22:24:09', NULL, 'lookup_list_item_attributes', 27, 'UPDATE', 'Updated item attribute'),
-(286, 1, 1, '2025-08-17 22:24:26', '2025-08-17 22:24:26', NULL, 'lookup_list_item_attributes', 37, 'CREATE', 'Created item attribute'),
-(287, 1, 1, '2025-08-17 22:24:39', '2025-08-17 22:24:39', NULL, 'lookup_list_item_attributes', 38, 'CREATE', 'Created item attribute'),
-(288, 1, 1, '2025-08-17 22:24:53', '2025-08-17 22:24:53', NULL, 'lookup_list_item_attributes', 39, 'CREATE', 'Created item attribute'),
-(289, 1, 1, '2025-08-17 22:25:11', '2025-08-17 22:25:11', NULL, 'lookup_list_item_attributes', 32, 'UPDATE', 'Updated item attribute'),
-(290, 1, 1, '2025-08-17 22:25:14', '2025-08-17 22:25:14', NULL, 'lookup_list_item_attributes', 11, 'UPDATE', 'Updated item attribute'),
-(291, 1, 1, '2025-08-17 22:25:20', '2025-08-17 22:25:20', NULL, 'lookup_list_item_attributes', 40, 'CREATE', 'Created item attribute'),
-(292, 1, 1, '2025-08-17 22:25:33', '2025-08-17 22:25:33', NULL, 'lookup_list_item_attributes', 41, 'CREATE', 'Created item attribute'),
-(293, 1, 1, '2025-08-17 22:25:45', '2025-08-17 22:25:45', NULL, 'lookup_list_item_attributes', 42, 'CREATE', 'Created item attribute'),
-(294, 1, 1, '2025-08-17 22:25:59', '2025-08-17 22:25:59', NULL, 'lookup_list_item_attributes', 43, 'CREATE', 'Created item attribute'),
-(295, 1, 1, '2025-08-17 22:26:05', '2025-08-17 22:26:05', NULL, 'lookup_list_item_attributes', 44, 'CREATE', 'Created item attribute'),
-(296, 1, 1, '2025-08-17 22:26:21', '2025-08-17 22:26:21', NULL, 'lookup_list_items', 63, 'CREATE', 'Created lookup list item'),
-(297, 1, 1, '2025-08-17 22:26:30', '2025-08-17 22:26:30', NULL, 'lookup_list_item_attributes', 45, 'CREATE', 'Created item attribute'),
-(298, 1, 1, '2025-08-17 22:26:34', '2025-08-17 22:26:34', NULL, 'lookup_list_item_attributes', 46, 'CREATE', 'Created item attribute'),
-(299, 1, 1, '2025-08-17 22:26:47', '2025-08-17 22:26:47', NULL, 'lookup_list_item_attributes', 47, 'CREATE', 'Created item attribute'),
-(300, 1, 1, '2025-08-17 22:26:56', '2025-08-17 22:26:56', NULL, 'lookup_list_item_attributes', 31, 'DELETE', 'Deleted item attribute'),
-(301, 1, 1, '2025-08-17 22:26:59', '2025-08-17 22:26:59', NULL, 'lookup_list_item_attributes', 48, 'CREATE', 'Created item attribute'),
-(302, 1, 1, '2025-08-17 22:27:07', '2025-08-17 22:27:07', NULL, 'lookup_list_item_attributes', 49, 'CREATE', 'Created item attribute'),
-(303, 1, 1, '2025-08-17 22:27:26', '2025-08-17 22:27:26', NULL, 'lookup_list_item_attributes', 49, 'UPDATE', 'Updated item attribute'),
-(304, 1, 1, '2025-08-17 22:27:30', '2025-08-17 22:27:30', NULL, 'lookup_list_item_attributes', 50, 'CREATE', 'Created item attribute'),
-(305, 1, 1, '2025-08-17 22:27:39', '2025-08-17 22:27:39', NULL, 'lookup_list_item_attributes', 51, 'CREATE', 'Created item attribute'),
-(306, 1, 1, '2025-08-17 22:27:44', '2025-08-17 22:27:44', NULL, 'lookup_list_item_attributes', 52, 'CREATE', 'Created item attribute'),
-(307, 1, 1, '2025-08-17 22:27:48', '2025-08-17 22:27:48', NULL, 'lookup_list_item_attributes', 53, 'CREATE', 'Created item attribute'),
-(308, 1, 1, '2025-08-17 22:28:37', '2025-08-17 22:28:37', NULL, 'module_tasks', 19, 'UPDATE', 'Completed task'),
-(309, 1, 1, '2025-08-17 22:28:37', '2025-08-17 22:28:37', NULL, 'module_tasks', 19, 'UPDATE', 'Marked task incomplete'),
-(310, 1, 1, '2025-08-17 22:28:40', '2025-08-17 22:28:40', NULL, 'module_tasks', 19, 'UPDATE', 'Updated task status'),
-(311, 1, 1, '2025-08-17 22:28:42', '2025-08-17 22:28:42', NULL, 'module_tasks', 19, 'UPDATE', 'Completed task'),
-(312, 1, 1, '2025-08-17 22:28:55', '2025-08-17 22:28:55', NULL, 'module_tasks', 21, 'CREATE', 'Created task'),
-(313, 1, 1, '2025-08-17 22:28:56', '2025-08-17 22:28:56', NULL, 'module_tasks', 22, 'CREATE', 'Created task'),
-(314, 1, 1, '2025-08-17 22:28:58', '2025-08-17 22:28:58', NULL, 'module_tasks', 23, 'CREATE', 'Created task'),
-(315, 1, 1, '2025-08-18 14:33:18', '2025-08-18 14:33:18', NULL, 'module_tasks', 24, 'CREATE', 'Created task'),
-(316, 1, 1, '2025-08-18 15:29:37', '2025-08-18 15:29:37', NULL, 'lookup_lists', 16, 'CREATE', 'Created lookup list'),
-(317, 1, 1, '2025-08-18 15:29:50', '2025-08-18 15:29:50', NULL, 'lookup_lists', 17, 'CREATE', 'Created lookup list'),
-(318, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', NULL, 'lookup_lists', 18, 'CREATE', 'Created lookup list'),
-(319, 1, 1, '2025-08-18 15:30:20', '2025-08-18 15:30:20', NULL, 'lookup_lists', 19, 'CREATE', 'Created lookup list'),
-(320, 1, 1, '2025-08-18 15:32:11', '2025-08-18 15:32:11', NULL, 'lookup_lists', 20, 'CREATE', 'Created lookup list'),
-(321, 1, 1, '2025-08-18 22:17:58', '2025-08-18 22:17:58', NULL, 'module_tasks', 4, 'UPDATE', 'Updated task status'),
-(322, 1, 1, '2025-08-18 22:18:05', '2025-08-18 22:18:05', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(323, 1, 1, '2025-08-18 22:18:08', '2025-08-18 22:18:08', NULL, 'module_tasks', 8, 'UPDATE', 'Marked task incomplete'),
-(324, 1, 1, '2025-08-18 22:18:11', '2025-08-18 22:18:11', NULL, 'module_tasks', 8, 'UPDATE', 'Updated task status'),
-(325, 1, 1, '2025-08-18 22:19:34', '2025-08-18 22:19:34', NULL, 'module_tasks', 9, 'UPDATE', 'Completed task'),
-(326, 1, 1, '2025-08-18 22:23:34', '2025-08-18 22:23:34', NULL, 'module_tasks', 24, 'UPDATE', 'Completed task'),
-(327, 1, 1, '2025-08-18 22:23:42', '2025-08-18 22:23:42', NULL, 'module_tasks', 12, 'UPDATE', 'Updated task priority'),
-(328, 1, 1, '2025-08-18 22:23:46', '2025-08-18 22:23:46', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
-(329, 1, 1, '2025-08-18 22:23:47', '2025-08-18 22:23:47', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
-(330, 1, 1, '2025-08-18 22:23:49', '2025-08-18 22:23:49', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
-(331, 1, 1, '2025-08-18 22:23:51', '2025-08-18 22:23:51', NULL, 'module_tasks', 24, 'UPDATE', 'Marked task incomplete'),
-(332, 1, 1, '2025-08-18 22:24:10', '2025-08-18 22:24:10', NULL, 'module_tasks', 2, 'UPDATE', 'Completed task'),
-(333, 1, 1, '2025-08-18 22:24:11', '2025-08-18 22:24:11', NULL, 'module_tasks', 2, 'UPDATE', 'Marked task incomplete'),
-(334, 1, 1, '2025-08-18 22:46:29', '2025-08-18 22:46:29', NULL, 'module_tasks', 21, 'UPDATE', 'Completed task'),
-(335, 1, 1, '2025-08-18 22:46:33', '2025-08-18 22:46:33', NULL, 'module_tasks', 21, 'UPDATE', 'Marked task incomplete'),
-(336, 1, 1, '2025-08-18 22:46:37', '2025-08-18 22:46:37', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task status'),
-(337, 1, 1, '2025-08-18 22:46:43', '2025-08-18 22:46:43', NULL, 'module_tasks', 21, 'UPDATE', 'Completed task'),
-(338, 1, 1, '2025-08-18 22:46:47', '2025-08-18 22:46:47', NULL, 'module_tasks', 21, 'UPDATE', 'Marked task incomplete'),
-(339, 1, 1, '2025-08-18 22:48:12', '2025-08-18 22:48:12', NULL, 'module_projects_assignments', 7, 'DELETE', 'Removed user assignment'),
-(340, 1, 1, '2025-08-18 22:48:15', '2025-08-18 22:48:15', NULL, 'module_projects_assignments', 8, 'ASSIGN', 'Assigned user'),
-(341, 1, 1, '2025-08-18 22:48:17', '2025-08-18 22:48:17', NULL, 'module_projects_assignments', 9, 'ASSIGN', 'Assigned user'),
-(342, 1, 1, '2025-08-19 22:59:41', '2025-08-19 22:59:41', NULL, 'module_tasks', 6, 'UPDATE', 'Updated task status'),
-(343, 1, 1, '2025-08-19 23:00:03', '2025-08-19 23:00:03', NULL, 'lookup_list_items', 32, 'UPDATE', 'Updated lookup list item'),
-(344, 1, 1, '2025-08-19 23:01:17', '2025-08-19 23:01:17', NULL, 'module_projects_assignments', 1, 'ASSIGN', 'Assigned user'),
-(345, 1, 1, '2025-08-19 23:01:26', '2025-08-19 23:01:26', NULL, 'module_tasks', 17, 'CREATE', 'Created task'),
-(346, 1, 1, '2025-08-19 23:01:30', '2025-08-19 23:01:30', NULL, 'module_tasks', 17, 'UPDATE', 'Updated task priority'),
-(347, 1, 1, '2025-08-19 23:02:12', '2025-08-19 23:02:12', NULL, 'module_tasks', 18, 'CREATE', 'Created task'),
-(348, 1, 1, '2025-08-19 23:02:15', '2025-08-19 23:02:15', NULL, 'module_projects_assignments', 2, 'ASSIGN', 'Assigned user'),
-(349, 1, 1, '2025-08-19 23:02:19', '2025-08-19 23:02:19', NULL, 'module_task_assignments', 1, 'ASSIGN', 'Assigned user'),
-(350, 1, 1, '2025-08-19 23:04:14', '2025-08-19 23:04:14', NULL, 'module_projects', 2, 'UPDATE', 'Updated status to 29'),
-(351, 1, 1, '2025-08-19 23:04:17', '2025-08-19 23:04:17', NULL, 'module_projects', 2, 'UPDATE', 'Updated priority to 57'),
-(352, 1, 1, '2025-08-19 23:04:25', '2025-08-19 23:04:25', NULL, 'module_projects', 1, 'UPDATE', 'Updated priority to 56'),
-(353, 1, 1, '2025-08-19 23:04:55', '2025-08-19 23:04:55', NULL, 'lookup_list_items', 84, 'CREATE', 'Created lookup list item'),
-(354, 1, 1, '2025-08-19 23:13:32', '2025-08-19 23:13:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(355, 1, 1, '2025-08-19 23:20:21', '2025-08-19 23:20:21', NULL, 'lookup_list_items', 86, 'DELETE', 'Deleted lookup list item'),
-(356, 1, 1, '2025-08-19 23:20:48', '2025-08-19 23:20:48', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(357, 1, 1, '2025-08-19 23:21:00', '2025-08-19 23:21:00', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(358, 1, 1, '2025-08-19 23:24:13', '2025-08-19 23:24:13', NULL, 'module_projects', 2, 'UPDATE', 'Updated priority to 58'),
-(359, 1, 1, '2025-08-19 23:24:25', '2025-08-19 23:24:25', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(360, 1, 1, '2025-08-19 23:24:30', '2025-08-19 23:24:30', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(361, 1, 1, '2025-08-19 23:24:40', '2025-08-19 23:24:40', NULL, 'module_projects_assignments', 3, 'ASSIGN', 'Assigned user'),
-(362, 1, 1, '2025-08-19 23:24:41', '2025-08-19 23:24:41', NULL, 'module_projects_assignments', 4, 'ASSIGN', 'Assigned user'),
-(363, 1, 1, '2025-08-19 23:24:44', '2025-08-19 23:24:44', NULL, 'module_projects_assignments', 5, 'ASSIGN', 'Assigned user'),
-(364, 1, 1, '2025-08-20 00:12:36', '2025-08-20 00:12:36', NULL, 'module_tasks', 17, 'UPDATE', 'Completed task'),
-(365, 1, 1, '2025-08-20 00:13:16', '2025-08-20 00:13:16', NULL, 'module_tasks', 19, 'CREATE', 'Created task'),
-(366, 1, 1, '2025-08-20 00:13:56', '2025-08-20 00:13:56', NULL, 'module_tasks', 17, 'UPDATE', 'Updated task'),
-(367, 1, 1, '2025-08-20 00:17:19', '2025-08-20 00:17:19', NULL, 'module_projects_assignments', 6, 'ASSIGN', 'Assigned user'),
-(368, 1, 1, '2025-08-20 00:17:23', '2025-08-20 00:17:23', NULL, 'module_projects_assignments', 7, 'ASSIGN', 'Assigned user'),
-(369, 1, 1, '2025-08-20 00:17:29', '2025-08-20 00:17:29', NULL, 'module_projects_assignments', 8, 'ASSIGN', 'Assigned user'),
-(370, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:21:07', NULL, 'module_tasks', 20, 'CREATE', 'Created task'),
-(371, 1, 1, '2025-08-20 00:21:11', '2025-08-20 00:21:11', NULL, 'module_tasks', 20, 'UPDATE', 'Updated task priority'),
-(372, 1, 1, '2025-08-20 00:22:10', '2025-08-20 00:22:10', NULL, 'lookup_lists', 23, 'CREATE', 'Created lookup list'),
-(373, 1, 1, '2025-08-20 00:22:57', '2025-08-20 00:22:57', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(374, 1, 1, '2025-08-20 00:23:04', '2025-08-20 00:23:04', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(375, 1, 1, '2025-08-20 00:23:08', '2025-08-20 00:23:08', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(376, 1, 1, '2025-08-20 00:23:15', '2025-08-20 00:23:15', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(377, 1, 1, '2025-08-20 00:23:22', '2025-08-20 00:23:22', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(378, 1, 1, '2025-08-20 00:23:28', '2025-08-20 00:23:28', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(379, 1, 1, '2025-08-20 00:23:34', '2025-08-20 00:23:34', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(380, 1, 1, '2025-08-20 00:23:41', '2025-08-20 00:23:41', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(381, 1, 1, '2025-08-20 00:23:53', '2025-08-20 00:23:53', NULL, 'lookup_list_items', 93, 'UPDATE', 'Updated lookup list item'),
-(382, 1, 1, '2025-08-20 00:24:00', '2025-08-20 00:24:00', NULL, 'lookup_list_items', 92, 'UPDATE', 'Updated lookup list item'),
-(383, 1, 1, '2025-08-20 00:24:12', '2025-08-20 00:24:12', NULL, 'lookup_list_items', 90, 'UPDATE', 'Updated lookup list item'),
-(384, 1, 1, '2025-08-20 00:24:15', '2025-08-20 00:24:15', NULL, 'lookup_list_items', 88, 'UPDATE', 'Updated lookup list item'),
-(385, 1, 1, '2025-08-20 00:24:18', '2025-08-20 00:24:18', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
-(386, 1, 1, '2025-08-20 00:24:25', '2025-08-20 00:24:25', NULL, 'lookup_list_items', 89, 'UPDATE', 'Updated lookup list item'),
-(387, 1, 1, '2025-08-20 00:24:28', '2025-08-20 00:24:28', NULL, 'lookup_list_items', 93, 'UPDATE', 'Updated lookup list item'),
-(388, 1, 1, '2025-08-20 00:24:32', '2025-08-20 00:24:32', NULL, 'lookup_list_items', 94, 'UPDATE', 'Updated lookup list item'),
-(389, 1, 1, '2025-08-20 00:24:36', '2025-08-20 00:24:36', NULL, 'lookup_list_items', 91, 'UPDATE', 'Updated lookup list item'),
-(390, 1, 1, '2025-08-20 00:42:04', '2025-08-20 00:42:04', NULL, 'module_projects', 3, 'UPDATE', 'Updated priority to 57'),
-(391, 1, 1, '2025-08-20 00:42:07', '2025-08-20 00:42:07', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 29'),
-(392, 1, 1, '2025-08-20 00:42:11', '2025-08-20 00:42:11', NULL, 'module_tasks', 20, 'UPDATE', 'Completed task'),
-(393, 1, 1, '2025-08-20 00:42:24', '2025-08-20 00:42:24', NULL, 'module_projects', 3, 'UPDATE', 'Updated status to 31'),
-(394, 1, 1, '2025-08-20 00:43:16', '2025-08-20 00:43:16', NULL, 'module_tasks', 3, 'UPDATE', 'Completed task'),
-(395, 1, 1, '2025-08-20 00:45:39', '2025-08-20 00:45:39', NULL, 'lookup_list_item_attributes', 63, 'DELETE', 'Deleted item attribute'),
-(396, 1, 1, '2025-08-20 00:45:53', '2025-08-20 00:45:53', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(397, 1, 1, '2025-08-20 00:45:58', '2025-08-20 00:45:58', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(398, 1, 1, '2025-08-20 00:46:08', '2025-08-20 00:46:08', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(399, 1, 1, '2025-08-20 00:46:11', '2025-08-20 00:46:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(400, 1, 1, '2025-08-20 00:46:18', '2025-08-20 00:46:18', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(401, 1, 1, '2025-08-20 14:37:36', '2025-08-20 14:37:36', NULL, 'lookup_list_item_attributes', 74, 'DELETE', 'Deleted item attribute'),
-(402, 1, 1, '2025-08-20 14:37:41', '2025-08-20 14:37:41', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(403, 1, 1, '2025-08-20 14:38:06', '2025-08-20 14:38:06', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(404, 1, 1, '2025-08-20 14:38:16', '2025-08-20 14:38:16', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(405, 1, 1, '2025-08-20 15:07:24', '2025-08-20 15:07:24', NULL, 'lookup_list_item_attributes', 60, 'DELETE', 'Deleted item attribute'),
-(406, 1, 1, '2025-08-20 15:07:28', '2025-08-20 15:07:28', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(407, 1, 1, '2025-08-20 20:48:17', '2025-08-20 20:48:17', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(408, 1, 1, '2025-08-20 20:48:24', '2025-08-20 20:48:24', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(409, 1, 1, '2025-08-20 20:50:24', '2025-08-20 20:50:24', NULL, 'lookup_lists', 24, 'CREATE', 'Created lookup list'),
-(410, 1, 1, '2025-08-20 20:55:43', '2025-08-20 20:55:43', NULL, 'lookup_lists', 25, 'CREATE', 'Created lookup list'),
-(411, 1, 1, '2025-08-20 20:55:56', '2025-08-20 20:55:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(412, 1, 1, '2025-08-20 20:56:02', '2025-08-20 20:56:02', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(413, 1, 1, '2025-08-20 20:56:13', '2025-08-20 20:56:13', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(414, 1, 1, '2025-08-20 20:56:27', '2025-08-20 20:56:27', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(415, 1, 1, '2025-08-20 20:56:42', '2025-08-20 20:56:42', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(416, 1, 1, '2025-08-20 20:57:39', '2025-08-20 20:57:39', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
-INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
-(417, 1, 1, '2025-08-20 20:57:50', '2025-08-20 20:57:50', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(418, 1, 1, '2025-08-20 20:58:29', '2025-08-20 20:58:29', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(419, 1, 1, '2025-08-20 20:58:35', '2025-08-20 20:58:35', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(420, 1, 1, '2025-08-20 20:58:45', '2025-08-20 20:58:45', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(421, 1, 1, '2025-08-20 20:58:49', '2025-08-20 20:58:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(422, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:07:06', NULL, 'lookup_lists', 26, 'CREATE', 'Created lookup list'),
-(423, 1, 1, '2025-08-20 21:07:13', '2025-08-20 21:07:13', NULL, 'lookup_lists', 27, 'CREATE', 'Created lookup list'),
-(424, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:07:53', NULL, 'lookup_lists', 28, 'CREATE', 'Created lookup list'),
-(425, 1, 1, '2025-08-20 21:07:59', '2025-08-20 21:07:59', NULL, 'lookup_lists', 29, 'CREATE', 'Created lookup list'),
-(426, 1, 1, '2025-08-20 21:10:20', '2025-08-20 21:10:20', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(427, 1, 1, '2025-08-20 21:10:26', '2025-08-20 21:10:26', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(428, 1, 1, '2025-08-20 21:10:32', '2025-08-20 21:10:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(429, 1, 1, '2025-08-20 21:10:39', '2025-08-20 21:10:39', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(430, 1, 1, '2025-08-20 21:10:42', '2025-08-20 21:10:42', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(431, 1, 1, '2025-08-20 21:10:45', '2025-08-20 21:10:45', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(432, 1, 1, '2025-08-20 21:10:50', '2025-08-20 21:10:50', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(433, 1, 1, '2025-08-20 21:12:03', '2025-08-20 21:12:03', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(434, 1, 1, '2025-08-20 21:12:08', '2025-08-20 21:12:08', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(435, 1, 1, '2025-08-20 21:12:14', '2025-08-20 21:12:14', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(436, 1, 1, '2025-08-20 21:12:18', '2025-08-20 21:12:18', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(437, 1, 1, '2025-08-20 21:12:23', '2025-08-20 21:12:23', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(438, 1, 1, '2025-08-20 21:12:27', '2025-08-20 21:12:27', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(439, 1, 1, '2025-08-20 21:12:32', '2025-08-20 21:12:32', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(440, 1, 1, '2025-08-20 21:12:49', '2025-08-20 21:12:49', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(441, 1, 1, '2025-08-20 21:12:56', '2025-08-20 21:12:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(442, 1, 1, '2025-08-20 21:13:02', '2025-08-20 21:13:02', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(443, 1, 1, '2025-08-20 21:13:10', '2025-08-20 21:13:10', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(444, 1, 1, '2025-08-20 21:13:15', '2025-08-20 21:13:15', NULL, 'lookup_list_item_attributes', 93, 'UPDATE', 'Updated item attribute'),
-(445, 1, 1, '2025-08-20 21:13:19', '2025-08-20 21:13:19', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(446, 1, 1, '2025-08-20 21:13:33', '2025-08-20 21:13:33', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(447, 1, 1, '2025-08-20 21:13:39', '2025-08-20 21:13:39', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(448, 1, 1, '2025-08-20 21:13:44', '2025-08-20 21:13:44', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(449, 1, 1, '2025-08-20 21:13:50', '2025-08-20 21:13:50', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(450, 1, 1, '2025-08-20 21:13:54', '2025-08-20 21:13:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(451, 1, 1, '2025-08-20 21:13:58', '2025-08-20 21:13:58', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(452, 1, 1, '2025-08-20 21:14:03', '2025-08-20 21:14:03', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(453, 1, 1, '2025-08-20 21:14:13', '2025-08-20 21:14:13', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(454, 1, 1, '2025-08-20 21:14:17', '2025-08-20 21:14:17', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(455, 1, 1, '2025-08-20 21:14:22', '2025-08-20 21:14:22', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(456, 1, 1, '2025-08-20 21:14:29', '2025-08-20 21:14:29', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(457, 1, 1, '2025-08-20 21:14:38', '2025-08-20 21:14:38', NULL, 'lookup_list_items', 118, 'UPDATE', 'Updated lookup list item'),
-(458, 1, 1, '2025-08-20 21:14:43', '2025-08-20 21:14:43', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(459, 1, 1, '2025-08-20 21:14:49', '2025-08-20 21:14:49', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(460, 1, 1, '2025-08-20 21:14:54', '2025-08-20 21:14:54', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(461, 1, 1, '2025-08-21 01:44:58', '2025-08-21 01:44:58', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item'),
-(462, 1, 1, '2025-08-21 01:45:07', '2025-08-21 01:45:07', NULL, 'lookup_list_items', 74, 'UPDATE', 'Updated lookup list item'),
-(463, 1, 1, '2025-08-21 01:45:13', '2025-08-21 01:45:13', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(464, 1, 1, '2025-08-21 01:45:20', '2025-08-21 01:45:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(465, 1, 1, '2025-08-21 01:45:31', '2025-08-21 01:45:31', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(466, 1, 1, '2025-08-21 01:45:47', '2025-08-21 01:45:47', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(467, 1, 1, '2025-08-21 01:45:57', '2025-08-21 01:45:57', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(468, 1, 1, '2025-08-21 01:46:46', '2025-08-21 01:46:46', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(469, 1, 1, '2025-08-21 01:47:01', '2025-08-21 01:47:01', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(470, 1, 1, '2025-08-21 01:47:10', '2025-08-21 01:47:10', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(471, 1, 1, '2025-08-21 01:47:45', '2025-08-21 01:47:45', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(472, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(473, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(474, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(475, 1, 1, '2025-08-21 01:54:31', '2025-08-21 01:54:31', NULL, 'lookup_list_items', 73, 'UPDATE', 'Updated lookup list item'),
-(476, 1, 1, '2025-08-21 02:31:08', '2025-08-21 02:31:08', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
-(477, 1, 1, '2025-08-21 02:31:25', '2025-08-21 02:31:25', NULL, 'lookup_list_items', 95, 'UPDATE', 'Updated lookup list item'),
-(478, 1, 1, '2025-08-21 09:51:56', '2025-08-21 09:51:56', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(479, 1, 1, '2025-08-21 09:52:19', '2025-08-21 09:52:19', NULL, 'module_tasks', 8, 'UPDATE', 'Completed task'),
-(480, 1, 1, '2025-08-21 09:52:20', '2025-08-21 09:52:20', NULL, 'module_tasks', 4, 'UPDATE', 'Completed task'),
-(481, 1, 1, '2025-08-21 11:34:01', '2025-08-21 11:34:01', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(482, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(483, 1, 1, '2025-08-21 11:37:30', '2025-08-21 11:37:30', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(484, 1, 1, '2025-08-21 11:37:35', '2025-08-21 11:37:35', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(485, 1, 1, '2025-08-21 11:37:39', '2025-08-21 11:37:39', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(486, 1, 1, '2025-08-21 11:37:42', '2025-08-21 11:37:42', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(487, 1, 1, '2025-08-21 11:37:48', '2025-08-21 11:37:48', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(488, 1, 1, '2025-08-21 11:37:56', '2025-08-21 11:37:56', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(489, 1, 1, '2025-08-21 11:37:59', '2025-08-21 11:37:59', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(490, 1, 1, '2025-08-21 11:38:01', '2025-08-21 11:38:01', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(491, 1, 1, '2025-08-21 11:38:08', '2025-08-21 11:38:08', NULL, 'lookup_list_item_attributes', 106, 'UPDATE', 'Updated item attribute'),
-(492, 1, 1, '2025-08-21 15:31:33', '2025-08-21 15:31:33', NULL, 'module_projects_assignments', 9, 'ASSIGN', 'Assigned user'),
-(493, 1, 1, '2025-08-21 15:31:40', '2025-08-21 15:31:40', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(494, 1, 1, '2025-08-21 15:31:43', '2025-08-21 15:31:43', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(495, 1, 1, '2025-08-21 15:31:46', '2025-08-21 15:31:46', NULL, 'module_tasks', 18, 'UPDATE', 'Updated task'),
-(496, 1, 1, '2025-08-21 15:31:49', '2025-08-21 15:31:49', NULL, 'module_task_assignments', 4, 'ASSIGN', 'Assigned user'),
-(497, 1, 1, '2025-08-21 15:32:43', '2025-08-21 15:32:43', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(498, 1, 1, '2025-08-21 15:32:54', '2025-08-21 15:32:54', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(499, 1, 1, '2025-08-21 15:33:04', '2025-08-21 15:33:04', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(500, 1, 1, '2025-08-21 15:33:09', '2025-08-21 15:33:09', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(501, 1, 1, '2025-08-21 15:33:15', '2025-08-21 15:33:15', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(502, 1, 1, '2025-08-21 15:33:21', '2025-08-21 15:33:21', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(503, 1, 1, '2025-08-21 15:33:44', '2025-08-21 15:33:44', NULL, 'lookup_list_item_attributes', 117, 'UPDATE', 'Updated item attribute'),
-(504, 1, 1, '2025-08-21 15:33:50', '2025-08-21 15:33:50', NULL, 'lookup_list_item_attributes', 118, 'UPDATE', 'Updated item attribute'),
-(505, 1, 1, '2025-08-21 15:38:17', '2025-08-21 15:38:17', NULL, 'module_projects_assignments', 10, 'ASSIGN', 'Assigned user'),
-(506, 1, 1, '2025-08-21 15:38:19', '2025-08-21 15:38:19', NULL, 'module_projects_assignments', 11, 'ASSIGN', 'Assigned user'),
-(507, 1, 1, '2025-08-21 15:38:48', '2025-08-21 15:38:48', NULL, 'module_tasks', 21, 'CREATE', 'Created task'),
-(508, 1, 1, '2025-08-21 15:38:52', '2025-08-21 15:38:52', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task priority'),
-(509, 1, 1, '2025-08-21 15:38:59', '2025-08-21 15:38:59', NULL, 'module_task_assignments', 5, 'ASSIGN', 'Assigned user'),
-(510, 1, 1, '2025-08-21 15:39:01', '2025-08-21 15:39:01', NULL, 'module_tasks', 21, 'UPDATE', 'Updated task'),
-(511, 1, 1, '2025-08-21 18:09:03', '2025-08-21 18:09:03', NULL, 'module_tasks', 22, 'CREATE', 'Created task'),
-(512, 1, 1, '2025-08-21 18:09:25', '2025-08-21 18:09:25', NULL, 'module_tasks', 22, 'UPDATE', 'Updated task'),
-(513, 1, 1, '2025-08-21 22:18:52', '2025-08-21 22:18:52', NULL, 'module_tasks', 15, 'UPDATE', 'Updated task'),
-(514, 1, 1, '2025-08-21 22:18:55', '2025-08-21 22:18:55', NULL, 'module_tasks', 15, 'UPDATE', 'Updated task'),
-(515, 1, 1, '2025-08-21 22:18:57', '2025-08-21 22:18:57', NULL, 'module_tasks', 15, 'UPDATE', 'Updated task'),
-(516, 1, 1, '2025-08-21 22:21:16', '2025-08-21 22:21:16', NULL, 'module_task_assignments', 5, 'DELETE', 'Removed user assignment'),
-(517, 1, 1, '2025-08-21 22:22:09', '2025-08-21 22:22:09', NULL, 'module_projects_assignments', 12, 'ASSIGN', 'Assigned user'),
-(518, 1, 1, '2025-08-21 22:22:12', '2025-08-21 22:22:12', NULL, 'module_projects_assignments', 13, 'ASSIGN', 'Assigned user'),
-(519, 1, 1, '2025-08-21 22:22:45', '2025-08-21 22:22:45', NULL, 'module_tasks', 23, 'CREATE', 'Created task'),
-(520, 1, 1, '2025-08-21 22:24:14', '2025-08-21 22:24:14', NULL, 'module_tasks', 24, 'CREATE', 'Created task'),
-(521, 1, 1, '2025-08-21 22:24:39', '2025-08-21 22:24:39', NULL, 'module_tasks', 25, 'CREATE', 'Created task'),
-(522, 1, 1, '2025-08-21 22:26:08', '2025-08-21 22:26:08', NULL, 'module_tasks', 26, 'CREATE', 'Created task'),
-(523, 1, 1, '2025-08-21 22:26:23', '2025-08-21 22:26:23', NULL, 'module_tasks', 27, 'CREATE', 'Created task'),
-(524, 1, 1, '2025-08-21 22:26:43', '2025-08-21 22:26:43', NULL, 'module_tasks', 28, 'CREATE', 'Created task'),
-(525, 1, 1, '2025-08-21 22:29:57', '2025-08-21 22:29:57', NULL, 'module_projects_assignments', 14, 'ASSIGN', 'Assigned user'),
-(526, 1, 1, '2025-08-21 22:30:01', '2025-08-21 22:30:01', NULL, 'module_projects_assignments', 15, 'ASSIGN', 'Assigned user'),
-(527, 1, 1, '2025-08-21 22:30:04', '2025-08-21 22:30:04', NULL, 'module_projects_assignments', 16, 'ASSIGN', 'Assigned user'),
-(528, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:16:54', NULL, 'lookup_lists', 31, 'CREATE', 'Created lookup list'),
-(529, 1, 1, '2025-08-22 08:17:19', '2025-08-22 08:17:19', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(530, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
-(531, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(532, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(533, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(534, 1, 1, '2025-08-22 15:53:58', '2025-08-22 15:53:58', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
-(535, 1, 1, '2025-08-22 15:54:04', '2025-08-22 15:54:04', NULL, 'users', 1, 'LOGIN', 'User logged in');
-
 -- --------------------------------------------------------
 
 --
@@ -1197,10 +499,10 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', ''),
 (8, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:58:01', NULL, 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
 (9, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:57:58', NULL, 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties'),
-(10, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'PROJECT_STATUS', 'Status values for projects'),
+(10, 1, 1, '2025-08-14 00:00:00', '2025-08-22 23:51:21', NULL, 'PROJECT_STATUS', 'Status values for projects'),
 (11, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_STATUS', 'Status values for tasks'),
 (12, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_PRIORITY', 'Priority levels for tasks'),
-(14, 1, 1, '2025-08-17 11:02:46', '2025-08-19 23:21:00', '', 'PROJECT_PRIORITY', ''),
+(14, 1, 1, '2025-08-17 11:02:46', '2025-08-22 23:53:20', '', 'PROJECT_PRIORITY', ''),
 (15, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_GENDER', 'Gender options for users'),
 (16, 1, 1, '2025-08-18 15:29:37', '2025-08-20 15:07:28', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
 (17, 1, 1, '2025-08-18 15:29:50', '2025-08-20 14:37:41', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
@@ -1211,7 +513,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
 (23, 1, 1, '2025-08-20 00:22:10', '2025-08-21 02:31:25', '', 'IMAGE_FILE_TYPES', ''),
 (24, 1, 1, '2025-08-20 20:50:24', '2025-08-21 15:33:50', '', 'CONTRACTOR_CONTACT_RESPONSE_TYPE', 'Response Type\'s from a person'),
-(25, 1, 1, '2025-08-20 20:55:43', '2025-08-20 20:58:49', '', 'CONTRACTOR_ACQUAINTANCE_TYPE', 'How do we know this Contractor?'),
+(25, 1, 1, '2025-08-20 20:55:43', '2025-08-22 18:16:41', '', 'CONTRACTOR_ACQUAINTANCE_TYPE', 'How do we know this Contractor?'),
 (26, 1, 1, '2025-08-20 21:07:06', '2025-08-20 21:14:03', '', 'PERSON_PHONE_TYPE', ''),
 (27, 1, 1, '2025-08-20 21:07:13', '2025-08-20 21:13:19', '', 'PERSON_ADDRESS_TYPE', ''),
 (28, 1, 1, '2025-08-20 21:07:53', '2025-08-20 21:12:32', '', 'PERSON_ADDRESS_STATUS', ''),
@@ -1220,7 +522,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.'),
 (32, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'ORGANIZATION_PERSON_ROLES', 'Roles for persons assigned to organizations'),
 (33, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'AGENCY_PERSON_ROLES', 'Roles for persons assigned to agencies'),
-(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions');
+(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions'),
+(35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', '');
 
 -- --------------------------------------------------------
 
@@ -1403,7 +706,9 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (183, 1, 1, '2025-08-22 08:17:32', '2025-08-22 08:17:32', NULL, 31, 'Statement of Work', 'STATEMENTOFWORK', 0, '2025-08-22', NULL),
 (184, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 32, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
 (185, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 33, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
-(186, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 34, 'Member', 'MEMBER', 1, '2025-08-22', NULL);
+(186, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 34, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
+(187, 1, 1, '2025-08-22 18:16:34', '2025-08-22 18:16:34', NULL, 25, 'Louisiana Baton Rouge Mission', 'MORMON', 0, '2025-08-22', NULL),
+(188, 1, 1, '2025-08-22 23:51:09', '2025-08-22 23:51:09', NULL, 10, 'Drafting Contract', 'DRAFT', 0, '2025-08-22', NULL);
 
 -- --------------------------------------------------------
 
@@ -1487,7 +792,7 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (68, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 75, 'COLOR-CLASS', 'primary'),
 (69, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 76, 'COLOR-CLASS', 'success'),
 (70, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 77, 'COLOR-CLASS', 'warning'),
-(71, 1, 1, '2025-08-19 23:21:00', '2025-08-19 23:21:00', NULL, 87, 'COLOR-CLASS', 'danger'),
+(71, 1, 1, '2025-08-19 23:21:00', '2025-08-22 23:53:20', NULL, 87, 'COLOR-CLASS', 'rose'),
 (72, 1, 1, '2025-08-20 00:46:08', '2025-08-20 00:46:08', NULL, 97, 'COLOR-CLASS', 'info'),
 (73, 1, 1, '2025-08-20 00:46:11', '2025-08-20 00:46:11', NULL, 96, 'COLOR-CLASS', 'atlis'),
 (75, 1, 1, '2025-08-20 14:37:41', '2025-08-20 14:37:41', NULL, 97, 'DEFAULT', 'true'),
@@ -1536,7 +841,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (119, 1, 1, '2025-08-21 15:33:21', '2025-08-21 15:33:21', NULL, 181, 'COLOR-CLASS', 'success'),
 (120, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 183, 'COLOR-CLASS', 'atlis'),
 (121, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 182, 'COLOR-CLASS', 'primary'),
-(122, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 182, 'DEFAULT', 'true');
+(122, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 182, 'DEFAULT', 'true'),
+(123, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 187, 'COLOR-CLASS', 'warning'),
+(124, 1, 1, '2025-08-22 23:51:21', '2025-08-22 23:51:21', NULL, 188, 'COLOR-CLASS', 'dark');
 
 -- --------------------------------------------------------
 
@@ -1570,7 +877,34 @@ INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 2, 'Office of the Public Defender', 30, 28, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL),
-(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL);
+(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL),
+(6, 1, 1, '2025-08-22 19:14:44', '2025-08-22 19:14:44', NULL, 4, 'Dave Wilkins', 1, 3, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_agency_persons`
+--
+
+CREATE TABLE `module_agency_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_agency_persons`
+--
+
+INSERT INTO `module_agency_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:28', '2025-08-22 19:15:28', NULL, 6, 1, 185, 1);
 
 -- --------------------------------------------------------
 
@@ -1608,7 +942,8 @@ INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created
 (3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 8, 1, '2025-08-20 15:13:26', '2025-08-21 01:56:50', NULL, 23, 78, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL, NULL, NULL),
 (5, 9, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 24, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 11, 1, '2025-08-22 18:07:25', '2025-08-22 18:08:56', NULL, 56, 78, 69, '2025-05-01', 'Systems Analyst / Configurator / Developer ', 'Dave\'s Brother', 100, '2025-08-22', NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1680,7 +1015,10 @@ INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `dat
 (1, 1, 1, '2025-08-20 20:49:42', '2025-08-20 20:49:42', NULL, 6, 99, '2025-07-26 16:36:00', 'Initial Contact - Hey Emma, I hope things are going well for you. \r\nQuick question, are you interested in doing some side gig work building PowerBI / Tableau dashboards and other Business Intelligence products specifically for eSeries?\r\nCompensation would be around\r\n$100/hr and/or a residual %-based strategy.  Let me know as soon as possible when you can and we can setup a call to go over more details if you’re interested. If not, no hard feelings at all.\r\nThanks !', NULL, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-21 01:57:30', '2025-08-21 01:57:30', NULL, 4, 99, '2025-06-11 13:56:00', 'Pitched Kenny via text message. Said he\'s interested but on a trip right now and can talk later.', NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 01:57:56', '2025-08-21 01:57:56', NULL, 4, 99, '2025-06-12 14:00:00', 'KENNY TEXT ME AND SAID HE\'S INTERESTED AND WILL REACH OUT ON MONDAY !', NULL, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 4, 75, '2025-06-21 14:00:00', 'SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172', NULL, NULL, NULL, NULL);
+(4, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 4, 75, '2025-06-21 14:00:00', 'SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172', NULL, NULL, NULL, NULL),
+(5, 1, 1, '2025-08-22 18:05:17', '2025-08-22 18:05:17', NULL, 3, 76, '2025-08-22 13:30:00', 'Asked Soup if he could hop on a meeting in 30 mins to be a \'fly on the wall\'. He agreed.\r\nI also told him I\'m working on a work agreement between himself and Atlis at $58/hr.\r\nHe said he\'s been interviewing at iFIT and may get a job offer, but he currently has time to work on Mondays and Wednesday but is flexible at other times/days.', 15, NULL, NULL, NULL),
+(6, 1, 1, '2025-08-22 18:09:47', '2025-08-22 18:09:47', NULL, 7, 76, '2025-08-22 13:30:00', 'Call Thomas to ask if he could join our 2pm meeting and be a \'fly on the wall\' to observe. He said yes. Meeting went well.', 15, NULL, NULL, NULL),
+(7, 1, 1, '2025-08-22 18:15:55', '2025-08-22 18:15:55', NULL, 3, 76, '2025-08-22 18:15:00', 'Soup is currently collecting Unemployment. So yeah. ⬇🪑', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1765,7 +1103,11 @@ INSERT INTO `module_contractors_files` (`id`, `user_id`, `user_updated`, `date_c
 (4, 1, 1, '2025-08-21 01:53:22', '2025-08-21 01:53:22', NULL, 4, 119, 'FIRST CONTACT.txt', '/admin/contractors/uploads/4/FIRST_CONTACT.txt', '1', 'First Contact'),
 (5, 1, 1, '2025-08-21 01:54:03', '2025-08-21 01:54:03', NULL, 4, 119, 'INITIAL CALL.txt', '/admin/contractors/uploads/4/INITIAL_CALL.txt', '1', 'Initial Call'),
 (6, 1, 1, '2025-08-21 01:55:48', '2025-08-21 01:55:48', NULL, 4, 73, 'KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '/admin/contractors/uploads/4/KENNY__ATLIS_WORK_AGREEMENT-Signed.pdf', '1', '1st Contract with Atlis'),
-(7, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:47', NULL, 2, 127, 'Aug_21st_2025 - request to be paid 4 days early.PNG', '/admin/contractors/uploads/2/Aug_21st_2025_-_request_to_be_paid_4_days_early.PNG', '1', 'Sean requested to be paid 4 days early, so I sent $681.82 via Venmo today, Aug 21st, at 11:30am instead of the scheduled pay date of Aug 24th. No worries. He sent the request to me over DM\'s on Slack.');
+(7, 1, 1, '2025-08-21 11:38:34', '2025-08-21 11:38:47', NULL, 2, 127, 'Aug_21st_2025 - request to be paid 4 days early.PNG', '/admin/contractors/uploads/2/Aug_21st_2025_-_request_to_be_paid_4_days_early.PNG', '1', 'Sean requested to be paid 4 days early, so I sent $681.82 via Venmo today, Aug 21st, at 11:30am instead of the scheduled pay date of Aug 24th. No worries. He sent the request to me over DM\'s on Slack.'),
+(8, 1, 1, '2025-08-22 18:14:37', '2025-08-22 18:14:37', NULL, 3, 123, '9.4 Acceptable Use Policy Signed Jessop.pdf', '/admin/contractors/uploads/3/9.4_Acceptable_Use_Policy_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
+(9, 1, 1, '2025-08-22 18:14:45', '2025-08-22 18:14:45', NULL, 3, 124, 'CONSENT FOR BACKGROUND CHECK Jessop.pdf', '/admin/contractors/uploads/3/CONSENT_FOR_BACKGROUND_CHECK_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
+(10, 1, 1, '2025-08-22 18:14:52', '2025-08-22 18:14:52', NULL, 3, 125, 'Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016 Signed Jessop.pdf', '/admin/contractors/uploads/3/Electronic_Communications-Acceptable__Cell_Phone-SmartPhone_Usage__Policy_-7-2016_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
+(11, 1, 1, '2025-08-22 18:14:58', '2025-08-22 18:14:58', NULL, 3, 126, 'Third Party Network Access Request Form Signed Jessop.pdf', '/admin/contractors/uploads/3/Third_Party_Network_Access_Request_Form_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.');
 
 -- --------------------------------------------------------
 
@@ -1783,6 +1125,14 @@ CREATE TABLE `module_contractors_notes` (
   `contractor_id` int(11) NOT NULL,
   `note_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_contractors_notes`
+--
+
+INSERT INTO `module_contractors_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `contractor_id`, `note_text`) VALUES
+(1, 1, 1, '2025-08-22 18:53:34', '2025-08-22 18:53:34', NULL, 7, 'Created an Atlis Technologies Office365 account for him:\r\nTom@AtlisTechnologies.com'),
+(2, 1, 1, '2025-08-22 18:53:58', '2025-08-22 18:53:58', NULL, 3, 'Created an Atlis Technologies Office 365 account for him: Soup@AtlisTechnologies.com');
 
 -- --------------------------------------------------------
 
@@ -1829,52 +1179,13 @@ CREATE TABLE `module_division` (
 -- Dumping data for table `module_division`
 --
 
-
 INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
 (1, 1, 1, '2025-08-06 16:27:41', '2025-08-08 21:58:10', NULL, 1, 'Atlis', 1, 5, NULL, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-06 16:28:28', '2025-08-21 15:48:03', NULL, 2, 'Judicial Information Services & Technology', NULL, 5, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5, NULL, NULL, NULL, NULL),
-(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL);
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_organization_persons`
---
-
-CREATE TABLE `module_organization_persons` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `organization_id` int(11) NOT NULL,
-  `person_id` int(11) NOT NULL,
-  `role_id` int(11) DEFAULT NULL,
-  `is_lead` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_agency_persons`
---
-
-CREATE TABLE `module_agency_persons` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `agency_id` int(11) NOT NULL,
-  `person_id` int(11) NOT NULL,
-  `role_id` int(11) DEFAULT NULL,
-  `is_lead` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL),
+(8, 1, 1, '2025-08-22 19:14:53', '2025-08-22 19:14:53', NULL, 6, 'Dave', 1, 5, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1894,6 +1205,13 @@ CREATE TABLE `module_division_persons` (
   `role_id` int(11) DEFAULT NULL,
   `is_lead` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_division_persons`
+--
+
+INSERT INTO `module_division_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `division_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:35', '2025-08-22 19:15:35', NULL, 8, 1, 186, 1);
 
 -- --------------------------------------------------------
 
@@ -2003,8 +1321,34 @@ CREATE TABLE `module_organization` (
 
 INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
 (1, 1, 1, '2025-08-06 16:27:19', '2025-08-08 22:19:06', NULL, 'Atlis Technologies LLC', 1, 1, NULL, NULL, NULL, NULL),
-(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1, NULL, NULL, NULL, NULL);
+(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1, NULL, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-22 19:14:26', '2025-08-22 19:15:03', NULL, 'David Cottrell Wilkins', 1, 1, '10724_1188846233580_1001052977_30591197_3009316_n.jpg', 'f9da8c9bf924ef5b484df0f5404c1789.jpg', 54807, 'image/jpeg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_organization_persons`
+--
+
+CREATE TABLE `module_organization_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `organization_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `is_lead` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_organization_persons`
+--
+
+INSERT INTO `module_organization_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:11', '2025-08-22 19:15:11', NULL, 4, 1, 184, 1);
 
 -- --------------------------------------------------------
 
@@ -2036,15 +1380,50 @@ CREATE TABLE `module_projects` (
 --
 -- Dumping data for table `module_projects`
 --
-INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `start_date`, `complete_date`, `completed`) VALUES
-(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, '2025-08-01', NULL, 0),
-(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, '2025-08-01', NULL, 0),
-(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, '2025-04-26', NULL, 0),
-(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, '2025-08-21', NULL, 0),
-(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, '2025-08-21', NULL, 0),
-(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, '2025-08-21', NULL, 0),
-(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, '2025-11-13', NULL, 0),
-(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, '0000-00-00', NULL, 0);
+
+INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `type`, `start_date`, `complete_date`, `completed`) VALUES
+(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, NULL, '2025-08-01', NULL, 0),
+(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, NULL, '2025-08-01', NULL, 0),
+(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, NULL, '2025-04-26', NULL, 0),
+(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
+(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
+(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, NULL, '0000-00-00', NULL, 0),
+(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 19:20:11', NULL, 6, 8, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
+(11, 1, 1, '2025-08-22 18:10:32', '2025-08-22 18:10:32', NULL, 2, 2, 'MEETINGS WITH JIS TEAM @ LAKE', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
+(12, 1, 1, '2025-08-22 18:12:14', '2025-08-22 18:12:14', NULL, 1, 1, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, 182, '0000-00-00', NULL, 0),
+(13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
+(14, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:26', NULL, 1, 1, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
+(15, 1, 1, '2025-08-22 18:56:22', '2025-08-22 19:19:50', NULL, 6, 8, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
+(16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
+(17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
+(18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
+(19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_answers`
+--
+
+CREATE TABLE `module_projects_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_answers`
+--
+
+INSERT INTO `module_projects_answers` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `question_id`, `answer_text`) VALUES
+(1, 1, 1, '2025-08-22 21:57:42', '2025-08-22 21:57:42', NULL, 1, 'Yes');
 
 -- --------------------------------------------------------
 
@@ -2083,7 +1462,11 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (13, 1, 1, '2025-08-21 22:22:12', '2025-08-21 22:22:12', NULL, 6, 2),
 (14, 1, 1, '2025-08-21 22:29:57', '2025-08-21 22:29:57', NULL, 7, 1),
 (15, 1, 1, '2025-08-21 22:30:01', '2025-08-21 22:30:01', NULL, 7, 2),
-(16, 1, 1, '2025-08-21 22:30:04', '2025-08-21 22:30:04', NULL, 7, 4);
+(16, 1, 1, '2025-08-21 22:30:04', '2025-08-21 22:30:04', NULL, 7, 4),
+(17, 1, 1, '2025-08-22 19:19:52', '2025-08-22 19:19:52', NULL, 15, 1),
+(18, 1, 1, '2025-08-23 00:25:58', '2025-08-23 00:25:58', NULL, 10, 1),
+(19, 1, 1, '2025-08-23 00:26:05', '2025-08-23 00:26:05', NULL, 12, 1),
+(20, 1, 1, '2025-08-23 00:26:11', '2025-08-23 00:26:11', NULL, 17, 1);
 
 -- --------------------------------------------------------
 
@@ -2119,7 +1502,8 @@ INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_crea
 (2, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'DOCUMENT THIS WHAT I DID FOR LAKE FOR NEW ICON IN HEADER.txt', '/module/project/uploads/project_3_1755672059_DOCUMENT_THIS_WHAT_I_DID_FOR_LAKE_FOR_NEW_ICON_IN_HEADER.txt', 1910, 'text/plain'),
 (3, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'Feedback from CC and Leah Balzer.txt', '/module/project/uploads/project_3_1755672059_Feedback_from_CC_and_Leah_Balzer.txt', 886, 'text/plain'),
 (4, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'FeeWaiver Entity.PNG', '/module/project/uploads/project_3_1755672059_FeeWaiver_Entity.PNG', 291893, 'image/png'),
-(5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png');
+(5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, 0, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png'),
+(6, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:24:52', NULL, 10, 14, NULL, NULL, NULL, 0, 'FirstContactLetterV1DAVEWILKINS1755891275718.pdf', '/module/project/uploads/project_10_1755930292_0_FirstContactLetterV1DAVEWILKINS1755891275718.pdf', 106685, 'application/pdf');
 
 -- --------------------------------------------------------
 
@@ -2146,7 +1530,52 @@ INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_crea
 (1, 1, 1, '2025-08-21 22:23:10', '2025-08-21 22:23:10', NULL, 6, 'Sean Cadina will be Account Manager for McLean.'),
 (4, 1, 1, '2025-08-21 22:27:53', '2025-08-21 22:28:09', NULL, 7, '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
 (5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
-(6, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 9, 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY');
+(6, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 9, 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY'),
+(10, 1, 1, '2025-08-22 18:56:33', '2025-08-22 18:56:33', NULL, 15, 'CALL WITH SKYLER\r\nAUG 21st, 2025 @ 11am\r\n\r\n2 YEARS FROM KIA\r\n3 YEARS FROM AFCU\r\n5 YEAR TOTAL\r\n\r\nMAINTENANCE\r\n\r\n--> 9 FREE OIL CHANGES\r\n--> TIRE CHANGES\r\n\r\n--> WARRANTY / RECALL WORK MUST BE THROUGH KIA DEALERSHIP\r\n\r\n--> IF THERE IS A REMEDY, KIA WILL FIX THE RECALLS BEFORE I DRIVE IT OFF\r\n\r\n--> SKYLER SAYS IF PLANNING TO HOLD THE LOAN LONGER THAN 2 YEARS, FINANCE WITH AFCU.  OTHERWISE LESS THAN 2 YEARS, GO WITH KIA TO GET THE REBATE.\r\n\r\n\r\nEXTENDED WARRANTY (service contract)\r\n--> couple G\'s to bump up.\r\n--> electronic *could* be extended.\r\n--> SKYLER RECOMMENDS EXTENDING THE WARRANTIES \r\n--> GAP IS $1,000 - $1,200 AT THE KIA STEALERSHIP\r\n	--> \r\n\r\nFINANCE MANAGER:\r\n	- TRADEOFFS BETWEEN FINANCING WITH KIA & AFCU\r\n	- PULL MY CREDIT AGAIN...?\r\n	- HOW MUCH IS GAP ? \r\n		--> (price match AFCU ? )\r\n	- 90 DAYS OF NO PAYMENT ?\r\n		--> (match AFCU ? )\r\n	- extend few of the standard warranties just before they expire ?'),
+(11, 1, 1, '2025-08-22 18:57:13', '2025-08-22 18:57:13', NULL, 16, 'GITHUB MERGE CONFLICT MARKERS:\r\n (<<<<<<<, =======, >>>>>>>)'),
+(12, 1, 1, '2025-08-22 18:58:57', '2025-08-22 18:58:57', NULL, 11, 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(13, 1, 1, '2025-08-22 18:59:26', '2025-08-22 18:59:26', NULL, 1, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(14, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:25:29', NULL, 10, 'Damage information related to claim # 22930134 with ENTERPRISE\nInbox\n\nDamage Recovery Unit <DRU3@ehi.com>\nAttachments\nFri, Aug 22, 1:34 PM (10 hours ago)\nto me\n\nPlease review the important documentation attached that is related to damage claim #22930134\n\n\nIMPORTANT: This e-mail (including any attachments) is intended for the use of the individual or entity to which it is addressed and may contain information that is classified, private, or confidential. If the reader of this message is not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copying of this communication is prohibited. If you have received this communication in error, please notify us immediately by replying to this e-mail and then deleting the email and attachments. Thank you.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_pins`
+--
+
+CREATE TABLE `module_projects_pins` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_questions`
+--
+
+CREATE TABLE `module_projects_questions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `question_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_questions`
+--
+
+INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `question_text`) VALUES
+(1, 1, 1, '2025-08-22 21:57:39', '2025-08-22 21:57:39', NULL, 15, 'This is the first question !');
 
 -- --------------------------------------------------------
 
@@ -2208,7 +1637,60 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (25, 1, 1, '2025-08-21 22:24:39', '2025-08-21 22:24:39', NULL, 6, NULL, NULL, 'Compile list of completed Projects & Tasks to demo', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (26, 1, 1, '2025-08-21 22:26:08', '2025-08-21 22:26:08', NULL, 7, NULL, NULL, 'Prepare Winnie to pitch Atlis\' support and post go-live services.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (27, 1, 1, '2025-08-21 22:26:23', '2025-08-21 22:26:23', NULL, 7, NULL, NULL, 'Compile list of completed Projects & Tasks', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(28, 1, 1, '2025-08-21 22:26:43', '2025-08-21 22:26:43', NULL, 7, NULL, NULL, 'Business Cards / Way to introduce ourselves and Atlis', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(28, 1, 1, '2025-08-21 22:26:43', '2025-08-21 22:26:43', NULL, 7, NULL, NULL, 'Business Cards / Way to introduce ourselves and Atlis', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(29, 1, 1, '2025-08-22 18:00:29', '2025-08-22 18:00:29', NULL, 10, NULL, NULL, 'TELLURIDE - get insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(30, 1, 1, '2025-08-22 18:00:44', '2025-08-22 18:00:44', NULL, 10, NULL, NULL, 'TELLURIDE - send AFCU proof of insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(31, 1, 1, '2025-08-22 18:00:55', '2025-08-22 18:00:55', NULL, 10, NULL, NULL, 'TELLURIDE - purchase all weather floor mats', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(32, 1, 1, '2025-08-22 18:01:01', '2025-08-22 18:01:01', NULL, 10, NULL, NULL, 'TELLURIDE - get windows tinted', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(33, 1, 1, '2025-08-22 18:06:00', '2025-08-22 18:06:00', NULL, 4, NULL, NULL, 'Reach out to Docstader about Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(34, 1, 1, '2025-08-22 18:06:14', '2025-08-22 18:06:14', NULL, 4, NULL, NULL, 'Email Emma Baylor details about doing Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(35, 1, 1, '2025-08-22 18:12:21', '2025-08-22 18:13:05', NULL, 12, NULL, NULL, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-22', 1, 1, 100),
+(36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(40, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 14, NULL, NULL, 'Send him LAKE AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(42, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 14, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(47, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 13, NULL, NULL, 'Relationships between Lookup Lists and LU Items (upload eCourt schema)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(50, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:14', NULL, 10, NULL, NULL, 'Dentist fill cavities?', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
+(51, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 13, NULL, NULL, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(52, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 4, NULL, NULL, 'Email Winnie about JTI User Conference (register with .gov email?)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(53, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 10, NULL, NULL, 'TELLURIDE - VACUUM UP KARJAR\'S MESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(54, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 13, NULL, NULL, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(55, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 7, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(60, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 13, NULL, NULL, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(61, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(62, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Tasks on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(63, 1, 1, '2025-08-23 00:24:34', '2025-08-23 00:24:34', NULL, 10, NULL, NULL, 'ENTERPRISE BROKEN WINDSHIELD', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(64, 1, 1, '2025-08-23 00:26:34', '2025-08-23 00:26:34', NULL, 13, NULL, NULL, 'ALL TO QUICK ASSIGN FROM PROJECT & TASKS LIST VIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_answers`
+--
+
+CREATE TABLE `module_tasks_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2230,6 +1712,13 @@ CREATE TABLE `module_tasks_files` (
   `file_size` int(11) DEFAULT NULL,
   `file_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_tasks_files`
+--
+
+INSERT INTO `module_tasks_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(5, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 55, 29, 'canopy-somasanfran-landscape-jpg-3.avif', '/module/task/uploads/task_55_1755920091_canopy-somasanfran-landscape-jpg-3.avif', 72347, 'image/avif');
 
 -- --------------------------------------------------------
 
@@ -2263,7 +1752,46 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (9, 1, 1, '2025-04-09 16:22:02', '2025-08-19 22:58:03', NULL, 9, 'ISSUE TO CONSIDER: Some Judge\'s have multiple DirPerson, Persons, PersonIdentifiers, and Users.\r\n***issue particularly when using the LU-Judges or S-Judges and multiple are options to select... should just be 1 !'),
 (10, 1, 1, '2025-04-09 17:06:52', '2025-08-19 22:58:03', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.'),
 (11, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 19, 'Done through System Property.'),
-(12, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 22, 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave');
+(12, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 22, 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave'),
+(15, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 35, 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.'),
+(16, 1, 1, '2025-08-22 18:52:58', '2025-08-22 18:52:58', NULL, 43, 'I texted him asking what resume-boosting Role he wants on the work agreement.'),
+(17, 1, 1, '2025-08-22 18:54:39', '2025-08-22 18:54:39', NULL, 44, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n-> How Keith & Lonnie will receive this solution.\r\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n- I can do it, I just need admin access to ePros & eDef.\r\n\r\n--> email Winnie: ask email Lonnie & Keith separately\r\n- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(18, 1, 1, '2025-08-22 18:54:47', '2025-08-22 18:54:47', NULL, 44, 'ONE RESTART, TO RULE THEM ALL\r\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n- Kapser will request the restart with JTI.\r\n\r\n- Judge Mass Reassignment may need new metadata\r\n\r\n- Multiple Interpreters per Event\r\n--> need metadata in PROD\r\n--> one small new config: show exotic langauge in WQ.\r\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !'),
+(19, 1, 1, '2025-08-22 18:54:55', '2025-08-22 18:54:55', NULL, 44, 'E.S.D.\r\n--> remaining tasks for both Atlis and Lake\r\n--> timeline\r\n\r\n\r\nGAL\r\n--> eDefender Admin Access\r\n- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(20, 1, 1, '2025-08-22 18:58:03', '2025-08-22 18:58:03', NULL, 45, 'Josh Barnett'),
+(21, 1, 1, '2025-08-22 18:59:07', '2025-08-22 18:59:07', NULL, 44, 'AGENDA:\r\n\r\nE.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(22, 1, 1, '2025-08-22 21:19:52', '2025-08-22 21:19:52', NULL, 46, 'https://www.amazon.com/Kratom-Things-Need-Know-About/dp/1724047809/\r\n\r\nhttps://www.amazon.com/Kratom-Medicine-Natural-Anxiety-Fatigue/dp/0578866463/\r\n\r\nhttps://www.amazon.com/My-Kratom-Hell-Users-Quitting/dp/1691182109'),
+(24, 1, 1, '2025-08-22 21:20:42', '2025-08-22 21:20:42', NULL, 46, '1) Kratom: 101 Things You Need to Know About Kratom — Frank Coles (2018; ISBN-10: 1724047809)\r\n\r\nLibrary copy (Utah): Salt Lake City Public Library has it listed—good candidate for a local borrow or interlibrary loan. \r\ncatalog.slcpl.org\r\n\r\nPreview / metadata: Google Books page (limited preview). \r\nGoogle Books\r\n\r\nAudiobook (paid, sometimes with free trial): Audible listing. \r\nAudible.com\r\n\r\nRetail reference: Amazon product page (print). \r\nAmazon'),
+(25, 1, 1, '2025-08-22 21:20:52', '2025-08-22 21:20:52', NULL, 46, '2) Kratom Is Medicine: Natural Relief for Anxiety, Pain, Fatigue, and More — Michele Ross (2021; ISBN-10: 0578866463)\r\n\r\nRead online (with free trial): Everand/Scribd eBook. \r\nEverand\r\n\r\nAuthor site (book info & buy links; occasionally authors share extras or discounts here): \r\nDr. Michele Ross\r\n\r\nPreview: Google Books entry (limited preview). \r\nGoogle Books\r\n\r\nRetail refs: Barnes & Noble listing; AbeBooks (used). \r\nBarnes & Noble\r\nAbeBooks'),
+(26, 1, 1, '2025-08-22 21:20:57', '2025-08-22 21:20:57', NULL, 46, '3) My Kratom Hell: A User’s Guide to Quitting Kratom — Safari Girl (2019; ISBN-10: 1691182109)\r\n\r\nAuthor’s site (background & posts): quittingkratom.wordpress.com. \r\nquittingkratom.wordpress.com\r\n\r\nPreview / metadata: Google Books (limited). \r\nGoogle Books'),
+(27, 1, 1, '2025-08-22 21:21:02', '2025-08-22 21:21:02', NULL, 46, 'Solid, free kratom resources (open access)\r\n\r\nIf your goal is research (mechanisms, risks, clinical view), these are high-quality and free:\r\n\r\nFDA’s current kratom page (policy & safety, updated July 29, 2025). \r\nU.S. Food and Drug Administration\r\n\r\nWHO ECDD pre-review report on kratom (pdf). \r\nWorld Health Organization\r\n\r\nPeer-reviewed open-access overviews (PMC/JAMA): pharmacology & clinical implications; assessment & treatment; EMA of use/effects. \r\nPMC\r\n+1\r\nJAMA Network\r\n\r\nConcise clinical guide (Michigan OPEN educational PDF). \r\nmichigan-open.org'),
+(28, 1, 1, '2025-08-22 21:34:24', '2025-08-22 21:34:24', NULL, 55, 'https://www.hilton.com/en/p/hilton-for-business/'),
+(29, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 55, 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(30, 1, 1, '2025-08-22 21:35:18', '2025-08-22 21:35:18', NULL, 56, 'https://www.hilton.com/en/p/hilton-for-business/'),
+(31, 1, 1, '2025-08-22 21:35:21', '2025-08-22 21:35:21', NULL, 56, 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(32, 1, 1, '2025-08-22 21:35:43', '2025-08-22 21:35:43', NULL, 56, 'JTI 2025 USER CONFERENCE:\r\nNOVEMBER 12, 13, & 14th, 2025'),
+(33, 1, 1, '2025-08-22 21:36:19', '2025-08-22 21:36:19', NULL, 57, 'https://www.ncsc.org/event/court-technology-conference-ctc'),
+(34, 1, 1, '2025-08-22 21:36:25', '2025-08-22 21:36:25', NULL, 57, 'https://www.ccpio.org/'),
+(35, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 58, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
+(37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_questions`
+--
+
+CREATE TABLE `module_tasks_questions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `question_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2305,6 +1833,9 @@ CREATE TABLE `person` (
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
+  `organization_id` int(11) DEFAULT NULL,
+  `agency_id` int(11) DEFAULT NULL,
+  `division_id` int(11) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
@@ -2316,18 +1847,20 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, 59, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
-(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
-(12, 5, 'RJ', 'Calara', NULL, 59, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
-(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
-(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
-(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
-(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
-(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
-(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', NULL, 59, 1, 1, 1, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
+(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
+(12, 5, 'RJ', 'Calara', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
+(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
+(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
+(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
+(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
+(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
+(56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
+(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -2479,7 +2012,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 15:54:01', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 15:54:01'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 20:38:42', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 20:38:42'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2487,7 +2020,9 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL),
 (8, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:45:17', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$k4v0J28VQpsDQUBGsWd/VevbNh329jZiCY5NBxhzzBub6QdrvrZYK', 0, NULL, 'USER', 1, NULL),
 (9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL),
-(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL);
+(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL),
+(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
+(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2512,7 +2047,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(6, 1, 1, '2025-08-22 15:54:01', '2025-08-22 15:54:04', NULL, '876984', '2025-08-22 16:04:01', 1);
+(7, 1, 1, '2025-08-22 20:38:42', '2025-08-22 20:38:44', NULL, '463209', '2025-08-22 20:48:42', 1);
 
 -- --------------------------------------------------------
 
@@ -2682,6 +2217,17 @@ ALTER TABLE `module_agency`
   ADD KEY `fk_module_agency_status` (`status`);
 
 --
+-- Indexes for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_persons_agency_id` (`agency_id`),
+  ADD KEY `fk_module_agency_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
+
+--
 -- Indexes for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -2778,28 +2324,6 @@ ALTER TABLE `module_division`
   ADD KEY `fk_module_division_status` (`status`);
 
 --
--- Indexes for table `module_organization_persons`
---
-ALTER TABLE `module_organization_persons`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_organization_persons_user_id` (`user_id`),
-  ADD KEY `fk_module_organization_persons_user_updated` (`user_updated`),
-  ADD KEY `fk_module_organization_persons_organization_id` (`organization_id`),
-  ADD KEY `fk_module_organization_persons_person_id` (`person_id`),
-  ADD KEY `fk_module_organization_persons_role_id` (`role_id`);
-
---
--- Indexes for table `module_agency_persons`
---
-ALTER TABLE `module_agency_persons`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_agency_persons_user_id` (`user_id`),
-  ADD KEY `fk_module_agency_persons_user_updated` (`user_updated`),
-  ADD KEY `fk_module_agency_persons_agency_id` (`agency_id`),
-  ADD KEY `fk_module_agency_persons_person_id` (`person_id`),
-  ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
-
---
 -- Indexes for table `module_division_persons`
 --
 ALTER TABLE `module_division_persons`
@@ -2849,6 +2373,17 @@ ALTER TABLE `module_organization`
   ADD KEY `fk_module_organization_status` (`status`);
 
 --
+-- Indexes for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_organization_persons_user_id` (`user_id`),
+  ADD KEY `fk_module_organization_persons_user_updated` (`user_updated`),
+  ADD KEY `fk_module_organization_persons_organization_id` (`organization_id`),
+  ADD KEY `fk_module_organization_persons_person_id` (`person_id`),
+  ADD KEY `fk_module_organization_persons_role_id` (`role_id`);
+
+--
 -- Indexes for table `module_projects`
 --
 ALTER TABLE `module_projects`
@@ -2860,6 +2395,15 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_status` (`status`),
   ADD KEY `fk_module_projects_priority` (`priority`),
   ADD KEY `fk_module_projects_type` (`type`);
+
+--
+-- Indexes for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_answers_question_id` (`question_id`);
 
 --
 -- Indexes for table `module_projects_assignments`
@@ -2893,6 +2437,21 @@ ALTER TABLE `module_projects_notes`
   ADD KEY `fk_module_projects_notes_project_id` (`project_id`);
 
 --
+-- Indexes for table `module_projects_pins`
+--
+ALTER TABLE `module_projects_pins`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_questions_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_questions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_questions_project_id` (`project_id`);
+
+--
 -- Indexes for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
@@ -2904,6 +2463,15 @@ ALTER TABLE `module_tasks`
   ADD KEY `fk_module_tasks_division_id` (`division_id`),
   ADD KEY `fk_module_tasks_status` (`status`),
   ADD KEY `fk_module_tasks_priority` (`priority`);
+
+--
+-- Indexes for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_answers_question_id` (`question_id`);
 
 --
 -- Indexes for table `module_tasks_files`
@@ -2925,6 +2493,15 @@ ALTER TABLE `module_tasks_notes`
   ADD KEY `fk_module_tasks_notes_task_id` (`task_id`);
 
 --
+-- Indexes for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_questions_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_questions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_questions_task_id` (`task_id`);
+
+--
 -- Indexes for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
@@ -2942,7 +2519,9 @@ ALTER TABLE `person`
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
   ADD KEY `fk_person_user_updated` (`user_updated`),
   ADD KEY `fk_person_gender_id` (`gender_id`),
-  ADD KEY `fk_person_gender_id` (`gender_id`);
+  ADD KEY `fk_person_organization_id` (`organization_id`),
+  ADD KEY `fk_person_agency_id` (`agency_id`),
+  ADD KEY `fk_person_division_id` (`division_id`);
 
 --
 -- Indexes for table `person_addresses`
@@ -3024,7 +2603,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3078,37 +2657,43 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=536;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_compensation`
@@ -3120,7 +2705,7 @@ ALTER TABLE `module_contractors_compensation`
 -- AUTO_INCREMENT for table `module_contractors_contacts`
 --
 ALTER TABLE `module_contractors_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_contacts_response`
@@ -3138,13 +2723,13 @@ ALTER TABLE `module_contractors_contact_responses`
 -- AUTO_INCREMENT for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_notes`
 --
 ALTER TABLE `module_contractors_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_status_history`
@@ -3156,25 +2741,13 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `module_organization_persons`
---
-ALTER TABLE `module_organization_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `module_agency_persons`
---
-ALTER TABLE `module_agency_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_division_persons`
 --
 ALTER TABLE `module_division_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3198,49 +2771,85 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `module_projects_pins`
+--
+ALTER TABLE `module_projects_pins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
 --
 ALTER TABLE `module_tasks_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
@@ -3252,7 +2861,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3270,7 +2879,7 @@ ALTER TABLE `person_phones`
 -- AUTO_INCREMENT for table `system_properties`
 --
 ALTER TABLE `system_properties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `system_properties_versions`
@@ -3282,13 +2891,13 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -3373,10 +2982,19 @@ ALTER TABLE `lookup_list_item_attributes`
 --
 ALTER TABLE `module_agency`
   ADD CONSTRAINT `fk_module_agency_main_person` FOREIGN KEY (`main_person`) REFERENCES `person` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_agency_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`),
   ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_agency_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_agency_persons`
+--
+ALTER TABLE `module_agency_persons`
+  ADD CONSTRAINT `fk_module_agency_persons_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors`
@@ -3465,26 +3083,6 @@ ALTER TABLE `module_division`
   ADD CONSTRAINT `fk_module_division_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `module_organization_persons`
---
-ALTER TABLE `module_organization_persons`
-  ADD CONSTRAINT `fk_module_organization_persons_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_organization_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_organization_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_organization_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_organization_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_agency_persons`
---
-ALTER TABLE `module_agency_persons`
-  ADD CONSTRAINT `fk_module_agency_persons_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_agency_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
 -- Constraints for table `module_division_persons`
 --
 ALTER TABLE `module_division_persons`
@@ -3517,6 +3115,16 @@ ALTER TABLE `module_organization`
   ADD CONSTRAINT `fk_module_organization_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_organization_persons`
+--
+ALTER TABLE `module_organization_persons`
+  ADD CONSTRAINT `fk_module_organization_persons_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_organization_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_organization_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_organization_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_projects`
 --
 ALTER TABLE `module_projects`
@@ -3525,6 +3133,12 @@ ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_priority_id` FOREIGN KEY (`priority`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_projects_status_id` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_projects_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD CONSTRAINT `fk_module_projects_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`);
 
 --
 -- Constraints for table `module_projects_assignments`
@@ -3549,12 +3163,24 @@ ALTER TABLE `module_projects_notes`
   ADD CONSTRAINT `fk_module_projects_notes_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
+-- Constraints for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  ADD CONSTRAINT `fk_module_projects_questions_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+--
 -- Constraints for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
   ADD CONSTRAINT `fk_module_tasks_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_tasks_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
   ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+--
+-- Constraints for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD CONSTRAINT `fk_module_tasks_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_tasks_questions` (`id`);
 
 --
 -- Constraints for table `module_tasks_files`
@@ -3570,6 +3196,12 @@ ALTER TABLE `module_tasks_notes`
   ADD CONSTRAINT `fk_module_tasks_notes_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
+-- Constraints for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  ADD CONSTRAINT `fk_module_tasks_questions_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
 -- Constraints for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
@@ -3580,7 +3212,10 @@ ALTER TABLE `module_task_assignments`
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
+  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 

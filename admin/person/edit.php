@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../includes/helpers.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $first_name = $last_name = $email = $dob = '';
 $gender_id = null;
+$organization_id = $agency_id = $division_id = null;
 $existing = null;
 $addresses = [];
 $phones = [];
@@ -21,11 +22,14 @@ if ($id) {
       exit;
     }
     $existing = $row;
-    $first_name = $row['first_name'] ?? '';
-    $last_name  = $row['last_name'] ?? '';
-    $email      = $row['email'] ?? '';
-    $gender_id  = $row['gender_id'] ?? null;
-    $dob        = $row['dob'] ?? '';
+    $first_name      = $row['first_name'] ?? '';
+    $last_name       = $row['last_name'] ?? '';
+    $email           = $row['email'] ?? '';
+    $gender_id       = $row['gender_id'] ?? null;
+    $organization_id = $row['organization_id'] ?? null;
+    $agency_id       = $row['agency_id'] ?? null;
+    $division_id     = $row['division_id'] ?? null;
+    $dob             = $row['dob'] ?? '';
 
     $stmt = $pdo->prepare('SELECT * FROM person_addresses WHERE person_id = :id');
     $stmt->execute([':id'=>$id]);
@@ -58,6 +62,11 @@ $defaultAddressStatusId = get_default_id($addressStatusItems);
 $defaultPhoneTypeId     = get_default_id($phoneTypeItems);
 $defaultPhoneStatusId   = get_default_id($phoneStatusItems);
 
+// Option lists for organization hierarchy
+$organizationItems = $pdo->query('SELECT id, name FROM module_organization ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$agencyItems       = $pdo->query('SELECT id, name, organization_id FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$divisionItems     = $pdo->query('SELECT id, name, agency_id FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
@@ -66,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $last_name  = trim($_POST['last_name'] ?? '');
   $email      = trim($_POST['email'] ?? '');
   $gender_id  = $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
+  $organization_id = ($_POST['organization_id'] ?? '') !== '' ? (int)$_POST['organization_id'] : null;
+  $agency_id  = ($_POST['agency_id'] ?? '') !== '' ? (int)$_POST['agency_id'] : null;
+  $division_id = ($_POST['division_id'] ?? '') !== '' ? (int)$_POST['division_id'] : null;
   $dob        = $_POST['dob'] !== '' ? $_POST['dob'] : null;
   $addresses = $_POST['addresses'] ?? [];
   $phones    = $_POST['phones'] ?? [];
@@ -73,14 +85,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pdo->beginTransaction();
   try {
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,dob=:dob,user_updated=:uid WHERE id=:id');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
-      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Updated person');
+      $personUpdateData = [
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob,
+        ':uid' => $this_user_id,
+        ':id' => $id
+      ];
+      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,organization_id=:organization_id,agency_id=:agency_id,division_id=:division_id,dob=:dob,user_updated=:uid WHERE id=:id');
+      $stmt->execute($personUpdateData);
+      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Updated person');
     } else {
-      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:dob,:uid)');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id]);
+      $personInsertData = [
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob,
+        ':uid' => $this_user_id
+      ];
+      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,organization_id,agency_id,division_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:organization_id,:agency_id,:division_id,:dob,:uid)');
+      $stmt->execute($personInsertData);
       $id = $pdo->lastInsertId();
-      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Created person');
+      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Created person');
     }
 
     $stmt = $pdo->prepare('SELECT id FROM person_addresses WHERE person_id = :id');
@@ -108,14 +143,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':uid'       => $this_user_id
       ];
       if ($addrId) {
-        $data[':id'] = $addrId;
+        $addrUpdateData = $data;
+        $addrUpdateData[':id'] = $addrId;
         $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state_id=:state_id,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
-        $stmt->execute($data);
-        admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($data),'Updated address');
+        try {
+          $stmt->execute($addrUpdateData);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Address references invalid lookup or state.');
+          }
+          throw $e;
+        }
+        admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($addrUpdateData),'Updated address');
         $submittedAddrIds[] = $addrId;
       } else {
         $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid,:uid)');
-        $stmt->execute($data);
+        try {
+          $stmt->execute($data);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Address references invalid lookup or state.');
+          }
+          throw $e;
+        }
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_addresses',$newId,'CREATE',null,json_encode($data),'Added address');
         $submittedAddrIds[] = $newId;
@@ -149,14 +199,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':uid'       => $this_user_id
       ];
       if ($phId) {
-        $data[':id'] = $phId;
+        $phoneUpdateData = $data;
+        $phoneUpdateData[':id'] = $phId;
         $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
-        $stmt->execute($data);
-        admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
+        try {
+          $stmt->execute($phoneUpdateData);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Phone references invalid lookup.');
+          }
+          throw $e;
+        }
+        admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($phoneUpdateData),'Updated phone');
         $submittedPhoneIds[] = $phId;
       } else {
         $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid,:uid)');
-        $stmt->execute($data);
+        try {
+          $stmt->execute($data);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Phone references invalid lookup.');
+          }
+          throw $e;
+        }
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
         $submittedPhoneIds[] = $newId;
@@ -207,6 +272,33 @@ require_once '../admin_header.php';
     <input type="email" name="email" class="form-control" value="<?= h($email); ?>">
   </div>
   <div class="mb-3">
+    <label class="form-label">Organization</label>
+    <select name="organization_id" id="organization_id" class="form-select">
+      <option value="">-- None --</option>
+      <?php foreach($organizationItems as $o): ?>
+        <option value="<?= h($o['id']); ?>" <?= (int)$organization_id === (int)$o['id'] ? 'selected' : ''; ?>><?= h($o['name']); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Agency</label>
+    <select name="agency_id" id="agency_id" class="form-select">
+      <option value="">-- None --</option>
+      <?php foreach($agencyItems as $a): ?>
+        <option value="<?= h($a['id']); ?>" data-org="<?= h($a['organization_id']); ?>" <?= (int)$agency_id === (int)$a['id'] ? 'selected' : ''; ?>><?= h($a['name']); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Division</label>
+    <select name="division_id" id="division_id" class="form-select">
+      <option value="">-- None --</option>
+      <?php foreach($divisionItems as $d): ?>
+        <option value="<?= h($d['id']); ?>" data-agency="<?= h($d['agency_id']); ?>" <?= (int)$division_id === (int)$d['id'] ? 'selected' : ''; ?>><?= h($d['name']); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div class="mb-3">
     <label class="form-label">Gender</label>
     <select name="gender_id" class="form-select">
       <option value="">-- Select --</option>
@@ -243,5 +335,38 @@ require_once '../admin_header.php';
 <?php $index='__INDEX__'; $addrRow=[]; include __DIR__.'/../../includes/person_address_row.php'; ?>
 </template>
 
+<script>
+const orgSelect = document.getElementById('organization_id');
+const agencySelect = document.getElementById('agency_id');
+const divisionSelect = document.getElementById('division_id');
+
+function filterAgencies() {
+  const orgVal = orgSelect.value;
+  Array.from(agencySelect.options).forEach(opt => {
+    if (!opt.value) return;
+    opt.hidden = orgVal && opt.dataset.org !== orgVal;
+  });
+  if (agencySelect.querySelector(`option[value="${agencySelect.value}"]`)?.hidden) {
+    agencySelect.value = '';
+  }
+  filterDivisions();
+}
+
+function filterDivisions() {
+  const agVal = agencySelect.value;
+  Array.from(divisionSelect.options).forEach(opt => {
+    if (!opt.value) return;
+    opt.hidden = agVal && opt.dataset.agency !== agVal;
+  });
+  if (divisionSelect.querySelector(`option[value="${divisionSelect.value}"]`)?.hidden) {
+    divisionSelect.value = '';
+  }
+}
+
+orgSelect.addEventListener('change', filterAgencies);
+agencySelect.addEventListener('change', filterDivisions);
+filterAgencies();
+filterDivisions();
+</script>
 <script src="<?php echo getURLDir(); ?>assets/js/person_contact_rows.js"></script>
 <?php require '../admin_footer.php'; ?>

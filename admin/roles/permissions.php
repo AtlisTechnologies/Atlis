@@ -24,7 +24,7 @@ $perms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h2 class="mb-4">Permissions</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
 <a href="permission_edit.php" class="btn btn-sm btn-success mb-3">Add Permission</a>
-<div id="permissions" data-list='{"valueNames":["id","module","action"],"page":50,"pagination":true}'>
+<div id="permissions" data-list='{"valueNames":["id","module","action"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
