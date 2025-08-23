@@ -2210,6 +2210,40 @@ INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_projects_questions`
+--
+
+CREATE TABLE `module_projects_questions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `question_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_answers`
+--
+
+CREATE TABLE `module_projects_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_tasks`
 --
 
@@ -2335,6 +2369,40 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (11, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 19, 'Done through System Property.'),
 (12, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 22, 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave'),
 (15, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 35, 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_questions`
+--
+
+CREATE TABLE `module_tasks_questions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `question_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_answers`
+--
+
+CREATE TABLE `module_tasks_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2966,6 +3034,24 @@ ALTER TABLE `module_projects_notes`
   ADD KEY `fk_module_projects_notes_project_id` (`project_id`);
 
 --
+-- Indexes for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_questions_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_questions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_questions_project_id` (`project_id`);
+
+--
+-- Indexes for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_answers_question_id` (`question_id`);
+
+--
 -- Indexes for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
@@ -2996,6 +3082,24 @@ ALTER TABLE `module_tasks_notes`
   ADD KEY `fk_module_tasks_notes_user_id` (`user_id`),
   ADD KEY `fk_module_tasks_notes_user_updated` (`user_updated`),
   ADD KEY `fk_module_tasks_notes_task_id` (`task_id`);
+
+--
+-- Indexes for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_questions_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_questions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_questions_task_id` (`task_id`);
+
+--
+-- Indexes for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_answers_question_id` (`question_id`);
 
 --
 -- Indexes for table `module_task_assignments`
@@ -3297,6 +3401,18 @@ ALTER TABLE `module_projects_notes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
@@ -3313,6 +3429,18 @@ ALTER TABLE `module_tasks_files`
 --
 ALTER TABLE `module_tasks_notes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
@@ -3620,6 +3748,18 @@ ALTER TABLE `module_projects_notes`
   ADD CONSTRAINT `fk_module_projects_notes_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
+-- Constraints for table `module_projects_questions`
+--
+ALTER TABLE `module_projects_questions`
+  ADD CONSTRAINT `fk_module_projects_questions_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+--
+-- Constraints for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD CONSTRAINT `fk_module_projects_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`);
+
+--
 -- Constraints for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
@@ -3639,6 +3779,18 @@ ALTER TABLE `module_tasks_files`
 --
 ALTER TABLE `module_tasks_notes`
   ADD CONSTRAINT `fk_module_tasks_notes_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `module_tasks_questions`
+--
+ALTER TABLE `module_tasks_questions`
+  ADD CONSTRAINT `fk_module_tasks_questions_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
+
+--
+-- Constraints for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD CONSTRAINT `fk_module_tasks_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_tasks_questions` (`id`);
 
 --
 -- Constraints for table `module_task_assignments`
