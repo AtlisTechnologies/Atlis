@@ -30,13 +30,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <form id="taskUpdateForm" class="d-inline ms-2">
         <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
         <select class="form-select form-select-sm d-inline w-auto" name="status">
-          <?php foreach ($statusMap as $s): ?>
-            <option value="<?php echo (int)$s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$s['id']) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
+          <?php foreach ($statusMap as $sid => $s): ?>
+            <option value="<?php echo (int)$sid; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$sid) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <select class="form-select form-select-sm d-inline w-auto ms-1" name="priority">
-          <?php foreach ($priorityMap as $p): ?>
-            <option value="<?php echo (int)$p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$p['id']) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
+          <?php foreach ($priorityMap as $pid => $p): ?>
+            <option value="<?php echo (int)$pid; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$pid) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
           <?php endforeach; ?>
         </select>
         <button class="btn btn-atlis btn-sm ms-1" type="submit">Update</button>

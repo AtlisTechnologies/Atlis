@@ -162,8 +162,8 @@ if ($tasks) {
 if ($action === 'details') {
   $task_id = (int)($_GET['id'] ?? 0);
 
-  $statusMap   = get_lookup_items($pdo, 'TASK_STATUS');
-  $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $statusMap   = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+  $priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
   $stmt = $pdo->prepare(
     'SELECT t.id, t.name, t.description, t.status, t.priority,
