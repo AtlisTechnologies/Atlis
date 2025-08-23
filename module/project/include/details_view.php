@@ -525,6 +525,7 @@ if (!empty($current_project)) {
                       <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                     </form>
                     <?php endif; ?>
+
                   </div>
                   <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
                   <?php if (!empty($questionFiles[$q['id']])): ?>
@@ -549,7 +550,7 @@ if (!empty($current_project)) {
                     </ul>
                   <?php endif; ?>
                   <?php if (!empty($questionAnswers[$q['id']])): ?>
-                    <ul class="list-unstyled ps-4 mb-3">
+                    <ul class="list-unstyled ps-5 mb-3">
                       <?php foreach ($questionAnswers[$q['id']] as $a): ?>
                         <li class="mb-2">
                           <div class="d-flex">

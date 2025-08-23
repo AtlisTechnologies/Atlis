@@ -201,6 +201,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (!empty($questions)): ?>
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
+
               <div class="d-flex">
                 <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
                 <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
@@ -210,6 +211,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                   <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                 </form>
                 <?php endif; ?>
+
               </div>
               <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
               <?php if (!empty($questionFiles[$q['id']])): ?>
@@ -239,7 +241,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <?php endif; ?>
 
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ps-4">
+                <ul class="list-unstyled ps-5">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
                       <div class="d-flex">
