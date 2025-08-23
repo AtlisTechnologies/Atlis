@@ -3435,6 +3435,87 @@ ALTER TABLE `users_profile_pics`
   ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Table structure for table `module_calendar_events`
+--
+
+CREATE TABLE `module_calendar_events` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `related_module` varchar(50) DEFAULT NULL,
+  `related_id` int(11) DEFAULT NULL,
+  `is_private` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `module_calendar_attendees`
+--
+
+CREATE TABLE `module_calendar_attendees` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `calendar_event_id` int(11) NOT NULL,
+  `attendee_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `module_calendar_attendees`
+--
+ALTER TABLE `module_calendar_attendees`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_calendar_attendees_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_attendees_user_updated` (`user_updated`),
+  ADD KEY `fk_module_calendar_attendees_calendar_event_id` (`calendar_event_id`),
+  ADD KEY `fk_module_calendar_attendees_attendee_user_id` (`attendee_user_id`);
+
+--
+-- AUTO_INCREMENT for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_calendar_attendees`
+--
+ALTER TABLE `module_calendar_attendees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  ADD CONSTRAINT `fk_module_calendar_events_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_calendar_events_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_calendar_attendees`
+--
+ALTER TABLE `module_calendar_attendees`
+  ADD CONSTRAINT `fk_module_calendar_attendees_calendar_event_id` FOREIGN KEY (`calendar_event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_attendees_attendee_user_id` FOREIGN KEY (`attendee_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_calendar_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_calendar_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
