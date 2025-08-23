@@ -9,6 +9,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $completed = isset($_POST['completed']) ? (int)$_POST['completed'] : 0;
   $statusId = isset($_POST['status']) ? (int)$_POST['status'] : 0;
   if ($id > 0) {
+    $chk = $pdo->prepare('SELECT t.user_id, t.project_id, t.is_private, p.user_id AS project_owner, p.is_private AS project_private FROM module_tasks t LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id = :id');
+    $chk->execute([':id' => $id]);
+    $task = $chk->fetch(PDO::FETCH_ASSOC);
+    if (!$task || (
+        ($task['project_id'] && $task['project_private'] && !user_has_role('Admin') && $task['project_owner'] != $this_user_id) ||
+        (!$task['project_id'] && $task['is_private'] && !user_has_role('Admin') && $task['user_id'] != $this_user_id)
+      )) {
+      http_response_code(403);
+      echo json_encode(['success' => false]);
+      exit;
+    }
     if ($completed === 1) {
       // store current status before switching to completed
       $origStmt = $pdo->prepare('SELECT status FROM module_tasks WHERE id = :id');
