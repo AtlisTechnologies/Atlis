@@ -157,7 +157,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       if ($questions) {
         $qIds = array_column($questions, 'id');
         $placeholders = implode(',', array_fill(0, count($qIds), '?'));
-        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
+        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
         $ansStmt->execute($qIds);
         foreach ($ansStmt as $arow) {
           $questionAnswers[$arow['question_id']][] = $arow;
