@@ -336,7 +336,7 @@ if (!empty($current_project)) {
 
     <div class="row">
       <div class="col-6 bg-light border-start border-top border-bottom">
-        <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":10,"pagination":true}'>
+        <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":25,"pagination":true}'>
           <h2 class="mb-4">Tasks<span class="text-body-tertiary fw-normal">(<?= count($tasks) ?>)</span></h2>
           <div class="row align-items-center g-3 mb-3">
             <div class="col-sm-auto">

@@ -44,7 +44,7 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Contractors</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.h($message).'</div>'; } ?>
-<div id="contractorsList" data-list='{"valueNames":["id","name","email","status","start"],"page":10,"pagination":true}'>
+<div id="contractorsList" data-list='{"valueNames":["id","name","email","status","start"],"page":25,"pagination":true}'>
   <div class="row g-3 justify-content-between mb-4">
     <div class="col-auto">
       <?php if (user_has_permission('contractors','create')): ?>

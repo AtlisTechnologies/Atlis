@@ -7,7 +7,7 @@ $lists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Lookup Lists</h2>
 <button id="addListBtn" class="btn btn-sm btn-success mb-3">Add Lookup List</button>
-<div id="lookup-lists" data-list='{"valueNames":["id","name","description","item-count", "date_updated"],"page":50,"pagination":true}'>
+<div id="lookup-lists" data-list='{"valueNames":["id","name","description","item-count", "date_updated"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />

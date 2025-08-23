@@ -9,7 +9,7 @@ $props = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">System Properties</h2>
 <a href="edit.php" class="btn btn-sm btn-success mb-3">Add Property</a>
-<div id="properties" data-list='{"valueNames":["id","name","category","type"],"page":10,"pagination":true}'>
+<div id="properties" data-list='{"valueNames":["id","name","category","type"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto"><input class="form-control form-control-sm search" placeholder="Search" /></div>
   </div>

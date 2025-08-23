@@ -92,7 +92,7 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
     <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
 </form>
-  <div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":10,"pagination":true}'>
+  <div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
