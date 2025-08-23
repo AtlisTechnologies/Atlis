@@ -1,3 +1,6 @@
+<?php
+$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+?>
 <div class="container-fluid py-4">
   <div class="row mb-3">
     <div class="col">
@@ -33,7 +36,12 @@
         </div>
       </div>
       <div class="card mb-3">
-        <div class="card-header">Questions</div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Questions</span>
+          <?php if (user_has_permission('meeting','update')): ?>
+            <button class="btn btn-sm btn-primary" id="addQuestionBtn">Add Question</button>
+          <?php endif; ?>
+        </div>
         <div class="card-body" id="questionsList"></div>
       </div>
     </div>
@@ -101,15 +109,73 @@
         <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
+</div>
+</div>
+
+<?php if (user_has_permission('meeting','update')): ?>
+<div class="modal fade" id="questionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="questionForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="questionModalLabel">Add Question</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+        <input type="hidden" name="id" id="questionId">
+        <div class="mb-3">
+          <label class="form-label">Question</label>
+          <input type="text" name="question_text" id="questionText" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Answer</label>
+          <textarea name="answer_text" id="answerText" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Agenda Item</label>
+          <select name="agenda_id" id="agendaSelect" class="form-select">
+            <option value="">None</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status_id" id="statusSelect" class="form-select">
+            <option value="">None</option>
+            <?php foreach ($questionStatusMap as $sid => $s): ?>
+              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
   </div>
 </div>
+<?php endif; ?>
 
 <script src="<?php echo getURLDir(); ?>vendors/sortablejs/Sortable.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var meetingId = <?php echo (int)$meeting['id']; ?>;
+  var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
+  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
+  var agendaMap = {};
+  var questionsData = [];
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
+
+  function updateAgendaSelect(){
+    var sel = document.getElementById('agendaSelect');
+    if(!sel) return;
+    sel.innerHTML = '<option value="">None</option>';
+    for(var id in agendaMap){
+      if(Object.prototype.hasOwnProperty.call(agendaMap, id)){
+        sel.innerHTML += '<option value="'+id+'">'+esc(agendaMap[id])+'</option>';
+      }
+    }
+  }
 
   fetch('functions/get_agenda.php?meeting_id=' + meetingId)
     .then(r => r.json())
@@ -117,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function(){
       if(data.success && data.items.length){
         fetch('include/agenda_item.php').then(r=>r.text()).then(function(template){
           data.items.forEach(function(item){
+            agendaMap[item.id] = item.title;
             var temp = document.createElement('div');
             temp.innerHTML = template.trim();
             var li = temp.firstElementChild;
@@ -128,30 +195,126 @@ document.addEventListener('DOMContentLoaded', function(){
             if(btn) btn.remove();
             agendaList.appendChild(li);
           });
+          updateAgendaSelect();
         });
       } else {
         var li = document.createElement('li');
         li.className = 'list-group-item';
         li.textContent = 'No agenda items.';
         agendaList.appendChild(li);
+        updateAgendaSelect();
       }
     });
 
-  fetch('functions/get_questions.php?meeting_id=' + meetingId)
-    .then(r=>r.json())
-    .then(function(data){
-      var container = document.getElementById('questionsList');
-      if(data.success && data.questions.length){
-        data.questions.forEach(function(q){
-          var div = document.createElement('div');
-          div.className = 'mb-3';
-          div.innerHTML = '<p class="fw-bold mb-1">' + esc(q.question) + '</p><p class="mb-0">' + esc(q.answer || '') + '</p>';
-          container.appendChild(div);
-        });
-      } else {
-        container.innerHTML = '<p class="text-body-secondary mb-0">No questions.</p>';
+  function loadQuestions(){
+    var fd = new FormData();
+    fd.append('meeting_id', meetingId);
+    fetch('functions/update_question.php', {method:'POST', body:fd})
+      .then(r=>r.json())
+      .then(function(res){
+        if(res.success){
+          questionsData = res.questions;
+          renderQuestions();
+        }
+      });
+  }
+
+  function renderQuestions(){
+    var container = document.getElementById('questionsList');
+    container.innerHTML = '';
+    if(questionsData.length){
+      questionsData.forEach(function(q){
+        var div = document.createElement('div');
+        div.className = 'mb-3';
+        div.dataset.id = q.id;
+        var statusHtml = '';
+        if(q.status_id && questionStatusMap[q.status_id]){
+          var s = questionStatusMap[q.status_id];
+          statusHtml = '<span class="badge bg-' + esc(s.color_class || 'secondary') + ' me-2">' + esc(s.label) + '</span>';
+        }
+        var agendaHtml = '';
+        if(q.agenda_id && agendaMap[q.agenda_id]){
+          agendaHtml = '<p class="mb-1"><small>Agenda: ' + esc(agendaMap[q.agenda_id]) + '</small></p>';
+        }
+        div.innerHTML = '<div class="d-flex justify-content-between">'
+          + '<div>'
+          + '<p class="fw-bold mb-1">' + esc(q.question_text) + '</p>'
+          + (q.answer_text ? '<p class="mb-1">' + esc(q.answer_text) + '</p>' : '')
+          + agendaHtml
+          + '</div>'
+          + statusHtml
+          + '</div>'
+          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-secondary me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
+        container.appendChild(div);
+      });
+    } else {
+      container.innerHTML = '<p class="text-body-secondary mb-0">No questions.</p>';
+    }
+  }
+
+  loadQuestions();
+
+  if(canEdit){
+    document.getElementById('addQuestionBtn').addEventListener('click', function(){
+      document.getElementById('questionForm').reset();
+      document.getElementById('questionId').value = '';
+      document.getElementById('questionModalLabel').textContent = 'Add Question';
+      updateAgendaSelect();
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
+    });
+
+    document.getElementById('questionsList').addEventListener('click', function(e){
+      var tgt = e.target;
+      if(tgt.classList.contains('edit-question')){
+        var id = tgt.dataset.id;
+        var q = questionsData.find(function(item){ return item.id == id; });
+        if(q){
+          document.getElementById('questionId').value = q.id;
+          document.getElementById('questionText').value = q.question_text;
+          document.getElementById('answerText').value = q.answer_text || '';
+          document.getElementById('agendaSelect').value = q.agenda_id || '';
+          document.getElementById('statusSelect').value = q.status_id || '';
+          document.getElementById('questionModalLabel').textContent = 'Edit Question';
+          updateAgendaSelect();
+          bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
+        }
+      } else if(tgt.classList.contains('delete-question')){
+        var id = tgt.dataset.id;
+        if(confirm('Delete this question?')){
+          var fd = new FormData();
+          fd.append('id', id);
+          fd.append('meeting_id', meetingId);
+          fetch('functions/delete_question.php', {method:'POST', body:fd})
+            .then(r=>r.json())
+            .then(function(res){
+              if(res.success){
+                questionsData = res.questions;
+                renderQuestions();
+              } else {
+                alert('Failed to delete question');
+              }
+            });
+        }
       }
     });
+
+    document.getElementById('questionForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var fd = new FormData(this);
+      var url = fd.get('id') ? 'functions/update_question.php' : 'functions/add_question.php';
+      fetch(url, {method:'POST', body:fd})
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success){
+            questionsData = res.questions;
+            renderQuestions();
+            bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+          } else {
+            alert('Failed to save question');
+          }
+        });
+    });
+  }
 
   fetch('functions/get_attendees.php?meeting_id=' + meetingId)
     .then(r=>r.json())
