@@ -14,12 +14,18 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
   ?>
   <div class="mb-5">
-    <div class="d-flex justify-content-between align-items-center">
-      <h2 class="text-body-emphasis fw-bolder mb-2"><?php echo h($current_task['name'] ?? ''); ?></h2>
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <?php if (!empty($current_task['project_id'])): ?>
+        <a class="btn btn-secondary btn-sm"
+           href="<?php echo getURLDir(); ?>module/project/index.php?action=details&id=<?= (int)$current_task['project_id']; ?>">
+          &larr; Back to Project
+        </a>
+      <?php endif; ?>
       <?php if (user_has_permission('task','update')): ?>
-      <button class="btn btn-warning btn-sm" id="editTaskBtn">Edit</button>
+        <button class="btn btn-warning btn-sm" id="editTaskBtn">Edit</button>
       <?php endif; ?>
     </div>
+    <h2 class="text-body-emphasis fw-bolder mb-2"><?php echo h($current_task['name'] ?? ''); ?></h2>
     <?php if ($hierarchyParts): ?>
       <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
     <?php endif; ?>
