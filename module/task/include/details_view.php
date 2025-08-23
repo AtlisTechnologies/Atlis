@@ -202,13 +202,27 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
               <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
-              <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <?php $qpic = !empty($q['user_pic']) ? $q['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+              <div class="d-flex align-items-center fs-9 text-body-secondary mb-2">
+                <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                <div>
+                  <div class="fw-semibold text-body"><?= h($q['user_name']); ?></div>
+                  <div><?= h($q['date_created']); ?></div>
+                </div>
+              </div>
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ms-3">
+                <ul class="list-unstyled ps-4">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
                       <p class="mb-1"><?= h($ans['answer_text']); ?></p>
-                      <p class="fs-9 text-body-secondary mb-0">by <?= h($ans['user_name']); ?> on <?= h($ans['date_created']); ?></p>
+                      <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+                      <div class="d-flex align-items-center fs-9 text-body-secondary">
+                        <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
+                        <div>
+                          <div class="fw-semibold text-body"><?= h($ans['user_name']); ?></div>
+                          <div><?= h($ans['date_created']); ?></div>
+                        </div>
+                      </div>
                     </li>
                   <?php endforeach; ?>
                 </ul>
