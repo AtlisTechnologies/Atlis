@@ -60,6 +60,9 @@ if (!empty($current_project)) {
       <div class="mb-5">
         <div class="d-flex justify-content-between">
           <h2 class="text-body-emphasis fw-bolder mb-2"><?= h($current_project['name'] ?? '') ?></h2>
+          <?php if (user_has_permission('project','update')): ?>
+            <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editProjectModal">Edit</button>
+          <?php endif; ?>
         </div>
         <div class="dropdown d-inline me-2">
           <?php if ($statusId !== null): ?>
@@ -511,9 +514,74 @@ if (!empty($current_project)) {
       </div>
       <div class="modal-body" id="modalContent"></div>
     </div>
+</div>
+</div>
+<?php if (user_has_permission('project','update')): ?>
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="post" action="functions/update.php">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Project</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
+        <div class="mb-3">
+          <label class="form-label" for="editProjectName">Name</label>
+          <input class="form-control" id="editProjectName" type="text" name="name" value="<?= h($current_project['name'] ?? '') ?>" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectDescription">Description</label>
+          <textarea class="form-control" id="editProjectDescription" name="description"><?= h($current_project['description'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectRequirements">Requirements</label>
+          <textarea class="form-control" id="editProjectRequirements" name="requirements"><?= h($current_project['requirements'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectSpecifications">Specifications</label>
+          <textarea class="form-control" id="editProjectSpecifications" name="specifications"><?= h($current_project['specifications'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editProjectStatus">Status</label>
+          <select class="form-select" id="editProjectStatus" name="status">
+            <?php foreach ($statusMap as $sid => $s): ?>
+              <option value="<?= h($sid) ?>" <?= ((int)($current_project['status'] ?? 0) === (int)$sid) ? 'selected' : '' ?>><?= h($s['label']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editStartDate">Start date</label>
+          <input class="form-control datetimepicker" id="editStartDate" type="text" name="start_date" value="<?= !empty($current_project['start_date']) ? h(date('Y-m-d', strtotime($current_project['start_date']))) : '' ?>" data-options='{"disableMobile":true}'>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editAgency">Agency</label>
+          <select class="form-select" id="editAgency" name="agency_id">
+            <option value=""></option>
+            <?php foreach ($agencies as $agency): ?>
+              <option value="<?= h($agency['id']) ?>" <?= ((int)($current_project['agency_id'] ?? 0) === (int)$agency['id']) ? 'selected' : '' ?>><?= h($agency['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="editDivision">Division</label>
+          <select class="form-select" id="editDivision" name="division_id">
+            <option value=""></option>
+            <?php foreach ($divisions as $division): ?>
+              <option value="<?= h($division['id']) ?>" <?= ((int)($current_project['division_id'] ?? 0) === (int)$division['id']) ? 'selected' : '' ?>><?= h($division['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
   </div>
 </div>
-  <?php if (user_has_permission('project','create|update|delete')): ?>
+<?php endif; ?>
+<?php if (user_has_permission('project','create|update|delete')): ?>
   <div class="modal fade" id="editFileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form class="modal-content" method="post" action="functions/edit_file.php">
