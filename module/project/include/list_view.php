@@ -1,5 +1,11 @@
 <?php
 ?>
+<style>
+.pinned-row {
+  border-left: 3px solid #00948E !important;
+  background-color: var(--bs-tertiary-bg, #f8f9fa);
+}
+</style>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
     <li class="breadcrumb-item"><a href="#">Projects</a></li>
@@ -61,6 +67,7 @@
       </thead>
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
+
         <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-warning border-3' : ''; ?>" data-pinned="<?= (int)$project['pinned']; ?>">
           <td class="align-middle text-center">
             <?php if (user_has_permission('project','read')): ?>
