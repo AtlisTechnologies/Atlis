@@ -54,36 +54,40 @@ require_once __DIR__ . '/../../../includes/functions.php';
   <div class="row g-0">
     <div class="col-12 col-xxl-8 px-0">
       <div class="p-4 p-lg-6">
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Team members</h5>
-            <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal">Assign User</button>
-          </div>
-          <div class="card-body">
-            <?php if (!empty($assignedUsers)): ?>
-              <ul class="list-unstyled mb-0">
-                <?php foreach ($assignedUsers as $au): ?>
-                  <li class="d-flex align-items-center mb-2">
-                    <div class="avatar avatar-xl me-2">
-                      <?php $dpic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
-                      <img class="rounded-circle" src="<?php echo getURLDir() . h($dpic); ?>" alt="<?php echo h($au['name']); ?>" />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h6 class="mb-0"><?php echo h($au['name']); ?></h6>
-                    </div>
-                    <form method="post" action="functions/remove_user.php" class="ms-2" onsubmit="return confirm('Remove this user?');">
+        <div class="d-flex align-items-center mb-4">
+          <h4 class="text-body-emphasis mb-0 me-2">Assigned</h4>
+          <?php if (user_has_permission('task','update')): ?>
+            <button class="bg-transparent border-0 text-success fs-9" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal" aria-label="Assign user">
+              <span class="fa-solid fa-plus"></span>
+            </button>
+          <?php endif; ?>
+        </div>
+        <?php if (!empty($assignedUsers)): ?>
+          <ul class="list-unstyled mb-4">
+            <?php foreach ($assignedUsers as $au): ?>
+              <li class="d-flex align-items-center mb-2">
+                <?php $pic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($pic); ?>" data-file-type="image/*">
+                  <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="<?php echo h($au['name']); ?>" />
+                </a>
+                <div class="d-flex align-items-center flex-grow-1">
+                  <h6 class="mb-0"><?php echo h($au['name']); ?></h6>
+                  <?php if (user_has_permission('task','update')): ?>
+                    <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
                       <input type="hidden" name="task_id" value="<?php echo (int)$current_task['id']; ?>">
                       <input type="hidden" name="user_id" value="<?php echo (int)$au['user_id']; ?>">
-                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-minus"></span></button>
+                      <button class="bg-transparent border-0 text-danger fs-9" type="submit" aria-label="Unassign user">
+                        <span class="fa-solid fa-xmark"></span>
+                      </button>
                     </form>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
-            <?php else: ?>
-              <p class="mb-0 text-700 small">No team members assigned.</p>
-            <?php endif; ?>
-          </div>
-        </div>
+                  <?php endif; ?>
+                </div>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php else: ?>
+          <p class="fs-9 text-body-secondary mb-4">No team members assigned.</p>
+        <?php endif; ?>
         <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog">
             <form class="modal-content" method="post" action="functions/assign_user.php">
