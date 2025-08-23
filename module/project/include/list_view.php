@@ -67,7 +67,8 @@
       </thead>
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
-        <tr class="position-static <?= $project['pinned'] ? 'pinned-row' : ''; ?>">
+
+        <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-warning border-3' : ''; ?>" data-pinned="<?= (int)$project['pinned']; ?>">
           <td class="align-middle text-center">
             <?php if (user_has_permission('project','read')): ?>
             <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const projectSummaryEl = document.getElementById('projectSummary');
   const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
   const projectList = new List(projectSummaryEl, options);
+  window.projectList = projectList;
 
   const statusFilter = document.getElementById('filter-status');
   const priorityFilter = document.getElementById('filter-priority');
@@ -155,15 +157,20 @@ document.querySelectorAll('.pin-toggle').forEach(btn=>{
   btn.addEventListener('click', e=>{
     e.preventDefault();
     const pid = btn.dataset.projectId;
+    const row = btn.closest('tr');
     fetch('functions/toggle_pin.php',{
       method:'POST',
       headers:{'Content-Type':'application/x-www-form-urlencoded'},
       body:`project_id=${pid}`
     }).then(r=>r.json()).then(d=>{
       btn.querySelector('span').classList.toggle('fa-rotate-90', !d.pinned);
-      btn.closest('tr').classList.toggle('pinned-row', d.pinned);
-      // Move row to top if pinned, otherwise refresh page to reapply order
-      location.reload();
+      row.dataset.pinned = d.pinned ? '1' : '0';
+      ['pinned-row','bg-body-tertiary','border-start','border-warning','border-3'].forEach(cls => row.classList.toggle(cls, d.pinned));
+      if (d.pinned) {
+        row.parentNode.prepend(row);
+      } else if (window.projectList) {
+        window.projectList.sort('project');
+      }
     });
   });
 });
