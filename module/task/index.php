@@ -162,8 +162,8 @@ if ($tasks) {
 if ($action === 'details') {
   $task_id = (int)($_GET['id'] ?? 0);
 
-  $statusMap   = get_lookup_items($pdo, 'TASK_STATUS');
-  $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $statusMap   = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+  $priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
   $stmt = $pdo->prepare(
     'SELECT t.id, t.name, t.description, t.status, t.priority,
@@ -187,6 +187,8 @@ if ($action === 'details') {
   $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
 
   $availableUsers = [];
+  $questions = [];
+  $questionAnswers = [];
   if ($current_task) {
 
       $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
@@ -226,6 +228,20 @@ if ($action === 'details') {
 
     $notesStmt->execute([':id' => $task_id]);
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $questionsStmt = $pdo->prepare('SELECT q.id,q.user_id,q.question_text,q.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE q.task_id = :id ORDER BY q.date_created DESC');
+    $questionsStmt->execute([':id' => $task_id]);
+    $questions = $questionsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($questions) {
+      $qids = array_column($questions, 'id');
+      $placeholders = implode(',', array_fill(0, count($qids), '?'));
+      $answersStmt = $pdo->prepare("SELECT a.id,a.question_id,a.user_id,a.answer_text,a.date_created, CONCAT(p.first_name, ' ', p.last_name) AS user_name FROM module_tasks_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN ($placeholders) ORDER BY a.date_created ASC");
+      $answersStmt->execute($qids);
+      while ($row = $answersStmt->fetch(PDO::FETCH_ASSOC)) {
+        $questionAnswers[$row['question_id']][] = $row;
+      }
+    }
 
     $taskFiles = [];
     $noteFiles = [];

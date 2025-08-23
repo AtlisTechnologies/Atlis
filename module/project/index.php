@@ -86,6 +86,10 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
     $typeMap     = array_column(get_lookup_items($pdo,'PROJECT_TYPE'), null, 'id');
+    if ($action === 'details') {
+      $agencies  = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+      $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+    }
     $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
     $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
     $modalWidths = [
@@ -214,8 +218,11 @@ $taskPriorityItems = $taskPriorityItems ?? [];
 $fileTypeItems = $fileTypeItems ?? [];
 $fileStatusItems = $fileStatusItems ?? [];
 $modalWidths = $modalWidths ?? [];
+
 $questions = $questions ?? [];
 $questionAnswers = $questionAnswers ?? [];
+$agencies = $agencies ?? [];
+$divisions = $divisions ?? [];
 
 require '../../includes/html_header.php';
 ?>
