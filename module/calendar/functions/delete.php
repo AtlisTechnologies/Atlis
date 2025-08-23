@@ -1,0 +1,26 @@
+<?php
+require '../../../includes/php_header.php';
+require_permission('calendar','delete');
+
+header('Content-Type: application/json');
+
+$id = (int)($_POST['id'] ?? 0);
+if ($id) {
+  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar_events WHERE id = ?');
+  $chk->execute([$id]);
+  $existing = $chk->fetch(PDO::FETCH_ASSOC);
+  if (!$existing) {
+    http_response_code(404);
+    exit;
+  }
+  if ($existing['is_private'] && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    http_response_code(403);
+    exit;
+  }
+  $pdo->prepare('DELETE FROM module_calendar_attendees WHERE calendar_event_id=?')->execute([$id]);
+  $pdo->prepare('DELETE FROM module_calendar_events WHERE id=?')->execute([$id]);
+  echo json_encode(['success' => true]);
+  exit;
+}
+
+echo json_encode(['success' => false]);
