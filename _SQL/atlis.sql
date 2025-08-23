@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 09:32 AM
+-- Generation Time: Aug 23, 2025 at 09:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,7 +52,19 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (3, 1, 1, '2025-08-23 01:30:51', '2025-08-23 01:30:51', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
 (4, 1, 1, '2025-08-23 01:30:51', '2025-08-23 01:30:51', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USAt\",\":uid\":1,\":id\":3}'),
 (5, 1, 1, '2025-08-23 01:30:55', '2025-08-23 01:30:55', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
-(6, 1, 1, '2025-08-23 01:30:55', '2025-08-23 01:30:55', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}');
+(6, 1, 1, '2025-08-23 01:30:55', '2025-08-23 01:30:55', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
+(7, 1, 1, '2025-08-23 01:37:50', '2025-08-23 01:37:50', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":5,\"dob\":null}'),
+(8, 1, 1, '2025-08-23 01:37:50', '2025-08-23 01:37:50', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
+(9, 1, 1, '2025-08-23 01:38:10', '2025-08-23 01:38:10', NULL, 'module_division', 9, 'CREATE', 'Created division', NULL, '{\"agency_id\":4,\"name\":\"State\'s Attorney Office\",\"main_person\":31,\"status\":27}'),
+(10, 1, 1, '2025-08-23 01:38:34', '2025-08-23 01:38:34', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":1,\"agency_id\":1,\"division_id\":1,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-19 23:03:53\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(11, 1, 1, '2025-08-23 01:38:34', '2025-08-23 01:38:34', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2025-08-08\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(12, 1, 1, '2025-08-23 01:38:34', '2025-08-23 01:38:34', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(13, 1, 1, '2025-08-23 01:38:42', '2025-08-23 01:38:42', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(14, 1, 1, '2025-08-23 01:38:42', '2025-08-23 01:38:42', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"1992-02-20\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(15, 1, 1, '2025-08-23 01:38:42', '2025-08-23 01:38:42', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(16, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(17, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2022-07-01\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(18, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}');
 
 -- --------------------------------------------------------
 
@@ -976,7 +988,7 @@ CREATE TABLE `module_contractors` (
 --
 
 INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `status_id`, `contractor_type_id`, `initial_contact_date`, `title_role`, `acquaintance`, `acquaintance_type_id`, `start_date`, `end_date`, `contact_phone`, `contact_address`) VALUES
-(1, 1, 1, '2025-08-19 23:23:43', '2025-08-19 23:23:43', NULL, 1, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(1, 1, 1, '2025-08-19 23:23:43', '2025-08-23 01:38:34', NULL, 1, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4357645615', '3124 S 340 W, Nibley, 172, 84321, USA'),
 (2, 2, 1, '2025-08-19 23:23:51', '2025-08-20 14:39:03', NULL, 2, 79, 69, NULL, NULL, NULL, NULL, '2025-06-11', '2025-08-31', NULL, NULL),
 (3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 8, 1, '2025-08-20 15:13:26', '2025-08-21 01:56:50', NULL, 23, 78, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL, NULL, NULL),
@@ -1224,7 +1236,8 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5, NULL, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL),
-(8, 1, 1, '2025-08-22 19:14:53', '2025-08-22 19:14:53', NULL, 6, 'Dave', 1, 5, NULL, NULL, NULL, NULL);
+(8, 1, 1, '2025-08-22 19:14:53', '2025-08-22 19:14:53', NULL, 6, 'Dave', 1, 5, NULL, NULL, NULL, NULL),
+(9, 1, 1, '2025-08-23 01:38:10', '2025-08-23 01:38:10', NULL, 4, 'State\'s Attorney Office', 31, 27, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1610,6 +1623,13 @@ CREATE TABLE `module_projects_pins` (
   `project_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_projects_pins`
+--
+
+INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`) VALUES
+(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -1905,7 +1925,7 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, 59, 1, 1, 1, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
+(1, 1, 'Dave', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-23 01:38:34', NULL),
 (2, 2, 'Sean', 'Cadina', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
 (5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
 (12, 5, 'RJ', 'Calara', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
@@ -1914,7 +1934,7 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
 (24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
 (27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, 2, 3, 5, NULL, 1, '2025-08-20 21:03:51', '2025-08-23 01:37:50', NULL),
 (31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
 (56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
 (57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
@@ -1950,7 +1970,7 @@ CREATE TABLE `person_addresses` (
 --
 
 INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state_id`, `postal_code`, `country`) VALUES
-(1, 1, 1, '2025-08-08 21:52:52', '2025-08-23 01:29:22', NULL, 1, 111, 108, '2025-08-08', NULL, '3124 S 340 W Nibley, UT 84321', NULL, NULL, NULL, NULL, 'USA'),
+(1, 1, 1, '2025-08-08 21:52:52', '2025-08-23 01:38:50', NULL, 1, 111, 108, '2022-07-01', NULL, '3124 S 340 W', '', 'Nibley', 172, '84321', 'USA'),
 (2, 1, 1, '2025-08-20 14:44:46', '2025-08-23 01:29:22', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, 'USA'),
 (3, NULL, 1, '2025-08-21 02:12:22', '2025-08-23 01:30:55', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 172, '84321', 'USA');
 
@@ -2398,8 +2418,7 @@ ALTER TABLE `module_feedback`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_module_feedback_user_id` (`user_id`),
   ADD KEY `fk_module_feedback_user_updated` (`user_updated`),
-  ADD KEY `fk_module_feedback_type_id` (`type_id`);
-
+  ADD KEY `fk_module_feedback_type_id` (`type`);
 
 --
 -- Indexes for table `module_kanban_boards`
@@ -2670,7 +2689,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2808,7 +2827,7 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_division_persons`
@@ -2886,7 +2905,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
@@ -3169,7 +3188,7 @@ ALTER TABLE `module_division_persons`
 -- Constraints for table `module_feedback`
 --
 ALTER TABLE `module_feedback`
-  ADD CONSTRAINT `fk_module_feedback_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_feedback_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_feedback_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_feedback_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
