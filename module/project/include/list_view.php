@@ -6,7 +6,7 @@
     <li class="breadcrumb-item active" aria-current="page">List View</li>
   </ol>
 </nav>
-<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":25,"pagination":true}'>
+<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":50,"pagination":true}'>
   <div class="row align-items-end justify-content-between pb-4 g-3">
     <div class="col-auto">
       <h3>Projects</h3>
