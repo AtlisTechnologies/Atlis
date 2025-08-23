@@ -7,7 +7,7 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $is_private = !empty($_POST['is_private']) ? 1 : 0;
     if ($name !== '') {
-        $stmt = $pdo->prepare('INSERT INTO module_calendars (user_id, name, is_private) VALUES (?,?,?)');
+        $stmt = $pdo->prepare('INSERT INTO module_calendar (user_id, name, is_private) VALUES (?,?,?)');
         $stmt->execute([$this_user_id, $name, $is_private]);
         header('Location: index.php?action=my');
         exit;
@@ -15,11 +15,11 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($action === 'my') {
-    $stmt = $pdo->prepare('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendars c ON e.calendar_id=c.id WHERE c.user_id = :uid');
+    $stmt = $pdo->prepare('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id=c.id WHERE c.user_id = :uid');
     $stmt->execute([':uid' => $this_user_id]);
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $stmt = $pdo->query('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendars c ON e.calendar_id=c.id WHERE c.is_private = 0');
+    $stmt = $pdo->query('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id=c.id WHERE c.is_private = 0');
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
