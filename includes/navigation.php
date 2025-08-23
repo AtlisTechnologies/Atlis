@@ -69,6 +69,14 @@
         <?php // END KANBAN NAV LINK ?>
         <?php // ================ ?>
 
+        <?php if (user_has_permission('feedback','create')): ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo getURLDir(); ?>/module/feedback">
+            <span class="uil fs-8 me-2 fas fa-comment-dots"></span>Feedback
+          </a>
+        </li>
+        <?php endif; ?>
+
     </ul>
   </div>
 
