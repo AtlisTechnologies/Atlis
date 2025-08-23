@@ -201,10 +201,17 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (!empty($questions)): ?>
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
-              <?php $qpic = !empty($q['user_pic']) ? $q['user_pic'] : 'assets/img/team/avatar.webp'; ?>
-              <div class="d-flex align-items-center mb-1">
-                <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
-                <p class="mb-0 fw-semibold"><?= h($q['question_text']); ?></p>
+
+              <div class="d-flex">
+                <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
+                <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                  <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
+                  <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                </form>
+                <?php endif; ?>
+
               </div>
               <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
               <?php if (!empty($questionFiles[$q['id']])): ?>
@@ -219,6 +226,14 @@ require_once __DIR__ . '/../../../includes/functions.php';
                             <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                           <?php endif; ?>
                         </p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                          <input type="hidden" name="id" value="<?= (int)$f['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <input type="hidden" name="question_id" value="<?= (int)$q['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
                       </div>
                     </li>
                   <?php endforeach; ?>
@@ -229,7 +244,16 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <ul class="list-unstyled ps-5">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
-                      <p class="mb-1"><?= h($ans['answer_text']); ?></p>
+                      <div class="d-flex">
+                        <p class="mb-1 flex-grow-1"><?= h($ans['answer_text']); ?></p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($ans['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                          <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
+                      </div>
                       <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                       <div class="d-flex align-items-center fs-9 text-body-secondary">
                         <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
