@@ -48,6 +48,7 @@
     <table class="table fs-9 mb-0 border-top border-translucent">
       <thead>
         <tr>
+          <th scope="col" style="width:2%;"></th>
           <th class="sort white-space-nowrap align-middle ps-0" scope="col" data-sort="project" style="width:30%;">PROJECT NAME</th>
           <th class="sort align-middle ps-3" scope="col" data-sort="assignees" style="width:10%;">Assignees</th>
           <th class="sort align-middle ps-3" scope="col" data-sort="start" style="width:10%;">START DATE</th>
@@ -60,7 +61,14 @@
       </thead>
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
-        <tr class="position-static">
+        <tr class="position-static <?= $project['pinned'] ? 'bg-body-tertiary border-start border-warning border-3' : ''; ?>">
+          <td class="align-middle text-center">
+            <?php if (user_has_permission('project','read')): ?>
+            <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
+              <span class="fa-solid <?= $project['pinned'] ? 'fa-thumbtack' : 'fa-thumbtack fa-rotate-90'; ?>"></span>
+            </button>
+            <?php endif; ?>
+          </td>
           <td class="align-middle time white-space-nowrap ps-0 project">
             <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
             <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
@@ -134,5 +142,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   statusFilter.addEventListener('change', applyFilters);
   priorityFilter.addEventListener('change', applyFilters);
+});
+</script>
+<script>
+document.querySelectorAll('.pin-toggle').forEach(btn=>{
+  btn.addEventListener('click', e=>{
+    e.preventDefault();
+    const pid = btn.dataset.projectId;
+    fetch('functions/toggle_pin.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:`project_id=${pid}`
+    }).then(r=>r.json()).then(d=>{
+      btn.querySelector('span').classList.toggle('fa-rotate-90', !d.pinned);
+      // Move row to top if pinned, otherwise refresh page to reapply order
+      location.reload();
+    });
+  });
 });
 </script>
