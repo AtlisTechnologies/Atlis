@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 11:45 PM
+-- Generation Time: Aug 24, 2025 at 12:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -137,7 +137,9 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (88, 1, 1, '2025-08-23 15:01:24', '2025-08-23 15:01:24', NULL, 'person', 59, 'UPDATE', 'Updated person', '{\"id\":59,\"user_id\":14,\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-23 15:00:41\",\"date_updated\":\"2025-08-23 15:00:41\",\"memo\":null}', '{\"first_name\":\"Nancy\",\"last_name\":\"Crandall\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
 (89, 1, 1, '2025-08-23 15:01:24', '2025-08-23 15:01:24', NULL, 'person_phones', 8, 'CREATE', 'Added phone', NULL, '{\":pid\":59,\":type_id\":113,\":status_id\":105,\":start_date\":\"2025-08-23\",\":end_date\":null,\":number\":\"6514921467\",\":uid\":1}'),
 (90, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person', 27, 'UPDATE', 'Updated person', '{\"id\":27,\"user_id\":10,\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 20:47:24\",\"date_updated\":\"2025-08-20 20:47:24\",\"memo\":null}', '{\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
-(91, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person_phones', 4, 'UPDATE', 'Updated phone', NULL, '{\":pid\":27,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-20\",\":end_date\":null,\":number\":\"4436179726\",\":uid\":1,\":id\":4}');
+(91, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person_phones', 4, 'UPDATE', 'Updated phone', NULL, '{\":pid\":27,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-20\",\":end_date\":null,\":number\":\"4436179726\",\":uid\":1,\":id\":4}'),
+(92, 1, 1, '2025-08-23 15:54:59', '2025-08-23 15:54:59', NULL, 'module_projects_notes', 15, 'NOTE', '', '', 'For fiscal year 2025, the per diem rate for Los Angeles is $191 per night for lodging and $86 per day for Meals and Incidental Expenses (M&IE), totaling $277 per day. These rates are set by the General Services Administration (GSA) for official government travel and are higher than the standard rate due to Los Angeles\' high cost of living. \r\nBreakdown of the Los Angeles Per Diem Rate (FY 2025) \r\nLodging: $191\r\nMeals and Incidental Expenses (M&IE): $86\r\nTotal: $277\r\nKey Points\r\nGSA Rates:\r\nThese rates are for federal government employees traveling for official business. \r\nHigh-Cost Area:\r\nLos Angeles is considered a high-cost area, which results in a higher per diem allowance compared to the standard rate. \r\nEmployer\'s Accountable Plan:\r\nFor non-government employees, employer\'s accountable plans often use these GSA rates to reimburse employees for travel expenses. \r\nFirst and Last Day:\r\nOn your first and last day of travel, you may only be eligible for 75% of the M&IE rate.'),
+(93, 1, 1, '2025-08-23 15:55:21', '2025-08-23 15:55:21', NULL, 'module_projects_notes', 16, 'NOTE', '', '', 'https://www.gsa.gov/travel/plan-book/per-diem-rates');
 
 -- --------------------------------------------------------
 
@@ -652,7 +654,33 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (51, 1, 1, '2025-08-23 12:09:13', '2025-08-23 12:09:13', NULL, 'module_task_assignments', 14, 'ASSIGN', 'Assigned user'),
 (52, 1, 1, '2025-08-23 12:09:26', '2025-08-23 12:09:26', NULL, 'module_task_assignments', 15, 'ASSIGN', 'Assigned user'),
 (53, 1, 1, '2025-08-23 12:09:28', '2025-08-23 12:09:28', NULL, 'module_task_assignments', 16, 'ASSIGN', 'Assigned user'),
-(54, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 'module_task_assignments', 17, 'ASSIGN', 'Assigned user');
+(54, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 'module_task_assignments', 17, 'ASSIGN', 'Assigned user'),
+(55, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 'module_tasks', 71, 'CREATE', 'Created task'),
+(56, 1, 1, '2025-08-23 15:58:35', '2025-08-23 15:58:35', NULL, 'lookup_lists', 39, 'CREATE', 'Created lookup list'),
+(57, 1, 1, '2025-08-23 15:58:41', '2025-08-23 15:58:41', NULL, 'lookup_lists', 40, 'CREATE', 'Created lookup list'),
+(58, 1, 1, '2025-08-23 15:58:44', '2025-08-23 15:58:44', NULL, 'lookup_lists', 41, 'CREATE', 'Created lookup list'),
+(59, 1, 1, '2025-08-23 15:59:09', '2025-08-23 15:59:09', NULL, 'lookup_lists', 41, 'UPDATE', 'Updated lookup list'),
+(60, 1, 1, '2025-08-23 15:59:23', '2025-08-23 15:59:23', NULL, 'lookup_lists', 40, 'UPDATE', 'Updated lookup list'),
+(61, 1, 1, '2025-08-23 15:59:37', '2025-08-23 15:59:37', NULL, 'lookup_lists', 39, 'UPDATE', 'Updated lookup list'),
+(62, 1, 1, '2025-08-23 16:05:47', '2025-08-23 16:05:47', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(63, 1, 1, '2025-08-23 16:05:54', '2025-08-23 16:05:54', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(64, 1, 1, '2025-08-23 16:06:03', '2025-08-23 16:06:03', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(65, 1, 1, '2025-08-23 16:06:10', '2025-08-23 16:06:10', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(66, 1, 1, '2025-08-23 16:06:27', '2025-08-23 16:06:27', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(67, 1, 1, '2025-08-23 16:06:41', '2025-08-23 16:06:41', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(68, 1, 1, '2025-08-23 16:06:49', '2025-08-23 16:06:49', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(69, 1, 1, '2025-08-23 16:06:56', '2025-08-23 16:06:56', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(70, 1, 1, '2025-08-23 16:07:10', '2025-08-23 16:07:10', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(71, 1, 1, '2025-08-23 16:07:18', '2025-08-23 16:07:18', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(72, 1, 1, '2025-08-23 16:07:26', '2025-08-23 16:07:26', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(73, 1, 1, '2025-08-23 16:07:59', '2025-08-23 16:07:59', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(74, 1, 1, '2025-08-23 16:08:06', '2025-08-23 16:08:06', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(75, 1, 1, '2025-08-23 16:08:11', '2025-08-23 16:08:11', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(76, 1, 1, '2025-08-23 16:08:23', '2025-08-23 16:08:23', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(77, 1, 1, '2025-08-23 16:08:27', '2025-08-23 16:08:27', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(78, 1, 1, '2025-08-23 16:08:37', '2025-08-23 16:08:37', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(79, 1, 1, '2025-08-23 16:08:44', '2025-08-23 16:08:44', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(80, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -711,7 +739,10 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', ''),
 (36, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', '', 'FEEDBACK_TYPE', 'Types of feedback'),
 (37, 1, 1, '2025-08-23 11:07:04', '2025-08-23 11:10:01', '', 'CALENDAR_EVENT_TYPE', ''),
-(38, 1, 1, '2025-08-23 11:07:08', '2025-08-23 11:09:03', '', 'CALENDAR_VISIBILITY', '');
+(38, 1, 1, '2025-08-23 11:07:08', '2025-08-23 11:09:03', '', 'CALENDAR_VISIBILITY', ''),
+(39, 1, 1, '2025-08-23 15:58:35', '2025-08-23 16:06:10', '', 'MEETING_STATUS', 'Status values for meetings'),
+(40, 1, 1, '2025-08-23 15:58:41', '2025-08-23 16:08:51', '', 'MEETING_TYPE', 'Types of meetings.'),
+(41, 1, 1, '2025-08-23 15:58:44', '2025-08-23 16:08:11', '', 'MEETING_FILE_TYPE', 'Categories of meeting files');
 
 -- --------------------------------------------------------
 
@@ -907,7 +938,18 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (196, 1, 1, '2025-08-23 11:08:08', '2025-08-23 11:08:08', NULL, 37, 'Busy', 'BUSY', 0, '2025-08-23', NULL),
 (197, 1, 1, '2025-08-23 11:08:17', '2025-08-23 11:08:17', NULL, 37, 'General', 'GENERAL', 0, '2025-08-23', NULL),
 (198, 1, 1, '2025-08-23 11:08:33', '2025-08-23 11:08:33', NULL, 38, 'Public', 'PUBLIC', 0, '2025-08-23', NULL),
-(199, 1, 1, '2025-08-23 11:08:38', '2025-08-23 11:08:38', NULL, 38, 'Private', 'PRIVATE', 0, '2025-08-23', NULL);
+(199, 1, 1, '2025-08-23 11:08:38', '2025-08-23 11:08:38', NULL, 38, 'Private', 'PRIVATE', 0, '2025-08-23', NULL),
+(200, 1, 1, '2025-08-23 16:05:47', '2025-08-23 16:05:47', NULL, 39, 'Planned', 'PLANNED', 0, '2025-08-23', NULL),
+(201, 1, 1, '2025-08-23 16:05:54', '2025-08-23 16:05:54', NULL, 39, 'In Progress', 'IN_PROGRESS', 0, '2025-08-23', NULL),
+(202, 1, 1, '2025-08-23 16:06:03', '2025-08-23 16:06:03', NULL, 39, 'Completed', 'COMPLETED', 0, '2025-08-23', NULL),
+(203, 1, 1, '2025-08-23 16:06:10', '2025-08-23 16:06:10', NULL, 39, 'Cancelled', 'CANCELLED', 0, '2025-08-23', NULL),
+(204, 1, 1, '2025-08-23 16:06:27', '2025-08-23 16:06:27', NULL, 40, 'Internal Meeting', 'INTERNAL', 0, '2025-08-23', NULL),
+(205, 1, 1, '2025-08-23 16:06:41', '2025-08-23 16:06:41', NULL, 40, 'Client Meeting', 'CLIENT_MEETING', 0, '2025-08-23', NULL),
+(206, 1, 1, '2025-08-23 16:06:49', '2025-08-23 16:06:49', NULL, 40, 'Kickoff', 'KICKOFF', 0, '2025-08-23', NULL),
+(207, 1, 1, '2025-08-23 16:06:56', '2025-08-23 16:06:56', NULL, 40, 'Review', 'REVIEW', 0, '2025-08-23', NULL),
+(208, 1, 1, '2025-08-23 16:07:10', '2025-08-23 16:07:10', NULL, 41, 'Minutes', 'MINUTES', 0, '2025-08-23', NULL),
+(209, 1, 1, '2025-08-23 16:07:18', '2025-08-23 16:07:18', NULL, 41, 'Slide Deck', 'SLIDE_DECK', 0, '2025-08-23', NULL),
+(210, 1, 1, '2025-08-23 16:07:26', '2025-08-23 16:07:26', NULL, 41, 'Recording', 'RECORDING', 0, '2025-08-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1050,7 +1092,15 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (129, 1, 1, '2025-08-23 11:09:35', '2025-08-23 11:09:54', NULL, 194, 'COLOR-CLASS', 'success'),
 (130, 1, 1, '2025-08-23 11:09:41', '2025-08-23 11:09:41', NULL, 197, 'COLOR-CLASS', 'primary'),
 (131, 1, 1, '2025-08-23 11:09:45', '2025-08-23 11:09:45', NULL, 193, 'COLOR-CLASS', 'atlis'),
-(132, 1, 1, '2025-08-23 11:10:01', '2025-08-23 11:10:01', NULL, 195, 'COLOR-CLASS', 'sunset');
+(132, 1, 1, '2025-08-23 11:10:01', '2025-08-23 11:10:01', NULL, 195, 'COLOR-CLASS', 'sunset'),
+(133, 1, 1, '2025-08-23 16:07:59', '2025-08-23 16:07:59', NULL, 208, 'COLOR-CLASS', 'atlis'),
+(134, 1, 1, '2025-08-23 16:08:06', '2025-08-23 16:08:06', NULL, 210, 'COLOR-CLASS', 'sunset'),
+(135, 1, 1, '2025-08-23 16:08:11', '2025-08-23 16:08:11', NULL, 209, 'COLOR-CLASS', 'grape'),
+(136, 1, 1, '2025-08-23 16:08:23', '2025-08-23 16:08:23', NULL, 204, 'COLOR-CLASS', 'atlis'),
+(137, 1, 1, '2025-08-23 16:08:27', '2025-08-23 16:08:27', NULL, 204, 'DEFAULT', 'true'),
+(138, 1, 1, '2025-08-23 16:08:37', '2025-08-23 16:08:37', NULL, 206, 'COLOR-CLASS', 'sunset'),
+(139, 1, 1, '2025-08-23 16:08:44', '2025-08-23 16:08:44', NULL, 207, 'COLOR-CLASS', 'purple'),
+(140, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 205, 'COLOR-CLASS', 'pink');
 
 -- --------------------------------------------------------
 
@@ -1855,7 +1905,9 @@ INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_crea
 (11, 1, 1, '2025-08-22 18:57:13', '2025-08-22 18:57:13', NULL, 16, 'GITHUB MERGE CONFLICT MARKERS:\r\n (<<<<<<<, =======, >>>>>>>)'),
 (12, 1, 1, '2025-08-22 18:58:57', '2025-08-22 18:58:57', NULL, 11, 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
 (13, 1, 1, '2025-08-22 18:59:26', '2025-08-22 18:59:26', NULL, 1, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
-(14, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:25:29', NULL, 10, 'Damage information related to claim # 22930134 with ENTERPRISE\nInbox\n\nDamage Recovery Unit <DRU3@ehi.com>\nAttachments\nFri, Aug 22, 1:34 PM (10 hours ago)\nto me\n\nPlease review the important documentation attached that is related to damage claim #22930134\n\n\nIMPORTANT: This e-mail (including any attachments) is intended for the use of the individual or entity to which it is addressed and may contain information that is classified, private, or confidential. If the reader of this message is not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copying of this communication is prohibited. If you have received this communication in error, please notify us immediately by replying to this e-mail and then deleting the email and attachments. Thank you.');
+(14, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:25:29', NULL, 10, 'Damage information related to claim # 22930134 with ENTERPRISE\nInbox\n\nDamage Recovery Unit <DRU3@ehi.com>\nAttachments\nFri, Aug 22, 1:34 PM (10 hours ago)\nto me\n\nPlease review the important documentation attached that is related to damage claim #22930134\n\n\nIMPORTANT: This e-mail (including any attachments) is intended for the use of the individual or entity to which it is addressed and may contain information that is classified, private, or confidential. If the reader of this message is not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copying of this communication is prohibited. If you have received this communication in error, please notify us immediately by replying to this e-mail and then deleting the email and attachments. Thank you.'),
+(15, 1, 1, '2025-08-23 15:54:59', '2025-08-23 15:54:59', NULL, 7, 'For fiscal year 2025, the per diem rate for Los Angeles is $191 per night for lodging and $86 per day for Meals and Incidental Expenses (M&IE), totaling $277 per day. These rates are set by the General Services Administration (GSA) for official government travel and are higher than the standard rate due to Los Angeles\' high cost of living. \r\nBreakdown of the Los Angeles Per Diem Rate (FY 2025) \r\nLodging: $191\r\nMeals and Incidental Expenses (M&IE): $86\r\nTotal: $277\r\nKey Points\r\nGSA Rates:\r\nThese rates are for federal government employees traveling for official business. \r\nHigh-Cost Area:\r\nLos Angeles is considered a high-cost area, which results in a higher per diem allowance compared to the standard rate. \r\nEmployer\'s Accountable Plan:\r\nFor non-government employees, employer\'s accountable plans often use these GSA rates to reimburse employees for travel expenses. \r\nFirst and Last Day:\r\nOn your first and last day of travel, you may only be eligible for 75% of the M&IE rate.'),
+(16, 1, 1, '2025-08-23 15:55:21', '2025-08-23 15:55:21', NULL, 7, 'https://www.gsa.gov/travel/plan-book/per-diem-rates');
 
 -- --------------------------------------------------------
 
@@ -2015,7 +2067,8 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (67, 1, 1, '2025-08-23 03:01:52', '2025-08-23 03:01:52', NULL, 13, NULL, NULL, 0, 'Finance / Invoice module - copy invoices from Atlisware', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (68, 1, 1, '2025-08-23 12:00:50', '2025-08-23 12:00:50', NULL, 20, NULL, NULL, 0, 'VACUUM OUT THE TELLURIDE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (69, 1, 1, '2025-08-23 12:01:00', '2025-08-23 12:01:00', NULL, 20, NULL, NULL, 0, 'INSTALL THE BACK SLIDING DOOR CURTAIN', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(70, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 20, NULL, NULL, 0, 'HANG LONG MIRROR IN OUR BEDROOM ON WALL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(70, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 20, NULL, NULL, 0, 'HANG LONG MIRROR IN OUR BEDROOM ON WALL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(71, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 10, NULL, NULL, 0, 'RIZATRIPTAN - request minty disintegrating', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3012,7 +3065,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3066,25 +3119,25 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -3246,7 +3299,7 @@ ALTER TABLE `module_projects_files`
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `module_projects_pins`
@@ -3264,7 +3317,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
