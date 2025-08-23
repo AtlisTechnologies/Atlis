@@ -1,8 +1,8 @@
 <?php
 if (!isset($pdo)) {
-  require '../../../includes/php_header.php';
+  require '../../includes/php_header.php';
 }
-require_once '../../../includes/helpers.php';
+require_once '../../includes/helpers.php';
 require_permission('feedback', 'save');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,5 +41,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
 }
 
-header('Location: ../index.php?action=list');
+header('Location: ../feedback/');
 exit;

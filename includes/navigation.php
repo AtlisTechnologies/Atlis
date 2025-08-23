@@ -26,7 +26,7 @@
 
         <?php // AGENCIES NAV LINK ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/agency">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/agency">
             <span class="uil fs-8 me-2 far fa-building"></span>Agencies</a>
         </li>
         <?php // ================ ?>
@@ -37,7 +37,7 @@
         <?php // PROJECTS NAV LINK ?>
         <?php if (user_has_permission('project','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/project">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/project">
             <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
         </li>
         <?php endif; ?>
@@ -49,7 +49,7 @@
         <?php // TASKS NAV LINK ?>
         <?php if (user_has_permission('task','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/task">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/task">
             <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
         </li>
         <?php endif; ?>
@@ -59,7 +59,7 @@
         <?php // MEETINGS NAV LINK ?>
         <?php if (user_has_permission('meeting','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/meeting/">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/meeting/">
             <span class="uil fs-8 me-2 fas fa-handshake"></span>Meetings</a>
         </li>
         <?php endif; ?>
@@ -69,7 +69,7 @@
         <?php // CALENDAR NAV LINK ?>
         <?php if (user_has_permission('calendar','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/calendar/?action=shared">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/calendar/?action=shared">
             <span class="uil fs-8 me-2 fas fa-calendar"></span>Calendar</a>
         </li>
         <?php endif; ?>
@@ -82,7 +82,7 @@
         <?php // KANBAN NAV LINK ?>
         <?php if (user_has_permission('kanban','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/kanban/">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/kanban/">
             <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
         </li>
         <?php endif; ?>
@@ -93,7 +93,7 @@
         <?php // FEEDBACK NAV LINK ?>
         <?php if (user_has_permission('kanban','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/feedback/">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/feedback/">
             <span class="uil fs-8 me-2 fas fa-comment-dots"></span>Feedback</a>
         </li>
         <?php endif; ?>
