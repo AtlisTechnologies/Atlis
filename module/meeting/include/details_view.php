@@ -1,3 +1,7 @@
+<?php
+$usersStmt = $pdo->query('SELECT u.id AS user_id, CONCAT(p.first_name, " ", p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name');
+$allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <div class="container-fluid py-4">
   <div class="row mb-3">
     <div class="col">
@@ -41,6 +45,30 @@
       <div class="card mb-3">
         <div class="card-header">Attendees</div>
         <div class="card-body p-0">
+          <?php if (user_has_permission('meeting','update')): ?>
+          <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
+            <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <div class="col-md-4">
+              <select class="form-select" name="attendee_user_id">
+                <?php foreach ($allUsers as $u): ?>
+                  <option value="<?php echo (int)$u['user_id']; ?>"><?php echo h($u['name']); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input type="text" name="role" class="form-control" placeholder="Role">
+            </div>
+            <div class="col-md-3">
+              <input type="datetime-local" name="check_in_time" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <input type="datetime-local" name="check_out_time" class="form-control">
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
+            </div>
+          </form>
+          <?php endif; ?>
           <ul class="list-group list-group-flush" id="attendeesList"></ul>
         </div>
       </div>
@@ -115,6 +143,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var meetingId = <?php echo (int)$meeting['id']; ?>;
+  var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
+  var allUsers = <?php echo json_encode($allUsers); ?>;
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
 
@@ -160,19 +190,86 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
 
+  var attendeesList = document.getElementById('attendeesList');
+
+  function renderAttendees(attendees){
+    attendeesList.innerHTML = '';
+    if(attendees.length){
+      attendees.forEach(function(a){
+        var li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-start';
+        var info = '<div><div class="fw-bold">' + esc(a.name);
+        if(a.role) info += ' (' + esc(a.role) + ')';
+        info += '</div><small class="text-body-secondary">Check-in: ' + (a.check_in_time ? new Date(a.check_in_time).toLocaleString() : '-') + ' | Check-out: ' + (a.check_out_time ? new Date(a.check_out_time).toLocaleString() : '-') + '</small></div>';
+        if (canEditAttendees){
+          info += '<button class="btn btn-sm btn-link text-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
+        }
+        li.innerHTML = info;
+        attendeesList.appendChild(li);
+      });
+    } else {
+      attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
+    }
+    updateUserOptions(attendees);
+  }
+
+  function updateUserOptions(attendees){
+    if(!canEditAttendees) return;
+    var select = document.querySelector('#attendeeForm select[name="attendee_user_id"]');
+    if(!select) return;
+    var selected = attendees.map(function(a){ return parseInt(a.attendee_user_id,10); });
+    select.innerHTML = '';
+    allUsers.forEach(function(u){
+      if(selected.indexOf(parseInt(u.user_id,10)) === -1){
+        var opt = document.createElement('option');
+        opt.value = u.user_id;
+        opt.textContent = u.name;
+        select.appendChild(opt);
+      }
+    });
+  }
+
+  if(canEditAttendees){
+    var attendeeForm = document.getElementById('attendeeForm');
+    attendeeForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var formData = new FormData(attendeeForm);
+      fetch('functions/add_attendee.php', {method:'POST', body:formData})
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success){
+            attendeeForm.reset();
+            renderAttendees(res.attendees);
+          } else {
+            alert(res.message || 'Failed to add attendee');
+          }
+        });
+    });
+
+    attendeesList.addEventListener('click', function(e){
+      if(e.target.classList.contains('remove-attendee')){
+        var id = e.target.getAttribute('data-id');
+        var formData = new FormData();
+        formData.append('id', id);
+        formData.append('meeting_id', meetingId);
+        fetch('functions/remove_attendee.php', {method:'POST', body:formData})
+          .then(r=>r.json())
+          .then(function(res){
+            if(res.success){
+              renderAttendees(res.attendees);
+            }
+          });
+      }
+    });
+  }
+
   fetch('functions/get_attendees.php?meeting_id=' + meetingId)
     .then(r=>r.json())
     .then(function(data){
-      var list = document.getElementById('attendeesList');
-      if(data.success && data.attendees.length){
-        data.attendees.forEach(function(a){
-          var li = document.createElement('li');
-          li.className = 'list-group-item';
-          li.textContent = a.name;
-          list.appendChild(li);
-        });
+      if(data.success){
+        renderAttendees(data.attendees);
       } else {
-        list.innerHTML = '<li class="list-group-item">No attendees.</li>';
+        renderAttendees([]);
       }
     });
 
