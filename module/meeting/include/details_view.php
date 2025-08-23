@@ -1,5 +1,7 @@
 <?php
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+$usersStmt = $pdo->query('SELECT u.id AS user_id, CONCAT(p.first_name, " ", p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name');
+$allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container-fluid py-4">
   <div class="row mb-3">
@@ -49,12 +51,43 @@ $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATU
       <div class="card mb-3">
         <div class="card-header">Attendees</div>
         <div class="card-body p-0">
+          <?php if (user_has_permission('meeting','update')): ?>
+          <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
+            <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <div class="col-md-4">
+              <select class="form-select" name="attendee_user_id">
+                <?php foreach ($allUsers as $u): ?>
+                  <option value="<?php echo (int)$u['user_id']; ?>"><?php echo h($u['name']); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input type="text" name="role" class="form-control" placeholder="Role">
+            </div>
+            <div class="col-md-3">
+              <input type="datetime-local" name="check_in_time" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <input type="datetime-local" name="check_out_time" class="form-control">
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
+            </div>
+          </form>
+          <?php endif; ?>
           <ul class="list-group list-group-flush" id="attendeesList"></ul>
         </div>
       </div>
       <div class="card mb-3">
         <div class="card-header">Attachments</div>
-        <div class="card-body p-0">
+        <div class="card-body">
+          <?php if (user_has_permission('meeting','update')): ?>
+          <form id="uploadForm" class="mb-3">
+            <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <input type="file" name="file[]" multiple class="form-control mb-2">
+            <button class="btn btn-sm btn-primary" type="submit">Upload</button>
+          </form>
+          <?php endif; ?>
           <ul class="list-group list-group-flush" id="attachmentsList"></ul>
         </div>
       </div>
@@ -163,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
+
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
 
@@ -298,37 +332,86 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
 
-    document.getElementById('questionForm').addEventListener('submit', function(e){
+  var attendeesList = document.getElementById('attendeesList');
+
+  function renderAttendees(attendees){
+    attendeesList.innerHTML = '';
+    if(attendees.length){
+      attendees.forEach(function(a){
+        var li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-start';
+        var info = '<div><div class="fw-bold">' + esc(a.name);
+        if(a.role) info += ' (' + esc(a.role) + ')';
+        info += '</div><small class="text-body-secondary">Check-in: ' + (a.check_in_time ? new Date(a.check_in_time).toLocaleString() : '-') + ' | Check-out: ' + (a.check_out_time ? new Date(a.check_out_time).toLocaleString() : '-') + '</small></div>';
+        if (canEditAttendees){
+          info += '<button class="btn btn-sm btn-link text-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
+        }
+        li.innerHTML = info;
+        attendeesList.appendChild(li);
+      });
+    } else {
+      attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
+    }
+    updateUserOptions(attendees);
+  }
+
+  function updateUserOptions(attendees){
+    if(!canEditAttendees) return;
+    var select = document.querySelector('#attendeeForm select[name="attendee_user_id"]');
+    if(!select) return;
+    var selected = attendees.map(function(a){ return parseInt(a.attendee_user_id,10); });
+    select.innerHTML = '';
+    allUsers.forEach(function(u){
+      if(selected.indexOf(parseInt(u.user_id,10)) === -1){
+        var opt = document.createElement('option');
+        opt.value = u.user_id;
+        opt.textContent = u.name;
+        select.appendChild(opt);
+      }
+    });
+  }
+
+  if(canEditAttendees){
+    var attendeeForm = document.getElementById('attendeeForm');
+    attendeeForm.addEventListener('submit', function(e){
       e.preventDefault();
-      var fd = new FormData(this);
-      var url = fd.get('id') ? 'functions/update_question.php' : 'functions/add_question.php';
-      fetch(url, {method:'POST', body:fd})
+      var formData = new FormData(attendeeForm);
+      fetch('functions/add_attendee.php', {method:'POST', body:formData})
         .then(r=>r.json())
         .then(function(res){
           if(res.success){
-            questionsData = res.questions;
-            renderQuestions();
-            bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+            attendeeForm.reset();
+            renderAttendees(res.attendees);
           } else {
-            alert('Failed to save question');
+            alert(res.message || 'Failed to add attendee');
           }
         });
+    });
+
+    attendeesList.addEventListener('click', function(e){
+      if(e.target.classList.contains('remove-attendee')){
+        var id = e.target.getAttribute('data-id');
+        var formData = new FormData();
+        formData.append('id', id);
+        formData.append('meeting_id', meetingId);
+        fetch('functions/remove_attendee.php', {method:'POST', body:formData})
+          .then(r=>r.json())
+          .then(function(res){
+            if(res.success){
+              renderAttendees(res.attendees);
+            }
+          });
+      }
     });
   }
 
   fetch('functions/get_attendees.php?meeting_id=' + meetingId)
     .then(r=>r.json())
     .then(function(data){
-      var list = document.getElementById('attendeesList');
-      if(data.success && data.attendees.length){
-        data.attendees.forEach(function(a){
-          var li = document.createElement('li');
-          li.className = 'list-group-item';
-          li.textContent = a.name;
-          list.appendChild(li);
-        });
+      if(data.success){
+        renderAttendees(data.attendees);
       } else {
-        list.innerHTML = '<li class="list-group-item">No attendees.</li>';
+        renderAttendees([]);
       }
     });
 
@@ -347,6 +430,33 @@ document.addEventListener('DOMContentLoaded', function(){
         list.innerHTML = '<li class="list-group-item">No attachments.</li>';
       }
     });
+
+  var uploadForm = document.getElementById('uploadForm');
+  if(uploadForm){
+    uploadForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var formData = new FormData(uploadForm);
+      fetch('functions/upload_file.php', {method:'POST', body: formData})
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success && res.files){
+            var list = document.getElementById('attachmentsList');
+            if(list.children.length === 1 && list.firstElementChild.textContent === 'No attachments.'){
+              list.innerHTML = '';
+            }
+            res.files.forEach(function(f){
+              var li = document.createElement('li');
+              li.className = 'list-group-item';
+              li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+              list.appendChild(li);
+            });
+            uploadForm.reset();
+          } else {
+            alert(res.message || 'Upload failed');
+          }
+        });
+    });
+  }
 
   document.getElementById('taskForm').addEventListener('submit', function(e){
     e.preventDefault();

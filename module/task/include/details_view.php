@@ -72,7 +72,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <ul class="list-unstyled mb-4">
             <?php foreach ($assignedUsers as $au): ?>
               <li class="d-flex align-items-center mb-2">
-                <?php $pic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                <?php $pic = !empty($au['user_pic']) ? $au['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($pic); ?>" data-file-type="image/*">
                   <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="<?php echo h($au['name']); ?>" />
                 </a>
@@ -167,7 +167,10 @@ require_once __DIR__ . '/../../../includes/functions.php';
                           <?php endforeach; ?>
                         </ul>
                       <?php endif; ?>
-                      <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                      <?php $pic = $n['user_pic'] ?? ''; ?>
+                      <p class="fs-9 mb-0">by <a class="d-flex align-items-center fw-semibold" href="#!">
+                        <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
+                        <span class="ms-2"><?= h($n['user_name'] ?? '') ?></span></a></p>
                     </div>
                   </div>
                 </div>
@@ -201,7 +204,18 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (!empty($questions)): ?>
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
-              <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
+
+              <div class="d-flex">
+                <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
+                <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                  <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
+                  <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                </form>
+                <?php endif; ?>
+
+              </div>
               <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
               <?php if (!empty($questionFiles[$q['id']])): ?>
                 <ul class="list-unstyled mt-2 ms-3">
@@ -215,17 +229,35 @@ require_once __DIR__ . '/../../../includes/functions.php';
                             <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
                           <?php endif; ?>
                         </p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                          <input type="hidden" name="id" value="<?= (int)$f['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <input type="hidden" name="question_id" value="<?= (int)$q['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
                       </div>
                     </li>
                   <?php endforeach; ?>
                 </ul>
               <?php endif; ?>
 
+
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ps-4">
+                <ul class="list-unstyled ps-5">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
-                      <p class="mb-1"><?= h($ans['answer_text']); ?></p>
+                      <div class="d-flex">
+                        <p class="mb-1 flex-grow-1"><?= h($ans['answer_text']); ?></p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($ans['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                          <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
+                      </div>
                       <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                       <div class="d-flex align-items-center fs-9 text-body-secondary">
                         <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>

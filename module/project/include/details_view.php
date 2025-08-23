@@ -45,7 +45,7 @@ if (!empty($current_project)) {
                 'date' => $n['date_created'] ?? '',
                 'note_text' => $n['note_text'] ?? '',
                 'user_name' => $n['user_name'] ?? '',
-                'file_path' => $n['file_path'] ?? ''
+                'user_pic' => $n['user_pic'] ?? ''
             ];
     }
     usort($timelineEvents, function($a, $b) {
@@ -179,7 +179,7 @@ if (!empty($current_project)) {
                         <?php foreach ($assignedUsers as $au): ?>
                           <li class="d-flex align-items-center mb-2">
                             <div class="avatar avatar-xl me-2">
-                          <?php $pic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                          <?php $pic = !empty($au['user_pic']) ? $au['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                           <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($pic); ?>" data-file-type="image/*">
                             <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($au['name']) ?>" />
                           </a>
@@ -393,7 +393,7 @@ if (!empty($current_project)) {
                         <span class="me-2 badge badge-phoenix fs-10 task-priority badge-phoenix-<?= h($t['priority_color']) ?>" data-value="<?= (int)$t['priority'] ?>"><?= h($t['priority_label']) ?></span>
                         <?php if (!empty($t['assignees'])): ?>
                           <?php foreach ($t['assignees'] as $a): ?>
-                            <?php $apic = !empty($a['file_path']) ? $a['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                            <?php $apic = !empty($a['user_pic']) ? $a['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                             <img src="<?php echo getURLDir() . h($apic); ?>" class="avatar avatar-m me-1 rounded-circle" title="<?= h($a['name']) ?>" alt="<?= h($a['name']) ?>" />
                           <?php endforeach; ?>
                         <?php else: ?>
@@ -478,8 +478,10 @@ if (!empty($current_project)) {
                           </ul>
                         <?php endif; ?>
 
-                        <?php $npic = !empty($n['file_path']) ? $n['file_path'] : 'assets/img/team/avatar.webp'; ?>
-                        <p class="fs-9 mb-0 d-flex align-items-center"><a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($npic); ?>" data-file-type="image/*"><img src="<?php echo getURLDir() . h($npic); ?>" class="rounded-circle avatar avatar-m me-2" alt="" /></a>by <a class="fw-semibold ms-1" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                        <?php $npic = $n['user_pic'] ?? ''; ?>
+                        <p class="fs-9 mb-0">by <a class="d-flex align-items-center fw-semibold" href="#!">
+                          <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($npic?:'assets/img/team/avatar.webp')?>"></div>
+                          <span class="ms-2"><?= h($n['user_name'] ?? '') ?></span></a></p>
                       </div>
                     </div>
                   </div>
@@ -516,7 +518,17 @@ if (!empty($current_project)) {
             <?php if (!empty($questions)): ?>
               <?php foreach ($questions as $q): ?>
                 <div class="border rounded-2 p-3 mb-3">
-                  <p class="mb-1 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
+                  <div class="d-flex">
+                    <p class="mb-1 fw-semibold flex-grow-1"><?= nl2br(h($q['question_text'])) ?></p>
+                    <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                    <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                      <input type="hidden" name="id" value="<?= (int)$q['id'] ?>">
+                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                    </form>
+                    <?php endif; ?>
+
+                  </div>
                   <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
                   <?php if (!empty($questionFiles[$q['id']])): ?>
                     <ul class="list-unstyled mt-2 ms-3">
@@ -526,16 +538,33 @@ if (!empty($current_project)) {
                             <p class="text-body-highlight mb-0 lh-1">
                               <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                             </p>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                            <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                              <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                              <input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
+                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            </form>
+                            <?php endif; ?>
                           </div>
                         </li>
                       <?php endforeach; ?>
                     </ul>
                   <?php endif; ?>
                   <?php if (!empty($questionAnswers[$q['id']])): ?>
-                    <ul class="list-unstyled ps-4 mb-3">
+                    <ul class="list-unstyled ps-5 mb-3">
                       <?php foreach ($questionAnswers[$q['id']] as $a): ?>
                         <li class="mb-2">
-                          <p class="mb-1"><?= nl2br(h($a['answer_text'])) ?></p>
+                          <div class="d-flex">
+                            <p class="mb-1 flex-grow-1"><?= nl2br(h($a['answer_text'])) ?></p>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($a['user_id'] ?? 0) == $this_user_id)): ?>
+                            <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                              <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
+                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            </form>
+                            <?php endif; ?>
+                          </div>
                           <?php $apic = !empty($a['user_pic']) ? $a['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                           <div class="d-flex align-items-center fs-10 text-body-secondary">
                             <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
@@ -903,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderTask(t){
     var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
     var assignees='';
-    if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.file_path ? '<?php echo getURLDir(); ?>'+a.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.user_pic ? '<?php echo getURLDir(); ?>'+a.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
     var assigneeIds = t.assignees ? t.assignees.map(function(a){ return a.assigned_user_id; }).join(',') : '';
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
@@ -1012,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderNote(n){
     var files='';
     if(n.files){ n.files.forEach(function(f){ files += `<li class=\"mb-1\"><div class=\"d-flex mb-1\"><span class=\"fa-solid ${f.file_type.startsWith('image/')?'fa-image':'fa-file'} me-2 text-body-tertiary fs-9\"></span><p class=\"text-body-highlight mb-0 lh-1\"><a class=\"text-body-highlight\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#fileModal\" data-file-src=\"<?php echo getURLDir(); ?>${f.file_path}\" data-file-type=\"${f.file_type}\" data-file-code=\"${f.type_code||''}\">${f.file_name}</a></p></div></li>`; }); if(files){ files = `<ul class=\"list-unstyled mt-2\">${files}</ul>`; } }
-    return `<div class=\"timeline-item position-relative\" data-type=\"note\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0 d-flex align-items-center\"><img src=\"${n.file_path ? '<?php echo getURLDir(); ?>'+n.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\" class=\"rounded-circle avatar avatar-m me-2\" alt=\"\" />by <a class=\"fw-semibold ms-1\" href=\"#!\">${n.user_name??''}</a></p></div></div></div></div></div>`;
+    return `<div class=\"timeline-item position-relative\" data-type=\"note\"><div class=\"row g-md-3 mb-4\"><div class=\"col-12 col-md-auto d-flex\"><div class=\"timeline-item-date order-1 order-md-0 me-md-4\"><p class=\"fs-10 fw-semibold text-body-tertiary text-opacity-85 text-end\">${n.date_created}</p></div><div class=\"timeline-item-bar position-md-relative me-3 me-md-0\"><div class=\"icon-item icon-item-sm rounded-7 shadow-none bg-primary-subtle\"><span class=\"fa-solid fa-note-sticky text-primary-dark fs-10\"></span></div><span class=\"timeline-bar border-end border-dashed\"></span></div></div><div class=\"col\"><div class=\"timeline-item-content ps-6 ps-md-3\"><div class=\"border rounded-2 p-3\"><div class=\"d-flex\"><p class=\"fs-9 lh-sm mb-1 flex-grow-1 note-text\" data-note-id=\"${n.id}\">${n.note_text.replace(/\n/g,'<br>')}</p></div>${files}<p class=\"fs-9 mb-0\">by <a class=\"d-flex align-items-center fw-semibold\" href=\"#!\"><div class=\"avatar avatar-m\"><img class=\"rounded-circle\" src=\"${n.user_pic ? '<?php echo getURLDir(); ?>'+n.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'}\"></div><span class=\"ms-2\">${n.user_name??''}</span></a></p></div></div></div></div></div>`;
   }
 
   function attachNoteEvents(p){
