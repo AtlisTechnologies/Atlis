@@ -1,4 +1,4 @@
-<div class="p-4" id="meetingList" data-list='{"valueNames":["meeting-name","meeting-date"],"page":25,"pagination":true}'>
+<div class="p-4" id="meetingList" data-list='{"valueNames":["meeting-title","start-time"],"page":25,"pagination":true}'>
   <h2 class="mb-4">Meetings<span class="text-body-tertiary fw-normal">(<?= count($meetings) ?>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
     <div class="col-sm-auto">
@@ -16,18 +16,25 @@
     <?php endif; ?>
   </div>
   <?php if (user_has_permission('meeting','create')): ?>
-  <form id="meetingQuickAdd" class="d-flex mb-3">
-    <input class="form-control me-2" type="text" name="title" placeholder="Quick add meeting" required>
-    <button class="btn btn-success" type="submit">Add</button>
+  <form id="meetingQuickAdd" class="row g-2 align-items-center mb-3">
+    <div class="col-md-6">
+      <input class="form-control" type="text" name="title" placeholder="Meeting title" required>
+    </div>
+    <div class="col-md-4">
+      <input class="form-control" type="datetime-local" name="start_time" required>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success w-100" type="submit">Add</button>
+    </div>
   </form>
   <?php endif; ?>
   <div class="mb-4 list" id="meetingListContainer">
     <?php foreach ($meetings as $m): ?>
       <div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="<?= (int)$m['id'] ?>">
         <div class="col">
-          <a class="meeting-name fw-bold" href="index.php?action=details&id=<?= (int)$m['id'] ?>"><?= h($m['title'] ?? '') ?></a>
+          <a class="meeting-title fw-bold" href="index.php?action=details&id=<?= (int)$m['id'] ?>"><?= h($m['title'] ?? '') ?></a>
         </div>
-        <div class="col-auto text-body-tertiary meeting-date"><?= !empty($m['meeting_date']) ? h(date('d M, Y', strtotime($m['meeting_date']))) : '' ?></div>
+        <div class="col-auto text-body-tertiary start-time"><?= !empty($m['start_time']) ? h(date('d M, Y g:i A', strtotime($m['start_time']))) : '' ?></div>
       </div>
     <?php endforeach; ?>
     <?php if (empty($meetings)): ?>
@@ -47,7 +54,7 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  var meetingList = new List('meetingList', { valueNames: ['meeting-name','meeting-date'], page:25, pagination:true });
+  var meetingList = new List('meetingList', { valueNames: ['meeting-title','start-time'], page:25, pagination:true });
   var form = document.getElementById('meetingQuickAdd');
   if(form){
     form.addEventListener('submit', function(e){
@@ -59,10 +66,10 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(function(res){
           if(res.success && res.meeting){
             var html = `<div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="${res.meeting.id}">`+
-                       `<div class="col"><a class="meeting-name fw-bold" href="index.php?action=details&id=${res.meeting.id}">${res.meeting.title}</a></div>`+
-                       `<div class="col-auto text-body-tertiary meeting-date">${res.meeting.meeting_date || ''}</div></div>`;
+                       `<div class="col"><a class="meeting-title fw-bold" href="index.php?action=details&id=${res.meeting.id}">${res.meeting.title}</a></div>`+
+                       `<div class="col-auto text-body-tertiary start-time">${res.meeting.start_time || ''}</div></div>`;
             document.getElementById('meetingListContainer').insertAdjacentHTML('afterbegin', html);
-            meetingList.add({'meeting-name': res.meeting.title, 'meeting-date': res.meeting.meeting_date});
+            meetingList.add({'meeting-title': res.meeting.title, 'start-time': res.meeting.start_time});
           }
           form.reset();
         });

@@ -2,7 +2,7 @@
   <div class="row mb-3">
     <div class="col">
       <h2><?php echo h($meeting['title'] ?? 'Meeting'); ?></h2>
-      <p class="text-body-secondary mb-0"><?php echo !empty($meeting['meeting_date']) ? h(date('l, F j, Y g:i A', strtotime($meeting['meeting_date']))) : ''; ?></p>
+      <p class="text-body-secondary mb-0"><?php echo !empty($meeting['start_time']) ? h(date('l, F j, Y g:i A', strtotime($meeting['start_time']))) : ''; ?></p>
     </div>
   </div>
   <div class="row">
