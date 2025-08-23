@@ -222,6 +222,7 @@ if($items){
               </form>
             </td>
             <td>
+              <button class="btn btn-sm btn-info" data-id="<?= $it['id']; ?>" data-label="<?= h($it['label']); ?>" onclick="openRelationsModal(this.dataset.id,this.dataset.label);return false;">Relations</button>
               <button class="btn btn-sm btn-warning" onclick="fillForm(<?= $it['id']; ?>,'<?= h($it['code']); ?>','<?= h($it['label']); ?>','<?= h($it['active_from']); ?>','<?= h($it['active_to']); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $it['id']; ?>">
@@ -237,6 +238,24 @@ if($items){
   <div class="d-flex justify-content-between align-items-center mt-3">
     <p class="mb-0" data-list-info></p>
     <ul class="pagination mb-0"></ul>
+  </div>
+</div>
+
+<div class="modal fade" id="relationsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Item Relations</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul id="relationsList" class="list-group mb-3"></ul>
+        <div class="input-group">
+          <select id="relationSelect" class="form-select"></select>
+          <button class="btn btn-success" id="addRelationBtn">Add</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>
@@ -257,5 +276,55 @@ document.querySelectorAll('.sort-input').forEach(inp=>{
     fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'item',action:'update_sort',id:this.dataset.id,sort_order:this.value,csrf_token:'<?= $token; ?>'})});
   });
 });
+
+let allItems=[];
+fetch('../api/lookup-lists.php?entity=item&action=all').then(r=>r.json()).then(d=>{ if(d.success){ allItems=d.items; }});
+const relationsModal=new bootstrap.Modal(document.getElementById('relationsModal'));
+let currentItem=0;
+
+function openRelationsModal(id,label){
+  currentItem=id;
+  document.querySelector('#relationsModal .modal-title').textContent='Relations for '+label;
+  loadRelationOptions();
+  loadRelations();
+  relationsModal.show();
+}
+
+function loadRelationOptions(){
+  const select=document.getElementById('relationSelect');
+  select.innerHTML='';
+  allItems.forEach(it=>{ if(it.id!=currentItem){ const opt=document.createElement('option'); opt.value=it.id; opt.text=`${it.list_name} - ${it.label}`; select.appendChild(opt); }});
+}
+
+function loadRelations(){
+  fetch(`../api/lookup-lists.php?entity=relation&action=list&item_id=${currentItem}`).then(r=>r.json()).then(d=>{
+    const list=document.getElementById('relationsList');
+    list.innerHTML='';
+    if(d.success){
+      d.relations.forEach(rel=>{
+        const li=document.createElement('li');
+        li.className='list-group-item d-flex justify-content-between align-items-center';
+        li.innerHTML=`<span>${rel.list_name} - ${rel.label}</span><button class="btn btn-sm btn-danger">Remove</button>`;
+        li.querySelector('button').addEventListener('click',()=>removeRelation(rel.id));
+        list.appendChild(li);
+      });
+    }
+  });
+}
+
+document.getElementById('addRelationBtn').addEventListener('click',()=>{
+  const select=document.getElementById('relationSelect');
+  const rid=parseInt(select.value);
+  if(!rid) return;
+  fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'relation',action:'create',item_id:currentItem,related_item_id:rid,csrf_token:'<?= $token; ?>'})}).then(r=>r.json()).then(d=>{
+    if(d.success){ loadRelations(); } else { alert(d.error||'Error'); }
+  });
+});
+
+function removeRelation(rid){
+  fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'relation',action:'delete',item_id:currentItem,related_item_id:rid,csrf_token:'<?= $token; ?>'})}).then(r=>r.json()).then(d=>{
+    if(d.success){ loadRelations(); } else { alert(d.error||'Error'); }
+  });
+}
 </script>
 <?php require '../admin_footer.php'; ?>
