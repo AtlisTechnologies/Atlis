@@ -516,7 +516,11 @@ if (!empty($current_project)) {
             <?php if (!empty($questions)): ?>
               <?php foreach ($questions as $q): ?>
                 <div class="border rounded-2 p-3 mb-3">
-                  <p class="mb-1 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
+                  <?php $qpic = !empty($q['user_pic']) ? $q['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+                  <div class="d-flex align-items-center mb-1">
+                    <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                    <p class="mb-0 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
+                  </div>
                   <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
                   <?php if (!empty($questionFiles[$q['id']])): ?>
                     <ul class="list-unstyled mt-2 ms-3">
@@ -532,7 +536,7 @@ if (!empty($current_project)) {
                     </ul>
                   <?php endif; ?>
                   <?php if (!empty($questionAnswers[$q['id']])): ?>
-                    <ul class="list-unstyled ps-4 mb-3">
+                    <ul class="list-unstyled ps-5 mb-3">
                       <?php foreach ($questionAnswers[$q['id']] as $a): ?>
                         <li class="mb-2">
                           <p class="mb-1"><?= nl2br(h($a['answer_text'])) ?></p>
