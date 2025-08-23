@@ -120,6 +120,20 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         $noteFiles[$nf['note_id']][] = $nf;
       }
 
+      $questionsStmt = $pdo->prepare('SELECT q.id, q.user_id, q.question_text, q.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE q.project_id = :id ORDER BY q.date_created DESC');
+      $questionsStmt->execute([':id' => $project_id]);
+      $questions = $questionsStmt->fetchAll(PDO::FETCH_ASSOC);
+      $questionAnswers = [];
+      if ($questions) {
+        $qIds = array_column($questions, 'id');
+        $placeholders = implode(',', array_fill(0, count($qIds), '?'));
+        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
+        $ansStmt->execute($qIds);
+        foreach ($ansStmt as $arow) {
+          $questionAnswers[$arow['question_id']][] = $arow;
+        }
+      }
+
         $tasksStmt = $pdo->prepare(
           'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
           'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
@@ -200,6 +214,8 @@ $taskPriorityItems = $taskPriorityItems ?? [];
 $fileTypeItems = $fileTypeItems ?? [];
 $fileStatusItems = $fileStatusItems ?? [];
 $modalWidths = $modalWidths ?? [];
+$questions = $questions ?? [];
+$questionAnswers = $questionAnswers ?? [];
 
 require '../../includes/html_header.php';
 ?>
