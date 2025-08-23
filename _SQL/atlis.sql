@@ -549,33 +549,6 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (39, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 10, 13),
 (40, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 11, 13),
 (41, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 12, 13);
-(42, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 6),
-(43, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 12),
-(44, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 11),
-(45, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 5),
-(46, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 2),
-(47, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 8),
-(48, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 4),
-(49, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 7),
-(50, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 9),
-(51, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 1, 1),
-(52, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 3),
-(53, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 6),
-(54, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 11),
-(55, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 5),
-(56, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 2),
-(57, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 8),
-(58, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 10, 9),
-(59, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 11),
-(60, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 8),
-(61, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 11, 9),
-(62, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 11),
-(63, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 8),
-(64, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 12, 9),
-(65, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 13, 10),
-(66, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 13, 11),
-(67, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 14, 10),
-(68, 1, 1, '2025-08-23 12:13:07', '2025-08-23 12:13:07', NULL, 14, 11);
 
 
 -- --------------------------------------------------------
@@ -1191,7 +1164,7 @@ CREATE TABLE `module_calendar_event_attendees` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `event_id` int(11) NOT NULL
+  `event_id` int(11) NOT NULL,
   `end_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -2594,11 +2567,6 @@ ALTER TABLE `module_agency_persons`
 --
 ALTER TABLE `module_calendar`
   ADD PRIMARY KEY (`id`);
-=======
--- Indexes for table `module_calendars`
---
-
-
 --
 -- Indexes for table `module_calendar_events`
 --
@@ -2616,8 +2584,7 @@ ALTER TABLE `module_calendar_event_attendees`
   ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`),
-  ADD KEY `fk_module_calendar_events_calendar_id` (`calendar_id`);
+  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
 
 
 --
@@ -3092,11 +3059,6 @@ ALTER TABLE `module_agency`
 ALTER TABLE `module_agency_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `module_calendars`
---
-ALTER TABLE `module_calendars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_events`
@@ -3422,15 +3384,6 @@ ALTER TABLE `module_agency_persons`
   ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
--- Constraints for table `module_calendars`
---
-ALTER TABLE `module_calendars`
-  ADD CONSTRAINT `fk_module_calendars_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_calendars_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_calendar_events`
---
 ALTER TABLE `module_calendar_events`
   ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
