@@ -201,7 +201,11 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (!empty($questions)): ?>
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
-              <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
+              <?php $qpic = !empty($q['user_pic']) ? $q['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+              <div class="d-flex align-items-center mb-1">
+                <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                <p class="mb-0 fw-semibold"><?= h($q['question_text']); ?></p>
+              </div>
               <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
               <?php if (!empty($questionFiles[$q['id']])): ?>
                 <ul class="list-unstyled mt-2 ms-3">
@@ -222,7 +226,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <?php endif; ?>
 
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ps-4">
+                <ul class="list-unstyled ps-5">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
                       <p class="mb-1"><?= h($ans['answer_text']); ?></p>
