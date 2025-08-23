@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 02:21 AM
+-- Generation Time: Aug 23, 2025 at 04:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -226,7 +226,40 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (177, 1, 1, '2025-08-22 18:19:54', '2025-08-22 18:19:54', NULL, 'module_tasks_files', 2, 'DELETE', '', '', '{\"file\":\"CONSENT FOR BACKGROUND CHECK Jessop.pdf\"}'),
 (178, 1, 1, '2025-08-22 18:19:55', '2025-08-22 18:19:55', NULL, 'module_tasks_files', 1, 'DELETE', '', '', '{\"file\":\"9.4 Acceptable Use Policy Signed Jessop.pdf\"}'),
 (179, 1, 1, '2025-08-22 18:20:00', '2025-08-22 18:20:00', NULL, 'module_tasks_notes', 14, 'DELETE', '', '', 'He signed each AUP on July 31st, 2025.\r\nAttached to File Cabinet below and Contractor module.'),
-(180, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 'module_tasks_notes', 15, 'NOTE', '', '', 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.');
+(180, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 'module_tasks_notes', 15, 'NOTE', '', '', 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.'),
+(181, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:19', NULL, 'module_projects', 14, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"ONBOARD Tom Wilkins\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"2025-08-22\"}'),
+(182, 1, 1, '2025-08-22 18:52:58', '2025-08-22 18:52:58', NULL, 'module_tasks_notes', 16, 'NOTE', '', '', 'I texted him asking what resume-boosting Role he wants on the work agreement.'),
+(183, 1, 1, '2025-08-22 18:53:34', '2025-08-22 18:53:34', NULL, 'module_contractors_notes', 1, 'NOTE', '', '', 'Created an Atlis Technologies Office365 account for him:\r\nTom@AtlisTechnologies.com'),
+(184, 1, 1, '2025-08-22 18:53:58', '2025-08-22 18:53:58', NULL, 'module_contractors_notes', 2, 'NOTE', '', '', 'Created an Atlis Technologies Office 365 account for him: Soup@AtlisTechnologies.com'),
+(185, 1, 1, '2025-08-22 18:54:34', '2025-08-22 18:54:34', NULL, 'module_projects_notes', 9, 'UPDATE', '', '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', '- EMAIL SUBJECT AND BODY TEMPLATE\n\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\n\n\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\n\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\n\n\nRISKS\n-> How Keith & Lonnie will receive this solution.\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\n\n\n\nQUESTIONS\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\n- I can do it, I just need admin access to ePros & eDef.\n\n--> email Winnie: ask email Lonnie & Keith separately\n- RJ says ask this after we demo to them.\n\n\n\n--------------------\nJUDGE MASS REASSIGNMENT\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\n--------------------\n\n\n\nhttps://www.ncsc.org/event/court-technology-conference-ctc\n--------------------\n\n\ngia + winnie are going to JTI User conf\n\n\nMcCLEAN COUNTY, IL (maybe 11th?)\n- Craig Nelson\n\n\n- not Don Everhart\n\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/');
+INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
+(186, 1, 1, '2025-08-22 18:54:36', '2025-08-22 18:54:36', NULL, 'module_projects_notes', 9, 'UPDATE', '', '- EMAIL SUBJECT AND BODY TEMPLATE\n\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\n\n\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\n\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\n\n\nRISKS\n-> How Keith & Lonnie will receive this solution.\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\n\n\n\nQUESTIONS\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\n- I can do it, I just need admin access to ePros & eDef.\n\n--> email Winnie: ask email Lonnie & Keith separately\n- RJ says ask this after we demo to them.\n\n\n\n--------------------\nJUDGE MASS REASSIGNMENT\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\n--------------------\n\n\n\nhttps://www.ncsc.org/event/court-technology-conference-ctc\n--------------------\n\n\ngia + winnie are going to JTI User conf\n\n\nMcCLEAN COUNTY, IL (maybe 11th?)\n- Craig Nelson\n\n\n- not Don Everhart\n\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', '- EMAIL SUBJECT AND BODY TEMPLATE\n\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\n\n\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\n\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\n\n\nRISKS\n-> How Keith & Lonnie will receive this solution.\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\n\n\n\nQUESTIONS\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\n- I can do it, I just need admin access to ePros & eDef.\n\n--> email Winnie: ask email Lonnie & Keith separately\n- RJ says ask this after we demo to them.\n\n\n\n--------------------\nJUDGE MASS REASSIGNMENT\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\n--------------------\n\n\n\nhttps://www.ncsc.org/event/court-technology-conference-ctc\n--------------------\n\n\ngia + winnie are going to JTI User conf\n\n\nMcCLEAN COUNTY, IL (maybe 11th?)\n- Craig Nelson\n\n\n- not Don Everhart\n\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(187, 1, 1, '2025-08-22 18:54:39', '2025-08-22 18:54:39', NULL, 'module_tasks_notes', 17, 'NOTE', '', '', '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n-> How Keith & Lonnie will receive this solution.\r\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n- I can do it, I just need admin access to ePros & eDef.\r\n\r\n--> email Winnie: ask email Lonnie & Keith separately\r\n- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(188, 1, 1, '2025-08-22 18:54:42', '2025-08-22 18:54:42', NULL, 'module_projects_notes', 9, 'DELETE', '', '- EMAIL SUBJECT AND BODY TEMPLATE\n\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\n\n\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\n\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\n\n\nRISKS\n-> How Keith & Lonnie will receive this solution.\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\n\n\n\nQUESTIONS\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\n- I can do it, I just need admin access to ePros & eDef.\n\n--> email Winnie: ask email Lonnie & Keith separately\n- RJ says ask this after we demo to them.\n\n\n\n--------------------\nJUDGE MASS REASSIGNMENT\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\n--------------------\n\n\n\nhttps://www.ncsc.org/event/court-technology-conference-ctc\n--------------------\n\n\ngia + winnie are going to JTI User conf\n\n\nMcCLEAN COUNTY, IL (maybe 11th?)\n- Craig Nelson\n\n\n- not Don Everhart\n\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', ''),
+(189, 1, 1, '2025-08-22 18:54:44', '2025-08-22 18:54:44', NULL, 'module_projects_notes', 8, 'UPDATE', '', 'ONE RESTART, TO RULE THEM ALL\r\n	- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n	- Kapser will request the restart with JTI.\r\n\r\n	- Judge Mass Reassignment may need new metadata\r\n\r\n	- Multiple Interpreters per Event\r\n		--> need metadata in PROD\r\n		--> one small new config: show exotic langauge in WQ.\r\n		--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !', 'ONE RESTART, TO RULE THEM ALL\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\n\n- Kapser will request the restart with JTI.\n\n- Judge Mass Reassignment may need new metadata\n\n- Multiple Interpreters per Event\n--> need metadata in PROD\n--> one small new config: show exotic langauge in WQ.\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\n\n\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\nTO COMBINE THE RESTART IN PRODUCTION !'),
+(190, 1, 1, '2025-08-22 18:54:47', '2025-08-22 18:54:47', NULL, 'module_tasks_notes', 18, 'NOTE', '', '', 'ONE RESTART, TO RULE THEM ALL\r\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n- Kapser will request the restart with JTI.\r\n\r\n- Judge Mass Reassignment may need new metadata\r\n\r\n- Multiple Interpreters per Event\r\n--> need metadata in PROD\r\n--> one small new config: show exotic langauge in WQ.\r\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !'),
+(191, 1, 1, '2025-08-22 18:54:51', '2025-08-22 18:54:51', NULL, 'module_projects_notes', 7, 'UPDATE', '', 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE', 'E.S.D.\n--> remaining tasks for both Atlis and Lake\n--> timeline\n\n\nGAL\n--> eDefender Admin Access\n- I emailed Winnie\n\n\n\nJUDGE MASS REASSIGNMENT\n\n\n\nRESTART\n\n\nJTI USER CONFERENCE'),
+(192, 1, 1, '2025-08-22 18:54:55', '2025-08-22 18:54:55', NULL, 'module_tasks_notes', 19, 'NOTE', '', '', 'E.S.D.\r\n--> remaining tasks for both Atlis and Lake\r\n--> timeline\r\n\r\n\r\nGAL\r\n--> eDefender Admin Access\r\n- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(193, 1, 1, '2025-08-22 18:55:09', '2025-08-22 18:55:09', NULL, 'module_projects_notes', 8, 'DELETE', '', 'ONE RESTART, TO RULE THEM ALL\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\n\n- Kapser will request the restart with JTI.\n\n- Judge Mass Reassignment may need new metadata\n\n- Multiple Interpreters per Event\n--> need metadata in PROD\n--> one small new config: show exotic langauge in WQ.\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\n\n\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\nTO COMBINE THE RESTART IN PRODUCTION !', ''),
+(194, 1, 1, '2025-08-22 18:55:09', '2025-08-22 18:55:09', NULL, 'module_projects_notes', 7, 'DELETE', '', 'E.S.D.\n--> remaining tasks for both Atlis and Lake\n--> timeline\n\n\nGAL\n--> eDefender Admin Access\n- I emailed Winnie\n\n\n\nJUDGE MASS REASSIGNMENT\n\n\n\nRESTART\n\n\nJTI USER CONFERENCE', ''),
+(195, 1, 1, '2025-08-22 18:56:22', '2025-08-22 18:56:22', NULL, 'module_projects', 15, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"2025 Kia Telluride SX-Prestige X-Line\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"31\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"\"}'),
+(196, 1, 1, '2025-08-22 18:56:33', '2025-08-22 18:56:33', NULL, 'module_projects_notes', 10, 'NOTE', '', '', 'CALL WITH SKYLER\r\nAUG 21st, 2025 @ 11am\r\n\r\n2 YEARS FROM KIA\r\n3 YEARS FROM AFCU\r\n5 YEAR TOTAL\r\n\r\nMAINTENANCE\r\n\r\n--> 9 FREE OIL CHANGES\r\n--> TIRE CHANGES\r\n\r\n--> WARRANTY / RECALL WORK MUST BE THROUGH KIA DEALERSHIP\r\n\r\n--> IF THERE IS A REMEDY, KIA WILL FIX THE RECALLS BEFORE I DRIVE IT OFF\r\n\r\n--> SKYLER SAYS IF PLANNING TO HOLD THE LOAN LONGER THAN 2 YEARS, FINANCE WITH AFCU.  OTHERWISE LESS THAN 2 YEARS, GO WITH KIA TO GET THE REBATE.\r\n\r\n\r\nEXTENDED WARRANTY (service contract)\r\n--> couple G\'s to bump up.\r\n--> electronic *could* be extended.\r\n--> SKYLER RECOMMENDS EXTENDING THE WARRANTIES \r\n--> GAP IS $1,000 - $1,200 AT THE KIA STEALERSHIP\r\n	--> \r\n\r\nFINANCE MANAGER:\r\n	- TRADEOFFS BETWEEN FINANCING WITH KIA & AFCU\r\n	- PULL MY CREDIT AGAIN...?\r\n	- HOW MUCH IS GAP ? \r\n		--> (price match AFCU ? )\r\n	- 90 DAYS OF NO PAYMENT ?\r\n		--> (match AFCU ? )\r\n	- extend few of the standard warranties just before they expire ?'),
+(197, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 'module_projects', 16, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"RANDOM NOTES\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"priority\":\"57\",\"type\":\"182\",\"start_date\":\"\"}'),
+(198, 1, 1, '2025-08-22 18:57:13', '2025-08-22 18:57:13', NULL, 'module_projects_notes', 11, 'NOTE', '', '', 'GITHUB MERGE CONFLICT MARKERS:\r\n (<<<<<<<, =======, >>>>>>>)'),
+(199, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 'module_projects', 17, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"name\":\"CJIS TESTS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"56\",\"type\":\"182\",\"start_date\":\"2025-08-01\"}'),
+(200, 1, 1, '2025-08-22 18:58:03', '2025-08-22 18:58:03', NULL, 'module_tasks_notes', 20, 'NOTE', '', '', 'Josh Barnett'),
+(201, 1, 1, '2025-08-22 18:58:57', '2025-08-22 18:58:57', NULL, 'module_projects_notes', 12, 'NOTE', '', '', 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(202, 1, 1, '2025-08-22 18:59:07', '2025-08-22 18:59:07', NULL, 'module_tasks_notes', 21, 'NOTE', '', '', 'AGENDA:\r\n\r\nE.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(203, 1, 1, '2025-08-22 18:59:26', '2025-08-22 18:59:26', NULL, 'module_projects_notes', 13, 'NOTE', '', '', '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(204, 1, 1, '2025-08-22 19:14:26', '2025-08-22 19:14:26', NULL, 'module_organization', 4, 'CREATE', 'Created organization', NULL, '{\"name\":\"David Wilkins\",\"main_person\":1,\"status\":1}'),
+(205, 1, 1, '2025-08-22 19:14:26', '2025-08-22 19:14:26', NULL, 'module_organization', 4, 'UPLOAD', 'Uploaded organization file', NULL, '{\"file_name\":\"10724_1188846233580_1001052977_30591197_3009316_n.jpg\",\"file_path\":\"f9da8c9bf924ef5b484df0f5404c1789.jpg\",\"file_size\":54807,\"file_type\":\"image\\/jpeg\"}'),
+(206, 1, 1, '2025-08-22 19:14:44', '2025-08-22 19:14:44', NULL, 'module_agency', 6, 'CREATE', 'Created agency', NULL, '{\"organization_id\":4,\"name\":\"Dave Wilkins\",\"main_person\":1,\"status\":3}'),
+(207, 1, 1, '2025-08-22 19:14:53', '2025-08-22 19:14:53', NULL, 'module_division', 8, 'CREATE', 'Created division', NULL, '{\"agency_id\":6,\"name\":\"Dave\",\"main_person\":1,\"status\":5}'),
+(208, 1, 1, '2025-08-22 19:15:03', '2025-08-22 19:15:03', NULL, 'module_organization', 4, 'UPDATE', 'Updated organization', '{\"name\":\"David Wilkins\",\"main_person\":1,\"status\":1,\"file_name\":\"10724_1188846233580_1001052977_30591197_3009316_n.jpg\",\"file_path\":\"f9da8c9bf924ef5b484df0f5404c1789.jpg\",\"file_size\":54807,\"file_type\":\"image\\/jpeg\"}', '{\"name\":\"David Cottrell Wilkins\",\"main_person\":1,\"status\":1}'),
+(209, 1, 1, '2025-08-22 19:15:11', '2025-08-22 19:15:11', NULL, 'module_organization_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"organization_id\":4,\"person_id\":1,\"role_id\":184,\"is_lead\":1}'),
+(210, 1, 1, '2025-08-22 19:15:28', '2025-08-22 19:15:28', NULL, 'module_agency_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"agency_id\":6,\"person_id\":1,\"role_id\":185,\"is_lead\":1}'),
+(211, 1, 1, '2025-08-22 19:15:35', '2025-08-22 19:15:35', NULL, 'module_division_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"division_id\":8,\"person_id\":1,\"role_id\":186,\"is_lead\":1}'),
+(212, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'person', 57, 'CREATE', 'Created person', NULL, '{\"user_id\":12,\"first_name\":\"Winnie\",\"last_name\":\"Webber\",\"gender_id\":60,\"dob\":null}');
 
 -- --------------------------------------------------------
 
@@ -1209,7 +1242,20 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (546, 1, 1, '2025-08-22 18:13:05', '2025-08-22 18:13:05', NULL, 'module_tasks', 35, 'UPDATE', 'Completed task'),
 (547, 1, 1, '2025-08-22 18:16:34', '2025-08-22 18:16:34', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (548, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(549, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 'module_tasks', 39, 'CREATE', 'Created task');
+(549, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 'module_tasks', 39, 'CREATE', 'Created task'),
+(550, 1, 1, '2025-08-22 18:47:23', '2025-08-22 18:47:23', NULL, 'module_projects', 14, 'UPDATE', 'Updated priority to 58'),
+(551, 1, 1, '2025-08-22 18:47:26', '2025-08-22 18:47:26', NULL, 'module_projects', 14, 'UPDATE', 'Updated priority to 87'),
+(552, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 'module_tasks', 40, 'CREATE', 'Created task'),
+(553, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 'module_tasks', 41, 'CREATE', 'Created task'),
+(554, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 'module_tasks', 42, 'CREATE', 'Created task'),
+(555, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 'module_tasks', 43, 'CREATE', 'Created task'),
+(556, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 'module_tasks', 44, 'CREATE', 'Created task'),
+(557, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 'module_tasks', 45, 'CREATE', 'Created task'),
+(558, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 'module_tasks', 46, 'CREATE', 'Created task'),
+(559, 1, 1, '2025-08-22 19:19:50', '2025-08-22 19:19:50', NULL, 'module_projects', 15, 'UPDATE', 'Updated project'),
+(560, 1, 1, '2025-08-22 19:19:52', '2025-08-22 19:19:52', NULL, 'module_projects_assignments', 17, 'ASSIGN', 'Assigned user'),
+(561, 1, 1, '2025-08-22 19:20:11', '2025-08-22 19:20:11', NULL, 'module_projects', 10, 'UPDATE', 'Updated project'),
+(562, 1, 1, '2025-08-22 20:38:44', '2025-08-22 20:38:44', NULL, 'users', 1, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -1616,7 +1662,8 @@ INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (2, 1, 1, '2025-08-06 16:28:14', '2025-08-08 21:56:34', NULL, 2, '19th Circuit Court', NULL, 3, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-21 02:14:26', '2025-08-21 02:14:26', NULL, 2, 'Office of the Public Defender', 30, 28, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL),
-(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL);
+(5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL),
+(6, 1, 1, '2025-08-22 19:14:44', '2025-08-22 19:14:44', NULL, 4, 'Dave Wilkins', 1, 3, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1636,6 +1683,13 @@ CREATE TABLE `module_agency_persons` (
   `role_id` int(11) DEFAULT NULL,
   `is_lead` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_agency_persons`
+--
+
+INSERT INTO `module_agency_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:28', '2025-08-22 19:15:28', NULL, 6, 1, 185, 1);
 
 -- --------------------------------------------------------
 
@@ -1857,6 +1911,14 @@ CREATE TABLE `module_contractors_notes` (
   `note_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_contractors_notes`
+--
+
+INSERT INTO `module_contractors_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `contractor_id`, `note_text`) VALUES
+(1, 1, 1, '2025-08-22 18:53:34', '2025-08-22 18:53:34', NULL, 7, 'Created an Atlis Technologies Office365 account for him:\r\nTom@AtlisTechnologies.com'),
+(2, 1, 1, '2025-08-22 18:53:58', '2025-08-22 18:53:58', NULL, 3, 'Created an Atlis Technologies Office 365 account for him: Soup@AtlisTechnologies.com');
+
 -- --------------------------------------------------------
 
 --
@@ -1907,7 +1969,8 @@ INSERT INTO `module_division` (`id`, `user_id`, `user_updated`, `date_created`, 
 (2, 1, 1, '2025-08-06 16:28:28', '2025-08-21 15:48:03', NULL, 2, 'Judicial Information Services & Technology', NULL, 5, NULL, NULL, NULL, NULL),
 (3, 1, 1, '2025-08-06 16:28:37', '2025-08-08 21:58:10', NULL, 2, 'Business Operations', NULL, 5, NULL, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-06 16:28:48', '2025-08-08 21:58:10', NULL, 2, 'Court Clerks', NULL, 5, NULL, NULL, NULL, NULL),
-(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL);
+(5, 1, 1, '2025-08-21 02:22:59', '2025-08-21 15:48:10', NULL, 3, 'Public Defender', 30, 6, NULL, NULL, NULL, NULL),
+(8, 1, 1, '2025-08-22 19:14:53', '2025-08-22 19:14:53', NULL, 6, 'Dave', 1, 5, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1927,6 +1990,13 @@ CREATE TABLE `module_division_persons` (
   `role_id` int(11) DEFAULT NULL,
   `is_lead` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_division_persons`
+--
+
+INSERT INTO `module_division_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `division_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:35', '2025-08-22 19:15:35', NULL, 8, 1, 186, 1);
 
 -- --------------------------------------------------------
 
@@ -2036,7 +2106,8 @@ CREATE TABLE `module_organization` (
 
 INSERT INTO `module_organization` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `main_person`, `status`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
 (1, 1, 1, '2025-08-06 16:27:19', '2025-08-08 22:19:06', NULL, 'Atlis Technologies LLC', 1, 1, NULL, NULL, NULL, NULL),
-(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1, NULL, NULL, NULL, NULL);
+(2, 1, 1, '2025-08-06 16:27:55', '2025-08-08 22:19:06', NULL, 'Lake County, IL', NULL, 1, NULL, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-22 19:14:26', '2025-08-22 19:15:03', NULL, 'David Cottrell Wilkins', 1, 1, '10724_1188846233580_1001052977_30591197_3009316_n.jpg', 'f9da8c9bf924ef5b484df0f5404c1789.jpg', 54807, 'image/jpeg');
 
 -- --------------------------------------------------------
 
@@ -2056,6 +2127,13 @@ CREATE TABLE `module_organization_persons` (
   `role_id` int(11) DEFAULT NULL,
   `is_lead` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_organization_persons`
+--
+
+INSERT INTO `module_organization_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `organization_id`, `person_id`, `role_id`, `is_lead`) VALUES
+(1, 1, 1, '2025-08-22 19:15:11', '2025-08-22 19:15:11', NULL, 4, 1, 184, 1);
 
 -- --------------------------------------------------------
 
@@ -2097,10 +2175,31 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
 (7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
 (9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, NULL, '0000-00-00', NULL, 0),
-(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 18:00:14', NULL, 1, 1, 'DAVE WILKINS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
+(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 19:20:11', NULL, 6, 8, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
 (11, 1, 1, '2025-08-22 18:10:32', '2025-08-22 18:10:32', NULL, 2, 2, 'MEETINGS WITH JIS TEAM @ LAKE', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
 (12, 1, 1, '2025-08-22 18:12:14', '2025-08-22 18:12:14', NULL, 1, 1, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, 182, '0000-00-00', NULL, 0),
-(13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0);
+(13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
+(14, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:26', NULL, 1, 1, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
+(15, 1, 1, '2025-08-22 18:56:22', '2025-08-22 19:19:50', NULL, 6, 8, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
+(16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
+(17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_answers`
+--
+
+CREATE TABLE `module_projects_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2139,7 +2238,8 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (13, 1, 1, '2025-08-21 22:22:12', '2025-08-21 22:22:12', NULL, 6, 2),
 (14, 1, 1, '2025-08-21 22:29:57', '2025-08-21 22:29:57', NULL, 7, 1),
 (15, 1, 1, '2025-08-21 22:30:01', '2025-08-21 22:30:01', NULL, 7, 2),
-(16, 1, 1, '2025-08-21 22:30:04', '2025-08-21 22:30:04', NULL, 7, 4);
+(16, 1, 1, '2025-08-21 22:30:04', '2025-08-21 22:30:04', NULL, 7, 4),
+(17, 1, 1, '2025-08-22 19:19:52', '2025-08-22 19:19:52', NULL, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -2203,9 +2303,10 @@ INSERT INTO `module_projects_notes` (`id`, `user_id`, `user_updated`, `date_crea
 (4, 1, 1, '2025-08-21 22:27:53', '2025-08-21 22:28:09', NULL, 7, '<a class=\"fw-bold\" href=\"https://info.journaltech.com/uc2025\" target=_blank>JTI 2025 User Conference</a>'),
 (5, 1, 1, '2025-08-21 22:29:33', '2025-08-21 22:29:33', NULL, 7, 'Registration: https://info.journaltech.com/uc2025-registration\r\n\r\nEvent Summary & Notes:\r\nWelcome Reception: Nov 12, 2025, 7:00 - 9:00 PM\r\nConference Dates: Nov 13-14, 2025\r\nConference Location: 4th Floor, Hudson Loft, 1200 S Hope St, Los Angeles, CA 90015\r\nEarly-Bird Registration (through July 15, 2025): $495\r\nStandard Registration (starting July 16-November 12, 2025): $595\r\nContact events@journaltech.com for group discounts of 3+ attendees of your organization.'),
 (6, 1, 1, '2025-08-22 14:52:00', '2025-08-22 14:52:00', NULL, 9, 'Metadata IS in Aux already. Cf_interpreter COLLECTION/ENTITY'),
-(7, 1, 1, '2025-08-22 18:10:46', '2025-08-22 18:10:46', NULL, 11, 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
-(8, 1, 1, '2025-08-22 18:10:58', '2025-08-22 18:10:58', NULL, 11, 'ONE RESTART, TO RULE THEM ALL\r\n	- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n	- Kapser will request the restart with JTI.\r\n\r\n	- Judge Mass Reassignment may need new metadata\r\n\r\n	- Multiple Interpreters per Event\r\n		--> need metadata in PROD\r\n		--> one small new config: show exotic langauge in WQ.\r\n		--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !'),
-(9, 1, 1, '2025-08-22 18:11:18', '2025-08-22 18:11:18', NULL, 11, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/');
+(10, 1, 1, '2025-08-22 18:56:33', '2025-08-22 18:56:33', NULL, 15, 'CALL WITH SKYLER\r\nAUG 21st, 2025 @ 11am\r\n\r\n2 YEARS FROM KIA\r\n3 YEARS FROM AFCU\r\n5 YEAR TOTAL\r\n\r\nMAINTENANCE\r\n\r\n--> 9 FREE OIL CHANGES\r\n--> TIRE CHANGES\r\n\r\n--> WARRANTY / RECALL WORK MUST BE THROUGH KIA DEALERSHIP\r\n\r\n--> IF THERE IS A REMEDY, KIA WILL FIX THE RECALLS BEFORE I DRIVE IT OFF\r\n\r\n--> SKYLER SAYS IF PLANNING TO HOLD THE LOAN LONGER THAN 2 YEARS, FINANCE WITH AFCU.  OTHERWISE LESS THAN 2 YEARS, GO WITH KIA TO GET THE REBATE.\r\n\r\n\r\nEXTENDED WARRANTY (service contract)\r\n--> couple G\'s to bump up.\r\n--> electronic *could* be extended.\r\n--> SKYLER RECOMMENDS EXTENDING THE WARRANTIES \r\n--> GAP IS $1,000 - $1,200 AT THE KIA STEALERSHIP\r\n	--> \r\n\r\nFINANCE MANAGER:\r\n	- TRADEOFFS BETWEEN FINANCING WITH KIA & AFCU\r\n	- PULL MY CREDIT AGAIN...?\r\n	- HOW MUCH IS GAP ? \r\n		--> (price match AFCU ? )\r\n	- 90 DAYS OF NO PAYMENT ?\r\n		--> (match AFCU ? )\r\n	- extend few of the standard warranties just before they expire ?'),
+(11, 1, 1, '2025-08-22 18:57:13', '2025-08-22 18:57:13', NULL, 16, 'GITHUB MERGE CONFLICT MARKERS:\r\n (<<<<<<<, =======, >>>>>>>)'),
+(12, 1, 1, '2025-08-22 18:58:57', '2025-08-22 18:58:57', NULL, 11, 'E.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(13, 1, 1, '2025-08-22 18:59:26', '2025-08-22 18:59:26', NULL, 1, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n	--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n		--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n	--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n	-> How Keith & Lonnie will receive this solution.\r\n	-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n	--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n		- I can do it, I just need admin access to ePros & eDef.\r\n\r\n	--> email Winnie: ask email Lonnie & Keith separately\r\n		- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n	- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/');
 
 -- --------------------------------------------------------
 
@@ -2222,23 +2323,6 @@ CREATE TABLE `module_projects_questions` (
   `memo` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   `question_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_projects_answers`
---
-
-CREATE TABLE `module_projects_answers` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `question_id` int(11) NOT NULL,
-  `answer_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2312,7 +2396,31 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(40, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 14, NULL, NULL, 'Send him LAKE AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(42, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 14, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_tasks_answers`
+--
+
+CREATE TABLE `module_tasks_answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2368,7 +2476,13 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (10, 1, 1, '2025-04-09 17:06:52', '2025-08-19 22:58:03', NULL, 16, 'METADATA created in my Lake eCourt env.\r\nABOVE FORGOT THE \"Languages\" PLAIN FIELD.'),
 (11, 1, 1, '2025-08-20 00:14:27', '2025-08-20 00:14:27', NULL, 19, 'Done through System Property.'),
 (12, 1, 1, '2025-08-21 18:09:15', '2025-08-21 18:09:15', NULL, 22, 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?\r\n\r\n\r\nThanks,\r\nDave'),
-(15, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 35, 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.');
+(15, 1, 1, '2025-08-22 18:20:07', '2025-08-22 18:20:07', NULL, 35, 'He signed each AUP on July 31st, 2025.\r\nAttached to Contractor module.'),
+(16, 1, 1, '2025-08-22 18:52:58', '2025-08-22 18:52:58', NULL, 43, 'I texted him asking what resume-boosting Role he wants on the work agreement.'),
+(17, 1, 1, '2025-08-22 18:54:39', '2025-08-22 18:54:39', NULL, 44, '- EMAIL SUBJECT AND BODY TEMPLATE\r\n\r\n- ACTUAL GENERIC EMAIL ADDRESSES FOR eCOURT, ePROS, & eDEF\r\n\r\n\r\n- COLOR CODED SEAL TYPE IN DOCUMENTS MANAGER\r\n--> EMAIL WINNIE (cc Leah, RJ, Kasper) WITH SCREENSHOT\r\n--> WINNIE WILL SCHEDULE DEMO WITH JUDGE NOVAK & Court Clerks\r\n\r\n--> JUDGE NOVAK MENTIONED NEW REGULATIONS\r\n\r\n\r\nRISKS\r\n-> How Keith & Lonnie will receive this solution.\r\n-> \"Turning off\" the eCourt Viewer in ePros & eDef.\r\n\r\n\r\n\r\nQUESTIONS\r\n--> Who will \"turn off\" the Court Viewer in ePros & eDef ?\r\n- I can do it, I just need admin access to ePros & eDef.\r\n\r\n--> email Winnie: ask email Lonnie & Keith separately\r\n- RJ says ask this after we demo to them.\r\n\r\n\r\n\r\n--------------------\r\nJUDGE MASS REASSIGNMENT\r\n- ask Davey R. if he can hop on our 3pm CST meeting to discuss.\r\n--------------------\r\n\r\n\r\n\r\nhttps://www.ncsc.org/event/court-technology-conference-ctc\r\n--------------------\r\n\r\n\r\ngia + winnie are going to JTI User conf\r\n\r\n\r\nMcCLEAN COUNTY, IL (maybe 11th?)\r\n- Craig Nelson\r\n\r\n\r\n- not Don Everhart\r\n\r\nhttps://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(18, 1, 1, '2025-08-22 18:54:47', '2025-08-22 18:54:47', NULL, 44, 'ONE RESTART, TO RULE THEM ALL\r\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n- Kapser will request the restart with JTI.\r\n\r\n- Judge Mass Reassignment may need new metadata\r\n\r\n- Multiple Interpreters per Event\r\n--> need metadata in PROD\r\n--> one small new config: show exotic langauge in WQ.\r\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !'),
+(19, 1, 1, '2025-08-22 18:54:55', '2025-08-22 18:54:55', NULL, 44, 'E.S.D.\r\n--> remaining tasks for both Atlis and Lake\r\n--> timeline\r\n\r\n\r\nGAL\r\n--> eDefender Admin Access\r\n- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(20, 1, 1, '2025-08-22 18:58:03', '2025-08-22 18:58:03', NULL, 45, 'Josh Barnett'),
+(21, 1, 1, '2025-08-22 18:59:07', '2025-08-22 18:59:07', NULL, 44, 'AGENDA:\r\n\r\nE.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE');
 
 -- --------------------------------------------------------
 
@@ -2385,23 +2499,6 @@ CREATE TABLE `module_tasks_questions` (
   `memo` text DEFAULT NULL,
   `task_id` int(11) NOT NULL,
   `question_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_tasks_answers`
---
-
-CREATE TABLE `module_tasks_answers` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `question_id` int(11) NOT NULL,
-  `answer_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2467,7 +2564,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (27, 10, 'Emma', 'Baylor', NULL, 60, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
 (30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
 (31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
-(56, 11, 'Tom', 'Wilkins', NULL, 59, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL);
+(56, 11, 'Tom', 'Wilkins', NULL, 59, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
+(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -2619,7 +2717,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 15:54:01', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 15:54:01'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 20:38:42', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 20:38:42'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2628,7 +2726,8 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (8, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:45:17', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$k4v0J28VQpsDQUBGsWd/VevbNh329jZiCY5NBxhzzBub6QdrvrZYK', 0, NULL, 'USER', 1, NULL),
 (9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL),
 (10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL),
-(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL);
+(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
+(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2653,7 +2752,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(6, 1, 1, '2025-08-22 15:54:01', '2025-08-22 15:54:04', NULL, '876984', '2025-08-22 16:04:01', 1);
+(7, 1, 1, '2025-08-22 20:38:42', '2025-08-22 20:38:44', NULL, '463209', '2025-08-22 20:48:42', 1);
 
 -- --------------------------------------------------------
 
@@ -3003,6 +3102,15 @@ ALTER TABLE `module_projects`
   ADD KEY `fk_module_projects_type` (`type`);
 
 --
+-- Indexes for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_projects_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_answers_question_id` (`question_id`);
+
+--
 -- Indexes for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
@@ -3043,15 +3151,6 @@ ALTER TABLE `module_projects_questions`
   ADD KEY `fk_module_projects_questions_project_id` (`project_id`);
 
 --
--- Indexes for table `module_projects_answers`
---
-ALTER TABLE `module_projects_answers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_answers_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_answers_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_answers_question_id` (`question_id`);
-
---
 -- Indexes for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
@@ -3063,6 +3162,15 @@ ALTER TABLE `module_tasks`
   ADD KEY `fk_module_tasks_division_id` (`division_id`),
   ADD KEY `fk_module_tasks_status` (`status`),
   ADD KEY `fk_module_tasks_priority` (`priority`);
+
+--
+-- Indexes for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_tasks_answers_user_id` (`user_id`),
+  ADD KEY `fk_module_tasks_answers_user_updated` (`user_updated`),
+  ADD KEY `fk_module_tasks_answers_question_id` (`question_id`);
 
 --
 -- Indexes for table `module_tasks_files`
@@ -3091,15 +3199,6 @@ ALTER TABLE `module_tasks_questions`
   ADD KEY `fk_module_tasks_questions_user_id` (`user_id`),
   ADD KEY `fk_module_tasks_questions_user_updated` (`user_updated`),
   ADD KEY `fk_module_tasks_questions_task_id` (`task_id`);
-
---
--- Indexes for table `module_tasks_answers`
---
-ALTER TABLE `module_tasks_answers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_tasks_answers_user_id` (`user_id`),
-  ADD KEY `fk_module_tasks_answers_user_updated` (`user_updated`),
-  ADD KEY `fk_module_tasks_answers_question_id` (`question_id`);
 
 --
 -- Indexes for table `module_task_assignments`
@@ -3200,7 +3299,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3254,7 +3353,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=550;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=563;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3278,13 +3377,13 @@ ALTER TABLE `lookup_list_item_attributes`
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_agency_persons`
 --
 ALTER TABLE `module_agency_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_contractors`
@@ -3326,7 +3425,7 @@ ALTER TABLE `module_contractors_files`
 -- AUTO_INCREMENT for table `module_contractors_notes`
 --
 ALTER TABLE `module_contractors_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_status_history`
@@ -3338,13 +3437,13 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_division`
 --
 ALTER TABLE `module_division`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_division_persons`
 --
 ALTER TABLE `module_division_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3368,25 +3467,31 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_organization`
 --
 ALTER TABLE `module_organization`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_organization_persons`
 --
 ALTER TABLE `module_organization_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -3398,7 +3503,7 @@ ALTER TABLE `module_projects_files`
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
@@ -3407,16 +3512,16 @@ ALTER TABLE `module_projects_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `module_projects_answers`
---
-ALTER TABLE `module_projects_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
@@ -3428,18 +3533,12 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
 --
 ALTER TABLE `module_tasks_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `module_tasks_answers`
---
-ALTER TABLE `module_tasks_answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3452,7 +3551,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3482,13 +3581,13 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -3726,6 +3825,12 @@ ALTER TABLE `module_projects`
   ADD CONSTRAINT `fk_module_projects_type_id` FOREIGN KEY (`type`) REFERENCES `lookup_list_items` (`id`);
 
 --
+-- Constraints for table `module_projects_answers`
+--
+ALTER TABLE `module_projects_answers`
+  ADD CONSTRAINT `fk_module_projects_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`);
+
+--
 -- Constraints for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
@@ -3754,18 +3859,18 @@ ALTER TABLE `module_projects_questions`
   ADD CONSTRAINT `fk_module_projects_questions_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
--- Constraints for table `module_projects_answers`
---
-ALTER TABLE `module_projects_answers`
-  ADD CONSTRAINT `fk_module_projects_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`);
-
---
 -- Constraints for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
   ADD CONSTRAINT `fk_module_tasks_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
   ADD CONSTRAINT `fk_module_tasks_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`),
   ADD CONSTRAINT `fk_module_tasks_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+--
+-- Constraints for table `module_tasks_answers`
+--
+ALTER TABLE `module_tasks_answers`
+  ADD CONSTRAINT `fk_module_tasks_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_tasks_questions` (`id`);
 
 --
 -- Constraints for table `module_tasks_files`
@@ -3785,12 +3890,6 @@ ALTER TABLE `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_questions`
   ADD CONSTRAINT `fk_module_tasks_questions_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
-
---
--- Constraints for table `module_tasks_answers`
---
-ALTER TABLE `module_tasks_answers`
-  ADD CONSTRAINT `fk_module_tasks_answers_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_tasks_questions` (`id`);
 
 --
 -- Constraints for table `module_task_assignments`
