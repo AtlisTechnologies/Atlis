@@ -1,4 +1,8 @@
-<?php $isEdit = !empty($meeting); ?>
+<?php
+$isEdit = !empty($meeting);
+// Lookup items for question statuses
+$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+?>
 <div class="container-fluid py-4">
   <h2 class="mb-4"><?php echo $isEdit ? 'Edit Meeting' : 'Create Meeting'; ?></h2>
   <form id="meetingForm" method="post" action="functions/<?php echo $isEdit ? 'update.php' : 'create.php'; ?>">
@@ -60,6 +64,7 @@
 <script src="<?php echo getURLDir(); ?>vendors/sortablejs/Sortable.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
   document.getElementById('addAgendaItem').addEventListener('click', function(){
@@ -83,9 +88,23 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('addQuestion').addEventListener('click', function(){
     var div = document.createElement('div');
     div.className = 'border rounded p-3 mb-2';
-    div.innerHTML = '<input type="text" name="questions[]" class="form-control mb-2" placeholder="Question" required><textarea name="answers[]" class="form-control" placeholder="Answer"></textarea>';
+    var statusOptions = '<option value="">Select status</option>';
+    for (var id in questionStatusMap) {
+      if (Object.prototype.hasOwnProperty.call(questionStatusMap, id)) {
+        statusOptions += '<option value="' + id + '">' + esc(questionStatusMap[id].label) + '</option>';
+      }
+    }
+    div.innerHTML = '
+      <input type="text" name="question_text[]" class="form-control mb-2" placeholder="Question" required>
+      <textarea name="answer_text[]" class="form-control mb-2" placeholder="Answer"></textarea>
+      <input type="number" name="agenda_id[]" class="form-control mb-2" placeholder="Agenda ID (optional)">
+      <select name="status_id[]" class="form-select">' + statusOptions + '</select>
+    ';
     document.getElementById('questionsContainer').appendChild(div);
   });
+  function esc(str){
+    return str ? str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;') : '';
+  }
 });
 </script>
 
