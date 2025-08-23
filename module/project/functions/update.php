@@ -13,13 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $start_date    = $_POST['start_date'] ?? null;
   $agency_id     = $_POST['agency_id'] ?? null;
   $division_id   = $_POST['division_id'] ?? null;
+  $is_private    = isset($_POST['is_private']) ? 1 : 0;
 
   $start_date  = $start_date !== '' ? $start_date : null;
   $agency_id   = $agency_id !== '' ? $agency_id : null;
   $division_id = $division_id !== '' ? $division_id : null;
 
   if ($id) {
-    $stmt = $pdo->prepare('UPDATE module_projects SET name = :name, status = :status, type = :type, description = :description, requirements = :requirements, specifications = :specifications, start_date = :start_date, agency_id = :agency_id, division_id = :division_id, user_updated = :uid WHERE id = :id');
+    $stmt = $pdo->prepare('UPDATE module_projects SET name = :name, status = :status, type = :type, description = :description, requirements = :requirements, specifications = :specifications, start_date = :start_date, agency_id = :agency_id, division_id = :division_id, is_private = :is_private, user_updated = :uid WHERE id = :id');
     $stmt->execute([
       ':uid' => $this_user_id,
       ':name' => $name,
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       ':start_date' => $start_date,
       ':agency_id' => $agency_id,
       ':division_id' => $division_id,
+      ':is_private' => $is_private,
       ':id' => $id
     ]);
     audit_log($pdo, $this_user_id, 'module_projects', $id, 'UPDATE', 'Updated project');
