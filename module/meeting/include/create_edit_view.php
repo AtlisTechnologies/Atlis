@@ -8,7 +8,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" value="<?php echo h($meeting['title'] ?? ''); ?>" required>
+        <input type="text" name="name" class="form-control" value="<?php echo h($meeting['name'] ?? ''); ?>" required>
       </div>
       <div class="col-md-6">
         <label class="form-label">Date &amp; Time</label>

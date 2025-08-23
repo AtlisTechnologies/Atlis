@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 12:09 AM
+-- Generation Time: Aug 24, 2025 at 12:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -680,7 +680,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (77, 1, 1, '2025-08-23 16:08:27', '2025-08-23 16:08:27', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (78, 1, 1, '2025-08-23 16:08:37', '2025-08-23 16:08:37', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (79, 1, 1, '2025-08-23 16:08:44', '2025-08-23 16:08:44', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(80, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute');
+(80, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(81, 1, 1, '2025-08-23 16:19:03', '2025-08-23 16:19:03', NULL, 'lookup_list_item_relations', 208, 'CREATE', 'Created relation'),
+(82, 1, 1, '2025-08-23 16:25:45', '2025-08-23 16:25:45', NULL, 'module_meeting', 0, 'CREATE', 'Created meeting');
 
 -- --------------------------------------------------------
 
@@ -1118,6 +1120,14 @@ CREATE TABLE `lookup_list_item_relations` (
   `item_id` int(11) NOT NULL,
   `related_item_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lookup_list_item_relations`
+--
+
+INSERT INTO `lookup_list_item_relations` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `item_id`, `related_item_id`) VALUES
+(1, 1, 1, '2025-08-23 16:19:03', '2025-08-23 16:19:03', NULL, 208, 194),
+(2, 1, 1, '2025-08-23 16:19:03', '2025-08-23 16:19:03', NULL, 194, 208);
 
 -- --------------------------------------------------------
 
@@ -1654,6 +1664,91 @@ INSERT INTO `module_kanban_board_statuses` (`id`, `user_id`, `user_updated`, `da
 (1, 1, NULL, '2025-08-20 00:20:19', '2025-08-20 00:20:19', NULL, 3, 32, '', 1),
 (2, 1, NULL, '2025-08-20 00:20:19', '2025-08-20 00:20:19', NULL, 3, 34, '', 3),
 (3, 1, NULL, '2025-08-20 00:20:19', '2025-08-20 00:20:19', NULL, 3, 35, '', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_meetings`
+--
+
+CREATE TABLE `module_meetings` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `meeting_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_meetings`
+--
+
+INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `meeting_date`) VALUES
+(1, 1, 1, '2025-08-23 16:25:45', '2025-08-23 16:25:54', NULL, 'Meeting with Nancy Crandall', '2025-08-23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_meeting_agenda`
+--
+
+CREATE TABLE `module_meeting_agenda` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `meeting_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `order_index` int(11) DEFAULT 0,
+  `completed` tinyint(1) DEFAULT 0,
+  `task_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_meeting_files`
+--
+
+CREATE TABLE `module_meeting_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `meeting_id` int(11) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_meeting_questions`
+--
+
+CREATE TABLE `module_meeting_questions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `meeting_id` int(11) NOT NULL,
+  `question` text NOT NULL,
+  `answer` text DEFAULT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2825,6 +2920,33 @@ ALTER TABLE `module_kanban_board_statuses`
   ADD KEY `fk_module_kanban_board_statuses_board_id` (`board_id`);
 
 --
+-- Indexes for table `module_meetings`
+--
+ALTER TABLE `module_meetings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_meeting_agenda`
+--
+ALTER TABLE `module_meeting_agenda`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_meeting_agenda_meeting_id` (`meeting_id`);
+
+--
+-- Indexes for table `module_meeting_files`
+--
+ALTER TABLE `module_meeting_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_meeting_files_meeting_id` (`meeting_id`);
+
+--
+-- Indexes for table `module_meeting_questions`
+--
+ALTER TABLE `module_meeting_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_meeting_questions_meeting_id` (`meeting_id`);
+
+--
 -- Indexes for table `module_organization`
 --
 ALTER TABLE `module_organization`
@@ -3119,7 +3241,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3143,7 +3265,7 @@ ALTER TABLE `lookup_list_item_attributes`
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
 --
 ALTER TABLE `lookup_list_item_relations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_agency`
@@ -3258,6 +3380,30 @@ ALTER TABLE `module_kanban_board_projects`
 --
 ALTER TABLE `module_kanban_board_statuses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `module_meetings`
+--
+ALTER TABLE `module_meetings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_meeting_agenda`
+--
+ALTER TABLE `module_meeting_agenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_meeting_files`
+--
+ALTER TABLE `module_meeting_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_meeting_questions`
+--
+ALTER TABLE `module_meeting_questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_organization`

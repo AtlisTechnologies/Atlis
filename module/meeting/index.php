@@ -11,7 +11,7 @@ switch ($action) {
     $id = (int)($_GET['id'] ?? 0);
     $meeting = [];
     if ($action === 'edit' && $id) {
-      $stmt = $pdo->prepare('SELECT * FROM module_meeting WHERE id = ?');
+      $stmt = $pdo->prepare('SELECT * FROM module_meetings WHERE id = ?');
       $stmt->execute([$id]);
       $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
@@ -31,7 +31,7 @@ switch ($action) {
   case 'details':
     require_permission('meeting', 'read');
     $id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT * FROM module_meeting WHERE id = ?');
+    $stmt = $pdo->prepare('SELECT * FROM module_meetings WHERE id = ?');
     $stmt->execute([$id]);
     $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     require '../../includes/html_header.php';
@@ -48,7 +48,7 @@ switch ($action) {
     exit;
   default:
     require_permission('meeting', 'read');
-    $meetings = $pdo->query('SELECT * FROM module_meeting ORDER BY date_created DESC')->fetchAll(PDO::FETCH_ASSOC);
+    $meetings = $pdo->query('SELECT * FROM module_meetings ORDER BY date_created DESC')->fetchAll(PDO::FETCH_ASSOC);
     require '../../includes/html_header.php';
     ?>
     <main class="main" id="top">
