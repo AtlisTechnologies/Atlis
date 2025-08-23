@@ -72,6 +72,14 @@ document.addEventListener('DOMContentLoaded', function(){
       e.target.closest('li').remove();
     }
   });
+  document.getElementById('meetingForm').addEventListener('submit', function(){
+    Array.from(agendaList.querySelectorAll('li')).forEach(function(li, idx){
+      var orderInput = li.querySelector('input[name="agenda_order_index[]"]');
+      if(orderInput){
+        orderInput.value = idx + 1;
+      }
+    });
+  });
   document.getElementById('addQuestion').addEventListener('click', function(){
     var div = document.createElement('div');
     div.className = 'border rounded p-3 mb-2';

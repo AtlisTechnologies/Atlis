@@ -108,34 +108,77 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var meetingId = <?php echo (int)$meeting['id']; ?>;
+  var baseUrl = '<?php echo getURLDir(); ?>';
   var agendaList = document.getElementById('agendaList');
-  new Sortable(agendaList, {handle: '.drag-handle', animation:150});
+  new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
-  fetch('functions/get_agenda.php?meeting_id=' + meetingId)
-    .then(r => r.json())
-    .then(function(data){
-      if(data.success && data.items.length){
-        fetch('include/agenda_item.php').then(r=>r.text()).then(function(template){
-          data.items.forEach(function(item){
-            var temp = document.createElement('div');
-            temp.innerHTML = template.trim();
-            var li = temp.firstElementChild;
-            li.querySelector('input[name="agenda_titles[]"]').value = item.title;
-            li.querySelector('input[name="agenda_presenters[]"]').value = item.presenter || '';
-            li.querySelector('input[name="agenda_durations[]"]').value = item.duration || '';
-            li.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
-            var btn = li.querySelector('.remove-agenda-item');
-            if(btn) btn.remove();
-            agendaList.appendChild(li);
-          });
-        });
-      } else {
+  function renderAgenda(items){
+    agendaList.innerHTML = '';
+    if(items.length){
+      items.forEach(function(item){
         var li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.textContent = 'No agenda items.';
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        li.dataset.id = item.id;
+        li.dataset.statusId = item.status_id || '';
+        li.dataset.taskId = item.linked_task_id || '';
+        li.dataset.projectId = item.linked_project_id || '';
+        var left = '<span><span class="drag-handle me-2 fas fa-grip-vertical"></span><span class="agenda-title">'+esc(item.title)+'</span>';
+        var meta = [];
+        if(item.status_id){ meta.push('Status '+esc(item.status_id)); }
+        if(item.linked_task_id){ meta.push('<a href="'+baseUrl+'module/task/index.php?id='+item.linked_task_id+'">Task '+esc(item.linked_task_id)+'</a>'); }
+        if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(item.linked_project_id)+'</a>'); }
+        if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' | ')+'</small>'; }
+        left += '</span>';
+        li.innerHTML = left + '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-agenda-item">Edit</button><button class="btn btn-outline-danger delete-agenda-item">Delete</button></div>';
         agendaList.appendChild(li);
-      }
+      });
+    } else {
+      agendaList.innerHTML = '<li class="list-group-item">No agenda items.</li>';
+    }
+  }
+
+  function fetchAgenda(){
+    var params = new URLSearchParams({meeting_id: meetingId});
+    fetch('functions/add_agenda_item.php', {method:'POST', body: params})
+      .then(r => r.json())
+      .then(function(data){
+        if(data.success){
+          renderAgenda(data.items);
+        }
+      });
+  }
+
+  function updateOrder(){
+    var items = agendaList.querySelectorAll('li[data-id]');
+    items.forEach(function(li, idx){
+      var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId, order_index: idx+1, title: li.querySelector('.agenda-title').textContent, status_id: li.dataset.statusId, linked_task_id: li.dataset.taskId, linked_project_id: li.dataset.projectId});
+      fetch('functions/update_agenda_item.php', {method:'POST', body: params});
     });
+  }
+
+  agendaList.addEventListener('click', function(e){
+    var li = e.target.closest('li[data-id]');
+    if(!li) return;
+    if(e.target.closest('.delete-agenda-item')){
+      var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId});
+      fetch('functions/delete_agenda_item.php', {method:'POST', body: params})
+        .then(r=>r.json())
+        .then(function(res){ if(res.success) renderAgenda(res.items); });
+    } else if(e.target.closest('.edit-agenda-item')){
+      var newTitle = prompt('Title', li.querySelector('.agenda-title').textContent);
+      if(newTitle !== null){
+        var newStatus = prompt('Status ID', li.dataset.statusId);
+        var newTask = prompt('Task ID', li.dataset.taskId);
+        var newProject = prompt('Project ID', li.dataset.projectId);
+        var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId, order_index: Array.from(agendaList.children).indexOf(li)+1, title: newTitle, status_id: newStatus, linked_task_id: newTask, linked_project_id: newProject});
+        fetch('functions/update_agenda_item.php', {method:'POST', body: params})
+          .then(r=>r.json())
+          .then(function(res){ if(res.success) renderAgenda(res.items); });
+      }
+    }
+  });
+
+  fetchAgenda();
 
   fetch('functions/get_questions.php?meeting_id=' + meetingId)
     .then(r=>r.json())
