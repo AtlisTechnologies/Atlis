@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 07:40 AM
+-- Generation Time: Aug 23, 2025 at 07:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1291,7 +1291,10 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (575, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 'module_tasks', 56, 'CREATE', 'Created task'),
 (576, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 'module_tasks', 57, 'CREATE', 'Created task'),
 (577, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 'module_tasks', 58, 'CREATE', 'Created task'),
-(578, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 'module_tasks', 59, 'CREATE', 'Created task');
+(578, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 'module_tasks', 59, 'CREATE', 'Created task'),
+(579, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 'module_tasks', 60, 'CREATE', 'Created task'),
+(580, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 'module_tasks', 61, 'CREATE', 'Created task'),
+(581, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 'module_tasks', 62, 'CREATE', 'Created task');
 
 -- --------------------------------------------------------
 
@@ -2467,7 +2470,10 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(60, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 13, NULL, NULL, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(61, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(62, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Tasks on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3445,7 +3451,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=579;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=582;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3607,7 +3613,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
