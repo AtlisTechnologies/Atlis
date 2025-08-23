@@ -72,7 +72,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <ul class="list-unstyled mb-4">
             <?php foreach ($assignedUsers as $au): ?>
               <li class="d-flex align-items-center mb-2">
-                <?php $pic = !empty($au['file_path']) ? $au['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                <?php $pic = !empty($au['user_pic']) ? $au['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir() . h($pic); ?>" data-file-type="image/*">
                   <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="<?php echo h($au['name']); ?>" />
                 </a>
@@ -167,7 +167,10 @@ require_once __DIR__ . '/../../../includes/functions.php';
                           <?php endforeach; ?>
                         </ul>
                       <?php endif; ?>
-                      <p class="fs-9 mb-0">by <a class="fw-semibold" href="#!"><?= h($n['user_name'] ?? '') ?></a></p>
+                      <?php $pic = $n['user_pic'] ?? ''; ?>
+                      <p class="fs-9 mb-0">by <a class="d-flex align-items-center fw-semibold" href="#!">
+                        <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
+                        <span class="ms-2"><?= h($n['user_name'] ?? '') ?></span></a></p>
                     </div>
                   </div>
                 </div>
@@ -202,13 +205,19 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
               <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
-              <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <?php $pic = $q['user_pic'] ?? ''; ?>
+              <p class="fs-9 text-body-secondary mb-2">by <a class="d-flex align-items-center" href="#!">
+                <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
+                <span class="ms-2"><?= h($q['user_name']); ?></span></a> on <?= h($q['date_created']); ?></p>
               <?php if (!empty($questionAnswers[$q['id']])): ?>
                 <ul class="list-unstyled ms-3">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
                       <p class="mb-1"><?= h($ans['answer_text']); ?></p>
-                      <p class="fs-9 text-body-secondary mb-0">by <?= h($ans['user_name']); ?> on <?= h($ans['date_created']); ?></p>
+                      <?php $pic = $ans['user_pic'] ?? ''; ?>
+                      <p class="fs-9 text-body-secondary mb-0">by <a class="d-flex align-items-center" href="#!">
+                        <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
+                        <span class="ms-2"><?= h($ans['user_name']); ?></span></a> on <?= h($ans['date_created']); ?></p>
                     </li>
                   <?php endforeach; ?>
                 </ul>
