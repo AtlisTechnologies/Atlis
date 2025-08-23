@@ -15,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $start_date = $_POST['start_date'] ?? null;
   $agency_id = $_POST['agency_id'] ?? null;
   $division_id = $_POST['division_id'] ?? null;
+  $is_private = isset($_POST['is_private']) ? 1 : 0;
 
-  $stmt = $pdo->prepare('INSERT INTO module_projects (user_id, user_updated, agency_id, division_id, name, description, requirements, specifications, status, priority, type, start_date) VALUES (:uid, :uid, :agency_id, :division_id, :name, :description, :requirements, :specifications, :status, :priority, :type, :start_date)');
+  $stmt = $pdo->prepare('INSERT INTO module_projects (user_id, user_updated, agency_id, division_id, is_private, name, description, requirements, specifications, status, priority, type, start_date) VALUES (:uid, :uid, :agency_id, :division_id, :is_private, :name, :description, :requirements, :specifications, :status, :priority, :type, :start_date)');
   $stmt->execute([
     ':uid' => $this_user_id,
     ':agency_id' => $agency_id,
     ':division_id' => $division_id,
+    ':is_private' => $is_private,
     ':name' => $name,
     ':description' => $description,
     ':requirements' => $requirements,
@@ -42,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     json_encode([
       'agency_id' => $agency_id,
       'division_id' => $division_id,
+      'is_private' => $is_private,
       'name' => $name,
       'description' => $description,
       'requirements' => $requirements,

@@ -19,6 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? $_POST['agency_id'] : null;
   $division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? $_POST['division_id'] : null;
 
+  if ($project_id) {
+    $pstmt = $pdo->prepare('SELECT user_id, is_private FROM module_projects WHERE id = :pid');
+    $pstmt->execute([':pid' => $project_id]);
+    $proj = $pstmt->fetch(PDO::FETCH_ASSOC);
+    if ($proj && $proj['is_private'] && !user_has_role('Admin') && $proj['user_id'] != $this_user_id) {
+      http_response_code(403);
+      if ($isAjax) {
+        echo json_encode(['success' => false]);
+      } else {
+        header('Location: ../index.php');
+      }
+      exit;
+    }
+  }
+
   // Default status to BACKLOG if not provided
   if (!$status) {
     foreach (get_lookup_items($pdo, 'TASK_STATUS') as $item) {

@@ -9,9 +9,13 @@ if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($id) {
     require_permission('task','update');
-    $existingStmt = $pdo->prepare('SELECT name, status, priority, project_id, agency_id, division_id FROM module_tasks WHERE id=?');
+    $existingStmt = $pdo->prepare('SELECT t.name, t.status, t.priority, t.project_id, t.agency_id, t.division_id, p.user_id AS project_owner, p.is_private FROM module_tasks t LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id=?');
     $existingStmt->execute([$id]);
     $existing = $existingStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    if (!$existing || ($existing['is_private'] && !user_has_role('Admin') && $existing['project_owner'] != $this_user_id)) {
+      http_response_code(403);
+      exit;
+    }
 
     $name = array_key_exists('name', $_POST) ? $_POST['name'] : ($existing['name'] ?? null);
     $status = array_key_exists('status', $_POST) ? $_POST['status'] : ($existing['status'] ?? null);
@@ -32,6 +36,15 @@ if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $project_id = $_POST['project_id'] ?? null;
     $agency_id = $_POST['agency_id'] ?? null;
     $division_id = $_POST['division_id'] ?? null;
+    if ($project_id) {
+      $pchk = $pdo->prepare('SELECT user_id, is_private FROM module_projects WHERE id = ?');
+      $pchk->execute([$project_id]);
+      $proj = $pchk->fetch(PDO::FETCH_ASSOC);
+      if ($proj && $proj['is_private'] && !user_has_role('Admin') && $proj['user_id'] != $this_user_id) {
+        http_response_code(403);
+        exit;
+      }
+    }
     $stmt = $pdo->prepare('INSERT INTO module_tasks (user_id, name, status, priority, project_id, agency_id, division_id) VALUES (?,?,?,?,?,?,?)');
     $stmt->execute([$this_user_id, $name, $status, $priority, $project_id, $agency_id, $division_id]);
     $taskId = $pdo->lastInsertId();
@@ -48,9 +61,19 @@ if ($action === 'create' || $action === 'edit') {
   if ($action === 'edit') {
     require_permission('task','update');
     $id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT * FROM module_tasks WHERE id=?');
-    $stmt->execute([$id]);
+    $query = 'SELECT t.* FROM module_tasks t LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id=?';
+    $params = [$id];
+    if (!user_has_role('Admin')) {
+      $query .= ' AND (p.id IS NULL OR p.is_private = 0 OR p.user_id = ?)';
+      $params[] = $this_user_id;
+    }
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
     $task = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    if (!$task) {
+      http_response_code(404);
+      exit;
+    }
     $assignedUsers = $pdo->prepare('SELECT assigned_user_id FROM module_task_assignments WHERE task_id=?');
     $assignedUsers->execute([$id]);
     $assignedUsers = $assignedUsers->fetchAll(PDO::FETCH_COLUMN);
@@ -61,7 +84,13 @@ if ($action === 'create' || $action === 'edit') {
   }
   $statusMap = get_lookup_items($pdo, 'TASK_STATUS');
   $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
-  $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  if (user_has_role('Admin')) {
+    $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  } else {
+    $pstmt = $pdo->prepare('SELECT id,name FROM module_projects WHERE is_private = 0 OR user_id = :uid ORDER BY name');
+    $pstmt->execute([':uid' => $this_user_id]);
+    $projects = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+  }
   $agencies = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   $divisions = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   $users = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
@@ -86,13 +115,23 @@ if ($action === 'create-edit' && isset($_GET['modal'])) {
   $id = (int)($_GET['id'] ?? 0);
   if ($id) {
     require_permission('task', 'update');
-    $stmt = $pdo->prepare(
-      'SELECT id, user_id, user_updated, date_created, date_updated, memo, project_id, agency_id, division_id, ' .
-      'name, description, requirements, specifications, status, previous_status, priority, start_date, due_date, ' .
-      'complete_date, completed, completed_by, progress_percent FROM module_tasks WHERE id = :id'
-    );
-    $stmt->execute([':id' => $id]);
+    $taskSql =
+      'SELECT t.id, t.user_id, t.user_updated, t.date_created, t.date_updated, t.memo, t.project_id, t.agency_id, t.division_id, ' .
+      't.name, t.description, t.requirements, t.specifications, t.status, t.previous_status, t.priority, t.start_date, t.due_date, ' .
+      't.complete_date, t.completed, t.completed_by, t.progress_percent FROM module_tasks t ' .
+      'LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id = :id';
+    $taskParams = [':id' => $id];
+    if (!user_has_role('Admin')) {
+      $taskSql .= ' AND (p.id IS NULL OR p.is_private = 0 OR p.user_id = :uid)';
+      $taskParams[':uid'] = $this_user_id;
+    }
+    $stmt = $pdo->prepare($taskSql);
+    $stmt->execute($taskParams);
     $task = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    if (!$task) {
+      http_response_code(404);
+      exit;
+    }
     $assignedStmt = $pdo->prepare('SELECT assigned_user_id FROM module_task_assignments WHERE task_id = :id');
     $assignedStmt->execute([':id' => $id]);
     $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_COLUMN);
@@ -103,7 +142,13 @@ if ($action === 'create-edit' && isset($_GET['modal'])) {
   }
   $statusMap   = get_lookup_items($pdo, 'TASK_STATUS');
   $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
-  $projects    = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  if (user_has_role('Admin')) {
+    $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  } else {
+    $pstmt = $pdo->prepare('SELECT id,name FROM module_projects WHERE is_private = 0 OR user_id = :uid ORDER BY name');
+    $pstmt->execute([':uid' => $this_user_id]);
+    $projects = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+  }
   $agencies    = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   $divisions   = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   $users       = $pdo->query('SELECT id,email FROM users ORDER BY email')->fetchAll(PDO::FETCH_ASSOC);
@@ -119,18 +164,25 @@ $action = $_GET['action'] ?? 'list';
 $taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
 $taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
 
-$stmt = $pdo->query(
+$taskSql =
   'SELECT t.id, t.name, t.status, t.previous_status, t.priority, t.due_date, t.completed, ' .
   'ls.label AS status_label, COALESCE(lsattr.attr_value, "secondary") AS status_color, ' .
   'lp.label AS priority_label, COALESCE(lpat.attr_value, "secondary") AS priority_color, ' .
   '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
   'FROM module_tasks t ' .
+  'LEFT JOIN module_projects p ON t.project_id = p.id ' .
   'LEFT JOIN lookup_list_items ls ON t.status = ls.id ' .
   'LEFT JOIN lookup_list_item_attributes lsattr ON ls.id = lsattr.item_id AND lsattr.attr_code = "COLOR-CLASS" ' .
   'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
-  'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS" ' .
-  'ORDER BY t.status DESC, t.priority, t.due_date, t.name'
-);
+  'LEFT JOIN lookup_list_item_attributes lpat ON lp.id = lpat.item_id AND lpat.attr_code = "COLOR-CLASS"';
+$taskParams = [];
+if (!user_has_role('Admin')) {
+  $taskSql .= ' WHERE p.id IS NULL OR p.is_private = 0 OR p.user_id = :uid';
+  $taskParams[':uid'] = $this_user_id;
+}
+$taskSql .= ' ORDER BY t.status DESC, t.priority, t.due_date, t.name';
+$stmt = $pdo->prepare($taskSql);
+$stmt->execute($taskParams);
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($tasks) {
@@ -165,26 +217,34 @@ if ($action === 'details') {
   $statusMap   = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
   $priorityMap = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 
-  $stmt = $pdo->prepare(
-    'SELECT t.id, t.name, t.description, t.status, t.priority,
-            t.project_id, t.division_id, t.agency_id, t.completed, t.completed_by,
-            p.name AS project_name,
-            d.name AS division_name,
-            a.name AS agency_name,
-            o.name AS organization_name,
-            CONCAT(cbp.first_name, " ", cbp.last_name) AS completed_by_name
-     FROM module_tasks t
-     LEFT JOIN module_projects p ON t.project_id = p.id
-     LEFT JOIN module_division d ON t.division_id = d.id
-     LEFT JOIN module_agency a ON t.agency_id = a.id
-     LEFT JOIN module_organization o ON a.organization_id = o.id
-     LEFT JOIN users cb ON t.completed_by = cb.id
-     LEFT JOIN person cbp ON cb.id = cbp.user_id
-     WHERE t.id = :id'
-  );
-
-  $stmt->execute([':id' => $task_id]);
+  $taskSql =
+    'SELECT t.id, t.name, t.description, t.status, t.priority,' .
+            ' t.project_id, t.division_id, t.agency_id, t.completed, t.completed_by,' .
+            ' p.name AS project_name,' .
+            ' d.name AS division_name,' .
+            ' a.name AS agency_name,' .
+            ' o.name AS organization_name,' .
+            ' CONCAT(cbp.first_name, " ", cbp.last_name) AS completed_by_name' .
+     ' FROM module_tasks t' .
+     ' LEFT JOIN module_projects p ON t.project_id = p.id' .
+     ' LEFT JOIN module_division d ON t.division_id = d.id' .
+     ' LEFT JOIN module_agency a ON t.agency_id = a.id' .
+     ' LEFT JOIN module_organization o ON a.organization_id = o.id' .
+     ' LEFT JOIN users cb ON t.completed_by = cb.id' .
+     ' LEFT JOIN person cbp ON cb.id = cbp.user_id' .
+     ' WHERE t.id = :id';
+  $taskParams = [':id' => $task_id];
+  if (!user_has_role('Admin')) {
+    $taskSql .= ' AND (p.id IS NULL OR p.is_private = 0 OR p.user_id = :uid)';
+    $taskParams[':uid'] = $this_user_id;
+  }
+  $stmt = $pdo->prepare($taskSql);
+  $stmt->execute($taskParams);
   $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (!$current_task) {
+    http_response_code(404);
+    exit;
+  }
 
   $availableUsers = [];
   $questions = [];
@@ -255,9 +315,19 @@ if ($action === 'details') {
   }
 } elseif ($action === 'create-edit' && isset($_GET['id'])) {
   $task_id = (int)($_GET['id'] ?? 0);
-  $stmt = $pdo->prepare('SELECT id, name, description, status, priority FROM module_tasks WHERE id = :id');
-  $stmt->execute([':id' => $task_id]);
+  $query = 'SELECT t.id, t.name, t.description, t.status, t.priority FROM module_tasks t LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id = :id';
+  $params = [':id' => $task_id];
+  if (!user_has_role('Admin')) {
+    $query .= ' AND (p.id IS NULL OR p.is_private = 0 OR p.user_id = :uid)';
+    $params[':uid'] = $this_user_id;
+  }
+  $stmt = $pdo->prepare($query);
+  $stmt->execute($params);
   $current_task = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (!$current_task) {
+    http_response_code(404);
+    exit;
+  }
 }
 
 if ($action === 'create-edit') {
