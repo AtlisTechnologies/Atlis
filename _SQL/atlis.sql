@@ -2609,6 +2609,9 @@ CREATE TABLE `person` (
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
+  `organization_id` int(11) DEFAULT NULL,
+  `agency_id` int(11) DEFAULT NULL,
+  `division_id` int(11) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
@@ -2620,20 +2623,20 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
-(1, 1, 'Dave', 'Wilkins', NULL, 59, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
-(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
-(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
-(12, 5, 'RJ', 'Calara', NULL, 59, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
-(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
-(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
-(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
-(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
-(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
-(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
-(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
-(56, 11, 'Tom', 'Wilkins', NULL, 59, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
-(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
+INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gender_id`, `organization_id`, `agency_id`, `division_id`, `dob`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
+(1, 1, 'Dave', 'Wilkins', NULL, 59, 1, 1, 1, '1992-02-20', 1, '2025-08-08 21:52:52', '2025-08-19 23:03:53', NULL),
+(2, 2, 'Sean', 'Cadina', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-15 00:11:11', '2025-08-19 23:23:09', NULL),
+(5, 4, 'Tyler', 'Jessop', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL),
+(12, 5, 'RJ', 'Calara', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL),
+(13, 6, 'Kasper', 'Krynski', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL),
+(14, 7, 'Mileny', 'Valdez', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL),
+(23, 8, 'Kenny', 'Reynolds', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL),
+(24, 9, 'Richard', 'Sprague', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL),
+(27, 10, 'Emma', 'Baylor', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL),
+(30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, NULL, NULL, NULL, NULL, 1, '2025-08-20 21:03:51', '2025-08-21 02:17:10', NULL),
+(31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
+(56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
+(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -3285,7 +3288,10 @@ ALTER TABLE `person`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `fk_person_user_id` (`user_id`),
   ADD KEY `fk_person_user_updated` (`user_updated`),
-  ADD KEY `fk_person_gender_id` (`gender_id`);
+  ADD KEY `fk_person_gender_id` (`gender_id`),
+  ADD KEY `fk_person_organization_id` (`organization_id`),
+  ADD KEY `fk_person_agency_id` (`agency_id`),
+  ADD KEY `fk_person_division_id` (`division_id`);
 
 --
 -- Indexes for table `person_addresses`
@@ -3972,7 +3978,10 @@ ALTER TABLE `module_task_assignments`
 ALTER TABLE `person`
   ADD CONSTRAINT `fk_person_gender_id` FOREIGN KEY (`gender_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `person_addresses`

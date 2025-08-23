@@ -16,6 +16,9 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $reactivatePicId = isset($_POST['reactivate_pic_id']) ? (int)$_POST['reactivate_pic_id'] : 0;
 $gender_id = isset($_POST['gender_id']) && $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
+$organization_id = isset($_POST['organization_id']) && $_POST['organization_id'] !== '' ? (int)$_POST['organization_id'] : null;
+$agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? (int)$_POST['agency_id'] : null;
+$division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? (int)$_POST['division_id'] : null;
 $dob = $_POST['dob'] ?? '';
 
 function get_status_id(PDO $pdo, string $code): int {
@@ -41,14 +44,20 @@ if ($reactivatePicId && $id) {
       $personParams = [
         ':uid_fk' => $id,
         ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
         ':dob' => $dob ?: null,
         ':uid_update' => $this_user_id
       ];
       $pdo->prepare(
-        'INSERT INTO person (user_id, gender_id, dob, user_updated)
-         VALUES (:uid_fk, :gender_id, :dob, :uid_update)
+        'INSERT INTO person (user_id, gender_id, organization_id, agency_id, division_id, dob, user_updated)
+         VALUES (:uid_fk, :gender_id, :organization_id, :agency_id, :division_id, :dob, :uid_update)
          ON DUPLICATE KEY UPDATE
            gender_id = VALUES(gender_id),
+           organization_id = VALUES(organization_id),
+           agency_id = VALUES(agency_id),
+           division_id = VALUES(division_id),
            dob = VALUES(dob),
            user_updated = VALUES(user_updated)'
       )->execute($personParams);
@@ -189,20 +198,23 @@ try {
       ':fn' => $first_name,
       ':ln' => $last_name,
       ':gender_id' => $gender_id,
+      ':organization_id' => $organization_id,
+      ':agency_id' => $agency_id,
+      ':division_id' => $division_id,
       ':dob' => $dob ?: null,
       ':uid_update' => $this_user_id
     ];
     if ($existingPerson) {
       $person_id = (int)$existingPerson['id'];
       $personData[':pid'] = $person_id;
-      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, dob = :dob, user_updated = :uid_update WHERE id = :pid');
+      $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, organization_id = :organization_id, agency_id = :agency_id, division_id = :division_id, dob = :dob, user_updated = :uid_update WHERE id = :pid');
       $pstmt->execute($personData);
-      admin_audit_log($pdo,$this_user_id,'person',$person_id,'UPDATE',json_encode($existingPerson),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Updated person');
+      admin_audit_log($pdo,$this_user_id,'person',$person_id,'UPDATE',json_encode($existingPerson),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Updated person');
     } else {
-      $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
+      $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, organization_id, agency_id, division_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :organization_id, :agency_id, :division_id, :dob, :uid_update)');
       $pstmt->execute($personData);
       $person_id = (int)$pdo->lastInsertId();
-      admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Created person');
+      admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Created person');
     }
   } else {
     $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo) VALUES (:uid, :uid, :email, :password, :memo)');
@@ -219,13 +231,16 @@ try {
       ':fn' => $first_name,
       ':ln' => $last_name,
       ':gender_id' => $gender_id,
+      ':organization_id' => $organization_id,
+      ':agency_id' => $agency_id,
+      ':division_id' => $division_id,
       ':dob' => $dob ?: null,
       ':uid_update' => $this_user_id
     ];
-    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :dob, :uid_update)');
+    $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, organization_id, agency_id, division_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :organization_id, :agency_id, :division_id, :dob, :uid_update)');
     $pstmt->execute($personData);
     $person_id = (int)$pdo->lastInsertId();
-    admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'dob'=>$dob ?: null]),'Created person');
+    admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Created person');
   }
 
   $stmt = $pdo->prepare('SELECT id FROM person_addresses WHERE person_id = :id');
