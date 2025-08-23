@@ -14,7 +14,10 @@ $profile_pic = '';
 $profilePics = [];
 
 $errors = $_SESSION['form_errors'] ?? [];
-unset($_SESSION['form_errors']);
+if (!empty($_SESSION['error_message'])) {
+  $errors[] = $_SESSION['error_message'];
+}
+unset($_SESSION['form_errors'], $_SESSION['error_message']);
 
 if ($id) {
   require_permission('users','update');
