@@ -43,7 +43,7 @@ switch ($action) {
     break;
 
   case 'save':
-    require_permission('feedback', 'save');
+    require_permission('feedback', 'create');
     require 'functions/create.php';
     break;
 
@@ -53,7 +53,7 @@ switch ($action) {
     break;
 
   case 'details':
-    require_permission('feedback', 'details');
+    require_permission('feedback', 'read');
     $types = get_lookup_items($pdo, 'FEEDBACK_TYPE');
     $typeMap = array_column($types, null, 'id');
     require 'functions/details.php';
@@ -73,7 +73,7 @@ switch ($action) {
 
   case 'list':
   default:
-    require_permission('feedback', 'list');
+    require_permission('feedback', 'read');
     $types = get_lookup_items($pdo, 'FEEDBACK_TYPE');
     $typeMap = array_column($types, null, 'id');
     require 'functions/list.php';

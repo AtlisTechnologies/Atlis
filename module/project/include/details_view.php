@@ -516,7 +516,17 @@ if (!empty($current_project)) {
             <?php if (!empty($questions)): ?>
               <?php foreach ($questions as $q): ?>
                 <div class="border rounded-2 p-3 mb-3">
-                  <p class="mb-1 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
+                  <div class="d-flex">
+                    <p class="mb-1 fw-semibold flex-grow-1"><?= nl2br(h($q['question_text'])) ?></p>
+                    <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                    <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                      <input type="hidden" name="id" value="<?= (int)$q['id'] ?>">
+                      <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                      <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                    </form>
+                    <?php endif; ?>
+
+                  </div>
                   <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
                   <?php if (!empty($questionFiles[$q['id']])): ?>
                     <ul class="list-unstyled mt-2 ms-3">
@@ -526,16 +536,33 @@ if (!empty($current_project)) {
                             <p class="text-body-highlight mb-0 lh-1">
                               <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                             </p>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                            <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                              <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                              <input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
+                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            </form>
+                            <?php endif; ?>
                           </div>
                         </li>
                       <?php endforeach; ?>
                     </ul>
                   <?php endif; ?>
                   <?php if (!empty($questionAnswers[$q['id']])): ?>
-                    <ul class="list-unstyled ps-4 mb-3">
+                    <ul class="list-unstyled ps-5 mb-3">
                       <?php foreach ($questionAnswers[$q['id']] as $a): ?>
                         <li class="mb-2">
-                          <p class="mb-1"><?= nl2br(h($a['answer_text'])) ?></p>
+                          <div class="d-flex">
+                            <p class="mb-1 flex-grow-1"><?= nl2br(h($a['answer_text'])) ?></p>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($a['user_id'] ?? 0) == $this_user_id)): ?>
+                            <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                              <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
+                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            </form>
+                            <?php endif; ?>
+                          </div>
                           <?php $apic = !empty($a['user_pic']) ? $a['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                           <div class="d-flex align-items-center fs-10 text-body-secondary">
                             <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
