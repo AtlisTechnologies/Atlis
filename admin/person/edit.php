@@ -66,6 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $last_name  = trim($_POST['last_name'] ?? '');
   $email      = trim($_POST['email'] ?? '');
   $gender_id  = $_POST['gender_id'] !== '' ? (int)$_POST['gender_id'] : null;
+  $organization_id = ($_POST['organization_id'] ?? '') !== '' ? (int)$_POST['organization_id'] : null;
+  $agency_id  = ($_POST['agency_id'] ?? '') !== '' ? (int)$_POST['agency_id'] : null;
+  $division_id = ($_POST['division_id'] ?? '') !== '' ? (int)$_POST['division_id'] : null;
   $dob        = $_POST['dob'] !== '' ? $_POST['dob'] : null;
   $addresses = $_POST['addresses'] ?? [];
   $phones    = $_POST['phones'] ?? [];
@@ -73,14 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pdo->beginTransaction();
   try {
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,dob=:dob,user_updated=:uid WHERE id=:id');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
-      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Updated person');
+      $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,organization_id=:organization_id,agency_id=:agency_id,division_id=:division_id,dob=:dob,user_updated=:uid WHERE id=:id');
+      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
+      admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Updated person');
     } else {
-      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:dob,:uid)');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':dob'=>$dob,':uid'=>$this_user_id]);
+      $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,organization_id,agency_id,division_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:organization_id,:agency_id,:division_id,:dob,:uid)');
+      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id]);
       $id = $pdo->lastInsertId();
-      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'dob'=>$dob]),'Created person');
+      admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Created person');
     }
 
     $stmt = $pdo->prepare('SELECT id FROM person_addresses WHERE person_id = :id');
