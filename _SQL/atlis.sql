@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 09:45 AM
+-- Generation Time: Aug 23, 2025 at 07:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,36 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (15, 1, 1, '2025-08-23 01:38:42', '2025-08-23 01:38:42', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
 (16, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
 (17, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2022-07-01\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
-(18, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}');
+(18, 1, 1, '2025-08-23 01:38:50', '2025-08-23 01:38:50', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(19, 1, 1, '2025-08-23 02:27:57', '2025-08-23 02:27:57', NULL, 'module_contractors', 4, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":\"2025-06-11\",\"title_role\":\"BI Analyst \\/ Report Writer\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":102,\"start_date\":\"2025-06-21\",\"end_date\":null}', '{\"status_id\":\"79\",\"initial_contact_date\":\"2025-06-11\",\"title_role\":\"BI Analyst \\/ Report Writer\",\"acquaintance\":\"Former JTI Employee.\\r\\nThomas and Amanda\'s old neighbor.\\r\\nWorked with John Wilkins at New Dawn Technologies.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"2025-06-21\",\"end_date\":\"\"}'),
+(20, 1, 1, '2025-08-23 02:28:02', '2025-08-23 02:28:02', NULL, 'module_contractors', 5, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"79\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"\",\"acquaintance_type_id\":\"\",\"start_date\":\"\",\"end_date\":\"\"}'),
+(21, 1, 1, '2025-08-23 02:28:25', '2025-08-23 02:28:25', NULL, 'module_contractors', 1, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"79\",\"initial_contact_date\":\"\",\"title_role\":\"\",\"acquaintance\":\"\",\"acquaintance_type_id\":\"187\",\"start_date\":\"2024-10-01\",\"end_date\":\"\"}'),
+(22, 1, 1, '2025-08-23 02:28:28', '2025-08-23 02:28:28', NULL, 'module_contractors', 1, 'UPDATE', 'Updated contractor', '{\"status_id\":79,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":187,\"start_date\":\"2024-10-01\",\"end_date\":null}', '{\"status_id\":\"79\",\"initial_contact_date\":\"\",\"title_role\":\"Owner\",\"acquaintance\":\"\",\"acquaintance_type_id\":\"187\",\"start_date\":\"2024-10-01\",\"end_date\":\"\"}'),
+(23, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(24, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2022-07-01\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(25, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(26, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 'person_phones', 6, 'CREATE', 'Added phone', NULL, '{\":pid\":1,\":type_id\":114,\":status_id\":106,\":start_date\":\"1992-02-20\",\":end_date\":\"2011-05-13\",\":number\":\"4357520708\",\":uid\":1}'),
+(27, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:47', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(28, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:47', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2022-07-01\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(29, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:47', NULL, 'person_addresses', 4, 'CREATE', 'Added address', NULL, '{\":pid\":1,\":type_id\":112,\":status_id\":109,\":start_date\":null,\":end_date\":null,\":line1\":\"715 W 2600 S\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"\",\":uid\":1}'),
+(30, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:47', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(31, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:47', NULL, 'person_phones', 6, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":114,\":status_id\":106,\":start_date\":\"1992-02-20\",\":end_date\":\"2011-05-13\",\":number\":\"4357520708\",\":uid\":1,\":id\":6}'),
+(32, 1, 1, '2025-08-23 02:29:52', '2025-08-23 02:29:52', NULL, 'person', 1, 'UPDATE', 'Updated person', '{\"id\":1,\"user_id\":1,\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\",\"user_updated\":1,\"date_created\":\"2025-08-08 21:52:52\",\"date_updated\":\"2025-08-23 01:38:34\",\"memo\":null}', '{\"first_name\":\"Dave\",\"last_name\":\"Wilkins\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":\"1992-02-20\"}'),
+(33, 1, 1, '2025-08-23 02:29:52', '2025-08-23 02:29:52', NULL, 'person_addresses', 1, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":111,\":status_id\":108,\":start_date\":\"2022-07-01\",\":end_date\":null,\":line1\":\"3124 S 340 W\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":1}'),
+(34, 1, 1, '2025-08-23 02:29:52', '2025-08-23 02:29:52', NULL, 'person_addresses', 4, 'UPDATE', 'Updated address', NULL, '{\":pid\":1,\":type_id\":112,\":status_id\":109,\":start_date\":null,\":end_date\":null,\":line1\":\"715 W 2600 S\",\":line2\":\"\",\":city\":\"Nibley\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":4}'),
+(35, 1, 1, '2025-08-23 02:29:52', '2025-08-23 02:29:52', NULL, 'person_phones', 1, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-08\",\":end_date\":null,\":number\":\"4357645615\",\":uid\":1,\":id\":1}'),
+(36, 1, 1, '2025-08-23 02:29:52', '2025-08-23 02:29:52', NULL, 'person_phones', 6, 'UPDATE', 'Updated phone', NULL, '{\":pid\":1,\":type_id\":114,\":status_id\":106,\":start_date\":\"1992-02-20\",\":end_date\":\"2011-05-13\",\":number\":\"4357520708\",\":uid\":1,\":id\":6}'),
+(37, 1, 1, '2025-08-23 02:30:06', '2025-08-23 02:30:06', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":5,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-23 01:37:50\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":2,\"agency_id\":3,\"division_id\":5,\"dob\":null}'),
+(38, 1, 1, '2025-08-23 02:30:06', '2025-08-23 02:30:06', NULL, 'person_addresses', 3, 'DELETE', 'Deleted address', NULL, NULL),
+(39, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 'module_tasks_notes', 38, 'NOTE', '', '', 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm'),
+(40, 1, 1, '2025-08-23 02:32:30', '2025-08-23 02:32:30', NULL, 'module_contractors_contacts', 8, 'CREATE', 'Added contact', '', '{\"contact_type_id\":75,\"summary\":\"EMAIL SENT AFTER CREATING HIS @ATLIS EMAIL ADDRESS.\\r\\n\\r\\nThomas,\\r\\n\\r\\nPlease review, sign, and return the attached Access Use Policies for the 19th Circuit Court of Lake County, IL. These will give you permission to access their systems and view confidential data on a CJIS. (Criminal Justice Information System) Some of these documents may seem (well, they are) unnecessary as they won\'t be lending you a laptop or phone, but I guess it\'s all required. They will also perform a background check, with your consent.\\r\\n\\r\\nI recommend using the free program PDF24 https:\\/\\/www.pdf24.org\\/en\\/ for any and all edits you make to a PDF. (I don\'t have Adobe pro)\\r\\n\\r\\nPlease notice on the document titled \\\"Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016\\\" you are asked to sign and date two different pages:\\r\\nThe 2nd to last and 3rd to last pages. Do not sign the very last page \\u2014 that is for the Chief Judge.\\r\\n\\r\\nLet me know if you have any questions or concerns.\\r\\n\\r\\nDon\'t let the Court-jargon scare you; it\'s taken me 8 years to learn the Judicial systems... they can be very complex and confusing.\"}'),
+(41, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'person', 58, 'CREATE', 'Created person', NULL, '{\"user_id\":13,\"first_name\":\"Zach\",\"last_name\":\"Jenks\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(42, 1, 1, '2025-08-23 10:57:03', '2025-08-23 10:57:03', NULL, 'person', 58, 'UPDATE', 'Updated person', '{\"id\":58,\"user_id\":13,\"first_name\":\"Zach\",\"last_name\":\"Jenks\",\"email\":null,\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-23 10:55:54\",\"date_updated\":\"2025-08-23 10:55:54\",\"memo\":null}', '{\"first_name\":\"Zach\",\"last_name\":\"Jenks\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(43, 1, 1, '2025-08-23 10:57:03', '2025-08-23 10:57:03', NULL, 'person_phones', 7, 'CREATE', 'Added phone', NULL, '{\":pid\":58,\":type_id\":113,\":status_id\":105,\":start_date\":\"2025-08-23\",\":end_date\":null,\":number\":\"8017875849\",\":uid\":1}'),
+(44, 1, 1, '2025-08-23 10:57:10', '2025-08-23 10:57:10', NULL, 'module_contractors', 8, 'CREATE', 'Created contractor', NULL, '{\"user_id\":13,\"person_id\":58}'),
+(45, 1, 1, '2025-08-23 10:57:42', '2025-08-23 10:57:42', NULL, 'module_contractors', 8, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-08-23\",\"title_role\":\"\",\"acquaintance\":\"Zach is an ex-JTI employee. He worked on the eCourt Implementation team(s). Very skilled.\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
+(46, 1, 1, '2025-08-23 10:58:36', '2025-08-23 10:58:36', NULL, 'module_contractors_contacts', 9, 'CREATE', 'Added contact', '', '{\"contact_type_id\":76,\"summary\":\"Sean Cadina had a phone call with Zach that went great. Zach appears to be very excited and interested in joining Atlis. Zach mentioned he has many contacts (about 9) of agencies \\/ potential customers.\"}'),
+(47, 1, 1, '2025-08-23 10:59:38', '2025-08-23 10:59:38', NULL, 'module_contractors_contacts', 10, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Dave\'s Initial out reach to Zach via text message. Asking if he\'s got time for a 10 min call today or this weekend.\"}');
 
 -- --------------------------------------------------------
 
@@ -520,7 +549,26 @@ CREATE TABLE `audit_log` (
 --
 
 INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
-(1, 1, 1, '2025-08-23 01:43:48', '2025-08-23 01:43:48', NULL, 'module_projects', 4, 'UPDATE', 'Updated project');
+(1, 1, 1, '2025-08-23 01:43:48', '2025-08-23 01:43:48', NULL, 'module_projects', 4, 'UPDATE', 'Updated project'),
+(2, 1, 1, '2025-08-23 01:47:50', '2025-08-23 01:47:50', NULL, 'module_projects', 15, 'UPDATE', 'Updated project'),
+(3, 1, 1, '2025-08-23 01:47:59', '2025-08-23 01:47:59', NULL, 'module_projects', 12, 'UPDATE', 'Updated project'),
+(4, 1, 1, '2025-08-23 01:48:19', '2025-08-23 01:48:19', NULL, 'module_projects', 10, 'UPDATE', 'Updated project'),
+(5, 1, 1, '2025-08-23 01:48:43', '2025-08-23 01:48:43', NULL, 'module_projects_assignments', 21, 'ASSIGN', 'Assigned user'),
+(6, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 'module_projects_assignments', 22, 'ASSIGN', 'Assigned user'),
+(7, 1, 1, '2025-08-23 01:48:55', '2025-08-23 01:48:55', NULL, 'module_projects', 14, 'UPDATE', 'Updated project'),
+(8, 1, 1, '2025-08-23 01:50:27', '2025-08-23 01:50:27', NULL, 'module_tasks', 39, 'UPDATE', 'Completed task'),
+(9, 1, 1, '2025-08-23 01:50:41', '2025-08-23 01:50:41', NULL, 'module_tasks', 60, 'UPDATE', 'Completed task'),
+(10, 1, 1, '2025-08-23 01:50:46', '2025-08-23 01:50:46', NULL, 'module_tasks', 61, 'UPDATE', 'Completed task'),
+(11, 1, 1, '2025-08-23 01:50:51', '2025-08-23 01:50:51', NULL, 'module_tasks', 54, 'UPDATE', 'Marked task incomplete'),
+(12, 1, 1, '2025-08-23 01:50:51', '2025-08-23 01:50:51', NULL, 'module_tasks', 54, 'UPDATE', 'Completed task'),
+(13, 1, 1, '2025-08-23 01:50:53', '2025-08-23 01:50:53', NULL, 'module_tasks', 51, 'UPDATE', 'Marked task incomplete'),
+(14, 1, 1, '2025-08-23 01:50:53', '2025-08-23 01:50:53', NULL, 'module_tasks', 51, 'UPDATE', 'Completed task'),
+(15, 1, 1, '2025-08-23 02:30:30', '2025-08-23 02:30:30', NULL, 'module_tasks', 40, 'UPDATE', 'Completed task'),
+(16, 1, 1, '2025-08-23 02:30:45', '2025-08-23 02:30:45', NULL, 'module_task_assignments', 6, 'ASSIGN', 'Assigned user'),
+(17, 1, 1, '2025-08-23 02:59:48', '2025-08-23 02:59:48', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(18, 1, 1, '2025-08-23 03:00:50', '2025-08-23 03:00:50', NULL, 'module_tasks', 65, 'CREATE', 'Created task'),
+(19, 1, 1, '2025-08-23 03:01:24', '2025-08-23 03:01:24', NULL, 'module_tasks', 66, 'CREATE', 'Created task'),
+(20, 1, 1, '2025-08-23 03:01:52', '2025-08-23 03:01:52', NULL, 'module_tasks', 67, 'CREATE', 'Created task');
 
 -- --------------------------------------------------------
 
@@ -995,13 +1043,14 @@ CREATE TABLE `module_contractors` (
 --
 
 INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `status_id`, `contractor_type_id`, `initial_contact_date`, `title_role`, `acquaintance`, `acquaintance_type_id`, `start_date`, `end_date`, `contact_phone`, `contact_address`) VALUES
-(1, 1, 1, '2025-08-19 23:23:43', '2025-08-23 01:38:34', NULL, 1, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4357645615', '3124 S 340 W, Nibley, 172, 84321, USA'),
+(1, 1, 1, '2025-08-19 23:23:43', '2025-08-23 02:29:52', NULL, 1, 79, 69, NULL, 'Owner', NULL, 187, '2024-10-01', NULL, '4357520708', '715 W 2600 S, Nibley, 172, 84321, USA'),
 (2, 2, 1, '2025-08-19 23:23:51', '2025-08-20 14:39:03', NULL, 2, 79, 69, NULL, NULL, NULL, NULL, '2025-06-11', '2025-08-31', NULL, NULL),
 (3, 4, 1, '2025-08-19 23:23:54', '2025-08-19 23:23:54', NULL, 5, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 8, 1, '2025-08-20 15:13:26', '2025-08-21 01:56:50', NULL, 23, 78, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL, NULL, NULL),
-(5, 9, 1, '2025-08-20 15:14:43', '2025-08-20 15:14:43', NULL, 24, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 8, 1, '2025-08-20 15:13:26', '2025-08-23 02:27:57', NULL, 23, 79, 69, '2025-06-11', 'BI Analyst / Report Writer', 'Former JTI Employee.\r\nThomas and Amanda\'s old neighbor.\r\nWorked with John Wilkins at New Dawn Technologies.', 102, '2025-06-21', NULL, '4357601327', 'kennydrenolds@gmail.com, USA'),
+(5, 9, 1, '2025-08-20 15:14:43', '2025-08-23 02:28:02', NULL, 24, 79, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4358902363', NULL),
 (6, 10, 1, '2025-08-20 20:47:36', '2025-08-20 20:47:36', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 11, 1, '2025-08-22 18:07:25', '2025-08-22 18:08:56', NULL, 56, 78, 69, '2025-05-01', 'Systems Analyst / Configurator / Developer ', 'Dave\'s Brother', 100, '2025-08-22', NULL, '', NULL);
+(7, 11, 1, '2025-08-22 18:07:25', '2025-08-22 18:08:56', NULL, 56, 78, 69, '2025-05-01', 'Systems Analyst / Configurator / Developer ', 'Dave\'s Brother', 100, '2025-08-22', NULL, '', NULL),
+(8, 13, 1, '2025-08-23 10:57:10', '2025-08-23 10:57:42', NULL, 58, 78, 69, '2025-08-23', NULL, 'Zach is an ex-JTI employee. He worked on the eCourt Implementation team(s). Very skilled.', 102, NULL, NULL, '8017875849', NULL);
 
 -- --------------------------------------------------------
 
@@ -1076,7 +1125,10 @@ INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `dat
 (4, 1, 1, '2025-08-21 01:58:19', '2025-08-21 01:58:19', NULL, 4, 75, '2025-06-21 14:00:00', 'SENT KENNY FIRST CONTRACT AND DETAILS ABOUT SoW #172', NULL, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-22 18:05:17', '2025-08-22 18:05:17', NULL, 3, 76, '2025-08-22 13:30:00', 'Asked Soup if he could hop on a meeting in 30 mins to be a \'fly on the wall\'. He agreed.\r\nI also told him I\'m working on a work agreement between himself and Atlis at $58/hr.\r\nHe said he\'s been interviewing at iFIT and may get a job offer, but he currently has time to work on Mondays and Wednesday but is flexible at other times/days.', 15, NULL, NULL, NULL),
 (6, 1, 1, '2025-08-22 18:09:47', '2025-08-22 18:09:47', NULL, 7, 76, '2025-08-22 13:30:00', 'Call Thomas to ask if he could join our 2pm meeting and be a \'fly on the wall\' to observe. He said yes. Meeting went well.', 15, NULL, NULL, NULL),
-(7, 1, 1, '2025-08-22 18:15:55', '2025-08-22 18:15:55', NULL, 3, 76, '2025-08-22 18:15:00', 'Soup is currently collecting Unemployment. So yeah. ⬇🪑', NULL, NULL, NULL, NULL);
+(7, 1, 1, '2025-08-22 18:15:55', '2025-08-22 18:15:55', NULL, 3, 76, '2025-08-22 18:15:00', 'Soup is currently collecting Unemployment. So yeah. ⬇🪑', NULL, NULL, NULL, NULL),
+(8, 1, 1, '2025-08-23 02:32:30', '2025-08-23 02:32:30', NULL, 7, 75, '2025-08-22 15:48:00', 'EMAIL SENT AFTER CREATING HIS @ATLIS EMAIL ADDRESS.\r\n\r\nThomas,\r\n\r\nPlease review, sign, and return the attached Access Use Policies for the 19th Circuit Court of Lake County, IL. These will give you permission to access their systems and view confidential data on a CJIS. (Criminal Justice Information System) Some of these documents may seem (well, they are) unnecessary as they won\'t be lending you a laptop or phone, but I guess it\'s all required. They will also perform a background check, with your consent.\r\n\r\nI recommend using the free program PDF24 https://www.pdf24.org/en/ for any and all edits you make to a PDF. (I don\'t have Adobe pro)\r\n\r\nPlease notice on the document titled \"Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016\" you are asked to sign and date two different pages:\r\nThe 2nd to last and 3rd to last pages. Do not sign the very last page — that is for the Chief Judge.\r\n\r\nLet me know if you have any questions or concerns.\r\n\r\nDon\'t let the Court-jargon scare you; it\'s taken me 8 years to learn the Judicial systems... they can be very complex and confusing.', NULL, NULL, NULL, NULL),
+(9, 1, 1, '2025-08-23 10:58:36', '2025-08-23 10:58:36', NULL, 8, 76, '2025-08-23 10:57:00', 'Sean Cadina had a phone call with Zach that went great. Zach appears to be very excited and interested in joining Atlis. Zach mentioned he has many contacts (about 9) of agencies / potential customers.', NULL, NULL, NULL, NULL),
+(10, 1, 1, '2025-08-23 10:59:38', '2025-08-23 10:59:38', NULL, 8, 99, '2025-08-23 10:59:00', 'Dave\'s Initial out reach to Zach via text message. Asking if he\'s got time for a 10 min call today or this weekend.', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1468,12 +1520,12 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 0, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
 (7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 0, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
 (9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 0, 'Multiple Interpreter per Event', '', '', '', 29, 57, NULL, '0000-00-00', NULL, 0),
-(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 19:20:11', NULL, 6, 8, 0, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
+(10, 1, 1, '2025-08-22 18:00:14', '2025-08-23 01:48:19', NULL, 6, 8, 1, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
 (11, 1, 1, '2025-08-22 18:10:32', '2025-08-22 18:10:32', NULL, 2, 2, 0, 'MEETINGS WITH JIS TEAM @ LAKE', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
-(12, 1, 1, '2025-08-22 18:12:14', '2025-08-22 18:12:14', NULL, 1, 1, 0, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, 182, '0000-00-00', NULL, 0),
+(12, 1, 1, '2025-08-22 18:12:14', '2025-08-23 01:47:59', NULL, 1, 1, 1, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, NULL, '0001-11-30', NULL, 0),
 (13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 0, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
-(14, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:26', NULL, 1, 1, 0, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
-(15, 1, 1, '2025-08-22 18:56:22', '2025-08-22 19:19:50', NULL, 6, 8, 0, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
+(14, 1, 1, '2025-08-22 18:47:19', '2025-08-23 01:48:55', NULL, 1, 1, 1, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, NULL, '2025-08-22', NULL, 0),
+(15, 1, 1, '2025-08-22 18:56:22', '2025-08-23 01:47:50', NULL, 6, 8, 1, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
 (16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 0, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
 (17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 0, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
 (18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
@@ -1544,7 +1596,9 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (17, 1, 1, '2025-08-22 19:19:52', '2025-08-22 19:19:52', NULL, 15, 1),
 (18, 1, 1, '2025-08-23 00:25:58', '2025-08-23 00:25:58', NULL, 10, 1),
 (19, 1, 1, '2025-08-23 00:26:05', '2025-08-23 00:26:05', NULL, 12, 1),
-(20, 1, 1, '2025-08-23 00:26:11', '2025-08-23 00:26:11', NULL, 17, 1);
+(20, 1, 1, '2025-08-23 00:26:11', '2025-08-23 00:26:11', NULL, 17, 1),
+(21, 1, 1, '2025-08-23 01:48:43', '2025-08-23 01:48:43', NULL, 16, 1),
+(22, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 14, 1);
 
 -- --------------------------------------------------------
 
@@ -1637,7 +1691,13 @@ CREATE TABLE `module_projects_pins` (
 
 INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`) VALUES
 (1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15),
-(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12);
+(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12),
+(3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4),
+(4, 1, 1, '2025-08-23 01:48:22', '2025-08-23 01:48:22', NULL, 10),
+(5, 1, 1, '2025-08-23 01:48:24', '2025-08-23 01:48:24', NULL, 13),
+(6, 1, 1, '2025-08-23 01:48:48', '2025-08-23 01:48:48', NULL, 14),
+(9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2),
+(10, 1, 1, '2025-08-23 02:27:09', '2025-08-23 02:27:09', NULL, 17);
 
 -- --------------------------------------------------------
 
@@ -1735,8 +1795,8 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 0, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 0, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 0, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(40, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 14, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(39, 1, 1, '2025-08-22 18:19:29', '2025-08-23 01:50:27', NULL, 13, NULL, NULL, 0, 'New CSS Color classes system-wide', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
+(40, 1, 1, '2025-08-22 18:52:14', '2025-08-23 02:30:30', NULL, 14, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 0, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (42, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 14, NULL, NULL, 0, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
@@ -1747,20 +1807,23 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 0, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 0, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
 (50, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:14', NULL, 10, NULL, NULL, 0, 'Dentist fill cavities?', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
-(51, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 13, NULL, NULL, 0, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(51, 1, 1, '2025-08-22 20:47:56', '2025-08-23 01:50:53', NULL, 13, NULL, NULL, 0, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '34', 0, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (52, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 4, NULL, NULL, 0, 'Email Winnie about JTI User Conference (register with .gov email?)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (53, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 10, NULL, NULL, 0, 'TELLURIDE - VACUUM UP KARJAR\'S MESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(54, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 13, NULL, NULL, 0, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(54, 1, 1, '2025-08-22 21:20:28', '2025-08-23 01:50:51', NULL, 13, NULL, NULL, 0, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '34', 0, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (55, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 7, NULL, NULL, 0, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 0, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 0, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 0, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 0, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(60, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 13, NULL, NULL, 0, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(61, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 13, NULL, NULL, 0, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(60, 1, 1, '2025-08-22 23:45:34', '2025-08-23 01:50:41', NULL, 13, NULL, NULL, 0, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
+(61, 1, 1, '2025-08-22 23:46:06', '2025-08-23 01:50:46', NULL, 13, NULL, NULL, 0, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (62, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 13, NULL, NULL, 0, 'Allow Users to individually PIN Tasks on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (63, 1, 1, '2025-08-23 00:24:34', '2025-08-23 00:24:34', NULL, 10, NULL, NULL, 0, 'ENTERPRISE BROKEN WINDSHIELD', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(64, 1, 1, '2025-08-23 00:26:34', '2025-08-23 00:26:34', NULL, 13, NULL, NULL, 0, 'ALL TO QUICK ASSIGN FROM PROJECT & TASKS LIST VIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(64, 1, 1, '2025-08-23 00:26:34', '2025-08-23 00:26:34', NULL, 13, NULL, NULL, 0, 'ALL TO QUICK ASSIGN FROM PROJECT & TASKS LIST VIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(65, 1, 1, '2025-08-23 03:00:50', '2025-08-23 03:00:50', NULL, 13, NULL, NULL, 0, 'System Property which shows a banner if the system is in Dev Mode', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(66, 1, 1, '2025-08-23 03:01:24', '2025-08-23 03:01:24', NULL, 13, NULL, NULL, 0, 'Actually use the Logo SP', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(67, 1, 1, '2025-08-23 03:01:52', '2025-08-23 03:01:52', NULL, 13, NULL, NULL, 0, 'Finance / Invoice module - copy invoices from Atlisware', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1861,7 +1924,8 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (34, 1, 1, '2025-08-22 21:36:25', '2025-08-22 21:36:25', NULL, 57, 'https://www.ccpio.org/'),
 (35, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 58, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
 (36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
-(37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments');
+(37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments'),
+(38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm');
 
 -- --------------------------------------------------------
 
@@ -1905,7 +1969,8 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (1, 1, 1, '2025-08-19 23:02:19', '2025-08-19 23:02:19', NULL, 18, 1),
 (2, 1, NULL, '2025-08-20 00:12:26', '2025-08-20 00:12:26', NULL, 17, 1),
 (3, 1, NULL, '2025-08-20 00:43:09', '2025-08-20 00:43:09', NULL, 3, 1),
-(4, 1, 1, '2025-08-21 15:31:49', '2025-08-21 15:31:49', NULL, 18, 2);
+(4, 1, 1, '2025-08-21 15:31:49', '2025-08-21 15:31:49', NULL, 18, 2),
+(6, 1, 1, '2025-08-23 02:30:45', '2025-08-23 02:30:45', NULL, 40, 1);
 
 -- --------------------------------------------------------
 
@@ -1947,7 +2012,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (30, NULL, 'Keith', 'Grant', 'KGrant@lakecountyil.gov', 59, 2, 3, 5, NULL, 1, '2025-08-20 21:03:51', '2025-08-23 01:37:50', NULL),
 (31, NULL, 'Lonnie', 'Renda', 'LRenda@LakeCountyIL.gov', 59, 2, 4, NULL, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:17:20', NULL),
 (56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
-(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL);
+(57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL),
+(58, 13, 'Zach', 'Jenks', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -1982,7 +2048,7 @@ CREATE TABLE `person_addresses` (
 INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state_id`, `postal_code`, `country`) VALUES
 (1, 1, 1, '2025-08-08 21:52:52', '2025-08-23 01:38:50', NULL, 1, 111, 108, '2022-07-01', NULL, '3124 S 340 W', '', 'Nibley', 172, '84321', 'USA'),
 (2, 1, 1, '2025-08-20 14:44:46', '2025-08-23 01:29:22', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, 'USA'),
-(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-23 01:30:55', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 172, '84321', 'USA');
+(4, 1, 1, '2025-08-23 02:29:47', '2025-08-23 02:29:52', NULL, 1, 112, 109, NULL, NULL, '715 W 2600 S', '', 'Nibley', 172, '84321', 'USA');
 
 -- --------------------------------------------------------
 
@@ -2014,7 +2080,9 @@ INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 115, 105, '2025-08-20', NULL, '4357601327'),
 (3, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 24, 115, 105, '2025-08-20', NULL, '4358902363'),
 (4, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 27, 115, 105, '2025-08-20', NULL, '4436179726'),
-(5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938');
+(5, NULL, 1, '2025-08-21 02:15:50', '2025-08-21 02:15:50', NULL, 31, 115, 105, NULL, NULL, '(224) 236-7938'),
+(6, 1, 1, '2025-08-23 02:29:21', '2025-08-23 02:29:21', NULL, 1, 114, 106, '1992-02-20', '2011-05-13', '4357520708'),
+(7, 1, 1, '2025-08-23 10:57:03', '2025-08-23 10:57:03', NULL, 58, 113, 105, '2025-08-23', NULL, '8017875849');
 
 -- --------------------------------------------------------
 
@@ -2099,7 +2167,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-22 20:38:42', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-22 20:38:42'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 02:59:38', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 02:59:38'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
@@ -2109,7 +2177,8 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL),
 (10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL),
 (11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
-(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL);
+(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL),
+(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2134,7 +2203,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(7, 1, 1, '2025-08-22 20:38:42', '2025-08-22 20:38:44', NULL, '463209', '2025-08-22 20:48:42', 1);
+(8, 1, 1, '2025-08-23 02:59:38', '2025-08-23 02:59:48', NULL, '436613', '2025-08-23 03:09:38', 1);
 
 -- --------------------------------------------------------
 
@@ -2699,7 +2768,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2753,7 +2822,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2789,7 +2858,7 @@ ALTER TABLE `module_agency_persons`
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_compensation`
@@ -2801,7 +2870,7 @@ ALTER TABLE `module_contractors_compensation`
 -- AUTO_INCREMENT for table `module_contractors_contacts`
 --
 ALTER TABLE `module_contractors_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_contacts_response`
@@ -2897,7 +2966,7 @@ ALTER TABLE `module_projects_answers`
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -2915,7 +2984,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
@@ -2927,7 +2996,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -2945,7 +3014,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
@@ -2957,25 +3026,25 @@ ALTER TABLE `module_tasks_questions`
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
 --
 ALTER TABLE `person_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `person_phones`
 --
 ALTER TABLE `person_phones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -2993,13 +3062,13 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
