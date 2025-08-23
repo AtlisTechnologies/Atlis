@@ -56,6 +56,16 @@
         <?php // ================ ?>
         <?php // END TASKS NAV LINK ?>
         <?php // ================ ?>
+        <?php // MEETINGS NAV LINK ?>
+        <?php if (user_has_permission('meeting','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/meeting/">
+            <span class="uil fs-8 me-2 fas fa-handshake"></span>Meetings</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END MEETINGS NAV LINK ?>
+        <?php // ================ ?>
         <?php // CALENDAR NAV LINK ?>
         <?php if (user_has_permission('calendar','read')): ?>
         <li class="nav-item dropdown">
