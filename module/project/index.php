@@ -53,11 +53,18 @@ $sql = "SELECT p.id,
         LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = 'COLOR-CLASS'
         LEFT JOIN module_agency a ON p.agency_id = a.id
         LEFT JOIN module_division d ON p.division_id = d.id
-        LEFT JOIN module_tasks t ON t.project_id = p.id
-        GROUP BY p.id
-        ORDER BY p.name";
+        LEFT JOIN module_tasks t ON t.project_id = p.id";
 
-$projects = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+$params = [];
+if (!user_has_role('Admin')) {
+  $sql .= " WHERE p.is_private = 0 OR p.user_id = :uid";
+  $params[':uid'] = $this_user_id;
+}
+
+$sql .= " GROUP BY p.id ORDER BY p.name";
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path, CONCAT(per.first_name, ' ', per.last_name) AS name
                            FROM module_projects_assignments pa
@@ -79,9 +86,19 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
   if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
     $project_id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT p.*, a.name AS agency_name, d.name AS division_name FROM module_projects p LEFT JOIN module_agency a ON p.agency_id = a.id LEFT JOIN module_division d ON p.division_id = d.id WHERE p.id = :id');
-    $stmt->execute([':id' => $project_id]);
+    $params = [':id' => $project_id];
+    $condition = 'p.id = :id';
+    if (!user_has_role('Admin')) {
+      $condition .= ' AND (p.is_private = 0 OR p.user_id = :uid)';
+      $params[':uid'] = $this_user_id;
+    }
+    $stmt = $pdo->prepare('SELECT p.*, a.name AS agency_name, d.name AS division_name FROM module_projects p LEFT JOIN module_agency a ON p.agency_id = a.id LEFT JOIN module_division d ON p.division_id = d.id WHERE ' . $condition);
+    $stmt->execute($params);
     $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$current_project) {
+      http_response_code(404);
+      exit;
+    }
 
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
@@ -138,20 +155,26 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         }
       }
 
-        $tasksStmt = $pdo->prepare(
+        $taskSql =
           'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
           'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
           'lp.label AS priority_label, COALESCE(pattr.attr_value, "secondary") AS priority_color, ' .
-
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
+          'JOIN module_projects p ON t.project_id = p.id ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
           'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
           'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
           'LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = "COLOR-CLASS" ' .
-          'WHERE t.project_id = :id ORDER BY t.status, t.due_date'
-        );
-      $tasksStmt->execute([':id' => $project_id]);
+          'WHERE t.project_id = :id';
+        $taskParams = [':id' => $project_id];
+        if (!user_has_role('Admin')) {
+          $taskSql .= ' AND (p.is_private = 0 OR p.user_id = :uid)';
+          $taskParams[':uid'] = $this_user_id;
+        }
+        $taskSql .= ' ORDER BY t.status, t.due_date';
+        $tasksStmt = $pdo->prepare($taskSql);
+        $tasksStmt->execute($taskParams);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
 
       if ($tasks) {

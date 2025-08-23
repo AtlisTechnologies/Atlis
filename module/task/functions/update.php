@@ -8,10 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = (int)($_POST['id'] ?? 0);
 
   if ($id) {
-    $origStmt = $pdo->prepare('SELECT * FROM module_tasks WHERE id = :id');
+    $origStmt = $pdo->prepare('SELECT t.*, p.user_id AS project_owner, p.is_private AS project_private FROM module_tasks t LEFT JOIN module_projects p ON t.project_id = p.id WHERE t.id = :id');
     $origStmt->execute([':id' => $id]);
     $existing = $origStmt->fetch(PDO::FETCH_ASSOC);
-    if (!$existing) {
+    if (!$existing || (
+        ($existing['project_id'] && $existing['project_private'] && !user_has_role('Admin') && $existing['project_owner'] != $this_user_id) ||
+        (!$existing['project_id'] && $existing['is_private'] && !user_has_role('Admin') && $existing['user_id'] != $this_user_id)
+      )) {
+      http_response_code(403);
       echo json_encode(['success' => false]);
       exit;
     }
@@ -43,11 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($val === '' || $val === null) {
           $fields[] = "$col = NULL";
         } else {
-          $chk = $pdo->prepare("SELECT id FROM $table WHERE id = :val");
-          $chk->execute([':val' => $val]);
-          if ($chk->fetchColumn()) {
-            $fields[] = "$col = :$col";
-            $params[":$col"] = $val;
+          if ($col === 'project_id') {
+            $chk = $pdo->prepare('SELECT id, user_id, is_private FROM module_projects WHERE id = :val');
+            $chk->execute([':val' => $val]);
+            $proj = $chk->fetch(PDO::FETCH_ASSOC);
+            if ($proj && (!$proj['is_private'] || user_has_role('Admin') || $proj['user_id'] == $this_user_id)) {
+              $fields[] = "$col = :$col";
+              $params[":$col"] = $val;
+              $fields[] = 'is_private = 0';
+            }
+          } else {
+            $chk = $pdo->prepare("SELECT id FROM $table WHERE id = :val");
+            $chk->execute([':val' => $val]);
+            if ($chk->fetchColumn()) {
+              $fields[] = "$col = :$col";
+              $params[":$col"] = $val;
+            }
           }
         }
       }
@@ -113,6 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($pp > 100) { $pp = 100; }
       $fields[] = 'progress_percent = :progress_percent';
       $params[':progress_percent'] = $pp;
+    }
+
+    if (!$existing['project_id'] && array_key_exists('is_private', $_POST)) {
+      $fields[] = 'is_private = :is_private';
+      $params[':is_private'] = $_POST['is_private'] ? 1 : 0;
     }
 
     if ($fields) {
