@@ -301,3 +301,490 @@ blockquote {
   color: var(--atlis) !important;
   text-decoration-color: #000 !important;
 }
+
+/* ===== Additional Custom Color Themes ===== */
+
+/* ===== SUNSET (#FF5E13) ===== */
+:root {
+  --sunset: #ff5e13;
+  --sunset-hover: #e6510d;
+  --sunset-light: #ffe6db;
+  --sunset-dark: #c6440a;
+  --sunset-text: #fff;
+  --sunset-lighter: #ffd1bd;
+  --sunset-border: #ffab8c;
+
+  --ocean: #1e90ff;
+  --ocean-hover: #187bda;
+  --ocean-light: #e1f0ff;
+  --ocean-dark: #125ea7;
+  --ocean-text: #fff;
+  --ocean-lighter: #b3d9ff;
+  --ocean-border: #7abfff;
+
+  --forest: #2e8b57;
+  --forest-hover: #257346;
+  --forest-light: #e5f5ec;
+  --forest-dark: #1d5d39;
+  --forest-text: #fff;
+  --forest-lighter: #c8eada;
+  --forest-border: #8fc4a3;
+
+  --grape: #6f42c1;
+  --grape-hover: #5a359c;
+  --grape-light: #f0e8fd;
+  --grape-dark: #492d82;
+  --grape-text: #fff;
+  --grape-lighter: #d9c9fa;
+  --grape-border: #b99ff2;
+
+  --citrus: #f4c430;
+  --citrus-hover: #d4a820;
+  --citrus-light: #fff7e1;
+  --citrus-dark: #b38a00;
+  --citrus-text: #000;
+  --citrus-lighter: #ffeab3;
+  --citrus-border: #ffd35a;
+
+  --rose: #e83e8c;
+  --rose-hover: #cf347c;
+  --rose-light: #ffe4f0;
+  --rose-dark: #a22861;
+  --rose-text: #fff;
+  --rose-lighter: #ffb3d5;
+  --rose-border: #ff80b7;
+}
+
+/* Buttons */
+.btn-sunset,
+.sunset.btn {
+  background-color: var(--sunset);
+  color: var(--sunset-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(255, 94, 19, 0.12);
+}
+.btn-sunset:hover,
+.sunset.btn:hover,
+.btn-sunset:focus,
+.sunset.btn:focus {
+  background-color: var(--sunset-hover);
+  color: var(--sunset-text);
+}
+.btn-sunset:active,
+.sunset.btn:active {
+  background-color: var(--sunset-dark);
+  color: var(--sunset-text);
+}
+
+.btn-ocean,
+.ocean.btn {
+  background-color: var(--ocean);
+  color: var(--ocean-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(30, 144, 255, 0.12);
+}
+.btn-ocean:hover,
+.ocean.btn:hover,
+.btn-ocean:focus,
+.ocean.btn:focus {
+  background-color: var(--ocean-hover);
+  color: var(--ocean-text);
+}
+.btn-ocean:active,
+.ocean.btn:active {
+  background-color: var(--ocean-dark);
+  color: var(--ocean-text);
+}
+
+.btn-forest,
+.forest.btn {
+  background-color: var(--forest);
+  color: var(--forest-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(46, 139, 87, 0.12);
+}
+.btn-forest:hover,
+.forest.btn:hover,
+.btn-forest:focus,
+.forest.btn:focus {
+  background-color: var(--forest-hover);
+  color: var(--forest-text);
+}
+.btn-forest:active,
+.forest.btn:active {
+  background-color: var(--forest-dark);
+  color: var(--forest-text);
+}
+
+.btn-grape,
+.grape.btn {
+  background-color: var(--grape);
+  color: var(--grape-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(111, 66, 193, 0.12);
+}
+.btn-grape:hover,
+.grape.btn:hover,
+.btn-grape:focus,
+.grape.btn:focus {
+  background-color: var(--grape-hover);
+  color: var(--grape-text);
+}
+.btn-grape:active,
+.grape.btn:active {
+  background-color: var(--grape-dark);
+  color: var(--grape-text);
+}
+
+.btn-citrus,
+.citrus.btn {
+  background-color: var(--citrus);
+  color: var(--citrus-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(244, 196, 48, 0.12);
+}
+.btn-citrus:hover,
+.citrus.btn:hover,
+.btn-citrus:focus,
+.citrus.btn:focus {
+  background-color: var(--citrus-hover);
+  color: var(--citrus-text);
+}
+.btn-citrus:active,
+.citrus.btn:active {
+  background-color: var(--citrus-dark);
+  color: var(--citrus-text);
+}
+
+.btn-rose,
+.rose.btn {
+  background-color: var(--rose);
+  color: var(--rose-text);
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(232, 62, 140, 0.12);
+}
+.btn-rose:hover,
+.rose.btn:hover,
+.btn-rose:focus,
+.rose.btn:focus {
+  background-color: var(--rose-hover);
+  color: var(--rose-text);
+}
+.btn-rose:active,
+.rose.btn:active {
+  background-color: var(--rose-dark);
+  color: var(--rose-text);
+}
+
+/* Outline Buttons */
+.btn-outline-sunset {
+  color: var(--sunset);
+  border: 1.5px solid var(--sunset);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-sunset:hover,
+.btn-outline-sunset:focus {
+  background: var(--sunset);
+  color: var(--sunset-text);
+  border-color: var(--sunset);
+}
+
+.btn-outline-ocean {
+  color: var(--ocean);
+  border: 1.5px solid var(--ocean);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-ocean:hover,
+.btn-outline-ocean:focus {
+  background: var(--ocean);
+  color: var(--ocean-text);
+  border-color: var(--ocean);
+}
+
+.btn-outline-forest {
+  color: var(--forest);
+  border: 1.5px solid var(--forest);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-forest:hover,
+.btn-outline-forest:focus {
+  background: var(--forest);
+  color: var(--forest-text);
+  border-color: var(--forest);
+}
+
+.btn-outline-grape {
+  color: var(--grape);
+  border: 1.5px solid var(--grape);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-grape:hover,
+.btn-outline-grape:focus {
+  background: var(--grape);
+  color: var(--grape-text);
+  border-color: var(--grape);
+}
+
+.btn-outline-citrus {
+  color: var(--citrus);
+  border: 1.5px solid var(--citrus);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-citrus:hover,
+.btn-outline-citrus:focus {
+  background: var(--citrus);
+  color: var(--citrus-text);
+  border-color: var(--citrus);
+}
+
+.btn-outline-rose {
+  color: var(--rose);
+  border: 1.5px solid var(--rose);
+  background: transparent;
+  transition: background 0.18s, color 0.18s;
+}
+.btn-outline-rose:hover,
+.btn-outline-rose:focus {
+  background: var(--rose);
+  color: var(--rose-text);
+  border-color: var(--rose);
+}
+
+/* Badges */
+.badge-sunset,
+.sunset.badge {
+  background-color: var(--sunset);
+  color: var(--sunset-text);
+}
+.badge-outline-sunset {
+  background: var(--sunset-light);
+  color: var(--sunset);
+  border: 1.5px solid var(--sunset);
+}
+
+.badge-ocean,
+.ocean.badge {
+  background-color: var(--ocean);
+  color: var(--ocean-text);
+}
+.badge-outline-ocean {
+  background: var(--ocean-light);
+  color: var(--ocean);
+  border: 1.5px solid var(--ocean);
+}
+
+.badge-forest,
+.forest.badge {
+  background-color: var(--forest);
+  color: var(--forest-text);
+}
+.badge-outline-forest {
+  background: var(--forest-light);
+  color: var(--forest);
+  border: 1.5px solid var(--forest);
+}
+
+.badge-grape,
+.grape.badge {
+  background-color: var(--grape);
+  color: var(--grape-text);
+}
+.badge-outline-grape {
+  background: var(--grape-light);
+  color: var(--grape);
+  border: 1.5px solid var(--grape);
+}
+
+.badge-citrus,
+.citrus.badge {
+  background-color: var(--citrus);
+  color: var(--citrus-text);
+}
+.badge-outline-citrus {
+  background: var(--citrus-light);
+  color: var(--citrus);
+  border: 1.5px solid var(--citrus);
+}
+
+.badge-rose,
+.rose.badge {
+  background-color: var(--rose);
+  color: var(--rose-text);
+}
+.badge-outline-rose {
+  background: var(--rose-light);
+  color: var(--rose);
+  border: 1.5px solid var(--rose);
+}
+
+/* Alerts */
+.alert-sunset,
+.sunset.alert {
+  background-color: var(--sunset-light);
+  color: var(--sunset-dark);
+  border-left: 5px solid var(--sunset);
+}
+.alert-ocean,
+.ocean.alert {
+  background-color: var(--ocean-light);
+  color: var(--ocean-dark);
+  border-left: 5px solid var(--ocean);
+}
+.alert-forest,
+.forest.alert {
+  background-color: var(--forest-light);
+  color: var(--forest-dark);
+  border-left: 5px solid var(--forest);
+}
+.alert-grape,
+.grape.alert {
+  background-color: var(--grape-light);
+  color: var(--grape-dark);
+  border-left: 5px solid var(--grape);
+}
+.alert-citrus,
+.citrus.alert {
+  background-color: var(--citrus-light);
+  color: var(--citrus-dark);
+  border-left: 5px solid var(--citrus);
+}
+.alert-rose,
+.rose.alert {
+  background-color: var(--rose-light);
+  color: var(--rose-dark);
+  border-left: 5px solid var(--rose);
+}
+
+/* Labels */
+.label-sunset {
+  background-color: var(--sunset);
+  color: var(--sunset-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.label-ocean {
+  background-color: var(--ocean);
+  color: var(--ocean-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.label-forest {
+  background-color: var(--forest);
+  color: var(--forest-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.label-grape {
+  background-color: var(--grape);
+  color: var(--grape-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.label-citrus {
+  background-color: var(--citrus);
+  color: var(--citrus-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.label-rose {
+  background-color: var(--rose);
+  color: var(--rose-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Utility Classes */
+.bg-sunset,
+.sunset-bg {
+  background-color: var(--sunset) !important;
+  color: var(--sunset-text) !important;
+}
+.text-sunset,
+.sunset-text {
+  color: var(--sunset) !important;
+}
+.border-sunset,
+.sunset-border {
+  border-color: var(--sunset) !important;
+}
+
+.bg-ocean,
+.ocean-bg {
+  background-color: var(--ocean) !important;
+  color: var(--ocean-text) !important;
+}
+.text-ocean,
+.ocean-text {
+  color: var(--ocean) !important;
+}
+.border-ocean,
+.ocean-border {
+  border-color: var(--ocean) !important;
+}
+
+.bg-forest,
+.forest-bg {
+  background-color: var(--forest) !important;
+  color: var(--forest-text) !important;
+}
+.text-forest,
+.forest-text {
+  color: var(--forest) !important;
+}
+.border-forest,
+.forest-border {
+  border-color: var(--forest) !important;
+}
+
+.bg-grape,
+.grape-bg {
+  background-color: var(--grape) !important;
+  color: var(--grape-text) !important;
+}
+.text-grape,
+.grape-text {
+  color: var(--grape) !important;
+}
+.border-grape,
+.grape-border {
+  border-color: var(--grape) !important;
+}
+
+.bg-citrus,
+.citrus-bg {
+  background-color: var(--citrus) !important;
+  color: var(--citrus-text) !important;
+}
+.text-citrus,
+.citrus-text {
+  color: var(--citrus) !important;
+}
+.border-citrus,
+.citrus-border {
+  border-color: var(--citrus) !important;
+}
+
+.bg-rose,
+.rose-bg {
+  background-color: var(--rose) !important;
+  color: var(--rose-text) !important;
+}
+.text-rose,
+.rose-text {
+  color: var(--rose) !important;
+}
+.border-rose,
+.rose-border {
+  border-color: var(--rose) !important;
+}
