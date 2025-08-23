@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 12:27 AM
+-- Generation Time: Aug 24, 2025 at 12:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1678,16 +1678,15 @@ CREATE TABLE `module_meetings` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `meeting_date` date DEFAULT NULL
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `recur_daily` tinyint(1) DEFAULT 0,
+  `recur_weekly` tinyint(1) DEFAULT 0,
+  `recur_monthly` tinyint(1) DEFAULT 0,
+  `calendar_event_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_meetings`
---
-
-INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `meeting_date`) VALUES
-(1, 1, 1, '2025-08-23 16:25:45', '2025-08-23 16:25:54', NULL, 'Meeting with Nancy Crandall', '2025-08-23');
 
 -- --------------------------------------------------------
 
@@ -1703,11 +1702,31 @@ CREATE TABLE `module_meeting_agenda` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `meeting_id` int(11) NOT NULL,
+  `order_index` int(11) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `order_index` int(11) DEFAULT 0,
-  `completed` tinyint(1) DEFAULT 0,
-  `task_id` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL
+  `status_id` int(11) DEFAULT NULL,
+  `linked_task_id` int(11) DEFAULT NULL,
+  `linked_project_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_meeting_attendees`
+--
+
+CREATE TABLE `module_meeting_attendees` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `meeting_id` int(11) NOT NULL,
+  `attendee_user_id` int(11) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `check_in_time` datetime DEFAULT NULL,
+  `check_out_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1724,10 +1743,9 @@ CREATE TABLE `module_meeting_files` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `meeting_id` int(11) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(100) DEFAULT NULL
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `uploader_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1743,11 +1761,11 @@ CREATE TABLE `module_meeting_questions` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `meeting_id` int(11) NOT NULL,
-  `question` text NOT NULL,
-  `answer` text DEFAULT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL
+  `meeting_id` int(11) DEFAULT NULL,
+  `agenda_id` int(11) DEFAULT NULL,
+  `question_text` text NOT NULL,
+  `answer_text` text DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2923,28 +2941,53 @@ ALTER TABLE `module_kanban_board_statuses`
 -- Indexes for table `module_meetings`
 --
 ALTER TABLE `module_meetings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_meetings_user_id` (`user_id`),
+  ADD KEY `fk_module_meetings_user_updated` (`user_updated`),
+  ADD KEY `fk_module_meetings_calendar_event_id` (`calendar_event_id`);
 
 --
 -- Indexes for table `module_meeting_agenda`
 --
 ALTER TABLE `module_meeting_agenda`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_meeting_agenda_meeting_id` (`meeting_id`);
+  ADD KEY `fk_module_meeting_agenda_user_id` (`user_id`),
+  ADD KEY `fk_module_meeting_agenda_user_updated` (`user_updated`),
+  ADD KEY `fk_module_meeting_agenda_meeting_id` (`meeting_id`),
+  ADD KEY `fk_module_meeting_agenda_status_id` (`status_id`),
+  ADD KEY `fk_module_meeting_agenda_linked_task_id` (`linked_task_id`),
+  ADD KEY `fk_module_meeting_agenda_linked_project_id` (`linked_project_id`);
+
+--
+-- Indexes for table `module_meeting_attendees`
+--
+ALTER TABLE `module_meeting_attendees`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_meeting_attendees_user_id` (`user_id`),
+  ADD KEY `fk_module_meeting_attendees_user_updated` (`user_updated`),
+  ADD KEY `fk_module_meeting_attendees_meeting_id` (`meeting_id`),
+  ADD KEY `fk_module_meeting_attendees_attendee_user_id` (`attendee_user_id`);
 
 --
 -- Indexes for table `module_meeting_files`
 --
 ALTER TABLE `module_meeting_files`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_meeting_files_meeting_id` (`meeting_id`);
+  ADD KEY `fk_module_meeting_files_user_id` (`user_id`),
+  ADD KEY `fk_module_meeting_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_meeting_files_meeting_id` (`meeting_id`),
+  ADD KEY `fk_module_meeting_files_uploader_id` (`uploader_id`);
 
 --
 -- Indexes for table `module_meeting_questions`
 --
 ALTER TABLE `module_meeting_questions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_meeting_questions_meeting_id` (`meeting_id`);
+  ADD KEY `fk_module_meeting_questions_user_id` (`user_id`),
+  ADD KEY `fk_module_meeting_questions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_meeting_questions_meeting_id` (`meeting_id`),
+  ADD KEY `fk_module_meeting_questions_agenda_id` (`agenda_id`),
+  ADD KEY `fk_module_meeting_questions_status_id` (`status_id`);
 
 --
 -- Indexes for table `module_organization`
@@ -3385,12 +3428,18 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_meetings`
 --
 ALTER TABLE `module_meetings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_agenda`
 --
 ALTER TABLE `module_meeting_agenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_meeting_attendees`
+--
+ALTER TABLE `module_meeting_attendees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3776,6 +3825,53 @@ ALTER TABLE `module_kanban_board_projects`
 --
 ALTER TABLE `module_kanban_board_statuses`
   ADD CONSTRAINT `fk_module_kanban_board_statuses_board_id` FOREIGN KEY (`board_id`) REFERENCES `module_kanban_boards` (`id`);
+
+--
+-- Constraints for table `module_meetings`
+--
+ALTER TABLE `module_meetings`
+  ADD CONSTRAINT `fk_module_meetings_calendar_event_id` FOREIGN KEY (`calendar_event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meetings_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meetings_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_meeting_agenda`
+--
+ALTER TABLE `module_meeting_agenda`
+  ADD CONSTRAINT `fk_module_meeting_agenda_linked_project_id` FOREIGN KEY (`linked_project_id`) REFERENCES `module_projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_agenda_linked_task_id` FOREIGN KEY (`linked_task_id`) REFERENCES `module_tasks` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_agenda_meeting_id` FOREIGN KEY (`meeting_id`) REFERENCES `module_meetings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_meeting_agenda_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_meeting_agenda_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_agenda_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_meeting_attendees`
+--
+ALTER TABLE `module_meeting_attendees`
+  ADD CONSTRAINT `fk_module_meeting_attendees_attendee_user_id` FOREIGN KEY (`attendee_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_attendees_meeting_id` FOREIGN KEY (`meeting_id`) REFERENCES `module_meetings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_meeting_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_meeting_files`
+--
+ALTER TABLE `module_meeting_files`
+  ADD CONSTRAINT `fk_module_meeting_files_meeting_id` FOREIGN KEY (`meeting_id`) REFERENCES `module_meetings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_meeting_files_uploader_id` FOREIGN KEY (`uploader_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_meeting_questions`
+--
+ALTER TABLE `module_meeting_questions`
+  ADD CONSTRAINT `fk_module_meeting_questions_agenda_id` FOREIGN KEY (`agenda_id`) REFERENCES `module_meeting_agenda` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_meeting_questions_meeting_id` FOREIGN KEY (`meeting_id`) REFERENCES `module_meetings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_meeting_questions_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_meeting_questions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_meeting_questions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_organization`
