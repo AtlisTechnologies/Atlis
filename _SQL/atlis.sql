@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 09:40 AM
+-- Generation Time: Aug 23, 2025 at 09:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -514,6 +514,13 @@ CREATE TABLE `audit_log` (
   `action` varchar(50) NOT NULL,
   `details` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `audit_log`
+--
+
+INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
+(1, 1, 1, '2025-08-23 01:43:48', '2025-08-23 01:43:48', NULL, 'module_projects', 4, 'UPDATE', 'Updated project');
 
 -- --------------------------------------------------------
 
@@ -1435,6 +1442,7 @@ CREATE TABLE `module_projects` (
   `memo` text DEFAULT NULL,
   `agency_id` int(11) DEFAULT NULL,
   `division_id` int(11) DEFAULT NULL,
+  `is_private` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `requirements` text DEFAULT NULL,
@@ -1451,25 +1459,25 @@ CREATE TABLE `module_projects` (
 -- Dumping data for table `module_projects`
 --
 
-INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `type`, `start_date`, `complete_date`, `completed`) VALUES
-(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, NULL, '2025-08-01', NULL, 0),
-(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 'Bench View', '', '', '', 29, 58, NULL, '2025-08-01', NULL, 0),
-(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, NULL, '2025-04-26', NULL, 0),
-(4, 1, 1, '2025-08-21 15:38:14', '2025-08-21 15:38:14', NULL, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
-(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
-(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
-(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
-(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 'Multiple Interpreter per Event', '', '', '', 29, 57, NULL, '0000-00-00', NULL, 0),
-(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 19:20:11', NULL, 6, 8, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
-(11, 1, 1, '2025-08-22 18:10:32', '2025-08-22 18:10:32', NULL, 2, 2, 'MEETINGS WITH JIS TEAM @ LAKE', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
-(12, 1, 1, '2025-08-22 18:12:14', '2025-08-22 18:12:14', NULL, 1, 1, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, 182, '0000-00-00', NULL, 0),
-(13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
-(14, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:26', NULL, 1, 1, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
-(15, 1, 1, '2025-08-22 18:56:22', '2025-08-22 19:19:50', NULL, 6, 8, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
-(16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
-(17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
-(18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
-(19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0);
+INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `division_id`, `is_private`, `name`, `description`, `requirements`, `specifications`, `status`, `priority`, `type`, `start_date`, `complete_date`, `completed`) VALUES
+(1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 0, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, NULL, '2025-08-01', NULL, 0),
+(2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 0, 'Bench View', '', '', '', 29, 58, NULL, '2025-08-01', NULL, 0),
+(3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 0, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, NULL, '2025-04-26', NULL, 0),
+(4, 1, 1, '2025-08-21 15:38:14', '2025-08-23 01:43:48', NULL, 1, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 0, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 0, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
+(7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 0, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
+(9, 1, 1, '2025-08-22 14:51:43', '2025-08-22 14:51:43', NULL, 2, 2, 0, 'Multiple Interpreter per Event', '', '', '', 29, 57, NULL, '0000-00-00', NULL, 0),
+(10, 1, 1, '2025-08-22 18:00:14', '2025-08-22 19:20:11', NULL, 6, 8, 0, 'DAVE WILKINS', '', '', '', 29, 87, NULL, '2025-08-01', NULL, 0),
+(11, 1, 1, '2025-08-22 18:10:32', '2025-08-22 18:10:32', NULL, 2, 2, 0, 'MEETINGS WITH JIS TEAM @ LAKE', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
+(12, 1, 1, '2025-08-22 18:12:14', '2025-08-22 18:12:14', NULL, 1, 1, 0, 'ATLIS - Onboard Tyler Jessop', 'SOUP\r\n	✔ LAKE AUPs\r\n	✔ FULL NAME & BIRTHDAY\r\n	ATLIS CONTRACT & DOCS', '', '', 29, 56, 182, '0000-00-00', NULL, 0),
+(13, 1, 1, '2025-08-22 18:19:20', '2025-08-22 18:19:20', NULL, 1, 1, 0, 'ATLISWARE - ADDITIONS', '', '', '', 29, 87, 182, '2025-08-01', NULL, 0),
+(14, 1, 1, '2025-08-22 18:47:19', '2025-08-22 18:47:26', NULL, 1, 1, 0, 'ONBOARD Tom Wilkins', '', '', '', 29, 87, 182, '2025-08-22', NULL, 0),
+(15, 1, 1, '2025-08-22 18:56:22', '2025-08-22 19:19:50', NULL, 6, 8, 0, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
+(16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 0, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
+(17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 0, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
+(18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
+(19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 0, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1628,7 +1636,8 @@ CREATE TABLE `module_projects_pins` (
 --
 
 INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`) VALUES
-(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15);
+(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15),
+(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12);
 
 -- --------------------------------------------------------
 
@@ -1670,6 +1679,7 @@ CREATE TABLE `module_tasks` (
   `project_id` int(11) DEFAULT NULL,
   `agency_id` int(11) DEFAULT NULL,
   `division_id` int(11) DEFAULT NULL,
+  `is_private` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `requirements` text DEFAULT NULL,
@@ -1689,68 +1699,68 @@ CREATE TABLE `module_tasks` (
 -- Dumping data for table `module_tasks`
 --
 
-INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `name`, `description`, `requirements`, `specifications`, `status`, `previous_status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
-(1, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(2, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
-(3, 1, 1, '2025-08-19 22:58:03', '2025-08-20 00:43:16', NULL, 3, 2, 2, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-17', '2025-08-20', 1, 1, 100),
-(4, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:20', NULL, NULL, 2, 2, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', 34, '39', NULL, '2025-03-25', '2025-08-21', 1, 1, 100),
-(6, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:59:41', NULL, NULL, 2, 2, 'Zoom Link', NULL, NULL, NULL, '32', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
-(7, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
-(8, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:19', NULL, NULL, 2, 2, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-27', '2025-08-21', 1, 1, 100),
-(9, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', NULL, '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
-(10, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '3', NULL, '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
-(11, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Report K Update', NULL, NULL, NULL, '3', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
-(12, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '3', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(13, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '3', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
-(15, 1, 1, '2025-08-19 22:58:03', '2025-08-21 22:18:55', NULL, NULL, 2, 2, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(16, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(17, 1, 1, '2025-08-19 23:01:26', '2025-08-20 00:13:56', NULL, 1, 2, 2, 'Initial Demo to Judge Novak - July 31st', NULL, NULL, NULL, '32', 32, '39', NULL, NULL, '2025-08-20', 1, 1, 100),
-(18, 1, 1, '2025-08-19 23:02:12', '2025-08-21 15:31:46', NULL, 2, NULL, NULL, 'Bench View Discussion', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(19, 1, 1, '2025-08-20 00:13:16', '2025-08-20 00:13:16', NULL, 1, NULL, NULL, 'Show [Seal Type] in Documents Viewer', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
-(20, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:42:11', NULL, 3, NULL, NULL, 'Create the Widget', NULL, NULL, NULL, '34', 32, '38', NULL, NULL, '2025-08-20', 1, 1, 100),
-(22, 1, 1, '2025-08-21 18:09:03', '2025-08-21 18:09:25', NULL, 5, NULL, NULL, 'Email Davey & Gia about Specifications and Requirements', NULL, NULL, NULL, '32', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
-(23, 1, 1, '2025-08-21 22:22:45', '2025-08-21 22:22:45', NULL, 6, NULL, NULL, 'Kick off meeting with McLean County, IL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(24, 1, 1, '2025-08-21 22:24:14', '2025-08-21 22:24:14', NULL, 6, NULL, NULL, 'Reach out to RJ to get the proper Person/Contact to initiate', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(25, 1, 1, '2025-08-21 22:24:39', '2025-08-21 22:24:39', NULL, 6, NULL, NULL, 'Compile list of completed Projects & Tasks to demo', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(26, 1, 1, '2025-08-21 22:26:08', '2025-08-21 22:26:08', NULL, 7, NULL, NULL, 'Prepare Winnie to pitch Atlis\' support and post go-live services.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(27, 1, 1, '2025-08-21 22:26:23', '2025-08-21 22:26:23', NULL, 7, NULL, NULL, 'Compile list of completed Projects & Tasks', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(28, 1, 1, '2025-08-21 22:26:43', '2025-08-21 22:26:43', NULL, 7, NULL, NULL, 'Business Cards / Way to introduce ourselves and Atlis', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(29, 1, 1, '2025-08-22 18:00:29', '2025-08-22 18:00:29', NULL, 10, NULL, NULL, 'TELLURIDE - get insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(30, 1, 1, '2025-08-22 18:00:44', '2025-08-22 18:00:44', NULL, 10, NULL, NULL, 'TELLURIDE - send AFCU proof of insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(31, 1, 1, '2025-08-22 18:00:55', '2025-08-22 18:00:55', NULL, 10, NULL, NULL, 'TELLURIDE - purchase all weather floor mats', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(32, 1, 1, '2025-08-22 18:01:01', '2025-08-22 18:01:01', NULL, 10, NULL, NULL, 'TELLURIDE - get windows tinted', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(33, 1, 1, '2025-08-22 18:06:00', '2025-08-22 18:06:00', NULL, 4, NULL, NULL, 'Reach out to Docstader about Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(34, 1, 1, '2025-08-22 18:06:14', '2025-08-22 18:06:14', NULL, 4, NULL, NULL, 'Email Emma Baylor details about doing Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(35, 1, 1, '2025-08-22 18:12:21', '2025-08-22 18:13:05', NULL, 12, NULL, NULL, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-22', 1, 1, 100),
-(36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(40, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 14, NULL, NULL, 'Send him LAKE AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(42, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 14, NULL, NULL, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(47, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 13, NULL, NULL, 'Relationships between Lookup Lists and LU Items (upload eCourt schema)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
-(50, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:14', NULL, 10, NULL, NULL, 'Dentist fill cavities?', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
-(51, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 13, NULL, NULL, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(52, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 4, NULL, NULL, 'Email Winnie about JTI User Conference (register with .gov email?)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(53, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 10, NULL, NULL, 'TELLURIDE - VACUUM UP KARJAR\'S MESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(54, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 13, NULL, NULL, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(55, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 7, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(60, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 13, NULL, NULL, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(61, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(62, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 13, NULL, NULL, 'Allow Users to individually PIN Tasks on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(63, 1, 1, '2025-08-23 00:24:34', '2025-08-23 00:24:34', NULL, 10, NULL, NULL, 'ENTERPRISE BROKEN WINDSHIELD', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(64, 1, 1, '2025-08-23 00:26:34', '2025-08-23 00:26:34', NULL, 13, NULL, NULL, 'ALL TO QUICK ASSIGN FROM PROJECT & TASKS LIST VIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `agency_id`, `division_id`, `is_private`, `name`, `description`, `requirements`, `specifications`, `status`, `previous_status`, `priority`, `start_date`, `due_date`, `complete_date`, `completed`, `completed_by`, `progress_percent`) VALUES
+(1, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Probation Officer Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(2, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'GAL Role and Permissions in eCourt Portal', NULL, NULL, NULL, '35', NULL, '38', NULL, '2025-03-17', NULL, 0, NULL, 0),
+(3, 1, 1, '2025-08-19 22:58:03', '2025-08-20 00:43:16', NULL, 3, 2, 2, 0, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-17', '2025-08-20', 1, 1, 100),
+(4, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:20', NULL, NULL, 2, 2, 0, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', 34, '39', NULL, '2025-03-25', '2025-08-21', 1, 1, 100),
+(6, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:59:41', NULL, NULL, 2, 2, 0, 'Zoom Link', NULL, NULL, NULL, '32', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
+(7, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
+(8, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:19', NULL, NULL, 2, 2, 0, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-27', '2025-08-21', 1, 1, 100),
+(9, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', NULL, '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
+(10, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '3', NULL, '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
+(11, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Report K Update', NULL, NULL, NULL, '3', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(12, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'New search form request: search by assigned judge and current attorney law firm', NULL, NULL, NULL, '3', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(13, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Block Restricted Documents from eProsecutor and eDefender', NULL, NULL, NULL, '3', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(15, 1, 1, '2025-08-19 22:58:03', '2025-08-21 22:18:55', NULL, NULL, 2, 2, 0, 'COURT CLERK DocDef REVIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(16, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Interpreter Needed - UPDATE EVENT & WF', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(17, 1, 1, '2025-08-19 23:01:26', '2025-08-20 00:13:56', NULL, 1, 2, 2, 0, 'Initial Demo to Judge Novak - July 31st', NULL, NULL, NULL, '32', 32, '39', NULL, NULL, '2025-08-20', 1, 1, 100),
+(18, 1, 1, '2025-08-19 23:02:12', '2025-08-21 15:31:46', NULL, 2, NULL, NULL, 0, 'Bench View Discussion', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(19, 1, 1, '2025-08-20 00:13:16', '2025-08-20 00:13:16', NULL, 1, NULL, NULL, 0, 'Show [Seal Type] in Documents Viewer', NULL, NULL, NULL, '35', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0),
+(20, 1, 1, '2025-08-20 00:21:07', '2025-08-20 00:42:11', NULL, 3, NULL, NULL, 0, 'Create the Widget', NULL, NULL, NULL, '34', 32, '38', NULL, NULL, '2025-08-20', 1, 1, 100),
+(22, 1, 1, '2025-08-21 18:09:03', '2025-08-21 18:09:25', NULL, 5, NULL, NULL, 0, 'Email Davey & Gia about Specifications and Requirements', NULL, NULL, NULL, '32', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(23, 1, 1, '2025-08-21 22:22:45', '2025-08-21 22:22:45', NULL, 6, NULL, NULL, 0, 'Kick off meeting with McLean County, IL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(24, 1, 1, '2025-08-21 22:24:14', '2025-08-21 22:24:14', NULL, 6, NULL, NULL, 0, 'Reach out to RJ to get the proper Person/Contact to initiate', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(25, 1, 1, '2025-08-21 22:24:39', '2025-08-21 22:24:39', NULL, 6, NULL, NULL, 0, 'Compile list of completed Projects & Tasks to demo', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(26, 1, 1, '2025-08-21 22:26:08', '2025-08-21 22:26:08', NULL, 7, NULL, NULL, 0, 'Prepare Winnie to pitch Atlis\' support and post go-live services.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(27, 1, 1, '2025-08-21 22:26:23', '2025-08-21 22:26:23', NULL, 7, NULL, NULL, 0, 'Compile list of completed Projects & Tasks', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(28, 1, 1, '2025-08-21 22:26:43', '2025-08-21 22:26:43', NULL, 7, NULL, NULL, 0, 'Business Cards / Way to introduce ourselves and Atlis', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(29, 1, 1, '2025-08-22 18:00:29', '2025-08-22 18:00:29', NULL, 10, NULL, NULL, 0, 'TELLURIDE - get insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(30, 1, 1, '2025-08-22 18:00:44', '2025-08-22 18:00:44', NULL, 10, NULL, NULL, 0, 'TELLURIDE - send AFCU proof of insurance', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(31, 1, 1, '2025-08-22 18:00:55', '2025-08-22 18:00:55', NULL, 10, NULL, NULL, 0, 'TELLURIDE - purchase all weather floor mats', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(32, 1, 1, '2025-08-22 18:01:01', '2025-08-22 18:01:01', NULL, 10, NULL, NULL, 0, 'TELLURIDE - get windows tinted', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(33, 1, 1, '2025-08-22 18:06:00', '2025-08-22 18:06:00', NULL, 4, NULL, NULL, 0, 'Reach out to Docstader about Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(34, 1, 1, '2025-08-22 18:06:14', '2025-08-22 18:06:14', NULL, 4, NULL, NULL, 0, 'Email Emma Baylor details about doing Business Intelligence', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(35, 1, 1, '2025-08-22 18:12:21', '2025-08-22 18:13:05', NULL, 12, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-22', 1, 1, 100),
+(36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 0, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 0, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(39, 1, 1, '2025-08-22 18:19:29', '2025-08-22 18:19:29', NULL, 13, NULL, NULL, 0, 'New CSS Color classes system-wide', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(40, 1, 1, '2025-08-22 18:52:14', '2025-08-22 18:52:14', NULL, 14, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 0, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(42, 1, 1, '2025-08-22 18:52:30', '2025-08-22 18:52:30', NULL, 14, NULL, NULL, 0, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 0, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 0, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 0, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(47, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 13, NULL, NULL, 0, 'Relationships between Lookup Lists and LU Items (upload eCourt schema)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 0, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 0, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(50, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:14', NULL, 10, NULL, NULL, 0, 'Dentist fill cavities?', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
+(51, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 13, NULL, NULL, 0, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(52, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 4, NULL, NULL, 0, 'Email Winnie about JTI User Conference (register with .gov email?)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(53, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 10, NULL, NULL, 0, 'TELLURIDE - VACUUM UP KARJAR\'S MESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(54, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 13, NULL, NULL, 0, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(55, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 7, NULL, NULL, 0, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 0, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 0, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 0, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(59, 1, 1, '2025-08-22 23:39:22', '2025-08-22 23:39:22', NULL, 10, NULL, NULL, 0, 'CALL Zynex Medical Inc - BILLING MY INSURANCE AF !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(60, 1, 1, '2025-08-22 23:45:34', '2025-08-22 23:45:34', NULL, 13, NULL, NULL, 0, 'All Projects to be Private (for person use)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(61, 1, 1, '2025-08-22 23:46:06', '2025-08-22 23:46:06', NULL, 13, NULL, NULL, 0, 'Allow Users to individually PIN Projects on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(62, 1, 1, '2025-08-22 23:46:19', '2025-08-22 23:46:19', NULL, 13, NULL, NULL, 0, 'Allow Users to individually PIN Tasks on the List view so they\'re always at the top', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(63, 1, 1, '2025-08-23 00:24:34', '2025-08-23 00:24:34', NULL, 10, NULL, NULL, 0, 'ENTERPRISE BROKEN WINDSHIELD', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(64, 1, 1, '2025-08-23 00:26:34', '2025-08-23 00:26:34', NULL, 13, NULL, NULL, 0, 'ALL TO QUICK ASSIGN FROM PROJECT & TASKS LIST VIEW', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2743,7 +2753,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -2905,7 +2915,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
