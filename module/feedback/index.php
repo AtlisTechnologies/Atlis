@@ -21,15 +21,13 @@ switch ($action) {
     <?php
     break;
 
-  case 'save':
-    require_permission('feedback', 'create');
-    require 'functions/create.php';
-    break;
-
   case 'edit':
-    require_permission('feedback', 'update');
+    require_permission('feedback', 'save');
+    $id = (int)($_GET['id'] ?? 0);
+    $stmt = $pdo->prepare('SELECT id, title, description, type FROM module_feedback WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    $feedbackItem = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     $types = get_lookup_items($pdo, 'FEEDBACK_TYPE');
-    require 'functions/edit.php';
     require '../../includes/html_header.php';
     ?>
     <main class="main" id="top">
@@ -44,14 +42,14 @@ switch ($action) {
     <?php
     break;
 
-  case 'update':
-    require_permission('feedback', 'update');
-    require 'functions/update.php';
+  case 'save':
+    require_permission('feedback', 'create');
+    require 'functions/create.php';
     break;
 
-  case 'delete':
-    require_permission('feedback', 'delete');
-    require 'functions/delete.php';
+  case 'update':
+    require_permission('feedback', 'save');
+    require 'functions/update.php';
     break;
 
   case 'details':
