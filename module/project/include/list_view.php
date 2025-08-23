@@ -1,5 +1,11 @@
 <?php
 ?>
+<style>
+.pinned-row {
+  border-left: 3px solid #00948E !important;
+  background-color: var(--bs-tertiary-bg, #f8f9fa);
+}
+</style>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
     <li class="breadcrumb-item"><a href="#">Projects</a></li>
@@ -61,7 +67,7 @@
       </thead>
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
-        <tr class="position-static <?= $project['pinned'] ? 'bg-body-tertiary border-start border-warning border-3' : ''; ?>">
+        <tr class="position-static <?= $project['pinned'] ? 'pinned-row' : ''; ?>">
           <td class="align-middle text-center">
             <?php if (user_has_permission('project','read')): ?>
             <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
@@ -155,6 +161,7 @@ document.querySelectorAll('.pin-toggle').forEach(btn=>{
       body:`project_id=${pid}`
     }).then(r=>r.json()).then(d=>{
       btn.querySelector('span').classList.toggle('fa-rotate-90', !d.pinned);
+      btn.closest('tr').classList.toggle('pinned-row', d.pinned);
       // Move row to top if pinned, otherwise refresh page to reapply order
       location.reload();
     });
