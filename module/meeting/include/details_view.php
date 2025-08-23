@@ -46,7 +46,14 @@
       </div>
       <div class="card mb-3">
         <div class="card-header">Attachments</div>
-        <div class="card-body p-0">
+        <div class="card-body">
+          <?php if (user_has_permission('meeting','update')): ?>
+          <form id="uploadForm" class="mb-3">
+            <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <input type="file" name="file[]" multiple class="form-control mb-2">
+            <button class="btn btn-sm btn-primary" type="submit">Upload</button>
+          </form>
+          <?php endif; ?>
           <ul class="list-group list-group-flush" id="attachmentsList"></ul>
         </div>
       </div>
@@ -184,6 +191,33 @@ document.addEventListener('DOMContentLoaded', function(){
         list.innerHTML = '<li class="list-group-item">No attachments.</li>';
       }
     });
+
+  var uploadForm = document.getElementById('uploadForm');
+  if(uploadForm){
+    uploadForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var formData = new FormData(uploadForm);
+      fetch('functions/upload_file.php', {method:'POST', body: formData})
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success && res.files){
+            var list = document.getElementById('attachmentsList');
+            if(list.children.length === 1 && list.firstElementChild.textContent === 'No attachments.'){
+              list.innerHTML = '';
+            }
+            res.files.forEach(function(f){
+              var li = document.createElement('li');
+              li.className = 'list-group-item';
+              li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+              list.appendChild(li);
+            });
+            uploadForm.reset();
+          } else {
+            alert(res.message || 'Upload failed');
+          }
+        });
+    });
+  }
 
   document.getElementById('taskForm').addEventListener('submit', function(e){
     e.preventDefault();
