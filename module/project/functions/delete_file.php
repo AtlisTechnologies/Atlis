@@ -1,11 +1,18 @@
 <?php
 require '../../../includes/php_header.php';
-$id = (int)($_POST['id'] ?? 0);
-$project_id = (int)($_POST['project_id'] ?? 0);
+$id          = (int)($_POST['id'] ?? 0);
+$project_id  = (int)($_POST['project_id'] ?? 0);
+$question_id = (int)($_POST['question_id'] ?? 0);
 
 if ($id && $project_id) {
-  $stmt = $pdo->prepare('SELECT user_id, file_path, file_name FROM module_projects_files WHERE id = :id');
-  $stmt->execute([':id' => $id]);
+  $sql = 'SELECT user_id, file_path, file_name FROM module_projects_files WHERE id = :id AND project_id = :pid';
+  $params = [':id' => $id, ':pid' => $project_id];
+  if ($question_id) {
+    $sql .= ' AND question_id = :qid';
+    $params[':qid'] = $question_id;
+  }
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
   $file = $stmt->fetch(PDO::FETCH_ASSOC);
   if ($file && ($is_admin || $file['user_id'] == $this_user_id)) {
     $pdo->prepare('DELETE FROM module_projects_files WHERE id = :id')->execute([':id' => $id]);
@@ -17,5 +24,6 @@ if ($id && $project_id) {
   }
 }
 
-header('Location: ../index.php?action=details&id=' . $project_id);
+$anchor = $question_id ? '#questions' : '';
+header('Location: ../index.php?action=details&id=' . $project_id . $anchor);
 exit;
