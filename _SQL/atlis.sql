@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 11:06 PM
+-- Generation Time: Aug 23, 2025 at 11:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -267,7 +267,6 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (70, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'read'),
 (71, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'update'),
 (72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'delete');
-
 
 -- --------------------------------------------------------
 
@@ -549,7 +548,6 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (39, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 10, 13),
 (40, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 11, 13),
 (41, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 12, 13);
-
 
 -- --------------------------------------------------------
 
@@ -1043,9 +1041,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (120, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 183, 'COLOR-CLASS', 'atlis'),
 (121, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 182, 'COLOR-CLASS', 'primary'),
 (122, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 182, 'DEFAULT', 'true'),
- (123, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 187, 'COLOR-CLASS', 'warning'),
- (124, 1, 1, '2025-08-22 23:51:21', '2025-08-22 23:51:21', NULL, 188, 'COLOR-CLASS', 'dark'),
- (125, 1, 1, '2025-08-23 11:08:59', '2025-08-23 11:08:59', NULL, 199, 'COLOR-CLASS', 'danger'),
+(123, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 187, 'COLOR-CLASS', 'warning'),
+(124, 1, 1, '2025-08-22 23:51:21', '2025-08-22 23:51:21', NULL, 188, 'COLOR-CLASS', 'dark'),
+(125, 1, 1, '2025-08-23 11:08:59', '2025-08-23 11:08:59', NULL, 199, 'COLOR-CLASS', 'danger'),
 (126, 1, 1, '2025-08-23 11:09:03', '2025-08-23 11:09:03', NULL, 198, 'COLOR-CLASS', 'atlis'),
 (127, 1, 1, '2025-08-23 11:09:18', '2025-08-23 11:09:18', NULL, 197, 'DEFAULT', 'true'),
 (128, 1, 1, '2025-08-23 11:09:31', '2025-08-23 11:09:31', NULL, 196, 'COLOR-CLASS', 'danger'),
@@ -1134,11 +1132,11 @@ INSERT INTO `module_agency_persons` (`id`, `user_id`, `user_updated`, `date_crea
 
 -- --------------------------------------------------------
 
+--
 -- Table structure for table `module_calendar`
 --
 
 CREATE TABLE `module_calendar` (
-
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
@@ -1148,6 +1146,16 @@ CREATE TABLE `module_calendar` (
   `name` varchar(255) NOT NULL,
   `is_private` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_calendar`
+--
+
+INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`) VALUES
+(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-23 15:44:36', NULL, 'Dave', 0),
+(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-23 15:45:27', NULL, 'Dave - Private', 1);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `module_calendar_events`
@@ -1169,6 +1177,8 @@ CREATE TABLE `module_calendar_events` (
   `link_record_id` int(11) DEFAULT NULL,
   `is_private` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `module_calendar_event_attendees`
@@ -2595,6 +2605,7 @@ ALTER TABLE `module_agency_persons`
 --
 ALTER TABLE `module_calendar`
   ADD PRIMARY KEY (`id`);
+
 --
 -- Indexes for table `module_calendar_events`
 --
@@ -2602,7 +2613,9 @@ ALTER TABLE `module_calendar_events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_module_calendar_events_calendar_id` (`calendar_id`),
   ADD KEY `fk_module_calendar_events_event_type_id` (`event_type_id`),
-  ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`);
+  ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
+  ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`);
 
 --
 -- Indexes for table `module_calendar_event_attendees`
@@ -2613,7 +2626,6 @@ ALTER TABLE `module_calendar_event_attendees`
   ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
   ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
-
 
 --
 -- Indexes for table `module_contractors`
@@ -3044,7 +3056,6 @@ ALTER TABLE `admin_role_permissions`
 ALTER TABLE `admin_role_permission_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
-
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
 --
@@ -3093,6 +3104,11 @@ ALTER TABLE `module_agency`
 ALTER TABLE `module_agency_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
+--
+-- AUTO_INCREMENT for table `module_calendar`
+--
+ALTER TABLE `module_calendar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_events`
@@ -3101,11 +3117,12 @@ ALTER TABLE `module_calendar_events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `module_calendar_event_attendees`
 --
 ALTER TABLE `module_calendar_event_attendees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-
+--
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -3427,6 +3444,9 @@ ALTER TABLE `module_agency_persons`
   ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
+--
+-- Constraints for table `module_calendar_events`
+--
 ALTER TABLE `module_calendar_events`
   ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
@@ -3709,7 +3729,6 @@ ALTER TABLE `users_profile_pics`
   ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
