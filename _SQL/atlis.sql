@@ -1015,6 +1015,58 @@ INSERT INTO `module_agency_persons` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_calendar`
+--
+
+CREATE TABLE `module_calendar` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `is_private` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `module_calendar_events`
+--
+
+CREATE TABLE `module_calendar_events` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `calendar_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `event_type_id` int(11) DEFAULT NULL,
+  `link_module` varchar(50) DEFAULT NULL,
+  `link_record_id` int(11) DEFAULT NULL,
+  `is_private` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `module_calendar_event_attendees`
+--
+
+CREATE TABLE `module_calendar_event_attendees` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `event_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_contractors`
 --
 
@@ -2384,6 +2436,35 @@ ALTER TABLE `module_agency_persons`
   ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
 
 --
+-- Indexes for table `module_calendar`
+--
+ALTER TABLE `module_calendar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_calendar_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
+  ADD KEY `fk_module_calendar_events_calendar_id` (`calendar_id`),
+  ADD KEY `fk_module_calendar_events_event_type_id` (`event_type_id`),
+  ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`);
+
+--
+-- Indexes for table `module_calendar_event_attendees`
+--
+ALTER TABLE `module_calendar_event_attendees`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`user_id`),
+  ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
+  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
+
+--
 -- Indexes for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -2855,6 +2936,24 @@ ALTER TABLE `module_agency_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `module_calendar`
+--
+ALTER TABLE `module_calendar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_calendar_event_attendees`
+--
+ALTER TABLE `module_calendar_event_attendees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -3166,6 +3265,30 @@ ALTER TABLE `module_agency_persons`
   ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_calendar`
+--
+ALTER TABLE `module_calendar`
+  ADD CONSTRAINT `fk_module_calendar_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_calendar_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_calendar_events`
+--
+ALTER TABLE `module_calendar_events`
+  ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_calendar_events_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_calendar_events_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_calendar_event_attendees`
+--
+ALTER TABLE `module_calendar_event_attendees`
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_event_id` FOREIGN KEY (`event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors`
