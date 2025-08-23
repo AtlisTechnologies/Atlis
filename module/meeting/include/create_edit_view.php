@@ -7,12 +7,37 @@
     <?php endif; ?>
     <div class="row mb-3">
       <div class="col-md-6">
-        <label class="form-label">Title</label>
-        <input type="text" name="name" class="form-control" value="<?php echo h($meeting['name'] ?? ''); ?>" required>
+        <label class="form-label" for="title">Title</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="Meeting title" value="<?php echo h($meeting['title'] ?? ''); ?>" required>
       </div>
       <div class="col-md-6">
-        <label class="form-label">Date &amp; Time</label>
-        <input type="datetime-local" name="meeting_date" class="form-control" value="<?php echo !empty($meeting['meeting_date']) ? h(date('Y-m-d\TH:i', strtotime($meeting['meeting_date']))) : ''; ?>" required>
+        <label class="form-label" for="start_time">Start Time</label>
+        <input type="datetime-local" id="start_time" name="start_time" class="form-control" placeholder="Start time" value="<?php echo !empty($meeting['start_time']) ? h(date('Y-m-d\\TH:i', strtotime($meeting['start_time']))) : ''; ?>" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="end_time">End Time</label>
+        <input type="datetime-local" id="end_time" name="end_time" class="form-control" placeholder="End time" value="<?php echo !empty($meeting['end_time']) ? h(date('Y-m-d\\TH:i', strtotime($meeting['end_time']))) : ''; ?>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="description">Description</label>
+        <textarea id="description" name="description" class="form-control" placeholder="Meeting description" rows="1"><?php echo h($meeting['description'] ?? ''); ?></textarea>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Recurrence</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="recur_daily" name="recur_daily" value="1" <?php echo !empty($meeting['recur_daily']) ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="recur_daily">Daily</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="recur_weekly" name="recur_weekly" value="1" <?php echo !empty($meeting['recur_weekly']) ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="recur_weekly">Weekly</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="recur_monthly" name="recur_monthly" value="1" <?php echo !empty($meeting['recur_monthly']) ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="recur_monthly">Monthly</label>
       </div>
     </div>
     <div class="mb-3">
@@ -55,3 +80,4 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 </script>
+

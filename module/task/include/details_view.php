@@ -203,12 +203,37 @@ require_once __DIR__ . '/../../../includes/functions.php';
             <div class="mb-3 border-top pt-3">
               <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
               <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <?php if (!empty($questionFiles[$q['id']])): ?>
+                <ul class="list-unstyled mt-2 ms-3">
+                  <?php foreach ($questionFiles[$q['id']] as $f): ?>
+                    <li class="mb-1">
+                      <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
+                        <p class="text-body-highlight mb-0 lh-1">
+                          <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                            <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                          <?php else: ?>
+                            <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                          <?php endif; ?>
+                        </p>
+                      </div>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ms-3">
+                <ul class="list-unstyled ps-4">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
                       <p class="mb-1"><?= h($ans['answer_text']); ?></p>
-                      <p class="fs-9 text-body-secondary mb-0">by <?= h($ans['user_name']); ?> on <?= h($ans['date_created']); ?></p>
+                      <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+                      <div class="d-flex align-items-center fs-9 text-body-secondary">
+                        <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
+                        <div>
+                          <div class="fw-semibold text-body"><?= h($ans['user_name']); ?></div>
+                          <div><?= h($ans['date_created']); ?></div>
+                        </div>
+                      </div>
                     </li>
                   <?php endforeach; ?>
                 </ul>
@@ -305,7 +330,12 @@ require_once __DIR__ . '/../../../includes/functions.php';
         </div>
         <div class="modal-body">
           <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
-          <textarea class="form-control" name="question_text" rows="3" required></textarea>
+          <div class="mb-3">
+            <textarea class="form-control" name="question_text" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <input class="form-control" type="file" name="files[]" multiple>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-success" type="submit">Add Question</button>
