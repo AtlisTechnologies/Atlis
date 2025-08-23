@@ -51,9 +51,14 @@ if (!empty($current_project)) {
     usort($timelineEvents, function($a, $b) {
         return strtotime($b['date']) <=> strtotime($a['date']);
     });
+
+    $isOwner = ($current_project['user_id'] ?? 0) == $this_user_id;
+    $isPrivate = !empty($current_project['is_private']);
+    $canView = !$isPrivate || $is_admin || $isOwner;
 }
 ?>
 <?php if (!empty($current_project)): ?>
+<?php if ($canView): ?>
 <div class="row">
   <div class="col-3 bg-body">
     <div class="">
@@ -110,7 +115,7 @@ if (!empty($current_project)) {
                     <tr>
                       <td class="py-1" colspan="2">
                         <div class="d-flex"><span class="fa-solid fa-earth-americas me-2 text-body-tertiary fs-9"></span>
-                          <h5 class="text-body">Public project</h5>
+                          <h5 class="text-body"><?= !empty($current_project['is_private']) ? 'Private project' : 'Public project' ?></h5>
                         </div>
                       </td>
                     </tr>
@@ -505,7 +510,7 @@ if (!empty($current_project)) {
             <div class="d-flex align-items-center mb-3">
               <h3 class="text-body-highlight mb-0 fw-bold flex-grow-1">Questions</h3>
               <?php if (user_has_permission('project','create|update|delete')): ?>
-                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addQuestionModal">Questions</button>
+          <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addQuestionModal">Questions</button>
               <?php endif; ?>
             </div>
             <?php if (!empty($questions)): ?>
@@ -650,10 +655,16 @@ if (!empty($current_project)) {
             <?php endforeach; ?>
           </select>
         </div>
+        <?php if ($is_admin || $isOwner): ?>
+        <div class="form-check mb-3">
+          <input class="form-check-input" id="editProjectPrivate" type="checkbox" name="is_private" value="1" <?= !empty($current_project['is_private']) ? 'checked' : '' ?>>
+          <label class="form-check-label" for="editProjectPrivate">Private</label>
+        </div>
+        <?php endif; ?>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button class="btn btn-atlis" type="submit">Save</button>
       </div>
     </form>
   </div>
@@ -697,7 +708,7 @@ if (!empty($current_project)) {
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-atlis" type="submit">Save</button>
         </div>
       </form>
     </div>
@@ -1016,6 +1027,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
+<?php else: ?>
+<p>This project is private.</p>
+<?php endif; ?>
 <?php else: ?>
 <p>No project found.</p>
 <?php endif; ?>

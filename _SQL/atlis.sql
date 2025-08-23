@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 08:58 AM
+-- Generation Time: Aug 23, 2025 at 09:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,6 +41,18 @@ CREATE TABLE `admin_audit_log` (
   `old_value` text DEFAULT NULL,
   `new_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_audit_log`
+--
+
+INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
+(1, 1, 1, '2025-08-23 01:30:48', '2025-08-23 01:30:48', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(2, 1, 1, '2025-08-23 01:30:48', '2025-08-23 01:30:48', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}'),
+(3, 1, 1, '2025-08-23 01:30:51', '2025-08-23 01:30:51', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(4, 1, 1, '2025-08-23 01:30:51', '2025-08-23 01:30:51', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USAt\",\":uid\":1,\":id\":3}'),
+(5, 1, 1, '2025-08-23 01:30:55', '2025-08-23 01:30:55', NULL, 'person', 30, 'UPDATE', 'Updated person', '{\"id\":30,\"user_id\":null,\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 21:03:51\",\"date_updated\":\"2025-08-21 02:17:10\",\"memo\":null}', '{\"first_name\":\"Keith\",\"last_name\":\"Grant\",\"email\":\"KGrant@lakecountyil.gov\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(6, 1, 1, '2025-08-23 01:30:55', '2025-08-23 01:30:55', NULL, 'person_addresses', 3, 'UPDATE', 'Updated address', NULL, '{\":pid\":30,\":type_id\":111,\":status_id\":108,\":start_date\":\"2014-08-01\",\":end_date\":null,\":line1\":\"123 Test 456 South\",\":line2\":\"\",\":city\":\"Logan\",\":state_id\":172,\":postal\":\"84321\",\":country\":\"USA\",\":uid\":1,\":id\":3}');
 
 -- --------------------------------------------------------
 
@@ -320,7 +332,14 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (11, 1, 1, '2025-08-17 14:17:19', '2025-08-17 14:17:19', NULL, 'Project Manager', ''),
 (12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', ''),
 (13, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Admin', ''),
-(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', '');
+(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', ''),
+(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, '14', '11'),
+(38, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '1', '12'),
+(39, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '10', '12'),
+(40, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '11', '12'),
+(41, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '12', '12'),
+(42, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '13', '12'),
+(43, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, '14', '12');
 
 -- --------------------------------------------------------
 
@@ -1246,9 +1265,9 @@ CREATE TABLE `module_feedback` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `type_id` int(11) NOT NULL
+  `type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1923,7 +1942,7 @@ CREATE TABLE `person_addresses` (
   `city` varchar(100) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `postal_code` varchar(20) DEFAULT NULL,
-  `country` varchar(100) DEFAULT NULL
+  `country` varchar(100) DEFAULT 'USA'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1931,9 +1950,9 @@ CREATE TABLE `person_addresses` (
 --
 
 INSERT INTO `person_addresses` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `person_id`, `type_id`, `status_id`, `start_date`, `end_date`, `address_line1`, `address_line2`, `city`, `state_id`, `postal_code`, `country`) VALUES
-(1, 1, 1, '2025-08-08 21:52:52', '2025-08-08 21:52:52', NULL, 1, 111, 108, '2025-08-08', NULL, '3124 S 340 W Nibley, UT 84321', NULL, NULL, NULL, NULL, NULL),
-(2, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:44:46', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-21 02:12:22', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 172, '84321', 'USA');
+(1, 1, 1, '2025-08-08 21:52:52', '2025-08-23 01:29:22', NULL, 1, 111, 108, '2025-08-08', NULL, '3124 S 340 W Nibley, UT 84321', NULL, NULL, NULL, NULL, 'USA'),
+(2, 1, 1, '2025-08-20 14:44:46', '2025-08-23 01:29:22', NULL, 23, 111, 108, '2025-08-20', NULL, 'kennydrenolds@gmail.com', NULL, NULL, NULL, NULL, 'USA'),
+(3, NULL, 1, '2025-08-21 02:12:22', '2025-08-23 01:30:55', NULL, 30, 111, 108, '2014-08-01', NULL, '123 Test 456 South', '', 'Logan', 172, '84321', 'USA');
 
 -- --------------------------------------------------------
 
@@ -2381,6 +2400,7 @@ ALTER TABLE `module_feedback`
   ADD KEY `fk_module_feedback_user_updated` (`user_updated`),
   ADD KEY `fk_module_feedback_type_id` (`type_id`);
 
+
 --
 -- Indexes for table `module_kanban_boards`
 --
@@ -2650,7 +2670,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -2680,7 +2700,7 @@ ALTER TABLE `admin_permission_group_permissions`
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
@@ -2692,7 +2712,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
