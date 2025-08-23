@@ -518,6 +518,19 @@ if (!empty($current_project)) {
                 <div class="border rounded-2 p-3 mb-3">
                   <p class="mb-1 fw-semibold"><?= nl2br(h($q['question_text'])) ?></p>
                   <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
+                  <?php if (!empty($questionFiles[$q['id']])): ?>
+                    <ul class="list-unstyled mt-2 ms-3">
+                      <?php foreach ($questionFiles[$q['id']] as $f): ?>
+                        <li class="mb-1">
+                          <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
+                            <p class="text-body-highlight mb-0 lh-1">
+                              <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
+                            </p>
+                          </div>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
                   <?php if (!empty($questionAnswers[$q['id']])): ?>
                     <ul class="list-unstyled ps-3 mb-3">
                       <?php foreach ($questionAnswers[$q['id']] as $a): ?>
@@ -578,6 +591,9 @@ if (!empty($current_project)) {
         <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
         <div class="mb-3">
           <textarea class="form-control" name="question_text" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+          <input class="form-control" type="file" name="files[]" multiple>
         </div>
       </div>
       <div class="modal-footer">

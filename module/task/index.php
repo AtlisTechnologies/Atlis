@@ -286,7 +286,7 @@ if ($action === 'details') {
       $availableUsers = $availableStmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $filesStmt = $pdo->prepare('SELECT f.id,f.user_id,f.note_id,f.file_name,f.file_path,f.file_size,f.file_type,f.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.task_id = :id ORDER BY f.date_created DESC');
+    $filesStmt = $pdo->prepare('SELECT f.id,f.user_id,f.note_id,f.question_id,f.file_name,f.file_path,f.file_size,f.file_type,f.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE f.task_id = :id ORDER BY f.date_created DESC');
     $filesStmt->execute([':id' => $task_id]);
     $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -311,8 +311,11 @@ if ($action === 'details') {
 
     $taskFiles = [];
     $noteFiles = [];
+    $questionFiles = [];
     foreach ($files as $f) {
-      if (!empty($f['note_id'])) {
+      if (!empty($f['question_id'])) {
+        $questionFiles[$f['question_id']][] = $f;
+      } elseif (!empty($f['note_id'])) {
         $noteFiles[$f['note_id']][] = $f;
       } else {
         $taskFiles[] = $f;
