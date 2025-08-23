@@ -206,9 +206,19 @@ try {
     ];
     if ($existingPerson) {
       $person_id = (int)$existingPerson['id'];
-      $personData[':pid'] = $person_id;
+      $personUpdateData = [
+        ':fn' => $first_name,
+        ':ln' => $last_name,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob ?: null,
+        ':uid_update' => $this_user_id,
+        ':pid' => $person_id
+      ];
       $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, organization_id = :organization_id, agency_id = :agency_id, division_id = :division_id, dob = :dob, user_updated = :uid_update WHERE id = :pid');
-      $pstmt->execute($personData);
+      $pstmt->execute($personUpdateData);
       admin_audit_log($pdo,$this_user_id,'person',$person_id,'UPDATE',json_encode($existingPerson),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Updated person');
     } else {
       $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, organization_id, agency_id, division_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :organization_id, :agency_id, :division_id, :dob, :uid_update)');

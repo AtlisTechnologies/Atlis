@@ -76,12 +76,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pdo->beginTransaction();
   try {
     if ($id) {
+      $personUpdateData = [
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob,
+        ':uid' => $this_user_id,
+        ':id' => $id
+      ];
       $stmt = $pdo->prepare('UPDATE person SET first_name=:first_name,last_name=:last_name,email=:email,gender_id=:gender_id,organization_id=:organization_id,agency_id=:agency_id,division_id=:division_id,dob=:dob,user_updated=:uid WHERE id=:id');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id,':id'=>$id]);
+      $stmt->execute($personUpdateData);
       admin_audit_log($pdo,$this_user_id,'person',$id,'UPDATE',json_encode($existing),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Updated person');
     } else {
+      $personInsertData = [
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob,
+        ':uid' => $this_user_id
+      ];
       $stmt = $pdo->prepare('INSERT INTO person (first_name,last_name,email,gender_id,organization_id,agency_id,division_id,dob,user_updated) VALUES (:first_name,:last_name,:email,:gender_id,:organization_id,:agency_id,:division_id,:dob,:uid)');
-      $stmt->execute([':first_name'=>$first_name,':last_name'=>$last_name,':email'=>$email,':gender_id'=>$gender_id,':organization_id'=>$organization_id,':agency_id'=>$agency_id,':division_id'=>$division_id,':dob'=>$dob,':uid'=>$this_user_id]);
+      $stmt->execute($personInsertData);
       $id = $pdo->lastInsertId();
       admin_audit_log($pdo,$this_user_id,'person',$id,'CREATE',null,json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob]),'Created person');
     }
@@ -111,14 +134,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':uid'       => $this_user_id
       ];
       if ($addrId) {
-        $data[':id'] = $addrId;
+        $addrUpdateData = $data;
+        $addrUpdateData[':id'] = $addrId;
         $stmt = $pdo->prepare('UPDATE person_addresses SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,address_line1=:line1,address_line2=:line2,city=:city,state_id=:state_id,postal_code=:postal,country=:country,user_updated=:uid WHERE id=:id AND person_id=:pid');
-        $stmt->execute($data);
-        admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($data),'Updated address');
+        try {
+          $stmt->execute($addrUpdateData);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Address references invalid lookup or state.');
+          }
+          throw $e;
+        }
+        admin_audit_log($pdo,$this_user_id,'person_addresses',$addrId,'UPDATE',null,json_encode($addrUpdateData),'Updated address');
         $submittedAddrIds[] = $addrId;
       } else {
         $stmt = $pdo->prepare('INSERT INTO person_addresses (person_id,type_id,status_id,start_date,end_date,address_line1,address_line2,city,state_id,postal_code,country,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:line1,:line2,:city,:state_id,:postal,:country,:uid,:uid)');
-        $stmt->execute($data);
+        try {
+          $stmt->execute($data);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Address references invalid lookup or state.');
+          }
+          throw $e;
+        }
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_addresses',$newId,'CREATE',null,json_encode($data),'Added address');
         $submittedAddrIds[] = $newId;
@@ -152,14 +190,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':uid'       => $this_user_id
       ];
       if ($phId) {
-        $data[':id'] = $phId;
+        $phoneUpdateData = $data;
+        $phoneUpdateData[':id'] = $phId;
         $stmt = $pdo->prepare('UPDATE person_phones SET type_id=:type_id,status_id=:status_id,start_date=:start_date,end_date=:end_date,phone_number=:number,user_updated=:uid WHERE id=:id AND person_id=:pid');
-        $stmt->execute($data);
-        admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($data),'Updated phone');
+        try {
+          $stmt->execute($phoneUpdateData);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Phone references invalid lookup.');
+          }
+          throw $e;
+        }
+        admin_audit_log($pdo,$this_user_id,'person_phones',$phId,'UPDATE',null,json_encode($phoneUpdateData),'Updated phone');
         $submittedPhoneIds[] = $phId;
       } else {
         $stmt = $pdo->prepare('INSERT INTO person_phones (person_id,type_id,status_id,start_date,end_date,phone_number,user_id,user_updated) VALUES (:pid,:type_id,:status_id,:start_date,:end_date,:number,:uid,:uid)');
-        $stmt->execute($data);
+        try {
+          $stmt->execute($data);
+        } catch (PDOException $e) {
+          if ($e->getCode() === '23000') {
+            throw new Exception('Phone references invalid lookup.');
+          }
+          throw $e;
+        }
         $newId = $pdo->lastInsertId();
         admin_audit_log($pdo,$this_user_id,'person_phones',$newId,'CREATE',null,json_encode($data),'Added phone');
         $submittedPhoneIds[] = $newId;
