@@ -1,4 +1,10 @@
 <?php
+$projects = array_filter($projects, function($proj) use ($is_admin, $this_user_id) {
+    if (!empty($proj['is_private']) && !($is_admin || ($proj['user_id'] ?? 0) == $this_user_id)) {
+        return false;
+    }
+    return true;
+});
 $statusCounts = [];
 foreach ($projects as $proj) {
     $label = $proj['status_label'] ?? 'Unknown';
