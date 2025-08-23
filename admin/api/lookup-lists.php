@@ -16,6 +16,9 @@ try {
     case 'attribute':
       handleAttr($action);
       break;
+    case 'relation':
+      handleRelation($action);
+      break;
     default:
       echo json_encode(['success'=>false,'error'=>'Invalid entity']);
   }
@@ -111,6 +114,10 @@ function handleItem($action){
     $list_id=(int)($_GET['list_id']??0);
     $stmt=$pdo->prepare('SELECT id,label,code,sort_order,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY sort_order,label');
     $stmt->execute([':list_id'=>$list_id]);
+    $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['success'=>true,'items'=>$items]);
+  }elseif($action==='all'){
+    $stmt=$pdo->query('SELECT li.id, li.label, li.code, l.name AS list_name FROM lookup_list_items li JOIN lookup_lists l ON li.list_id=l.id ORDER BY l.name, li.label');
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['success'=>true,'items'=>$items]);
   }elseif($action==='create'){
@@ -266,6 +273,49 @@ function handleAttr($action){
     $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$id]);
     audit_log($pdo,$this_user_id,'lookup_list_item_attributes',$id,'DELETE','Deleted item attribute');
     echo json_encode(['success'=>true,'message'=>'Attribute deleted']);
+  }else{
+    echo json_encode(['success'=>false,'error'=>'Invalid action']);
+  }
+}
+
+function handleRelation($action){
+  global $pdo,$this_user_id;
+  if(in_array($action,['create','delete'])){ verifyToken(); }
+  if($action==='list'){
+    $item_id=(int)($_GET['item_id']??0);
+    $stmt=$pdo->prepare('SELECT r.related_item_id AS id, li.label, ll.name AS list_name FROM lookup_list_item_relations r JOIN lookup_list_items li ON r.related_item_id=li.id JOIN lookup_lists ll ON li.list_id=ll.id WHERE r.item_id=:item_id ORDER BY ll.name, li.label');
+    $stmt->execute([':item_id'=>$item_id]);
+    $rels=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['success'=>true,'relations'=>$rels]);
+  }elseif($action==='create'){
+    $item_id=(int)($_POST['item_id']??0);
+    $related_id=(int)($_POST['related_item_id']??0);
+    if($item_id<=0||$related_id<=0||$item_id==$related_id){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+    try{
+      $pdo->beginTransaction();
+      $stmt=$pdo->prepare('INSERT INTO lookup_list_item_relations (user_id,user_updated,item_id,related_item_id) VALUES (:uid,:uid,:item_id,:rel_id)');
+      $stmt->execute([':uid'=>$this_user_id,':item_id'=>$item_id,':rel_id'=>$related_id]);
+      $stmt->execute([':uid'=>$this_user_id,':item_id'=>$related_id,':rel_id'=>$item_id]);
+      $pdo->commit();
+      audit_log($pdo,$this_user_id,'lookup_list_item_relations',$item_id,'CREATE','Created relation');
+      echo json_encode(['success'=>true,'message'=>'Relation added']);
+    }catch(PDOException $e){
+      $pdo->rollBack();
+      if($e->getCode()==='23000'){
+        echo json_encode(['success'=>false,'error'=>'Relation already exists']);
+      }else{
+        error_log($e->getMessage());
+        echo json_encode(['success'=>false,'error'=>'Database error']);
+      }
+    }
+  }elseif($action==='delete'){
+    $item_id=(int)($_POST['item_id']??0);
+    $related_id=(int)($_POST['related_item_id']??0);
+    if($item_id<=0||$related_id<=0){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
+    $stmt=$pdo->prepare('DELETE FROM lookup_list_item_relations WHERE (item_id=:item_id AND related_item_id=:rel_id) OR (item_id=:rel_id AND related_item_id=:item_id)');
+    $stmt->execute([':item_id'=>$item_id,':rel_id'=>$related_id]);
+    audit_log($pdo,$this_user_id,'lookup_list_item_relations',$item_id,'DELETE','Deleted relation');
+    echo json_encode(['success'=>true,'message'=>'Relation removed']);
   }else{
     echo json_encode(['success'=>false,'error'=>'Invalid action']);
   }

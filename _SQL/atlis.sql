@@ -1043,9 +1043,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (120, 1, 1, '2025-08-22 08:18:11', '2025-08-22 08:18:11', NULL, 183, 'COLOR-CLASS', 'atlis'),
 (121, 1, 1, '2025-08-22 08:18:16', '2025-08-22 08:18:16', NULL, 182, 'COLOR-CLASS', 'primary'),
 (122, 1, 1, '2025-08-22 08:18:20', '2025-08-22 08:18:20', NULL, 182, 'DEFAULT', 'true'),
-(123, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 187, 'COLOR-CLASS', 'warning'),
-(124, 1, 1, '2025-08-22 23:51:21', '2025-08-22 23:51:21', NULL, 188, 'COLOR-CLASS', 'dark'),
-(125, 1, 1, '2025-08-23 11:08:59', '2025-08-23 11:08:59', NULL, 199, 'COLOR-CLASS', 'danger'),
+ (123, 1, 1, '2025-08-22 18:16:41', '2025-08-22 18:16:41', NULL, 187, 'COLOR-CLASS', 'warning'),
+ (124, 1, 1, '2025-08-22 23:51:21', '2025-08-22 23:51:21', NULL, 188, 'COLOR-CLASS', 'dark'),
+ (125, 1, 1, '2025-08-23 11:08:59', '2025-08-23 11:08:59', NULL, 199, 'COLOR-CLASS', 'danger'),
 (126, 1, 1, '2025-08-23 11:09:03', '2025-08-23 11:09:03', NULL, 198, 'COLOR-CLASS', 'atlis'),
 (127, 1, 1, '2025-08-23 11:09:18', '2025-08-23 11:09:18', NULL, 197, 'DEFAULT', 'true'),
 (128, 1, 1, '2025-08-23 11:09:31', '2025-08-23 11:09:31', NULL, 196, 'COLOR-CLASS', 'danger'),
@@ -1053,6 +1053,23 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (130, 1, 1, '2025-08-23 11:09:41', '2025-08-23 11:09:41', NULL, 197, 'COLOR-CLASS', 'primary'),
 (131, 1, 1, '2025-08-23 11:09:45', '2025-08-23 11:09:45', NULL, 193, 'COLOR-CLASS', 'atlis'),
 (132, 1, 1, '2025-08-23 11:10:01', '2025-08-23 11:10:01', NULL, 195, 'COLOR-CLASS', 'sunset');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lookup_list_item_relations`
+--
+
+CREATE TABLE `lookup_list_item_relations` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `item_id` int(11) NOT NULL,
+  `related_item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2541,6 +2558,17 @@ ALTER TABLE `lookup_list_item_attributes`
   ADD KEY `idx_module_lookup_item_attributes_key` (`attr_code`);
 
 --
+-- Indexes for table `lookup_list_item_relations`
+--
+ALTER TABLE `lookup_list_item_relations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_lookup_list_item_relations_pair` (`item_id`,`related_item_id`),
+  ADD KEY `fk_lookup_list_item_relations_item_id` (`item_id`),
+  ADD KEY `fk_lookup_list_item_relations_related_item_id` (`related_item_id`),
+  ADD KEY `fk_lookup_list_item_relations_user_id` (`user_id`),
+  ADD KEY `fk_lookup_list_item_relations_user_updated` (`user_updated`);
+
+--
 -- Indexes for table `module_agency`
 --
 ALTER TABLE `module_agency`
@@ -3048,6 +3076,12 @@ ALTER TABLE `lookup_list_item_attributes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
+-- AUTO_INCREMENT for table `lookup_list_item_relations`
+--
+ALTER TABLE `lookup_list_item_relations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_agency`
 --
 ALTER TABLE `module_agency`
@@ -3364,6 +3398,15 @@ ALTER TABLE `lookup_list_items`
 ALTER TABLE `lookup_list_item_attributes`
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_lookup_item_attributes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `lookup_list_item_relations`
+--
+ALTER TABLE `lookup_list_item_relations`
+  ADD CONSTRAINT `fk_lookup_list_item_relations_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_lookup_list_item_relations_related_item_id` FOREIGN KEY (`related_item_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_lookup_list_item_relations_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_lookup_list_item_relations_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_agency`
