@@ -161,7 +161,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (61, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'create'),
 (62, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'read'),
 (63, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'update'),
-(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'delete');
+(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'kanban', 'delete'),
+(65, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'create'),
+(66, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'read'),
+(67, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'update'),
+(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'delete');
 
 -- --------------------------------------------------------
 
@@ -195,7 +199,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (8, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Projects', 'Permissions for managing projects'),
 (9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks'),
 (10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors'),
-(11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards');
+(11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards'),
+(12, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'Feedback', 'Permissions for managing feedback');
 
 -- --------------------------------------------------------
 
@@ -282,7 +287,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (61, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 61),
 (62, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 62),
 (63, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 63),
-(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 64);
+(64, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 64),
+(65, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 65),
+(66, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 66),
+(67, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 67),
+(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 68);
 
 -- --------------------------------------------------------
 
@@ -371,7 +380,13 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (34, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 11),
 (35, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 12, 11),
 (36, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 13, 11),
-(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11);
+(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11),
+(38, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 1, 12),
+(39, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 10, 12),
+(40, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 11, 12),
+(41, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 12),
+(42, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 13, 12),
+(43, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 14, 12);
 
 -- --------------------------------------------------------
 
@@ -523,7 +538,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (32, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'ORGANIZATION_PERSON_ROLES', 'Roles for persons assigned to organizations'),
 (33, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'AGENCY_PERSON_ROLES', 'Roles for persons assigned to agencies'),
 (34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions'),
-(35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', '');
+(35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', ''),
+(36, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', '', 'FEEDBACK_TYPE', 'Types of feedback');
 
 -- --------------------------------------------------------
 
@@ -708,7 +724,11 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (185, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 33, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
 (186, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 34, 'Member', 'MEMBER', 1, '2025-08-22', NULL),
 (187, 1, 1, '2025-08-22 18:16:34', '2025-08-22 18:16:34', NULL, 25, 'Louisiana Baton Rouge Mission', 'MORMON', 0, '2025-08-22', NULL),
-(188, 1, 1, '2025-08-22 23:51:09', '2025-08-22 23:51:09', NULL, 10, 'Drafting Contract', 'DRAFT', 0, '2025-08-22', NULL);
+(188, 1, 1, '2025-08-22 23:51:09', '2025-08-22 23:51:09', NULL, 10, 'Drafting Contract', 'DRAFT', 0, '2025-08-22', NULL),
+(189, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 36, 'Bug', 'BUG', 1, '2025-08-23', NULL),
+(190, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 36, 'Feature Request', 'FEATURE_REQUEST', 2, '2025-08-23', NULL),
+(191, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 36, 'Question', 'QUESTION', 3, '2025-08-23', NULL),
+(192, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 36, 'Other', 'OTHER', 4, '2025-08-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1212,6 +1232,24 @@ CREATE TABLE `module_division_persons` (
 
 INSERT INTO `module_division_persons` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `division_id`, `person_id`, `role_id`, `is_lead`) VALUES
 (1, 1, 1, '2025-08-22 19:15:35', '2025-08-22 19:15:35', NULL, 8, 1, 186, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_feedback`
+--
+
+CREATE TABLE `module_feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `type_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2335,6 +2373,15 @@ ALTER TABLE `module_division_persons`
   ADD KEY `fk_module_division_persons_role_id` (`role_id`);
 
 --
+-- Indexes for table `module_feedback`
+--
+ALTER TABLE `module_feedback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_feedback_user_id` (`user_id`),
+  ADD KEY `fk_module_feedback_user_updated` (`user_updated`),
+  ADD KEY `fk_module_feedback_type_id` (`type_id`);
+
+--
 -- Indexes for table `module_kanban_boards`
 --
 ALTER TABLE `module_kanban_boards`
@@ -2615,19 +2662,19 @@ ALTER TABLE `admin_navigation_links`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -2639,7 +2686,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
@@ -2663,13 +2710,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -2748,6 +2795,12 @@ ALTER TABLE `module_division`
 --
 ALTER TABLE `module_division_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `module_feedback`
+--
+ALTER TABLE `module_feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3091,6 +3144,14 @@ ALTER TABLE `module_division_persons`
   ADD CONSTRAINT `fk_module_division_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_division_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_division_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_feedback`
+--
+ALTER TABLE `module_feedback`
+  ADD CONSTRAINT `fk_module_feedback_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_feedback_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_feedback_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_kanban_board_projects`
