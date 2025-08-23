@@ -68,7 +68,7 @@ if ($reactivatePicId && $id) {
       $pdo->rollBack();
     }
     error_log($e->getMessage());
-    $_SESSION['error_message'] = substr($e->getMessage(), 0, 200);
+    $_SESSION['error_message'] = $e->getMessage();
     $_SESSION['message'] = 'Error updating profile picture.';
   }
   header('Location: ../edit.php?id=' . $id);
@@ -345,14 +345,20 @@ try {
   $pdo->commit();
 
   $_SESSION['message'] = $isUpdate ? 'User updated.' : 'User created.';
-} catch (Exception $e) {
-  if ($pdo->inTransaction()) {
-    $pdo->rollBack();
+  } catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+      $pdo->rollBack();
+    }
+    error_log($e->getMessage());
+    $_SESSION['error_message'] = $e->getMessage();
+    $_SESSION['message'] = 'Error saving user.';
+    if ($isUpdate) {
+      header('Location: ../edit.php?id=' . $id);
+    } else {
+      header('Location: ../index.php');
+    }
+    exit;
   }
-  error_log($e->getMessage());
-  $_SESSION['error_message'] = substr($e->getMessage(), 0, 200);
-  $_SESSION['message'] = 'Error saving user.';
-}
 // Redirect differently if updating and a new profile picture was uploaded
 if ($isUpdate && $profilePath) {
   header('Location: ../edit.php?id=' . $id);
