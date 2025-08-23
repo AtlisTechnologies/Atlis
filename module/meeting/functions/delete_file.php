@@ -1,5 +1,8 @@
 <?php
 require '../../../includes/php_header.php';
+require_permission('meeting', 'update');
+
+header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
 $meeting_id = (int)($_POST['meeting_id'] ?? 0);
@@ -18,5 +21,9 @@ if ($id && $meeting_id) {
     }
 }
 
-header('Location: ../index.php?action=details&id=' . $meeting_id);
+$listStmt = $pdo->prepare('SELECT id, file_name, file_path, user_id FROM module_meeting_files WHERE meeting_id = ? ORDER BY id');
+$listStmt->execute([$meeting_id]);
+$files = $listStmt->fetchAll(PDO::FETCH_ASSOC);
+
+echo json_encode(['success' => true, 'files' => $files]);
 exit;
