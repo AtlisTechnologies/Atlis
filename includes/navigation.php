@@ -56,6 +56,17 @@
         <?php // ================ ?>
         <?php // END TASKS NAV LINK ?>
         <?php // ================ ?>
+        <?php // CALENDAR NAV LINK ?>
+        <?php if (user_has_permission('calendar','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/calendar/?action=shared">
+            <span class="uil fs-8 me-2 fas fa-calendar"></span>Calendar</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END CALENDAR NAV LINK ?>
+        <?php // ================ ?>
+
 
 
         <?php // KANBAN NAV LINK ?>
