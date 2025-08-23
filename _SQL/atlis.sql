@@ -218,7 +218,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (65, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'create'),
 (66, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'read'),
 (67, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'update'),
-(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'delete');
+(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'feedback', 'delete'),
+(69, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'create'),
+(70, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'read'),
+(71, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'update'),
+(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'delete');
 
 -- --------------------------------------------------------
 
@@ -253,7 +257,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (9, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'Tasks', 'Permissions for managing tasks'),
 (10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors'),
 (11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards'),
-(12, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'Feedback', 'Permissions for managing feedback');
+(12, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'Feedback', 'Permissions for managing feedback'),
+(13, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'Calendar', 'Permissions for managing calendar');
 
 -- --------------------------------------------------------
 
@@ -344,7 +349,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (65, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 65),
 (66, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 66),
 (67, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 67),
-(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 68);
+(68, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 68),
+(69, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 69),
+(70, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 70),
+(71, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 71),
+(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 72);
 
 -- --------------------------------------------------------
 
@@ -497,7 +506,11 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (34, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 11, 11),
 (35, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 12, 11),
 (36, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 13, 11),
-(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11);
+(37, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 14, 11),
+(38, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 1, 13),
+(39, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 10, 13),
+(40, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 11, 13),
+(41, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 12, 13);
 
 -- --------------------------------------------------------
 
@@ -2780,19 +2793,19 @@ ALTER TABLE `admin_navigation_links`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -2810,7 +2823,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
