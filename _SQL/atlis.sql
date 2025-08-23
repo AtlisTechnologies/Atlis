@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 04:40 AM
+-- Generation Time: Aug 23, 2025 at 05:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -259,7 +259,25 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (209, 1, 1, '2025-08-22 19:15:11', '2025-08-22 19:15:11', NULL, 'module_organization_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"organization_id\":4,\"person_id\":1,\"role_id\":184,\"is_lead\":1}'),
 (210, 1, 1, '2025-08-22 19:15:28', '2025-08-22 19:15:28', NULL, 'module_agency_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"agency_id\":6,\"person_id\":1,\"role_id\":185,\"is_lead\":1}'),
 (211, 1, 1, '2025-08-22 19:15:35', '2025-08-22 19:15:35', NULL, 'module_division_persons', 1, 'CREATE', 'Assigned person', NULL, '{\"division_id\":8,\"person_id\":1,\"role_id\":186,\"is_lead\":1}'),
-(212, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'person', 57, 'CREATE', 'Created person', NULL, '{\"user_id\":12,\"first_name\":\"Winnie\",\"last_name\":\"Webber\",\"gender_id\":60,\"dob\":null}');
+(212, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'person', 57, 'CREATE', 'Created person', NULL, '{\"user_id\":12,\"first_name\":\"Winnie\",\"last_name\":\"Webber\",\"gender_id\":60,\"dob\":null}'),
+(213, 1, 1, '2025-08-22 21:19:52', '2025-08-22 21:19:52', NULL, 'module_tasks_notes', 22, 'NOTE', '', '', 'https://www.amazon.com/Kratom-Things-Need-Know-About/dp/1724047809/\r\n\r\nhttps://www.amazon.com/Kratom-Medicine-Natural-Anxiety-Fatigue/dp/0578866463/\r\n\r\nhttps://www.amazon.com/My-Kratom-Hell-Users-Quitting/dp/1691182109'),
+(214, 1, 1, '2025-08-22 21:20:36', '2025-08-22 21:20:36', NULL, 'module_tasks_notes', 23, 'NOTE', '', '', '1) Kratom: 101 Things You Need to Know About Kratom — Frank Coles (2018; ISBN-10: 1724047809)'),
+(215, 1, 1, '2025-08-22 21:20:39', '2025-08-22 21:20:39', NULL, 'module_tasks_notes', 23, 'DELETE', '', '', '1) Kratom: 101 Things You Need to Know About Kratom — Frank Coles (2018; ISBN-10: 1724047809)'),
+(216, 1, 1, '2025-08-22 21:20:42', '2025-08-22 21:20:42', NULL, 'module_tasks_notes', 24, 'NOTE', '', '', '1) Kratom: 101 Things You Need to Know About Kratom — Frank Coles (2018; ISBN-10: 1724047809)\r\n\r\nLibrary copy (Utah): Salt Lake City Public Library has it listed—good candidate for a local borrow or interlibrary loan. \r\ncatalog.slcpl.org\r\n\r\nPreview / metadata: Google Books page (limited preview). \r\nGoogle Books\r\n\r\nAudiobook (paid, sometimes with free trial): Audible listing. \r\nAudible.com\r\n\r\nRetail reference: Amazon product page (print). \r\nAmazon'),
+(217, 1, 1, '2025-08-22 21:20:52', '2025-08-22 21:20:52', NULL, 'module_tasks_notes', 25, 'NOTE', '', '', '2) Kratom Is Medicine: Natural Relief for Anxiety, Pain, Fatigue, and More — Michele Ross (2021; ISBN-10: 0578866463)\r\n\r\nRead online (with free trial): Everand/Scribd eBook. \r\nEverand\r\n\r\nAuthor site (book info & buy links; occasionally authors share extras or discounts here): \r\nDr. Michele Ross\r\n\r\nPreview: Google Books entry (limited preview). \r\nGoogle Books\r\n\r\nRetail refs: Barnes & Noble listing; AbeBooks (used). \r\nBarnes & Noble\r\nAbeBooks'),
+(218, 1, 1, '2025-08-22 21:20:57', '2025-08-22 21:20:57', NULL, 'module_tasks_notes', 26, 'NOTE', '', '', '3) My Kratom Hell: A User’s Guide to Quitting Kratom — Safari Girl (2019; ISBN-10: 1691182109)\r\n\r\nAuthor’s site (background & posts): quittingkratom.wordpress.com. \r\nquittingkratom.wordpress.com\r\n\r\nPreview / metadata: Google Books (limited). \r\nGoogle Books'),
+(219, 1, 1, '2025-08-22 21:21:02', '2025-08-22 21:21:02', NULL, 'module_tasks_notes', 27, 'NOTE', '', '', 'Solid, free kratom resources (open access)\r\n\r\nIf your goal is research (mechanisms, risks, clinical view), these are high-quality and free:\r\n\r\nFDA’s current kratom page (policy & safety, updated July 29, 2025). \r\nU.S. Food and Drug Administration\r\n\r\nWHO ECDD pre-review report on kratom (pdf). \r\nWorld Health Organization\r\n\r\nPeer-reviewed open-access overviews (PMC/JAMA): pharmacology & clinical implications; assessment & treatment; EMA of use/effects. \r\nPMC\r\n+1\r\nJAMA Network\r\n\r\nConcise clinical guide (Michigan OPEN educational PDF). \r\nmichigan-open.org'),
+(220, 1, 1, '2025-08-22 21:34:24', '2025-08-22 21:34:24', NULL, 'module_tasks_notes', 28, 'NOTE', '', '', 'https://www.hilton.com/en/p/hilton-for-business/'),
+(221, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 'module_tasks_notes', 29, 'NOTE', '', '', 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(222, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 'module_tasks_files', 5, 'UPLOAD', '', '', '{\"file\":\"canopy-somasanfran-landscape-jpg-3.avif\"}'),
+(223, 1, 1, '2025-08-22 21:35:18', '2025-08-22 21:35:18', NULL, 'module_tasks_notes', 30, 'NOTE', '', '', 'https://www.hilton.com/en/p/hilton-for-business/'),
+(224, 1, 1, '2025-08-22 21:35:21', '2025-08-22 21:35:21', NULL, 'module_tasks_notes', 31, 'NOTE', '', '', 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(225, 1, 1, '2025-08-22 21:35:43', '2025-08-22 21:35:43', NULL, 'module_tasks_notes', 32, 'NOTE', '', '', 'JTI 2025 USER CONFERENCE:\r\nNOVEMBER 12, 13, & 14th, 2025'),
+(226, 1, 1, '2025-08-22 21:36:19', '2025-08-22 21:36:19', NULL, 'module_tasks_notes', 33, 'NOTE', '', '', 'https://www.ncsc.org/event/court-technology-conference-ctc'),
+(227, 1, 1, '2025-08-22 21:36:25', '2025-08-22 21:36:25', NULL, 'module_tasks_notes', 34, 'NOTE', '', '', 'https://www.ccpio.org/'),
+(228, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 'module_tasks_notes', 35, 'NOTE', '', '', 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(229, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 'module_tasks_notes', 36, 'NOTE', '', '', 'https://www.mcleancountyil.gov/81/Circuit-Court'),
+(230, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 'module_tasks_notes', 37, 'NOTE', '', '', 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments');
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1273,22 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (559, 1, 1, '2025-08-22 19:19:50', '2025-08-22 19:19:50', NULL, 'module_projects', 15, 'UPDATE', 'Updated project'),
 (560, 1, 1, '2025-08-22 19:19:52', '2025-08-22 19:19:52', NULL, 'module_projects_assignments', 17, 'ASSIGN', 'Assigned user'),
 (561, 1, 1, '2025-08-22 19:20:11', '2025-08-22 19:20:11', NULL, 'module_projects', 10, 'UPDATE', 'Updated project'),
-(562, 1, 1, '2025-08-22 20:38:44', '2025-08-22 20:38:44', NULL, 'users', 1, 'LOGIN', 'User logged in');
+(562, 1, 1, '2025-08-22 20:38:44', '2025-08-22 20:38:44', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(563, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', NULL, 'lookup_lists', 35, 'CREATE', 'Created lookup list'),
+(564, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 'module_tasks', 47, 'CREATE', 'Created task'),
+(565, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 'module_tasks', 48, 'CREATE', 'Created task'),
+(566, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:03', NULL, 'module_tasks', 49, 'CREATE', 'Created task'),
+(567, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:09', NULL, 'module_tasks', 50, 'CREATE', 'Created task'),
+(568, 1, 1, '2025-08-22 20:47:14', '2025-08-22 20:47:14', NULL, 'module_tasks', 50, 'UPDATE', 'Updated task priority'),
+(569, 1, 1, '2025-08-22 20:47:15', '2025-08-22 20:47:15', NULL, 'module_tasks', 49, 'UPDATE', 'Updated task priority'),
+(570, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 'module_tasks', 51, 'CREATE', 'Created task'),
+(571, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 'module_tasks', 52, 'CREATE', 'Created task'),
+(572, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 'module_tasks', 53, 'CREATE', 'Created task'),
+(573, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 'module_tasks', 54, 'CREATE', 'Created task'),
+(574, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 'module_tasks', 55, 'CREATE', 'Created task'),
+(575, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 'module_tasks', 56, 'CREATE', 'Created task'),
+(576, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 'module_tasks', 57, 'CREATE', 'Created task'),
+(577, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 'module_tasks', 58, 'CREATE', 'Created task');
 
 -- --------------------------------------------------------
 
@@ -1310,7 +1343,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (31, 1, 1, '2025-08-22 08:16:54', '2025-08-22 08:18:20', '', 'PROJECT_TYPE', 'Normal Project, SoW, etc.'),
 (32, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'ORGANIZATION_PERSON_ROLES', 'Roles for persons assigned to organizations'),
 (33, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'AGENCY_PERSON_ROLES', 'Roles for persons assigned to agencies'),
-(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions');
+(34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions'),
+(35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', '');
 
 -- --------------------------------------------------------
 
@@ -2403,7 +2437,19 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(47, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 13, NULL, NULL, 'Relationships between Lookup Lists and LU Items (upload eCourt schema)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
+(50, 1, 1, '2025-08-22 20:47:09', '2025-08-22 20:47:14', NULL, 10, NULL, NULL, 'Dentist fill cavities?', NULL, NULL, NULL, '35', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
+(51, 1, 1, '2025-08-22 20:47:56', '2025-08-22 20:47:56', NULL, 13, NULL, NULL, 'Dynamic / User selected sorting on... everything (projects + tasks)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(52, 1, 1, '2025-08-22 20:50:21', '2025-08-22 20:50:21', NULL, 4, NULL, NULL, 'Email Winnie about JTI User Conference (register with .gov email?)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(53, 1, 1, '2025-08-22 21:10:57', '2025-08-22 21:10:57', NULL, 10, NULL, NULL, 'TELLURIDE - VACUUM UP KARJAR\'S MESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(54, 1, 1, '2025-08-22 21:20:28', '2025-08-22 21:20:28', NULL, 13, NULL, NULL, 'Dynamically check Note INSERTS (or set a type) for things like https Links to actually link.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(55, 1, 1, '2025-08-22 21:34:22', '2025-08-22 21:34:22', NULL, 7, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(56, 1, 1, '2025-08-22 21:35:14', '2025-08-22 21:35:14', NULL, 10, NULL, NULL, 'SIGN UP FOR HILTON BUSINESS', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(57, 1, 1, '2025-08-22 21:36:15', '2025-08-22 21:36:15', NULL, 4, NULL, NULL, 'CASE MANAGEMENT CONVENTIONS !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(58, 1, 1, '2025-08-22 21:36:37', '2025-08-22 21:36:37', NULL, 6, NULL, NULL, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2442,6 +2488,13 @@ CREATE TABLE `module_tasks_files` (
   `file_size` int(11) DEFAULT NULL,
   `file_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_tasks_files`
+--
+
+INSERT INTO `module_tasks_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `note_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(5, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 55, 29, 'canopy-somasanfran-landscape-jpg-3.avif', '/module/task/uploads/task_55_1755920091_canopy-somasanfran-landscape-jpg-3.avif', 72347, 'image/avif');
 
 -- --------------------------------------------------------
 
@@ -2482,7 +2535,22 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (18, 1, 1, '2025-08-22 18:54:47', '2025-08-22 18:54:47', NULL, 44, 'ONE RESTART, TO RULE THEM ALL\r\n- verify with the Clerks that they\'re good to wait ~2 weeks for Restart\r\n\r\n- Kapser will request the restart with JTI.\r\n\r\n- Judge Mass Reassignment may need new metadata\r\n\r\n- Multiple Interpreters per Event\r\n--> need metadata in PROD\r\n--> one small new config: show exotic langauge in WQ.\r\n--> When I complete in AUX, email Leah/CC & JIS for UAT.\r\n\r\n\r\nASK LEAH & TARA IF THEY\'RE GOOD WAITING ON THE REPORTS SoW\r\nTO COMBINE THE RESTART IN PRODUCTION !'),
 (19, 1, 1, '2025-08-22 18:54:55', '2025-08-22 18:54:55', NULL, 44, 'E.S.D.\r\n--> remaining tasks for both Atlis and Lake\r\n--> timeline\r\n\r\n\r\nGAL\r\n--> eDefender Admin Access\r\n- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
 (20, 1, 1, '2025-08-22 18:58:03', '2025-08-22 18:58:03', NULL, 45, 'Josh Barnett'),
-(21, 1, 1, '2025-08-22 18:59:07', '2025-08-22 18:59:07', NULL, 44, 'AGENDA:\r\n\r\nE.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE');
+(21, 1, 1, '2025-08-22 18:59:07', '2025-08-22 18:59:07', NULL, 44, 'AGENDA:\r\n\r\nE.S.D.\r\n	--> remaining tasks for both Atlis and Lake\r\n	--> timeline\r\n\r\n\r\nGAL\r\n	--> eDefender Admin Access\r\n		- I emailed Winnie\r\n\r\n\r\n\r\nJUDGE MASS REASSIGNMENT\r\n\r\n\r\n\r\nRESTART\r\n\r\n\r\nJTI USER CONFERENCE'),
+(22, 1, 1, '2025-08-22 21:19:52', '2025-08-22 21:19:52', NULL, 46, 'https://www.amazon.com/Kratom-Things-Need-Know-About/dp/1724047809/\r\n\r\nhttps://www.amazon.com/Kratom-Medicine-Natural-Anxiety-Fatigue/dp/0578866463/\r\n\r\nhttps://www.amazon.com/My-Kratom-Hell-Users-Quitting/dp/1691182109'),
+(24, 1, 1, '2025-08-22 21:20:42', '2025-08-22 21:20:42', NULL, 46, '1) Kratom: 101 Things You Need to Know About Kratom — Frank Coles (2018; ISBN-10: 1724047809)\r\n\r\nLibrary copy (Utah): Salt Lake City Public Library has it listed—good candidate for a local borrow or interlibrary loan. \r\ncatalog.slcpl.org\r\n\r\nPreview / metadata: Google Books page (limited preview). \r\nGoogle Books\r\n\r\nAudiobook (paid, sometimes with free trial): Audible listing. \r\nAudible.com\r\n\r\nRetail reference: Amazon product page (print). \r\nAmazon'),
+(25, 1, 1, '2025-08-22 21:20:52', '2025-08-22 21:20:52', NULL, 46, '2) Kratom Is Medicine: Natural Relief for Anxiety, Pain, Fatigue, and More — Michele Ross (2021; ISBN-10: 0578866463)\r\n\r\nRead online (with free trial): Everand/Scribd eBook. \r\nEverand\r\n\r\nAuthor site (book info & buy links; occasionally authors share extras or discounts here): \r\nDr. Michele Ross\r\n\r\nPreview: Google Books entry (limited preview). \r\nGoogle Books\r\n\r\nRetail refs: Barnes & Noble listing; AbeBooks (used). \r\nBarnes & Noble\r\nAbeBooks'),
+(26, 1, 1, '2025-08-22 21:20:57', '2025-08-22 21:20:57', NULL, 46, '3) My Kratom Hell: A User’s Guide to Quitting Kratom — Safari Girl (2019; ISBN-10: 1691182109)\r\n\r\nAuthor’s site (background & posts): quittingkratom.wordpress.com. \r\nquittingkratom.wordpress.com\r\n\r\nPreview / metadata: Google Books (limited). \r\nGoogle Books'),
+(27, 1, 1, '2025-08-22 21:21:02', '2025-08-22 21:21:02', NULL, 46, 'Solid, free kratom resources (open access)\r\n\r\nIf your goal is research (mechanisms, risks, clinical view), these are high-quality and free:\r\n\r\nFDA’s current kratom page (policy & safety, updated July 29, 2025). \r\nU.S. Food and Drug Administration\r\n\r\nWHO ECDD pre-review report on kratom (pdf). \r\nWorld Health Organization\r\n\r\nPeer-reviewed open-access overviews (PMC/JAMA): pharmacology & clinical implications; assessment & treatment; EMA of use/effects. \r\nPMC\r\n+1\r\nJAMA Network\r\n\r\nConcise clinical guide (Michigan OPEN educational PDF). \r\nmichigan-open.org'),
+(28, 1, 1, '2025-08-22 21:34:24', '2025-08-22 21:34:24', NULL, 55, 'https://www.hilton.com/en/p/hilton-for-business/'),
+(29, 1, 1, '2025-08-22 21:34:51', '2025-08-22 21:34:51', NULL, 55, 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(30, 1, 1, '2025-08-22 21:35:18', '2025-08-22 21:35:18', NULL, 56, 'https://www.hilton.com/en/p/hilton-for-business/'),
+(31, 1, 1, '2025-08-22 21:35:21', '2025-08-22 21:35:21', NULL, 56, 'Earn up to 15,000 Bonus Points\r\nMan checking in at reception with luggage\r\nBook exclusive discounted Hilton for Business rates and earn 5,000 Bonus Points per stay, up to 3 stays, through Aug 27, 2025.'),
+(32, 1, 1, '2025-08-22 21:35:43', '2025-08-22 21:35:43', NULL, 56, 'JTI 2025 USER CONFERENCE:\r\nNOVEMBER 12, 13, & 14th, 2025'),
+(33, 1, 1, '2025-08-22 21:36:19', '2025-08-22 21:36:19', NULL, 57, 'https://www.ncsc.org/event/court-technology-conference-ctc'),
+(34, 1, 1, '2025-08-22 21:36:25', '2025-08-22 21:36:25', NULL, 57, 'https://www.ccpio.org/'),
+(35, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 58, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
+(36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
+(37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments');
 
 -- --------------------------------------------------------
 
@@ -3299,7 +3367,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3353,13 +3421,13 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=563;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=578;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
@@ -3515,7 +3583,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3527,13 +3595,13 @@ ALTER TABLE `module_tasks_answers`
 -- AUTO_INCREMENT for table `module_tasks_files`
 --
 ALTER TABLE `module_tasks_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
