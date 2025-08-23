@@ -204,20 +204,68 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (!empty($questions)): ?>
           <?php foreach ($questions as $q): ?>
             <div class="mb-3 border-top pt-3">
-              <p class="mb-1 fw-semibold"><?= h($q['question_text']); ?></p>
-              <?php $pic = $q['user_pic'] ?? ''; ?>
-              <p class="fs-9 text-body-secondary mb-2">by <a class="d-flex align-items-center" href="#!">
-                <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
-                <span class="ms-2"><?= h($q['user_name']); ?></span></a> on <?= h($q['date_created']); ?></p>
+
+              <div class="d-flex">
+                <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
+                <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                  <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
+                  <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                  <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                </form>
+                <?php endif; ?>
+
+              </div>
+              <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <?php if (!empty($questionFiles[$q['id']])): ?>
+                <ul class="list-unstyled mt-2 ms-3">
+                  <?php foreach ($questionFiles[$q['id']] as $f): ?>
+                    <li class="mb-1">
+                      <div class="d-flex mb-1"><span class="fa-solid <?= strpos($f['file_type'], 'image/') === 0 ? 'fa-image' : 'fa-file' ?> me-2 text-body-tertiary fs-9"></span>
+                        <p class="text-body-highlight mb-0 lh-1">
+                          <?php if (strpos($f['file_type'], 'image/') === 0): ?>
+                            <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                          <?php else: ?>
+                            <a class="text-body-highlight" href="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>"><?= h($f['file_name']) ?></a>
+                          <?php endif; ?>
+                        </p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                          <input type="hidden" name="id" value="<?= (int)$f['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <input type="hidden" name="question_id" value="<?= (int)$q['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
+                      </div>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+
+
               <?php if (!empty($questionAnswers[$q['id']])): ?>
-                <ul class="list-unstyled ms-3">
+                <ul class="list-unstyled ps-5">
                   <?php foreach ($questionAnswers[$q['id']] as $ans): ?>
                     <li class="mb-2">
-                      <p class="mb-1"><?= h($ans['answer_text']); ?></p>
-                      <?php $pic = $ans['user_pic'] ?? ''; ?>
-                      <p class="fs-9 text-body-secondary mb-0">by <a class="d-flex align-items-center" href="#!">
-                        <div class="avatar avatar-m"><img class="rounded-circle" src="<?=getURLDir().($pic?:'assets/img/team/avatar.webp')?>"></div>
-                        <span class="ms-2"><?= h($ans['user_name']); ?></span></a> on <?= h($ans['date_created']); ?></p>
+                      <div class="d-flex">
+                        <p class="mb-1 flex-grow-1"><?= h($ans['answer_text']); ?></p>
+                        <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($ans['user_id'] ?? 0) == $this_user_id)): ?>
+                        <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                          <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
+                          <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                          <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                        <?php endif; ?>
+                      </div>
+                      <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
+                      <div class="d-flex align-items-center fs-9 text-body-secondary">
+                        <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
+                        <div>
+                          <div class="fw-semibold text-body"><?= h($ans['user_name']); ?></div>
+                          <div><?= h($ans['date_created']); ?></div>
+                        </div>
+                      </div>
                     </li>
                   <?php endforeach; ?>
                 </ul>
@@ -314,7 +362,12 @@ require_once __DIR__ . '/../../../includes/functions.php';
         </div>
         <div class="modal-body">
           <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
-          <textarea class="form-control" name="question_text" rows="3" required></textarea>
+          <div class="mb-3">
+            <textarea class="form-control" name="question_text" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <input class="form-control" type="file" name="files[]" multiple>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-success" type="submit">Add Question</button>
