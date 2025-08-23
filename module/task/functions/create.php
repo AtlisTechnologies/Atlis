@@ -18,22 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project_id = $_POST['project_id'] ?? null;
   $agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? $_POST['agency_id'] : null;
   $division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? $_POST['division_id'] : null;
-  $is_private = ($project_id ? 0 : (!empty($_POST['is_private']) ? 1 : 0));
-
-  if ($project_id) {
-    $pstmt = $pdo->prepare('SELECT user_id, is_private FROM module_projects WHERE id = :pid');
-    $pstmt->execute([':pid' => $project_id]);
-    $proj = $pstmt->fetch(PDO::FETCH_ASSOC);
-    if ($proj && $proj['is_private'] && !user_has_role('Admin') && $proj['user_id'] != $this_user_id) {
-      http_response_code(403);
-      if ($isAjax) {
-        echo json_encode(['success' => false]);
-      } else {
-        header('Location: ../index.php');
-      }
-      exit;
-    }
-  }
 
   // Default status to BACKLOG if not provided
   if (!$status) {
@@ -55,12 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  $stmt = $pdo->prepare('INSERT INTO module_tasks (user_id, user_updated, project_id, agency_id, division_id, is_private, name, status, priority, description) VALUES (:uid, :uid, :project_id, :agency_id, :division_id, :is_private, :name, :status, :priority, :description)');
+  $stmt = $pdo->prepare('INSERT INTO module_tasks (user_id, user_updated, project_id, agency_id, division_id, name, status, priority, description) VALUES (:uid, :uid, :project_id, :agency_id, :division_id, :name, :status, :priority, :description)');
   $stmt->bindValue(':uid', $this_user_id, PDO::PARAM_INT);
   $stmt->bindValue(':project_id', $project_id);
   $stmt->bindValue(':agency_id', $agency_id, $agency_id !== null ? PDO::PARAM_INT : PDO::PARAM_NULL);
   $stmt->bindValue(':division_id', $division_id, $division_id !== null ? PDO::PARAM_INT : PDO::PARAM_NULL);
-  $stmt->bindValue(':is_private', $is_private, PDO::PARAM_INT);
   $stmt->bindValue(':name', $name);
   $stmt->bindValue(':status', $status);
   $stmt->bindValue(':priority', $priority);
