@@ -3,7 +3,6 @@ require '../../../includes/php_header.php';
 require_permission('meeting', 'read');
 
 header('Content-Type: application/json');
-
 $meeting_id = (int)($_GET['meeting_id'] ?? 0);
 
 if ($meeting_id) {
@@ -15,3 +14,4 @@ if ($meeting_id) {
 }
 
 echo json_encode(['success' => false, 'attendees' => []]);
+

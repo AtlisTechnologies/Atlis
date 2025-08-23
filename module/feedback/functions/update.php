@@ -10,36 +10,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die('Invalid CSRF token');
   }
 
+  $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
   $title = strip_tags(trim($_POST['title'] ?? ''));
   $description = strip_tags(trim($_POST['description'] ?? ''));
   $type = filter_var($_POST['type'] ?? null, FILTER_VALIDATE_INT);
 
   $validTypes = array_column(get_lookup_items($pdo, 'FEEDBACK_TYPE'), 'id');
 
-  if ($title === '' || $type === false || !in_array($type, $validTypes)) {
+  if ($id === false || $title === '' || $type === false || !in_array($type, $validTypes)) {
     die('Invalid input');
   }
 
-  $stmt = $pdo->prepare('INSERT INTO module_feedback (user_id, user_updated, title, description, type) VALUES (:uid, :uid, :title, :description, :type)');
-  $stmt->execute([
+  $stmt = $pdo->prepare('SELECT title, description, type FROM module_feedback WHERE id = :id');
+  $stmt->execute([':id' => $id]);
+  $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (!$existing) {
+    die('Feedback not found');
+  }
+
+  $updateStmt = $pdo->prepare('UPDATE module_feedback SET user_updated = :uid, title = :title, description = :description, type = :type WHERE id = :id');
+  $updateStmt->execute([
     ':uid' => $this_user_id,
     ':title' => $title,
     ':description' => $description,
-    ':type' => $type
+    ':type' => $type,
+    ':id' => $id
   ]);
-  $id = $pdo->lastInsertId();
 
   admin_audit_log(
     $pdo,
     $this_user_id,
     'module_feedback',
     $id,
-    'CREATE',
-    null,
+    'UPDATE',
+    json_encode($existing),
     json_encode(['title' => $title, 'description' => $description, 'type' => $type]),
-    'Created feedback'
+    'Updated feedback'
   );
 }
 
 header('Location: ../index.php?action=list');
 exit;
+

@@ -10,6 +10,7 @@ if ($meeting_id) {
     $stmt = $pdo->prepare('SELECT id, file_name, file_path FROM module_meeting_files WHERE meeting_id = ? ORDER BY id');
     $stmt->execute([$meeting_id]);
     $files = [];
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $files[] = [
             'id' => (int)$row['id'],

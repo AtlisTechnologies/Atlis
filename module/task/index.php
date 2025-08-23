@@ -195,7 +195,7 @@ if ($tasks) {
   $taskIds = array_column($tasks, 'id');
   $placeholders = implode(',', array_fill(0, count($taskIds), '?'));
     $taskAssignStmt = $pdo->prepare(
-        'SELECT ta.task_id, ta.assigned_user_id, upp.file_path, CONCAT(per.first_name, " ", per.last_name) AS name '
+        'SELECT ta.task_id, ta.assigned_user_id, upp.file_path AS user_pic, CONCAT(per.first_name, " ", per.last_name) AS name '
         . 'FROM module_task_assignments ta '
         . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
         . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id '
@@ -207,7 +207,8 @@ if ($tasks) {
   foreach ($taskAssignStmt as $row) {
       $taskAssignments[$row['task_id']][] = [
         'assigned_user_id' => $row['assigned_user_id'],
-        'file_path'      => $row['file_path'],
+        'user_pic'         => $row['user_pic'],
+        'file_path'        => $row['user_pic'],
         'name'             => $row['name']
       ];
   }
@@ -257,8 +258,8 @@ if ($action === 'details') {
   $questionAnswers = [];
   if ($current_task) {
 
-      $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
-    $assignedStmt->execute([':id' => $task_id]);
+      $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
+      $assignedStmt->execute([':id' => $task_id]);
     $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
 
     $assignedIds = array_column($assignedUsers, 'user_id');
@@ -290,7 +291,7 @@ if ($action === 'details') {
     $filesStmt->execute([':id' => $task_id]);
     $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $notesStmt = $pdo->prepare('SELECT n.id,n.user_id,n.note_text,n.date_created, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE n.task_id = :id ORDER BY n.date_created DESC');
+    $notesStmt = $pdo->prepare('SELECT n.id,n.user_id,n.note_text,n.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_tasks_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE n.task_id = :id ORDER BY n.date_created DESC');
 
     $notesStmt->execute([':id' => $task_id]);
     $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
