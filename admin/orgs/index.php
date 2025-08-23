@@ -160,8 +160,7 @@ $organizations = array_values($organizations);
           <td class="ps-2"><?= htmlspecialchars($org['name']); ?>
             <?php if (!empty($org['file_path'])): ?>
               <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
-          <td class="ps-2">
-            <?= htmlspecialchars($org['name']); ?>
+            <?php endif; ?>
             <?php if (!empty($org['persons'])): ?>
               <br><small>
                 <?php
