@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 09:54 AM
+-- Generation Time: Aug 24, 2025 at 08:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -171,7 +171,22 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (122, 1, 1, '2025-08-24 01:34:36', '2025-08-24 01:34:36', NULL, 'module_tasks_questions', 1, 'QUESTION', '', '', 'What color per seal type ?'),
 (123, 1, 1, '2025-08-24 01:34:50', '2025-08-24 01:34:50', NULL, 'module_tasks_answers', 1, 'ANSWER', '', '', 'Whatever color you pick from Bootstrap.'),
 (124, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 'module_projects_answers', 5, 'ANSWER', '', '', 'Next !'),
-(125, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 'module_projects_questions', 4, 'QUESTION', '', '', 'Question #2 !');
+(125, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 'module_projects_questions', 4, 'QUESTION', '', '', 'Question #2 !'),
+(126, 1, 1, '2025-08-24 02:05:55', '2025-08-24 02:05:55', NULL, 'module_tasks_questions', 2, 'QUESTION', '', '', 'Should this be a PUBLIC or ADMIN module ?'),
+(127, 1, 1, '2025-08-24 02:07:05', '2025-08-24 02:07:05', NULL, 'module_tasks_questions', 3, 'QUESTION', '', '', 'What layer/level or the Organizational hierarchy should the financial components be tracked at? Organization --> Agency --> Division. 🤔'),
+(128, 1, 1, '2025-08-24 02:09:04', '2025-08-24 02:09:04', NULL, 'module_projects_questions', 5, 'QUESTION', '', '', 'test'),
+(129, 1, 1, '2025-08-24 02:09:11', '2025-08-24 02:09:11', NULL, 'module_projects_answers', 6, 'ANSWER', '', '', 'test 2'),
+(130, 1, 1, '2025-08-24 02:14:48', '2025-08-24 02:14:48', NULL, 'module_feedback', 4, 'DELETE', 'Deleted feedback', '{\"title\":\"asfd\",\"description\":\"asdf\",\"type\":191}', ''),
+(131, 1, 1, '2025-08-24 02:14:50', '2025-08-24 02:14:50', NULL, 'module_feedback', 3, 'DELETE', 'Deleted feedback', '{\"title\":\"asd\",\"description\":\"asd\",\"type\":192}', ''),
+(132, 1, 1, '2025-08-24 02:14:51', '2025-08-24 02:14:51', NULL, 'module_feedback', 2, 'DELETE', 'Deleted feedback', '{\"title\":\"test\",\"description\":\"test\",\"type\":192}', ''),
+(133, 1, 1, '2025-08-24 02:16:21', '2025-08-24 02:16:21', NULL, 'module_tasks_notes', 40, 'NOTE', '', '', 'I purchased some SUPER SPECOSIA'),
+(134, 1, 1, '2025-08-24 02:52:16', '2025-08-24 02:52:16', NULL, 'module_projects_questions', 1, 'UPDATE', '', 'This is the first question !', 'This is the first question ! ! !'),
+(135, 1, 1, '2025-08-24 02:52:21', '2025-08-24 02:52:21', NULL, 'module_projects_answers', 1, 'UPDATE', '', 'Yes', 'Yes !!!'),
+(136, 1, 1, '2025-08-24 02:55:46', '2025-08-24 02:55:46', NULL, 'module_tasks_notes', 41, 'NOTE', '', '', 'I purchased from: https://kures.co/\r\nKratom72!@'),
+(137, 1, 1, '2025-08-24 09:55:07', '2025-08-24 09:55:07', NULL, 'module_projects_files', 7, 'UPLOAD', '', '', '{\"file\":\"Screen Shot 2021-08-04 at 4.20.27 PM (1).png\"}'),
+(138, 1, 1, '2025-08-24 09:55:20', '2025-08-24 09:55:20', NULL, 'module_projects_files', 8, 'UPLOAD', '', '', '{\"file\":\"7-hydroxymitragynin_7-oh_an_assessment_of_the_scientific_data_and_toxicological_concerns_around_an_emerging_opioid_threat.pdf\"}'),
+(139, 1, 1, '2025-08-24 11:32:06', '2025-08-24 11:32:06', NULL, 'module_projects', 23, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"INITIAL CALL WITH ZACH JENKS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"priority\":\"58\",\"type\":\"182\",\"start_date\":\"2025-08-24\"}'),
+(140, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 'module_tasks_notes', 42, 'NOTE', '', '', '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS');
 
 -- --------------------------------------------------------
 
@@ -201,13 +216,13 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
 (3, 'Persons', 'person/index.php', 'users', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
 (4, 'Contractors', 'contractors/index.php', 'briefcase', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 8, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
-(6, 'Roles', 'roles/index.php', 'shield', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:07:51', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 1, 1, 1, '2025-08-20 00:00:00', '2025-08-24 02:14:35', NULL),
+(6, 'Roles', 'roles/index.php', 'shield', 8, 1, 1, '2025-08-20 00:00:00', '2025-08-24 02:14:35', NULL),
 (7, 'System Properties', 'system-properties/index.php', 'sliders', 9, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
 (8, 'Navigation Links', 'navigation.php', 'settings', 10, 1, 1, '2025-08-20 00:37:23', '2025-08-24 01:54:11', NULL),
-(9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL),
-(11, 'Meetings', 'meetings/index.php', 'cpu', 6, 1, 1, '2025-08-26 00:00:00', '2025-08-24 01:45:00', NULL),
-(12, 'Branding', 'branding/index.php', 'palette', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 01:54:11', NULL);
+(9, 'Orgs', 'orgs/index.php', 'layers', 5, 1, 1, '2025-08-21 02:22:27', '2025-08-24 02:14:35', NULL),
+(11, 'Meetings', 'meetings/index.php', 'cpu', 7, 1, 1, '2025-08-26 00:00:00', '2025-08-24 02:14:35', NULL),
+(12, 'Branding', 'branding/index.php', 'aperture', 6, 1, 1, '2025-08-24 01:53:50', '2025-08-24 02:14:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -771,7 +786,39 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (125, 1, 1, '2025-08-24 01:50:55', '2025-08-24 01:50:55', NULL, 'module_task_assignments', 27, 'ASSIGN', 'Assigned user'),
 (126, 1, 1, '2025-08-24 01:50:56', '2025-08-24 01:50:56', NULL, 'module_task_assignments', 28, 'ASSIGN', 'Assigned user'),
 (127, 1, 1, '2025-08-24 01:51:10', '2025-08-24 01:51:10', NULL, 'module_task_assignments', 29, 'ASSIGN', 'Assigned user'),
-(128, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 'module_task_assignments', 30, 'ASSIGN', 'Assigned user');
+(128, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 'module_task_assignments', 30, 'ASSIGN', 'Assigned user'),
+(129, 1, 1, '2025-08-24 02:05:43', '2025-08-24 02:05:43', NULL, 'module_tasks', 78, 'CREATE', 'Created task'),
+(130, 1, 1, '2025-08-24 02:05:44', '2025-08-24 02:05:44', NULL, 'module_task_assignments', 31, 'ASSIGN', 'Assigned user'),
+(131, 1, 1, '2025-08-24 02:16:02', '2025-08-24 02:16:02', NULL, 'module_tasks', 46, 'UPDATE', 'Updated task'),
+(132, 1, 1, '2025-08-24 02:54:17', '2025-08-24 02:54:17', NULL, 'module_task_assignments', 32, 'ASSIGN', 'Assigned user'),
+(133, 1, 1, '2025-08-24 02:54:17', '2025-08-24 02:54:17', NULL, 'module_task_assignments', 33, 'ASSIGN', 'Assigned user'),
+(134, 1, 1, '2025-08-24 02:54:24', '2025-08-24 02:54:24', NULL, 'module_task_assignments', 34, 'ASSIGN', 'Assigned user'),
+(135, 1, 1, '2025-08-24 02:54:26', '2025-08-24 02:54:26', NULL, 'module_task_assignments', 35, 'ASSIGN', 'Assigned user'),
+(136, 1, 1, '2025-08-24 02:54:27', '2025-08-24 02:54:27', NULL, 'module_task_assignments', 36, 'ASSIGN', 'Assigned user'),
+(137, 1, 1, '2025-08-24 02:54:27', '2025-08-24 02:54:27', NULL, 'module_task_assignments', 37, 'ASSIGN', 'Assigned user'),
+(138, 1, 1, '2025-08-24 02:54:30', '2025-08-24 02:54:30', NULL, 'module_tasks', 38, 'UPDATE', 'Updated task status'),
+(139, 1, 1, '2025-08-24 02:54:33', '2025-08-24 02:54:33', NULL, 'module_tasks', 38, 'UPDATE', 'Updated task priority'),
+(140, 1, 1, '2025-08-24 02:54:36', '2025-08-24 02:54:36', NULL, 'module_tasks', 38, 'UPDATE', 'Updated task'),
+(141, 1, 1, '2025-08-24 02:54:55', '2025-08-24 02:54:55', NULL, 'module_tasks', 38, 'UPDATE', 'Updated task'),
+(142, 1, 1, '2025-08-24 10:05:28', '2025-08-24 10:05:28', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(143, 1, 1, '2025-08-24 10:06:10', '2025-08-24 10:06:10', NULL, 'module_tasks', 79, 'CREATE', 'Created task'),
+(144, 1, 1, '2025-08-24 10:06:43', '2025-08-24 10:06:43', NULL, 'module_task_assignments', 38, 'ASSIGN', 'Assigned user'),
+(145, 1, 1, '2025-08-24 10:06:44', '2025-08-24 10:06:44', NULL, 'module_task_assignments', 39, 'ASSIGN', 'Assigned user'),
+(146, 1, 1, '2025-08-24 10:06:52', '2025-08-24 10:06:52', NULL, 'module_task_assignments', 40, 'ASSIGN', 'Assigned user'),
+(147, 1, 1, '2025-08-24 10:07:17', '2025-08-24 10:07:17', NULL, 'module_tasks', 79, 'UPDATE', 'Updated task status'),
+(148, 1, 1, '2025-08-24 10:07:20', '2025-08-24 10:07:20', NULL, 'module_tasks', 79, 'UPDATE', 'Updated task priority'),
+(149, 1, 1, '2025-08-24 11:31:57', '2025-08-24 11:31:57', NULL, 'module_tasks', 80, 'CREATE', 'Created task'),
+(150, 1, 1, '2025-08-24 11:31:58', '2025-08-24 11:31:58', NULL, 'module_task_assignments', 41, 'ASSIGN', 'Assigned user'),
+(151, 1, 1, '2025-08-24 11:32:23', '2025-08-24 11:32:23', NULL, 'module_tasks', 81, 'CREATE', 'Created task'),
+(152, 1, 1, '2025-08-24 11:32:34', '2025-08-24 11:32:34', NULL, 'module_tasks', 82, 'CREATE', 'Created task'),
+(153, 1, 1, '2025-08-24 11:32:40', '2025-08-24 11:32:40', NULL, 'module_tasks', 83, 'CREATE', 'Created task'),
+(154, 1, 1, '2025-08-24 11:32:50', '2025-08-24 11:32:50', NULL, 'module_tasks', 84, 'CREATE', 'Created task'),
+(155, 1, 1, '2025-08-24 11:33:20', '2025-08-24 11:33:20', NULL, 'module_tasks', 85, 'CREATE', 'Created task'),
+(156, 1, 1, '2025-08-24 11:33:39', '2025-08-24 11:33:39', NULL, 'module_tasks', 85, 'UPDATE', 'Updated task status'),
+(157, 1, 1, '2025-08-24 11:33:43', '2025-08-24 11:33:43', NULL, 'module_task_assignments', 42, 'ASSIGN', 'Assigned user'),
+(158, 1, 1, '2025-08-24 11:33:44', '2025-08-24 11:33:44', NULL, 'module_task_assignments', 43, 'ASSIGN', 'Assigned user'),
+(159, 1, 1, '2025-08-24 11:33:45', '2025-08-24 11:33:45', NULL, 'module_task_assignments', 44, 'ASSIGN', 'Assigned user'),
+(160, 1, 1, '2025-08-24 11:33:54', '2025-08-24 11:33:54', NULL, 'module_task_assignments', 45, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -1713,10 +1760,7 @@ CREATE TABLE `module_feedback` (
 --
 
 INSERT INTO `module_feedback` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `type`) VALUES
-(1, 1, 1, '2025-08-23 17:00:58', '2025-08-23 17:00:58', NULL, 'Pages are broken', 'Broken pages', 189),
-(2, 1, 1, '2025-08-23 17:01:39', '2025-08-23 17:01:39', NULL, 'test', 'test', 192),
-(3, 1, 1, '2025-08-23 17:01:51', '2025-08-23 17:01:51', NULL, 'asd', 'asd', 192),
-(4, 1, 1, '2025-08-23 17:02:21', '2025-08-23 17:02:21', NULL, 'asfd', 'asdf', 191);
+(1, 1, 1, '2025-08-23 17:00:58', '2025-08-23 17:00:58', NULL, 'Pages are broken', 'Broken pages', 189);
 
 -- --------------------------------------------------------
 
@@ -2020,7 +2064,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 0, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0),
 (20, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 6, 8, 0, 'DAVE - AROUND THE HOUSE', '', '', '', 29, 56, 182, '2025-08-23', NULL, 0),
 (21, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:56', NULL, 6, 8, 1, 'DAVE - FILE CABINET', '', '', '', 29, 57, NULL, '2025-08-23', NULL, 0),
-(22, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 1, 1, 0, 'ATLIS TECHNOLOGIES - CORPORATE PROJECTS', '', '', '', 29, 87, 182, '2025-08-23', NULL, 0);
+(22, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 1, 1, 0, 'ATLIS TECHNOLOGIES - CORPORATE PROJECTS', '', '', '', 29, 87, 182, '2025-08-23', NULL, 0),
+(23, 1, 1, '2025-08-24 11:32:06', '2025-08-24 11:32:06', NULL, 1, 1, 0, 'INITIAL CALL WITH ZACH JENKS', '', '', '', 55, 58, 182, '2025-08-24', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2044,11 +2089,12 @@ CREATE TABLE `module_projects_answers` (
 --
 
 INSERT INTO `module_projects_answers` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `question_id`, `answer_text`) VALUES
-(1, 1, 1, '2025-08-22 21:57:42', '2025-08-22 21:57:42', NULL, 1, 'Yes'),
+(1, 1, 1, '2025-08-22 21:57:42', '2025-08-24 02:52:21', NULL, 1, 'Yes !!!'),
 (2, 1, 1, '2025-08-23 11:04:36', '2025-08-23 11:04:36', NULL, 2, 'White, dummy.'),
 (3, 1, 1, '2025-08-23 11:04:46', '2025-08-23 11:04:46', NULL, 2, 'Yeah, it was obviously white.'),
 (4, 1, 1, '2025-08-24 01:18:18', '2025-08-24 01:18:18', NULL, 3, 'Bob Saggit.'),
-(5, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 1, 'Next !');
+(5, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 1, 'Next !'),
+(6, 1, 1, '2025-08-24 02:09:11', '2025-08-24 02:09:11', NULL, 5, 'test 2');
 
 -- --------------------------------------------------------
 
@@ -2135,7 +2181,9 @@ INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_crea
 (3, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0, 'Feedback from CC and Leah Balzer.txt', '/module/project/uploads/project_3_1755672059_Feedback_from_CC_and_Leah_Balzer.txt', 886, 'text/plain'),
 (4, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0, 'FeeWaiver Entity.PNG', '/module/project/uploads/project_3_1755672059_FeeWaiver_Entity.PNG', 291893, 'image/png'),
 (5, 1, 1, '2025-08-20 00:40:59', '2025-08-20 00:40:59', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0, 'unnamed (2).png', '/module/project/uploads/project_3_1755672059_unnamed__2_.png', 10562, 'image/png'),
-(6, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:24:52', NULL, 10, 14, NULL, NULL, NULL, NULL, 0, 'FirstContactLetterV1DAVEWILKINS1755891275718.pdf', '/module/project/uploads/project_10_1755930292_0_FirstContactLetterV1DAVEWILKINS1755891275718.pdf', 106685, 'application/pdf');
+(6, 1, 1, '2025-08-23 00:24:52', '2025-08-23 00:24:52', NULL, 10, 14, NULL, NULL, NULL, NULL, 0, 'FirstContactLetterV1DAVEWILKINS1755891275718.pdf', '/module/project/uploads/project_10_1755930292_0_FirstContactLetterV1DAVEWILKINS1755891275718.pdf', 106685, 'application/pdf'),
+(7, 1, 1, '2025-08-24 09:55:07', '2025-08-24 09:55:07', NULL, 15, NULL, NULL, NULL, NULL, NULL, 0, 'Screen Shot 2021-08-04 at 4.20.27 PM (1).png', '/module/project/uploads/project_15_1756050907_Screen_Shot_2021-08-04_at_4.20.27_PM__1_.png', 27996, 'image/png'),
+(8, 1, 1, '2025-08-24 09:55:20', '2025-08-24 09:55:20', NULL, 15, NULL, NULL, NULL, NULL, NULL, 0, '7-hydroxymitragynin_7-oh_an_assessment_of_the_scientific_data_and_toxicological_concerns_around_an_emerging_opioid_threat.pdf', '/module/project/uploads/project_15_1756050920_7-hydroxymitragynin_7-oh_an_assessment_of_the_scientific_data_and_toxicological_concerns_around_an_emerging_opioid_threat.pdf', 649344, 'application/pdf');
 
 -- --------------------------------------------------------
 
@@ -2228,10 +2276,11 @@ CREATE TABLE `module_projects_questions` (
 --
 
 INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `question_text`) VALUES
-(1, 1, 1, '2025-08-22 21:57:39', '2025-08-22 21:57:39', NULL, 15, 'This is the first question !'),
+(1, 1, 1, '2025-08-22 21:57:39', '2025-08-24 02:52:16', NULL, 15, 'This is the first question ! ! !'),
 (2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?'),
 (3, 1, 1, '2025-08-24 01:18:09', '2025-08-24 01:18:09', NULL, 10, 'Who is Dave Wilkins ?'),
-(4, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 15, 'Question #2 !');
+(4, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 15, 'Question #2 !'),
+(5, 1, 1, '2025-08-24 02:09:04', '2025-08-24 02:09:04', NULL, 2, 'test');
 
 -- --------------------------------------------------------
 
@@ -2304,7 +2353,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (35, 1, 1, '2025-08-22 18:12:21', '2025-08-22 18:13:05', NULL, 12, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-22', 1, 1, 100),
 (36, 1, 1, '2025-08-22 18:12:30', '2025-08-22 18:12:30', NULL, 12, NULL, NULL, 0, 'FULL NAME & BIRTHDAY for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (37, 1, 1, '2025-08-22 18:12:47', '2025-08-22 18:12:47', NULL, 12, NULL, NULL, 0, 'Send for signature - Atlis Documents', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(38, 1, 1, '2025-08-22 18:13:01', '2025-08-22 18:13:01', NULL, 12, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(38, 1, 1, '2025-08-22 18:13:01', '2025-08-24 02:54:55', NULL, 12, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '32', NULL, '39', '2025-08-17', '2025-08-30', NULL, 0, NULL, 0),
 (39, 1, 1, '2025-08-22 18:19:29', '2025-08-23 01:50:27', NULL, 13, NULL, NULL, 0, 'New CSS Color classes system-wide', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (40, 1, 1, '2025-08-22 18:52:14', '2025-08-23 02:30:30', NULL, 14, NULL, NULL, 0, 'Send him LAKE AUPs', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (41, 1, 1, '2025-08-22 18:52:23', '2025-08-22 18:52:23', NULL, 14, NULL, NULL, 0, 'FULL NAME & Birthday for Background Check', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
@@ -2312,7 +2361,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (43, 1, 1, '2025-08-22 18:52:35', '2025-08-22 18:52:35', NULL, 14, NULL, NULL, 0, 'Create Work Agreement between him and Atlis Technologies', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (44, 1, 1, '2025-08-22 18:54:32', '2025-08-22 18:54:32', NULL, 11, NULL, NULL, 0, 'August 22nd, 2025 at 2pm - Me, Sean, Tom, Soup, RJ, and Kasper', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (45, 1, 1, '2025-08-22 18:57:58', '2025-08-22 18:57:58', NULL, 4, NULL, NULL, 0, 'Background Checks !', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(46, 1, 1, '2025-08-22 18:58:23', '2025-08-22 18:58:23', NULL, 10, NULL, NULL, 0, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(46, 1, 1, '2025-08-22 18:58:23', '2025-08-24 02:16:02', NULL, 10, NULL, NULL, 0, 'BUY KRATOM - OR GET THE F OFF IT', NULL, NULL, NULL, '32', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
 (47, 1, 1, '2025-08-22 20:44:36', '2025-08-22 20:44:36', NULL, 13, NULL, NULL, 0, 'Relationships between Lookup Lists and LU Items (upload eCourt schema)', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (48, 1, 1, '2025-08-22 20:45:04', '2025-08-22 20:45:04', NULL, 13, NULL, NULL, 0, 'Why does eCourt schema use Lookup List CODE as FK value in child tables instead of id PK?', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (49, 1, 1, '2025-08-22 20:47:03', '2025-08-22 20:47:15', NULL, 10, NULL, NULL, 0, 'Dentist Cleaning?', NULL, NULL, NULL, '35', NULL, '39', NULL, NULL, NULL, 0, NULL, 0),
@@ -2343,7 +2392,15 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (74, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 10, NULL, NULL, 0, 'FIX EMRY\'S BEDROOM DRESSER', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (75, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 10, NULL, NULL, 0, 'INSTALL LONG MIRROR IN OUR ROOM', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (76, 1, 1, '2025-08-24 01:50:12', '2025-08-24 01:50:12', NULL, 13, NULL, NULL, 0, 'MAKE ALL NON-BUTTON/BADGE TEXT IN THE TOP NAV BE WHITE IN COLOR', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(77, 1, 1, '2025-08-24 01:50:45', '2025-08-24 01:50:45', NULL, 13, NULL, NULL, 0, 'TASKS: ALLOW USER TO SORT HOW THEY WANT.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(77, 1, 1, '2025-08-24 01:50:45', '2025-08-24 01:50:45', NULL, 13, NULL, NULL, 0, 'TASKS: ALLOW USER TO SORT HOW THEY WANT.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(78, 1, 1, '2025-08-24 02:05:43', '2025-08-24 02:05:43', NULL, 13, NULL, NULL, 0, 'FINANCE: Add Invoices, Time Tracking, & SoW\'s to system.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(79, 1, 1, '2025-08-24 10:06:10', '2025-08-24 10:07:20', NULL, 22, NULL, NULL, 0, 'BUSINESS INSURANCE !', NULL, NULL, NULL, '32', NULL, '40', NULL, NULL, NULL, 0, NULL, 0),
+(80, 1, 1, '2025-08-24 11:31:57', '2025-08-24 11:31:57', NULL, 13, NULL, NULL, 0, 'PROJECTS: ADD SETTING FOR DEFAULT ORG, AGC, & DIV', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(81, 1, 1, '2025-08-24 11:32:23', '2025-08-24 11:32:23', NULL, 23, NULL, NULL, 0, 'Lake County, IL - AUPs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(82, 1, 1, '2025-08-24 11:32:34', '2025-08-24 11:32:34', NULL, 23, NULL, NULL, 0, 'Atlis Work Agreement Contract', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(83, 1, 1, '2025-08-24 11:32:40', '2025-08-24 11:32:40', NULL, 23, NULL, NULL, 0, 'Atlis Required Docs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(84, 1, 1, '2025-08-24 11:32:50', '2025-08-24 11:32:50', NULL, 23, NULL, NULL, 0, 'Create Office365 Account', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(85, 1, 1, '2025-08-24 11:33:20', '2025-08-24 11:33:39', NULL, 4, NULL, NULL, 0, 'DEFINE ATLIS INTERNAL POLICIES AND WORK PROCESSES', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2454,7 +2511,10 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
 (37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments'),
 (38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm'),
-(39, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 73, 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
+(39, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 73, 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.'),
+(40, 1, 1, '2025-08-24 02:16:21', '2025-08-24 02:16:21', NULL, 46, 'I purchased some SUPER SPECOSIA'),
+(41, 1, 1, '2025-08-24 02:55:46', '2025-08-24 02:55:46', NULL, 46, 'I purchased from: https://kures.co/\r\nKratom72!@'),
+(42, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 85, '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS');
 
 -- --------------------------------------------------------
 
@@ -2478,7 +2538,9 @@ CREATE TABLE `module_tasks_questions` (
 --
 
 INSERT INTO `module_tasks_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `question_text`) VALUES
-(1, 1, 1, '2025-08-24 01:34:36', '2025-08-24 01:34:36', NULL, 19, 'What color per seal type ?');
+(1, 1, 1, '2025-08-24 01:34:36', '2025-08-24 01:34:36', NULL, 19, 'What color per seal type ?'),
+(2, 1, 1, '2025-08-24 02:05:55', '2025-08-24 02:05:55', NULL, 78, 'Should this be a PUBLIC or ADMIN module ?'),
+(3, 1, 1, '2025-08-24 02:07:05', '2025-08-24 02:07:05', NULL, 78, 'What layer/level or the Organizational hierarchy should the financial components be tracked at? Organization --> Agency --> Division. 🤔');
 
 -- --------------------------------------------------------
 
@@ -2530,7 +2592,22 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (27, 1, 1, '2025-08-24 01:50:55', '2025-08-24 01:50:55', NULL, 65, 1),
 (28, 1, 1, '2025-08-24 01:50:56', '2025-08-24 01:50:56', NULL, 67, 1),
 (29, 1, 1, '2025-08-24 01:51:10', '2025-08-24 01:51:10', NULL, 28, 1),
-(30, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 27, 1);
+(30, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 27, 1),
+(31, 1, 1, '2025-08-24 02:05:44', '2025-08-24 02:05:44', NULL, 78, 1),
+(32, 1, 1, '2025-08-24 02:54:17', '2025-08-24 02:54:17', NULL, 44, 1),
+(33, 1, 1, '2025-08-24 02:54:17', '2025-08-24 02:54:17', NULL, 45, 1),
+(34, 1, 1, '2025-08-24 02:54:24', '2025-08-24 02:54:24', NULL, 15, 1),
+(35, 1, 1, '2025-08-24 02:54:26', '2025-08-24 02:54:26', NULL, 43, 1),
+(36, 1, 1, '2025-08-24 02:54:27', '2025-08-24 02:54:27', NULL, 38, 1),
+(37, 1, 1, '2025-08-24 02:54:27', '2025-08-24 02:54:27', NULL, 25, 1),
+(38, 1, 1, '2025-08-24 10:06:43', '2025-08-24 10:06:43', NULL, 41, 1),
+(39, 1, 1, '2025-08-24 10:06:44', '2025-08-24 10:06:44', NULL, 36, 1),
+(40, 1, 1, '2025-08-24 10:06:52', '2025-08-24 10:06:52', NULL, 79, 1),
+(41, 1, 1, '2025-08-24 11:31:58', '2025-08-24 11:31:58', NULL, 80, 1),
+(42, 1, 1, '2025-08-24 11:33:43', '2025-08-24 11:33:43', NULL, 33, 1),
+(43, 1, 1, '2025-08-24 11:33:44', '2025-08-24 11:33:44', NULL, 34, 1),
+(44, 1, 1, '2025-08-24 11:33:45', '2025-08-24 11:33:45', NULL, 52, 1),
+(45, 1, 1, '2025-08-24 11:33:53', '2025-08-24 11:33:53', NULL, 85, 1);
 
 -- --------------------------------------------------------
 
@@ -2554,9 +2631,11 @@ CREATE TABLE `module_users_defaults` (
 --
 
 INSERT INTO `module_users_defaults` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_name`, `item_id`) VALUES
-(1, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_STATUS', 30),
-(2, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_PRIORITY', 87),
-(3, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_TYPE', 183);
+(1, 1, 1, '2025-08-23 19:23:51', '2025-08-24 11:30:44', NULL, 'PROJECT_STATUS', 55),
+(2, 1, 1, '2025-08-23 19:23:51', '2025-08-24 11:30:44', NULL, 'PROJECT_PRIORITY', 58),
+(3, 1, 1, '2025-08-23 19:23:51', '2025-08-24 11:30:44', NULL, 'PROJECT_TYPE', 182),
+(7, 1, 1, '2025-08-24 11:30:44', '2025-08-24 11:30:44', NULL, 'TASK_STATUS', 35),
+(8, 1, 1, '2025-08-24 11:30:44', '2025-08-24 11:30:44', NULL, 'TASK_PRIORITY', 38);
 
 -- --------------------------------------------------------
 
@@ -2764,7 +2843,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 19:19:43', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 19:19:43', 0, 0, NULL, NULL, NULL),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-24 10:05:19', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-24 10:05:19', 0, 0, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-23 19:24:18', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, '2025-08-23 19:24:18', 0, 0, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
@@ -2802,8 +2881,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(10, 17, 17, '2025-08-23 19:19:30', '2025-08-23 19:19:30', NULL, '446781', '2025-08-23 19:29:30', 0),
-(12, 4, 4, '2025-08-23 19:24:18', '2025-08-23 19:24:20', NULL, '340760', '2025-08-23 19:34:18', 1);
+(13, 1, 1, '2025-08-24 10:05:19', '2025-08-24 10:05:28', NULL, '177514', '2025-08-24 10:15:19', 1);
 
 -- --------------------------------------------------------
 
@@ -3480,7 +3558,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3534,7 +3612,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3726,13 +3804,13 @@ ALTER TABLE `module_organization_persons`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `module_projects_answers`
 --
 ALTER TABLE `module_projects_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
@@ -3744,7 +3822,7 @@ ALTER TABLE `module_projects_assignments`
 -- AUTO_INCREMENT for table `module_projects_files`
 --
 ALTER TABLE `module_projects_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_projects_notes`
@@ -3762,13 +3840,13 @@ ALTER TABLE `module_projects_pins`
 -- AUTO_INCREMENT for table `module_projects_questions`
 --
 ALTER TABLE `module_projects_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3786,25 +3864,25 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
 --
 ALTER TABLE `module_tasks_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `module_users_defaults`
 --
 ALTER TABLE `module_users_defaults`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -3846,7 +3924,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
