@@ -131,7 +131,7 @@
   </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+function setupProjectList() {
   const projectSummaryEl = document.getElementById('projectSummary');
   const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
   const projectList = new List(projectSummaryEl, options);
@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', async e => {
       e.preventDefault();
       const projectId = btn.dataset.projectId;
-      const icon = btn.querySelector('span');
-      if (!projectId || !icon) return;
+      const row = btn.closest('tr');
+      if (!projectId || !row) return;
       try {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
@@ -167,40 +167,29 @@ document.addEventListener('DOMContentLoaded', function () {
           body: new URLSearchParams({ project_id: projectId })
         });
         const data = await res.json();
-        if (data.pinned) {
-          icon.classList.add('text-warning');
-          icon.classList.remove('text-body-tertiary');
-        } else {
-          icon.classList.add('text-body-tertiary');
-          icon.classList.remove('text-warning');
+        const pinned = !!data.pinned;
+        row.dataset.pinned = pinned ? '1' : '0';
+        row.querySelectorAll('.pin-toggle span.fa-thumbtack').forEach(icon => {
+          icon.classList.toggle('fa-rotate-90', !pinned);
+          icon.classList.toggle('text-warning', pinned);
+          icon.classList.toggle('text-body-tertiary', !pinned);
+        });
+        ['pinned-row', 'bg-body-tertiary', 'border-start', 'border-warning', 'border-3'].forEach(cls => row.classList.toggle(cls, pinned));
+        if (pinned) {
+          row.parentNode.prepend(row);
+        } else if (window.projectList) {
+          window.projectList.sort('project');
         }
       } catch (err) {
         console.error(err);
       }
     });
   });
-});
-</script>
-<script>
-document.querySelectorAll('.pin-toggle').forEach(btn=>{
-  btn.addEventListener('click', e=>{
-    e.preventDefault();
-    const pid = btn.dataset.projectId;
-    const row = btn.closest('tr');
-    fetch('functions/toggle_pin.php',{
-      method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:`project_id=${pid}`
-    }).then(r=>r.json()).then(d=>{
-      btn.querySelector('span').classList.toggle('fa-rotate-90', !d.pinned);
-      row.dataset.pinned = d.pinned ? '1' : '0';
-      ['pinned-row','bg-body-tertiary','border-start','border-warning','border-3'].forEach(cls => row.classList.toggle(cls, d.pinned));
-      if (d.pinned) {
-        row.parentNode.prepend(row);
-      } else if (window.projectList) {
-        window.projectList.sort('project');
-      }
-    });
-  });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupProjectList);
+} else {
+  setupProjectList();
+}
 </script>
