@@ -41,7 +41,7 @@
                   <span class="fa-regular fa-user text-body-tertiary me-1"></span>
                 <?php endif; ?>
                 <?php if (user_has_permission('task','update') && empty($alreadyAssigned) && (!isset($t['project_id']) || !empty($t['project_assigned']))): ?>
-                  <form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form">
+                  <form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form me-1">
                     <input type="hidden" name="task_id" value="<?= (int)$t['id'] ?>">
                     <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
                     <button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me">
