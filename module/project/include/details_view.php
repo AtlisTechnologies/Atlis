@@ -563,7 +563,13 @@ if (!empty($current_project)) {
                     <?php endif; ?>
 
                   </div>
-                  <p class="fs-10 text-body-secondary mb-2"><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?> by <?= h($q['user_name'] ?? '') ?></p>
+                  <div class="d-flex align-items-center fs-10 text-body-secondary mb-2">
+                    <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                    <div>
+                      <div class="fw-bold text-body"><?= h($q['user_name'] ?? '') ?></div>
+                      <div><?= h(date('d M, Y h:i A', strtotime($q['date_created']))) ?></div>
+                    </div>
+                  </div>
                   <?php if (!empty($questionFiles[$q['id']])): ?>
                     <ul class="list-unstyled mt-2 ms-3">
                       <?php foreach ($questionFiles[$q['id']] as $f): ?>

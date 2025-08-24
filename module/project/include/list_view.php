@@ -160,6 +160,7 @@ function setupProjectList() {
       const projectId = btn.dataset.projectId;
       const row = btn.closest('tr');
       if (!projectId || !row) return;
+
       try {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
@@ -174,6 +175,7 @@ function setupProjectList() {
           icon.classList.toggle('text-warning', pinned);
           icon.classList.toggle('text-body-tertiary', !pinned);
         });
+
         ['pinned-row', 'bg-body-tertiary', 'border-start', 'border-warning', 'border-3'].forEach(cls => row.classList.toggle(cls, pinned));
         if (pinned) {
           row.parentNode.prepend(row);
@@ -192,4 +194,5 @@ if (document.readyState === 'loading') {
 } else {
   setupProjectList();
 }
+
 </script>

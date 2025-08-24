@@ -225,7 +225,13 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <?php endif; ?>
 
               </div>
-              <p class="fs-9 text-body-secondary mb-2">by <?= h($q['user_name']); ?> on <?= h($q['date_created']); ?></p>
+              <div class="d-flex align-items-center fs-9 text-body-secondary mb-2">
+                <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                <div>
+                  <div class="fw-bold text-body"><?= h($q['user_name']); ?></div>
+                  <div><?= h($q['date_created']); ?></div>
+                </div>
+              </div>
               <?php if (!empty($questionFiles[$q['id']])): ?>
                 <ul class="list-unstyled mt-2 ms-3">
                   <?php foreach ($questionFiles[$q['id']] as $f): ?>
