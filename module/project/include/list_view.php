@@ -131,7 +131,7 @@
   </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+function setupProjectList() {
   const projectSummaryEl = document.getElementById('projectSummary');
   const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
   const projectList = new List(projectSummaryEl, options);
@@ -158,9 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', async e => {
       e.preventDefault();
       const projectId = btn.dataset.projectId;
-      const icon = btn.querySelector('span.fa-thumbtack');
       const row = btn.closest('tr');
-      if (!projectId || !icon || !row) return;
+      if (!projectId || !row) return;
+
       try {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
@@ -169,10 +169,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         const data = await res.json();
         const pinned = !!data.pinned;
-        icon.classList.toggle('fa-rotate-90', !pinned);
-        icon.classList.toggle('text-warning', pinned);
-        icon.classList.toggle('text-body-tertiary', !pinned);
         row.dataset.pinned = pinned ? '1' : '0';
+        row.querySelectorAll('.pin-toggle span.fa-thumbtack').forEach(icon => {
+          icon.classList.toggle('fa-rotate-90', !pinned);
+          icon.classList.toggle('text-warning', pinned);
+          icon.classList.toggle('text-body-tertiary', !pinned);
+        });
+
         ['pinned-row', 'bg-body-tertiary', 'border-start', 'border-warning', 'border-3'].forEach(cls => row.classList.toggle(cls, pinned));
         if (pinned) {
           row.parentNode.prepend(row);
@@ -184,5 +187,12 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupProjectList);
+} else {
+  setupProjectList();
+}
+
 </script>
