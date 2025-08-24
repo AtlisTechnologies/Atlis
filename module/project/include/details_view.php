@@ -833,22 +833,20 @@ document.addEventListener('DOMContentLoaded', function () {
   var thisUserId = <?= (int)$this_user_id ?>;
   var canAssignTask = <?= user_has_permission('task','update') ? 'true' : 'false' ?>;
   var viewerProjectAssigned = <?= $viewerAssigned ? 'true' : 'false' ?>;
-  if (window.Dropzone) {
-    Dropzone.autoDiscover = false;
-    const dz = new Dropzone('#project-file-dropzone', {
-      url: 'functions/upload_file.php',
-      paramName: 'file',
-      init() {
-        this.on('sending', (file, xhr, formData) => {
+  window.addEventListener('load', function () {
+    if (window.Dropzone) {
+      var dz = Dropzone.forElement('#project-file-dropzone');
+      if (dz) {
+        dz.on('sending', function (file, xhr, formData) {
           formData.append('project_id', projectId);
           formData.append('note_id', '');
         });
-        this.on('queuecomplete', () => {
+        dz.on('queuecomplete', function () {
           window.location.reload();
         });
       }
-    });
-  }
+    }
+  });
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
