@@ -251,6 +251,7 @@ if ($action === 'details') {
 
   $taskSql =
     'SELECT t.id, t.name, t.description, t.status, t.priority,' .
+            ' t.start_date, t.due_date, t.progress_percent, t.requirements, t.specifications,' .
             ' t.project_id, t.division_id, t.agency_id, t.completed, t.completed_by,' .
             ' p.name AS project_name,' .
             ' d.name AS division_name,' .

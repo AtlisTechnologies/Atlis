@@ -57,6 +57,85 @@ require_once __DIR__ . '/../../../includes/functions.php';
     <?php endif; ?>
   </div>
 
+  <div class="row gx-0 gx-sm-7 mb-4">
+    <div class="col-12 col-lg-4 mb-4 mb-lg-0">
+      <?php if (user_has_permission('task','update')): ?>
+      <form id="taskDatesForm" class="mb-3">
+        <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
+        <table class="lh-sm w-100">
+          <tbody>
+            <tr>
+              <td class="align-top py-1 text-body text-nowrap fw-bold">Start :</td>
+              <td class="text-body-tertiary fw-semibold ps-3"><input type="date" class="form-control form-control-sm" name="start_date" value="<?php echo h($current_task['start_date'] ?? ''); ?>"></td>
+            </tr>
+            <tr>
+              <td class="align-top py-1 text-body text-nowrap fw-bold">Due :</td>
+              <td class="text-body-tertiary fw-semibold ps-3"><input type="date" class="form-control form-control-sm" name="due_date" value="<?php echo h($current_task['due_date'] ?? ''); ?>"></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-atlis btn-sm" type="submit">Save</button>
+      </form>
+      <?php else: ?>
+      <table class="lh-sm mb-3 w-100">
+        <tbody>
+          <tr>
+            <td class="align-top py-1 text-body text-nowrap fw-bold">Start :</td>
+            <td class="text-body-tertiary fw-semibold ps-3"><?php echo h($current_task['start_date'] ?? ''); ?></td>
+          </tr>
+          <tr>
+            <td class="align-top py-1 text-body text-nowrap fw-bold">Due :</td>
+            <td class="text-body-tertiary fw-semibold ps-3"><?php echo h($current_task['due_date'] ?? ''); ?></td>
+          </tr>
+        </tbody>
+      </table>
+      <?php endif; ?>
+      <div class="mb-3">
+        <div class="d-flex align-items-center mb-1">
+          <span class="fw-bold text-body text-nowrap me-2">Progress :</span>
+          <span class="text-body-tertiary fw-semibold" id="progressText"><?php echo (int)($current_task['progress_percent'] ?? 0); ?>%</span>
+        </div>
+        <div class="progress" style="height:5px;">
+          <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo (int)($current_task['progress_percent'] ?? 0); ?>%" aria-valuenow="<?php echo (int)($current_task['progress_percent'] ?? 0); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-8">
+      <div class="row gx-0 gx-sm-7">
+        <div class="col-12 col-md-6 mb-4 mb-md-0">
+          <h5 class="fw-bold mb-1">Requirements</h5>
+          <?php if (!empty($current_task['requirements'])): ?>
+            <?php if (strlen($current_task['requirements']) > 300): ?>
+              <div class="collapse" id="requirementsCollapse">
+                <p class="text-body-tertiary mb-0"><?php echo nl2br(h($current_task['requirements'])); ?></p>
+              </div>
+              <a class="fs-9" data-bs-toggle="collapse" href="#requirementsCollapse" role="button" aria-expanded="false" aria-controls="requirementsCollapse">Show more</a>
+            <?php else: ?>
+              <p class="text-body-tertiary mb-0"><?php echo nl2br(h($current_task['requirements'])); ?></p>
+            <?php endif; ?>
+          <?php else: ?>
+            <p class="text-body-tertiary mb-0">None</p>
+          <?php endif; ?>
+        </div>
+        <div class="col-12 col-md-6">
+          <h5 class="fw-bold mb-1">Specifications</h5>
+          <?php if (!empty($current_task['specifications'])): ?>
+            <?php if (strlen($current_task['specifications']) > 300): ?>
+              <div class="collapse" id="specificationsCollapse">
+                <p class="text-body-tertiary mb-0"><?php echo nl2br(h($current_task['specifications'])); ?></p>
+              </div>
+              <a class="fs-9" data-bs-toggle="collapse" href="#specificationsCollapse" role="button" aria-expanded="false" aria-controls="specificationsCollapse">Show more</a>
+            <?php else: ?>
+              <p class="text-body-tertiary mb-0"><?php echo nl2br(h($current_task['specifications'])); ?></p>
+            <?php endif; ?>
+          <?php else: ?>
+            <p class="text-body-tertiary mb-0">None</p>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row g-0">
     <div class="col-12 col-xxl-8 px-0">
       <div class="p-4 p-lg-6">
@@ -447,6 +526,34 @@ require_once __DIR__ . '/../../../includes/functions.php';
               priorityBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.priority_color || 'secondary');
               var pLabel = priorityBadge.querySelector('.badge-label');
               if (pLabel) { pLabel.textContent = data.task.priority_label || ''; }
+            }
+          }
+        });
+      });
+    }
+
+    var datesForm = document.getElementById('taskDatesForm');
+    if (datesForm) {
+      datesForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fd = new FormData(datesForm);
+        fetch('functions/update.php', {
+          method: 'POST',
+          body: fd
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.success && data.task) {
+            var startInput = datesForm.querySelector('[name="start_date"]');
+            var dueInput = datesForm.querySelector('[name="due_date"]');
+            if (startInput) { startInput.value = data.task.start_date || ''; }
+            if (dueInput) { dueInput.value = data.task.due_date || ''; }
+            var progText = document.getElementById('progressText');
+            var progBar = datesForm.parentNode.querySelector('.progress-bar');
+            if (progText && progBar && typeof data.task.progress_percent !== 'undefined') {
+              progText.textContent = data.task.progress_percent + '%';
+              progBar.style.width = data.task.progress_percent + '%';
+              progBar.setAttribute('aria-valuenow', data.task.progress_percent);
             }
           }
         });
