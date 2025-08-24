@@ -27,12 +27,22 @@ $props = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </thead>
       <tbody class="list">
         <?php foreach($props as $p): ?>
+        <?php $isPassword = stripos($p['type'],'password') !== false || stripos($p['name'],'password') !== false; ?>
         <tr data-id="<?= htmlspecialchars($p['id']); ?>">
           <td class="id"><?= htmlspecialchars($p['id']); ?></td>
           <td class="name"><?= htmlspecialchars($p['name']); ?></td>
           <td class="category"><?= htmlspecialchars($p['category']); ?></td>
           <td class="type"><?= htmlspecialchars($p['type']); ?></td>
-          <td><?= htmlspecialchars($p['value']); ?></td>
+          <td>
+            <?php if($isPassword): ?>
+            <div class="d-flex align-items-center">
+              <input type="password" class="form-control-plaintext form-control-sm w-auto" value="<?= htmlspecialchars($p['value'], ENT_QUOTES); ?>" readonly>
+              <button type="button" class="btn btn-sm btn-phoenix-secondary ms-2 toggle-password"><span class="fa-solid fa-eye"></span></button>
+            </div>
+            <?php else: ?>
+            <?= htmlspecialchars($p['value']); ?>
+            <?php endif; ?>
+          </td>
           <td>
             <a href="edit.php?id=<?= $p['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
             <a href="version-history.php?id=<?= $p['id']; ?>" class="btn btn-sm btn-info">Versions</a>
@@ -59,9 +69,20 @@ $(function(){
       if(res.success){
         $('tr[data-id="'+id+'"]').remove();
       }else{
-        alert(res.error);
-      }
-    },'json');
+      alert(res.error);
+    }
+  },'json');
+  });
+  $('#properties').on('click','.toggle-password',function(){
+    var btn = $(this);
+    var input = btn.closest('div').find('input');
+    if(input.attr('type') === 'password'){
+      input.attr('type','text');
+      btn.find('span').removeClass('fa-eye').addClass('fa-eye-slash');
+    }else{
+      input.attr('type','password');
+      btn.find('span').removeClass('fa-eye-slash').addClass('fa-eye');
+    }
   });
 });
 </script>

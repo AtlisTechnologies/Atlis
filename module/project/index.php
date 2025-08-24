@@ -61,15 +61,17 @@ $sql = "SELECT p.id,
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':uid' => $this_user_id]);
+
 $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path, CONCAT(per.first_name, ' ', per.last_name) AS name
-                           FROM module_projects_assignments pa
-                           LEFT JOIN users u ON pa.assigned_user_id = u.id
-                           LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
-                           LEFT JOIN person per ON u.id = per.user_id");
+$assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path AS user_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
+                            FROM module_projects_assignments pa
+                            LEFT JOIN users u ON pa.assigned_user_id = u.id
+                            LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
+                            LEFT JOIN person per ON u.id = per.user_id");
 $assignments = [];
 foreach ($assignStmt as $row) {
+  $row['file_path'] = $row['user_pic'];
   $assignments[$row['project_id']][] = $row;
 }
 foreach ($projects as &$project) {
@@ -83,9 +85,19 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
 
   if ($action === 'details' || ($action === 'create-edit' && isset($_GET['id']))) {
     $project_id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT p.*, a.name AS agency_name, d.name AS division_name FROM module_projects p LEFT JOIN module_agency a ON p.agency_id = a.id LEFT JOIN module_division d ON p.division_id = d.id WHERE p.id = :id');
-    $stmt->execute([':id' => $project_id]);
+    $params = [':id' => $project_id];
+    $condition = 'p.id = :id';
+    if (!user_has_role('Admin')) {
+      $condition .= ' AND (p.is_private = 0 OR p.user_id = :uid)';
+      $params[':uid'] = $this_user_id;
+    }
+    $stmt = $pdo->prepare('SELECT p.*, a.name AS agency_name, d.name AS division_name FROM module_projects p LEFT JOIN module_agency a ON p.agency_id = a.id LEFT JOIN module_division d ON p.division_id = d.id WHERE ' . $condition);
+    $stmt->execute($params);
     $current_project = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$current_project) {
+      http_response_code(404);
+      exit;
+    }
 
     $statusMap   = array_column(get_lookup_items($pdo,'PROJECT_STATUS'), null, 'id');
     $priorityMap = array_column(get_lookup_items($pdo,'PROJECT_PRIORITY'), null, 'id');
@@ -111,16 +123,16 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         $modalWidths[$mw['code']] = $mw['width'];
       }
 
-      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NULL ORDER BY f.sort_order, f.date_created DESC');
+      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.question_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NULL AND f.question_id IS NULL ORDER BY f.sort_order, f.date_created DESC');
 
 
       $filesStmt->execute([':id' => $project_id]);
       $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
+        $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
       $notes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
-      $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.note_id, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NOT NULL ORDER BY f.sort_order, f.date_created DESC');
+      $noteFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.question_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.note_id, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NOT NULL AND f.question_id IS NULL ORDER BY f.sort_order, f.date_created DESC');
       $noteFilesStmt->execute([':id' => $project_id]);
       $noteFilesRaw = $noteFilesStmt->fetchAll(PDO::FETCH_ASSOC);
       $noteFiles = [];
@@ -128,41 +140,57 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         $noteFiles[$nf['note_id']][] = $nf;
       }
 
+
+      $questionFilesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.question_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.question_id IS NOT NULL ORDER BY f.sort_order, f.date_created DESC');
+      $questionFilesStmt->execute([':id' => $project_id]);
+      $questionFilesRaw = $questionFilesStmt->fetchAll(PDO::FETCH_ASSOC);
+      $questionFiles = [];
+      foreach ($questionFilesRaw as $qf) {
+        $questionFiles[$qf['question_id']][] = $qf;
+      }
+
       $questionsStmt = $pdo->prepare('SELECT q.id, q.user_id, q.question_text, q.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE q.project_id = :id ORDER BY q.date_created DESC');
+
       $questionsStmt->execute([':id' => $project_id]);
       $questions = $questionsStmt->fetchAll(PDO::FETCH_ASSOC);
       $questionAnswers = [];
       if ($questions) {
         $qIds = array_column($questions, 'id');
         $placeholders = implode(',', array_fill(0, count($qIds), '?'));
-        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
+        $ansStmt = $pdo->prepare('SELECT a.id, a.question_id, a.user_id, a.answer_text, a.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_answers a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE a.question_id IN (' . $placeholders . ') ORDER BY a.date_created ASC');
         $ansStmt->execute($qIds);
         foreach ($ansStmt as $arow) {
           $questionAnswers[$arow['question_id']][] = $arow;
         }
       }
 
-        $tasksStmt = $pdo->prepare(
+        $taskSql =
           'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
           'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
           'lp.label AS priority_label, COALESCE(pattr.attr_value, "secondary") AS priority_color, ' .
-
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
+          'JOIN module_projects p ON t.project_id = p.id ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
           'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
           'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
           'LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = "COLOR-CLASS" ' .
-          'WHERE t.project_id = :id ORDER BY t.status, t.due_date'
-        );
-      $tasksStmt->execute([':id' => $project_id]);
+          'WHERE t.project_id = :id';
+        $taskParams = [':id' => $project_id];
+        if (!user_has_role('Admin')) {
+          $taskSql .= ' AND (p.is_private = 0 OR p.user_id = :uid)';
+          $taskParams[':uid'] = $this_user_id;
+        }
+        $taskSql .= ' ORDER BY t.status, t.due_date';
+        $tasksStmt = $pdo->prepare($taskSql);
+        $tasksStmt->execute($taskParams);
       $tasks = $tasksStmt->fetchAll(PDO::FETCH_ASSOC);
 
       if ($tasks) {
         $taskIds = array_column($tasks, 'id');
         $placeholders = implode(',', array_fill(0, count($taskIds), '?'));
           $taskAssignStmt = $pdo->prepare(
-            'SELECT ta.task_id, ta.assigned_user_id, upp.file_path, CONCAT(per.first_name, " ", per.last_name) AS name '
+            'SELECT ta.task_id, ta.assigned_user_id, upp.file_path AS user_pic, CONCAT(per.first_name, " ", per.last_name) AS name '
             . 'FROM module_task_assignments ta '
             . 'LEFT JOIN users u ON ta.assigned_user_id = u.id '
             . 'LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id '
@@ -174,7 +202,8 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         foreach ($taskAssignStmt as $row) {
             $taskAssignments[$row['task_id']][] = [
               'assigned_user_id' => $row['assigned_user_id'],
-              'file_path' => $row['file_path'],
+              'user_pic' => $row['user_pic'],
+              'file_path' => $row['user_pic'],
               'name' => $row['name']
             ];
         }
@@ -187,9 +216,13 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $taskStatusItems   = get_lookup_items($pdo, 'TASK_STATUS');
       $taskPriorityItems = get_lookup_items($pdo, 'TASK_PRIORITY');
 
-        $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
+        $assignedStmt = $pdo->prepare('SELECT mpa.assigned_user_id AS user_id, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_projects_assignments mpa JOIN users u ON mpa.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mpa.project_id = :id');
       $assignedStmt->execute([':id' => $project_id]);
-      $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+      $assignedUsers = [];
+      foreach ($assignedStmt as $row) {
+        $row['file_path'] = $row['user_pic'];
+        $assignedUsers[] = $row;
+      }
 
       $assignedIds = array_column($assignedUsers, 'user_id');
       if ($assignedIds) {

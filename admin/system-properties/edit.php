@@ -24,6 +24,14 @@ if($id){
   require_permission('system_properties','create');
   $prop = ['category_id'=>'','type_id'=>'','name'=>'','value'=>'','memo'=>''];
 }
+
+$isPasswordType = false;
+foreach($types as $t){
+  if((int)$t['id'] === (int)($prop['type_id'] ?? 0) && stripos($t['label'], 'password') !== false){
+    $isPasswordType = true;
+    break;
+  }
+}
 ?>
 <h2 class="mb-4"><?= $id?'Edit':'Add'; ?> System Property</h2>
 <form id="propertyForm">
@@ -53,11 +61,19 @@ if($id){
   </div>
   <div class="mb-3">
     <label class="form-label">Value</label>
+    <?php if($isPasswordType): ?>
+    <div class="input-group" data-password="data-password">
+      <input type="password" class="form-control" name="value" value="<?= htmlspecialchars($prop['value']); ?>" data-password-input="data-password-input" required>
+      <button class="btn btn-outline-secondary" type="button" data-password-toggle="data-password-toggle"><span class="uil uil-eye show"></span><span class="uil uil-eye-slash hide"></span></button>
+    </div>
+    <?php else: ?>
     <textarea class="form-control" name="value" required><?= htmlspecialchars($prop['value']); ?></textarea>
+    <?php endif; ?>
+
   </div>
   <div class="mb-3">
     <label class="form-label">Memo</label>
-    <textarea class="form-control" name="memo"><?= htmlspecialchars($prop['memo']); ?></textarea>
+    <textarea class="form-control" name="memo"><?= htmlspecialchars($prop['memo'] ?? ''); ?></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
   <a href="index.php" class="btn btn-secondary">Cancel</a>

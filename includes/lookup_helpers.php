@@ -62,4 +62,51 @@ function render_status_badge(array $lookupList, int|string|null $id, ?string $cl
     return '<span class="' . $classString . '"' . $attrString . '><span class="badge-label">' . htmlspecialchars($label) . '</span></span>';
 }
 
+/**
+ * Get a user's default lookup item for a specific list name.
+ *
+ * @param PDO    $pdo      PDO connection.
+ * @param int    $userId   User ID.
+ * @param string $listName Lookup list name.
+ * @return int|null        Lookup item ID or null if none set.
+ */
+function get_user_default_lookup_item(PDO $pdo, int $userId, string $listName): ?int {
+    $sql = 'SELECT item_id FROM module_users_defaults WHERE user_id = :uid AND list_name = :list';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':uid' => $userId, ':list' => $listName]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row['item_id'] ?? null;
+}
+
+/**
+ * Save or update a user's default lookup item for a list.
+ *
+ * @param PDO    $pdo         PDO connection.
+ * @param int    $userId      User ID the default is for.
+ * @param string $listName    Lookup list name.
+ * @param int    $itemId      Lookup item ID.
+ * @param int    $userUpdated User ID performing the update.
+ */
+function set_user_default_lookup_item(PDO $pdo, int $userId, string $listName, int $itemId, int $userUpdated): void {
+    $sql = 'INSERT INTO module_users_defaults (user_id, user_updated, list_name, item_id)
+            VALUES (:user_id, :user_updated, :list_name, :item_id)
+            ON DUPLICATE KEY UPDATE item_id = VALUES(item_id), user_updated = VALUES(user_updated)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $userId,
+        ':user_updated' => $userUpdated,
+        ':list_name' => $listName,
+        ':item_id' => $itemId,
+    ]);
+}
+
+
+function get_lookup_item_label_from_id(PDO $pdo, int $itemId){
+  $sql = 'SELECT label FROM `lookup_list_items` WHERE id = :item_id';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([':item_id' => $itemId]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  return $row['label'] ?? null;
+}
+
 ?>

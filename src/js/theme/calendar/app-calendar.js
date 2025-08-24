@@ -1,12 +1,21 @@
 import { getData } from '../../utils';
 import fullCalendar from '../fullcalendar';
-import events from './events';
 import getTemplate from './template';
+
+const fetchEvents = async () => {
+  try {
+    const response = await fetch('/module/calendar/functions/list.php');
+    if (!response.ok) return [];
+    return await response.json();
+  } catch (e) {
+    return [];
+  }
+};
 
 /*-----------------------------------------------
 |   Calendar
 -----------------------------------------------*/
-const appCalendarInit = () => {
+const appCalendarInit = async () => {
   const Selectors = {
     ACTIVE: '.active',
     ADD_EVENT_FORM: '#addEventForm',
@@ -35,7 +44,8 @@ const appCalendarInit = () => {
     FC_VIEW: 'fc-view'
   };
 
-  const eventList = events.reduce(
+  const rawEvents = await fetchEvents();
+  const eventList = rawEvents.reduce(
     (acc, val) =>
       val.schedules ? acc.concat(val.schedules.concat(val)) : acc.concat(val),
     []
@@ -122,7 +132,11 @@ const appCalendarInit = () => {
       },
       events: eventList,
       eventClick: info => {
-        if (info.event.url) {
+        const { related_module, related_id } = info.event.extendedProps;
+        if (related_module && related_id) {
+          window.location.href = `/module/${related_module}/index.php?action=details&id=${related_id}`;
+          info.jsEvent.preventDefault();
+        } else if (info.event.url) {
           window.open(info.event.url, '_blank');
           info.jsEvent.preventDefault();
         } else {

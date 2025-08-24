@@ -20,6 +20,13 @@ $organization_id = isset($_POST['organization_id']) && $_POST['organization_id']
 $agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? (int)$_POST['agency_id'] : null;
 $division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? (int)$_POST['division_id'] : null;
 $dob = $_POST['dob'] ?? '';
+$JTIformer = isset($_POST['JTIformer']) ? 1 : 0;
+$JTIcurrent = isset($_POST['JTIcurrent']) ? 1 : 0;
+$JTI_start_date = $_POST['JTI_start_date'] ?? null;
+$JTI_end_date = $_POST['JTI_end_date'] ?? null;
+$JTI_Team = trim($_POST['JTI_Team'] ?? '');
+if ($JTI_start_date === '') { $JTI_start_date = null; }
+if ($JTI_end_date === '') { $JTI_end_date = null; }
 
 function get_status_id(PDO $pdo, string $code): int {
   $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
@@ -93,6 +100,13 @@ $last_name = trim($_POST['last_name'] ?? '');
 $memo = $_POST['memo'] ?? null;
 $addresses = $_POST['addresses'] ?? [];
 $phones    = $_POST['phones'] ?? [];
+$roles = isset($_POST['roles']) ? array_map('intval', $_POST['roles']) : [];
+
+$defaultPassword = get_system_property($pdo, 'USER_DEFAULT_PASSWORD') ?? '';
+if (!$isUpdate && $password === '') {
+  $password = $defaultPassword;
+  if ($confirm === '') { $confirm = $defaultPassword; }
+}
 
  $errors = [];
  if ($email === '') {
@@ -179,10 +193,15 @@ try {
   $pdo->beginTransaction();
   $person_id = 0;
   if ($isUpdate) {
-    $fields = 'email = :email, memo = :memo, user_updated = :uid';
+    $fields = 'email = :email, memo = :memo, JTIformer = :JTIformer, JTIcurrent = :JTIcurrent, JTI_start_date = :JTI_start_date, JTI_end_date = :JTI_end_date, JTI_Team = :JTI_Team, user_updated = :uid';
     $params = [
       ':email' => $email,
       ':memo' => $memo,
+      ':JTIformer' => $JTIformer,
+      ':JTIcurrent' => $JTIcurrent,
+      ':JTI_start_date' => $JTI_start_date,
+      ':JTI_end_date' => $JTI_end_date,
+      ':JTI_Team' => $JTI_Team,
       ':uid' => $this_user_id,
       ':id' => $id
     ];
@@ -206,9 +225,19 @@ try {
     ];
     if ($existingPerson) {
       $person_id = (int)$existingPerson['id'];
-      $personData[':pid'] = $person_id;
+      $personUpdateData = [
+        ':fn' => $first_name,
+        ':ln' => $last_name,
+        ':gender_id' => $gender_id,
+        ':organization_id' => $organization_id,
+        ':agency_id' => $agency_id,
+        ':division_id' => $division_id,
+        ':dob' => $dob ?: null,
+        ':uid_update' => $this_user_id,
+        ':pid' => $person_id
+      ];
       $pstmt = $pdo->prepare('UPDATE person SET first_name = :fn, last_name = :ln, gender_id = :gender_id, organization_id = :organization_id, agency_id = :agency_id, division_id = :division_id, dob = :dob, user_updated = :uid_update WHERE id = :pid');
-      $pstmt->execute($personData);
+      $pstmt->execute($personUpdateData);
       admin_audit_log($pdo,$this_user_id,'person',$person_id,'UPDATE',json_encode($existingPerson),json_encode(['first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Updated person');
     } else {
       $pstmt = $pdo->prepare('INSERT INTO person (user_id, first_name, last_name, gender_id, organization_id, agency_id, division_id, dob, user_updated) VALUES (:uid_fk, :fn, :ln, :gender_id, :organization_id, :agency_id, :division_id, :dob, :uid_update)');
@@ -217,12 +246,17 @@ try {
       admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Created person');
     }
   } else {
-    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo) VALUES (:uid, :uid, :email, :password, :memo)');
+    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo, JTIformer, JTIcurrent, JTI_start_date, JTI_end_date, JTI_Team) VALUES (:uid, :uid, :email, :password, :memo, :JTIformer, :JTIcurrent, :JTI_start_date, :JTI_end_date, :JTI_Team)');
     $stmt->execute([
       ':uid' => $this_user_id,
       ':email' => $email,
       ':password' => $hash,
-      ':memo' => $memo
+      ':memo' => $memo,
+      ':JTIformer' => $JTIformer,
+      ':JTIcurrent' => $JTIcurrent,
+      ':JTI_start_date' => $JTI_start_date,
+      ':JTI_end_date' => $JTI_end_date,
+      ':JTI_Team' => $JTI_Team
     ]);
     $id = (int)$pdo->lastInsertId();
 
@@ -387,6 +421,27 @@ try {
     $picId = (int)$pdo->lastInsertId();
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
         ->execute([':pic' => $picId, ':uid' => $this_user_id, ':user' => $id]);
+  }
+
+  $stmt = $pdo->prepare('SELECT role_id, id FROM admin_user_roles WHERE user_account_id = :uid');
+  $stmt->execute([':uid' => $id]);
+  $existingRoles = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+  $existingRoleIds = array_keys($existingRoles);
+  foreach ($roles as $roleId) {
+    if (!in_array($roleId, $existingRoleIds)) {
+      $ins = $pdo->prepare('INSERT INTO admin_user_roles (user_id, user_updated, user_account_id, role_id) VALUES (:uid, :uid, :acc, :role)');
+      $ins->execute([':uid' => $this_user_id, ':acc' => $id, ':role' => $roleId]);
+      $newId = (int)$pdo->lastInsertId();
+      admin_audit_log($pdo, $this_user_id, 'admin_user_roles', $newId, 'CREATE', null, json_encode(['user_account_id' => $id, 'role_id' => $roleId]), 'Assigned role');
+    }
+  }
+  foreach ($existingRoleIds as $roleId) {
+    if (!in_array($roleId, $roles)) {
+      $del = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id=:acc AND role_id=:role');
+      $del->execute([':acc' => $id, ':role' => $roleId]);
+      $assignmentId = $existingRoles[$roleId];
+      admin_audit_log($pdo, $this_user_id, 'admin_user_roles', $assignmentId, 'DELETE', null, null, 'Removed role');
+    }
   }
 
   $pdo->commit();

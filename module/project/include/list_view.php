@@ -1,12 +1,18 @@
 <?php
 ?>
+<style>
+.pinned-row {
+  border-left: 3px solid #00948E !important;
+  background-color: var(--bs-tertiary-bg, #f8f9fa);
+}
+</style>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
     <li class="breadcrumb-item"><a href="#">Projects</a></li>
     <li class="breadcrumb-item active" aria-current="page">List View</li>
   </ol>
 </nav>
-<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":25,"pagination":true}'>
+<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":50,"pagination":true}'>
   <div class="row align-items-end justify-content-between pb-4 g-3">
     <div class="col-auto">
       <h3>Projects</h3>
@@ -48,6 +54,7 @@
     <table class="table fs-9 mb-0 border-top border-translucent">
       <thead>
         <tr>
+          <th scope="col" style="width:2%;"></th>
           <th class="sort white-space-nowrap align-middle ps-0" scope="col" data-sort="project" style="width:30%;">PROJECT NAME</th>
           <th class="sort align-middle ps-3" scope="col" data-sort="assignees" style="width:10%;">Assignees</th>
           <th class="sort align-middle ps-3" scope="col" data-sort="start" style="width:10%;">START DATE</th>
@@ -60,7 +67,15 @@
       </thead>
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
-        <tr class="position-static">
+
+        <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-warning border-3' : ''; ?>" data-pinned="<?= (int)$project['pinned']; ?>">
+          <td class="align-middle text-center">
+            <?php if (user_has_permission('project','read')): ?>
+            <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
+              <span class="fa-solid <?= $project['pinned'] ? 'fa-thumbtack' : 'fa-thumbtack fa-rotate-90'; ?>"></span>
+            </button>
+            <?php endif; ?>
+          </td>
           <td class="align-middle time white-space-nowrap ps-0 project">
             <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
             <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
@@ -120,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const projectSummaryEl = document.getElementById('projectSummary');
   const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
   const projectList = new List(projectSummaryEl, options);
+  window.projectList = projectList;
 
   const statusFilter = document.getElementById('filter-status');
   const priorityFilter = document.getElementById('filter-priority');
@@ -160,6 +176,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       } catch (err) {
         console.error(err);
+      }
+    });
+  });
+});
+</script>
+<script>
+document.querySelectorAll('.pin-toggle').forEach(btn=>{
+  btn.addEventListener('click', e=>{
+    e.preventDefault();
+    const pid = btn.dataset.projectId;
+    const row = btn.closest('tr');
+    fetch('functions/toggle_pin.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:`project_id=${pid}`
+    }).then(r=>r.json()).then(d=>{
+      btn.querySelector('span').classList.toggle('fa-rotate-90', !d.pinned);
+      row.dataset.pinned = d.pinned ? '1' : '0';
+      ['pinned-row','bg-body-tertiary','border-start','border-warning','border-3'].forEach(cls => row.classList.toggle(cls, d.pinned));
+      if (d.pinned) {
+        row.parentNode.prepend(row);
+      } else if (window.projectList) {
+        window.projectList.sort('project');
       }
     });
   });

@@ -26,7 +26,7 @@
 
         <?php // AGENCIES NAV LINK ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/agency">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/agency">
             <span class="uil fs-8 me-2 far fa-building"></span>Agencies</a>
         </li>
         <?php // ================ ?>
@@ -37,7 +37,7 @@
         <?php // PROJECTS NAV LINK ?>
         <?php if (user_has_permission('project','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/project">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/project">
             <span class="uil fs-8 me-2 fas fa-project-diagram"></span>Projects</a>
         </li>
         <?php endif; ?>
@@ -49,25 +49,54 @@
         <?php // TASKS NAV LINK ?>
         <?php if (user_has_permission('task','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/task">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/task">
             <span class="uil fs-8 me-2 fas fa-tasks"></span>Tasks</a>
         </li>
         <?php endif; ?>
         <?php // ================ ?>
         <?php // END TASKS NAV LINK ?>
         <?php // ================ ?>
+        <?php // MEETINGS NAV LINK ?>
+        <?php if (user_has_permission('meeting','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/meeting/">
+            <span class="uil fs-8 me-2 fas fa-handshake"></span>Meetings</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END MEETINGS NAV LINK ?>
+        <?php // ================ ?>
+        <?php // CALENDAR NAV LINK ?>
+        <?php if (user_has_permission('calendar','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/calendar/?action=shared">
+            <span class="uil fs-8 me-2 fas fa-calendar"></span>Calendar</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END CALENDAR NAV LINK ?>
+        <?php // ================ ?>
+
 
 
         <?php // KANBAN NAV LINK ?>
         <?php if (user_has_permission('kanban','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>/module/kanban/">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/kanban/">
             <span class="uil fs-8 me-2 fas fa-columns"></span>Kanban</a>
         </li>
         <?php endif; ?>
         <?php // ================ ?>
         <?php // END KANBAN NAV LINK ?>
         <?php // ================ ?>
+
+        <?php // FEEDBACK NAV LINK ?>
+        <?php if (user_has_permission('kanban','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/feedback/">
+            <span class="uil fs-8 me-2 fas fa-comment-dots"></span>Feedback</a>
+        </li>
+        <?php endif; ?>
 
     </ul>
   </div>
@@ -107,7 +136,7 @@
 
         <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0 d-flex align-items-center" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
             <div class="avatar avatar-l">
-              <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : 'assets/img/team/avatar.webp'); ?>" alt="<?php echo $this_user_name; ?>" />
+              <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : ('assets/img/team/' . ($this_user_gender_code === 'FEMALE' ? 'avatar-female.webp' : 'avatar.webp'))); ?>" alt="<?php echo $this_user_name; ?>" />
             </div>
             <span class="ms-2 d-none d-sm-inline"><?php echo $this_user_name; ?></span>
           </a>
@@ -116,7 +145,7 @@
               <div class="card-body p-0">
                 <div class="text-center pt-4 pb-3">
                   <div class="avatar avatar-xl ">
-                    <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : 'assets/img/team/avatar.webp'); ?>" alt="<?php echo $this_user_name; ?>" />
+                    <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : ('assets/img/team/' . ($this_user_gender_code === 'FEMALE' ? 'avatar-female.webp' : 'avatar.webp'))); ?>" alt="<?php echo $this_user_name; ?>" />
                   </div>
                   <h6 class="mt-2 text-body-emphasis"><?php echo $this_user_name; ?></h6>
                 </div>
@@ -124,7 +153,7 @@
               <div class="overflow-auto scrollbar" style="height: 10rem;">
                 <ul class="nav d-flex flex-column mb-2 pb-1">
                   <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="user"></span><span>Profile</span></a></li>
-                  <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="settings"></span>Settings</a></li>
+                  <li class="nav-item"><a class="nav-link px-3 d-block" href="<?php echo getURLDir(); ?>module/users/index.php?action=settings"><span class="me-2 text-body align-bottom" data-feather="settings"></span>Settings</a></li>
                 </ul>
               </div>
             </div>

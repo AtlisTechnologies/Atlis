@@ -39,7 +39,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskStatus" name="status" required>
             <?php foreach ($statusMap as $s): ?>
-              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && !empty($s['is_default'])); ?>
+              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && $defaultTaskStatusId == $s['id']); ?>
               <option value="<?php echo $s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -50,7 +50,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskPriority" name="priority" required>
             <?php foreach ($priorityMap as $p): ?>
-              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && !empty($p['is_default'])); ?>
+              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && $defaultTaskPriorityId == $p['id']); ?>
               <option value="<?php echo $p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -88,6 +88,12 @@
             <?php endforeach; ?>
           </select>
           <label for="divisionSelect">Division</label>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-check form-switch mt-4">
+          <input class="form-check-input" id="isPrivate" type="checkbox" name="is_private" value="1" <?php if (!empty($task['is_private'])) echo 'checked'; ?>>
+          <label class="form-check-label" for="isPrivate">Private (no project)</label>
         </div>
       </div>
       <div class="col-12">
@@ -189,7 +195,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskStatus" name="status" required>
             <?php foreach ($statusMap as $s): ?>
-              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && !empty($s['is_default'])); ?>
+              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && $defaultTaskStatusId == $s['id']); ?>
               <option value="<?php echo $s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -200,7 +206,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskPriority" name="priority" required>
             <?php foreach ($priorityMap as $p): ?>
-              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && !empty($p['is_default'])); ?>
+              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && $defaultTaskPriorityId == $p['id']); ?>
               <option value="<?php echo $p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -237,14 +243,20 @@
               <option value="<?php echo $d['id']; ?>" <?php if (($task['division_id'] ?? '') == $d['id']) echo 'selected'; ?>><?php echo h($d['name']); ?></option>
             <?php endforeach; ?>
           </select>
-          <label for="divisionSelect">Division</label>
+      <label for="divisionSelect">Division</label>
+    </div>
+  </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-check form-switch mt-4">
+          <input class="form-check-input" id="isPrivate" type="checkbox" name="is_private" value="1" <?php if (!empty($task['is_private'])) echo 'checked'; ?>>
+          <label class="form-check-label" for="isPrivate">Private (no project)</label>
         </div>
       </div>
-      <div class="col-12">
-        <div class="form-floating form-floating-advance-select">
-          <label for="assignedUsers">Assigned Users</label>
-          <select class="form-select" id="assignedUsers" name="assigned_users[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
-            <?php foreach ($users as $u): ?>
+  <div class="col-12">
+    <div class="form-floating form-floating-advance-select">
+      <label for="assignedUsers">Assigned Users</label>
+      <select class="form-select" id="assignedUsers" name="assigned_users[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+        <?php foreach ($users as $u): ?>
               <option value="<?php echo $u['id']; ?>" <?php if (in_array($u['id'], $assignedUsers)) echo 'selected'; ?>><?php echo h($u['email']); ?></option>
             <?php endforeach; ?>
           </select>
