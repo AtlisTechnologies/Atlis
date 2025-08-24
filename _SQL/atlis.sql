@@ -2659,8 +2659,38 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (5, 1, 1, '2025-08-22 08:26:01', '2025-08-22 08:26:16', NULL, '535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 'module/users/uploads/535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 72399, 'image/jpeg', 'db5dc9b5e63e2d99f123f9e42ab5f902239c4f8f9ba2674c54e2084159fc5a51', 600, 596, 1, 83);
 
 --
+-- Table structure for table `module_users_defaults`
+--
+
+CREATE TABLE `module_users_defaults` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `list_name` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_users_defaults`
+--
+
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `module_users_defaults`
+--
+ALTER TABLE `module_users_defaults`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_users_defaults_user_list` (`user_id`,`list_name`),
+  ADD KEY `fk_module_users_defaults_user_id` (`user_id`),
+  ADD KEY `fk_module_users_defaults_user_updated` (`user_updated`),
+  ADD KEY `fk_module_users_defaults_item_id` (`item_id`);
 
 --
 -- Indexes for table `admin_audit_log`
@@ -4059,6 +4089,14 @@ ALTER TABLE `person_phones`
   ADD CONSTRAINT `fk_person_phones_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_phones_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_phones_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_users_defaults`
+--
+ALTER TABLE `module_users_defaults`
+  ADD CONSTRAINT `fk_module_users_defaults_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_users_defaults_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_users_defaults_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `users`

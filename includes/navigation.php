@@ -153,7 +153,7 @@
               <div class="overflow-auto scrollbar" style="height: 10rem;">
                 <ul class="nav d-flex flex-column mb-2 pb-1">
                   <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="user"></span><span>Profile</span></a></li>
-                  <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="settings"></span>Settings</a></li>
+                  <li class="nav-item"><a class="nav-link px-3 d-block" href="<?php echo getURLDir(); ?>module/users/index.php?action=settings"><span class="me-2 text-body align-bottom" data-feather="settings"></span>Settings</a></li>
                 </ul>
               </div>
             </div>

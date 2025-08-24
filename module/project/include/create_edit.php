@@ -6,6 +6,10 @@ require_permission('project','create');
 $statusMap   = $statusMap   ?? get_lookup_items($pdo, 'PROJECT_STATUS');
 $priorityMap = $priorityMap ?? get_lookup_items($pdo, 'PROJECT_PRIORITY');
 $typeMap     = $typeMap     ?? get_lookup_items($pdo, 'PROJECT_TYPE');
+
+$defaultStatusId   = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_STATUS');
+$defaultPriorityId = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_PRIORITY');
+$defaultTypeId     = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_TYPE');
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -26,18 +30,19 @@ $typeMap     = $typeMap     ?? get_lookup_items($pdo, 'PROJECT_TYPE');
       <div class="col-sm-6 col-md-4">
         <div class="form-floating">
           <?php
-            $hasStatusDefault = false;
-            foreach ($statusMap as $s) {
-              if (!empty($s['is_default'])) {
-                $hasStatusDefault = true;
-                break;
+            if ($defaultStatusId === null) {
+              foreach ($statusMap as $s) {
+                if (!empty($s['is_default'])) {
+                  $defaultStatusId = $s['id'];
+                  break;
+                }
               }
             }
           ?>
           <select class="form-select" id="projectStatus" name="status" required>
-            <option value="" <?= $hasStatusDefault ? '' : 'selected'; ?>>Select status</option>
+            <option value="" <?= $defaultStatusId ? '' : 'selected'; ?>>Select status</option>
             <?php foreach ($statusMap as $s): ?>
-              <option value="<?= h($s['id']); ?>" <?= !empty($s['is_default']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
+              <option value="<?= h($s['id']); ?>" <?= ($defaultStatusId == $s['id']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
           <label for="projectStatus">Status</label>
@@ -46,18 +51,19 @@ $typeMap     = $typeMap     ?? get_lookup_items($pdo, 'PROJECT_TYPE');
       <div class="col-sm-6 col-md-4">
         <div class="form-floating">
           <?php
-            $hasPriorityDefault = false;
-            foreach ($priorityMap as $p) {
-              if (!empty($p['is_default'])) {
-                $hasPriorityDefault = true;
-                break;
+            if ($defaultPriorityId === null) {
+              foreach ($priorityMap as $p) {
+                if (!empty($p['is_default'])) {
+                  $defaultPriorityId = $p['id'];
+                  break;
+                }
               }
             }
           ?>
           <select class="form-select" id="projectPriority" name="priority" required>
-            <option value="" <?= $hasPriorityDefault ? '' : 'selected'; ?>>Select priority</option>
+            <option value="" <?= $defaultPriorityId ? '' : 'selected'; ?>>Select priority</option>
             <?php foreach ($priorityMap as $p): ?>
-              <option value="<?= h($p['id']); ?>" <?= !empty($p['is_default']) ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
+              <option value="<?= h($p['id']); ?>" <?= ($defaultPriorityId == $p['id']) ? 'selected' : ''; ?>><?= h($p['label']); ?></option>
             <?php endforeach; ?>
           </select>
           <label for="projectPriority">Priority</label>
@@ -66,18 +72,19 @@ $typeMap     = $typeMap     ?? get_lookup_items($pdo, 'PROJECT_TYPE');
       <div class="col-sm-6 col-md-4">
         <div class="form-floating">
           <?php
-            $hasTypeDefault = false;
-            foreach ($typeMap as $t) {
-              if (!empty($t['is_default'])) {
-                $hasTypeDefault = true;
-                break;
+            if ($defaultTypeId === null) {
+              foreach ($typeMap as $t) {
+                if (!empty($t['is_default'])) {
+                  $defaultTypeId = $t['id'];
+                  break;
+                }
               }
             }
           ?>
           <select class="form-select" id="projectType" name="type" required>
-            <option value="" <?= $hasTypeDefault ? '' : 'selected'; ?>>Select type</option>
+            <option value="" <?= $defaultTypeId ? '' : 'selected'; ?>>Select type</option>
             <?php foreach ($typeMap as $t): ?>
-              <option value="<?= h($t['id']); ?>" <?= !empty($t['is_default']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
+              <option value="<?= h($t['id']); ?>" <?= ($defaultTypeId == $t['id']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
             <?php endforeach; ?>
           </select>
           <label for="projectType">Type</label>

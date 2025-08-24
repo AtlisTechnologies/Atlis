@@ -90,6 +90,18 @@ if ($action === 'create' || $action === 'edit') {
   }
   $statusMap = get_lookup_items($pdo, 'TASK_STATUS');
   $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $defaultTaskStatusId = get_user_default_lookup_item($pdo, $this_user_id, 'TASK_STATUS');
+  if ($defaultTaskStatusId === null) {
+    foreach ($statusMap as $s) {
+      if (!empty($s['is_default'])) { $defaultTaskStatusId = $s['id']; break; }
+    }
+  }
+  $defaultTaskPriorityId = get_user_default_lookup_item($pdo, $this_user_id, 'TASK_PRIORITY');
+  if ($defaultTaskPriorityId === null) {
+    foreach ($priorityMap as $p) {
+      if (!empty($p['is_default'])) { $defaultTaskPriorityId = $p['id']; break; }
+    }
+  }
   if (user_has_role('Admin')) {
     $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   } else {
@@ -148,6 +160,18 @@ if ($action === 'create-edit' && isset($_GET['modal'])) {
   }
   $statusMap   = get_lookup_items($pdo, 'TASK_STATUS');
   $priorityMap = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $defaultTaskStatusId = get_user_default_lookup_item($pdo, $this_user_id, 'TASK_STATUS');
+  if ($defaultTaskStatusId === null) {
+    foreach ($statusMap as $s) {
+      if (!empty($s['is_default'])) { $defaultTaskStatusId = $s['id']; break; }
+    }
+  }
+  $defaultTaskPriorityId = get_user_default_lookup_item($pdo, $this_user_id, 'TASK_PRIORITY');
+  if ($defaultTaskPriorityId === null) {
+    foreach ($priorityMap as $p) {
+      if (!empty($p['is_default'])) { $defaultTaskPriorityId = $p['id']; break; }
+    }
+  }
   if (user_has_role('Admin')) {
     $projects = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
   } else {
