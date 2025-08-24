@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id && $meeting_id) {
         $pdo->prepare('DELETE FROM module_meeting_questions WHERE id=:id AND meeting_id=:mid')->execute([':id' => $id, ':mid' => $meeting_id]);
-        audit_log($pdo, $this_user_id, 'module_meeting_questions', $id, 'DELETE', 'Deleted question');
+       admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $id, 'DELETE', 'Deleted question');
     }
 
     $listStmt = $pdo->prepare('SELECT id, meeting_id, agenda_id, question_text, answer_text, status_id FROM module_meeting_questions WHERE meeting_id=? ORDER BY id');

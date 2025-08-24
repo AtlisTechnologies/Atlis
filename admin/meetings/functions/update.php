@@ -1,13 +1,9 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('meeting', 'create');
-
-$isAjax = isset($_POST['ajax']) || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
-if ($isAjax) {
-  header('Content-Type: application/json');
-}
+require_permission('meeting', 'update');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $id = (int)($_POST['id'] ?? 0);
   $title = trim($_POST['title'] ?? '');
   $description = trim($_POST['description'] ?? '');
   $start_raw = $_POST['start_time'] ?? '';
@@ -37,30 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($errors)) {
     $start_time = $start_dt ? $start_dt->format('Y-m-d H:i:s') : null;
     $end_time = $end_dt ? $end_dt->format('Y-m-d H:i:s') : null;
-    $stmt = $pdo->prepare('INSERT INTO module_meetings (user_id, user_updated, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly) VALUES (?,?,?,?,?,?,?,?,?)');
-    $stmt->execute([$this_user_id, $this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly]);
-    $id = $pdo->lastInsertId();
-    audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', 'Created meeting');
-    $meeting = ['id'=>$id,'title'=>$title,'start_time'=>$start_time];
-    if ($isAjax) {
-      echo json_encode(['success'=>true,'meeting'=>$meeting]);
-      exit;
-    }
-    header('Location: ../index.php');
+    $stmt = $pdo->prepare('UPDATE module_meetings SET user_updated=?, title=?, description=?, start_time=?, end_time=?, recur_daily=?, recur_weekly=?, recur_monthly=? WHERE id=?');
+    $stmt->execute([$this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $id]);
+   admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'UPDATE', 'Updated meeting');
+    header('Location: ../index.php?action=details&id=' . $id);
     exit;
   }
 
-  if ($isAjax) {
-    echo json_encode(['success'=>false,'errors'=>$errors]);
-    exit;
-  }
-}
-
-if ($isAjax) {
-  echo json_encode(['success'=>false]);
+  http_response_code(400);
   exit;
 }
 
-header('Location: ../index.php');
-exit;
+http_response_code(405);
 
