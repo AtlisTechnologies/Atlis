@@ -94,6 +94,12 @@ $memo = $_POST['memo'] ?? null;
 $addresses = $_POST['addresses'] ?? [];
 $phones    = $_POST['phones'] ?? [];
 
+$defaultPassword = get_system_property($pdo, 'USER_DEFAULT_PASSWORD') ?? '';
+if (!$isUpdate && $password === '') {
+  $password = $defaultPassword;
+  if ($confirm === '') { $confirm = $defaultPassword; }
+}
+
  $errors = [];
  if ($email === '') {
    $errors[] = 'Valid email required';

@@ -13,6 +13,8 @@ $memo = [];
 $profile_pic = '';
 $profilePics = [];
 
+$defaultPassword = '';
+
 $errors = $_SESSION['form_errors'] ?? [];
 if (!empty($_SESSION['error_message'])) {
   $errors[] = $_SESSION['error_message'];
@@ -49,6 +51,7 @@ if ($id) {
   }
 } else {
   require_permission('users','create');
+  $defaultPassword = get_system_property($pdo, 'USER_DEFAULT_PASSWORD') ?? '';
 }
 
 $imageTypes = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
@@ -171,14 +174,14 @@ $_SESSION['csrf_token'] = $token;
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" <?php echo $id ? '' : 'required'; ?>>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo htmlspecialchars($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
             <label for="password">Password</label>
             <div class="invalid-feedback">Please provide a password.</div>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" <?php echo $id ? '' : 'required'; ?>>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" value="<?php echo htmlspecialchars($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
             <label for="confirmPassword">Confirm Password</label>
             <div class="invalid-feedback">Please confirm password.</div>
           </div>
