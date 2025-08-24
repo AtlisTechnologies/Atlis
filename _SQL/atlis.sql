@@ -2382,6 +2382,25 @@ INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_projects_pins`
+--
+
+CREATE TABLE `module_projects_pins` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT(11) NOT NULL,           -- FK to users.id
+  `user_updated` INT(11) DEFAULT NULL,
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `memo` TEXT DEFAULT NULL,
+  `project_id` INT(11) NOT NULL,        -- FK to module_projects.id
+  UNIQUE KEY `uq_user_project` (`user_id`,`project_id`),
+  CONSTRAINT `fk_project_pin_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+  CONSTRAINT `fk_project_pin_project` FOREIGN KEY (`project_id`) REFERENCES `module_projects`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_tasks`
 --
 

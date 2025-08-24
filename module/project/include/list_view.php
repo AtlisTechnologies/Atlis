@@ -92,7 +92,10 @@
             </span>
           </td>
           <td class="align-middle text-end">
-            <div class="btn-reveal-trigger position-static">
+            <div class="btn-reveal-trigger position-static d-flex justify-content-end align-items-center gap-2">
+              <button class="btn btn-link p-0 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
+                <span class="fa-solid fa-thumbtack <?php echo $project['pinned'] ? 'text-warning' : 'text-body-tertiary'; ?>"></span>
+              </button>
               <a class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fas fa-chevron-right fs-10"></span></a>
             </div>
           </td>
@@ -134,5 +137,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
   statusFilter.addEventListener('change', applyFilters);
   priorityFilter.addEventListener('change', applyFilters);
+
+  document.querySelectorAll('.pin-toggle').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.preventDefault();
+      const projectId = btn.dataset.projectId;
+      const icon = btn.querySelector('span');
+      if (!projectId || !icon) return;
+      try {
+        const res = await fetch('functions/toggle_pin.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ project_id: projectId })
+        });
+        const data = await res.json();
+        if (data.pinned) {
+          icon.classList.add('text-warning');
+          icon.classList.remove('text-body-tertiary');
+        } else {
+          icon.classList.add('text-body-tertiary');
+          icon.classList.remove('text-warning');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
 });
 </script>
