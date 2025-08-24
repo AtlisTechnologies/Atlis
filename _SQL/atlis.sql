@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 03:03 AM
+-- Generation Time: Aug 24, 2025 at 06:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -152,7 +152,20 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (103, 1, 1, '2025-08-23 17:45:11', '2025-08-23 17:45:11', NULL, 'module_contractors', 9, 'CREATE', 'Created contractor', NULL, '{\"user_id\":15,\"person_id\":60}'),
 (104, 1, 1, '2025-08-23 17:48:09', '2025-08-23 17:48:09', NULL, 'module_contractors', 9, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-08-23\",\"title_role\":\"\",\"acquaintance\":\"Ex-JTI Employee\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
 (105, 1, 1, '2025-08-23 17:48:45', '2025-08-23 17:48:45', NULL, 'module_contractors_contacts', 11, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Text Doc this morning to ask if he can take a 5 minute phone call.  I want to ask him about BI.\"}'),
-(106, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:36', NULL, 'module_projects', 21, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"6\",\"division_id\":\"8\",\"is_private\":0,\"name\":\"DAVE - FILE CABINET\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}');
+(106, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:36', NULL, 'module_projects', 21, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"6\",\"division_id\":\"8\",\"is_private\":0,\"name\":\"DAVE - FILE CABINET\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}'),
+(107, 1, 1, '2025-08-23 19:16:04', '2025-08-23 19:16:04', NULL, 'person', 61, 'CREATE', 'Created person', NULL, '{\"user_id\":16,\"first_name\":\"test\",\"last_name\":\"test\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(108, 1, 1, '2025-08-23 19:19:05', '2025-08-23 19:19:05', NULL, 'person', 62, 'CREATE', 'Created person', NULL, '{\"user_id\":17,\"first_name\":\"test\",\"last_name\":\"test\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(109, 1, 1, '2025-08-23 20:18:17', '2025-08-23 20:18:17', NULL, 'module_contractors_files', 12, 'UPLOAD', '', '', '{\"file\":\"Third Party Network Access Request Form.pdf\",\"version\":1}'),
+(110, 1, 1, '2025-08-23 20:18:24', '2025-08-23 20:18:24', NULL, 'module_contractors_files', 13, 'UPLOAD', '', '', '{\"file\":\"Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016.pdf\",\"version\":1}'),
+(111, 1, 1, '2025-08-23 20:18:32', '2025-08-23 20:18:32', NULL, 'module_contractors_files', 14, 'UPLOAD', '', '', '{\"file\":\"CONSENT FOR BACKGROUND CHECK - Lake County, IL.pdf\",\"version\":1}'),
+(112, 1, 1, '2025-08-23 20:18:47', '2025-08-23 20:18:47', NULL, 'module_contractors_files', 15, 'UPLOAD', '', '', '{\"file\":\"9.4 Acceptable Use Policy CONTINGENT WORKERwith Signature Lines.pdf\",\"version\":1}'),
+(113, 1, 1, '2025-08-23 20:19:21', '2025-08-23 20:19:21', NULL, 'module_contractors_files', 16, 'UPLOAD', '', '', '{\"file\":\"ATLIS TECHNOLOGIES WORK AGREEMENT - THOMAS WILKINS - ATLIS_SIGNED.pdf\",\"version\":1}'),
+(114, 1, 1, '2025-08-23 20:20:08', '2025-08-23 20:20:08', NULL, 'module_contractors_notes', 3, 'NOTE', '', '', 'Sent a signed work agreement in the contract said 5 hours per week at $60/hr.'),
+(115, 1, 1, '2025-08-23 20:21:02', '2025-08-23 20:21:02', NULL, 'module_contractors_notes', 4, 'NOTE', '', '', 'Sent a signed work agreement and in the contract put in 5 hours per week at $58/hr and to invoice every ~2 weeks.'),
+(116, 1, 1, '2025-08-23 20:24:10', '2025-08-23 20:24:10', NULL, 'module_contractors_notes', 5, 'NOTE', '', '', 'Richard has helped Atlis for I\'m guessing around 8 hours of creating templates for contracts. I need to compensate him somehow soon. I also need him, or a different technical contract writer, to be much more involved.'),
+(117, 1, 1, '2025-08-23 20:24:27', '2025-08-23 20:24:27', NULL, 'module_contractors_notes', 6, 'NOTE', '', '', 'I NEED TO UPDATE RICHARD\'S WORK AGREEMENT WITH ATLIS.'),
+(118, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 'module_projects', 22, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"ATLIS TECHNOLOGIES - CORPORATE PROJECTS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}'),
+(119, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 'module_tasks_notes', 39, 'NOTE', '', '', 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
 
 -- --------------------------------------------------------
 
@@ -701,7 +714,31 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (85, 1, 1, '2025-08-23 17:10:00', '2025-08-23 17:10:00', NULL, 'module_meeting', 3, 'CREATE', 'Created meeting'),
 (86, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 'module_tasks', 72, 'CREATE', 'Created task'),
 (87, 1, 1, '2025-08-23 17:53:53', '2025-08-23 17:53:53', NULL, 'module_projects_assignments', 25, 'ASSIGN', 'Assigned user'),
-(88, 1, 1, '2025-08-23 17:53:56', '2025-08-23 17:53:56', NULL, 'module_projects', 21, 'UPDATE', 'Updated project');
+(88, 1, 1, '2025-08-23 17:53:56', '2025-08-23 17:53:56', NULL, 'module_projects', 21, 'UPDATE', 'Updated project'),
+(89, 1, 1, '2025-08-23 19:17:29', '2025-08-23 19:17:29', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(90, 1, 1, '2025-08-23 19:17:32', '2025-08-23 19:17:32', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(91, 1, 1, '2025-08-23 19:17:37', '2025-08-23 19:17:37', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(92, 1, 1, '2025-08-23 19:17:41', '2025-08-23 19:17:41', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(93, 1, 1, '2025-08-23 19:17:59', '2025-08-23 19:17:59', NULL, 'system_properties', 5, 'UPDATE', 'Updated system property'),
+(94, 16, 16, '2025-08-23 19:18:07', '2025-08-23 19:18:07', NULL, 'users', 16, 'LOGIN', 'User logged in'),
+(95, 16, 16, '2025-08-23 19:18:08', '2025-08-23 19:18:08', NULL, 'users', 16, 'LOGOUT', 'User logged out'),
+(96, 1, 1, '2025-08-23 19:19:40', '2025-08-23 19:19:40', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
+(97, 1, 1, '2025-08-23 19:19:46', '2025-08-23 19:19:46', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(98, 1, 1, '2025-08-23 19:21:48', '2025-08-23 19:21:48', NULL, 'system_properties', 5, 'UPDATE', 'Updated system property'),
+(99, 4, 4, '2025-08-23 19:24:20', '2025-08-23 19:24:20', NULL, 'users', 4, 'LOGIN', 'User logged in'),
+(100, 1, 1, '2025-08-23 20:16:33', '2025-08-23 20:16:33', NULL, 'lookup_list_items', 123, 'UPDATE', 'Updated lookup list item'),
+(101, 1, 1, '2025-08-23 20:16:54', '2025-08-23 20:16:54', NULL, 'lookup_list_items', 124, 'UPDATE', 'Updated lookup list item'),
+(102, 1, 1, '2025-08-23 20:17:18', '2025-08-23 20:17:18', NULL, 'lookup_list_items', 125, 'UPDATE', 'Updated lookup list item'),
+(103, 1, 1, '2025-08-23 20:17:36', '2025-08-23 20:17:36', NULL, 'lookup_list_items', 126, 'UPDATE', 'Updated lookup list item'),
+(104, 1, 1, '2025-08-23 20:17:42', '2025-08-23 20:17:42', NULL, 'lookup_list_items', 125, 'UPDATE', 'Updated lookup list item'),
+(105, 1, 1, '2025-08-23 20:17:56', '2025-08-23 20:17:56', NULL, 'lookup_list_items', 123, 'UPDATE', 'Updated lookup list item'),
+(106, 1, 1, '2025-08-23 20:25:52', '2025-08-23 20:25:52', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
+(107, 1, 1, '2025-08-23 20:26:00', '2025-08-23 20:26:00', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
+(108, 1, 1, '2025-08-23 20:26:14', '2025-08-23 20:26:14', NULL, 'module_projects', 4, 'UPDATE', 'Updated project'),
+(109, 1, 1, '2025-08-23 20:55:32', '2025-08-23 20:55:32', NULL, 'module_tasks', 73, 'CREATE', 'Created task'),
+(110, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 'module_tasks', 74, 'CREATE', 'Created task'),
+(111, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 'module_tasks', 75, 'CREATE', 'Created task'),
+(112, 1, 1, '2025-08-23 21:56:27', '2025-08-23 21:56:27', NULL, 'module_tasks', 73, 'UPDATE', 'Completed task');
 
 -- --------------------------------------------------------
 
@@ -731,9 +768,9 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (4, 1, 1, '2025-08-06 20:13:08', '2025-08-08 21:54:50', NULL, 'USER_TYPE', ''),
 (5, 1, 1, '2025-08-06 20:13:16', '2025-08-08 21:54:52', NULL, 'USER_STATUS', ''),
 (7, 1, 1, '2025-08-06 20:26:02', '2025-08-08 21:54:55', NULL, 'LOOKUP_LIST_ITEM_ATTRIBUTES', ''),
-(8, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:58:01', NULL, 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
-(9, 1, 1, '2025-08-13 16:28:53', '2025-08-13 17:57:58', NULL, 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties'),
-(10, 1, 1, '2025-08-14 00:00:00', '2025-08-22 23:51:21', NULL, 'PROJECT_STATUS', 'Status values for projects'),
+(8, 1, 1, '2025-08-13 16:28:53', '2025-08-23 19:17:32', NULL, 'SYSTEM_PROPERTIES_CATEGORIES', 'Categories for system properties'),
+(9, 1, 1, '2025-08-13 16:28:53', '2025-08-23 19:17:41', NULL, 'SYSTEM_PROPERTIES_TYPES', 'Data types for system properties'),
+(10, 1, 1, '2025-08-14 00:00:00', '2025-08-23 20:26:00', NULL, 'PROJECT_STATUS', 'Status values for projects'),
 (11, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_STATUS', 'Status values for tasks'),
 (12, 1, 1, '2025-08-14 00:00:00', '2025-08-14 00:00:00', NULL, 'TASK_PRIORITY', 'Priority levels for tasks'),
 (14, 1, 1, '2025-08-17 11:02:46', '2025-08-22 23:53:20', '', 'PROJECT_PRIORITY', ''),
@@ -741,7 +778,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (16, 1, 1, '2025-08-18 15:29:37', '2025-08-20 15:07:28', '', 'CONTRACTOR_COMPENSATION_TYPE', ''),
 (17, 1, 1, '2025-08-18 15:29:50', '2025-08-20 14:37:41', '', 'CONTRACTOR_COMPENSATION_PAYMENT_METHOD', ''),
 (18, 1, 1, '2025-08-18 15:29:59', '2025-08-18 15:29:59', '', 'CONTRACTOR_TYPE', ''),
-(19, 1, 1, '2025-08-18 15:30:20', '2025-08-21 11:38:08', '', 'CONTRACTOR_FILE_TYPE', ''),
+(19, 1, 1, '2025-08-18 15:30:20', '2025-08-23 20:17:56', '', 'CONTRACTOR_FILE_TYPE', ''),
 (20, 1, 1, '2025-08-18 15:32:11', '2025-08-20 20:48:24', '', 'CONTRACTOR_CONTACT_TYPE', ''),
 (21, 1, 1, '2025-08-18 15:32:30', '2025-08-18 15:32:30', '', 'CONTRACTOR_STATUS', ''),
 (22, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'USER_PROFILE_PIC_STATUS', 'Status values for user profile pictures'),
@@ -883,10 +920,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (120, 1, 1, '2025-08-21 01:46:46', '2025-08-21 01:46:46', NULL, 19, 'Atlis - Background Consent', 'ATLIS-BACKGROUNDCONSENT', 0, '2025-08-21', NULL),
 (121, 1, 1, '2025-08-21 01:47:01', '2025-08-21 01:47:01', NULL, 19, 'Atlis - Direct Deposit', 'ATLIS-DIRECTDEPOSIT', 0, '2025-08-21', NULL),
 (122, 1, 1, '2025-08-21 01:47:10', '2025-08-21 01:47:10', NULL, 19, 'Atlis - W9', 'ATLIS-W9', 0, '2025-08-21', NULL),
-(123, 1, 1, '2025-08-21 01:47:45', '2025-08-21 01:47:45', NULL, 19, 'Lake - AUP - #1', 'LAKE-AUP-1', 0, '2025-08-21', NULL),
-(124, 1, 1, '2025-08-21 01:47:48', '2025-08-21 01:47:48', NULL, 19, 'Lake - AUP - #2', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
-(125, 1, 1, '2025-08-21 01:47:52', '2025-08-21 01:47:52', NULL, 19, 'Lake - AUP - #3', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
-(126, 1, 1, '2025-08-21 01:47:56', '2025-08-21 01:47:56', NULL, 19, 'Lake - AUP - #4', 'LAKE-AUP-4', 0, '2025-08-21', NULL),
+(123, 1, 1, '2025-08-21 01:47:45', '2025-08-23 20:17:56', NULL, 19, '9.4 Acceptable Use Policy CONTINGENT WORKER - Lake County, IL', 'LAKE-AUP-1', 0, '2025-08-21', NULL),
+(124, 1, 1, '2025-08-21 01:47:48', '2025-08-23 20:16:54', NULL, 19, 'CONSENT FOR BACKGROUND CHECK - Lake County, IL', 'LAKE-AUP-2', 0, '2025-08-21', NULL),
+(125, 1, 1, '2025-08-21 01:47:52', '2025-08-23 20:17:42', NULL, 19, 'Electronic Communications - Acceptable Cell Phone Usage Policy - Lake County, IL', 'LAKE-AUP-3', 0, '2025-08-21', NULL),
+(126, 1, 1, '2025-08-21 01:47:56', '2025-08-23 20:17:36', NULL, 19, 'Third Party Network Access Request Form - Lake County, IL', 'LAKE-AUP-4', 0, '2025-08-21', NULL),
 (127, 1, 1, '2025-08-21 11:37:20', '2025-08-21 11:37:20', NULL, 19, 'Compensation - Note', 'COMPENSATION-NOTE', 0, '2025-08-21', NULL),
 (128, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Alabama', 'AL', 1, '2025-08-21', NULL),
 (129, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'Alaska', 'AK', 2, '2025-08-21', NULL),
@@ -970,7 +1007,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (207, 1, 1, '2025-08-23 16:06:56', '2025-08-23 16:06:56', NULL, 40, 'Review', 'REVIEW', 0, '2025-08-23', NULL),
 (208, 1, 1, '2025-08-23 16:07:10', '2025-08-23 16:07:10', NULL, 41, 'Minutes', 'MINUTES', 0, '2025-08-23', NULL),
 (209, 1, 1, '2025-08-23 16:07:18', '2025-08-23 16:07:18', NULL, 41, 'Slide Deck', 'SLIDE_DECK', 0, '2025-08-23', NULL),
-(210, 1, 1, '2025-08-23 16:07:26', '2025-08-23 16:07:26', NULL, 41, 'Recording', 'RECORDING', 0, '2025-08-23', NULL);
+(210, 1, 1, '2025-08-23 16:07:26', '2025-08-23 16:07:26', NULL, 41, 'Recording', 'RECORDING', 0, '2025-08-23', NULL),
+(211, 1, 1, '2025-08-23 19:17:29', '2025-08-23 19:17:29', NULL, 8, 'User', 'USER', 0, '2025-08-23', NULL),
+(212, 1, 1, '2025-08-23 19:17:37', '2025-08-23 19:17:37', NULL, 9, 'User', 'USER', 0, '2025-08-23', NULL),
+(213, 1, 1, '2025-08-23 20:25:52', '2025-08-23 20:25:52', NULL, 10, 'Indefinite - Ongoing', 'INDEFINITE', 0, '2025-08-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1121,7 +1161,10 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (137, 1, 1, '2025-08-23 16:08:27', '2025-08-23 16:08:27', NULL, 204, 'DEFAULT', 'true'),
 (138, 1, 1, '2025-08-23 16:08:37', '2025-08-23 16:08:37', NULL, 206, 'COLOR-CLASS', 'sunset'),
 (139, 1, 1, '2025-08-23 16:08:44', '2025-08-23 16:08:44', NULL, 207, 'COLOR-CLASS', 'purple'),
-(140, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 205, 'COLOR-CLASS', 'pink');
+(140, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 205, 'COLOR-CLASS', 'pink'),
+(141, 1, 1, '2025-08-23 19:17:32', '2025-08-23 19:17:32', NULL, 211, 'COLOR-CLASS', 'atlis'),
+(142, 1, 1, '2025-08-23 19:17:41', '2025-08-23 19:17:41', NULL, 212, 'COLOR-CLASS', 'atlis'),
+(143, 1, 1, '2025-08-23 20:26:00', '2025-08-23 20:26:00', NULL, 213, 'COLOR-CLASS', 'pink');
 
 -- --------------------------------------------------------
 
@@ -1481,7 +1524,12 @@ INSERT INTO `module_contractors_files` (`id`, `user_id`, `user_updated`, `date_c
 (8, 1, 1, '2025-08-22 18:14:37', '2025-08-22 18:14:37', NULL, 3, 123, '9.4 Acceptable Use Policy Signed Jessop.pdf', '/admin/contractors/uploads/3/9.4_Acceptable_Use_Policy_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
 (9, 1, 1, '2025-08-22 18:14:45', '2025-08-22 18:14:45', NULL, 3, 124, 'CONSENT FOR BACKGROUND CHECK Jessop.pdf', '/admin/contractors/uploads/3/CONSENT_FOR_BACKGROUND_CHECK_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
 (10, 1, 1, '2025-08-22 18:14:52', '2025-08-22 18:14:52', NULL, 3, 125, 'Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016 Signed Jessop.pdf', '/admin/contractors/uploads/3/Electronic_Communications-Acceptable__Cell_Phone-SmartPhone_Usage__Policy_-7-2016_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
-(11, 1, 1, '2025-08-22 18:14:58', '2025-08-22 18:14:58', NULL, 3, 126, 'Third Party Network Access Request Form Signed Jessop.pdf', '/admin/contractors/uploads/3/Third_Party_Network_Access_Request_Form_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.');
+(11, 1, 1, '2025-08-22 18:14:58', '2025-08-22 18:14:58', NULL, 3, 126, 'Third Party Network Access Request Form Signed Jessop.pdf', '/admin/contractors/uploads/3/Third_Party_Network_Access_Request_Form_Signed_Jessop.pdf', '1', 'Tyler Jessop (Soup) signed this on July 31st, 2025.'),
+(12, 1, 1, '2025-08-23 20:18:17', '2025-08-23 20:18:17', NULL, 7, 126, 'Third Party Network Access Request Form.pdf', '/admin/contractors/uploads/7/Third_Party_Network_Access_Request_Form.pdf', '1', 'Signed 8/23/25'),
+(13, 1, 1, '2025-08-23 20:18:24', '2025-08-23 20:18:24', NULL, 7, 125, 'Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016.pdf', '/admin/contractors/uploads/7/Electronic_Communications-Acceptable__Cell_Phone-SmartPhone_Usage__Policy_-7-2016.pdf', '1', 'Signed 8/23/25'),
+(14, 1, 1, '2025-08-23 20:18:32', '2025-08-23 20:18:32', NULL, 7, 124, 'CONSENT FOR BACKGROUND CHECK - Lake County, IL.pdf', '/admin/contractors/uploads/7/CONSENT_FOR_BACKGROUND_CHECK_-_Lake_County__IL.pdf', '1', 'Signed 8/23/25'),
+(15, 1, 1, '2025-08-23 20:18:47', '2025-08-23 20:18:47', NULL, 7, 123, '9.4 Acceptable Use Policy CONTINGENT WORKERwith Signature Lines.pdf', '/admin/contractors/uploads/7/9.4_Acceptable_Use_Policy_CONTINGENT_WORKERwith_Signature_Lines.pdf', '1', 'Signed 8/23/25'),
+(16, 1, 1, '2025-08-23 20:19:21', '2025-08-23 20:19:21', NULL, 7, 73, 'ATLIS TECHNOLOGIES WORK AGREEMENT - THOMAS WILKINS - ATLIS_SIGNED.pdf', '/admin/contractors/uploads/7/ATLIS_TECHNOLOGIES_WORK_AGREEMENT_-_THOMAS_WILKINS_-_ATLIS_SIGNED.pdf', '1', 'SENT FOR SIGNATURE - 8/23/25');
 
 -- --------------------------------------------------------
 
@@ -1506,7 +1554,11 @@ CREATE TABLE `module_contractors_notes` (
 
 INSERT INTO `module_contractors_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `contractor_id`, `note_text`) VALUES
 (1, 1, 1, '2025-08-22 18:53:34', '2025-08-22 18:53:34', NULL, 7, 'Created an Atlis Technologies Office365 account for him:\r\nTom@AtlisTechnologies.com'),
-(2, 1, 1, '2025-08-22 18:53:58', '2025-08-22 18:53:58', NULL, 3, 'Created an Atlis Technologies Office 365 account for him: Soup@AtlisTechnologies.com');
+(2, 1, 1, '2025-08-22 18:53:58', '2025-08-22 18:53:58', NULL, 3, 'Created an Atlis Technologies Office 365 account for him: Soup@AtlisTechnologies.com'),
+(3, 1, 1, '2025-08-23 20:20:08', '2025-08-23 20:20:08', NULL, 7, 'Sent a signed work agreement in the contract said 5 hours per week at $60/hr.'),
+(4, 1, 1, '2025-08-23 20:21:02', '2025-08-23 20:21:02', NULL, 3, 'Sent a signed work agreement and in the contract put in 5 hours per week at $58/hr and to invoice every ~2 weeks.'),
+(5, 1, 1, '2025-08-23 20:24:10', '2025-08-23 20:24:10', NULL, 5, 'Richard has helped Atlis for I\'m guessing around 8 hours of creating templates for contracts. I need to compensate him somehow soon. I also need him, or a different technical contract writer, to be much more involved.'),
+(6, 1, 1, '2025-08-23 20:24:27', '2025-08-23 20:24:27', NULL, 5, 'I NEED TO UPDATE RICHARD\'S WORK AGREEMENT WITH ATLIS.');
 
 -- --------------------------------------------------------
 
@@ -1901,7 +1953,7 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (1, 1, 1, '2025-08-19 23:01:08', '2025-08-19 23:04:25', NULL, 2, 2, 0, 'Emailing Sealed Documents (E.S.D)', '', '', '', 29, 56, NULL, '2025-08-01', NULL, 0),
 (2, 1, 1, '2025-08-19 23:02:03', '2025-08-19 23:24:13', NULL, 2, 3, 0, 'Bench View', '', '', '', 29, 58, NULL, '2025-08-01', NULL, 0),
 (3, 1, 1, '2025-08-20 00:15:31', '2025-08-20 00:42:24', NULL, 2, 2, 0, 'Fee Waiver Icon in Case Header', '', '', '', 31, 57, NULL, '2025-04-26', NULL, 0),
-(4, 1, 1, '2025-08-21 15:38:14', '2025-08-23 01:43:48', NULL, 1, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
+(4, 1, 1, '2025-08-21 15:38:14', '2025-08-23 20:26:14', NULL, 1, 1, 1, 'ATLIS TECHNOLOGIES - CORE PROJECT', '', '', '', 213, NULL, NULL, '2025-08-21', NULL, 0),
 (5, 1, 1, '2025-08-21 18:08:35', '2025-08-21 18:08:35', NULL, 2, 3, 0, 'Judge Mass Reassignment', 'Hi Gia & Davey,\r\n\r\nDo you have any specific requirements or specifications for the Judge Mass Reassignment project? I don’t want to make this any more complex than necessary—at a high level, it should be straightforward. For the sake of example, Judge A is the retiring judge and Judge B is the newly assigned judge.\r\n\r\n\r\nThanks,\r\nDave\r\n', '1) What gets reassigned\r\n-	Reassign all future events currently assigned to Judge A over to Judge B.\r\no	“All” assumes no filters (Case Type, Event Type, etc.).\r\no	“Future” assumes we are not modifying past events.\r\n-	Should any case-level or caseAssignment fields also be updated (for Judge A and/or Judge B)?\r\n\r\n\r\n2) Audit, validation, and proof checking\r\n-	Do you need audit artifacts (e.g., before/after counts, per-case change logs with timestamp/user, downloadable CSV)?\r\n-	Should we add guardrails (e.g., exclude sealed/closed cases, skip in-progress or same-day events)?\r\n\r\n\r\n3) Execution & UX\r\n-	Once Judge A → Judge B is selected, should the process run automatically in the background, or would you prefer a preview/confirm step with progress tracking?\r\n-	Would a summary be useful (e.g., via Search, Report, or Email notification)?', '', 29, NULL, NULL, '2025-08-21', NULL, 0),
 (6, 1, 1, '2025-08-21 22:22:02', '2025-08-21 22:22:02', NULL, 1, 1, 0, 'McLean County, IL', '', '', '', 29, 56, NULL, '2025-08-21', NULL, 0),
 (7, 1, 1, '2025-08-21 22:25:38', '2025-08-21 22:25:38', NULL, 1, 1, 0, 'JIT 2025 User Conference', '', '', '', 30, 87, NULL, '2025-11-13', NULL, 0),
@@ -1917,7 +1969,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
 (19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 0, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0),
 (20, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 6, 8, 0, 'DAVE - AROUND THE HOUSE', '', '', '', 29, 56, 182, '2025-08-23', NULL, 0),
-(21, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:56', NULL, 6, 8, 1, 'DAVE - FILE CABINET', '', '', '', 29, 57, NULL, '2025-08-23', NULL, 0);
+(21, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:56', NULL, 6, 8, 1, 'DAVE - FILE CABINET', '', '', '', 29, 57, NULL, '2025-08-23', NULL, 0),
+(22, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 1, 1, 0, 'ATLIS TECHNOLOGIES - CORPORATE PROJECTS', '', '', '', 29, 87, 182, '2025-08-23', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2225,7 +2278,10 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (69, 1, 1, '2025-08-23 12:01:00', '2025-08-23 12:01:00', NULL, 20, NULL, NULL, 0, 'INSTALL THE BACK SLIDING DOOR CURTAIN', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (70, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 20, NULL, NULL, 0, 'HANG LONG MIRROR IN OUR BEDROOM ON WALL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (71, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 10, NULL, NULL, 0, 'RIZATRIPTAN - request minty disintegrating', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(73, 1, 1, '2025-08-23 20:55:32', '2025-08-23 21:56:27', NULL, 10, NULL, NULL, 0, 'FIX THE DOOR KNOB ON EMRYS CLOSET', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
+(74, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 10, NULL, NULL, 0, 'FIX EMRY\'S BEDROOM DRESSER', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(75, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 10, NULL, NULL, 0, 'INSTALL LONG MIRROR IN OUR ROOM', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2328,7 +2384,8 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (35, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 58, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
 (36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
 (37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments'),
-(38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm');
+(38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm'),
+(39, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 73, 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
 
 -- --------------------------------------------------------
 
@@ -2385,6 +2442,32 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (15, 1, 1, '2025-08-23 12:09:26', '2025-08-23 12:09:26', NULL, 47, 1),
 (16, 1, 1, '2025-08-23 12:09:28', '2025-08-23 12:09:28', NULL, 48, 1),
 (17, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 62, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_users_defaults`
+--
+
+CREATE TABLE `module_users_defaults` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `list_name` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_users_defaults`
+--
+
+INSERT INTO `module_users_defaults` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_name`, `item_id`) VALUES
+(1, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_STATUS', 30),
+(2, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_PRIORITY', 87),
+(3, 1, 1, '2025-08-23 19:23:51', '2025-08-23 19:23:51', NULL, 'PROJECT_TYPE', 183);
 
 -- --------------------------------------------------------
 
@@ -2530,7 +2613,7 @@ INSERT INTO `system_properties` (`id`, `user_id`, `user_updated`, `date_created`
 (2, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_ORGANIZATION_STATUS', '1', 32, 'Default status for new organizations'),
 (3, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_AGENCY_STATUS', '3', 32, 'Default status for new agencies'),
 (4, 1, 1, '2025-08-21 00:00:00', '2025-08-21 00:00:00', NULL, 30, 'DEFAULT_DIVISION_STATUS', '5', 32, 'Default status for new divisions'),
-(5, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 30, 'USER_DEFAULT_PASSWORD', 'ChangeMe123!', 32, 'Default password for new users');
+(5, 1, 1, '2025-08-23 00:00:00', '2025-08-23 19:21:48', '', 211, 'USER_DEFAULT_PASSWORD', 'Atlis01!', 212, 'Default password for new users');
 
 -- --------------------------------------------------------
 
@@ -2556,7 +2639,9 @@ CREATE TABLE `system_properties_versions` (
 --
 
 INSERT INTO `system_properties_versions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `property_id`, `version_number`, `previous_value`, `metadata`) VALUES
-(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 1, 1, '/assets/logo.png', 'Initial version');
+(1, 1, 1, '2025-08-13 16:28:53', '2025-08-13 16:28:53', NULL, 1, 1, '/assets/logo.png', 'Initial version'),
+(2, 1, NULL, '2025-08-23 19:17:59', '2025-08-23 19:17:59', NULL, 5, 1, 'ChangeMe123!', NULL),
+(3, 1, NULL, '2025-08-23 19:21:48', '2025-08-23 19:21:48', NULL, 5, 2, 'Atlis01!', NULL);
 
 -- --------------------------------------------------------
 
@@ -2577,7 +2662,12 @@ CREATE TABLE `users` (
   `current_profile_pic_id` int(11) DEFAULT NULL,
   `type` enum('ADMIN','USER') DEFAULT 'USER',
   `status` tinyint(1) DEFAULT 1,
-  `last_login` datetime DEFAULT NULL
+  `last_login` datetime DEFAULT NULL,
+  `JTIformer` tinyint(1) DEFAULT 0,
+  `JTIcurrent` tinyint(1) DEFAULT 0,
+  `JTI_start_date` date DEFAULT NULL,
+  `JTI_end_date` date DEFAULT NULL,
+  `JTI_Team` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2585,9 +2675,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 02:59:38', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 02:59:38'),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 19:19:43', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 19:19:43'),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-19 23:23:32', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, NULL),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-23 19:24:18', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, '2025-08-23 19:24:18'),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
 (6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL),
 (7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL),
@@ -2623,7 +2713,8 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(8, 1, 1, '2025-08-23 02:59:38', '2025-08-23 02:59:48', NULL, '436613', '2025-08-23 03:09:38', 1);
+(10, 17, 17, '2025-08-23 19:19:30', '2025-08-23 19:19:30', NULL, '446781', '2025-08-23 19:29:30', 0),
+(12, 4, 4, '2025-08-23 19:24:18', '2025-08-23 19:24:20', NULL, '340760', '2025-08-23 19:34:18', 1);
 
 -- --------------------------------------------------------
 
@@ -2659,38 +2750,8 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (5, 1, 1, '2025-08-22 08:26:01', '2025-08-22 08:26:16', NULL, '535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 'module/users/uploads/535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 72399, 'image/jpeg', 'db5dc9b5e63e2d99f123f9e42ab5f902239c4f8f9ba2674c54e2084159fc5a51', 600, 596, 1, 83);
 
 --
--- Table structure for table `module_users_defaults`
---
-
-CREATE TABLE `module_users_defaults` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `list_name` varchar(255) NOT NULL,
-  `item_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_users_defaults`
---
-
-
---
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `module_users_defaults`
---
-ALTER TABLE `module_users_defaults`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_module_users_defaults_user_list` (`user_id`,`list_name`),
-  ADD KEY `fk_module_users_defaults_user_id` (`user_id`),
-  ADD KEY `fk_module_users_defaults_user_updated` (`user_updated`),
-  ADD KEY `fk_module_users_defaults_item_id` (`item_id`);
 
 --
 -- Indexes for table `admin_audit_log`
@@ -3219,6 +3280,16 @@ ALTER TABLE `module_task_assignments`
   ADD KEY `fk_module_task_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
+-- Indexes for table `module_users_defaults`
+--
+ALTER TABLE `module_users_defaults`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_module_users_defaults_user_list` (`user_id`,`list_name`),
+  ADD KEY `fk_module_users_defaults_user_id` (`user_id`),
+  ADD KEY `fk_module_users_defaults_user_updated` (`user_updated`),
+  ADD KEY `fk_module_users_defaults_item_id` (`item_id`);
+
+--
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
@@ -3310,7 +3381,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3364,7 +3435,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3376,13 +3447,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -3454,13 +3525,13 @@ ALTER TABLE `module_contractors_contact_responses`
 -- AUTO_INCREMENT for table `module_contractors_files`
 --
 ALTER TABLE `module_contractors_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_notes`
 --
 ALTER TABLE `module_contractors_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_status_history`
@@ -3550,7 +3621,7 @@ ALTER TABLE `module_organization_persons`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_projects_answers`
@@ -3592,7 +3663,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3610,7 +3681,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
@@ -3625,10 +3696,16 @@ ALTER TABLE `module_task_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `module_users_defaults`
+--
+ALTER TABLE `module_users_defaults`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3646,25 +3723,25 @@ ALTER TABLE `person_phones`
 -- AUTO_INCREMENT for table `system_properties`
 --
 ALTER TABLE `system_properties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `system_properties_versions`
 --
 ALTER TABLE `system_properties_versions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -4059,6 +4136,14 @@ ALTER TABLE `module_task_assignments`
   ADD CONSTRAINT `fk_module_task_assignments_task_id` FOREIGN KEY (`task_id`) REFERENCES `module_tasks` (`id`);
 
 --
+-- Constraints for table `module_users_defaults`
+--
+ALTER TABLE `module_users_defaults`
+  ADD CONSTRAINT `fk_module_users_defaults_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_users_defaults_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_users_defaults_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
@@ -4089,14 +4174,6 @@ ALTER TABLE `person_phones`
   ADD CONSTRAINT `fk_person_phones_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_phones_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_phones_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_users_defaults`
---
-ALTER TABLE `module_users_defaults`
-  ADD CONSTRAINT `fk_module_users_defaults_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_users_defaults_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_users_defaults_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `users`

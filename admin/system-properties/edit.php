@@ -69,10 +69,11 @@ foreach($types as $t){
     <?php else: ?>
     <textarea class="form-control" name="value" required><?= htmlspecialchars($prop['value']); ?></textarea>
     <?php endif; ?>
+
   </div>
   <div class="mb-3">
     <label class="form-label">Memo</label>
-    <textarea class="form-control" name="memo"><?= htmlspecialchars($prop['memo']); ?></textarea>
+    <textarea class="form-control" name="memo"><?= htmlspecialchars($prop['memo'] ?? ''); ?></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
   <a href="index.php" class="btn btn-secondary">Cancel</a>

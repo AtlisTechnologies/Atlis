@@ -136,7 +136,7 @@
 
         <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0 d-flex align-items-center" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
             <div class="avatar avatar-l">
-              <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : 'assets/img/team/avatar.webp'); ?>" alt="<?php echo $this_user_name; ?>" />
+              <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : ('assets/img/team/' . ($this_user_gender_code === 'FEMALE' ? 'avatar-female.webp' : 'avatar.webp'))); ?>" alt="<?php echo $this_user_name; ?>" />
             </div>
             <span class="ms-2 d-none d-sm-inline"><?php echo $this_user_name; ?></span>
           </a>
@@ -145,7 +145,7 @@
               <div class="card-body p-0">
                 <div class="text-center pt-4 pb-3">
                   <div class="avatar avatar-xl ">
-                    <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : 'assets/img/team/avatar.webp'); ?>" alt="<?php echo $this_user_name; ?>" />
+                    <img class="rounded-circle" src="<?php echo getURLDir() . (!empty($this_user_profile_pic) ? $this_user_profile_pic : ('assets/img/team/' . ($this_user_gender_code === 'FEMALE' ? 'avatar-female.webp' : 'avatar.webp'))); ?>" alt="<?php echo $this_user_name; ?>" />
                   </div>
                   <h6 class="mt-2 text-body-emphasis"><?php echo $this_user_name; ?></h6>
                 </div>
