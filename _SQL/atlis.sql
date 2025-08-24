@@ -2577,7 +2577,12 @@ CREATE TABLE `users` (
   `current_profile_pic_id` int(11) DEFAULT NULL,
   `type` enum('ADMIN','USER') DEFAULT 'USER',
   `status` tinyint(1) DEFAULT 1,
-  `last_login` datetime DEFAULT NULL
+  `last_login` datetime DEFAULT NULL,
+  `JTIformer` tinyint(1) DEFAULT 0,
+  `JTIcurrent` tinyint(1) DEFAULT 0,
+  `JTI_start_date` date DEFAULT NULL,
+  `JTI_end_date` date DEFAULT NULL,
+  `JTI_Team` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

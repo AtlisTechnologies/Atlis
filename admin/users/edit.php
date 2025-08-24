@@ -12,6 +12,9 @@ $phones = [];
 $memo = [];
 $profile_pic = '';
 $profilePics = [];
+$JTIformer = $JTIcurrent = 0;
+$JTI_start_date = $JTI_end_date = '';
+$JTI_Team = '';
 
 $defaultPassword = '';
 
@@ -23,7 +26,7 @@ unset($_SESSION['form_errors'], $_SESSION['error_message']);
 
 if ($id) {
   require_permission('users','update');
-  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, p.id AS person_id, p.first_name, p.last_name, p.gender_id, p.dob, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
+  $stmt = $pdo->prepare('SELECT u.email, u.current_profile_pic_id, u.memo, u.JTIformer, u.JTIcurrent, u.JTI_start_date, u.JTI_end_date, u.JTI_Team, p.id AS person_id, p.first_name, p.last_name, p.gender_id, p.dob, up.file_path AS profile_path FROM users u LEFT JOIN person p ON u.id = p.user_id LEFT JOIN users_profile_pics up ON u.current_profile_pic_id = up.id WHERE u.id = :id');
   $stmt->execute([':id' => $id]);
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $email = $row['email'];
@@ -34,6 +37,11 @@ if ($id) {
     $gender_id = $row['gender_id'] ?? null;
     $dob = $row['dob'] ?? '';
     $person_id = $row['person_id'] ?? null;
+    $JTIformer = (int)($row['JTIformer'] ?? 0);
+    $JTIcurrent = (int)($row['JTIcurrent'] ?? 0);
+    $JTI_start_date = $row['JTI_start_date'] ?? '';
+    $JTI_end_date = $row['JTI_end_date'] ?? '';
+    $JTI_Team = $row['JTI_Team'] ?? '';
 
     if ($person_id) {
       $stmt = $pdo->prepare('SELECT * FROM person_addresses WHERE person_id = :pid');
@@ -203,6 +211,40 @@ $_SESSION['csrf_token'] = $token;
             <label for="dob">Date of Birth</label>
           </div>
         </div>
+        <div class="col-sm-6 col-md-4 d-flex align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="JTIformer" name="JTIformer" value="1" <?php echo $JTIformer ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="JTIformer">Former JTI Employee</label>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 d-flex align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="JTIcurrent" name="JTIcurrent" value="1" <?php echo $JTIcurrent ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="JTIcurrent">Current JTI Employee</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div id="jti-details" class="row g-3 d-none">
+            <div class="col-sm-6 col-md-4">
+              <div class="form-floating">
+                <input type="date" class="form-control" id="JTI_start_date" name="JTI_start_date" placeholder="JTI Start Date" value="<?php echo htmlspecialchars($JTI_start_date); ?>">
+                <label for="JTI_start_date">JTI Start Date</label>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="form-floating">
+                <input type="date" class="form-control" id="JTI_end_date" name="JTI_end_date" placeholder="JTI End Date" value="<?php echo htmlspecialchars($JTI_end_date); ?>">
+                <label for="JTI_end_date">JTI End Date</label>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="JTI_Team" name="JTI_Team" placeholder="JTI Team" value="<?php echo htmlspecialchars($JTI_Team); ?>">
+                <label for="JTI_Team">JTI Team</label>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-12">
           <h5 class="mt-4">Phone Numbers</h5>
           <div id="phones-container">
@@ -283,6 +325,28 @@ document.addEventListener('DOMContentLoaded', function () {
           uploadInput.value = '';
         });
     });
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function toggleJTIDetails() {
+    var container = document.getElementById('jti-details');
+    if (!container) return;
+    var show = document.getElementById('JTIformer').checked || document.getElementById('JTIcurrent').checked;
+    if (show) {
+      container.classList.remove('d-none');
+    } else {
+      container.classList.add('d-none');
+    }
+  }
+  var f = document.getElementById('JTIformer');
+  var c = document.getElementById('JTIcurrent');
+  if (f && c) {
+    f.addEventListener('change', toggleJTIDetails);
+    c.addEventListener('change', toggleJTIDetails);
+    toggleJTIDetails();
   }
 });
 </script>

@@ -20,6 +20,13 @@ $organization_id = isset($_POST['organization_id']) && $_POST['organization_id']
 $agency_id = isset($_POST['agency_id']) && $_POST['agency_id'] !== '' ? (int)$_POST['agency_id'] : null;
 $division_id = isset($_POST['division_id']) && $_POST['division_id'] !== '' ? (int)$_POST['division_id'] : null;
 $dob = $_POST['dob'] ?? '';
+$JTIformer = isset($_POST['JTIformer']) ? 1 : 0;
+$JTIcurrent = isset($_POST['JTIcurrent']) ? 1 : 0;
+$JTI_start_date = $_POST['JTI_start_date'] ?? null;
+$JTI_end_date = $_POST['JTI_end_date'] ?? null;
+$JTI_Team = trim($_POST['JTI_Team'] ?? '');
+if ($JTI_start_date === '') { $JTI_start_date = null; }
+if ($JTI_end_date === '') { $JTI_end_date = null; }
 
 function get_status_id(PDO $pdo, string $code): int {
   $stmt = $pdo->prepare("SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE l.name = 'USER_PROFILE_PIC_STATUS' AND li.code = :code LIMIT 1");
@@ -185,10 +192,15 @@ try {
   $pdo->beginTransaction();
   $person_id = 0;
   if ($isUpdate) {
-    $fields = 'email = :email, memo = :memo, user_updated = :uid';
+    $fields = 'email = :email, memo = :memo, JTIformer = :JTIformer, JTIcurrent = :JTIcurrent, JTI_start_date = :JTI_start_date, JTI_end_date = :JTI_end_date, JTI_Team = :JTI_Team, user_updated = :uid';
     $params = [
       ':email' => $email,
       ':memo' => $memo,
+      ':JTIformer' => $JTIformer,
+      ':JTIcurrent' => $JTIcurrent,
+      ':JTI_start_date' => $JTI_start_date,
+      ':JTI_end_date' => $JTI_end_date,
+      ':JTI_Team' => $JTI_Team,
       ':uid' => $this_user_id,
       ':id' => $id
     ];
@@ -233,12 +245,17 @@ try {
       admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Created person');
     }
   } else {
-    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo) VALUES (:uid, :uid, :email, :password, :memo)');
+    $stmt = $pdo->prepare('INSERT INTO users (user_id, user_updated, email, password, memo, JTIformer, JTIcurrent, JTI_start_date, JTI_end_date, JTI_Team) VALUES (:uid, :uid, :email, :password, :memo, :JTIformer, :JTIcurrent, :JTI_start_date, :JTI_end_date, :JTI_Team)');
     $stmt->execute([
       ':uid' => $this_user_id,
       ':email' => $email,
       ':password' => $hash,
-      ':memo' => $memo
+      ':memo' => $memo,
+      ':JTIformer' => $JTIformer,
+      ':JTIcurrent' => $JTIcurrent,
+      ':JTI_start_date' => $JTI_start_date,
+      ':JTI_end_date' => $JTI_end_date,
+      ':JTI_Team' => $JTI_Team
     ]);
     $id = (int)$pdo->lastInsertId();
 
