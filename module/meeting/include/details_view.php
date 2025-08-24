@@ -211,27 +211,12 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  fetch('functions/get_agenda.php?meeting_id=' + meetingId)
-    .then(r => r.json())
-    .then(function(data){
-      if(data.success && data.items.length){
-        fetch('include/agenda_item.php').then(r=>r.text()).then(function(template){
-          data.items.forEach(function(item){
-            agendaMap[item.id] = item.title;
-            var temp = document.createElement('div');
-            temp.innerHTML = template.trim();
-            var li = temp.firstElementChild;
-            li.querySelector('input[name="agenda_titles[]"]').value = item.title;
-            li.querySelector('input[name="agenda_presenters[]"]').value = item.presenter || '';
-            li.querySelector('input[name="agenda_durations[]"]').value = item.duration || '';
-            li.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
-            var btn = li.querySelector('.remove-agenda-item');
-            if(btn) btn.remove();
-            agendaList.appendChild(li);
-          });
-          updateAgendaSelect();
-        });
-      } else {
+  function renderAgenda(items){
+    agendaList.innerHTML = '';
+    agendaMap = {};
+    if(items && items.length){
+      items.forEach(function(item){
+        agendaMap[item.id] = item.title;
         var li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         li.dataset.id = item.id;
@@ -245,11 +230,30 @@ document.addEventListener('DOMContentLoaded', function(){
         if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(item.linked_project_id)+'</a>'); }
         if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' | ')+'</small>'; }
         left += '</span>';
-        li.innerHTML = left + '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-agenda-item">Edit</button><button class="btn btn-outline-danger delete-agenda-item">Delete</button></div>';
+        var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-agenda-item">Edit</button><button class="btn btn-outline-danger delete-agenda-item">Delete</button></div>' : '';
+        li.innerHTML = left + buttons
+          + '<input type="hidden" name="agenda_title[]" value="'+esc(item.title)+'">'
+          + '<input type="hidden" name="agenda_status_id[]" value="'+esc(item.status_id || '')+'">'
+          + '<input type="hidden" name="agenda_linked_task_id[]" value="'+esc(item.linked_task_id || '')+'">'
+          + '<input type="hidden" name="agenda_linked_project_id[]" value="'+esc(item.linked_project_id || '')+'">';
         agendaList.appendChild(li);
-        updateAgendaSelect();
-      }
-    });
+      });
+    } else {
+      agendaList.innerHTML = '<li class="list-group-item">No agenda items.</li>';
+    }
+    updateAgendaSelect();
+  }
+
+  function fetchAgenda(){
+    fetch('functions/get_agenda.php?meeting_id=' + meetingId)
+      .then(r => r.json())
+      .then(function(data){
+        if(data.success){
+          renderAgenda(data.items);
+        } else {
+          renderAgenda([]);
+        }
+      });
   }
 
   agendaList.addEventListener('click', function(e){
