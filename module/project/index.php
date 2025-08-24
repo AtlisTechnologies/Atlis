@@ -171,18 +171,19 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
           'SELECT t.id, t.name, t.status, t.priority, t.due_date, t.completed, ' .
           'li.label AS status_label, COALESCE(attr.attr_value, "secondary") AS status_color, ' .
           'lp.label AS priority_label, COALESCE(pattr.attr_value, "secondary") AS priority_color, ' .
+          'CASE WHEN pa.id IS NULL THEN 0 ELSE 1 END AS project_assigned, ' .
           '(SELECT COUNT(*) FROM module_tasks_files tf WHERE tf.task_id = t.id) AS attachment_count ' .
           'FROM module_tasks t ' .
           'JOIN module_projects p ON t.project_id = p.id ' .
+          'LEFT JOIN module_projects_assignments pa ON pa.project_id = p.id AND pa.assigned_user_id = :uid ' .
           'LEFT JOIN lookup_list_items li ON t.status = li.id ' .
           'LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "COLOR-CLASS" ' .
           'LEFT JOIN lookup_list_items lp ON t.priority = lp.id ' .
           'LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = "COLOR-CLASS" ' .
           'WHERE t.project_id = :id';
-        $taskParams = [':id' => $project_id];
+        $taskParams = [':id' => $project_id, ':uid' => $this_user_id];
         if (!user_has_role('Admin')) {
           $taskSql .= ' AND (p.is_private = 0 OR p.user_id = :uid)';
-          $taskParams[':uid'] = $this_user_id;
         }
         $taskSql .= ' ORDER BY t.status, t.due_date';
         $tasksStmt = $pdo->prepare($taskSql);
