@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 08:53 PM
+-- Generation Time: Aug 24, 2025 at 11:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -222,9 +222,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (8, 'Navigation Links', 'navigation.php', 'settings', 10, 1, 1, '2025-08-20 00:37:23', '2025-08-24 01:54:11', NULL),
 (9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL),
 (11, 'Meetings', 'meetings/index.php', 'cpu', 6, 1, 1, '2025-08-26 00:00:00', '2025-08-24 01:45:00', NULL),
-(12, 'Branding', 'branding/index.php', 'palette', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 01:54:11', NULL),
+(12, 'Branding', 'branding/index.php', 'aperture', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 15:40:51', NULL),
 (13, 'Products & Services', 'products-services/index.php', 'box', 11, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL);
-
 
 -- --------------------------------------------------------
 
@@ -834,7 +833,9 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (157, 1, 1, '2025-08-24 11:33:43', '2025-08-24 11:33:43', NULL, 'module_task_assignments', 42, 'ASSIGN', 'Assigned user'),
 (158, 1, 1, '2025-08-24 11:33:44', '2025-08-24 11:33:44', NULL, 'module_task_assignments', 43, 'ASSIGN', 'Assigned user'),
 (159, 1, 1, '2025-08-24 11:33:45', '2025-08-24 11:33:45', NULL, 'module_task_assignments', 44, 'ASSIGN', 'Assigned user'),
-(160, 1, 1, '2025-08-24 11:33:54', '2025-08-24 11:33:54', NULL, 'module_task_assignments', 45, 'ASSIGN', 'Assigned user');
+(160, 1, 1, '2025-08-24 11:33:54', '2025-08-24 11:33:54', NULL, 'module_task_assignments', 45, 'ASSIGN', 'Assigned user'),
+(161, 1, 1, '2025-08-24 14:34:13', '2025-08-24 14:34:13', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
+(162, 1, 1, '2025-08-24 14:34:37', '2025-08-24 14:34:37', NULL, 'users', 1, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -2045,6 +2046,44 @@ INSERT INTO `module_organization_persons` (`id`, `user_id`, `user_updated`, `dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_products_services`
+--
+
+CREATE TABLE `module_products_services` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `description` text DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_products_services_person`
+--
+
+CREATE TABLE `module_products_services_person` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `product_service_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_projects`
 --
 
@@ -2671,62 +2710,6 @@ INSERT INTO `module_users_defaults` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_products_services`
---
-
-CREATE TABLE `module_products_services` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `status_id` int(11) NOT NULL,
-  `description` text DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `person_skills`
---
-
-CREATE TABLE `person_skills` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `person_id` int(11) NOT NULL,
-  `skill_id` int(11) NOT NULL,
-  `level_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_products_services_person`
---
-
-CREATE TABLE `module_products_services_person` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `product_service_id` int(11) NOT NULL,
-  `person_id` int(11) NOT NULL,
-  `skill_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `person`
 --
 
@@ -2842,6 +2825,24 @@ INSERT INTO `person_phones` (`id`, `user_id`, `user_updated`, `date_created`, `d
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `person_skills`
+--
+
+CREATE TABLE `person_skills` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `person_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `system_properties`
 --
 
@@ -2930,7 +2931,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-24 10:05:19', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-24 10:05:19', 0, 0, NULL, NULL, NULL),
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-24 14:34:32', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-24 14:34:32', 0, 0, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (4, 1, 1, '2025-08-17 22:17:49', '2025-08-23 19:24:18', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, '2025-08-23 19:24:18', 0, 0, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
@@ -2968,7 +2969,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(13, 1, 1, '2025-08-24 10:05:19', '2025-08-24 10:05:28', NULL, '177514', '2025-08-24 10:15:19', 1);
+(14, 1, 1, '2025-08-24 14:34:32', '2025-08-24 14:34:37', NULL, '936749', '2025-08-24 14:44:32', 1);
 
 -- --------------------------------------------------------
 
@@ -3414,6 +3415,27 @@ ALTER TABLE `module_organization_persons`
   ADD KEY `fk_module_organization_persons_role_id` (`role_id`);
 
 --
+-- Indexes for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_products_services_user_id` (`user_id`),
+  ADD KEY `fk_module_products_services_user_updated` (`user_updated`),
+  ADD KEY `fk_module_products_services_type_id` (`type_id`),
+  ADD KEY `fk_module_products_services_status_id` (`status_id`);
+
+--
+-- Indexes for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_products_services_person_user_id` (`user_id`),
+  ADD KEY `fk_module_products_services_person_user_updated` (`user_updated`),
+  ADD KEY `fk_module_products_services_person_product_service_id` (`product_service_id`),
+  ADD KEY `fk_module_products_services_person_person_id` (`person_id`),
+  ADD KEY `fk_module_products_services_person_skill_id` (`skill_id`);
+
+--
 -- Indexes for table `module_projects`
 --
 ALTER TABLE `module_projects`
@@ -3554,38 +3576,6 @@ ALTER TABLE `module_users_defaults`
   ADD KEY `fk_module_users_defaults_item_id` (`item_id`);
 
 --
--- Indexes for table `module_products_services`
---
-ALTER TABLE `module_products_services`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_products_services_user_id` (`user_id`),
-  ADD KEY `fk_module_products_services_user_updated` (`user_updated`),
-  ADD KEY `fk_module_products_services_type_id` (`type_id`),
-  ADD KEY `fk_module_products_services_status_id` (`status_id`);
-
---
--- Indexes for table `person_skills`
---
-ALTER TABLE `person_skills`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_person_skills_user_id` (`user_id`),
-  ADD KEY `fk_person_skills_user_updated` (`user_updated`),
-  ADD KEY `fk_person_skills_person_id` (`person_id`),
-  ADD KEY `fk_person_skills_skill_id` (`skill_id`),
-  ADD KEY `fk_person_skills_level_id` (`level_id`);
-
---
--- Indexes for table `module_products_services_person`
---
-ALTER TABLE `module_products_services_person`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_products_services_person_user_id` (`user_id`),
-  ADD KEY `fk_module_products_services_person_user_updated` (`user_updated`),
-  ADD KEY `fk_module_products_services_person_product_service_id` (`product_service_id`),
-  ADD KEY `fk_module_products_services_person_person_id` (`person_id`),
-  ADD KEY `fk_module_products_services_person_skill_id` (`skill_id`);
-
---
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
@@ -3619,6 +3609,17 @@ ALTER TABLE `person_phones`
   ADD KEY `fk_person_phones_person_id` (`person_id`),
   ADD KEY `fk_person_phones_type_id` (`type_id`),
   ADD KEY `fk_person_phones_status_id` (`status_id`);
+
+--
+-- Indexes for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_person_skills_user_id` (`user_id`),
+  ADD KEY `fk_person_skills_user_updated` (`user_updated`),
+  ADD KEY `fk_person_skills_person_id` (`person_id`),
+  ADD KEY `fk_person_skills_skill_id` (`skill_id`),
+  ADD KEY `fk_person_skills_level_id` (`level_id`);
 
 --
 -- Indexes for table `system_properties`
@@ -3731,7 +3732,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3920,6 +3921,18 @@ ALTER TABLE `module_organization_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
@@ -4004,24 +4017,6 @@ ALTER TABLE `module_users_defaults`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `module_products_services`
---
-ALTER TABLE `module_products_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `person_skills`
---
-ALTER TABLE `person_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `module_products_services_person`
---
-ALTER TABLE `module_products_services_person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
@@ -4038,6 +4033,12 @@ ALTER TABLE `person_addresses`
 --
 ALTER TABLE `person_phones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `system_properties`
@@ -4061,7 +4062,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -4379,6 +4380,25 @@ ALTER TABLE `module_organization_persons`
   ADD CONSTRAINT `fk_module_organization_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  ADD CONSTRAINT `fk_module_products_services_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_products_services_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_products_services_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  ADD CONSTRAINT `fk_module_products_services_person_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_products_services_person_product_service_id` FOREIGN KEY (`product_service_id`) REFERENCES `module_products_services` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_products_services_person_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_products_services_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_projects`
 --
 ALTER TABLE `module_projects`
@@ -4473,35 +4493,6 @@ ALTER TABLE `module_users_defaults`
   ADD CONSTRAINT `fk_module_users_defaults_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `module_products_services`
---
-ALTER TABLE `module_products_services`
-  ADD CONSTRAINT `fk_module_products_services_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_products_services_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_products_services_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_products_services_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
-
---
--- Constraints for table `person_skills`
---
-ALTER TABLE `person_skills`
-  ADD CONSTRAINT `fk_person_skills_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_person_skills_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_person_skills_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_person_skills_level_id` FOREIGN KEY (`level_id`) REFERENCES `lookup_list_items` (`id`);
-
---
--- Constraints for table `module_products_services_person`
---
-ALTER TABLE `module_products_services_person`
-  ADD CONSTRAINT `fk_module_products_services_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_products_services_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_products_services_person_product_service_id` FOREIGN KEY (`product_service_id`) REFERENCES `module_products_services` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_products_services_person_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_products_services_person_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`);
-
---
 -- Constraints for table `person`
 --
 ALTER TABLE `person`
@@ -4534,6 +4525,16 @@ ALTER TABLE `person_phones`
   ADD CONSTRAINT `fk_person_phones_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  ADD CONSTRAINT `fk_person_skills_level_id` FOREIGN KEY (`level_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_skills_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_person_skills_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_skills_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
@@ -4550,7 +4551,6 @@ ALTER TABLE `users_profile_pics`
   ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
--- --------------------------------------------------------
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
