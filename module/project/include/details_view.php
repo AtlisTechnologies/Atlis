@@ -555,6 +555,7 @@ if (!empty($current_project)) {
                     <div class="avatar avatar-m"><img class="rounded-circle" src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
                     <p class="mb-1 fw-semibold flex-grow-1 ms-2"><?= nl2br(h($q['question_text'])) ?></p>
                     <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                    <button class="btn btn-primary btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editQuestionModal<?= (int)$q['id'] ?>"><span class="fa-solid fa-pencil"></span></button>
                     <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
                       <input type="hidden" name="id" value="<?= (int)$q['id'] ?>">
                       <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
@@ -598,6 +599,7 @@ if (!empty($current_project)) {
                           <div class="d-flex">
                             <p class="mb-1 flex-grow-1"><?= nl2br(h($a['answer_text'])) ?></p>
                             <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($a['user_id'] ?? 0) == $this_user_id)): ?>
+                            <button class="btn btn-primary btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editAnswerModal<?= (int)$a['id'] ?>"><span class="fa-solid fa-pencil"></span></button>
                             <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
                               <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
                               <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
@@ -643,6 +645,56 @@ if (!empty($current_project)) {
                     </form>
                   </div>
                 </div>
+                <?php endif; ?>
+
+                <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                <div class="modal fade" id="editQuestionModal<?= (int)$q['id'] ?>" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form class="modal-content edit-question-form" method="post" action="functions/edit_question.php">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Edit Question</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" name="id" value="<?= (int)$q['id'] ?>">
+                        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                        <div class="mb-3">
+                          <textarea class="form-control" name="question_text" rows="3" required><?= h($q['question_text']) ?></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($questionAnswers[$q['id']])): ?>
+                  <?php foreach ($questionAnswers[$q['id']] as $a): ?>
+                    <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($a['user_id'] ?? 0) == $this_user_id)): ?>
+                    <div class="modal fade" id="editAnswerModal<?= (int)$a['id'] ?>" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <form class="modal-content edit-answer-form" method="post" action="functions/edit_answer.php">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Answer</h5>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
+                            <input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
+                            <div class="mb-3">
+                              <textarea class="form-control" name="answer_text" rows="3" required><?= h($a['answer_text']) ?></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
                 <?php endif; ?>
               <?php endforeach; ?>
             <?php else: ?>
@@ -888,6 +940,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     fileModal.addEventListener('hidden.bs.modal', function(){ var content=document.getElementById('modalContent'); if(content){ content.innerHTML=''; } });
   }
+  document.querySelectorAll('.edit-question-form, .edit-answer-form').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var fd = new FormData(form);
+      fetch(form.getAttribute('action'), {method:'POST', body: fd})
+        .then(r=>r.json()).then(function(d){ if(d.success){ window.location.reload(); } });
+    });
+  });
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
 
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
