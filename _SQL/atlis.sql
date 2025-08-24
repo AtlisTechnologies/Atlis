@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 06:14 AM
+-- Generation Time: Aug 24, 2025 at 08:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2146,7 +2146,8 @@ INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_creat
 (5, 1, 1, '2025-08-23 01:48:24', '2025-08-23 01:48:24', NULL, 13),
 (6, 1, 1, '2025-08-23 01:48:48', '2025-08-23 01:48:48', NULL, 14),
 (9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2),
-(10, 1, 1, '2025-08-23 02:27:09', '2025-08-23 02:27:09', NULL, 17);
+(10, 1, 1, '2025-08-23 02:27:09', '2025-08-23 02:27:09', NULL, 17),
+(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22);
 
 -- --------------------------------------------------------
 
@@ -2172,25 +2173,6 @@ CREATE TABLE `module_projects_questions` (
 INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `question_text`) VALUES
 (1, 1, 1, '2025-08-22 21:57:39', '2025-08-22 21:57:39', NULL, 15, 'This is the first question !'),
 (2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_projects_pins`
---
-
-CREATE TABLE `module_projects_pins` (
-  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT(11) NOT NULL,           -- FK to users.id
-  `user_updated` INT(11) DEFAULT NULL,
-  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `memo` TEXT DEFAULT NULL,
-  `project_id` INT(11) NOT NULL,        -- FK to module_projects.id
-  UNIQUE KEY `uq_user_project` (`user_id`,`project_id`),
-  CONSTRAINT `fk_project_pin_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
-  CONSTRAINT `fk_project_pin_project` FOREIGN KEY (`project_id`) REFERENCES `module_projects`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2693,21 +2675,21 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 19:19:43', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 19:19:43'),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-23 19:24:18', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, '2025-08-23 19:24:18'),
-(5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL),
-(6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL),
-(7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL),
-(8, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:45:17', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$k4v0J28VQpsDQUBGsWd/VevbNh329jZiCY5NBxhzzBub6QdrvrZYK', 0, NULL, 'USER', 1, NULL),
-(9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL),
-(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL),
-(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
-(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL),
-(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL),
-(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL),
-(15, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'chris@doc.com', '$2y$10$4jkkJwdy6.9jUVTWIEMopeoKaztrDeqFhR5LmwIjhLz7e6c5wSNvm', 0, NULL, 'USER', 1, NULL);
+INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-23 19:19:43', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-23 19:19:43', 0, 0, NULL, NULL, NULL),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-23 19:24:18', NULL, 'soup@atlistechnologies.com', '$2y$10$ZfDbGKjkTQPmyHJSgRsAx.cln1OEhDNdAb8rgpV68fr9q/NWAU17O', 0, NULL, 'USER', 1, '2025-08-23 19:24:18', 0, 0, NULL, NULL, NULL),
+(5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(8, 1, 1, '2025-08-20 14:44:46', '2025-08-20 14:45:17', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$k4v0J28VQpsDQUBGsWd/VevbNh329jZiCY5NBxhzzBub6QdrvrZYK', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
+(15, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'chris@doc.com', '$2y$10$4jkkJwdy6.9jUVTWIEMopeoKaztrDeqFhR5LmwIjhLz7e6c5wSNvm', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3670,7 +3652,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
