@@ -62,7 +62,7 @@
       <tbody class="list" id="project-summary-table-body">
         <?php foreach ($projects as $project): ?>
 
-        <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-atlis border-3' : ''; ?>" data-pinned="<?= (int)$project['pinned']; ?>">
+        <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-atlis border-3' : ''; ?>" data-pinned="<?= $project['pinned'] ? 1 : 0; ?>">
           <td class="align-middle text-center">
             <?php if (user_has_permission('project','read')): ?>
             <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
@@ -151,8 +151,8 @@ function setupProjectList() {
   function sortRows() {
     projectList.sort('', {
       sortFunction: (a, b) => {
-        const pinnedA = a.elm.dataset.pinned === '1';
-        const pinnedB = b.elm.dataset.pinned === '1';
+        const pinnedA = Number(a.elm.dataset.pinned) === 1;
+        const pinnedB = Number(b.elm.dataset.pinned) === 1;
         if (pinnedA !== pinnedB) {
           return pinnedA ? -1 : 1;
         }
