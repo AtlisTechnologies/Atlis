@@ -18,7 +18,7 @@ if ($question_id && $project_id) {
       if (is_file($fullPath)) {
         unlink($fullPath);
       }
-      admin_audit_log($pdo, $this_user_id, 'module_projects_files', $file['id'], 'DELETE', json_encode(['file' => $file['file_name']]), '');
+      admin_audit_log($pdo, $this_user_id, 'module_projects_files', $file['id'], 'DELETE', '', json_encode(['file' => $file['file_name']]));
     }
     $stmtA = $pdo->prepare('SELECT id, answer_text FROM module_projects_answers WHERE question_id = :qid');
     $stmtA->execute([':qid' => $question_id]);

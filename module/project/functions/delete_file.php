@@ -20,7 +20,7 @@ if ($id && $project_id) {
     if (is_file($fullPath)) {
       unlink($fullPath);
     }
-    admin_audit_log($pdo, $this_user_id, 'module_projects_files', $id, 'DELETE', json_encode(['file' => $file['file_name']]), '');
+    admin_audit_log($pdo, $this_user_id, 'module_projects_files', $id, 'DELETE', '', json_encode(['file' => $file['file_name']]));
   }
 }
 
