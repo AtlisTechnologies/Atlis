@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 04:32 AM
+-- Generation Time: Aug 24, 2025 at 06:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -164,7 +164,8 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (115, 1, 1, '2025-08-23 20:21:02', '2025-08-23 20:21:02', NULL, 'module_contractors_notes', 4, 'NOTE', '', '', 'Sent a signed work agreement and in the contract put in 5 hours per week at $58/hr and to invoice every ~2 weeks.'),
 (116, 1, 1, '2025-08-23 20:24:10', '2025-08-23 20:24:10', NULL, 'module_contractors_notes', 5, 'NOTE', '', '', 'Richard has helped Atlis for I\'m guessing around 8 hours of creating templates for contracts. I need to compensate him somehow soon. I also need him, or a different technical contract writer, to be much more involved.'),
 (117, 1, 1, '2025-08-23 20:24:27', '2025-08-23 20:24:27', NULL, 'module_contractors_notes', 6, 'NOTE', '', '', 'I NEED TO UPDATE RICHARD\'S WORK AGREEMENT WITH ATLIS.'),
-(118, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 'module_projects', 22, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"ATLIS TECHNOLOGIES - CORPORATE PROJECTS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}');
+(118, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 'module_projects', 22, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"ATLIS TECHNOLOGIES - CORPORATE PROJECTS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}'),
+(119, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 'module_tasks_notes', 39, 'NOTE', '', '', 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
 
 -- --------------------------------------------------------
 
@@ -733,7 +734,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (105, 1, 1, '2025-08-23 20:17:56', '2025-08-23 20:17:56', NULL, 'lookup_list_items', 123, 'UPDATE', 'Updated lookup list item'),
 (106, 1, 1, '2025-08-23 20:25:52', '2025-08-23 20:25:52', NULL, 'lookup_list_items', 0, 'CREATE', 'Created lookup list item'),
 (107, 1, 1, '2025-08-23 20:26:00', '2025-08-23 20:26:00', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
-(108, 1, 1, '2025-08-23 20:26:14', '2025-08-23 20:26:14', NULL, 'module_projects', 4, 'UPDATE', 'Updated project');
+(108, 1, 1, '2025-08-23 20:26:14', '2025-08-23 20:26:14', NULL, 'module_projects', 4, 'UPDATE', 'Updated project'),
+(109, 1, 1, '2025-08-23 20:55:32', '2025-08-23 20:55:32', NULL, 'module_tasks', 73, 'CREATE', 'Created task'),
+(110, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 'module_tasks', 74, 'CREATE', 'Created task'),
+(111, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 'module_tasks', 75, 'CREATE', 'Created task'),
+(112, 1, 1, '2025-08-23 21:56:27', '2025-08-23 21:56:27', NULL, 'module_tasks', 73, 'UPDATE', 'Completed task');
 
 -- --------------------------------------------------------
 
@@ -2273,7 +2278,10 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (69, 1, 1, '2025-08-23 12:01:00', '2025-08-23 12:01:00', NULL, 20, NULL, NULL, 0, 'INSTALL THE BACK SLIDING DOOR CURTAIN', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (70, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 20, NULL, NULL, 0, 'HANG LONG MIRROR IN OUR BEDROOM ON WALL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (71, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 10, NULL, NULL, 0, 'RIZATRIPTAN - request minty disintegrating', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(73, 1, 1, '2025-08-23 20:55:32', '2025-08-23 21:56:27', NULL, 10, NULL, NULL, 0, 'FIX THE DOOR KNOB ON EMRYS CLOSET', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
+(74, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 10, NULL, NULL, 0, 'FIX EMRY\'S BEDROOM DRESSER', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(75, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 10, NULL, NULL, 0, 'INSTALL LONG MIRROR IN OUR ROOM', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2376,7 +2384,8 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (35, 1, 1, '2025-08-22 21:36:39', '2025-08-22 21:36:39', NULL, 58, 'https://www.illinoiscourts.gov/courts-directory/34/McLean-County-Law-and-Justice-Center/court/'),
 (36, 1, 1, '2025-08-22 21:36:42', '2025-08-22 21:36:42', NULL, 58, 'https://www.mcleancountyil.gov/81/Circuit-Court'),
 (37, 1, 1, '2025-08-22 21:36:59', '2025-08-22 21:36:59', NULL, 58, 'McLean County Circuit Court - 2025 Judicial Assignments\r\nhttps://www.mcleancountyil.gov/DocumentCenter/View/28840/2025-Judicial-Assignments'),
-(38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm');
+(38, 1, 1, '2025-08-23 02:31:34', '2025-08-23 02:31:34', NULL, 40, 'Email sent with Lake\'s AUPs on 8/22/2025 at 3:48pm'),
+(39, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 73, 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
 
 -- --------------------------------------------------------
 
@@ -3367,7 +3376,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3421,7 +3430,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3649,7 +3658,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3667,7 +3676,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
