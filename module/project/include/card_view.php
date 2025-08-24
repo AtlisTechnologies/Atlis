@@ -63,6 +63,9 @@ foreach ($projects as $proj) {
     <div class="card h-100 hover-actions-trigger">
       <div class="card-body position-relative">
         <div class="d-flex align-items-center">
+          <button class="btn btn-link p-0 me-2 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
+            <span class="fa-solid fa-thumbtack <?php echo $project['pinned'] ? 'text-warning' : 'text-body-tertiary'; ?>"></span>
+          </button>
           <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5"><a href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><?php echo h($project['name']); ?></a></h4>
           <div class="hover-actions top-0 end-0 mt-4 me-4"><a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a></div>
         </div>
@@ -117,6 +120,34 @@ document.addEventListener('click', function (e) {
     var img = document.getElementById('modalImage');
     if (img) { img.src = src; }
   }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.pin-toggle').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.preventDefault();
+      const projectId = btn.dataset.projectId;
+      const icon = btn.querySelector('span');
+      if (!projectId || !icon) return;
+      try {
+        const res = await fetch('functions/toggle_pin.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ project_id: projectId })
+        });
+        const data = await res.json();
+        if (data.pinned) {
+          icon.classList.add('text-warning');
+          icon.classList.remove('text-body-tertiary');
+        } else {
+          icon.classList.add('text-body-tertiary');
+          icon.classList.remove('text-warning');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
 });
 </script>
 

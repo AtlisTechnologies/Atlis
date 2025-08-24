@@ -46,7 +46,7 @@ $sql = "SELECT p.id,
                COUNT(t.id) AS total_tasks,
                SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks,
                SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress,
-               COALESCE(mp.id, 0) AS pinned
+               pp.id AS pinned
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
@@ -54,17 +54,14 @@ $sql = "SELECT p.id,
         LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = 'COLOR-CLASS'
         LEFT JOIN module_agency a ON p.agency_id = a.id
         LEFT JOIN module_division d ON p.division_id = d.id
+        LEFT JOIN module_projects_pins pp ON pp.project_id = p.id AND pp.user_id = :uid
         LEFT JOIN module_tasks t ON t.project_id = p.id
-        LEFT JOIN module_projects_pins mp ON mp.project_id = p.id AND mp.user_id = :uid";
+        GROUP BY p.id
+        ORDER BY (pp.id IS NOT NULL) DESC, p.name";
 
-$params = [':uid' => $this_user_id];
-if (!user_has_role('Admin')) {
-  $sql .= " WHERE p.is_private = 0 OR p.user_id = :uid";
-}
-
-$sql .= " GROUP BY p.id ORDER BY pinned DESC, p.name";
 $stmt = $pdo->prepare($sql);
-$stmt->execute($params);
+$stmt->execute([':uid' => $this_user_id]);
+
 $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $assignStmt = $pdo->query("SELECT pa.project_id, pa.assigned_user_id, upp.file_path AS user_pic, CONCAT(per.first_name, ' ', per.last_name) AS name
