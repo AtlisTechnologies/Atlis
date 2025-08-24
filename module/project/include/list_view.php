@@ -196,4 +196,5 @@ if (document.readyState === 'loading') {
 } else {
   setupProjectList();
 }
+
 </script>

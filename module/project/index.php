@@ -149,7 +149,7 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
         $questionFiles[$qf['question_id']][] = $qf;
       }
 
-      $questionsStmt = $pdo->prepare('SELECT q.id, q.user_id, q.question_text, q.date_created, upp.file_path, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE q.project_id = :id ORDER BY q.date_created DESC');
+      $questionsStmt = $pdo->prepare('SELECT q.id, q.user_id, q.question_text, q.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_questions q LEFT JOIN users u ON q.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE q.project_id = :id ORDER BY q.date_created DESC');
 
       $questionsStmt->execute([':id' => $project_id]);
       $questions = $questionsStmt->fetchAll(PDO::FETCH_ASSOC);
