@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 12:30 AM
+-- Generation Time: Aug 24, 2025 at 03:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -139,7 +139,20 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (90, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person', 27, 'UPDATE', 'Updated person', '{\"id\":27,\"user_id\":10,\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"email\":null,\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null,\"user_updated\":1,\"date_created\":\"2025-08-20 20:47:24\",\"date_updated\":\"2025-08-20 20:47:24\",\"memo\":null}', '{\"first_name\":\"Emma\",\"last_name\":\"Baylor\",\"gender_id\":60,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
 (91, 1, 1, '2025-08-23 15:03:55', '2025-08-23 15:03:55', NULL, 'person_phones', 4, 'UPDATE', 'Updated phone', NULL, '{\":pid\":27,\":type_id\":115,\":status_id\":105,\":start_date\":\"2025-08-20\",\":end_date\":null,\":number\":\"4436179726\",\":uid\":1,\":id\":4}'),
 (92, 1, 1, '2025-08-23 15:54:59', '2025-08-23 15:54:59', NULL, 'module_projects_notes', 15, 'NOTE', '', '', 'For fiscal year 2025, the per diem rate for Los Angeles is $191 per night for lodging and $86 per day for Meals and Incidental Expenses (M&IE), totaling $277 per day. These rates are set by the General Services Administration (GSA) for official government travel and are higher than the standard rate due to Los Angeles\' high cost of living. \r\nBreakdown of the Los Angeles Per Diem Rate (FY 2025) \r\nLodging: $191\r\nMeals and Incidental Expenses (M&IE): $86\r\nTotal: $277\r\nKey Points\r\nGSA Rates:\r\nThese rates are for federal government employees traveling for official business. \r\nHigh-Cost Area:\r\nLos Angeles is considered a high-cost area, which results in a higher per diem allowance compared to the standard rate. \r\nEmployer\'s Accountable Plan:\r\nFor non-government employees, employer\'s accountable plans often use these GSA rates to reimburse employees for travel expenses. \r\nFirst and Last Day:\r\nOn your first and last day of travel, you may only be eligible for 75% of the M&IE rate.'),
-(93, 1, 1, '2025-08-23 15:55:21', '2025-08-23 15:55:21', NULL, 'module_projects_notes', 16, 'NOTE', '', '', 'https://www.gsa.gov/travel/plan-book/per-diem-rates');
+(93, 1, 1, '2025-08-23 15:55:21', '2025-08-23 15:55:21', NULL, 'module_projects_notes', 16, 'NOTE', '', '', 'https://www.gsa.gov/travel/plan-book/per-diem-rates'),
+(94, 1, 1, '2025-08-23 17:00:58', '2025-08-23 17:00:58', NULL, 'module_feedback', 1, 'CREATE', 'Created feedback', NULL, '{\"title\":\"Pages are broken\",\"description\":\"Broken pages\",\"type\":189}'),
+(95, 1, 1, '2025-08-23 17:01:39', '2025-08-23 17:01:39', NULL, 'module_feedback', 2, 'CREATE', 'Created feedback', NULL, '{\"title\":\"test\",\"description\":\"test\",\"type\":192}'),
+(96, 1, 1, '2025-08-23 17:01:51', '2025-08-23 17:01:51', NULL, 'module_feedback', 3, 'CREATE', 'Created feedback', NULL, '{\"title\":\"asd\",\"description\":\"asd\",\"type\":192}'),
+(97, 1, 1, '2025-08-23 17:02:21', '2025-08-23 17:02:21', NULL, 'module_feedback', 4, 'CREATE', 'Created feedback', NULL, '{\"title\":\"asfd\",\"description\":\"asdf\",\"type\":191}'),
+(98, 1, 1, '2025-08-23 17:03:11', '2025-08-23 17:03:11', NULL, 'module_feedback', 5, 'CREATE', 'Created feedback', NULL, '{\"title\":\"sdf\",\"description\":\"df\",\"type\":192}'),
+(99, 1, 1, '2025-08-23 17:03:18', '2025-08-23 17:03:18', NULL, 'module_feedback', 6, 'CREATE', 'Created feedback', NULL, '{\"title\":\"sdf\",\"description\":\"df\",\"type\":192}'),
+(100, 1, 1, '2025-08-23 17:04:03', '2025-08-23 17:04:03', NULL, 'module_feedback', 5, 'DELETE', 'Deleted feedback', '{\"title\":\"sdf\",\"description\":\"df\",\"type\":192}', ''),
+(101, 1, 1, '2025-08-23 17:04:05', '2025-08-23 17:04:05', NULL, 'module_feedback', 6, 'DELETE', 'Deleted feedback', '{\"title\":\"sdf\",\"description\":\"df\",\"type\":192}', ''),
+(102, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'person', 60, 'CREATE', 'Created person', NULL, '{\"user_id\":15,\"first_name\":\"Chris\",\"last_name\":\"Docstader\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(103, 1, 1, '2025-08-23 17:45:11', '2025-08-23 17:45:11', NULL, 'module_contractors', 9, 'CREATE', 'Created contractor', NULL, '{\"user_id\":15,\"person_id\":60}'),
+(104, 1, 1, '2025-08-23 17:48:09', '2025-08-23 17:48:09', NULL, 'module_contractors', 9, 'UPDATE', 'Updated contractor', '{\"status_id\":78,\"initial_contact_date\":null,\"title_role\":null,\"acquaintance\":null,\"acquaintance_type_id\":null,\"start_date\":null,\"end_date\":null}', '{\"status_id\":\"78\",\"initial_contact_date\":\"2025-08-23\",\"title_role\":\"\",\"acquaintance\":\"Ex-JTI Employee\",\"acquaintance_type_id\":\"102\",\"start_date\":\"\",\"end_date\":\"\"}'),
+(105, 1, 1, '2025-08-23 17:48:45', '2025-08-23 17:48:45', NULL, 'module_contractors_contacts', 11, 'CREATE', 'Added contact', '', '{\"contact_type_id\":99,\"summary\":\"Text Doc this morning to ask if he can take a 5 minute phone call.  I want to ask him about BI.\"}'),
+(106, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:36', NULL, 'module_projects', 21, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"6\",\"division_id\":\"8\",\"is_private\":0,\"name\":\"DAVE - FILE CABINET\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"57\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}');
 
 -- --------------------------------------------------------
 
@@ -682,7 +695,13 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (79, 1, 1, '2025-08-23 16:08:44', '2025-08-23 16:08:44', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (80, 1, 1, '2025-08-23 16:08:51', '2025-08-23 16:08:51', NULL, 'lookup_list_item_attributes', 0, 'CREATE', 'Created item attribute'),
 (81, 1, 1, '2025-08-23 16:19:03', '2025-08-23 16:19:03', NULL, 'lookup_list_item_relations', 208, 'CREATE', 'Created relation'),
-(82, 1, 1, '2025-08-23 16:25:45', '2025-08-23 16:25:45', NULL, 'module_meeting', 0, 'CREATE', 'Created meeting');
+(82, 1, 1, '2025-08-23 16:25:45', '2025-08-23 16:25:45', NULL, 'module_meeting', 0, 'CREATE', 'Created meeting'),
+(83, 1, 1, '2025-08-23 16:48:49', '2025-08-23 16:48:49', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting'),
+(84, 1, 1, '2025-08-23 16:49:54', '2025-08-23 16:49:54', NULL, 'module_meeting', 2, 'CREATE', 'Created meeting'),
+(85, 1, 1, '2025-08-23 17:10:00', '2025-08-23 17:10:00', NULL, 'module_meeting', 3, 'CREATE', 'Created meeting'),
+(86, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 'module_tasks', 72, 'CREATE', 'Created task'),
+(87, 1, 1, '2025-08-23 17:53:53', '2025-08-23 17:53:53', NULL, 'module_projects_assignments', 25, 'ASSIGN', 'Assigned user'),
+(88, 1, 1, '2025-08-23 17:53:56', '2025-08-23 17:53:56', NULL, 'module_projects', 21, 'UPDATE', 'Updated project');
 
 -- --------------------------------------------------------
 
@@ -1293,7 +1312,8 @@ INSERT INTO `module_contractors` (`id`, `user_id`, `user_updated`, `date_created
 (5, 9, 1, '2025-08-20 15:14:43', '2025-08-23 02:28:02', NULL, 24, 79, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4358902363', NULL),
 (6, 10, 1, '2025-08-20 20:47:36', '2025-08-23 15:03:55', NULL, 27, 78, 69, NULL, NULL, NULL, NULL, NULL, NULL, '4436179726', NULL),
 (7, 11, 1, '2025-08-22 18:07:25', '2025-08-22 18:08:56', NULL, 56, 78, 69, '2025-05-01', 'Systems Analyst / Configurator / Developer ', 'Dave\'s Brother', 100, '2025-08-22', NULL, '', NULL),
-(8, 13, 1, '2025-08-23 10:57:10', '2025-08-23 10:57:42', NULL, 58, 78, 69, '2025-08-23', NULL, 'Zach is an ex-JTI employee. He worked on the eCourt Implementation team(s). Very skilled.', 102, NULL, NULL, '8017875849', NULL);
+(8, 13, 1, '2025-08-23 10:57:10', '2025-08-23 10:57:42', NULL, 58, 78, 69, '2025-08-23', NULL, 'Zach is an ex-JTI employee. He worked on the eCourt Implementation team(s). Very skilled.', 102, NULL, NULL, '8017875849', NULL),
+(9, 15, 1, '2025-08-23 17:45:11', '2025-08-23 17:48:09', NULL, 60, 78, 69, '2025-08-23', NULL, 'Ex-JTI Employee', 102, NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1371,7 +1391,8 @@ INSERT INTO `module_contractors_contacts` (`id`, `user_id`, `user_updated`, `dat
 (7, 1, 1, '2025-08-22 18:15:55', '2025-08-22 18:15:55', NULL, 3, 76, '2025-08-22 18:15:00', 'Soup is currently collecting Unemployment. So yeah. ⬇🪑', NULL, NULL, NULL, NULL),
 (8, 1, 1, '2025-08-23 02:32:30', '2025-08-23 02:32:30', NULL, 7, 75, '2025-08-22 15:48:00', 'EMAIL SENT AFTER CREATING HIS @ATLIS EMAIL ADDRESS.\r\n\r\nThomas,\r\n\r\nPlease review, sign, and return the attached Access Use Policies for the 19th Circuit Court of Lake County, IL. These will give you permission to access their systems and view confidential data on a CJIS. (Criminal Justice Information System) Some of these documents may seem (well, they are) unnecessary as they won\'t be lending you a laptop or phone, but I guess it\'s all required. They will also perform a background check, with your consent.\r\n\r\nI recommend using the free program PDF24 https://www.pdf24.org/en/ for any and all edits you make to a PDF. (I don\'t have Adobe pro)\r\n\r\nPlease notice on the document titled \"Electronic Communications-Acceptable  Cell Phone-SmartPhone Usage  Policy -7-2016\" you are asked to sign and date two different pages:\r\nThe 2nd to last and 3rd to last pages. Do not sign the very last page — that is for the Chief Judge.\r\n\r\nLet me know if you have any questions or concerns.\r\n\r\nDon\'t let the Court-jargon scare you; it\'s taken me 8 years to learn the Judicial systems... they can be very complex and confusing.', NULL, NULL, NULL, NULL),
 (9, 1, 1, '2025-08-23 10:58:36', '2025-08-23 10:58:36', NULL, 8, 76, '2025-08-23 10:57:00', 'Sean Cadina had a phone call with Zach that went great. Zach appears to be very excited and interested in joining Atlis. Zach mentioned he has many contacts (about 9) of agencies / potential customers.', NULL, NULL, NULL, NULL),
-(10, 1, 1, '2025-08-23 10:59:38', '2025-08-23 10:59:38', NULL, 8, 99, '2025-08-23 10:59:00', 'Dave\'s Initial out reach to Zach via text message. Asking if he\'s got time for a 10 min call today or this weekend.', NULL, NULL, NULL, NULL);
+(10, 1, 1, '2025-08-23 10:59:38', '2025-08-23 10:59:38', NULL, 8, 99, '2025-08-23 10:59:00', 'Dave\'s Initial out reach to Zach via text message. Asking if he\'s got time for a 10 min call today or this weekend.', NULL, NULL, NULL, NULL),
+(11, 1, 1, '2025-08-23 17:48:45', '2025-08-23 17:48:45', NULL, 9, 99, '2025-08-23 21:15:00', 'Text Doc this morning to ask if he can take a 5 minute phone call.  I want to ask him about BI.', NULL, 'Busy today. Free tomorrow.', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1585,6 +1606,16 @@ CREATE TABLE `module_feedback` (
   `type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_feedback`
+--
+
+INSERT INTO `module_feedback` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `type`) VALUES
+(1, 1, 1, '2025-08-23 17:00:58', '2025-08-23 17:00:58', NULL, 'Pages are broken', 'Broken pages', 189),
+(2, 1, 1, '2025-08-23 17:01:39', '2025-08-23 17:01:39', NULL, 'test', 'test', 192),
+(3, 1, 1, '2025-08-23 17:01:51', '2025-08-23 17:01:51', NULL, 'asd', 'asd', 192),
+(4, 1, 1, '2025-08-23 17:02:21', '2025-08-23 17:02:21', NULL, 'asfd', 'asdf', 191);
+
 -- --------------------------------------------------------
 
 --
@@ -1687,6 +1718,15 @@ CREATE TABLE `module_meetings` (
   `recur_monthly` tinyint(1) DEFAULT 0,
   `calendar_event_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_meetings`
+--
+
+INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `start_time`, `end_time`, `recur_daily`, `recur_weekly`, `recur_monthly`, `calendar_event_id`) VALUES
+(1, 1, 1, '2025-08-23 16:48:49', '2025-08-23 16:48:49', NULL, 'August 23rd, 2025', '', '2025-08-23 18:00:00', NULL, 0, 0, 0, NULL),
+(2, 1, 1, '2025-08-23 16:49:54', '2025-08-23 16:49:54', NULL, 'Nancy Crandall - Aug 23, 2025', 'Initial Meet', '2025-08-23 13:30:00', '2025-08-23 14:30:00', 0, 0, 0, NULL),
+(3, 1, 1, '2025-08-23 17:10:00', '2025-08-23 17:10:00', NULL, 'REAL - Nancy Crandall - Aug 23, 2025', '', '2025-08-23 13:30:00', '2025-08-23 15:00:00', 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1876,7 +1916,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 0, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
 (18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
 (19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 0, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0),
-(20, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 6, 8, 0, 'DAVE - AROUND THE HOUSE', '', '', '', 29, 56, 182, '2025-08-23', NULL, 0);
+(20, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 6, 8, 0, 'DAVE - AROUND THE HOUSE', '', '', '', 29, 56, 182, '2025-08-23', NULL, 0),
+(21, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:56', NULL, 6, 8, 1, 'DAVE - FILE CABINET', '', '', '', 29, 57, NULL, '2025-08-23', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1949,7 +1990,8 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (21, 1, 1, '2025-08-23 01:48:43', '2025-08-23 01:48:43', NULL, 16, 1),
 (22, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 14, 1),
 (23, 1, 1, '2025-08-23 12:03:54', '2025-08-23 12:03:54', NULL, 20, 1),
-(24, 1, 1, '2025-08-23 12:08:49', '2025-08-23 12:08:49', NULL, 13, 1);
+(24, 1, 1, '2025-08-23 12:08:49', '2025-08-23 12:08:49', NULL, 13, 1),
+(25, 1, 1, '2025-08-23 17:53:53', '2025-08-23 17:53:53', NULL, 21, 1);
 
 -- --------------------------------------------------------
 
@@ -2182,7 +2224,8 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (68, 1, 1, '2025-08-23 12:00:50', '2025-08-23 12:00:50', NULL, 20, NULL, NULL, 0, 'VACUUM OUT THE TELLURIDE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (69, 1, 1, '2025-08-23 12:01:00', '2025-08-23 12:01:00', NULL, 20, NULL, NULL, 0, 'INSTALL THE BACK SLIDING DOOR CURTAIN', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (70, 1, 1, '2025-08-23 12:01:15', '2025-08-23 12:01:15', NULL, 20, NULL, NULL, 0, 'HANG LONG MIRROR IN OUR BEDROOM ON WALL', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(71, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 10, NULL, NULL, 0, 'RIZATRIPTAN - request minty disintegrating', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(71, 1, 1, '2025-08-23 15:46:16', '2025-08-23 15:46:16', NULL, 10, NULL, NULL, 0, 'RIZATRIPTAN - request minty disintegrating', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2385,7 +2428,8 @@ INSERT INTO `person` (`id`, `user_id`, `first_name`, `last_name`, `email`, `gend
 (56, 11, 'Tom', 'Wilkins', NULL, 59, NULL, NULL, NULL, '1988-04-16', 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL),
 (57, 12, 'Winnie', 'Webber', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL),
 (58, 13, 'Zach', 'Jenks', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL),
-(59, 14, 'Nancy', 'Crandall', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL);
+(59, 14, 'Nancy', 'Crandall', NULL, 60, NULL, NULL, NULL, NULL, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL),
+(60, 15, 'Chris', 'Docstader', NULL, 59, NULL, NULL, NULL, NULL, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -2552,7 +2596,8 @@ INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_upda
 (11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL),
 (12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL),
 (13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL),
-(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL);
+(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL),
+(15, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'chris@doc.com', '$2y$10$4jkkJwdy6.9jUVTWIEMopeoKaztrDeqFhR5LmwIjhLz7e6c5wSNvm', 0, NULL, 'USER', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3234,7 +3279,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3288,7 +3333,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3348,7 +3393,7 @@ ALTER TABLE `module_calendar_event_attendees`
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_compensation`
@@ -3360,7 +3405,7 @@ ALTER TABLE `module_contractors_compensation`
 -- AUTO_INCREMENT for table `module_contractors_contacts`
 --
 ALTER TABLE `module_contractors_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `module_contractors_contacts_response`
@@ -3408,7 +3453,7 @@ ALTER TABLE `module_division_persons`
 -- AUTO_INCREMENT for table `module_feedback`
 --
 ALTER TABLE `module_feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `module_kanban_boards`
@@ -3432,7 +3477,7 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_meetings`
 --
 ALTER TABLE `module_meetings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_agenda`
@@ -3474,7 +3519,7 @@ ALTER TABLE `module_organization_persons`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `module_projects_answers`
@@ -3486,7 +3531,7 @@ ALTER TABLE `module_projects_answers`
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -3516,7 +3561,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3552,7 +3597,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `person_addresses`
@@ -3582,7 +3627,7 @@ ALTER TABLE `system_properties_versions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users_2fa`
@@ -3925,8 +3970,8 @@ ALTER TABLE `module_projects_assignments`
 ALTER TABLE `module_projects_files`
   ADD CONSTRAINT `fk_module_projects_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`),
-  ADD CONSTRAINT `fk_module_projects_files_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_projects_files_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
