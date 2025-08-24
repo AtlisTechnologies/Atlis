@@ -24,6 +24,7 @@
     <?php if (!empty($tasks)): ?>
       <?php foreach ($tasks as $t): ?>
         <?php $overdue = (!empty($t['due_date']) && strtotime($t['due_date']) < time() && empty($t['completed'])); ?>
+        <?php $alreadyAssigned = false; foreach ($t['assignees'] ?? [] as $aa) { if ($aa['assigned_user_id'] == $this_user_id) { $alreadyAssigned = true; break; } } ?>
         <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>">
           <div class="col-12 col-md-auto flex-1">
             <div>
@@ -38,6 +39,15 @@
                   <?php endforeach; ?>
                 <?php else: ?>
                   <span class="fa-regular fa-user text-body-tertiary me-1"></span>
+                <?php endif; ?>
+                <?php if (user_has_permission('task','update') && empty($alreadyAssigned) && (!isset($t['project_id']) || !empty($t['project_assigned']))): ?>
+                  <form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form">
+                    <input type="hidden" name="task_id" value="<?= (int)$t['id'] ?>">
+                    <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
+                    <button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me">
+                      <span class="fa-solid fa-user-plus"></span>
+                    </button>
+                  </form>
                 <?php endif; ?>
                 <a class="mb-0 fw-bold fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
               </div>
@@ -73,14 +83,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
+  var thisUserId = <?= (int)$this_user_id ?>;
+  var canAssignTask = <?= user_has_permission('task','update') ? 'true' : 'false' ?>;
 
   function htmlToElement(html){ var div=document.createElement('div'); div.innerHTML=html.trim(); return div.firstChild; }
 
   function renderTask(t){
     var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
     var assignees = '';
-    if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.file_path ? '<?php echo getURLDir(); ?>'+a.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    var alreadyAssigned = false;
+    if(t.assignees){
+      t.assignees.forEach(function(a){
+        var pic = a.file_path ? '<?php echo getURLDir(); ?>'+a.file_path : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp';
+        assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`;
+        if(a.assigned_user_id == thisUserId){ alreadyAssigned = true; }
+      });
+    }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
+    if(canAssignTask && !alreadyAssigned && (!t.project_id || t.project_assigned)){
+      assignees += `<form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
+    }
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
     return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
       <div class="col-12 col-md-auto flex-1">
@@ -142,17 +164,37 @@ document.addEventListener('DOMContentLoaded', function () {
           var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value});
           fetch('functions/update_field.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
             .then(r=>r.json()).then(d=>{ if(d.success && d.task){ updateRow(row,d.task); } });
-        });
-        select.addEventListener('blur', function(){
-          var span=document.createElement('span');
-          span.className=b.className;
-          span.dataset.value=b.dataset.value;
-          span.textContent=b.textContent;
-          select.replaceWith(span);
-          attachTaskEvents(row);
-        });
+    });
+    select.addEventListener('blur', function(){
+      var span=document.createElement('span');
+      span.className=b.className;
+      span.dataset.value=b.dataset.value;
+      span.textContent=b.textContent;
+      select.replaceWith(span);
+      attachTaskEvents(row);
+    });
       });
     });
+
+    var assignForm = row.querySelector('form.assign-to-me-form');
+    if(assignForm){
+      assignForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var fd = new FormData(assignForm); fd.append('ajax',1);
+        fetch('functions/assign_user.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+          if(d.success && d.assignee){
+            var pic = d.assignee.user_pic ? '<?php echo getURLDir(); ?>'+d.assignee.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp';
+            var img = document.createElement('img');
+            img.src = pic;
+            img.className = 'avatar avatar-m me-1 rounded-circle';
+            img.title = d.assignee.name;
+            img.alt = d.assignee.name;
+            assignForm.parentNode.insertBefore(img, assignForm);
+            assignForm.remove();
+          }
+        });
+      });
+    }
   }
 
   function updateRow(oldRow, task){

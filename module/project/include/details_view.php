@@ -166,6 +166,7 @@ if (!empty($current_project)) {
                     </table>
                   </div>
                   <div class="col-6">
+                    <?php $viewerAssigned = false; foreach ($assignedUsers as $au) { if ($au['user_id'] == $this_user_id) { $viewerAssigned = true; break; } } ?>
                     <div class="d-flex align-items-center mb-4">
                       <h4 class="text-body-emphasis mb-0 me-2">Assigned</h4>
                       <?php if (user_has_permission('project','create|update|delete')): ?>
@@ -174,6 +175,13 @@ if (!empty($current_project)) {
                         </button>
                       <?php endif; ?>
                     </div>
+                    <?php if (user_has_permission('project','update') && !$viewerAssigned): ?>
+                      <form method="post" action="functions/assign_user.php" class="mb-3">
+                        <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                        <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
+                        <button class="btn btn-success btn-sm" type="submit">Assign to me</button>
+                      </form>
+                    <?php endif; ?>
                     <?php if (!empty($assignedUsers)): ?>
                       <ul class="list-unstyled mb-4">
                         <?php foreach ($assignedUsers as $au): ?>
@@ -384,6 +392,7 @@ if (!empty($current_project)) {
               <?php foreach ($tasks as $t): ?>
                 <?php $overdue = (!empty($t['due_date']) && strtotime($t['due_date']) < time() && empty($t['completed'])); ?>
                 <?php $assigneeIds = implode(',', array_column($t['assignees'] ?? [], 'assigned_user_id')); ?>
+                <?php $alreadyAssigned = false; foreach ($t['assignees'] ?? [] as $aa) { if ($aa['assigned_user_id'] == $this_user_id) { $alreadyAssigned = true; break; } } ?>
                 <div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="<?= (int)$t['id'] ?>" data-assignee-ids="<?= h($assigneeIds) ?>" data-status-id="<?= (int)$t['status'] ?>">
                   <div class="col-12 col-md-auto flex-1">
                     <div>
@@ -398,6 +407,15 @@ if (!empty($current_project)) {
                           <?php endforeach; ?>
                         <?php else: ?>
                           <span class="fa-regular fa-user text-body-tertiary me-1"></span>
+                        <?php endif; ?>
+                        <?php if (user_has_permission('task','update') && empty($alreadyAssigned) && (!isset($t['project_id']) || !empty($t['project_assigned']))): ?>
+                          <form method="post" action="../task/functions/assign_user.php" class="ms-1 assign-to-me-form">
+                            <input type="hidden" name="task_id" value="<?= (int)$t['id'] ?>">
+                            <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
+                            <button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me">
+                              <span class="fa-solid fa-user-plus"></span>
+                            </button>
+                          </form>
                         <?php endif; ?>
                         <a class="mb-0 fw-bold fs-8 me-2 line-clamp-1 flex-grow-1 flex-md-grow-0 task-name<?= !empty($t['completed']) ? ' text-decoration-line-through' : '' ?>" href="../task/index.php?action=details&id=<?= (int)$t['id'] ?>"><?= h($t['name']) ?></a>
                       </div>
@@ -790,6 +808,9 @@ if (!empty($current_project)) {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var projectId = <?= (int)$current_project['id'] ?>;
+  var thisUserId = <?= (int)$this_user_id ?>;
+  var canAssignTask = <?= user_has_permission('task','update') ? 'true' : 'false' ?>;
+  var viewerProjectAssigned = <?= $viewerAssigned ? 'true' : 'false' ?>;
   if (window.Dropzone) {
     Dropzone.autoDiscover = false;
     const dz = new Dropzone('#project-file-dropzone', {
@@ -932,8 +953,18 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderTask(t){
     var overdue = t.due_date && !t.completed && new Date(t.due_date) < new Date();
     var assignees='';
-    if(t.assignees){ t.assignees.forEach(function(a){ var pic = a.user_pic ? '<?php echo getURLDir(); ?>'+a.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp'; assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`; }); }
+    var alreadyAssigned = false;
+    if(t.assignees){
+      t.assignees.forEach(function(a){
+        var pic = a.user_pic ? '<?php echo getURLDir(); ?>'+a.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp';
+        assignees += `<img src="${pic}" class="avatar avatar-m me-1 rounded-circle" title="${a.name}" alt="${a.name}" />`;
+        if(a.assigned_user_id == thisUserId){ alreadyAssigned = true; }
+      });
+    }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
+    if(canAssignTask && !alreadyAssigned && (!t.project_id || t.project_assigned)){
+      assignees += `<form method="post" action="../task/functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
+    }
     var assigneeIds = t.assignees ? t.assignees.map(function(a){ return a.assigned_user_id; }).join(',') : '';
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
     return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}" data-assignee-ids="${assigneeIds}" data-status-id="${t.status}">
@@ -990,6 +1021,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
     });
+
+    var assignForm = row.querySelector('form.assign-to-me-form');
+    if(assignForm){
+      assignForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var fd = new FormData(assignForm); fd.append('ajax',1);
+        fetch('../task/functions/assign_user.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+          if(d.success && d.assignee){
+            var pic = d.assignee.user_pic ? '<?php echo getURLDir(); ?>'+d.assignee.user_pic : '<?php echo getURLDir(); ?>assets/img/team/avatar.webp';
+            var img = document.createElement('img');
+            img.src = pic;
+            img.className = 'avatar avatar-m me-1 rounded-circle';
+            img.title = d.assignee.name;
+            img.alt = d.assignee.name;
+            assignForm.parentNode.insertBefore(img, assignForm);
+            assignForm.remove();
+          }
+        });
+      });
+    }
   }
 
   function updateRow(oldRow, task){
@@ -1011,6 +1062,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var fd = new FormData(addForm); fd.append('ajax',1);
       fetch('../task/functions/create.php',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
         if(d.success){
+          d.task.project_id = projectId;
+          d.task.project_assigned = viewerProjectAssigned ? 1 : 0;
           var el = htmlToElement(renderTask(d.task));
           document.getElementById('taskListContainer').prepend(el);
           attachTaskEvents(el);
