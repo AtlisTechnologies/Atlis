@@ -281,13 +281,12 @@ if (!empty($current_project)) {
                             <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>">
                               <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
                             </a>
-                            <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
                               <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
                                 <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                                 <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                 <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
                               </form>
-
                             <?php endif; ?>
                           </div>
                         <?php endforeach; ?>
@@ -306,10 +305,18 @@ if (!empty($current_project)) {
                                 <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                               </p>
                             </div>
-                            <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
+                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                            <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                              <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                            </form>
+                            <?php endif; ?>
                           </div>
+                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
                         </div>
-                      <?php endforeach; ?>
+                      </div>
+                    <?php endforeach; ?>
                     <?php endif; ?>
 
                   <?php if (empty($imageFiles) && empty($otherFiles)): ?>
@@ -490,6 +497,13 @@ if (!empty($current_project)) {
                                       <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
                                     <?php endif; ?>
                                   </p>
+                                  <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
+                                  <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                                    <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
+                                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
+                                    <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
+                                  </form>
+                                  <?php endif; ?>
                                 </div>
                               </li>
                             <?php endforeach; ?>
