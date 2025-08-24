@@ -93,6 +93,7 @@ $last_name = trim($_POST['last_name'] ?? '');
 $memo = $_POST['memo'] ?? null;
 $addresses = $_POST['addresses'] ?? [];
 $phones    = $_POST['phones'] ?? [];
+$roles = isset($_POST['roles']) ? array_map('intval', $_POST['roles']) : [];
 
 $defaultPassword = get_system_property($pdo, 'USER_DEFAULT_PASSWORD') ?? '';
 if (!$isUpdate && $password === '') {
@@ -403,6 +404,27 @@ try {
     $picId = (int)$pdo->lastInsertId();
     $pdo->prepare('UPDATE users SET current_profile_pic_id = :pic, user_updated = :uid WHERE id = :user')
         ->execute([':pic' => $picId, ':uid' => $this_user_id, ':user' => $id]);
+  }
+
+  $stmt = $pdo->prepare('SELECT role_id, id FROM admin_user_roles WHERE user_account_id = :uid');
+  $stmt->execute([':uid' => $id]);
+  $existingRoles = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+  $existingRoleIds = array_keys($existingRoles);
+  foreach ($roles as $roleId) {
+    if (!in_array($roleId, $existingRoleIds)) {
+      $ins = $pdo->prepare('INSERT INTO admin_user_roles (user_id, user_updated, user_account_id, role_id) VALUES (:uid, :uid, :acc, :role)');
+      $ins->execute([':uid' => $this_user_id, ':acc' => $id, ':role' => $roleId]);
+      $newId = (int)$pdo->lastInsertId();
+      admin_audit_log($pdo, $this_user_id, 'admin_user_roles', $newId, 'CREATE', null, json_encode(['user_account_id' => $id, 'role_id' => $roleId]), 'Assigned role');
+    }
+  }
+  foreach ($existingRoleIds as $roleId) {
+    if (!in_array($roleId, $roles)) {
+      $del = $pdo->prepare('DELETE FROM admin_user_roles WHERE user_account_id=:acc AND role_id=:role');
+      $del->execute([':acc' => $id, ':role' => $roleId]);
+      $assignmentId = $existingRoles[$roleId];
+      admin_audit_log($pdo, $this_user_id, 'admin_user_roles', $assignmentId, 'DELETE', null, null, 'Removed role');
+    }
   }
 
   $pdo->commit();

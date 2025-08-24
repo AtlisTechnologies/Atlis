@@ -9,6 +9,9 @@ $dob = '';
 $addresses = [];
 $phones = [];
 
+$roles = [];
+$userRoleIds = [];
+
 $memo = [];
 $profile_pic = '';
 $profilePics = [];
@@ -52,6 +55,13 @@ if ($id) {
 } else {
   require_permission('users','create');
   $defaultPassword = get_system_property($pdo, 'USER_DEFAULT_PASSWORD') ?? '';
+}
+
+$roles = $pdo->query('SELECT id, name FROM admin_roles ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+if ($id) {
+  $stmt = $pdo->prepare('SELECT role_id FROM admin_user_roles WHERE user_account_id = :uid');
+  $stmt->execute([':uid' => $id]);
+  $userRoleIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
 $imageTypes = get_lookup_items($pdo, 'IMAGE_FILE_TYPES');
@@ -185,6 +195,16 @@ $_SESSION['csrf_token'] = $token;
             <label for="confirmPassword">Confirm Password</label>
             <div class="invalid-feedback">Please confirm password.</div>
           </div>
+        </div>
+        <div class="col-12">
+          <h5>Roles</h5>
+          <?php foreach ($roles as $r): ?>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $r['id']; ?>"
+                     id="role_<?= $r['id']; ?>" <?= in_array($r['id'], $userRoleIds) ? 'checked' : ''; ?>>
+              <label for="role_<?= $r['id']; ?>"><?= h($r['name']); ?></label>
+            </div>
+          <?php endforeach; ?>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
