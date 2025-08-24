@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 08:25 AM
+-- Generation Time: Aug 24, 2025 at 09:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -165,7 +165,13 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (116, 1, 1, '2025-08-23 20:24:10', '2025-08-23 20:24:10', NULL, 'module_contractors_notes', 5, 'NOTE', '', '', 'Richard has helped Atlis for I\'m guessing around 8 hours of creating templates for contracts. I need to compensate him somehow soon. I also need him, or a different technical contract writer, to be much more involved.'),
 (117, 1, 1, '2025-08-23 20:24:27', '2025-08-23 20:24:27', NULL, 'module_contractors_notes', 6, 'NOTE', '', '', 'I NEED TO UPDATE RICHARD\'S WORK AGREEMENT WITH ATLIS.'),
 (118, 1, 1, '2025-08-23 20:25:05', '2025-08-23 20:25:05', NULL, 'module_projects', 22, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"ATLIS TECHNOLOGIES - CORPORATE PROJECTS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"87\",\"type\":\"182\",\"start_date\":\"2025-08-23\"}'),
-(119, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 'module_tasks_notes', 39, 'NOTE', '', '', 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.');
+(119, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 'module_tasks_notes', 39, 'NOTE', '', '', 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.'),
+(120, 1, 1, '2025-08-24 01:18:09', '2025-08-24 01:18:09', NULL, 'module_projects_questions', 3, 'QUESTION', '', '', 'Who is Dave Wilkins ?'),
+(121, 1, 1, '2025-08-24 01:18:18', '2025-08-24 01:18:18', NULL, 'module_projects_answers', 4, 'ANSWER', '', '', 'Bob Saggit.'),
+(122, 1, 1, '2025-08-24 01:34:36', '2025-08-24 01:34:36', NULL, 'module_tasks_questions', 1, 'QUESTION', '', '', 'What color per seal type ?'),
+(123, 1, 1, '2025-08-24 01:34:50', '2025-08-24 01:34:50', NULL, 'module_tasks_answers', 1, 'ANSWER', '', '', 'Whatever color you pick from Bootstrap.'),
+(124, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 'module_projects_answers', 5, 'ANSWER', '', '', 'Next !'),
+(125, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 'module_projects_questions', 4, 'QUESTION', '', '', 'Question #2 !');
 
 -- --------------------------------------------------------
 
@@ -193,13 +199,15 @@ CREATE TABLE `admin_navigation_links` (
 INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`) VALUES
 (1, 'Dashboard', 'index.php', 'home', 0, 1, 1, '2025-08-20 00:00:00', '2025-08-20 00:39:14', NULL),
 (2, 'Users', 'users/index.php', 'user', 2, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(3, 'Persons', 'person/index.php', 'users', 5, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(4, 'Contractors', 'contractors/index.php', 'briefcase', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(6, 'Roles', 'roles/index.php', 'shield', 6, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(7, 'System Properties', 'system-properties/index.php', 'sliders', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-21 02:22:37', NULL),
-(8, 'Navigation Links', 'navigation.php', 'settings', 8, 1, 1, '2025-08-20 00:37:23', '2025-08-21 02:22:37', NULL),
-(9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL);
+(3, 'Persons', 'person/index.php', 'users', 4, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
+(4, 'Contractors', 'contractors/index.php', 'briefcase', 3, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
+(5, 'Lookup Lists', 'lookup-lists/index.php', 'list', 8, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
+(6, 'Roles', 'roles/index.php', 'shield', 7, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:07:51', NULL),
+(7, 'System Properties', 'system-properties/index.php', 'sliders', 9, 1, 1, '2025-08-20 00:00:00', '2025-08-24 01:54:11', NULL),
+(8, 'Navigation Links', 'navigation.php', 'settings', 10, 1, 1, '2025-08-20 00:37:23', '2025-08-24 01:54:11', NULL),
+(9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL),
+(11, 'Meetings', 'meetings/index.php', 'cpu', 6, 1, 1, '2025-08-26 00:00:00', '2025-08-24 01:45:00', NULL),
+(12, 'Branding', 'branding/index.php', 'palette', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 01:54:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -294,7 +302,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (69, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'create'),
 (70, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'read'),
 (71, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'update'),
-(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'delete');
+(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'calendar', 'delete'),
+(77, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'create'),
+(78, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'read'),
+(79, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'update'),
+(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'delete');
 
 -- --------------------------------------------------------
 
@@ -330,7 +342,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (10, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractors', 'Permissions for managing contractors'),
 (11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards'),
 (12, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'Feedback', 'Permissions for managing feedback'),
-(13, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'Calendar', 'Permissions for managing calendar');
+(13, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'Calendar', 'Permissions for managing calendar'),
+(15, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Meetings', 'Permissions for managing meetings');
 
 -- --------------------------------------------------------
 
@@ -425,7 +438,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (69, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 69),
 (70, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 70),
 (71, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 71),
-(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 72);
+(72, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 13, 72),
+(77, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 77),
+(78, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 78),
+(79, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 79),
+(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 80);
 
 -- --------------------------------------------------------
 
@@ -738,7 +755,23 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (109, 1, 1, '2025-08-23 20:55:32', '2025-08-23 20:55:32', NULL, 'module_tasks', 73, 'CREATE', 'Created task'),
 (110, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 'module_tasks', 74, 'CREATE', 'Created task'),
 (111, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 'module_tasks', 75, 'CREATE', 'Created task'),
-(112, 1, 1, '2025-08-23 21:56:27', '2025-08-23 21:56:27', NULL, 'module_tasks', 73, 'UPDATE', 'Completed task');
+(112, 1, 1, '2025-08-23 21:56:27', '2025-08-23 21:56:27', NULL, 'module_tasks', 73, 'UPDATE', 'Completed task'),
+(113, 1, 1, '2025-08-24 00:30:08', '2025-08-24 00:30:08', NULL, 'module_task_assignments', 18, 'ASSIGN', 'Assigned user'),
+(114, 1, 1, '2025-08-24 00:30:11', '2025-08-24 00:30:11', NULL, 'module_task_assignments', 19, 'ASSIGN', 'Assigned user'),
+(115, 1, 1, '2025-08-24 00:30:15', '2025-08-24 00:30:15', NULL, 'module_task_assignments', 20, 'ASSIGN', 'Assigned user'),
+(116, 1, 1, '2025-08-24 00:31:28', '2025-08-24 00:31:28', NULL, 'module_task_assignments', 21, 'ASSIGN', 'Assigned user'),
+(117, 1, 1, '2025-08-24 00:31:39', '2025-08-24 00:31:39', NULL, 'module_task_assignments', 22, 'ASSIGN', 'Assigned user'),
+(118, 1, 1, '2025-08-24 00:31:42', '2025-08-24 00:31:42', NULL, 'module_task_assignments', 23, 'ASSIGN', 'Assigned user'),
+(119, 1, 1, '2025-08-24 01:42:46', '2025-08-24 01:42:46', NULL, 'module_projects_assignments', 26, 'ASSIGN', 'Assigned user'),
+(120, 1, 1, '2025-08-24 01:50:12', '2025-08-24 01:50:12', NULL, 'module_tasks', 76, 'CREATE', 'Created task'),
+(121, 1, 1, '2025-08-24 01:50:45', '2025-08-24 01:50:45', NULL, 'module_tasks', 77, 'CREATE', 'Created task'),
+(122, 1, 1, '2025-08-24 01:50:52', '2025-08-24 01:50:52', NULL, 'module_task_assignments', 24, 'ASSIGN', 'Assigned user'),
+(123, 1, 1, '2025-08-24 01:50:52', '2025-08-24 01:50:52', NULL, 'module_task_assignments', 25, 'ASSIGN', 'Assigned user'),
+(124, 1, 1, '2025-08-24 01:50:54', '2025-08-24 01:50:54', NULL, 'module_task_assignments', 26, 'ASSIGN', 'Assigned user'),
+(125, 1, 1, '2025-08-24 01:50:55', '2025-08-24 01:50:55', NULL, 'module_task_assignments', 27, 'ASSIGN', 'Assigned user'),
+(126, 1, 1, '2025-08-24 01:50:56', '2025-08-24 01:50:56', NULL, 'module_task_assignments', 28, 'ASSIGN', 'Assigned user'),
+(127, 1, 1, '2025-08-24 01:51:10', '2025-08-24 01:51:10', NULL, 'module_task_assignments', 29, 'ASSIGN', 'Assigned user'),
+(128, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 'module_task_assignments', 30, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -1225,6 +1258,23 @@ INSERT INTO `module_agency` (`id`, `user_id`, `user_updated`, `date_created`, `d
 (4, 1, 1, '2025-08-21 02:16:22', '2025-08-21 02:16:22', NULL, 2, 'State\'s Attorney Office', 31, 28, NULL, NULL, NULL, NULL),
 (5, 1, 1, '2025-08-22 15:54:28', '2025-08-22 15:54:28', NULL, 3, 'McLean County, IL', NULL, 28, NULL, NULL, NULL, NULL),
 (6, 1, 1, '2025-08-22 19:14:44', '2025-08-22 19:14:44', NULL, 4, 'Dave Wilkins', 1, 3, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_agency_assignments`
+--
+
+CREATE TABLE `module_agency_assignments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `assigned_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1996,7 +2046,9 @@ CREATE TABLE `module_projects_answers` (
 INSERT INTO `module_projects_answers` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `question_id`, `answer_text`) VALUES
 (1, 1, 1, '2025-08-22 21:57:42', '2025-08-22 21:57:42', NULL, 1, 'Yes'),
 (2, 1, 1, '2025-08-23 11:04:36', '2025-08-23 11:04:36', NULL, 2, 'White, dummy.'),
-(3, 1, 1, '2025-08-23 11:04:46', '2025-08-23 11:04:46', NULL, 2, 'Yeah, it was obviously white.');
+(3, 1, 1, '2025-08-23 11:04:46', '2025-08-23 11:04:46', NULL, 2, 'Yeah, it was obviously white.'),
+(4, 1, 1, '2025-08-24 01:18:18', '2025-08-24 01:18:18', NULL, 3, 'Bob Saggit.'),
+(5, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 1, 'Next !');
 
 -- --------------------------------------------------------
 
@@ -2044,7 +2096,8 @@ INSERT INTO `module_projects_assignments` (`id`, `user_id`, `user_updated`, `dat
 (22, 1, 1, '2025-08-23 01:48:51', '2025-08-23 01:48:51', NULL, 14, 1),
 (23, 1, 1, '2025-08-23 12:03:54', '2025-08-23 12:03:54', NULL, 20, 1),
 (24, 1, 1, '2025-08-23 12:08:49', '2025-08-23 12:08:49', NULL, 13, 1),
-(25, 1, 1, '2025-08-23 17:53:53', '2025-08-23 17:53:53', NULL, 21, 1);
+(25, 1, 1, '2025-08-23 17:53:53', '2025-08-23 17:53:53', NULL, 21, 1),
+(26, 1, 1, '2025-08-24 01:42:46', '2025-08-24 01:42:46', NULL, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -2143,11 +2196,15 @@ INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_creat
 (2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12),
 (3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4),
 (4, 1, 1, '2025-08-23 01:48:22', '2025-08-23 01:48:22', NULL, 10),
-(5, 1, 1, '2025-08-23 01:48:24', '2025-08-23 01:48:24', NULL, 13),
-(6, 1, 1, '2025-08-23 01:48:48', '2025-08-23 01:48:48', NULL, 14),
 (9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2),
-(10, 1, 1, '2025-08-23 02:27:09', '2025-08-23 02:27:09', NULL, 17),
-(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22);
+(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22),
+(12, 1, 1, '2025-08-24 00:25:39', '2025-08-24 00:25:39', NULL, 20),
+(15, 1, 1, '2025-08-24 01:37:42', '2025-08-24 01:37:42', NULL, 21),
+(16, 1, 1, '2025-08-24 01:37:44', '2025-08-24 01:37:44', NULL, 1),
+(17, 1, 1, '2025-08-24 01:37:45', '2025-08-24 01:37:45', NULL, 3),
+(18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11),
+(19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13),
+(21, 1, 1, '2025-08-24 01:49:36', '2025-08-24 01:49:36', NULL, 14);
 
 -- --------------------------------------------------------
 
@@ -2172,7 +2229,9 @@ CREATE TABLE `module_projects_questions` (
 
 INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `question_text`) VALUES
 (1, 1, 1, '2025-08-22 21:57:39', '2025-08-22 21:57:39', NULL, 15, 'This is the first question !'),
-(2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?');
+(2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?'),
+(3, 1, 1, '2025-08-24 01:18:09', '2025-08-24 01:18:09', NULL, 10, 'Who is Dave Wilkins ?'),
+(4, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 15, 'Question #2 !');
 
 -- --------------------------------------------------------
 
@@ -2282,7 +2341,9 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (72, 1, 1, '2025-08-23 17:53:50', '2025-08-23 17:53:50', NULL, 21, NULL, NULL, 0, 'FILE FOR KRISTINE & REAL ESTATE', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (73, 1, 1, '2025-08-23 20:55:32', '2025-08-23 21:56:27', NULL, 10, NULL, NULL, 0, 'FIX THE DOOR KNOB ON EMRYS CLOSET', NULL, NULL, NULL, '34', 35, '38', NULL, NULL, '2025-08-23', 1, 1, 100),
 (74, 1, 1, '2025-08-23 20:55:40', '2025-08-23 20:55:40', NULL, 10, NULL, NULL, 0, 'FIX EMRY\'S BEDROOM DRESSER', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(75, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 10, NULL, NULL, 0, 'INSTALL LONG MIRROR IN OUR ROOM', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(75, 1, 1, '2025-08-23 20:55:50', '2025-08-23 20:55:50', NULL, 10, NULL, NULL, 0, 'INSTALL LONG MIRROR IN OUR ROOM', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(76, 1, 1, '2025-08-24 01:50:12', '2025-08-24 01:50:12', NULL, 13, NULL, NULL, 0, 'MAKE ALL NON-BUTTON/BADGE TEXT IN THE TOP NAV BE WHITE IN COLOR', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(77, 1, 1, '2025-08-24 01:50:45', '2025-08-24 01:50:45', NULL, 13, NULL, NULL, 0, 'TASKS: ALLOW USER TO SORT HOW THEY WANT.', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2300,6 +2361,13 @@ CREATE TABLE `module_tasks_answers` (
   `question_id` int(11) NOT NULL,
   `answer_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_tasks_answers`
+--
+
+INSERT INTO `module_tasks_answers` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `question_id`, `answer_text`) VALUES
+(1, 1, 1, '2025-08-24 01:34:50', '2025-08-24 01:34:50', NULL, 1, 'Whatever color you pick from Bootstrap.');
 
 -- --------------------------------------------------------
 
@@ -2405,6 +2473,13 @@ CREATE TABLE `module_tasks_questions` (
   `question_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_tasks_questions`
+--
+
+INSERT INTO `module_tasks_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `question_text`) VALUES
+(1, 1, 1, '2025-08-24 01:34:36', '2025-08-24 01:34:36', NULL, 19, 'What color per seal type ?');
+
 -- --------------------------------------------------------
 
 --
@@ -2442,7 +2517,20 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (14, 1, 1, '2025-08-23 12:09:13', '2025-08-23 12:09:13', NULL, 39, 1),
 (15, 1, 1, '2025-08-23 12:09:26', '2025-08-23 12:09:26', NULL, 47, 1),
 (16, 1, 1, '2025-08-23 12:09:28', '2025-08-23 12:09:28', NULL, 48, 1),
-(17, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 62, 1);
+(17, 1, 1, '2025-08-23 12:09:30', '2025-08-23 12:09:30', NULL, 62, 1),
+(18, 1, 1, '2025-08-24 00:30:08', '2025-08-24 00:30:08', NULL, 59, 1),
+(19, 1, 1, '2025-08-24 00:30:11', '2025-08-24 00:30:11', NULL, 46, 1),
+(20, 1, 1, '2025-08-24 00:30:15', '2025-08-24 00:30:15', NULL, 57, 1),
+(21, 1, 1, '2025-08-24 00:31:28', '2025-08-24 00:31:28', NULL, 66, 1),
+(22, 1, 1, '2025-08-24 00:31:39', '2025-08-24 00:31:39', NULL, 72, 1),
+(23, 1, 1, '2025-08-24 00:31:42', '2025-08-24 00:31:42', NULL, 74, 1),
+(24, 1, 1, '2025-08-24 01:50:52', '2025-08-24 01:50:52', NULL, 76, 1),
+(25, 1, 1, '2025-08-24 01:50:52', '2025-08-24 01:50:52', NULL, 77, 1),
+(26, 1, 1, '2025-08-24 01:50:54', '2025-08-24 01:50:54', NULL, 64, 1),
+(27, 1, 1, '2025-08-24 01:50:55', '2025-08-24 01:50:55', NULL, 65, 1),
+(28, 1, 1, '2025-08-24 01:50:56', '2025-08-24 01:50:56', NULL, 67, 1),
+(29, 1, 1, '2025-08-24 01:51:10', '2025-08-24 01:51:10', NULL, 28, 1),
+(30, 1, 1, '2025-08-24 01:51:12', '2025-08-24 01:51:12', NULL, 27, 1);
 
 -- --------------------------------------------------------
 
@@ -2894,6 +2982,16 @@ ALTER TABLE `module_agency`
   ADD KEY `fk_module_agency_organization_id` (`organization_id`),
   ADD KEY `fk_module_agency_main_person` (`main_person`),
   ADD KEY `fk_module_agency_status` (`status`);
+
+--
+-- Indexes for table `module_agency_assignments`
+--
+ALTER TABLE `module_agency_assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_assignments_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_assignments_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_assignments_agency_id` (`agency_id`),
+  ADD KEY `fk_module_agency_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
 -- Indexes for table `module_agency_persons`
@@ -3382,31 +3480,31 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -3436,7 +3534,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3467,6 +3565,12 @@ ALTER TABLE `lookup_list_item_relations`
 --
 ALTER TABLE `module_agency`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `module_agency_assignments`
+--
+ALTER TABLE `module_agency_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_agency_persons`
@@ -3628,13 +3732,13 @@ ALTER TABLE `module_projects`
 -- AUTO_INCREMENT for table `module_projects_answers`
 --
 ALTER TABLE `module_projects_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_projects_assignments`
 --
 ALTER TABLE `module_projects_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `module_projects_files`
@@ -3652,25 +3756,25 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
 --
 ALTER TABLE `module_projects_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
 --
 ALTER TABLE `module_tasks_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_files`
@@ -3688,13 +3792,13 @@ ALTER TABLE `module_tasks_notes`
 -- AUTO_INCREMENT for table `module_tasks_questions`
 --
 ALTER TABLE `module_tasks_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `module_users_defaults`
@@ -3839,6 +3943,15 @@ ALTER TABLE `module_agency`
   ADD CONSTRAINT `fk_module_agency_status` FOREIGN KEY (`status`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_agency_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_agency_assignments`
+--
+ALTER TABLE `module_agency_assignments`
+  ADD CONSTRAINT `fk_module_agency_assignments_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`),
+  ADD CONSTRAINT `fk_module_agency_assignments_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_agency_assignments_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_agency_assignments_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_agency_persons`
