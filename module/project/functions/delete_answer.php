@@ -18,7 +18,7 @@ if ($answer_id && $project_id) {
       if (is_file($fullPath)) {
         unlink($fullPath);
       }
-      admin_audit_log($pdo, $this_user_id, 'module_projects_files', $file['id'], 'DELETE', json_encode(['file' => $file['file_name']]), '');
+      admin_audit_log($pdo, $this_user_id, 'module_projects_files', $file['id'], 'DELETE', '', json_encode(['file' => $file['file_name']]));
     }
     $pdo->prepare('DELETE FROM module_projects_answers WHERE id = :id')->execute([':id' => $answer_id]);
     admin_audit_log($pdo, $this_user_id, 'module_projects_answers', $answer_id, 'DELETE', '', $answer['answer_text']);
