@@ -2,7 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
 }
-require_once '../../../includes/php_header.php';
+require_once '../../includes/php_header.php';
 
 if (!isset($this_user_id)) {
   exit;
@@ -26,6 +26,6 @@ foreach ($fields as $postField => $listName) {
   }
 }
 
-header('Location: ../index.php?action=settings&saved=1');
+header('Location: index.php?action=settings&saved=1');
 exit;
 ?>
