@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('meeting', 'update');
 
 header('Content-Type: application/json');
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':project_id' => $linked_project_id
         ]);
         $id = $pdo->lastInsertId();
-        audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'CREATE', 'Added agenda item');
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'CREATE', 'Added agenda item');
         reorder_agenda($pdo, $meeting_id);
     } elseif ($meeting_id) {
         reorder_agenda($pdo, $meeting_id);

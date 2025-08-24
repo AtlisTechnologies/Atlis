@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('meeting', 'update');
 
 header('Content-Type: application/json');
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id && $meeting_id) {
         $pdo->prepare('DELETE FROM module_meeting_agenda WHERE id=:id AND meeting_id=:mid')->execute([':id' => $id, ':mid' => $meeting_id]);
-        audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'DELETE', 'Deleted agenda item');
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'DELETE', 'Deleted agenda item');
         reorder_agenda($pdo, $meeting_id);
     } elseif ($meeting_id) {
         reorder_agenda($pdo, $meeting_id);

@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('meeting', 'update');
 
 header('Content-Type: application/json');

@@ -1,5 +1,5 @@
 <?php
-require '../../../includes/php_header.php';
+require '../../includes/php_header.php';
 require_permission('meeting','update');
 
 $meeting_id = (int)($_POST['meeting_id'] ?? 0);
@@ -46,7 +46,7 @@ if (!empty($_FILES['file'])) {
         $targetName = 'meeting_' . $meeting_id . '_' . time() . '_' . $safeName;
         $targetPath = $uploadDir . $targetName;
         if (move_uploaded_file($files['tmp_name'][$index], $targetPath)) {
-            $filePathDb = '/module/meeting/uploads/' . $meeting_id . '/' . $targetName;
+            $filePathDb = '/admin/meetings/uploads/' . $meeting_id . '/' . $targetName;
             $stmt = $pdo->prepare('INSERT INTO module_meeting_files (user_id,user_updated,meeting_id,file_name,file_path,uploader_id) VALUES (:uid,:uid,:mid,:name,:path,:uid)');
             $stmt->execute([
                 ':uid' => $this_user_id,

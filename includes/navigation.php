@@ -59,7 +59,7 @@
         <?php // MEETINGS NAV LINK ?>
         <?php if (user_has_permission('meeting','read')): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/meeting/">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>admin/meetings/">
             <span class="uil fs-8 me-2 fas fa-handshake"></span>Meetings</a>
         </li>
         <?php endif; ?>
