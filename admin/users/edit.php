@@ -90,9 +90,8 @@ $defaultPhoneTypeId     = get_default_id($phoneTypeItems);
 $defaultPhoneStatusId   = get_default_id($phoneStatusItems);
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$_SESSION['csrf_token'] = $token; ?>
 
-?>
 <?php if ($errors): ?>
   <div class="alert alert-danger">
     <ul class="mb-0">
@@ -119,9 +118,11 @@ $_SESSION['csrf_token'] = $token;
         <div class="hoverbox" style="width: 150px; height: 150px">
           <div class="hoverbox-content rounded-circle d-flex flex-center z-1" style="--phoenix-bg-opacity:.56;"><span class="fa-solid fa-camera fs-1 text-body-quaternary"></span></div>
           <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center">
-            <div class="avatar avatar-5xl"><img class="rounded-circle" src="<?php echo $profile_pic ? getURLDir() . htmlspecialchars($profile_pic) : getURLDir() . 'assets/img/team/150x150/58.webp'; ?>" alt="" /></div>
+            <? if(isset($gender_id)){ $user_gender = get_lookup_item_label_from_id($pdo, $gender_id); }else{ $user_gender = NULL; } ?>
+            <? if(isset($gender_id) && $user_gender == "Female"){ $gender_img = 10;  }elseif($user_gender == 'Male'){ $gender_img = 65; }else{ $gender_img = "avatar"; } ?>
+            <div class="avatar avatar-5xl"><img class="rounded-circle" src="<?php echo $profile_pic ? getURLDir() . htmlspecialchars($profile_pic) : getURLDir() . "assets/img/team/150x150/$gender_img.webp"; ?>" alt="" /></div>
             <label class="w-100 h-100 position-absolute z-1" for="upload-avatar"></label>
-          </div>
+        </div>
         </div>
       </div>
       <?php if ($imageTypes): ?>

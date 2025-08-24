@@ -100,4 +100,13 @@ function set_user_default_lookup_item(PDO $pdo, int $userId, string $listName, i
     ]);
 }
 
+
+function get_lookup_item_label_from_id(PDO $pdo, int $itemId){
+  $sql = 'SELECT label FROM `lookup_list_items` WHERE id = :item_id';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([':item_id' => $itemId]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  return $row['label'] ?? null;
+}
+
 ?>
