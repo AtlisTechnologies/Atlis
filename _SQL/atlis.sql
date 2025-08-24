@@ -207,7 +207,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (8, 'Navigation Links', 'navigation.php', 'settings', 10, 1, 1, '2025-08-20 00:37:23', '2025-08-24 01:54:11', NULL),
 (9, 'Orgs', 'orgs/index.php', 'layers', 1, 1, 1, '2025-08-21 02:22:27', '2025-08-21 02:22:37', NULL),
 (11, 'Meetings', 'meetings/index.php', 'cpu', 6, 1, 1, '2025-08-26 00:00:00', '2025-08-24 01:45:00', NULL),
-(12, 'Branding', 'branding/index.php', 'palette', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 01:54:11', NULL);
+(12, 'Branding', 'branding/index.php', 'palette', 5, 1, 1, '2025-08-24 01:53:50', '2025-08-24 01:54:11', NULL),
+(13, 'Products & Services', 'products-services/index.php', 'box', 11, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,7 +307,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (77, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'create'),
 (78, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'read'),
 (79, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'update'),
-(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'delete');
+(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'meeting', 'delete'),
+(81, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'products_services', 'create'),
+(82, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'products_services', 'read'),
+(83, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'products_services', 'update'),
+(84, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'products_services', 'delete');
 
 -- --------------------------------------------------------
 
@@ -343,7 +348,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (11, 1, 1, '2025-08-19 00:00:00', '2025-08-19 00:00:00', NULL, 'Kanban Boards', 'Permissions for managing kanban boards'),
 (12, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 'Feedback', 'Permissions for managing feedback'),
 (13, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 'Calendar', 'Permissions for managing calendar'),
-(15, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Meetings', 'Permissions for managing meetings');
+(15, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Meetings', 'Permissions for managing meetings'),
+(16, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services', 'Permissions for managing products and services');
 
 -- --------------------------------------------------------
 
@@ -442,7 +448,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (77, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 77),
 (78, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 78),
 (79, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 79),
-(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 80);
+(80, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 15, 80),
+(81, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 16, 81),
+(82, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 16, 82),
+(83, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 16, 83),
+(84, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 16, 84);
 
 -- --------------------------------------------------------
 
@@ -471,7 +481,8 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (11, 1, 1, '2025-08-17 14:17:19', '2025-08-17 14:17:19', NULL, 'Project Manager', ''),
 (12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', ''),
 (13, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Admin', ''),
-(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', '');
+(14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', ''),
+(15, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services Manager', '');
 
 -- --------------------------------------------------------
 
@@ -537,7 +548,9 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (40, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 11, 12),
 (41, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 12, 12),
 (42, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 13, 12),
-(43, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 14, 12);
+(43, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', NULL, 14, 12),
+(44, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 1, 16),
+(45, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 15, 16);
 
 -- --------------------------------------------------------
 
@@ -592,7 +605,9 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (38, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 1, 13),
 (39, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 10, 13),
 (40, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 11, 13),
-(41, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 12, 13);
+(41, 1, 1, '2025-08-24 00:00:00', '2025-08-24 00:00:00', NULL, 12, 13),
+(42, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 1, 16),
+(43, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 15, 16);
 
 -- --------------------------------------------------------
 
@@ -833,7 +848,10 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (38, 1, 1, '2025-08-23 11:07:08', '2025-08-23 11:09:03', '', 'CALENDAR_VISIBILITY', ''),
 (39, 1, 1, '2025-08-23 15:58:35', '2025-08-23 16:06:10', '', 'MEETING_STATUS', 'Status values for meetings'),
 (40, 1, 1, '2025-08-23 15:58:41', '2025-08-23 16:08:51', '', 'MEETING_TYPE', 'Types of meetings.'),
-(41, 1, 1, '2025-08-23 15:58:44', '2025-08-23 16:08:11', '', 'MEETING_FILE_TYPE', 'Categories of meeting files');
+(41, 1, 1, '2025-08-23 15:58:44', '2025-08-23 16:08:11', '', 'MEETING_FILE_TYPE', 'Categories of meeting files'),
+(42, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', '', 'PRODUCT_SERVICE_TYPE', 'Types of products or services'),
+(43, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', '', 'PERSON_SKILL', 'Skills a person may have'),
+(44, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', '', 'SKILL_LEVEL', 'Proficiency levels for skills');
 
 -- --------------------------------------------------------
 
@@ -1043,7 +1061,19 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (210, 1, 1, '2025-08-23 16:07:26', '2025-08-23 16:07:26', NULL, 41, 'Recording', 'RECORDING', 0, '2025-08-23', NULL),
 (211, 1, 1, '2025-08-23 19:17:29', '2025-08-23 19:17:29', NULL, 8, 'User', 'USER', 0, '2025-08-23', NULL),
 (212, 1, 1, '2025-08-23 19:17:37', '2025-08-23 19:17:37', NULL, 9, 'User', 'USER', 0, '2025-08-23', NULL),
-(213, 1, 1, '2025-08-23 20:25:52', '2025-08-23 20:25:52', NULL, 10, 'Indefinite - Ongoing', 'INDEFINITE', 0, '2025-08-23', NULL);
+(213, 1, 1, '2025-08-23 20:25:52', '2025-08-23 20:25:52', NULL, 10, 'Indefinite - Ongoing', 'INDEFINITE', 0, '2025-08-23', NULL),
+(214, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 42, 'Product', 'PRODUCT', 1, '2025-08-27', NULL),
+(215, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 42, 'Service', 'SERVICE', 2, '2025-08-27', NULL),
+(216, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 42, 'Subscription', 'SUBSCRIPTION', 3, '2025-08-27', NULL),
+(217, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 43, 'PHP', 'PHP', 1, '2025-08-27', NULL),
+(218, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 43, 'JavaScript', 'JAVASCRIPT', 2, '2025-08-27', NULL),
+(219, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 43, 'SQL', 'SQL', 3, '2025-08-27', NULL),
+(220, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 43, 'Project Management', 'PM', 4, '2025-08-27', NULL),
+(221, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 43, 'Design', 'DESIGN', 5, '2025-08-27', NULL),
+(222, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 44, 'Beginner', 'BEGINNER', 1, '2025-08-27', NULL),
+(223, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 44, 'Intermediate', 'INTERMEDIATE', 2, '2025-08-27', NULL),
+(224, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 44, 'Advanced', 'ADVANCED', 3, '2025-08-27', NULL),
+(225, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 44, 'Expert', 'EXPERT', 4, '2025-08-27', NULL);
 
 -- --------------------------------------------------------
 
@@ -2561,6 +2591,62 @@ INSERT INTO `module_users_defaults` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_products_services`
+--
+
+CREATE TABLE `module_products_services` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `description` text DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `person_skills`
+--
+
+CREATE TABLE `person_skills` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `person_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_products_services_person`
+--
+
+CREATE TABLE `module_products_services_person` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `product_service_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `person`
 --
 
@@ -3389,6 +3475,38 @@ ALTER TABLE `module_users_defaults`
   ADD KEY `fk_module_users_defaults_item_id` (`item_id`);
 
 --
+-- Indexes for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_products_services_user_id` (`user_id`),
+  ADD KEY `fk_module_products_services_user_updated` (`user_updated`),
+  ADD KEY `fk_module_products_services_type_id` (`type_id`),
+  ADD KEY `fk_module_products_services_status_id` (`status_id`);
+
+--
+-- Indexes for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_person_skills_user_id` (`user_id`),
+  ADD KEY `fk_person_skills_user_updated` (`user_updated`),
+  ADD KEY `fk_person_skills_person_id` (`person_id`),
+  ADD KEY `fk_person_skills_skill_id` (`skill_id`),
+  ADD KEY `fk_person_skills_level_id` (`level_id`);
+
+--
+-- Indexes for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_products_services_person_user_id` (`user_id`),
+  ADD KEY `fk_module_products_services_person_user_updated` (`user_updated`),
+  ADD KEY `fk_module_products_services_person_product_service_id` (`product_service_id`),
+  ADD KEY `fk_module_products_services_person_person_id` (`person_id`),
+  ADD KEY `fk_module_products_services_person_skill_id` (`skill_id`);
+
+--
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
@@ -3486,25 +3604,25 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -3516,7 +3634,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
@@ -3540,13 +3658,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -3805,6 +3923,24 @@ ALTER TABLE `module_task_assignments`
 --
 ALTER TABLE `module_users_defaults`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -4256,6 +4392,35 @@ ALTER TABLE `module_users_defaults`
   ADD CONSTRAINT `fk_module_users_defaults_item_id` FOREIGN KEY (`item_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_users_defaults_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_users_defaults_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_products_services`
+--
+ALTER TABLE `module_products_services`
+  ADD CONSTRAINT `fk_module_products_services_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_type_id` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_products_services_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `person_skills`
+--
+ALTER TABLE `person_skills`
+  ADD CONSTRAINT `fk_person_skills_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_person_skills_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_person_skills_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_person_skills_level_id` FOREIGN KEY (`level_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `module_products_services_person`
+--
+ALTER TABLE `module_products_services_person`
+  ADD CONSTRAINT `fk_module_products_services_person_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_person_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_products_services_person_product_service_id` FOREIGN KEY (`product_service_id`) REFERENCES `module_products_services` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_products_services_person_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_products_services_person_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`);
 
 --
 -- Constraints for table `person`
