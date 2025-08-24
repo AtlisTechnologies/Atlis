@@ -31,9 +31,11 @@ if ($is_logged_in) {
   // STRINGS AREN'T FUN IN MySQL QUERIES
   $email = $_SESSION['this_user_email'];
 
-  $sql = "SELECT u.*, upp.file_path
+  $sql = "SELECT u.*, upp.file_path, p.first_name, p.last_name, p.gender_id, lli.code AS gender_code
           FROM users u
           LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
+          LEFT JOIN person p ON u.id = p.user_id
+          LEFT JOIN lookup_list_items lli ON p.gender_id = lli.id
           WHERE u.email = :email";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -47,16 +49,10 @@ if ($is_logged_in) {
     $this_user_status = $row['status']; // 1 or 0
     $this_user_date_created = $row['date_created'];
     $this_user_last_login = $row['last_login'];
-
-
-    $sql = "SELECT first_name, last_name FROM person p WHERE p.user_id = :user_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':user_id', $this_user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $this_user_first_name = $row['first_name'];
-      $this_user_last_name = $row['last_name'];
-    }
+    $this_user_first_name = $row['first_name'];
+    $this_user_last_name = $row['last_name'];
+    $this_user_gender_id = $row['gender_id'];
+    $this_user_gender_code = $row['gender_code'];
 
     $this_user_name = $this_user_first_name . " " . $this_user_last_name;
   } // END THIS_USER
