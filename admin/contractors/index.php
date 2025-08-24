@@ -21,10 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 $statusItems = get_lookup_items($pdo, 'CONTRACTOR_STATUS');
 $statusMap   = array_column($statusItems, null, 'id');
 
-$sql = "SELECT mc.id,
+ $sql = "SELECT mc.id,
                p.first_name,
                p.last_name,
                p.email,
+               p.gender_id,
+               li.code AS gender_code,
                mc.start_date,
                s.label AS status_label,
                COALESCE(sa.attr_value, 'secondary') AS status_color,
@@ -35,6 +37,7 @@ $sql = "SELECT mc.id,
         LEFT JOIN lookup_list_items s ON mc.status_id = s.id
         LEFT JOIN lookup_list_item_attributes sa ON s.id = sa.item_id AND sa.attr_code = 'COLOR-CLASS'
         LEFT JOIN lookup_list_items t ON mc.contractor_type_id = t.id
+        LEFT JOIN lookup_list_items li ON p.gender_id = li.id
         LEFT JOIN users u ON p.user_id = u.id
         LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id
         ORDER BY p.last_name, p.first_name";
@@ -73,7 +76,11 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="list" id="contractor-table-body">
       <?php foreach($contractors as $c): ?>
         <?php $fullName = trim(($c['first_name'] ?? '') . ' ' . ($c['last_name'] ?? '')); ?>
-        <?php $pic = !empty($c['file_path']) ? $c['file_path'] : 'assets/img/team/avatar.webp'; ?>
+        <?php $pic = !empty($c['file_path'])
+          ? $c['file_path']
+          : ($c['gender_code'] === 'FEMALE'
+            ? 'assets/img/team/avatar-female.webp'
+            : 'assets/img/team/avatar.webp'); ?>
         <div class="row g-0 align-items-center border-bottom py-2">
           <div class="col-auto px-2" style="width:120px;">
             <?php if (user_has_permission('contractors','update')): ?>
@@ -94,8 +101,8 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <div class="col px-2 id"><?= h($c['id']); ?></div>
           <div class="col px-2 name">
             <div class="d-flex align-items-center">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">
-                <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . h($pic); ?>" alt="" />
+              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . $pic; ?>">
+                <img class="rounded-circle avatar avatar-m me-2" src="<?php echo getURLDir() . $pic; ?>" alt="" />
               </a>
               <a class="text-body" href="contractor.php?id=<?= $c['id']; ?>"><?= h($fullName ?: 'Unknown Person'); ?></a>
             </div>
