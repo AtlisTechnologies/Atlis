@@ -304,6 +304,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <div class="d-flex align-items-center">
                 <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
                 <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+                <button class="btn btn-warning btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editQuestionModal<?= (int)$q['id']; ?>" aria-label="Edit question">
+                  <span class="fa-solid fa-pen"></span>
+                </button>
                 <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
                   <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
                   <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
@@ -312,6 +315,26 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 <?php endif; ?>
 
               </div>
+              <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
+              <div class="modal fade" id="editQuestionModal<?= (int)$q['id']; ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form class="modal-content" method="post" action="functions/edit_question.php">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Edit Question</h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
+                      <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                      <textarea class="form-control" name="question_text" rows="3" required><?= h($q['question_text']); ?></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <?php endif; ?>
               <div class="d-flex align-items-center fs-9 text-body-secondary mb-2">
                 <div class="avatar avatar-m me-2"><img class="rounded-circle" src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
                 <div>
@@ -353,6 +376,9 @@ require_once __DIR__ . '/../../../includes/functions.php';
                       <div class="d-flex">
                         <p class="mb-1 flex-grow-1"><?= h($ans['answer_text']); ?></p>
                         <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($ans['user_id'] ?? 0) == $this_user_id)): ?>
+                        <button class="btn btn-warning btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editAnswerModal<?= (int)$ans['id']; ?>" aria-label="Edit answer">
+                          <span class="fa-solid fa-pen"></span>
+                        </button>
                         <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
                           <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
                           <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
@@ -360,6 +386,26 @@ require_once __DIR__ . '/../../../includes/functions.php';
                         </form>
                         <?php endif; ?>
                       </div>
+                      <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($ans['user_id'] ?? 0) == $this_user_id)): ?>
+                      <div class="modal fade" id="editAnswerModal<?= (int)$ans['id']; ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <form class="modal-content" method="post" action="functions/edit_answer.php">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Edit Answer</h5>
+                              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
+                              <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+                              <textarea class="form-control" name="answer_text" rows="3" required><?= h($ans['answer_text']); ?></textarea>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <?php endif; ?>
                       <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                       <div class="d-flex align-items-center fs-9 text-body-secondary">
                         <div class="avatar avatar-m me-2"><img class="rounded-circle" src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
