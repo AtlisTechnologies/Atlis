@@ -214,8 +214,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
               <?php $qpic = !empty($q['user_pic']) ? $q['user_pic'] : 'assets/img/team/avatar.webp'; ?>
               <div class="d-flex align-items-center">
-                <div class="avatar avatar-m"><img class="rounded-circle" src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
-                <p class="mb-1 fw-semibold flex-grow-1 ms-2"><?= h($q['question_text']); ?></p>
+                <p class="mb-1 fw-semibold flex-grow-1"><?= h($q['question_text']); ?></p>
                 <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
                 <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
                   <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
@@ -226,7 +225,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
 
               </div>
               <div class="d-flex align-items-center fs-9 text-body-secondary mb-2">
-                <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
+                <div class="avatar avatar-m me-2"><img class="rounded-circle" src="<?php echo getURLDir() . h($qpic); ?>" alt="" /></div>
                 <div>
                   <div class="fw-bold text-body"><?= h($q['user_name']); ?></div>
                   <div><?= h($q['date_created']); ?></div>
@@ -275,7 +274,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                       </div>
                       <?php $apic = !empty($ans['user_pic']) ? $ans['user_pic'] : 'assets/img/team/avatar.webp'; ?>
                       <div class="d-flex align-items-center fs-9 text-body-secondary">
-                        <div class="avatar avatar-m me-2"><img src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
+                        <div class="avatar avatar-m me-2"><img class="rounded-circle" src="<?php echo getURLDir() . h($apic); ?>" alt="" /></div>
                         <div>
                           <div class="fw-semibold text-body"><?= h($ans['user_name']); ?></div>
                           <div><?= h($ans['date_created']); ?></div>
