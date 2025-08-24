@@ -39,7 +39,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskStatus" name="status" required>
             <?php foreach ($statusMap as $s): ?>
-              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && !empty($s['is_default'])); ?>
+              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && $defaultTaskStatusId == $s['id']); ?>
               <option value="<?php echo $s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -50,7 +50,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskPriority" name="priority" required>
             <?php foreach ($priorityMap as $p): ?>
-              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && !empty($p['is_default'])); ?>
+              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && $defaultTaskPriorityId == $p['id']); ?>
               <option value="<?php echo $p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -195,7 +195,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskStatus" name="status" required>
             <?php foreach ($statusMap as $s): ?>
-              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && !empty($s['is_default'])); ?>
+              <?php $sel = (($task['status'] ?? null) == $s['id']) || (empty($task['status']) && $defaultTaskStatusId == $s['id']); ?>
               <option value="<?php echo $s['id']; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
             <?php endforeach; ?>
           </select>
@@ -206,7 +206,7 @@
         <div class="form-floating">
           <select class="form-select" id="taskPriority" name="priority" required>
             <?php foreach ($priorityMap as $p): ?>
-              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && !empty($p['is_default'])); ?>
+              <?php $sel = (($task['priority'] ?? null) == $p['id']) || (empty($task['priority']) && $defaultTaskPriorityId == $p['id']); ?>
               <option value="<?php echo $p['id']; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo $sel ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
             <?php endforeach; ?>
           </select>
