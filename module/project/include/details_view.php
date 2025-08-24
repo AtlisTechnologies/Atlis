@@ -220,7 +220,7 @@ if (!empty($current_project)) {
                 </div>
                 <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($current_project['user_id'] ?? 0) == $this_user_id)): ?>
                 <div class="px-4 px-lg-6 py-4">
-                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php"}'>
+                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php","autoProcessQueue":true}'>
                     <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                     <input type="hidden" name="note_id" value="">
                     <div class="fallback">
