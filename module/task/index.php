@@ -257,19 +257,20 @@ if ($action === 'details') {
             ' d.name AS division_name,' .
             ' a.name AS agency_name,' .
             ' o.name AS organization_name,' .
+            ' CASE WHEN mpa.project_id IS NULL THEN 0 ELSE 1 END AS project_assigned,' .
             ' CONCAT(cbp.first_name, " ", cbp.last_name) AS completed_by_name' .
      ' FROM module_tasks t' .
      ' LEFT JOIN module_projects p ON t.project_id = p.id' .
+     ' LEFT JOIN module_projects_assignments mpa ON t.project_id = mpa.project_id AND mpa.assigned_user_id = :uid' .
      ' LEFT JOIN module_division d ON t.division_id = d.id' .
      ' LEFT JOIN module_agency a ON t.agency_id = a.id' .
      ' LEFT JOIN module_organization o ON a.organization_id = o.id' .
      ' LEFT JOIN users cb ON t.completed_by = cb.id' .
      ' LEFT JOIN person cbp ON cb.id = cbp.user_id' .
      ' WHERE t.id = :id';
-  $taskParams = [':id' => $task_id];
+  $taskParams = [':id' => $task_id, ':uid' => $this_user_id];
   if (!user_has_role('Admin')) {
     $taskSql .= ' AND (p.id IS NULL OR p.is_private = 0 OR p.user_id = :uid) AND (t.project_id IS NOT NULL OR t.is_private = 0 OR t.user_id = :uid)';
-    $taskParams[':uid'] = $this_user_id;
   }
   $stmt = $pdo->prepare($taskSql);
   $stmt->execute($taskParams);
@@ -282,11 +283,13 @@ if ($action === 'details') {
   $availableUsers = [];
   $questions = [];
   $questionAnswers = [];
+  $alreadyAssigned = false;
   if ($current_task) {
 
       $assignedStmt = $pdo->prepare('SELECT mta.assigned_user_id AS user_id, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_task_assignments mta JOIN users u ON mta.assigned_user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE mta.task_id = :id');
-      $assignedStmt->execute([':id' => $task_id]);
+    $assignedStmt->execute([':id' => $task_id]);
     $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+    $alreadyAssigned = in_array($this_user_id, array_column($assignedUsers, 'user_id'));
 
     $assignedIds = array_column($assignedUsers, 'user_id');
     if (!empty($current_task['project_id'])) {

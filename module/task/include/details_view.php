@@ -30,24 +30,26 @@ require_once __DIR__ . '/../../../includes/functions.php';
       <p class="text-body-secondary mb-0"><?php echo implode(' / ', array_map('h', $hierarchyParts)); ?></p>
     <?php endif; ?>
     <p class="mb-3 mt-3">
-      <?= render_status_badge($statusMap, $current_task['status'], 'fs-8', ['id' => 'statusBadge']) ?>
-      <?= render_status_badge($priorityMap, $current_task['priority'], 'fs-8', ['id' => 'priorityBadge']) ?>
-      <?php if (user_has_permission('task','update')): ?>
-      <form id="taskUpdateForm" class="d-inline ms-2">
-        <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
-        <select class="form-select form-select-sm d-inline w-auto" name="status">
+      <div class="dropdown d-inline">
+        <?= render_status_badge($statusMap, $current_task['status'], 'fs-8' . (user_has_permission('task','update') ? ' dropdown-toggle' : ''), array_merge(['id' => 'statusBadge'], user_has_permission('task','update') ? ['data-bs-toggle' => 'dropdown', 'role' => 'button'] : [])) ?>
+        <?php if (user_has_permission('task','update')): ?>
+        <ul class="dropdown-menu">
           <?php foreach ($statusMap as $sid => $s): ?>
-            <option value="<?php echo (int)$sid; ?>" data-color="<?php echo h($s['color_class']); ?>" <?php echo ((int)$current_task['status'] === (int)$sid) ? 'selected' : ''; ?>><?php echo h($s['label']); ?></option>
+            <li><a class="dropdown-item task-field-option" data-field="status" data-value="<?= (int)$sid; ?>" data-color="<?= h($s['color_class']); ?>"><?= h($s['label']); ?></a></li>
           <?php endforeach; ?>
-        </select>
-        <select class="form-select form-select-sm d-inline w-auto ms-1" name="priority">
+        </ul>
+        <?php endif; ?>
+      </div>
+      <div class="dropdown d-inline ms-2">
+        <?= render_status_badge($priorityMap, $current_task['priority'], 'fs-8' . (user_has_permission('task','update') ? ' dropdown-toggle' : ''), array_merge(['id' => 'priorityBadge'], user_has_permission('task','update') ? ['data-bs-toggle' => 'dropdown', 'role' => 'button'] : [])) ?>
+        <?php if (user_has_permission('task','update')): ?>
+        <ul class="dropdown-menu">
           <?php foreach ($priorityMap as $pid => $p): ?>
-            <option value="<?php echo (int)$pid; ?>" data-color="<?php echo h($p['color_class']); ?>" <?php echo ((int)$current_task['priority'] === (int)$pid) ? 'selected' : ''; ?>><?php echo h($p['label']); ?></option>
+            <li><a class="dropdown-item task-field-option" data-field="priority" data-value="<?= (int)$pid; ?>" data-color="<?= h($p['color_class']); ?>"><?= h($p['label']); ?></a></li>
           <?php endforeach; ?>
-        </select>
-        <button class="btn btn-atlis btn-sm ms-1" type="submit">Update</button>
-      </form>
-      <?php endif; ?>
+        </ul>
+        <?php endif; ?>
+      </div>
     </p>
     <?php if (!empty($current_task['completed_by_name'])): ?>
       <p class="text-body-secondary mb-3">Completed by <?php echo h($current_task['completed_by_name']); ?></p>
@@ -142,9 +144,16 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <div class="d-flex align-items-center mb-4">
           <h4 class="text-body-emphasis mb-0 me-2">Assigned</h4>
           <?php if (user_has_permission('task','update')): ?>
-            <button class="bg-transparent border-0 text-success fs-9" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal" aria-label="Assign user">
+            <button class="bg-transparent border-0 text-success fs-9 me-1" type="button" data-bs-toggle="modal" data-bs-target="#assignUserModal" aria-label="Assign user">
               <span class="fa-solid fa-plus"></span>
             </button>
+          <?php endif; ?>
+          <?php if (user_has_permission('task','update') && !$alreadyAssigned && (empty($current_task['project_id']) || !empty($current_task['project_assigned']))): ?>
+            <form method="post" action="functions/assign_user.php" class="d-inline">
+              <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
+              <input type="hidden" name="user_id" value="<?= (int)$this_user_id; ?>">
+              <button class="btn btn-success btn-sm p-1" type="submit"><span class="fa-solid fa-user-plus"></span></button>
+            </form>
           <?php endif; ?>
         </div>
         <?php if (!empty($assignedUsers)): ?>
@@ -503,34 +512,39 @@ require_once __DIR__ . '/../../../includes/functions.php';
       });
     }
 
-    var updateForm = document.getElementById('taskUpdateForm');
-    if (updateForm) {
-      updateForm.addEventListener('submit', function (e) {
+    var taskId = <?= (int)$current_task['id']; ?>;
+    document.querySelectorAll('.task-field-option').forEach(function (opt) {
+      opt.addEventListener('click', function (e) {
         e.preventDefault();
-        var formData = new FormData(updateForm);
-        fetch('functions/update.php', {
+        var field = opt.getAttribute('data-field');
+        var value = opt.getAttribute('data-value');
+        fetch('functions/update_field.php', {
           method: 'POST',
-          body: formData
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ id: taskId, field: field, value: value })
         })
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data.success && data.task) {
-            var statusBadge = document.getElementById('statusBadge');
-            var priorityBadge = document.getElementById('priorityBadge');
-            if (statusBadge) {
-              statusBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.status_color || 'secondary');
-              var sLabel = statusBadge.querySelector('.badge-label');
-              if (sLabel) { sLabel.textContent = data.task.status_label || ''; }
-            }
-            if (priorityBadge) {
-              priorityBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.priority_color || 'secondary');
-              var pLabel = priorityBadge.querySelector('.badge-label');
-              if (pLabel) { pLabel.textContent = data.task.priority_label || ''; }
+            if (field === 'status') {
+              var statusBadge = document.getElementById('statusBadge');
+              if (statusBadge) {
+                statusBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.status_color || 'secondary') + ' dropdown-toggle';
+                var sLabel = statusBadge.querySelector('.badge-label');
+                if (sLabel) { sLabel.textContent = data.task.status_label || ''; }
+              }
+            } else if (field === 'priority') {
+              var priorityBadge = document.getElementById('priorityBadge');
+              if (priorityBadge) {
+                priorityBadge.className = 'badge badge-phoenix fs-8 badge-phoenix-' + (data.task.priority_color || 'secondary') + ' dropdown-toggle';
+                var pLabel = priorityBadge.querySelector('.badge-label');
+                if (pLabel) { pLabel.textContent = data.task.priority_label || ''; }
+              }
             }
           }
         });
       });
-    }
+    });
 
     var datesForm = document.getElementById('taskDatesForm');
     if (datesForm) {
