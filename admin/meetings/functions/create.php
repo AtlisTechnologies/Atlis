@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare('INSERT INTO module_meetings (user_id, user_updated, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly) VALUES (?,?,?,?,?,?,?,?,?)');
     $stmt->execute([$this_user_id, $this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly]);
     $id = $pdo->lastInsertId();
-   admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', 'Created meeting');
+   admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', '', 'Created meeting');
     $meeting = ['id'=>$id,'title'=>$title,'start_time'=>$start_time];
     if ($isAjax) {
       echo json_encode(['success'=>true,'meeting'=>$meeting]);
@@ -63,4 +63,3 @@ if ($isAjax) {
 
 header('Location: ../index.php');
 exit;
-
