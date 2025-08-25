@@ -5,8 +5,10 @@ $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+$event_types = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_visibility_id = $visibilities[0]['id'] ?? 0;
+$default_event_type_id = $event_types[0]['id'] ?? 0;
 
 $external_cal_labels = [
   'google' => 'Google Calendar',
@@ -78,6 +80,14 @@ $connected_calendars = $_SESSION['connected_calendars'] ?? [];
             </div>
           </div>
           <div class="mb-3">
+            <label class="form-label" for="addEventType">Event Type</label>
+            <select class="form-select" id="addEventType" name="event_type_id">
+              <?php foreach ($event_types as $et): ?>
+                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
             <label class="form-label" for="addEventVisibility">Visibility</label>
             <select class="form-select" id="addEventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
@@ -122,6 +132,14 @@ $connected_calendars = $_SESSION['connected_calendars'] ?? [];
             </div>
           </div>
           <div class="mb-3">
+            <label class="form-label" for="editEventType">Event Type</label>
+            <select class="form-select" id="editEventType" name="event_type_id">
+              <?php foreach ($event_types as $et): ?>
+                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
             <label class="form-label" for="editEventVisibility">Visibility</label>
             <select class="form-select" id="editEventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
@@ -148,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultVisibilityId = <?php echo (int)$default_visibility_id; ?>;
+  const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const calendarEl = document.getElementById('calendar');
   const externalSources = {
     google: {
@@ -199,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
       // Visibility uses visibility_id rather than legacy is_private flag
+      form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId;
       form.visibility_id.value = info.event.extendedProps.visibility_id;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
@@ -206,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('addEventForm');
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
+      form.event_type_id.value = defaultEventTypeId;
       form.visibility_id.value = defaultVisibilityId;
       form.calendar_id.value = getCalendarId();
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
