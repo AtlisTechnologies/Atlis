@@ -6,13 +6,18 @@ header('Content-Type: application/json');
 
 $title = trim($_POST['title'] ?? '');
 
-$start_time = $_POST['start_time'] ?? $_POST['startTime'] ?? null;
-$end_time = $_POST['end_time'] ?? $_POST['endTime'] ?? null;
+$start_time = $_POST['start_time'] ?? null;
+$end_time = $_POST['end_time'] ?? null;
 $link_module = $_POST['link_module'] ?? null;
 $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
 $event_type_id = $_POST['event_type_id'] ?? null;
-$is_private = (int)($_POST['is_private'] ?? 0);
+$visibility_id = (int)($_POST['visibility_id'] ?? 0);
+
+$privStmt = $pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=38 AND code="PRIVATE"');
+$privStmt->execute();
+$privateId = (int)$privStmt->fetchColumn();
+$is_private = ($privateId > 0 && $visibility_id === $privateId) ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 
 if ($title && $start_time && $calendar_id) {
@@ -39,7 +44,14 @@ if ($title && $start_time && $calendar_id) {
     }
   }
 
-  echo json_encode(['success' => true, 'id' => $eventId, 'is_private' => $is_private]);
+  echo json_encode([
+    'success' => true,
+    'id' => $eventId,
+    'title' => $title,
+    'start' => $start_time,
+    'end' => $end_time,
+    'visibility_id' => $visibility_id
+  ]);
   exit;
 }
 
