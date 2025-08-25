@@ -1,7 +1,5 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('calendar','read');
-
 header('Content-Type: application/json');
 
 require_once 'google_events.php';
