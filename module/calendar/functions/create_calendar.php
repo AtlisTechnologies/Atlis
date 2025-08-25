@@ -1,6 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('calendar','sync');
+require_permission('calendar','create');
 
 header('Content-Type: application/json');
 
