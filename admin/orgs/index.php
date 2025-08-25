@@ -145,117 +145,121 @@ $organizations = array_values($organizations);
 <?php if (user_has_permission('organization','create')): ?>
   <a href="organization_edit.php" class="btn btn-sm btn-success mb-3">Add Organization</a>
 <?php endif; ?>
-<div class="table-responsive">
-  <table class="table fs-9 mb-0 border-top border-translucent">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($organizations as $org): ?>
-        <tr>
-          <td class="ps-2"><?= htmlspecialchars($org['name']); ?>
-            <?php if (!empty($org['file_path'])): ?>
-              <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
-            <?php endif; ?>
-            <?php if (!empty($org['persons'])): ?>
-              <br><small>
-                <?php
-                  $parts = [];
-                  foreach ($org['persons'] as $p) {
-                    $label = $p['name'];
-                    if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
-                    if ($p['is_lead']) $label .= ' [Lead]';
-                    $parts[] = htmlspecialchars($label);
-                  }
-                  echo implode(', ', $parts);
-                ?>
-              </small>
-            <?php endif; ?>
-          </td>
-          <td>
-            <?= render_status_badge($orgStatuses, $org['status']) ?>
-          </td>
-          <td>
-            <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
-            <?php if (user_has_permission('organization','delete')): ?>
-              <form method="post" class="d-inline">
-                <input type="hidden" name="delete_organization_id" value="<?= $org['id']; ?>">
-                <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this organization?');">Delete</button>
-              </form>
-            <?php endif; ?>
-            <?php if (user_has_permission('agency','create')): ?>
-              <a class="btn btn-sm btn-success" href="agency_edit.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
-            <?php endif; ?>
-          </td>
-        </tr>
+
+<?php foreach ($organizations as $org): ?>
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-start">
+      <div>
+        <span class="fw-semibold"><?= htmlspecialchars($org['name']); ?></span>
+        <?php if (!empty($org['file_path'])): ?>
+          <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
+        <?php endif; ?>
+        <?php if (!empty($org['persons'])): ?>
+          <br><small>
+            <?php
+              $parts = [];
+              foreach ($org['persons'] as $p) {
+                $label = $p['name'];
+                if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
+                if ($p['is_lead']) $label .= ' [Lead]';
+                $parts[] = htmlspecialchars($label);
+              }
+              echo implode(', ', $parts);
+            ?>
+          </small>
+        <?php endif; ?>
+      </div>
+      <div class="text-end">
+        <?= render_status_badge($orgStatuses, $org['status']) ?>
+        <div class="mt-2">
+          <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
+          <?php if (user_has_permission('organization','delete')): ?>
+            <form method="post" class="d-inline">
+              <input type="hidden" name="delete_organization_id" value="<?= $org['id']; ?>">
+              <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+              <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this organization?');">Delete</button>
+            </form>
+          <?php endif; ?>
+          <?php if (user_has_permission('agency','create')): ?>
+            <a class="btn btn-sm btn-success" href="agency_edit.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+    <?php if (!empty($org['agencies'])): ?>
+      <div class="card-body">
         <?php foreach ($org['agencies'] as $agency): ?>
-          <tr class="bg-body-tertiary">
-            <td class="ps-8"><b>Agency:</b> <?= htmlspecialchars($agency['name']); ?>
-              <?php if (!empty($agency['file_path'])): ?>
-                <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
-              <?php endif; ?>
-              <?php if (!empty($agency['persons'])): ?>
-                <br><small>
-                  <?php
-                    $parts = [];
-                    foreach ($agency['persons'] as $p) {
-                      $label = $p['name'];
-                      if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
-                      if ($p['is_lead']) $label .= ' [Lead]';
-                      $parts[] = htmlspecialchars($label);
-                    }
-                    echo implode(', ', $parts);
-                  ?>
-                </small>
-              <?php endif; ?>
-            </td>
-            <td>
-              <?= render_status_badge($agencyStatuses, $agency['status']) ?>
-            </td>
-            <td>
-              <a class="btn btn-sm btn-warning" href="agency_edit.php?id=<?= $agency['id']; ?>">Edit</a>
-              <?php if (user_has_permission('agency','delete')): ?>
-                <form method="post" class="d-inline">
-                  <input type="hidden" name="delete_agency_id" value="<?= $agency['id']; ?>">
-                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                  <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this agency?');">Delete</button>
-                </form>
-              <?php endif; ?>
-              <?php if (user_has_permission('division','create')): ?>
-                <a class="btn btn-sm btn-success" href="division_edit.php?agency_id=<?= $agency['id']; ?>">Add Division</a>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <?php foreach ($agency['divisions'] as $division): ?>
-            <tr class="bg-body-secondary">
-              <td class="ps-12"><b>Division:</b> <?= htmlspecialchars($division['name']); ?>
-                <?php if (!empty($division['file_path'])): ?>
-                  <br><a href="/module/division/download.php?id=<?= $division['id']; ?>" target="_blank">View File</a>
+          <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between align-items-start">
+              <div>
+                <span class="fw-semibold">Agency: <?= htmlspecialchars($agency['name']); ?></span>
+                <?php if (!empty($agency['file_path'])): ?>
+                  <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
                 <?php endif; ?>
-              </td>
-              <td>
-                <?= render_status_badge($divisionStatuses, $division['status']) ?>
-              </td>
-              <td>
-                <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $division['id']; ?>">Edit</a>
-                <?php if (user_has_permission('division','delete')): ?>
-                  <form method="post" class="d-inline">
-                    <input type="hidden" name="delete_division_id" value="<?= $division['id']; ?>">
-                    <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this division?');">Delete</button>
-                  </form>
+                <?php if (!empty($agency['persons'])): ?>
+                  <br><small>
+                    <?php
+                      $parts = [];
+                      foreach ($agency['persons'] as $p) {
+                        $label = $p['name'];
+                        if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
+                        if ($p['is_lead']) $label .= ' [Lead]';
+                        $parts[] = htmlspecialchars($label);
+                      }
+                      echo implode(', ', $parts);
+                    ?>
+                  </small>
                 <?php endif; ?>
-              </td>
-            </tr>
-          <?php endforeach; ?>
+              </div>
+              <div class="text-end">
+                <?= render_status_badge($agencyStatuses, $agency['status']) ?>
+                <div class="mt-2">
+                  <a class="btn btn-sm btn-warning" href="agency_edit.php?id=<?= $agency['id']; ?>">Edit</a>
+                  <?php if (user_has_permission('agency','delete')): ?>
+                    <form method="post" class="d-inline">
+                      <input type="hidden" name="delete_agency_id" value="<?= $agency['id']; ?>">
+                      <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                      <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this agency?');">Delete</button>
+                    </form>
+                  <?php endif; ?>
+                  <?php if (user_has_permission('division','create')): ?>
+                    <a class="btn btn-sm btn-success" href="division_edit.php?agency_id=<?= $agency['id']; ?>">Add Division</a>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
+            <?php if (!empty($agency['divisions'])): ?>
+              <ul class="list-group list-group-flush">
+                <?php foreach ($agency['divisions'] as $division): ?>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                      Division: <?= htmlspecialchars($division['name']); ?>
+                      <?php if (!empty($division['file_path'])): ?>
+                        <br><a href="/module/division/download.php?id=<?= $division['id']; ?>" target="_blank">View File</a>
+                      <?php endif; ?>
+                    </div>
+                    <div class="text-end">
+                      <?= render_status_badge($divisionStatuses, $division['status']) ?>
+                      <div class="mt-2">
+                        <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $division['id']; ?>">Edit</a>
+                        <?php if (user_has_permission('division','delete')): ?>
+                          <form method="post" class="d-inline">
+                            <input type="hidden" name="delete_division_id" value="<?= $division['id']; ?>">
+                            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this division?');">Delete</button>
+                          </form>
+                        <?php endif; ?>
+                      </div>
+                    </div>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
+          </div>
         <?php endforeach; ?>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
+      </div>
+    <?php endif; ?>
+  </div>
+<?php endforeach; ?>
+
 <?php require '../admin_footer.php'; ?>
