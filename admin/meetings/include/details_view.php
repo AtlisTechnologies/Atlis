@@ -550,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function(){
           if(res.success){
             attendeeForm.reset();
             attendeeResults.innerHTML = '';
-            renderAttendees(res.attendees || res.data || []);
+            renderAttendees(res.attendees || []);
           } else {
             alert(res.message || 'Failed to add attendee');
           }
@@ -571,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function(){
           .then(r=>r.json())
           .then(function(res){
             if(res.success){
-              renderAttendees(res.attendees || res.data || []);
+              renderAttendees(res.attendees || []);
             }
           })
           .catch(function(){
