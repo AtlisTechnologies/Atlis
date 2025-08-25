@@ -45,15 +45,18 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 
 $extEvents = [];
-$stmt = $pdo->prepare('SELECT provider FROM user_oauth_tokens WHERE user_id = ?');
+$stmt = $pdo->prepare('SELECT provider FROM module_calendar_external_accounts WHERE user_id = ?');
 $stmt->execute([$this_user_id]);
 $providers = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-if (in_array('google', $providers, true)) {
-  $extEvents = array_merge($extEvents, fetch_google_events($pdo, $this_user_id));
-}
-if (in_array('microsoft', $providers, true)) {
-  $extEvents = array_merge($extEvents, fetch_microsoft_events($pdo, $this_user_id));
+if (!empty($providers)) {
+  if (in_array('google', $providers, true)) {
+    $extEvents = array_merge($extEvents, fetch_google_events($pdo, $this_user_id));
+  }
+  if (in_array('microsoft', $providers, true)) {
+    $extEvents = array_merge($extEvents, fetch_microsoft_events($pdo, $this_user_id));
+  }
+  $events = array_merge($events, $extEvents);
 }
 
-echo json_encode(array_merge($events, $extEvents));
+echo json_encode($events);

@@ -6,7 +6,7 @@ function fetch_google_events(PDO $pdo, int $userId): array {
         return $_SESSION[$cacheKey]['data'];
     }
 
-    $stmt = $pdo->prepare('SELECT access_token FROM user_oauth_tokens WHERE user_id = ? AND provider = ?');
+    $stmt = $pdo->prepare('SELECT access_token FROM module_calendar_external_accounts WHERE user_id = ? AND provider = ?');
     $stmt->execute([$userId, 'google']);
     $token = $stmt->fetchColumn();
     if (!$token) {
