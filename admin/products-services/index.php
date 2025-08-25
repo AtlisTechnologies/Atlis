@@ -13,8 +13,7 @@ if(isset($_GET['msg'])){
 // Filter dropdown data
 $types = get_lookup_items($pdo, 'PRODUCT_SERVICE_TYPE');
 $statuses = get_lookup_items($pdo, 'PRODUCT_SERVICE_STATUS');
-$catStmt = $pdo->query('SELECT DISTINCT li.id, li.label FROM module_products_services_person mpsp JOIN lookup_list_items li ON mpsp.skill_id = li.id ORDER BY li.label');
-$categories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
+$categories = get_lookup_items($pdo, 'PRODUCT_SERVICE_CATEGORY');
 
 // Fetch product/service records with related info
 $stmt = $pdo->query("SELECT ps.id, ps.name, ps.price,
@@ -26,8 +25,9 @@ $stmt = $pdo->query("SELECT ps.id, ps.name, ps.price,
                       FROM module_products_services ps
                       JOIN lookup_list_items t ON ps.type_id = t.id
                       JOIN lookup_list_items s ON ps.status_id = s.id
+                      LEFT JOIN module_products_services_category mpsc ON ps.id = mpsc.product_service_id
+                      LEFT JOIN lookup_list_items cat_li ON mpsc.category_id = cat_li.id
                       LEFT JOIN module_products_services_person mpsp ON ps.id = mpsp.product_service_id
-                      LEFT JOIN lookup_list_items cat_li ON mpsp.skill_id = cat_li.id
                       LEFT JOIN person pe ON mpsp.person_id = pe.id
                       GROUP BY ps.id, ps.name, ps.price, ps.type_id, type_label, ps.status_id, status_label
                       ORDER BY ps.name");
@@ -42,11 +42,11 @@ foreach($itemsRaw as $row){
 ?>
 <h2 class="mb-4">Products &amp; Services</h2>
 <?php if($message): ?><div class="alert alert-success"><?= h($message); ?></div><?php endif; ?>
-<div id="psList" data-list='{"valueNames":["ps-name",{"data":["type","status","category"]}],"page":12,"pagination":true}'>
-  <div class="row g-3 justify-content-between mb-4">
+<div id="products" data-list='{"valueNames":["product",{"data":["type","status","category"]}],"page":9,"pagination":true}'>
+  <div class="row g-3 align-items-center mb-4">
     <div class="col-auto">
       <?php if(user_has_permission('products_services','create')): ?>
-      <a class="btn btn-success" href="edit.php"><span class="fa-solid fa-plus"></span><span class="visually-hidden">Add</span></a>
+      <a class="btn btn-primary" href="edit.php"><span class="fas fa-plus me-2"></span>Add</a>
       <?php endif; ?>
     </div>
     <div class="col">
@@ -78,7 +78,7 @@ foreach($itemsRaw as $row){
         <div class="col-md-auto">
           <div class="search-box">
             <form class="position-relative">
-              <input class="form-control search-input search" type="search" placeholder="Search" aria-label="Search" />
+              <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -92,7 +92,7 @@ foreach($itemsRaw as $row){
     <div class="col" data-type="<?= $i['type_id']; ?>" data-status="<?= $i['status_id']; ?>" data-category="<?= implode('|',$i['category_ids']); ?>">
       <div class="card h-100">
         <div class="card-body d-flex flex-column">
-          <h5 class="mb-2 ps-name"><?= h($i['name']); ?></h5>
+          <h5 class="mb-2 product fw-semibold text-body-emphasis"><?= h($i['name']); ?></h5>
           <p class="mb-1"><span class="badge bg-secondary"><?= h($i['type_label']); ?></span></p>
           <p class="mb-1"><span class="badge bg-primary"><?= h($i['status_label']); ?></span></p>
           <div class="mb-2 ps-category">
@@ -137,29 +137,28 @@ foreach($itemsRaw as $row){
 </div>
 <script>
 document.addEventListener('DOMContentLoaded',function(){
-  var el=document.getElementById('psList');
+  var el=document.getElementById('products');
   if(el){
-    var options=window.phoenix.utils.getData(el,'list');
-    var list=new window.List(el,options);
-    var t=document.getElementById('filterType');
-    var s=document.getElementById('filterStatus');
-    var c=document.getElementById('filterCategory');
-    function update(){
-      var tv=t.value, sv=s.value, cv=c.value;
+    var list=new window.List(el,window.phoenix.utils.getData(el,'list'));
+    var type=document.getElementById('filterType');
+    var status=document.getElementById('filterStatus');
+    var category=document.getElementById('filterCategory');
+    function applyFilters(){
+      var t=type.value,s=status.value,c=category.value;
       list.filter(function(item){
         var match=true;
-        if(tv && item.values().type!==tv) match=false;
-        if(sv && item.values().status!==sv) match=false;
-        if(cv){
+        if(t && item.values().type!==t) match=false;
+        if(s && item.values().status!==s) match=false;
+        if(c){
           var cats=item.values().category?item.values().category.split('|'):[];
-          if(cats.indexOf(cv)===-1) match=false;
+          if(cats.indexOf(c)===-1) match=false;
         }
         return match;
       });
     }
-    t.addEventListener('change',update);
-    s.addEventListener('change',update);
-    c.addEventListener('change',update);
+    type.addEventListener('change',applyFilters);
+    status.addEventListener('change',applyFilters);
+    category.addEventListener('change',applyFilters);
   }
 });
 </script>

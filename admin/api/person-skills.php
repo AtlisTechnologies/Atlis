@@ -5,6 +5,10 @@ header('Content-Type: application/json');
 
 try {
     require_permission('person','read');
+    if($_SERVER['REQUEST_METHOD'] !== 'GET'){
+        echo json_encode(['success'=>false,'error'=>'Invalid method']);
+        exit;
+    }
     $person_id = isset($_GET['person_id']) ? (int)$_GET['person_id'] : 0;
     if($person_id <= 0){
         echo json_encode(['success'=>false,'error'=>'Invalid person_id']);
@@ -19,3 +23,4 @@ try {
     echo json_encode(['success'=>false,'error'=>'Server error']);
 }
 
+exit;
