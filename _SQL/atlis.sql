@@ -1550,16 +1550,16 @@ CREATE TABLE `module_calendar_events` (
   `event_type_id` int(11) DEFAULT NULL,
   `link_module` varchar(50) DEFAULT NULL,
   `link_record_id` int(11) DEFAULT NULL,
-  `visibility_id` int(11) DEFAULT NULL
+  `is_private` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar_events`
 --
 
-INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`) VALUES
-(1, 1, NULL, '2025-08-25 00:10:22', '2025-08-25 00:10:22', NULL, 1, 'test', '2025-08-25 12:00:00', '2025-08-26 12:00:00', NULL, NULL, NULL, 198),
-(2, 1, NULL, '2025-08-25 00:11:09', '2025-08-25 00:11:09', NULL, 1, 'DAVE', '2025-08-25 12:30:00', '2025-08-25 11:45:00', NULL, NULL, NULL, 198);
+INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `is_private`) VALUES
+(1, 1, NULL, '2025-08-25 00:10:22', '2025-08-25 00:10:22', NULL, 1, 'test', '2025-08-25 12:00:00', '2025-08-26 12:00:00', NULL, NULL, NULL, 0),
+(2, 1, NULL, '2025-08-25 00:11:09', '2025-08-25 00:11:09', NULL, 1, 'DAVE', '2025-08-25 12:30:00', '2025-08-25 11:45:00', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3425,7 +3425,6 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_calendar_id` (`calendar_id`),
   ADD KEY `fk_module_calendar_events_event_type_id` (`event_type_id`),
   ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
-  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`);
 
@@ -4471,7 +4470,6 @@ ALTER TABLE `module_agency_persons`
 ALTER TABLE `module_calendar_events`
   ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_calendar_events_visibility_id` FOREIGN KEY (`visibility_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_calendar_events_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_events_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 

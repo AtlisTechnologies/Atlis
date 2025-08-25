@@ -4,10 +4,12 @@ $calendars = [];
 $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$event_types = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+
 $visibilities = get_lookup_items($pdo, 38);
 $event_types = get_lookup_items($pdo, 37);
+
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
-$default_visibility_id = $visibilities[0]['id'] ?? 0;
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
@@ -70,13 +72,11 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="addEventVisibility">Visibility</label>
-            <select class="form-select" id="addEventVisibility" name="visibility_id">
-              <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="addEventPrivate" name="is_private" value="1">
+            <label class="form-check-label" for="addEventPrivate">Private</label>
+
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -122,13 +122,11 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="editEventVisibility">Visibility</label>
-            <select class="form-select" id="editEventVisibility" name="visibility_id">
-              <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="editEventPrivate" name="is_private" value="1">
+            <label class="form-check-label" for="editEventPrivate">Private</label>
+
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -148,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
-  const defaultVisibilityId = <?php echo (int)$default_visibility_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const calendarEl = document.getElementById('calendar');
 
@@ -181,9 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
       form.title.value = info.event.title;
       form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      // Visibility uses visibility_id rather than legacy is_private flag
       form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId;
-      form.visibility_id.value = info.event.extendedProps.visibility_id;
+      form.is_private.checked = info.event.extendedProps.is_private == 1;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
@@ -191,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
       form.event_type_id.value = defaultEventTypeId;
-      form.visibility_id.value = defaultVisibilityId;
+      form.is_private.checked = false;
       form.calendar_id.value = getCalendarId();
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
