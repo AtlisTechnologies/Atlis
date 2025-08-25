@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 11:41 PM
+-- Generation Time: Aug 25, 2025 at 01:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -186,7 +186,12 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (137, 1, 1, '2025-08-24 09:55:07', '2025-08-24 09:55:07', NULL, 'module_projects_files', 7, 'UPLOAD', '', '', '{\"file\":\"Screen Shot 2021-08-04 at 4.20.27 PM (1).png\"}'),
 (138, 1, 1, '2025-08-24 09:55:20', '2025-08-24 09:55:20', NULL, 'module_projects_files', 8, 'UPLOAD', '', '', '{\"file\":\"7-hydroxymitragynin_7-oh_an_assessment_of_the_scientific_data_and_toxicological_concerns_around_an_emerging_opioid_threat.pdf\"}'),
 (139, 1, 1, '2025-08-24 11:32:06', '2025-08-24 11:32:06', NULL, 'module_projects', 23, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"INITIAL CALL WITH ZACH JENKS\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"55\",\"priority\":\"58\",\"type\":\"182\",\"start_date\":\"2025-08-24\"}'),
-(140, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 'module_tasks_notes', 42, 'NOTE', '', '', '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS');
+(140, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 'module_tasks_notes', 42, 'NOTE', '', '', '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS'),
+(141, 1, 1, '2025-08-24 15:42:01', '2025-08-24 15:42:01', NULL, 'module_projects_answers', 1, 'DELETE', '', '', 'Yes !!!'),
+(142, 1, 1, '2025-08-24 15:42:01', '2025-08-24 15:42:01', NULL, 'module_projects_answers', 5, 'DELETE', '', '', 'Next !'),
+(143, 1, 1, '2025-08-24 15:42:01', '2025-08-24 15:42:01', NULL, 'module_projects_questions', 1, 'DELETE', '', '', 'This is the first question ! ! !'),
+(144, 1, 1, '2025-08-24 15:42:05', '2025-08-24 15:42:05', NULL, 'module_projects_questions', 4, 'DELETE', '', '', 'Question #2 !'),
+(145, 1, 1, '2025-08-24 17:31:39', '2025-08-24 17:31:39', NULL, 'module_tasks_notes', 43, 'NOTE', '', '', 'Created Atlis@Atlistechnologies.com');
 
 -- --------------------------------------------------------
 
@@ -835,7 +840,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (159, 1, 1, '2025-08-24 11:33:45', '2025-08-24 11:33:45', NULL, 'module_task_assignments', 44, 'ASSIGN', 'Assigned user'),
 (160, 1, 1, '2025-08-24 11:33:54', '2025-08-24 11:33:54', NULL, 'module_task_assignments', 45, 'ASSIGN', 'Assigned user'),
 (161, 1, 1, '2025-08-24 14:34:13', '2025-08-24 14:34:13', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
-(162, 1, 1, '2025-08-24 14:34:37', '2025-08-24 14:34:37', NULL, 'users', 1, 'LOGIN', 'User logged in');
+(162, 1, 1, '2025-08-24 14:34:37', '2025-08-24 14:34:37', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(163, 1, 1, '2025-08-24 15:44:08', '2025-08-24 15:44:08', NULL, 'module_projects', 18, 'UPDATE', 'Updated status to 29'),
+(164, 1, 1, '2025-08-24 16:57:23', '2025-08-24 16:57:23', NULL, 'module_tasks', 86, 'CREATE', 'Created task'),
+(165, 1, 1, '2025-08-24 17:31:27', '2025-08-24 17:31:27', NULL, 'module_tasks', 87, 'CREATE', 'Created task'),
+(166, 1, 1, '2025-08-24 17:31:29', '2025-08-24 17:31:29', NULL, 'module_task_assignments', 46, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -1437,13 +1446,13 @@ CREATE TABLE `module_calendar_events` (
 
 CREATE TABLE `module_calendar_event_attendees` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `end_time` datetime DEFAULT NULL
+  `attendee_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2130,7 +2139,7 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (15, 1, 1, '2025-08-22 18:56:22', '2025-08-23 01:47:50', NULL, 6, 8, 1, '2025 Kia Telluride SX-Prestige X-Line', '', '', '', 31, 87, NULL, '0001-11-30', NULL, 0),
 (16, 1, 1, '2025-08-22 18:57:00', '2025-08-22 18:57:00', NULL, 1, 1, 0, 'RANDOM NOTES', '', '', '', 55, 57, 182, '0000-00-00', NULL, 0),
 (17, 1, 1, '2025-08-22 18:57:34', '2025-08-22 18:57:34', NULL, 1, 1, 0, 'CJIS TESTS', '', '', '', 29, 56, 182, '2025-08-01', NULL, 0),
-(18, 1, 1, '2025-08-22 23:50:12', '2025-08-22 23:50:12', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 30, 56, 183, '2025-06-01', NULL, 0),
+(18, 1, 1, '2025-08-22 23:50:12', '2025-08-24 15:44:08', NULL, 1, 1, 0, 'SoW #172 - Updates to AOIC Reports', '', '', '', 29, 56, 183, '2025-06-01', NULL, 0),
 (19, 1, 1, '2025-08-22 23:51:43', '2025-08-22 23:51:43', NULL, 2, 2, 0, 'SoW #175 - eGAL Project', '', '', '', 188, 56, 183, '2025-08-22', NULL, 0),
 (20, 1, 1, '2025-08-23 12:00:40', '2025-08-23 12:00:40', NULL, 6, 8, 0, 'DAVE - AROUND THE HOUSE', '', '', '', 29, 56, 182, '2025-08-23', NULL, 0),
 (21, 1, 1, '2025-08-23 17:53:36', '2025-08-23 17:53:56', NULL, 6, 8, 1, 'DAVE - FILE CABINET', '', '', '', 29, 57, NULL, '2025-08-23', NULL, 0),
@@ -2159,11 +2168,9 @@ CREATE TABLE `module_projects_answers` (
 --
 
 INSERT INTO `module_projects_answers` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `question_id`, `answer_text`) VALUES
-(1, 1, 1, '2025-08-22 21:57:42', '2025-08-24 02:52:21', NULL, 1, 'Yes !!!'),
 (2, 1, 1, '2025-08-23 11:04:36', '2025-08-23 11:04:36', NULL, 2, 'White, dummy.'),
 (3, 1, 1, '2025-08-23 11:04:46', '2025-08-23 11:04:46', NULL, 2, 'Yeah, it was obviously white.'),
 (4, 1, 1, '2025-08-24 01:18:18', '2025-08-24 01:18:18', NULL, 3, 'Bob Saggit.'),
-(5, 1, 1, '2025-08-24 01:35:10', '2025-08-24 01:35:10', NULL, 1, 'Next !'),
 (6, 1, 1, '2025-08-24 02:09:11', '2025-08-24 02:09:11', NULL, 5, 'test 2');
 
 -- --------------------------------------------------------
@@ -2346,10 +2353,8 @@ CREATE TABLE `module_projects_questions` (
 --
 
 INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `question_text`) VALUES
-(1, 1, 1, '2025-08-22 21:57:39', '2025-08-24 02:52:16', NULL, 15, 'This is the first question ! ! !'),
 (2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?'),
 (3, 1, 1, '2025-08-24 01:18:09', '2025-08-24 01:18:09', NULL, 10, 'Who is Dave Wilkins ?'),
-(4, 1, 1, '2025-08-24 01:35:21', '2025-08-24 01:35:21', NULL, 15, 'Question #2 !'),
 (5, 1, 1, '2025-08-24 02:09:04', '2025-08-24 02:09:04', NULL, 2, 'test');
 
 -- --------------------------------------------------------
@@ -2470,7 +2475,9 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (82, 1, 1, '2025-08-24 11:32:34', '2025-08-24 11:32:34', NULL, 23, NULL, NULL, 0, 'Atlis Work Agreement Contract', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (83, 1, 1, '2025-08-24 11:32:40', '2025-08-24 11:32:40', NULL, 23, NULL, NULL, 0, 'Atlis Required Docs', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
 (84, 1, 1, '2025-08-24 11:32:50', '2025-08-24 11:32:50', NULL, 23, NULL, NULL, 0, 'Create Office365 Account', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
-(85, 1, 1, '2025-08-24 11:33:20', '2025-08-24 11:33:39', NULL, 4, NULL, NULL, 0, 'DEFINE ATLIS INTERNAL POLICIES AND WORK PROCESSES', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
+(85, 1, 1, '2025-08-24 11:33:20', '2025-08-24 11:33:39', NULL, 4, NULL, NULL, 0, 'DEFINE ATLIS INTERNAL POLICIES AND WORK PROCESSES', NULL, NULL, NULL, '32', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(86, 1, 1, '2025-08-24 16:57:23', '2025-08-24 16:57:23', NULL, 10, NULL, NULL, 0, 'TENS - NexWave', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0),
+(87, 1, 1, '2025-08-24 17:31:27', '2025-08-24 17:31:27', NULL, 4, NULL, NULL, 0, 'Create Team/Group emails so don\'t have to CC individually', NULL, NULL, NULL, '35', NULL, '38', NULL, NULL, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2584,7 +2591,8 @@ INSERT INTO `module_tasks_notes` (`id`, `user_id`, `user_updated`, `date_created
 (39, 1, 1, '2025-08-23 21:57:02', '2025-08-23 21:57:02', NULL, 73, 'Fixed tonight. Eamon helped me. Emry saw and got jealous as she was reading with Ashlin. She cried and said she wants to help me.'),
 (40, 1, 1, '2025-08-24 02:16:21', '2025-08-24 02:16:21', NULL, 46, 'I purchased some SUPER SPECOSIA'),
 (41, 1, 1, '2025-08-24 02:55:46', '2025-08-24 02:55:46', NULL, 46, 'I purchased from: https://kures.co/\r\nKratom72!@'),
-(42, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 85, '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS');
+(42, 1, 1, '2025-08-24 11:33:34', '2025-08-24 11:33:34', NULL, 85, '- ONLY FEW PEOPLE HAVE ACCESS TO PROD ENVS'),
+(43, 1, 1, '2025-08-24 17:31:39', '2025-08-24 17:31:39', NULL, 87, 'Created Atlis@Atlistechnologies.com');
 
 -- --------------------------------------------------------
 
@@ -2677,7 +2685,8 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (42, 1, 1, '2025-08-24 11:33:43', '2025-08-24 11:33:43', NULL, 33, 1),
 (43, 1, 1, '2025-08-24 11:33:44', '2025-08-24 11:33:44', NULL, 34, 1),
 (44, 1, 1, '2025-08-24 11:33:45', '2025-08-24 11:33:45', NULL, 52, 1),
-(45, 1, 1, '2025-08-24 11:33:53', '2025-08-24 11:33:53', NULL, 85, 1);
+(45, 1, 1, '2025-08-24 11:33:53', '2025-08-24 11:33:53', NULL, 85, 1),
+(46, 1, 1, '2025-08-24 17:31:29', '2025-08-24 17:31:29', NULL, 87, 1);
 
 -- --------------------------------------------------------
 
@@ -3192,10 +3201,11 @@ ALTER TABLE `module_calendar_events`
 --
 ALTER TABLE `module_calendar_event_attendees`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`user_id`),
+  ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`attendee_user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
+  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`),
+  ADD KEY `fk_module_calendar_event_attendees_attendee_user_id` (`attendee_user_id`);
 
 --
 -- Indexes for table `module_contractors`
@@ -3678,7 +3688,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -3732,7 +3742,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -3978,7 +3988,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_tasks`
 --
 ALTER TABLE `module_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_answers`
@@ -3996,7 +4006,7 @@ ALTER TABLE `module_tasks_files`
 -- AUTO_INCREMENT for table `module_tasks_notes`
 --
 ALTER TABLE `module_tasks_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `module_tasks_questions`
@@ -4008,7 +4018,7 @@ ALTER TABLE `module_tasks_questions`
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `module_users_defaults`
@@ -4193,7 +4203,8 @@ ALTER TABLE `module_calendar_events`
 --
 ALTER TABLE `module_calendar_event_attendees`
   ADD CONSTRAINT `fk_module_calendar_event_attendees_event_id` FOREIGN KEY (`event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_attendee_user_id` FOREIGN KEY (`attendee_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_event_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
