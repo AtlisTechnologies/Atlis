@@ -79,13 +79,15 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
             </div>
           </div>
           <div class="col-12">
-  <label class="form-label" for="psCategories">Categories</label>
-  <select class="form-select" id="psCategories" name="category_ids[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+            <div class="form-floating form-floating-advance-select">
+              <label for="psCategories">Categories</label>
+              <select class="form-select" id="psCategories" name="category_ids[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 <?php foreach($categories as $c): ?>
                 <option value="<?= $c['id']; ?>" <?= in_array($c['id'], $selectedCategories) ? 'selected' : ''; ?>><?= h($c['label']); ?></option>
                 <?php endforeach; ?>
               </select>
-</div>
+            </div>
+          </div>
           <div class="col-12">
             <div class="form-floating">
               <textarea class="form-control" id="psDesc" name="description" placeholder="Description" style="height:100px"><?= h($item['description'] ?? ''); ?></textarea>
