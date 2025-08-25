@@ -19,3 +19,9 @@ config.inc.php
 # Upload directories
 uploads/
 **/uploads/
+
+# Composer
+vendor/
+
+# OAuth config
+includes/config.oauth.php
