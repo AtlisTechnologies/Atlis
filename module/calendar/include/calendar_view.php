@@ -176,13 +176,22 @@ document.addEventListener('DOMContentLoaded', function() {
       method: 'POST',
       body: fd
     })
-    .then(r => r.json())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
     .then(data => {
       if (data.success) {
         bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
         this.reset();
         calendar.refetchEvents();
+      } else {
+        alert(data.error || 'An error occurred while adding the event.');
       }
+    })
+    .catch(err => {
+      console.error('Failed to add event', err);
+      alert('Failed to add event: ' + err.message);
     });
   });
 
@@ -194,13 +203,21 @@ document.addEventListener('DOMContentLoaded', function() {
       method: 'POST',
       body: fd
     })
-    .then(r => r.json())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
     .then(data => {
       if (data.success) {
         bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
         calendar.refetchEvents();
+      } else {
+        alert(data.error || 'An error occurred while updating the event.');
       }
-
+    })
+    .catch(err => {
+      console.error('Failed to update event', err);
+      alert('Failed to update event: ' + err.message);
     });
   });
 });
