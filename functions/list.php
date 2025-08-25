@@ -3,22 +3,20 @@ if (!isset($pdo)) {
   require '../includes/php_header.php';
 }
 header('Content-Type: application/json');
-
 try {
   $scope = $_GET['scope'] ?? 'shared';
-  $currentDate = date('Y-m-d');
 
+  $sql = 'SELECT id, title, start_time AS start, link_module, link_record_id FROM module_calendar_events';
   if ($scope === 'mine') {
-    $events = [
-      ['id' => 'm1', 'title' => 'My Task', 'start' => $currentDate . 'T09:00:00', 'link_module' => 'task', 'link_record_id' => 1],
-      ['id' => 'm2', 'title' => 'Personal Event', 'start' => date('Y-m-d', strtotime('+2 days')) . 'T13:00:00', 'link_module' => 'meeting', 'link_record_id' => 2]
-    ];
+    $sql .= ' WHERE user_id = :uid';
+    $stmt = $pdo->prepare($sql);
+    $uid = $this_user_id ?? 0;
+    $stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
   } else {
-    $events = [
-      ['id' => 's1', 'title' => 'Team Meeting', 'start' => date('Y-m-d', strtotime('+1 day')) . 'T10:00:00', 'link_module' => 'meeting', 'link_record_id' => 10],
-      ['id' => 's2', 'title' => 'Deadline', 'start' => date('Y-m-d', strtotime('+3 days')), 'link_module' => 'project', 'link_record_id' => 20]
-    ];
+    $stmt = $pdo->prepare($sql);
   }
+  $stmt->execute();
+  $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   if (ob_get_length()) {
     ob_clean();
