@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rosterStmt = $pdo->prepare('SELECT a.id, a.attendee_user_id, a.role, a.check_in_time, a.check_out_time, CONCAT(u.first_name, " ", u.last_name) AS name FROM module_meeting_attendees a LEFT JOIN users u ON a.attendee_user_id = u.id WHERE a.meeting_id =? ORDER BY a.id');
         $rosterStmt->execute([$meeting_id]);
         $attendees = $rosterStmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(['success' => true, 'data' => $attendees]);
+        echo json_encode(['success' => true, 'attendees' => $attendees]);
     } catch (Exception $e) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
