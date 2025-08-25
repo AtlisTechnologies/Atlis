@@ -124,7 +124,8 @@ function handleItem($action){
     $list_id=(int)($_POST['list_id']??0);
     $label=trim($_POST['label']??'');
     $code=trim($_POST['code']??'');
-    $active_from=$_POST['active_from']??date('Y-m-d');
+    $code = strtoupper(str_replace(' ', '_', $code));
+    $active_from = $_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'));
     $active_to=$_POST['active_to']??null;
     if($active_to==='' || $active_to==='0000-00-00'){
        $active_to=null;
@@ -160,7 +161,8 @@ function handleItem($action){
     $id=(int)($_POST['id']??0);
     $label=trim($_POST['label']??'');
     $code=trim($_POST['code']??'');
-    $active_from=$_POST['active_from']??date('Y-m-d');
+    $code = strtoupper(str_replace(' ', '_', $code));
+    $active_from = $_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'));
     $active_to=$_POST['active_to']??null;
     if($active_to===''){ $active_to=null; }
     if($id<=0||$label===''||$code===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
