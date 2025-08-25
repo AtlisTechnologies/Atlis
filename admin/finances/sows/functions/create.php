@@ -16,6 +16,10 @@ $division = (int)($_POST['division_id'] ?? 0);
 $project = (int)($_POST['project_id'] ?? 0);
 $status = (int)($_POST['status_id'] ?? 0);
 $signatures = trim($_POST['signatures'] ?? '');
+if($division && (!$agency || !$org)){
+  die('Division requires agency and organization');
+}
+
 
 // parent-child validation
 if($division){
