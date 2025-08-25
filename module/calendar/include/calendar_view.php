@@ -5,6 +5,10 @@ $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $event_types = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+
+$visibilities = get_lookup_items($pdo, 38);
+$event_types = get_lookup_items($pdo, 37);
+
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
@@ -64,13 +68,15 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="addEventType">Event Type</label>
             <select class="form-select" id="addEventType" name="event_type_id">
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
+
           <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="addEventPrivate" name="is_private" value="1">
             <label class="form-check-label" for="addEventPrivate">Private</label>
+
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -112,13 +118,15 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="editEventType">Event Type</label>
             <select class="form-select" id="editEventType" name="event_type_id">
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
+
           <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="editEventPrivate" name="is_private" value="1">
             <label class="form-check-label" for="editEventPrivate">Private</label>
+
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">

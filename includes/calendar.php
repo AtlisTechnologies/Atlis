@@ -1,5 +1,11 @@
 <?php
+
 $eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+
+require_once __DIR__ . '/lookup_helpers.php';
+$eventTypes = get_lookup_items($pdo, 37);
+$visibilities = get_lookup_items($pdo, 38);
+
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" />
 
@@ -79,7 +85,7 @@ $eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=
             <label class="form-label" for="eventType">Event Type</label>
             <select class="form-select" id="eventType" name="event_type_id">
               <?php foreach ($eventTypes as $t): ?>
-                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+                <option value="<?= (int)$t['id']; ?>" class="text-<?= h($t['color_class']); ?>" data-icon="<?= h($t['icon_class']); ?>"><?= h($t['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -134,13 +140,15 @@ $eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=
             <label class="form-label" for="editEventType">Event Type</label>
             <select class="form-select" id="editEventType" name="event_type_id">
               <?php foreach ($eventTypes as $t): ?>
-                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+                <option value="<?= (int)$t['id']; ?>" class="text-<?= h($t['color_class']); ?>" data-icon="<?= h($t['icon_class']); ?>"><?= h($t['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
+
           <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="editEventPrivate" name="is_private" value="1">
             <label class="form-check-label" for="editEventPrivate">Private</label>
+
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
