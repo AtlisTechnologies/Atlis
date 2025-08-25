@@ -29,9 +29,9 @@ if ($id && $title && $start) {
   $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, title=?, start_date=?, end_date=?, related_module=?, related_id=?, is_private=? WHERE id=?');
   $stmt->execute([$this_user_id, $title, $start, $end, $related_module, $related_id, $is_private, $id]);
 
-  $pdo->prepare('DELETE FROM module_calendar_attendees WHERE calendar_event_id=?')->execute([$id]);
+  $pdo->prepare('DELETE FROM module_calendar_event_attendees WHERE event_id=?')->execute([$id]);
   if (is_array($attendees)) {
-    $aStmt = $pdo->prepare('INSERT INTO module_calendar_attendees (user_id, calendar_event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
+    $aStmt = $pdo->prepare('INSERT INTO module_calendar_event_attendees (user_id, event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
     foreach ($attendees as $aid) {
       $aStmt->execute([':uid' => $this_user_id, ':eid' => $id, ':aid' => $aid]);
     }
