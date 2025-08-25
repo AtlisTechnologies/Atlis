@@ -22,6 +22,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
   }
   $events[] = [
     'id' => (int)$row['id'],
+    'calendar_id' => (int)$row['calendar_id'],
     'title' => $row['title'],
     'start' => $row['start_date'],
     'end' => $row['end_date'],
@@ -29,6 +30,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     'related_id' => $row['related_id'],
     'event_type_id' => $row['event_type_id'],
     'visibility_id' => $row['visibility_id']
+
   ];
 }
 

@@ -153,6 +153,7 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
+          <button class="btn btn-danger me-auto" type="button" id="deleteEventBtn">Delete</button>
           <button class="btn btn-primary px-4" type="submit">Update</button>
         </div>
       </form>
@@ -173,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     headerToolbar: false,
+
     events: function(fetchInfo, successCallback, failureCallback) {
       fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?scope=' + currentScope)
         .then(resp => resp.json())
@@ -191,6 +193,24 @@ document.addEventListener('DOMContentLoaded', function() {
       form.event_type_id.value = info.event.extendedProps.event_type_id || '';
       form.visibility_id.value = info.event.extendedProps.visibility_id || '';
       editModal.show();
+
+    events: {
+      url: '<?php echo getURLDir(); ?>module/calendar/functions/list.php',
+      extraParams: () => ({ scope: currentScope })
+    },
+    eventClick: function(info) {
+      const mod = info.event.extendedProps.link_module;
+      const recId = info.event.extendedProps.link_record_id;
+      fetch('<?php echo getURLDir(); ?>functions/check_permission.php?module=' + mod + '&action=read')
+        .then(resp => {
+          if (resp.ok) {
+            window.location.href = '<?php echo getURLDir(); ?>module/' + mod + '/index.php?action=view&id=' + recId;
+          } else if (resp.status === 403) {
+            alert('Access denied');
+          }
+        })
+        .catch(() => alert('Error checking permissions'));
+
     },
     dateClick: function(info) {
       const addModal = new bootstrap.Modal(document.getElementById('addEventModal'));

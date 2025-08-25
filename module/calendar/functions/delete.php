@@ -20,7 +20,7 @@ if ($id) {
     http_response_code(403);
     exit;
   }
-  $pdo->prepare('DELETE FROM module_calendar_attendees WHERE calendar_event_id=?')->execute([$id]);
+  $pdo->prepare('DELETE FROM module_calendar_event_attendees WHERE event_id=?')->execute([$id]);
   $pdo->prepare('DELETE FROM module_calendar_events WHERE id=?')->execute([$id]);
   echo json_encode(['success' => true]);
   exit;
