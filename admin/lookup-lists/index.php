@@ -92,25 +92,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderLists(lists) {
     listsTableBody.innerHTML = '';
-    lists.forEach(l => {
+    if (lists.length === 0) {
       const tr = document.createElement('tr');
-      tr.dataset.id = l.id;
-      tr.innerHTML = `
-        <td class="id">${escapeHtml(l.id)}</td>
-        <td class="name"><a href="items.php?list_id=${l.id}">${escapeHtml(l.name)}</a></td>
-        <td class="description">${escapeHtml(l.description || '')}</td>
-        <td class="date_updated">${escapeHtml(l.date_updated || '')}</td>
-        <td class="item-count"><span class="badge rounded-pill text-bg-dark">${parseInt(l.item_count,10) || 0}</span></td>
-        <td>
-          <button class="btn btn-sm btn-warning edit-list" data-id="${l.id}" data-name="${escapeHtml(l.name)}" data-description="${escapeHtml(l.description || '')}" data-memo="${escapeHtml(l.memo || '')}">Edit</button>
-          <button class="btn btn-sm btn-danger delete-list" data-id="${l.id}">Delete</button>
-        </td>`;
+      tr.innerHTML = '<td colspan="6" class="text-center">No lookup lists found</td>';
       listsTableBody.appendChild(tr);
-    });
-    if (!listJs) {
+      if (listJs) {
+        listJs.clear && listJs.clear();
+        listJs = null;
+      }
+    } else {
+      lists.forEach(l => {
+        const tr = document.createElement('tr');
+        tr.dataset.id = l.id;
+        tr.innerHTML = `
+          <td class="id">${escapeHtml(l.id)}</td>
+          <td class="name"><a href="items.php?list_id=${l.id}">${escapeHtml(l.name)}</a></td>
+          <td class="description">${escapeHtml(l.description || '')}</td>
+          <td class="date_updated">${escapeHtml(l.date_updated || '')}</td>
+          <td class="item-count"><span class="badge rounded-pill text-bg-dark">${parseInt(l.item_count,10) || 0}</span></td>
+          <td>
+            <button class="btn btn-sm btn-warning edit-list" data-id="${l.id}" data-name="${escapeHtml(l.name)}" data-description="${escapeHtml(l.description || '')}" data-memo="${escapeHtml(l.memo || '')}">Edit</button>
+            <button class="btn btn-sm btn-danger delete-list" data-id="${l.id}">Delete</button>
+          </td>`;
+        listsTableBody.appendChild(tr);
+      });
+    }
+    if (!listJs && lists.length) {
       const options = JSON.parse(document.getElementById('lookup-lists').dataset.list);
       listJs = new window.List('lookup-lists', options);
-    } else {
+    } else if (listJs) {
       listJs.reIndex();
     }
   }
