@@ -1,6 +1,4 @@
 <?php
-require '../../../includes/php_header.php';
-require_permission('calendar','read');
 
 function fetch_google_events(PDO $pdo, int $userId): array {
     $cacheKey = 'google_calendar_events';
@@ -47,6 +45,8 @@ function fetch_google_events(PDO $pdo, int $userId): array {
 }
 
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
+    require '../../../includes/php_header.php';
+    require_permission('calendar','read');
     header('Content-Type: application/json');
     echo json_encode(fetch_google_events($pdo, $this_user_id));
 }
