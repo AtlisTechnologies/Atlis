@@ -112,12 +112,40 @@ function handleItem($action){
   if(in_array($action,['create','update','delete','update_sort'])){ verifyToken(); }
   if($action==='list'){
     $list_id=(int)($_GET['list_id']??0);
-    $stmt=$pdo->prepare('SELECT id,label,code,sort_order,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE()) ORDER BY sort_order,label');
+    $status=$_GET['status']??'active';
+    $where='1';
+    if($status==='inactive'){
+      $where='active_to IS NOT NULL AND active_to < CURDATE()';
+    }elseif($status==='future'){
+      $where='active_from > CURDATE()';
+    }elseif($status==='active'){
+      $where='active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE())';
+    }
+    $stmt=$pdo->prepare("SELECT id,label,code,sort_order,active_from,active_to FROM lookup_list_items WHERE list_id=:list_id AND $where ORDER BY sort_order,label");
     $stmt->execute([':list_id'=>$list_id]);
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    if($items){
+      $ids=array_column($items,'id');
+      $placeholders=rtrim(str_repeat('?,',count($ids)),',');
+      $aStmt=$pdo->prepare("SELECT item_id,id,attr_code,attr_value FROM lookup_list_item_attributes WHERE item_id IN ($placeholders)");
+      $aStmt->execute($ids);
+      $map=[];
+      foreach($aStmt->fetchAll(PDO::FETCH_ASSOC) as $a){ $map[$a['item_id']][]=$a; }
+      foreach($items as &$it){ $it['attrs']=$map[$it['id']]??[]; }
+      unset($it);
+    }
     echo json_encode(['success'=>true,'items'=>$items]);
   }elseif($action==='all'){
-    $stmt=$pdo->query('SELECT li.id, li.label, li.code, l.name AS list_name FROM lookup_list_items li JOIN lookup_lists l ON li.list_id=l.id ORDER BY l.name, li.label');
+    $status=$_GET['status']??'active';
+    $where='1';
+    if($status==='inactive'){
+      $where='active_to IS NOT NULL AND active_to < CURDATE()';
+    }elseif($status==='future'){
+      $where='active_from > CURDATE()';
+    }elseif($status==='active'){
+      $where='active_from <= CURDATE() AND (active_to IS NULL OR active_to >= CURDATE())';
+    }
+    $stmt=$pdo->query("SELECT li.id, li.label, li.code, l.name AS list_name FROM lookup_list_items li JOIN lookup_lists l ON li.list_id=l.id WHERE $where ORDER BY l.name, li.label");
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['success'=>true,'items'=>$items]);
   }elseif($action==='create'){
@@ -130,6 +158,10 @@ function handleItem($action){
     if($active_to==='' || $active_to==='0000-00-00'){
        $active_to=null;
      }
+    if($active_to!==null && $active_to < $active_from){
+      echo json_encode(['success'=>false,'error'=>'active_to must be greater than or equal to active_from']);
+      return;
+    }
     if($list_id<=0||$label===''||$code===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
     $stmt->execute([':list_id'=>$list_id,':label'=>$label]);
@@ -165,6 +197,10 @@ function handleItem($action){
     $active_from = $_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'));
     $active_to=$_POST['active_to']??null;
     if($active_to===''){ $active_to=null; }
+    if($active_to!==null && $active_to < $active_from){
+      echo json_encode(['success'=>false,'error'=>'active_to must be greater than or equal to active_from']);
+      return;
+    }
     if($id<=0||$label===''||$code===''){ echo json_encode(['success'=>false,'error'=>'Invalid data']); return; }
     $stmt=$pdo->prepare('SELECT list_id FROM lookup_list_items WHERE id=:id');
     $stmt->execute([':id'=>$id]);
