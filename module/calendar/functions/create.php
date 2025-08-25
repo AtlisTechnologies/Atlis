@@ -9,19 +9,21 @@ $start = $_POST['start'] ?? null;
 $end = $_POST['end'] ?? null;
 $related_module = $_POST['related_module'] ?? null;
 $related_id = $_POST['related_id'] ?? null;
-$is_private = !empty($_POST['is_private']) ? 1 : 0;
+$event_type_id = $_POST['event_type_id'] ?? null;
+$visibility_id = $_POST['visibility_id'] ?? null;
 $attendees = $_POST['attendees'] ?? [];
 
 if ($title && $start) {
-  $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, title, start_date, end_date, related_module, related_id, is_private) VALUES (:uid, :title, :start, :end, :rel_module, :rel_id, :is_private)');
+  $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, title, start_date, end_date, event_type_id, visibility_id, related_module, related_id) VALUES (:uid, :title, :start, :end, :etype, :vis, :rel_module, :rel_id)');
   $stmt->execute([
     ':uid' => $this_user_id,
     ':title' => $title,
     ':start' => $start,
     ':end' => $end,
+    ':etype' => $event_type_id,
+    ':vis' => $visibility_id,
     ':rel_module' => $related_module,
-    ':rel_id' => $related_id,
-    ':is_private' => $is_private
+    ':rel_id' => $related_id
   ]);
   $eventId = $pdo->lastInsertId();
 

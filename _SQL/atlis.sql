@@ -1421,12 +1421,12 @@ CREATE TABLE `module_calendar_events` (
   `memo` text DEFAULT NULL,
   `calendar_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime DEFAULT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
   `event_type_id` int(11) DEFAULT NULL,
-  `link_module` varchar(50) DEFAULT NULL,
-  `link_record_id` int(11) DEFAULT NULL,
-  `is_private` tinyint(1) DEFAULT 0
+  `visibility_id` int(11) DEFAULT NULL,
+  `related_module` varchar(50) DEFAULT NULL,
+  `related_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -3183,7 +3183,8 @@ ALTER TABLE `module_calendar_events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_module_calendar_events_calendar_id` (`calendar_id`),
   ADD KEY `fk_module_calendar_events_event_type_id` (`event_type_id`),
-  ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
+  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
+  ADD KEY `fk_module_calendar_events_related_id` (`related_id`),
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`);
 
@@ -4185,6 +4186,7 @@ ALTER TABLE `module_agency_persons`
 ALTER TABLE `module_calendar_events`
   ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_calendar_events_visibility_id` FOREIGN KEY (`visibility_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_calendar_events_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_events_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
