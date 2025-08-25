@@ -141,10 +141,12 @@ document.addEventListener('DOMContentLoaded', function() {
     events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>',
     eventClick: function(info) {
       const form = document.getElementById('editEventForm');
+      // Populate edit form with selected event details
       form.id.value = info.event.id;
       form.title.value = info.event.title;
       form.start_date.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_date.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      // Visibility uses visibility_id rather than legacy is_private flag
       form.visibility_id.value = info.event.extendedProps.visibility_id;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
