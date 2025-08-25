@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
         calendar.refetchEvents();
       }
+
     });
   });
 });
