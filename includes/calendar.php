@@ -1,3 +1,7 @@
+<?php
+$eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+$visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" />
 
 <div class="row g-0 mb-4 align-items-center">
@@ -72,6 +76,22 @@
             <textarea class="form-control" id="eventDescription" placeholder="Description" name="description" style="height: 100px"></textarea>
             <label for="eventDescription">Description</label>
           </div>
+          <div class="mb-3">
+            <label class="form-label" for="eventType">Event Type</label>
+            <select class="form-select" id="eventType" name="event_type_id">
+              <?php foreach ($eventTypes as $t): ?>
+                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="eventVisibility">Visibility</label>
+            <select class="form-select" id="eventVisibility" name="visibility_id">
+              <?php foreach ($visibilities as $v): ?>
+                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
           <button class="btn btn-primary px-4" type="submit">Save</button>
@@ -115,6 +135,22 @@
             <textarea class="form-control" placeholder="Description" name="description" style="height: 100px"></textarea>
             <label>Description</label>
           </div>
+          <div class="mb-3">
+            <label class="form-label" for="editEventType">Event Type</label>
+            <select class="form-select" id="editEventType" name="event_type_id">
+              <?php foreach ($eventTypes as $t): ?>
+                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="editEventVisibility">Visibility</label>
+            <select class="form-select" id="editEventVisibility" name="visibility_id">
+              <?php foreach ($visibilities as $v): ?>
+                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
           <button class="btn btn-danger me-auto" type="button" id="deleteEventBtn">Delete</button>
@@ -138,6 +174,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     headerToolbar: false,
+
+    events: function(fetchInfo, successCallback, failureCallback) {
+      fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?scope=' + currentScope)
+        .then(resp => resp.json())
+        .then(data => successCallback(data))
+        .catch(failureCallback);
+    },
+    eventClick: function(info) {
+      const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
+      const form = document.getElementById('editEventForm');
+      form.eventId.value = info.event.id;
+      form.title.value = info.event.title;
+      form.startDate.value = info.event.startStr.replace('T', ' ').substring(0,16);
+      form.endDate.value = info.event.end ? info.event.end.toISOString().slice(0,16) : '';
+      form.allDay.checked = info.event.allDay;
+      form.description.value = info.event.extendedProps.description || '';
+      form.event_type_id.value = info.event.extendedProps.event_type_id || '';
+      form.visibility_id.value = info.event.extendedProps.visibility_id || '';
+      editModal.show();
+
     events: {
       url: '<?php echo getURLDir(); ?>module/calendar/functions/list.php',
       extraParams: () => ({ scope: currentScope })
@@ -154,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         })
         .catch(() => alert('Error checking permissions'));
+
     },
     dateClick: function(info) {
       const addModal = new bootstrap.Modal(document.getElementById('addEventModal'));
@@ -188,12 +245,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const data = new FormData(e.target);
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/create.php', {
       method: 'POST',
-      body: data
-    })
-    .then(resp => resp.json())
-    .then(res => {
-      if (res.success) {
-        calendar.refetchEvents();
+      body: new URLSearchParams(data)
+    }).then(resp => resp.json()).then(res => {
+      if(res.success){
+        calendar.addEvent({
+          id: res.id,
+          title: data.get('title'),
+          start: data.get('startDate'),
+          end: data.get('endDate') || null,
+          allDay: data.get('allDay') === 'on',
+          description: data.get('description'),
+          event_type_id: data.get('event_type_id'),
+          visibility_id: data.get('visibility_id')
+        });
         e.target.reset();
         bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
       }
@@ -202,30 +266,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const data = new FormData(e.target);
+    const form = e.target;
+    const data = new FormData(form);
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/update.php', {
       method: 'POST',
-      body: data
-    })
-    .then(resp => resp.json())
-    .then(res => {
-      if (res.success) {
-        calendar.refetchEvents();
-        bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
-      }
-    });
-  });
-
-  document.getElementById('deleteEventBtn').addEventListener('click', function() {
-    const form = document.getElementById('editEventForm');
-    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete.php', {
-      method: 'POST',
-      body: new URLSearchParams({ id: form.eventId.value })
-    })
-    .then(resp => resp.json())
-    .then(res => {
-      if (res.success) {
-        calendar.refetchEvents();
+      body: new URLSearchParams(data)
+    }).then(resp => resp.json()).then(res => {
+      if(res.success){
+        const event = calendar.getEventById(form.eventId.value);
+        if (event) {
+          event.setProp('title', form.title.value);
+          event.setStart(form.startDate.value);
+          event.setEnd(form.endDate.value || null);
+          event.setAllDay(form.allDay.checked);
+          event.setExtendedProp('description', form.description.value);
+          event.setExtendedProp('event_type_id', form.event_type_id.value);
+          event.setExtendedProp('visibility_id', form.visibility_id.value);
+        }
         bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
       }
     });

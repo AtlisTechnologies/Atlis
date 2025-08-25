@@ -5,6 +5,7 @@ require_permission('calendar','create');
 header('Content-Type: application/json');
 
 $title = trim($_POST['title'] ?? '');
+
 $start_time = $_POST['start_time'] ?? null;
 $end_time = $_POST['end_time'] ?? null;
 $link_module = $_POST['link_module'] ?? null;
@@ -16,6 +17,7 @@ $attendees = $_POST['attendees'] ?? [];
 
 if ($title && $start_time && $calendar_id) {
   $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, is_private) VALUES (:uid, :calendar_id, :title, :start_time, :end_time, :event_type_id, :link_module, :link_record_id, :is_private)');
+
   $stmt->execute([
     ':uid' => $this_user_id,
     ':calendar_id' => $calendar_id,
@@ -26,6 +28,7 @@ if ($title && $start_time && $calendar_id) {
     ':link_module' => $link_module,
     ':link_record_id' => $link_record_id,
     ':is_private' => $is_private
+
   ]);
   $eventId = $pdo->lastInsertId();
 

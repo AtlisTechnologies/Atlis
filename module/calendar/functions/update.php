@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
 $title = trim($_POST['title'] ?? '');
+
 $start_time = $_POST['start_time'] ?? null;
 $end_time = $_POST['end_time'] ?? null;
 $link_module = $_POST['link_module'] ?? null;
@@ -23,7 +24,10 @@ if ($id && $title && $start_time && $calendar_id) {
     http_response_code(404);
     exit;
   }
-  if ($existing['is_private'] && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  $privStmt = $pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=38 AND code="PRIVATE"');
+  $privStmt->execute();
+  $privateId = $privStmt->fetchColumn();
+  if ($existing['visibility_id'] == $privateId && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
