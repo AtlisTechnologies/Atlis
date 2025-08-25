@@ -5,22 +5,26 @@ require_permission('calendar','create');
 header('Content-Type: application/json');
 
 $title = trim($_POST['title'] ?? '');
-$start = $_POST['start'] ?? null;
-$end = $_POST['end'] ?? null;
-$related_module = $_POST['related_module'] ?? null;
-$related_id = $_POST['related_id'] ?? null;
+$start_time = $_POST['start_time'] ?? null;
+$end_time = $_POST['end_time'] ?? null;
+$link_module = $_POST['link_module'] ?? null;
+$link_record_id = $_POST['link_record_id'] ?? null;
+$calendar_id = (int)($_POST['calendar_id'] ?? 0);
+$event_type_id = $_POST['event_type_id'] ?? null;
 $is_private = !empty($_POST['is_private']) ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 
-if ($title && $start) {
-  $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, title, start_date, end_date, related_module, related_id, is_private) VALUES (:uid, :title, :start, :end, :rel_module, :rel_id, :is_private)');
+if ($title && $start_time && $calendar_id) {
+  $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, is_private) VALUES (:uid, :calendar_id, :title, :start_time, :end_time, :event_type_id, :link_module, :link_record_id, :is_private)');
   $stmt->execute([
     ':uid' => $this_user_id,
+    ':calendar_id' => $calendar_id,
     ':title' => $title,
-    ':start' => $start,
-    ':end' => $end,
-    ':rel_module' => $related_module,
-    ':rel_id' => $related_id,
+    ':start_time' => $start_time,
+    ':end_time' => $end_time,
+    ':event_type_id' => $event_type_id,
+    ':link_module' => $link_module,
+    ':link_record_id' => $link_record_id,
     ':is_private' => $is_private
   ]);
   $eventId = $pdo->lastInsertId();
