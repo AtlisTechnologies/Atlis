@@ -59,6 +59,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($token, $_POST['csrf_token'] ?? '')) {
     die('Invalid CSRF token');
   }
+  if (isset($_POST['remove_file']) && $id) {
+    require_permission('organization','update');
+    $uploadDir = dirname(__DIR__, 3) . '/uploads/organization/';
+    if (!empty($file_path)) {
+      @unlink($uploadDir . $file_path);
+    }
+    $pdo->prepare('UPDATE module_organization SET file_name=NULL,file_path=NULL,file_size=NULL,file_type=NULL WHERE id=?')->execute([$id]);
+    admin_audit_log($pdo,$this_user_id,'module_organization',$id,'REMOVE_FILE',json_encode(['file_name'=>$file_name,'file_path'=>$file_path]),null,'Removed organization file');
+    header('Location: organization_edit.php?id='.$id);
+    exit;
+  }
+
   $name = trim($_POST['name'] ?? '');
   $main_person = $_POST['main_person'] !== '' ? (int)$_POST['main_person'] : null;
   $status = $_POST['status'] !== '' ? (int)$_POST['status'] : null;
@@ -72,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $pdo->lastInsertId();
     admin_audit_log($pdo, $this_user_id, 'module_organization', $id, 'CREATE', null, json_encode(['name'=>$name,'main_person'=>$main_person,'status'=>$status]), 'Created organization');
   }
+
   // handle file upload (max 5MB)
   if (!empty($_FILES['upload_file']['name'])) {
     $maxSize = 5 * 1024 * 1024; // 5MB
@@ -117,92 +130,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require '../admin_header.php';
 ?>
 <h2 class="mb-4"><?= $id ? 'Edit' : 'Add'; ?> Organization</h2>
-<form method="post" enctype="multipart/form-data">
-  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <div class="mb-3">
-    <label class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name); ?>" required>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Main Person</label>
-    <select name="main_person" class="form-select">
-      <option value="">-- None --</option>
-      <?php foreach($personOptions as $pid => $pname): ?>
-        <option value="<?= $pid; ?>" <?= (int)$pid === (int)$main_person ? 'selected' : ''; ?>><?= htmlspecialchars($pname); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Status</label>
-    <select name="status" class="form-select">
-      <?php foreach($statusOptions as $sid => $slabel): ?>
-        <option value="<?= $sid; ?>" <?= (int)$sid === (int)$status ? 'selected' : ''; ?>><?= htmlspecialchars($slabel); ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Upload File</label>
-    <?php if ($file_path): ?>
-      <div class="mb-2">
-        <a href="/module/organization/download.php?id=<?= $id; ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
+<div class="card mb-4">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data" id="orgForm">
+      <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name); ?>" required>
       </div>
-    <?php endif; ?>
-    <input type="file" name="upload_file" class="form-control" accept="image/*,application/pdf">
+      <div class="mb-3">
+        <label class="form-label">Main Person</label>
+        <select name="main_person" class="form-select">
+          <option value="">-- None --</option>
+          <?php foreach($personOptions as $pid => $pname): ?>
+            <option value="<?= $pid; ?>" <?= (int)$pid === (int)$main_person ? 'selected' : ''; ?>><?= htmlspecialchars($pname); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select">
+          <?php foreach($statusOptions as $sid => $slabel): ?>
+            <option value="<?= $sid; ?>" <?= (int)$sid === (int)$status ? 'selected' : ''; ?>><?= htmlspecialchars($slabel); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Upload File</label>
+        <?php if ($file_path): ?>
+          <div class="mb-2">
+            <a href="/module/organization/download.php?id=<?= $id; ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
+            <button class="btn btn-outline-danger btn-sm ms-2" name="remove_file" value="1" formnovalidate>Remove File</button>
+            <?php if (strpos($file_type,'image/') === 0): ?>
+              <img src="/uploads/organization/<?= htmlspecialchars($file_path); ?>" class="img-fluid mt-2" alt="Preview">
+            <?php elseif ($file_type === 'application/pdf'): ?>
+              <embed src="/uploads/organization/<?= htmlspecialchars($file_path); ?>" type="application/pdf" class="w-100 mt-2" style="height:200px;"></embed>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+        <input type="file" name="upload_file" class="form-control" accept="image/*,application/pdf">
+      </div>
+      <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
+      <a href="index.php" class="btn btn-secondary">Cancel</a>
+    </form>
   </div>
-  <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
-  <a href="index.php" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 <?php if ($id): ?>
-  <hr class="my-4">
-  <h4>Assigned Persons</h4>
-  <table class="table table-sm">
-    <thead>
-      <tr><th>Name</th><th>Role</th><th>Lead</th><th></th></tr>
-    </thead>
-    <tbody>
-      <?php foreach($assignedPersons as $ap): ?>
-        <tr>
-          <td><?= htmlspecialchars($ap['name']); ?></td>
-          <td><?= htmlspecialchars($ap['role_label'] ?? ''); ?></td>
-          <td><?= $ap['is_lead'] ? 'Yes' : 'No'; ?></td>
-          <td>
-            <form method="post" action="functions/organization_remove_person.php" class="d-inline">
-              <input type="hidden" name="assignment_id" value="<?= $ap['id']; ?>">
-              <input type="hidden" name="organization_id" value="<?= $id; ?>">
-              <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-              <button class="btn btn-sm btn-danger" onclick="return confirm('Remove this person?');">Remove</button>
-            </form>
-          </td>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-  <form method="post" action="functions/organization_assign_person.php" class="row g-2">
-    <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-    <input type="hidden" name="organization_id" value="<?= $id; ?>">
-    <div class="col-md-4">
-      <select name="person_id" class="form-select" required>
-        <option value="">-- Person --</option>
-        <?php foreach($personOptions as $pid=>$pname): ?>
-          <option value="<?= $pid; ?>"><?= htmlspecialchars($pname); ?></option>
-        <?php endforeach; ?>
-      </select>
+  <div class="card" id="persons">
+    <div class="card-header"><h4 class="mb-0">Assigned Persons</h4></div>
+    <div class="card-body">
+      <table class="table table-sm">
+        <thead>
+          <tr><th>Name</th><th>Role</th><th>Lead</th><th></th></tr>
+        </thead>
+        <tbody>
+          <?php foreach($assignedPersons as $ap): ?>
+            <tr>
+              <td><?= htmlspecialchars($ap['name']); ?></td>
+              <td><?= htmlspecialchars($ap['role_label'] ?? ''); ?></td>
+              <td><?= $ap['is_lead'] ? 'Yes' : 'No'; ?></td>
+              <td>
+                <form method="post" action="functions/organization_remove_person.php" class="d-inline">
+                  <input type="hidden" name="assignment_id" value="<?= $ap['id']; ?>">
+                  <input type="hidden" name="organization_id" value="<?= $id; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-sm btn-danger" onclick="return confirm('Remove this person?');">Remove</button>
+                </form>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+      <form method="post" action="functions/organization_assign_person.php" class="row g-2">
+        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+        <input type="hidden" name="organization_id" value="<?= $id; ?>">
+        <div class="col-md-4">
+          <select name="person_id" class="form-select" required>
+            <option value="">-- Person --</option>
+            <?php foreach($personOptions as $pid=>$pname): ?>
+              <option value="<?= $pid; ?>"><?= htmlspecialchars($pname); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select name="role_id" class="form-select">
+            <option value="">-- Role --</option>
+            <?php foreach($roleOptions as $rid=>$rlabel): ?>
+              <option value="<?= $rid; ?>"><?= htmlspecialchars($rlabel); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="col-md-2 form-check d-flex align-items-center">
+          <input class="form-check-input" type="checkbox" value="1" name="is_lead" id="orgLeadChk">
+          <label class="form-check-label ms-2" for="orgLeadChk">Lead</label>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" type="submit">Assign</button>
+        </div>
+      </form>
     </div>
-    <div class="col-md-4">
-      <select name="role_id" class="form-select">
-        <option value="">-- Role --</option>
-        <?php foreach($roleOptions as $rid=>$rlabel): ?>
-          <option value="<?= $rid; ?>"><?= htmlspecialchars($rlabel); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="col-md-2 form-check d-flex align-items-center">
-      <input class="form-check-input" type="checkbox" value="1" name="is_lead" id="orgLeadChk">
-      <label class="form-check-label ms-2" for="orgLeadChk">Lead</label>
-    </div>
-    <div class="col-md-2">
-      <button class="btn btn-primary" type="submit">Assign</button>
-    </div>
-  </form>
+  </div>
 <?php endif; ?>
 <?php require '../admin_footer.php'; ?>
