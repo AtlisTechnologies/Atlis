@@ -1531,6 +1531,25 @@ CREATE TABLE `module_calendar_event_attendees` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_calendar_external_accounts`
+--
+
+CREATE TABLE `module_calendar_external_accounts` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `provider` enum('google','microsoft') NOT NULL,
+  `access_token` text DEFAULT NULL,
+  `refresh_token` text DEFAULT NULL,
+  `token_expires` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_contractors`
 --
 
@@ -3367,6 +3386,15 @@ ALTER TABLE `module_calendar_event_attendees`
   ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
 
 --
+-- Indexes for table `module_calendar_external_accounts`
+--
+ALTER TABLE `module_calendar_external_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_calendar_external_accounts_user_id` (`user_id`),
+  ADD KEY `fk_module_calendar_external_accounts_user_updated` (`user_updated`),
+  ADD KEY `idx_module_calendar_external_accounts_provider` (`provider`);
+
+--
 -- Indexes for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -3979,6 +4007,12 @@ ALTER TABLE `module_calendar_event_attendees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `module_calendar_external_accounts`
+--
+ALTER TABLE `module_calendar_external_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_contractors`
 --
 ALTER TABLE `module_contractors`
@@ -4391,6 +4425,13 @@ ALTER TABLE `module_calendar_event_attendees`
   ADD CONSTRAINT `fk_module_calendar_event_attendees_event_id` FOREIGN KEY (`event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_event_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_calendar_external_accounts`
+--
+ALTER TABLE `module_calendar_external_accounts`
+  ADD CONSTRAINT `fk_module_calendar_external_accounts_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_calendar_external_accounts_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_contractors`
