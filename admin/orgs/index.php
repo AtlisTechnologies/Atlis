@@ -139,6 +139,24 @@ unset($org);
 
 // Convert to a simple indexed array
 $organizations = array_values($organizations);
+
+function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl, $subdir) {
+  if (empty($file_name)) {
+    return '';
+  }
+  $path = $file_path;
+  if (strpos($path, '/') !== 0) {
+    $path = "/uploads/{$subdir}/{$path}";
+  }
+  $src = getURLDir() . ltrim($path, '/');
+  $downloadUrl = htmlspecialchars($downloadUrl, ENT_QUOTES);
+  $escName = htmlspecialchars($file_name);
+  $src = htmlspecialchars($src, ENT_QUOTES);
+  if (strpos($file_type, 'image/') === 0) {
+    return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" target=\"_blank\"><img src=\"{$src}\" class=\"img-thumbnail\" style=\"max-width:100px;\" alt=\"{$escName}\"></a></div>";
+  }
+  return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" class=\"d-inline-flex align-items-center\" target=\"_blank\"><span class=\"fas fa-paperclip me-1\"></span>{$escName}</a></div>";
+}
 ?>
 <h2 class="mb-4">Organizations</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
@@ -150,10 +168,8 @@ $organizations = array_values($organizations);
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between align-items-start">
       <div>
-        <span class="fw-semibold"><?= htmlspecialchars($org['name']); ?></span>
-        <?php if (!empty($org['file_path'])): ?>
-          <br><a href="/module/organization/download.php?id=<?= $org['id']; ?>" target="_blank">View File</a>
-        <?php endif; ?>
+        <span class="badge bg-primary me-1">Org</span><span class="fw-semibold"><?= htmlspecialchars($org['name']); ?></span>
+        <?= render_file_attachment($org['file_path'], $org['file_name'], $org['file_type'], "/module/organization/download.php?id={$org['id']}", 'organization'); ?>
         <?php if (!empty($org['persons'])): ?>
           <br><small>
             <?php
@@ -192,10 +208,8 @@ $organizations = array_values($organizations);
           <div class="card mb-2">
             <div class="card-header d-flex justify-content-between align-items-start">
               <div>
-                <span class="fw-semibold">Agency: <?= htmlspecialchars($agency['name']); ?></span>
-                <?php if (!empty($agency['file_path'])): ?>
-                  <br><a href="/module/agency/download.php?id=<?= $agency['id']; ?>" target="_blank">View File</a>
-                <?php endif; ?>
+                <span class="badge bg-success me-1">Agency</span><span class="fw-semibold"><?= htmlspecialchars($agency['name']); ?></span>
+                <?= render_file_attachment($agency['file_path'], $agency['file_name'], $agency['file_type'], "/module/agency/download.php?id={$agency['id']}", 'agency'); ?>
                 <?php if (!empty($agency['persons'])): ?>
                   <br><small>
                     <?php
@@ -233,10 +247,8 @@ $organizations = array_values($organizations);
                 <?php foreach ($agency['divisions'] as $division): ?>
                   <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div>
-                      Division: <?= htmlspecialchars($division['name']); ?>
-                      <?php if (!empty($division['file_path'])): ?>
-                        <br><a href="/module/division/download.php?id=<?= $division['id']; ?>" target="_blank">View File</a>
-                      <?php endif; ?>
+                      <span class="badge bg-warning me-1">Division</span><?= htmlspecialchars($division['name']); ?>
+                      <?= render_file_attachment($division['file_path'], $division['file_name'], $division['file_type'], "/module/division/download.php?id={$division['id']}", 'division'); ?>
                     </div>
                     <div class="text-end">
                       <?= render_status_badge($divisionStatuses, $division['status']) ?>
