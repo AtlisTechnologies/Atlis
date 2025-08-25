@@ -79,7 +79,7 @@ $contractors = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php $pic = !empty($c['file_path'])
           ? $c['file_path']
           : ($c['gender_code'] === 'FEMALE'
-            ? 'assets/img/team/avatar-female.webp'
+            ? 'assets/img/team/avatar.webp'
             : 'assets/img/team/avatar.webp'); ?>
         <div class="row g-0 align-items-center border-bottom py-2">
           <div class="col-auto px-2" style="width:120px;">
