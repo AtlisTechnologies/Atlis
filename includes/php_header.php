@@ -10,6 +10,18 @@ require __DIR__ . '/config.php';
 require_once __DIR__ . '/lookup_helpers.php';
 require_once __DIR__ . '/contractor_helpers.php';
 
+// Composer autoload (for third-party libraries)
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+  require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+// OAuth configuration (Google, Microsoft, etc.)
+$oauthConfig = [];
+$oauthConfigPath = __DIR__ . '/config.oauth.php';
+if (file_exists($oauthConfigPath)) {
+  $oauthConfig = require $oauthConfigPath;
+}
+
 $today = date('Y-m-d H:i:s');
 $today_date = date('Y-m-d');
 $date_today = date("l, F j, Y");
