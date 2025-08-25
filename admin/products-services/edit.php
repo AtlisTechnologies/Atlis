@@ -13,27 +13,22 @@ if($id){
 
 $types = get_lookup_items($pdo, 'PRODUCT_SERVICE_TYPE');
 $statuses = get_lookup_items($pdo, 'PRODUCT_SERVICE_STATUS');
+$categories = get_lookup_items($pdo, 'PRODUCT_SERVICE_CATEGORY');
 
-// Load people and their skills
-$stmt = $pdo->query('SELECT p.id, CONCAT(p.first_name, " ", p.last_name) AS name FROM person p ORDER BY p.first_name, p.last_name');
+// Load people with aggregated skills for display only
+$stmt = $pdo->query('SELECT p.id, CONCAT(p.first_name, " ", p.last_name) AS name, GROUP_CONCAT(li.label ORDER BY li.label SEPARATOR ", ") AS skills FROM person p LEFT JOIN person_skills ps ON p.id = ps.person_id LEFT JOIN lookup_list_items li ON ps.skill_id = li.id GROUP BY p.id ORDER BY p.first_name, p.last_name');
 $people = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$ps = $pdo->query('SELECT ps.person_id, ps.skill_id, li.label FROM person_skills ps JOIN lookup_list_items li ON ps.skill_id = li.id ORDER BY ps.person_id, li.label');
-$personSkills = [];
-while($row = $ps->fetch(PDO::FETCH_ASSOC)){
-  $personSkills[$row['person_id']][] = ['skill_id'=>$row['skill_id'], 'label'=>$row['label']];
-}
-foreach($people as &$p){
-  $labels = array_column($personSkills[$p['id']] ?? [], 'label');
-  $p['skills'] = $labels ? implode(', ', $labels) : '';
-}
-unset($p);
-
 $assigned = [];
+$selectedCategories = [];
 if($id){
   $stmt = $pdo->prepare('SELECT person_id, skill_id FROM module_products_services_person WHERE product_service_id = :id');
   $stmt->execute([':id'=>$id]);
   $assigned = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $stmt = $pdo->prepare('SELECT category_id FROM module_products_services_category WHERE product_service_id = :id');
+  $stmt->execute([':id'=>$id]);
+  $selectedCategories = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'category_id');
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
@@ -52,6 +47,7 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
 <form method="post" action="functions/save.php" class="row g-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <?php if($id): ?><input type="hidden" name="id" value="<?= $id; ?>"><?php endif; ?>
+  <input type="hidden" name="previous_price" value="<?= h($item['price'] ?? ''); ?>">
   <div class="col-12">
     <div class="form-floating">
       <input class="form-control" id="psName" type="text" name="name" placeholder="Name" value="<?= h($item['name'] ?? ''); ?>" required>
@@ -76,6 +72,16 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
         <?php endforeach; ?>
       </select>
       <label for="psStatus">Status</label>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-floating form-floating-advance-select">
+      <label for="psCategories">Categories</label>
+      <select class="form-select" id="psCategories" name="category_ids[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+        <?php foreach($categories as $c): ?>
+          <option value="<?= $c['id']; ?>" <?= in_array($c['id'], $selectedCategories) ? 'selected' : ''; ?>><?= h($c['label']); ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
   </div>
   <div class="col-12">
@@ -107,7 +113,6 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
   </div>
 </form>
 <script>
-const personSkills = <?= json_encode($personSkills); ?>;
 const peopleOptions = `<?php foreach($people as $p){ echo '<option value="'.$p['id'].'">'.h($p['name'] . ($p['skills'] ? ' - '.$p['skills'] : '')).'</option>'; } ?>`;
 const existingAssignments = <?= json_encode($assigned); ?>;
 function createRow(data){
@@ -134,23 +139,28 @@ function createRow(data){
   personSelect.addEventListener('change', () => {
     const pid = personSelect.value;
     skillSelect.innerHTML = '<option value="">Select Skill</option>';
-    if(personSkills[pid]){
-      personSkills[pid].forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.skill_id;
-        opt.textContent = s.label;
-        skillSelect.appendChild(opt);
-      });
-    }
-    if(data && pid == data.person_id){
-      skillSelect.value = data.skill_id;
+    if(pid){
+      fetch('../api/person-skills.php?person_id=' + pid)
+        .then(res => res.json())
+        .then(res => {
+          if(res.success){
+            res.skills.forEach(s => {
+              const opt = document.createElement('option');
+              opt.value = s.id;
+              opt.textContent = s.label;
+              skillSelect.appendChild(opt);
+            });
+            if(data && pid == data.person_id){
+              skillSelect.value = data.skill_id;
+            }
+          }
+        });
     }
   });
   row.querySelector('.remove-assignment').addEventListener('click', () => row.remove());
   if(data){
     personSelect.value = data.person_id;
     personSelect.dispatchEvent(new Event('change'));
-    skillSelect.value = data.skill_id;
   }
 }
 existingAssignments.forEach(a => createRow(a));
