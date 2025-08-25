@@ -12,6 +12,8 @@ $type_id = isset($_POST['type_id']) ? (int)$_POST['type_id'] : 0;
 $status_id = isset($_POST['status_id']) ? (int)$_POST['status_id'] : 0;
 $description = trim($_POST['description'] ?? '');
 $price = isset($_POST['price']) && $_POST['price'] !== '' ? (float)$_POST['price'] : null;
+$previous_price = isset($_POST['previous_price']) && $_POST['previous_price'] !== '' ? (float)$_POST['previous_price'] : null;
+$category_ids = isset($_POST['category_ids']) && is_array($_POST['category_ids']) ? array_map('intval', $_POST['category_ids']) : [];
 $memo = trim($_POST['memo'] ?? '');
 $assignments = isset($_POST['assignments']) && is_array($_POST['assignments']) ? $_POST['assignments'] : [];
 $cleanAssignments = [];
@@ -36,12 +38,24 @@ if ($id) {
   $stmt = $pdo->prepare('UPDATE module_products_services SET name=:name, type_id=:type_id, status_id=:status_id, description=:descr, price=:price, memo=:memo, user_updated=:uid WHERE id=:id');
   $stmt->execute([':name'=>$name, ':type_id'=>$type_id, ':status_id'=>$status_id, ':descr'=>$description, ':price'=>$price, ':memo'=>$memo, ':uid'=>$this_user_id, ':id'=>$id]);
   admin_audit_log($pdo,$this_user_id,'module_products_services',$id,'UPDATE',json_encode($old),json_encode(['name'=>$name,'type_id'=>$type_id,'status_id'=>$status_id,'description'=>$description,'price'=>$price,'memo'=>$memo]),'Updated product/service');
+  if($price !== $previous_price){
+    $ph = $pdo->prepare('INSERT INTO module_products_services_price_history (user_id,user_updated,product_service_id,old_price,new_price) VALUES (:uid,:uid,:psid,:old,:new)');
+    $ph->execute([':uid'=>$this_user_id, ':psid'=>$id, ':old'=>$previous_price, ':new'=>$price]);
+  }
 } else {
   require_permission('products_services','create');
   $stmt = $pdo->prepare('INSERT INTO module_products_services (user_id,user_updated,name,type_id,status_id,description,price,memo) VALUES (:uid,:uid,:name,:type_id,:status_id,:descr,:price,:memo)');
   $stmt->execute([':uid'=>$this_user_id, ':name'=>$name, ':type_id'=>$type_id, ':status_id'=>$status_id, ':descr'=>$description, ':price'=>$price, ':memo'=>$memo]);
   $id = $pdo->lastInsertId();
   admin_audit_log($pdo,$this_user_id,'module_products_services',$id,'CREATE',null,json_encode(['name'=>$name,'type_id'=>$type_id,'status_id'=>$status_id,'description'=>$description,'price'=>$price,'memo'=>$memo]),'Created product/service');
+}
+
+$pdo->prepare('DELETE FROM module_products_services_category WHERE product_service_id=:id')->execute([':id'=>$id]);
+if($category_ids){
+  $insCat = $pdo->prepare('INSERT INTO module_products_services_category (user_id,user_updated,product_service_id,category_id) VALUES (:uid,:uid,:psid,:cid)');
+  foreach($category_ids as $cid){
+    $insCat->execute([':uid'=>$this_user_id, ':psid'=>$id, ':cid'=>$cid]);
+  }
 }
 
 $pdo->prepare('DELETE FROM module_products_services_person WHERE product_service_id=:id')->execute([':id'=>$id]);
