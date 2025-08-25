@@ -192,7 +192,7 @@ if($items){
       <tbody class="list">
         <?php foreach($items as $it): ?>
           <tr data-id="<?= $it['id']; ?>">
-            <td class="sort_order"><span class="drag-handle bi bi-list"></span><span class="order-number ms-2"><?= h($it['sort_order']); ?></span></td>
+            <td class="sort_order"><span class="drag-handle bi bi-list"></span></td>
             <td class="code"><?= h($it['code']); ?></td>
             <td class="label"><?= h($it['label']); ?></td>
             <td>
@@ -271,16 +271,24 @@ function fillForm(id,code,label,active_from,active_to){
   btn.classList.remove('btn-success');
   btn.classList.add('btn-warning');
 }
-  const sortable = new Sortable(document.querySelector('#items tbody'), {
-    handle: '.drag-handle',
-    animation: 150,
-    onEnd: function(){
-      document.querySelectorAll('#items tbody tr').forEach((row, index) => {
-        row.querySelector('.order-number').textContent = index + 1;
-        fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'item',action:'update_sort',id:row.dataset.id,sort_order:index+1,csrf_token:'<?= $token; ?>'})});
-      });
-    }
-  });
+const tbody=document.querySelector('#items tbody');
+new Sortable(tbody,{
+  handle:'.drag-handle',
+  animation:150,
+  onEnd:()=>[...tbody.children].forEach((row,idx)=>{
+    fetch('../api/lookup-lists.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({
+        entity:'item',
+        action:'update_sort',
+        id:row.dataset.id,
+        sort_order:idx+1,
+        csrf_token:'<?= $token; ?>'
+      })
+    });
+  })
+});
 
 let allItems=[];
 fetch('../api/lookup-lists.php?entity=item&action=all').then(r=>r.json()).then(d=>{ if(d.success){ allItems=d.items; }});
