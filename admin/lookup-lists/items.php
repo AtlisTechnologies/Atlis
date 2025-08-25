@@ -89,8 +89,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   }else{
     $item_id=(int)($_POST['id'] ?? 0);
     $label=trim($_POST['label'] ?? '');
-    $code=trim($_POST['code'] ?? '');
-    $active_from=$_POST['active_from'] ?? date('Y-m-d');
+    $code = strtoupper(str_replace(' ', '_', trim($_POST['code'] ?? '')));
+    $active_from = $_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'));
     $active_to=$_POST['active_to'] ?? null;
     if($active_to==='' || $active_to==='0000-00-00'){
       $active_to=null;
@@ -174,7 +174,7 @@ if($items){
   <input type="hidden" name="id" value="<?= h($_POST['id'] ?? ''); ?>">
   <div class="col-md-2"><input class="form-control" name="code" placeholder="Code" value="<?= h($_POST['code'] ?? ''); ?>" required></div>
   <div class="col-md-3"><input class="form-control" name="label" placeholder="Label" value="<?= h($_POST['label'] ?? ''); ?>" required></div>
-  <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d')); ?>" required></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'))); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
 </form>
@@ -191,8 +191,8 @@ if($items){
       </thead>
       <tbody class="list">
         <?php foreach($items as $it): ?>
-          <tr>
-            <td class="sort_order"><input type="number" class="form-control form-control-sm sort-input" data-id="<?= $it['id']; ?>" value="<?= h($it['sort_order']); ?>" style="width:80px"></td>
+          <tr data-id="<?= $it['id']; ?>">
+            <td class="sort_order"><span class="drag-handle bi bi-list"></span><span class="order-number ms-2"><?= h($it['sort_order']); ?></span></td>
             <td class="code"><?= h($it['code']); ?></td>
             <td class="label"><?= h($it['label']); ?></td>
             <td>
@@ -258,6 +258,7 @@ if($items){
     </div>
   </div>
 </div>
+  <script src="../../vendors/sortablejs/Sortable.min.js"></script>
 <script>
 function fillForm(id,code,label,active_from,active_to){
   const f=document.forms[0];
@@ -270,12 +271,16 @@ function fillForm(id,code,label,active_from,active_to){
   btn.classList.remove('btn-success');
   btn.classList.add('btn-warning');
 }
-
-document.querySelectorAll('.sort-input').forEach(inp=>{
-  inp.addEventListener('change',function(){
-    fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'item',action:'update_sort',id:this.dataset.id,sort_order:this.value,csrf_token:'<?= $token; ?>'})});
+  const sortable = new Sortable(document.querySelector('#items tbody'), {
+    handle: '.drag-handle',
+    animation: 150,
+    onEnd: function(){
+      document.querySelectorAll('#items tbody tr').forEach((row, index) => {
+        row.querySelector('.order-number').textContent = index + 1;
+        fetch('../api/lookup-lists.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({entity:'item',action:'update_sort',id:row.dataset.id,sort_order:index+1,csrf_token:'<?= $token; ?>'})});
+      });
+    }
   });
-});
 
 let allItems=[];
 fetch('../api/lookup-lists.php?entity=item&action=all').then(r=>r.json()).then(d=>{ if(d.success){ allItems=d.items; }});
