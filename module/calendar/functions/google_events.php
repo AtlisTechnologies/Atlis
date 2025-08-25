@@ -34,7 +34,7 @@ function fetch_google_events(PDO $pdo, int $userId): array {
                 'related_module' => null,
                 'related_id' => null,
                 'event_type_id' => 0,
-                'visibility_id' => 0,
+                'is_private' => 0,
                 'source' => 'google'
             ];
         }

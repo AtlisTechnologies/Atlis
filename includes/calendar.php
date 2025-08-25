@@ -1,6 +1,5 @@
 <?php
 $eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
-$visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" />
 
@@ -84,13 +83,9 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="eventVisibility">Visibility</label>
-            <select class="form-select" id="eventVisibility" name="visibility_id">
-              <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="eventPrivate" name="is_private" value="1">
+            <label class="form-check-label" for="eventPrivate">Private</label>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -143,13 +138,9 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="editEventVisibility">Visibility</label>
-            <select class="form-select" id="editEventVisibility" name="visibility_id">
-              <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
-              <?php endforeach; ?>
-            </select>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="editEventPrivate" name="is_private" value="1">
+            <label class="form-check-label" for="editEventPrivate">Private</label>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -191,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.allDay.checked = info.event.allDay;
       form.description.value = info.event.extendedProps.description || '';
       form.event_type_id.value = info.event.extendedProps.event_type_id || '';
-      form.visibility_id.value = info.event.extendedProps.visibility_id || '';
+      form.is_private.checked = info.event.extendedProps.is_private == 1;
       editModal.show();
 
     events: {
@@ -256,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
           allDay: data.get('allDay') === 'on',
           description: data.get('description'),
           event_type_id: data.get('event_type_id'),
-          visibility_id: data.get('visibility_id')
+          is_private: data.get('is_private') ? 1 : 0
         });
         e.target.reset();
         bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
@@ -281,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
           event.setAllDay(form.allDay.checked);
           event.setExtendedProp('description', form.description.value);
           event.setExtendedProp('event_type_id', form.event_type_id.value);
-          event.setExtendedProp('visibility_id', form.visibility_id.value);
+          event.setExtendedProp('is_private', form.is_private.checked ? 1 : 0);
         }
         bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
       }
