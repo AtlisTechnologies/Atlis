@@ -8,12 +8,6 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_visibility_id = $visibilities[0]['id'] ?? 0;
 
-$external_cal_labels = [
-  'google' => 'Google Calendar',
-  'microsoft' => 'Microsoft Calendar'
-];
-$connected_calendars = $_SESSION['connected_calendars'] ?? [];
-
 ?>
 <div class="row g-0 mb-4 align-items-center">
   <div class="col-5 col-md-6">
@@ -37,17 +31,6 @@ $connected_calendars = $_SESSION['connected_calendars'] ?? [];
     </button>
   </div>
 </div>
-
-<?php if (!empty($connected_calendars)) { ?>
-<div class="mb-3">
-  <?php foreach ($connected_calendars as $ext): ?>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input external-cal-toggle" type="checkbox" id="toggle-<?= htmlspecialchars($ext); ?>" data-src="<?= htmlspecialchars($ext); ?>" checked>
-      <label class="form-check-label" for="toggle-<?= htmlspecialchars($ext); ?>"><?= htmlspecialchars($external_cal_labels[$ext] ?? ucfirst($ext)); ?></label>
-    </div>
-  <?php endforeach; ?>
-</div>
-<?php } ?>
 
 <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
 
@@ -149,25 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultVisibilityId = <?php echo (int)$default_visibility_id; ?>;
   const calendarEl = document.getElementById('calendar');
-  const externalSources = {
-    google: {
-      id: 'google',
-      url: '<?php echo getURLDir(); ?>module/calendar/functions/google_events.php'
-    },
-    microsoft: {
-      id: 'microsoft',
-      url: '<?php echo getURLDir(); ?>module/calendar/functions/microsoft_events.php'
-    }
-  };
-  const connectedExternalCalendars = <?php echo json_encode($connected_calendars); ?>;
-  const sources = [
-    { id: 'local', url: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>' }
-  ];
-  connectedExternalCalendars.forEach(name => {
-    if (externalSources[name]) {
-      sources.push(externalSources[name]);
-    }
-  });
 
   function getCalendarId() {
     const sel = document.getElementById('calendarSelect');
@@ -212,21 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   calendar.render();
-
-  document.querySelectorAll('.external-cal-toggle').forEach(cb => {
-    cb.addEventListener('change', function() {
-      const src = externalSources[this.dataset.src];
-      if (this.checked) {
-        calendar.addEventSource(src);
-      } else {
-        const existing = calendar.getEventSourceById(src.id);
-        if (existing) {
-          existing.remove();
-        }
-      }
-      calendar.refetchEvents();
-    });
-  });
 
   const connectGoogle = document.getElementById('connectGoogle');
   if (connectGoogle) {
