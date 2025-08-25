@@ -37,7 +37,15 @@ function verifyToken() {
 function handleList($action){
   global $pdo, $this_user_id;
   if(in_array($action, ['create','update','delete'])){ verifyToken(); }
-  if($action==='create'){
+  if($action==='list'){
+    $stmt=$pdo->query('SELECT l.id,l.name,l.description,l.memo,l.date_updated,
+               COUNT(li.id) AS item_count
+        FROM lookup_lists l
+        LEFT JOIN lookup_list_items li ON li.list_id = l.id
+        GROUP BY l.id
+        ORDER BY l.name');
+    echo json_encode(['success'=>true,'lists'=>$stmt->fetchAll(PDO::FETCH_ASSOC)]);
+  }elseif($action==='create'){
     $name=trim($_POST['name']??'');
     if($name===''){ echo json_encode(['success'=>false,'error'=>'Name is required']); return; }
     $description=trim($_POST['description']??'');
