@@ -8,6 +8,12 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_visibility_id = $visibilities[0]['id'] ?? 0;
 
+$external_cal_labels = [
+  'google' => 'Google Calendar',
+  'microsoft' => 'Microsoft Calendar'
+];
+$connected_calendars = $_SESSION['connected_calendars'] ?? [];
+
 ?>
 <div class="row g-0 mb-4 align-items-center">
   <div class="col-5 col-md-6">
@@ -24,11 +30,24 @@ $default_visibility_id = $visibilities[0]['id'] ?? 0;
     <?php if (user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
+    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
+    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
       <span class="fas fa-plus pe-2 fs-10"></span>Add Event
     </button>
   </div>
 </div>
+
+<?php if (!empty($connected_calendars)) { ?>
+<div class="mb-3">
+  <?php foreach ($connected_calendars as $ext): ?>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input external-cal-toggle" type="checkbox" id="toggle-<?= htmlspecialchars($ext); ?>" data-src="<?= htmlspecialchars($ext); ?>" checked>
+      <label class="form-check-label" for="toggle-<?= htmlspecialchars($ext); ?>"><?= htmlspecialchars($external_cal_labels[$ext] ?? ucfirst($ext)); ?></label>
+    </div>
+  <?php endforeach; ?>
+</div>
+<?php } ?>
 
 <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
 
@@ -130,6 +149,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultVisibilityId = <?php echo (int)$default_visibility_id; ?>;
   const calendarEl = document.getElementById('calendar');
+  const externalSources = {
+    google: {
+      id: 'google',
+      url: '<?php echo getURLDir(); ?>module/calendar/functions/google_events.php'
+    },
+    microsoft: {
+      id: 'microsoft',
+      url: '<?php echo getURLDir(); ?>module/calendar/functions/microsoft_events.php'
+    }
+  };
+  const connectedExternalCalendars = <?php echo json_encode($connected_calendars); ?>;
+  const sources = [
+    { id: 'local', url: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>' }
+  ];
+  connectedExternalCalendars.forEach(name => {
+    if (externalSources[name]) {
+      sources.push(externalSources[name]);
+    }
+  });
 
   function getCalendarId() {
     const sel = document.getElementById('calendarSelect');
@@ -138,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>',
+    eventSources: sources,
     eventClick: function(info) {
       const form = document.getElementById('editEventForm');
       form.id.value = info.event.id;
@@ -158,6 +196,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   calendar.render();
+
+  document.querySelectorAll('.external-cal-toggle').forEach(cb => {
+    cb.addEventListener('change', function() {
+      const src = externalSources[this.dataset.src];
+      if (this.checked) {
+        calendar.addEventSource(src);
+      } else {
+        const existing = calendar.getEventSourceById(src.id);
+        if (existing) {
+          existing.remove();
+        }
+      }
+      calendar.refetchEvents();
+    });
+  });
+
+  const connectGoogle = document.getElementById('connectGoogle');
+  if (connectGoogle) {
+    connectGoogle.addEventListener('click', function() {
+      window.open('<?php echo getURLDir(); ?>module/calendar/functions/google_oauth.php', 'googleOAuth', 'width=600,height=700');
+    });
+  }
+  const connectMicrosoft = document.getElementById('connectMicrosoft');
+  if (connectMicrosoft) {
+    connectMicrosoft.addEventListener('click', function() {
+      window.open('<?php echo getURLDir(); ?>module/calendar/functions/microsoft_oauth.php', 'microsoftOAuth', 'width=600,height=700');
+    });
+  }
+  window.addEventListener('message', function(e) {
+    if (e.data === 'calendarLinked') {
+      window.location.reload();
+    }
+  });
 
   const calSelect = document.getElementById('calendarSelect');
   if (calSelect) {
