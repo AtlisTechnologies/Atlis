@@ -75,7 +75,7 @@ INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort
 SELECT 1,1,l.id,'Viewer','VIEWER',3 FROM lookup_lists l WHERE l.name='RELATIONSHIP_TYPE';
 
 -- Core SoW table
-CREATE TABLE admin_module_finances_sows (
+CREATE TABLE admin_feature_sow (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -93,7 +93,7 @@ CREATE TABLE admin_module_finances_sows (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Historical versions of SoW
-CREATE TABLE admin_module_finances_sows_versions (
+CREATE TABLE admin_feature_sow_versions (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -113,17 +113,17 @@ CREATE TABLE admin_module_finances_sows_versions (
   signed_on DATE DEFAULT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (status_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Link current version back to SoW
-ALTER TABLE admin_module_finances_sows
+ALTER TABLE admin_feature_sow
   ADD CONSTRAINT fk_finances_sow_current_version FOREIGN KEY (current_version_id)
-  REFERENCES admin_module_finances_sows_versions(id);
+  REFERENCES admin_feature_sow_versions(id);
 
 -- Attachments per version
-CREATE TABLE admin_module_finances_sows_attachments (
+CREATE TABLE admin_feature_sow_attachments (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -131,21 +131,19 @@ CREATE TABLE admin_module_finances_sows_attachments (
   date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   memo TEXT DEFAULT NULL,
   sow_version_id INT(11) NOT NULL,
-  description TEXT DEFAULT NULL,
-  file_type_id INT(11) NOT NULL,
-  sort_order INT(11) DEFAULT 0,
-  file_name VARCHAR(255) NOT NULL,
   file_path VARCHAR(255) NOT NULL,
+  original_filename VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(255) DEFAULT NULL,
   file_size INT(11) DEFAULT NULL,
-  file_mime VARCHAR(255) DEFAULT NULL,
+  file_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_version_id) REFERENCES admin_module_finances_sows_versions(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_version_id) REFERENCES admin_feature_sow_versions(id) ON DELETE CASCADE,
   FOREIGN KEY (file_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Line items per SoW version
-CREATE TABLE admin_module_finances_sows_line_items (
+CREATE TABLE admin_feature_sow_line_items (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -160,11 +158,11 @@ CREATE TABLE admin_module_finances_sows_line_items (
   sort_order INT(11) DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_version_id) REFERENCES admin_module_finances_sows_versions(id) ON DELETE CASCADE
+  FOREIGN KEY (sow_version_id) REFERENCES admin_feature_sow_versions(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Join tables linking SoWs to other records
-CREATE TABLE admin_module_finances_sows_projects (
+CREATE TABLE admin_feature_sow_projects (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -176,12 +174,12 @@ CREATE TABLE admin_module_finances_sows_projects (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES module_projects(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_agencies (
+CREATE TABLE admin_feature_sow_agencies (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -193,12 +191,12 @@ CREATE TABLE admin_module_finances_sows_agencies (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (agency_id) REFERENCES module_agency(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_divisions (
+CREATE TABLE admin_feature_sow_divisions (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -210,12 +208,12 @@ CREATE TABLE admin_module_finances_sows_divisions (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (division_id) REFERENCES module_division(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_tasks (
+CREATE TABLE admin_feature_sow_tasks (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -227,12 +225,12 @@ CREATE TABLE admin_module_finances_sows_tasks (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (task_id) REFERENCES module_tasks(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_users (
+CREATE TABLE admin_feature_sow_users (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -244,12 +242,12 @@ CREATE TABLE admin_module_finances_sows_users (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (related_user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_questions (
+CREATE TABLE admin_feature_sow_questions (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -261,12 +259,12 @@ CREATE TABLE admin_module_finances_sows_questions (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (question_id) REFERENCES module_projects_questions(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_links (
+CREATE TABLE admin_feature_sow_links (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -276,13 +274,14 @@ CREATE TABLE admin_module_finances_sows_links (
   sow_id INT(11) NOT NULL,
   link_id INT(11) NOT NULL,
   relationship_type_id INT(11) NOT NULL,
+  FOREIGN KEY (link_id) REFERENCES module_projects_links(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_notes (
+CREATE TABLE admin_feature_sow_notes (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -294,12 +293,12 @@ CREATE TABLE admin_module_finances_sows_notes (
   relationship_type_id INT(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (note_id) REFERENCES module_projects_notes(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE admin_module_finances_sows_logins (
+CREATE TABLE admin_feature_sow_logins (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT(11),
   user_updated INT(11),
@@ -309,8 +308,9 @@ CREATE TABLE admin_module_finances_sows_logins (
   sow_id INT(11) NOT NULL,
   login_id INT(11) NOT NULL,
   relationship_type_id INT(11) NOT NULL,
+  FOREIGN KEY (login_id) REFERENCES module_projects_logins(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
