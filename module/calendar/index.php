@@ -2,18 +2,8 @@
 require '../../includes/php_header.php';
 
 $action = $_GET['action'] ?? '';
-
-// Load events only when viewing existing calendars
-$events = [];
-if ($action === 'my') {
-    $stmt = $pdo->prepare('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id=c.id WHERE c.user_id = :uid');
-    $stmt->execute([':uid' => $this_user_id]);
-    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} elseif ($action === 'shared') {
-    $stmt = $pdo->query('SELECT e.title,e.start_time,e.end_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id=c.id WHERE c.is_private = 0');
-    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} elseif ($action === 'create') {
-    require_permission('calendar','create');
+if ($action === 'create') {
+    require_permission('calendar', 'create');
 }
 
 require '../../includes/html_header.php';
