@@ -1,7 +1,10 @@
 <?php
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+$agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
 $usersStmt = $pdo->query('SELECT u.id AS user_id, CONCAT(p.first_name, " ", p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name');
 $allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
+$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 ?>
 <div class="container-fluid py-4">
   <div class="row mb-3">
@@ -54,6 +57,7 @@ $allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
           <?php if (user_has_permission('meeting','update')): ?>
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
             <div class="col-md-4">
               <select class="form-select" name="attendee_user_id">
                 <?php foreach ($allUsers as $u): ?>
@@ -84,6 +88,7 @@ $allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
           <?php if (user_has_permission('meeting','update')): ?>
           <form id="uploadForm" class="mb-3">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
             <input type="file" name="file[]" multiple class="form-control mb-2">
             <button class="btn btn-sm btn-primary" type="submit">Upload</button>
           </form>
@@ -146,6 +151,47 @@ $allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php if (user_has_permission('meeting','update')): ?>
+<div class="modal fade" id="agendaModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="agendaForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agendaModalLabel">Edit Agenda Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id" id="agendaId">
+        <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" id="agendaTitle" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status_id" id="agendaStatus" class="form-select">
+            <option value="">None</option>
+            <?php foreach ($agendaStatusMap as $sid => $s): ?>
+              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Task</label>
+          <input type="text" id="agendaTaskSearch" class="form-control" placeholder="Search task">
+          <input type="hidden" name="linked_task_id" id="agendaTaskId">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Project</label>
+          <input type="text" id="agendaProjectSearch" class="form-control" placeholder="Search project">
+          <input type="hidden" name="linked_project_id" id="agendaProjectId">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="modal fade" id="questionModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" id="questionForm">
@@ -155,6 +201,7 @@ $allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
       <div class="modal-body">
         <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
+        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <input type="hidden" name="id" id="questionId">
         <div class="mb-3">
           <label class="form-label">Question</label>
@@ -194,11 +241,26 @@ document.addEventListener('DOMContentLoaded', function(){
   var meetingId = <?php echo (int)$meeting['id']; ?>;
   var baseUrl = '<?php echo getURLDir(); ?>';
   var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
+  var allUsers = <?php echo json_encode($allUsers); ?>;
+  var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
+  var csrfToken = '<?= $token; ?>';
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
+
+  function updateOrder(){
+    var items = agendaList.querySelectorAll('li[data-id]');
+    items.forEach(function(li, index){
+      var params = new URLSearchParams();
+      params.append('id', li.dataset.id);
+      params.append('meeting_id', meetingId);
+      params.append('order_index', index + 1);
+      params.append('csrf_token', csrfToken);
+      fetch('functions/update_agenda_item.php', {method:'POST', body: params});
+    });
+  }
 
   function updateAgendaSelect(){
     var sel = document.getElementById('agendaSelect');
@@ -245,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function fetchAgenda(){
-    fetch('functions/get_agenda.php?meeting_id=' + meetingId)
+    fetch('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(r => r.json())
       .then(function(data){
         if(data.success){
@@ -261,29 +323,60 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!li) return;
     if(e.target.closest('.delete-agenda-item')){
       var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId});
+      params.append('csrf_token', csrfToken);
       fetch('functions/delete_agenda_item.php', {method:'POST', body: params})
         .then(r=>r.json())
         .then(function(res){ if(res.success) renderAgenda(res.items); });
     } else if(e.target.closest('.edit-agenda-item')){
-      var newTitle = prompt('Title', li.querySelector('.agenda-title').textContent);
-      if(newTitle !== null){
-        var newStatus = prompt('Status ID', li.dataset.statusId);
-        var newTask = prompt('Task ID', li.dataset.taskId);
-        var newProject = prompt('Project ID', li.dataset.projectId);
-        var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId, order_index: Array.from(agendaList.children).indexOf(li)+1, title: newTitle, status_id: newStatus, linked_task_id: newTask, linked_project_id: newProject});
-        fetch('functions/update_agenda_item.php', {method:'POST', body: params})
-          .then(r=>r.json())
-          .then(function(res){ if(res.success) renderAgenda(res.items); });
-      }
+      document.getElementById('agendaId').value = li.dataset.id;
+      document.getElementById('agendaTitle').value = li.querySelector('.agenda-title').textContent;
+      document.getElementById('agendaStatus').value = li.dataset.statusId || '';
+      document.getElementById('agendaTaskSearch').value = li.dataset.taskId || '';
+      document.getElementById('agendaTaskId').value = li.dataset.taskId || '';
+      document.getElementById('agendaProjectSearch').value = li.dataset.projectId || '';
+      document.getElementById('agendaProjectId').value = li.dataset.projectId || '';
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('agendaModal')).show();
     }
   });
+
+  var agendaTaskSearch = document.getElementById('agendaTaskSearch');
+  if(agendaTaskSearch){
+    agendaTaskSearch.addEventListener('change', function(){
+      document.getElementById('agendaTaskId').value = this.value;
+    });
+  }
+  var agendaProjectSearch = document.getElementById('agendaProjectSearch');
+  if(agendaProjectSearch){
+    agendaProjectSearch.addEventListener('change', function(){
+      document.getElementById('agendaProjectId').value = this.value;
+    });
+  }
+
+  var agendaForm = document.getElementById('agendaForm');
+  if(agendaForm){
+    agendaForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var formData = new FormData(agendaForm);
+      var id = formData.get('id');
+      var li = agendaList.querySelector('li[data-id="'+id+'"]');
+      if(li){
+        formData.append('order_index', Array.from(agendaList.children).indexOf(li)+1);
+      }
+      fetch('functions/update_agenda_item.php', {method:'POST', body: formData})
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success){
+            renderAgenda(res.items);
+            bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
+          }
+        });
+    });
+  }
 
   fetchAgenda();
 
   function loadQuestions(){
-    var fd = new FormData();
-    fd.append('meeting_id', meetingId);
-    fetch('functions/update_question.php', {method:'POST', body:fd})
+    fetch('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(r=>r.json())
       .then(function(res){
         if(res.success){
@@ -358,6 +451,7 @@ document.addEventListener('DOMContentLoaded', function(){
           var fd = new FormData();
           fd.append('id', id);
           fd.append('meeting_id', meetingId);
+          fd.append('csrf_token', csrfToken);
           fetch('functions/delete_question.php', {method:'POST', body:fd})
             .then(r=>r.json())
             .then(function(res){
@@ -434,6 +528,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var formData = new FormData();
         formData.append('id', id);
         formData.append('meeting_id', meetingId);
+        formData.append('csrf_token', csrfToken);
         fetch('functions/remove_attendee.php', {method:'POST', body:formData})
           .then(r=>r.json())
           .then(function(res){
@@ -445,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetch('functions/get_attendees.php?meeting_id=' + meetingId)
+  fetch('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(r=>r.json())
     .then(function(data){
       if(data.success){
@@ -455,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
 
-  fetch('functions/get_attachments.php?meeting_id=' + meetingId)
+  fetch('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(r=>r.json())
     .then(function(data){
       var list = document.getElementById('attachmentsList');
@@ -501,7 +596,9 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('taskForm').addEventListener('submit', function(e){
     e.preventDefault();
     var form = this;
-    fetch('functions/create_task.php', {method:'POST', body:new FormData(form)})
+    var fd = new FormData(form);
+    fd.append('csrf_token', csrfToken);
+    fetch('functions/create_task.php', {method:'POST', body:fd})
       .then(r=>r.json())
       .then(function(res){
         if(res.success){
@@ -516,7 +613,9 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('projectForm').addEventListener('submit', function(e){
     e.preventDefault();
     var form = this;
-    fetch('functions/create_project.php', {method:'POST', body:new FormData(form)})
+    var fd = new FormData(form);
+    fd.append('csrf_token', csrfToken);
+    fetch('functions/create_project.php', {method:'POST', body:fd})
       .then(r=>r.json())
       .then(function(res){
         if(res.success){
