@@ -39,7 +39,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     'related_module' => $row['related_module'],
     'related_id' => $row['related_id'],
     'event_type_id' => $row['event_type_id'],
-    'is_private' => (int)$row['is_private']
+    'visibility_id' => (int)$row['visibility_id']
   ];
 }
 

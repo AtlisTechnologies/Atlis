@@ -143,9 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('editEventForm');
       form.id.value = info.event.id;
       form.title.value = info.event.title;
-      form.start.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-      form.end.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      form.is_private.checked = !!Number(info.event.extendedProps.is_private);
+      form.start_date.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+      form.end_date.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      form.visibility_id.value = info.event.extendedProps.visibility_id;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
