@@ -1,7 +1,5 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('calendar','update');
-
 header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
