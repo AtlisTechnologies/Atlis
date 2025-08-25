@@ -138,7 +138,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>',
+    events: function(fetchInfo, successCallback, failureCallback) {
+      fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>')
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(data => successCallback(data))
+        .catch(err => {
+          console.error('Failed to load events', err);
+          alert('Failed to load events: ' + err.message);
+          if (failureCallback) failureCallback(err);
+        });
+    },
     eventClick: function(info) {
       const form = document.getElementById('editEventForm');
       // Populate edit form with selected event details
