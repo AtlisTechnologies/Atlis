@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $attendees = $rosterStmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(['success' => true, 'data' => $attendees]);
     } catch (Exception $e) {
+        http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
     exit;

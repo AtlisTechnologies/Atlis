@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $questions = $listStmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(['success' => true, 'data' => $questions]);
     } catch (Exception $e) {
+        http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
     exit;
