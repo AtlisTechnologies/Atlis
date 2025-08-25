@@ -117,6 +117,7 @@
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
+          <button class="btn btn-danger me-auto" type="button" id="deleteEventBtn">Delete</button>
           <button class="btn btn-primary px-4" type="submit">Update</button>
         </div>
       </form>
@@ -137,11 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     headerToolbar: false,
-    events: function(fetchInfo, successCallback, failureCallback) {
-      fetch('<?php echo getURLDir(); ?>functions/list.php?scope=' + currentScope)
-        .then(resp => resp.json())
-        .then(data => successCallback(data))
-        .catch(failureCallback);
+    events: {
+      url: '<?php echo getURLDir(); ?>module/calendar/functions/list.php',
+      extraParams: () => ({ scope: currentScope })
     },
     eventClick: function(info) {
       const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
@@ -185,30 +184,49 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const data = new FormData(e.target);
-    calendar.addEvent({
-      id: 'e' + Date.now(),
-      title: data.get('title'),
-      start: data.get('startDate'),
-      end: data.get('endDate') || null,
-      allDay: data.get('allDay') === 'on',
-      description: data.get('description')
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/create.php', {
+      method: 'POST',
+      body: data
+    })
+    .then(resp => resp.json())
+    .then(res => {
+      if (res.success) {
+        calendar.refetchEvents();
+        e.target.reset();
+        bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
+      }
     });
-    e.target.reset();
-    bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
   });
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const form = e.target;
-    const event = calendar.getEventById(form.eventId.value);
-    if (event) {
-      event.setProp('title', form.title.value);
-      event.setStart(form.startDate.value);
-      event.setEnd(form.endDate.value || null);
-      event.setAllDay(form.allDay.checked);
-      event.setExtendedProp('description', form.description.value);
-    }
-    bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
+    const data = new FormData(e.target);
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/update.php', {
+      method: 'POST',
+      body: data
+    })
+    .then(resp => resp.json())
+    .then(res => {
+      if (res.success) {
+        calendar.refetchEvents();
+        bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
+      }
+    });
+  });
+
+  document.getElementById('deleteEventBtn').addEventListener('click', function() {
+    const form = document.getElementById('editEventForm');
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete.php', {
+      method: 'POST',
+      body: new URLSearchParams({ id: form.eventId.value })
+    })
+    .then(resp => resp.json())
+    .then(res => {
+      if (res.success) {
+        calendar.refetchEvents();
+        bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
+      }
+    });
   });
 });
 </script>
