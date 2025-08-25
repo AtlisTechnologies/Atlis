@@ -1,5 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
+require_once '../../../includes/helpers.php';
 require_permission('meeting', 'update');
 
 header('Content-Type: application/json');
@@ -14,22 +15,31 @@ function reorder_agenda($pdo, $meeting_id){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        exit;
+    }
+
     $id = (int)($_POST['id'] ?? 0);
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
 
-    if ($id && $meeting_id) {
-        $pdo->prepare('DELETE FROM module_meeting_agenda WHERE id=:id AND meeting_id=:mid')->execute([':id' => $id, ':mid' => $meeting_id]);
-       admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'DELETE', 'Deleted agenda item');
-        reorder_agenda($pdo, $meeting_id);
-    } elseif ($meeting_id) {
-        reorder_agenda($pdo, $meeting_id);
-    }
+    try {
+        if ($id && $meeting_id) {
+            $pdo->prepare('DELETE FROM module_meeting_agenda WHERE id=:id AND meeting_id=:mid')->execute([':id' => $id, ':mid' => $meeting_id]);
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'DELETE', 'Deleted agenda item');
+            reorder_agenda($pdo, $meeting_id);
+        } elseif ($meeting_id) {
+            reorder_agenda($pdo, $meeting_id);
+        }
 
-    $listStmt = $pdo->prepare('SELECT id, meeting_id, order_index, title, status_id, linked_task_id, linked_project_id FROM module_meeting_agenda WHERE meeting_id=? ORDER BY order_index');
-    $listStmt->execute([$meeting_id]);
-    $items = $listStmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(['success' => true, 'items' => $items]);
+        $listStmt = $pdo->prepare('SELECT id, meeting_id, order_index, title, status_id, linked_task_id, linked_project_id FROM module_meeting_agenda WHERE meeting_id=? ORDER BY order_index');
+        $listStmt->execute([$meeting_id]);
+        $items = $listStmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'data' => $items]);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
     exit;
 }
 
-echo json_encode(['success' => false]);
+echo json_encode(['success' => false, 'message' => 'Invalid request']);
