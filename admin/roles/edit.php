@@ -27,6 +27,7 @@ if ($id) {
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
+ensure_org_permission_groups($pdo, $this_user_id);
 $allGroups = $pdo->query('SELECT id, name FROM admin_permission_groups ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

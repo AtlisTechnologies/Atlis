@@ -87,6 +87,44 @@ function require_permission($module, $action){
   }
 }
 
+// Ensures permission groups and CRUD permissions exist for organization hierarchy
+function ensure_org_permission_groups(PDO $pdo, int $uid): void {
+  $map = [
+    'Organization' => 'organization',
+    'Agencies' => 'agency',
+    'Division' => 'division'
+  ];
+  foreach ($map as $groupName => $module) {
+    $stmt = $pdo->prepare('SELECT id FROM admin_permission_groups WHERE name = :name');
+    $stmt->execute([':name' => $groupName]);
+    $groupId = $stmt->fetchColumn();
+    if (!$groupId) {
+      $ins = $pdo->prepare('INSERT INTO admin_permission_groups (name, description, user_id, user_updated) VALUES (:name, :desc, :uid, :uid)');
+      $ins->execute([':name' => $groupName, ':desc' => 'Permissions for managing ' . strtolower($groupName), ':uid' => $uid]);
+      $groupId = $pdo->lastInsertId();
+    }
+    foreach (['create', 'read', 'update', 'delete'] as $action) {
+      $pstmt = $pdo->prepare('SELECT id FROM admin_permissions WHERE module = :module AND action = :action');
+      $pstmt->execute([':module' => $module, ':action' => $action]);
+      $permId = $pstmt->fetchColumn();
+      if (!$permId) {
+        $insPerm = $pdo->prepare('INSERT INTO admin_permissions (module, action, user_id, user_updated) VALUES (:module, :action, :uid, :uid)');
+        $insPerm->execute([':module' => $module, ':action' => $action, ':uid' => $uid]);
+        $permId = $pdo->lastInsertId();
+      }
+      $link = $pdo->prepare('SELECT id FROM admin_permission_group_permissions WHERE permission_group_id = :gid AND permission_id = :pid');
+      $link->execute([':gid' => $groupId, ':pid' => $permId]);
+      if (!$link->fetchColumn()) {
+        $pdo->prepare('INSERT INTO admin_permission_group_permissions (permission_group_id, permission_id, user_id, user_updated) VALUES (:gid, :pid, :uid, :uid)')->execute([
+          ':gid' => $groupId,
+          ':pid' => $permId,
+          ':uid' => $uid
+        ]);
+      }
+    }
+  }
+}
+
 // Ensures the current session belongs to an admin user
 function require_admin(){
   global $is_admin;

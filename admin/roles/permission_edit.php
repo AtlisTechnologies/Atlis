@@ -20,6 +20,7 @@ if ($id) {
   require_permission('roles','create');
 }
 
+ensure_org_permission_groups($pdo, $this_user_id);
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 
