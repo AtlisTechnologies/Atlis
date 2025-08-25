@@ -4,8 +4,8 @@ $calendars = [];
 $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
-$event_types = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+$visibilities = get_lookup_items($pdo, 38);
+$event_types = get_lookup_items($pdo, 37);
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_visibility_id = $visibilities[0]['id'] ?? 0;
 $default_event_type_id = $event_types[0]['id'] ?? 0;
@@ -66,7 +66,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="addEventType">Event Type</label>
             <select class="form-select" id="addEventType" name="event_type_id">
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -74,7 +74,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="addEventVisibility">Visibility</label>
             <select class="form-select" id="addEventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -118,7 +118,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="editEventType">Event Type</label>
             <select class="form-select" id="editEventType" name="event_type_id">
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -126,7 +126,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-label" for="editEventVisibility">Visibility</label>
             <select class="form-select" id="editEventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>

@@ -1,6 +1,7 @@
 <?php
-$eventTypes = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
-$visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . '/lookup_helpers.php';
+$eventTypes = get_lookup_items($pdo, 37);
+$visibilities = get_lookup_items($pdo, 38);
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" />
 
@@ -80,7 +81,7 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
             <label class="form-label" for="eventType">Event Type</label>
             <select class="form-select" id="eventType" name="event_type_id">
               <?php foreach ($eventTypes as $t): ?>
-                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+                <option value="<?= (int)$t['id']; ?>" class="text-<?= h($t['color_class']); ?>" data-icon="<?= h($t['icon_class']); ?>"><?= h($t['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -88,7 +89,7 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
             <label class="form-label" for="eventVisibility">Visibility</label>
             <select class="form-select" id="eventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -139,7 +140,7 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
             <label class="form-label" for="editEventType">Event Type</label>
             <select class="form-select" id="editEventType" name="event_type_id">
               <?php foreach ($eventTypes as $t): ?>
-                <option value="<?= (int)$t['id']; ?>"><?= h($t['label']); ?></option>
+                <option value="<?= (int)$t['id']; ?>" class="text-<?= h($t['color_class']); ?>" data-icon="<?= h($t['icon_class']); ?>"><?= h($t['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -147,7 +148,7 @@ $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_i
             <label class="form-label" for="editEventVisibility">Visibility</label>
             <select class="form-select" id="editEventVisibility" name="visibility_id">
               <?php foreach ($visibilities as $v): ?>
-                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+                <option value="<?= (int)$v['id']; ?>" class="text-<?= h($v['color_class']); ?>" data-icon="<?= h($v['icon_class']); ?>"><?= h($v['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
