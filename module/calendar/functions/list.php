@@ -4,22 +4,15 @@ require_permission('calendar','read');
 
 header('Content-Type: application/json');
 
-$privStmt = $pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=38 AND code="PRIVATE"');
-$privStmt->execute();
-$privateId = $privStmt->fetchColumn();
-
 $events = [];
 if (user_has_role('Admin')) {
-  $stmt = $pdo->query('SELECT id, title, start_date, end_date, related_module, related_id, user_id, event_type_id, visibility_id FROM module_calendar_events');
+  $stmt = $pdo->query('SELECT id, calendar_id, title, start_date, end_date, related_module, related_id, user_id, event_type_id, is_private FROM module_calendar_events');
 } else {
-  $stmt = $pdo->prepare('SELECT id, title, start_date, end_date, related_module, related_id, user_id, event_type_id, visibility_id FROM module_calendar_events WHERE visibility_id != :private OR user_id = :uid');
-  $stmt->execute([':private' => $privateId, ':uid' => $this_user_id]);
+  $stmt = $pdo->prepare('SELECT id, calendar_id, title, start_date, end_date, related_module, related_id, user_id, event_type_id, is_private FROM module_calendar_events WHERE is_private = 0 OR user_id = :uid');
+  $stmt->execute([':uid' => $this_user_id]);
 }
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  if ($row['visibility_id'] == $privateId && $row['user_id'] != $this_user_id && !user_has_role('Admin')) {
-    continue;
-  }
   $events[] = [
     'id' => (int)$row['id'],
     'calendar_id' => (int)$row['calendar_id'],
@@ -29,8 +22,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     'related_module' => $row['related_module'],
     'related_id' => $row['related_id'],
     'event_type_id' => $row['event_type_id'],
-    'visibility_id' => $row['visibility_id']
-
+    'is_private' => (int)$row['is_private']
   ];
 }
 
