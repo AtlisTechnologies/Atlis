@@ -10,13 +10,7 @@
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
-      events: <?php echo json_encode(array_map(function($e){
-        return [
-          'title' => $e['title'],
-          'start' => $e['start_time'],
-          'end'   => $e['end_time']
-        ];
-      }, $events)); ?>
+      events: { url: 'functions/list.php' }
     });
     calendar.render();
   });

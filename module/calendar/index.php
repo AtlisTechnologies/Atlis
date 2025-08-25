@@ -1,7 +1,7 @@
 <?php
 require '../../includes/php_header.php';
 
-$action = $_GET['action'] ?? 'shared';
+$action = $_GET['action'] ?? '';
 
 // Load events only when viewing existing calendars
 $events = [];
