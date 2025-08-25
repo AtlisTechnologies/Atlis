@@ -143,15 +143,17 @@ document.addEventListener('DOMContentLoaded', function() {
       extraParams: () => ({ scope: currentScope })
     },
     eventClick: function(info) {
-      const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
-      const form = document.getElementById('editEventForm');
-      form.eventId.value = info.event.id;
-      form.title.value = info.event.title;
-      form.startDate.value = info.event.startStr.replace('T', ' ').substring(0,16);
-      form.endDate.value = info.event.end ? info.event.end.toISOString().slice(0,16) : '';
-      form.allDay.checked = info.event.allDay;
-      form.description.value = info.event.extendedProps.description || '';
-      editModal.show();
+      const mod = info.event.extendedProps.link_module;
+      const recId = info.event.extendedProps.link_record_id;
+      fetch('<?php echo getURLDir(); ?>functions/check_permission.php?module=' + mod + '&action=read')
+        .then(resp => {
+          if (resp.ok) {
+            window.location.href = '<?php echo getURLDir(); ?>module/' + mod + '/index.php?action=view&id=' + recId;
+          } else if (resp.status === 403) {
+            alert('Access denied');
+          }
+        })
+        .catch(() => alert('Error checking permissions'));
     },
     dateClick: function(info) {
       const addModal = new bootstrap.Modal(document.getElementById('addEventModal'));
