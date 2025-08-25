@@ -1,0 +1,12 @@
+{
+    "require": {
+        "google/apiclient": "^2.18",
+        "microsoft/microsoft-graph": "^2.46"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "tbachert/spi": true
+        }
+    }
+}

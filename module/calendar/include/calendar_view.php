@@ -176,13 +176,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    eventSources: sources,
+
+    events: function(fetchInfo, successCallback, failureCallback) {
+      fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>')
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(data => successCallback(data))
+        .catch(err => {
+          console.error('Failed to load events', err);
+          alert('Failed to load events: ' + err.message);
+          if (failureCallback) failureCallback(err);
+        });
+    },
+
     eventClick: function(info) {
       const form = document.getElementById('editEventForm');
+      // Populate edit form with selected event details
       form.id.value = info.event.id;
       form.title.value = info.event.title;
       form.start_date.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_date.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      // Visibility uses visibility_id rather than legacy is_private flag
       form.visibility_id.value = info.event.extendedProps.visibility_id;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
