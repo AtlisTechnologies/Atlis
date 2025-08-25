@@ -30,7 +30,7 @@ if ($title && $start_time && $calendar_id) {
   $eventId = $pdo->lastInsertId();
 
   if (is_array($attendees)) {
-    $aStmt = $pdo->prepare('INSERT INTO module_calendar_attendees (user_id, calendar_event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
+    $aStmt = $pdo->prepare('INSERT INTO module_calendar_event_attendees (user_id, event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
     foreach ($attendees as $aid) {
       $aStmt->execute([':uid' => $this_user_id, ':eid' => $eventId, ':aid' => $aid]);
     }

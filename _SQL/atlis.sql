@@ -1446,13 +1446,13 @@ CREATE TABLE `module_calendar_events` (
 
 CREATE TABLE `module_calendar_event_attendees` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `event_id` int(11) NOT NULL,
-  `end_time` datetime DEFAULT NULL
+  `attendee_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -3201,10 +3201,11 @@ ALTER TABLE `module_calendar_events`
 --
 ALTER TABLE `module_calendar_event_attendees`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`user_id`),
+  ADD UNIQUE KEY `uk_module_calendar_event_attendees_event_user` (`event_id`,`attendee_user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`);
+  ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`),
+  ADD KEY `fk_module_calendar_event_attendees_attendee_user_id` (`attendee_user_id`);
 
 --
 -- Indexes for table `module_contractors`
@@ -4202,7 +4203,8 @@ ALTER TABLE `module_calendar_events`
 --
 ALTER TABLE `module_calendar_event_attendees`
   ADD CONSTRAINT `fk_module_calendar_event_attendees_event_id` FOREIGN KEY (`event_id`) REFERENCES `module_calendar_events` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_attendee_user_id` FOREIGN KEY (`attendee_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_calendar_event_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_event_attendees_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
