@@ -1,13 +1,29 @@
 <?php
+$calendar_id = $_GET['calendar_id'] ?? 0;
+$calendars = [];
+$stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
+$calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 $visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_visibility_id = $visibilities[0]['id'] ?? 0;
+
 ?>
 <div class="row g-0 mb-4 align-items-center">
   <div class="col-5 col-md-6">
     <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
   </div>
-  <div class="col-7 col-md-6 d-flex justify-content-end">
+  <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
+    <?php if (!empty($calendars)) { ?>
+      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2">
+        <?php foreach ($calendars as $cal) { ?>
+          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo htmlspecialchars($cal['name']); ?></option>
+        <?php } ?>
+      </select>
+    <?php } ?>
+    <?php if (user_has_permission('calendar','create')) { ?>
+      <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
+    <?php } ?>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
       <span class="fas fa-plus pe-2 fs-10"></span>Add Event
     </button>
@@ -122,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php',
+    events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>',
     eventClick: function(info) {
       const form = document.getElementById('editEventForm');
       form.id.value = info.event.id;
@@ -142,6 +158,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   calendar.render();
+
+  const calSelect = document.getElementById('calendarSelect');
+  if (calSelect) {
+    calSelect.addEventListener('change', function() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('calendar_id', this.value);
+      window.location.href = url.toString();
+    });
+  }
 
   document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
