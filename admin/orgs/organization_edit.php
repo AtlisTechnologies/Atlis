@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   if (isset($_POST['remove_file']) && $id) {
     require_permission('organization','update');
-    $uploadDir = dirname(__DIR__, 3) . '/uploads/organization/';
+    $uploadDir = dirname(__DIR__, 2) . '/module/agency/uploads/organization/';
     if (!empty($file_path)) {
       @unlink($uploadDir . $file_path);
     }
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       if (isset($allowedTypes[$mime])) {
         $ext = $allowedTypes[$mime];
-        $uploadDir = dirname(__DIR__, 3) . '/uploads/organization/';
+        $uploadDir = dirname(__DIR__, 2) . '/module/agency/uploads/organization/';
         if (!is_dir($uploadDir)) {
           mkdir($uploadDir, 0775, true);
         }
@@ -159,12 +159,12 @@ require '../admin_header.php';
         <label class="form-label">Upload File</label>
         <?php if ($file_path): ?>
           <div class="mb-2">
-            <a href="/module/organization/download.php?id=<?= $id; ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
+            <a href="/module/agency/download.php?type=organization&id=<?= $id; ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
             <button class="btn btn-outline-danger btn-sm ms-2" name="remove_file" value="1" formnovalidate>Remove File</button>
             <?php if (strpos($file_type,'image/') === 0): ?>
-              <img src="/uploads/organization/<?= htmlspecialchars($file_path); ?>" class="img-fluid mt-2" alt="Preview">
+              <img src="/module/agency/uploads/organization/<?= htmlspecialchars($file_path); ?>" class="img-fluid mt-2" alt="Preview">
             <?php elseif ($file_type === 'application/pdf'): ?>
-              <embed src="/uploads/organization/<?= htmlspecialchars($file_path); ?>" type="application/pdf" class="w-100 mt-2" style="height:200px;"></embed>
+              <embed src="/module/agency/uploads/organization/<?= htmlspecialchars($file_path); ?>" type="application/pdf" class="w-100 mt-2" style="height:200px;"></embed>
             <?php endif; ?>
           </div>
         <?php endif; ?>
