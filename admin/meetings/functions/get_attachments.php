@@ -5,13 +5,14 @@ require_permission('meeting', 'read');
 
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+if (in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'], true)) {
+    $req = $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST : $_GET;
+    if (!verify_csrf_token($req['csrf_token'] ?? '')) {
         echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
         exit;
     }
 
-    $meeting_id = (int)($_POST['meeting_id'] ?? 0);
+    $meeting_id = (int)($req['meeting_id'] ?? 0);
 
     try {
         $files = [];
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ];
             }
         }
-        echo json_encode(['success' => true, 'data' => $files]);
+        echo json_encode(['success' => true, 'files' => $files]);
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }

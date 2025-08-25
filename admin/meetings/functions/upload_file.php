@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
 
-        echo json_encode(['success' => true, 'data' => $files]);
+        echo json_encode(['success' => true, 'files' => $files]);
     } catch (Exception $e) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);

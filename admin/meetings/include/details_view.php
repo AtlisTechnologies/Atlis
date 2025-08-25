@@ -469,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
   var attendeesList = document.getElementById('attendeesList');
+  var attachmentsList = document.getElementById('attachmentsList');
 
   function renderAttendees(attendees){
     attendeesData = attendees;
@@ -488,6 +489,20 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     } else {
       attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
+    }
+  }
+
+  function renderAttachments(files){
+    attachmentsList.innerHTML = '';
+    if(files && files.length){
+      files.forEach(function(f){
+        var li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+        attachmentsList.appendChild(li);
+      });
+    } else {
+      attachmentsList.innerHTML = '<li class="list-group-item">No attachments.</li>';
     }
   }
 
@@ -550,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function(){
           if(res.success){
             attendeeForm.reset();
             attendeeResults.innerHTML = '';
-            renderAttendees(res.attendees || res.data || []);
+            renderAttendees(res.attendees || []);
           } else {
             alert(res.message || 'Failed to add attendee');
           }
@@ -571,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function(){
           .then(r=>r.json())
           .then(function(res){
             if(res.success){
-              renderAttendees(res.attendees || res.data || []);
+              renderAttendees(res.attendees || []);
             }
           })
           .catch(function(){
@@ -595,16 +610,10 @@ document.addEventListener('DOMContentLoaded', function(){
   fetch('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(r=>r.json())
     .then(function(data){
-      var list = document.getElementById('attachmentsList');
-      if(data.success && data.files.length){
-        data.files.forEach(function(f){
-          var li = document.createElement('li');
-          li.className = 'list-group-item';
-          li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
-          list.appendChild(li);
-        });
+      if(data.success){
+        renderAttachments(data.files);
       } else {
-        list.innerHTML = '<li class="list-group-item">No attachments.</li>';
+        renderAttachments([]);
       }
     })
     .catch(function(){ alert('Failed to load attachments'); });
@@ -618,16 +627,7 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(r=>r.json())
         .then(function(res){
           if(res.success && res.files){
-            var list = document.getElementById('attachmentsList');
-            if(list.children.length === 1 && list.firstElementChild.textContent === 'No attachments.'){
-              list.innerHTML = '';
-            }
-            res.files.forEach(function(f){
-              var li = document.createElement('li');
-              li.className = 'list-group-item';
-              li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
-              list.appendChild(li);
-            });
+            renderAttachments(res.files);
             uploadForm.reset();
           } else {
             alert(res.message || 'Upload failed');
