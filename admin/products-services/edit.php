@@ -47,7 +47,6 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
 <form method="post" action="functions/save.php" class="row g-5">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <?php if($id): ?><input type="hidden" name="id" value="<?= $id; ?>"><?php endif; ?>
-  <input type="hidden" name="previous_price" value="<?= h($item['price'] ?? ''); ?>">
 
   <div class="col-12 col-lg-8">
     <div class="card mb-3">
@@ -80,15 +79,13 @@ if(isset($_GET['msg']) && $_GET['msg']==='saved'){ $message='Record saved.'; }
             </div>
           </div>
           <div class="col-12">
-            <div class="form-floating form-floating-advance-select">
-              <label for="psCategories">Categories</label>
-              <select class="form-select" id="psCategories" name="category_ids[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+  <label class="form-label" for="psCategories">Categories</label>
+  <select class="form-select" id="psCategories" name="category_ids[]" multiple data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
                 <?php foreach($categories as $c): ?>
                 <option value="<?= $c['id']; ?>" <?= in_array($c['id'], $selectedCategories) ? 'selected' : ''; ?>><?= h($c['label']); ?></option>
                 <?php endforeach; ?>
               </select>
-            </div>
-          </div>
+</div>
           <div class="col-12">
             <div class="form-floating">
               <textarea class="form-control" id="psDesc" name="description" placeholder="Description" style="height:100px"><?= h($item['description'] ?? ''); ?></textarea>
