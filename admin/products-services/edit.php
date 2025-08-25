@@ -152,7 +152,7 @@ function createRow(data){
       </select>
     </div>
     <div class="col-md-4">
-      <select class="form-select skill-select" name="assignments[${idx}][skill_id]" required>
+      <select class="form-select skill-select" name="assignments[${idx}][skill_id]">
         <option value="">Select Skill</option>
       </select>
     </div>
@@ -190,7 +190,6 @@ function createRow(data){
   }
 }
 existingAssignments.forEach(a => createRow(a));
-if(existingAssignments.length === 0){ createRow(); }
 document.getElementById('addAssignment').addEventListener('click', () => createRow());
 </script>
 <?php require '../admin_footer.php'; ?>

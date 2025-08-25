@@ -18,8 +18,8 @@ $assignments = isset($_POST['assignments']) && is_array($_POST['assignments']) ?
 $cleanAssignments = [];
 foreach($assignments as $a){
   $pid = isset($a['person_id']) ? (int)$a['person_id'] : 0;
-  $sid = isset($a['skill_id']) ? (int)$a['skill_id'] : 0;
-  if($pid > 0 && $sid > 0){
+  $sid = isset($a['skill_id']) && $a['skill_id'] !== '' ? (int)$a['skill_id'] : null;
+  if($pid > 0){
     $cleanAssignments[] = ['person_id'=>$pid,'skill_id'=>$sid];
   }
 }
@@ -42,7 +42,7 @@ try{
     $stmt->execute([':name'=>$name, ':type_id'=>$type_id, ':status_id'=>$status_id, ':descr'=>$description, ':price'=>$price, ':memo'=>$memo, ':uid'=>$this_user_id, ':id'=>$id]);
     admin_audit_log($pdo,$this_user_id,'module_products_services',$id,'UPDATE',json_encode($old),json_encode(['name'=>$name,'type_id'=>$type_id,'status_id'=>$status_id,'description'=>$description,'price'=>$price,'memo'=>$memo]),'Updated product/service');
     if($price !== $old_price){
-      $ph = $pdo->prepare('INSERT INTO module_products_services_price_history (user_id,user_updated,product_service_id,old_price,new_price) VALUES (:uid,:uid,:psid,:old,:new)');
+      $ph = $pdo->prepare('INSERT INTO module_products_services_price_history (user_id,user_updated,product_service_id,old_price,new_price,changed_by) VALUES (:uid,:uid,:psid,:old,:new,:uid)');
       $ph->execute([':uid'=>$this_user_id, ':psid'=>$id, ':old'=>$old_price, ':new'=>$price]);
     }
   } else {
@@ -51,7 +51,7 @@ try{
     $id = $pdo->lastInsertId();
     admin_audit_log($pdo,$this_user_id,'module_products_services',$id,'CREATE',null,json_encode(['name'=>$name,'type_id'=>$type_id,'status_id'=>$status_id,'description'=>$description,'price'=>$price,'memo'=>$memo]),'Created product/service');
     if($price !== null){
-      $ph = $pdo->prepare('INSERT INTO module_products_services_price_history (user_id,user_updated,product_service_id,old_price,new_price) VALUES (:uid,:uid,:psid,NULL,:new)');
+      $ph = $pdo->prepare('INSERT INTO module_products_services_price_history (user_id,user_updated,product_service_id,old_price,new_price,changed_by) VALUES (:uid,:uid,:psid,NULL,:new,:uid)');
       $ph->execute([':uid'=>$this_user_id, ':psid'=>$id, ':new'=>$price]);
     }
   }
@@ -68,7 +68,15 @@ try{
   if($cleanAssignments){
     $ins = $pdo->prepare('INSERT INTO module_products_services_person (user_id,user_updated,product_service_id,person_id,skill_id) VALUES (:uid,:uid,:psid,:pid,:sid)');
     foreach($cleanAssignments as $a){
-      $ins->execute([':uid'=>$this_user_id, ':psid'=>$id, ':pid'=>$a['person_id'], ':sid'=>$a['skill_id']]);
+      $ins->bindValue(':uid', $this_user_id, PDO::PARAM_INT);
+      $ins->bindValue(':psid', $id, PDO::PARAM_INT);
+      $ins->bindValue(':pid', $a['person_id'], PDO::PARAM_INT);
+      if($a['skill_id'] !== null){
+        $ins->bindValue(':sid', $a['skill_id'], PDO::PARAM_INT);
+      } else {
+        $ins->bindValue(':sid', null, PDO::PARAM_NULL);
+      }
+      $ins->execute();
     }
   }
   $pdo->commit();
