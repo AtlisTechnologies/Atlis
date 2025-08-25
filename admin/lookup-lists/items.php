@@ -102,7 +102,7 @@ if($items){
       <tbody class="list">
         <?php foreach($items as $it): ?>
           <tr data-id="<?= $it['id']; ?>">
-            <td class="sort_order"><span class="drag-handle bi bi-list"></span><span class="order-number ms-2"><?= h($it['sort_order']); ?></span></td>
+            <td class="sort_order"><span class="drag-handle bi bi-list"></span></td>
             <td class="code"><?= h($it['code']); ?></td>
             <td class="label"><?= h($it['label']); ?></td>
             <td>
@@ -313,6 +313,7 @@ document.getElementById('items').addEventListener('submit',function(e){
 
 document.getElementById('statusFilter').addEventListener('change',loadItems);
 loadItems();
+
 
 let allItems=[];
 fetch('../api/lookup-lists.php?entity=item&action=all').then(r=>r.json()).then(d=>{ if(d.success){ allItems=d.items; }});
