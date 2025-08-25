@@ -7,33 +7,30 @@ header('Content-Type: application/json');
 $id = (int)($_POST['id'] ?? 0);
 $title = trim($_POST['title'] ?? '');
 
-$start_date = $_POST['start_date'] ?? $_POST['startDate'] ?? null;
-$end_date = $_POST['end_date'] ?? $_POST['endDate'] ?? null;
-$related_module = $_POST['related_module'] ?? $_POST['link_module'] ?? null;
-$related_id = $_POST['related_id'] ?? $_POST['link_record_id'] ?? null;
+$start_time = $_POST['start_time'] ?? $_POST['startTime'] ?? $_POST['start_date'] ?? $_POST['startDate'] ?? null;
+$end_time = $_POST['end_time'] ?? $_POST['endTime'] ?? $_POST['end_date'] ?? $_POST['endDate'] ?? null;
+$link_module = $_POST['link_module'] ?? $_POST['related_module'] ?? null;
+$link_record_id = $_POST['link_record_id'] ?? $_POST['related_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
 $event_type_id = $_POST['event_type_id'] ?? null;
-$visibility_id = (int)($_POST['visibility_id'] ?? 0);
+$is_private = (int)($_POST['is_private'] ?? $_POST['visibility_id'] ?? 0);
 $attendees = $_POST['attendees'] ?? [];
 
-if ($id && $title && $start_date && $calendar_id) {
-  $chk = $pdo->prepare('SELECT user_id, visibility_id FROM module_calendar_events WHERE id = ?');
+if ($id && $title && $start_time && $calendar_id) {
+  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar_events WHERE id = ?');
   $chk->execute([$id]);
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
     http_response_code(404);
     exit;
   }
-  $privStmt = $pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=38 AND code="PRIVATE"');
-  $privStmt->execute();
-  $privateId = $privStmt->fetchColumn();
-  if ($existing['visibility_id'] == $privateId && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  if ($existing['is_private'] && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
 
-  $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, calendar_id=?, title=?, start_date=?, end_date=?, event_type_id=?, related_module=?, related_id=?, visibility_id=? WHERE id=?');
-  $stmt->execute([$this_user_id, $calendar_id, $title, $start_date, $end_date, $event_type_id, $related_module, $related_id, $visibility_id, $id]);
+  $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, calendar_id=?, title=?, start_time=?, end_time=?, event_type_id=?, link_module=?, link_record_id=?, is_private=? WHERE id=?');
+  $stmt->execute([$this_user_id, $calendar_id, $title, $start_time, $end_time, $event_type_id, $link_module, $link_record_id, $is_private, $id]);
 
   $pdo->prepare('DELETE FROM module_calendar_event_attendees WHERE event_id=?')->execute([$id]);
   if (is_array($attendees)) {
@@ -43,7 +40,7 @@ if ($id && $title && $start_date && $calendar_id) {
     }
   }
 
-  echo json_encode(['success' => true, 'visibility_id' => $visibility_id]);
+  echo json_encode(['success' => true, 'is_private' => $is_private]);
   exit;
 }
 
