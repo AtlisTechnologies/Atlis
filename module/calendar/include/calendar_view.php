@@ -3,6 +3,11 @@ $calendar_id = $_GET['calendar_id'] ?? 0;
 $calendars = [];
 $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$visibilities = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=38 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
+$selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
+$default_visibility_id = $visibilities[0]['id'] ?? 0;
+
 ?>
 <div class="row g-0 mb-4 align-items-center">
   <div class="col-5 col-md-6">
@@ -31,6 +36,7 @@ $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="modal-dialog">
     <div class="modal-content border border-translucent">
       <form id="addEventForm" autocomplete="off">
+        <input type="hidden" name="calendar_id" value="<?= (int)$selected_calendar_id; ?>" />
         <div class="modal-header px-card border-0">
           <h5 class="mb-0 lh-sm text-body-highlight">Add Event</h5>
           <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">DISCARD</button>
@@ -42,19 +48,23 @@ $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" id="eventStart" type="text" name="start" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" id="eventStart" type="text" name="start_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6" for="eventStart">Starts at</label>
             </div>
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" id="eventEnd" type="text" name="end" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" id="eventEnd" type="text" name="end_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6" for="eventEnd">Ends at</label>
             </div>
           </div>
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="eventPrivate" name="is_private" />
-            <label class="form-check-label" for="eventPrivate">Private</label>
+          <div class="mb-3">
+            <label class="form-label" for="addEventVisibility">Visibility</label>
+            <select class="form-select" id="addEventVisibility" name="visibility_id">
+              <?php foreach ($visibilities as $v): ?>
+                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -70,6 +80,7 @@ $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="modal-content border border-translucent">
       <form id="editEventForm" autocomplete="off">
         <input type="hidden" name="id" />
+        <input type="hidden" name="calendar_id" value="<?= (int)$selected_calendar_id; ?>" />
         <div class="modal-header px-card border-0">
           <h5 class="mb-0 lh-sm text-body-highlight">Edit Event</h5>
           <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
@@ -81,19 +92,23 @@ $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" type="text" name="start" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" type="text" name="start_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6">Starts at</label>
             </div>
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" type="text" name="end" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" type="text" name="end_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6">Ends at</label>
             </div>
           </div>
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="is_private" />
-            <label class="form-check-label">Private</label>
+          <div class="mb-3">
+            <label class="form-label" for="editEventVisibility">Visibility</label>
+            <select class="form-select" id="editEventVisibility" name="visibility_id">
+              <?php foreach ($visibilities as $v): ?>
+                <option value="<?= (int)$v['id']; ?>"><?= h($v['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -112,7 +127,15 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
+  const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
+  const defaultVisibilityId = <?php echo (int)$default_visibility_id; ?>;
   const calendarEl = document.getElementById('calendar');
+
+  function getCalendarId() {
+    const sel = document.getElementById('calendarSelect');
+    return sel ? sel.value : defaultCalendarId;
+  }
+
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events: '<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>',
@@ -122,14 +145,15 @@ document.addEventListener('DOMContentLoaded', function() {
       form.title.value = info.event.title;
       form.start.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      form.is_private.checked = info.event.extendedProps.is_private == 1;
+      form.is_private.checked = !!Number(info.event.extendedProps.is_private);
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
       const form = document.getElementById('addEventForm');
-      form.start.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
-      form.end.value = '';
-      form.is_private.checked = false;
+      form.start_date.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
+      form.end_date.value = '';
+      form.visibility_id.value = defaultVisibilityId;
+      form.calendar_id.value = getCalendarId();
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
   });
@@ -146,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    this.calendar_id.value = getCalendarId();
     const fd = new FormData(this);
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/create.php', {
       method: 'POST',
@@ -163,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    this.calendar_id.value = getCalendarId();
     const fd = new FormData(this);
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/update.php', {
       method: 'POST',
