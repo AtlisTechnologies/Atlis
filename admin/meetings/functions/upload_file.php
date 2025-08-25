@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $response = [];
-
     try {
         if (!empty($_FILES['file'])) {
             $uploadDir = dirname(__DIR__) . '/uploads/' . $meeting_id . '/';
@@ -63,19 +61,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]);
                     $fileId = $pdo->lastInsertId();
                     admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $fileId, 'UPLOAD', '', json_encode(['file' => $baseName]));
-
-                    $response[] = [
-                        'id' => $fileId,
-                        'name' => $baseName,
-                        'url' => getURLDir() . ltrim($filePathDb, '/')
-                    ];
                 }
             }
             finfo_close($finfo);
         }
+        $listStmt = $pdo->prepare('SELECT id, file_name, file_path, uploader_id FROM module_meeting_files WHERE meeting_id = ? ORDER BY id');
+        $listStmt->execute([$meeting_id]);
+        $rows = $listStmt->fetchAll(PDO::FETCH_ASSOC);
+        $files = [];
+        foreach ($rows as $r) {
+            $files[] = [
+                'id' => (int)$r['id'],
+                'name' => $r['file_name'],
+                'url' => getURLDir() . ltrim($r['file_path'], '/')
+            ];
+        }
 
-        echo json_encode(['success' => true, 'data' => $response]);
+        echo json_encode(['success' => true, 'data' => $files]);
     } catch (Exception $e) {
+        http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
     exit;
