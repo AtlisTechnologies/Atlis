@@ -1,8 +1,6 @@
 <?php
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 $agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
-$usersStmt = $pdo->query('SELECT u.id AS user_id, CONCAT(p.first_name, " ", p.last_name) AS name FROM users u LEFT JOIN person p ON u.id = p.user_id ORDER BY name');
-$allUsers = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 ?>
@@ -58,12 +56,10 @@ $_SESSION['csrf_token'] = $token;
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-            <div class="col-md-4">
-              <select class="form-select" name="attendee_user_id">
-                <?php foreach ($allUsers as $u): ?>
-                  <option value="<?php echo (int)$u['user_id']; ?>"><?php echo h($u['name']); ?></option>
-                <?php endforeach; ?>
-              </select>
+            <div class="col-md-4 position-relative">
+              <input type="text" id="attendeeSearch" class="form-control" placeholder="Search user">
+              <input type="hidden" name="attendee_user_id" id="attendeeId">
+              <div class="list-group position-absolute w-100" id="attendeeResults" style="z-index:1000;"></div>
             </div>
             <div class="col-md-2">
               <input type="text" name="role" class="form-control" placeholder="Role">
@@ -241,12 +237,12 @@ document.addEventListener('DOMContentLoaded', function(){
   var meetingId = <?php echo (int)$meeting['id']; ?>;
   var baseUrl = '<?php echo getURLDir(); ?>';
   var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
-  var allUsers = <?php echo json_encode($allUsers); ?>;
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var csrfToken = '<?= $token; ?>';
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
+  var attendeesData = [];
   var agendaList = document.getElementById('agendaList');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
@@ -258,7 +254,8 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('meeting_id', meetingId);
       params.append('order_index', index + 1);
       params.append('csrf_token', csrfToken);
-      fetch('functions/update_agenda_item.php', {method:'POST', body: params});
+      fetch('functions/update_agenda_item.php', {method:'POST', body: params})
+        .catch(function(){ alert('Failed to update agenda order'); });
     });
   }
 
@@ -315,7 +312,8 @@ document.addEventListener('DOMContentLoaded', function(){
         } else {
           renderAgenda([]);
         }
-      });
+      })
+      .catch(function(){ alert('Failed to load agenda'); });
   }
 
   agendaList.addEventListener('click', function(e){
@@ -326,7 +324,8 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('csrf_token', csrfToken);
       fetch('functions/delete_agenda_item.php', {method:'POST', body: params})
         .then(r=>r.json())
-        .then(function(res){ if(res.success) renderAgenda(res.items); });
+        .then(function(res){ if(res.success) renderAgenda(res.items); })
+        .catch(function(){ alert('Failed to delete agenda item'); });
     } else if(e.target.closest('.edit-agenda-item')){
       document.getElementById('agendaId').value = li.dataset.id;
       document.getElementById('agendaTitle').value = li.querySelector('.agenda-title').textContent;
@@ -369,7 +368,8 @@ document.addEventListener('DOMContentLoaded', function(){
             renderAgenda(res.items);
             bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
           }
-        });
+        })
+        .catch(function(){ alert('Failed to save agenda item'); });
     });
   }
 
@@ -383,7 +383,8 @@ document.addEventListener('DOMContentLoaded', function(){
           questionsData = res.questions;
           renderQuestions();
         }
-      });
+      })
+      .catch(function(){ alert('Failed to load questions'); });
   }
 
   function renderQuestions(){
@@ -461,7 +462,8 @@ document.addEventListener('DOMContentLoaded', function(){
               } else {
                 alert('Failed to delete question');
               }
-            });
+            })
+            .catch(function(){ alert('Failed to delete question'); });
         }
       }
     });
@@ -469,6 +471,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var attendeesList = document.getElementById('attendeesList');
 
   function renderAttendees(attendees){
+    attendeesData = attendees;
     attendeesList.innerHTML = '';
     if(attendees.length){
       attendees.forEach(function(a){
@@ -486,39 +489,74 @@ document.addEventListener('DOMContentLoaded', function(){
     } else {
       attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
     }
-    updateUserOptions(attendees);
-  }
-
-  function updateUserOptions(attendees){
-    if(!canEditAttendees) return;
-    var select = document.querySelector('#attendeeForm select[name="attendee_user_id"]');
-    if(!select) return;
-    var selected = attendees.map(function(a){ return parseInt(a.attendee_user_id,10); });
-    select.innerHTML = '';
-    allUsers.forEach(function(u){
-      if(selected.indexOf(parseInt(u.user_id,10)) === -1){
-        var opt = document.createElement('option');
-        opt.value = u.user_id;
-        opt.textContent = u.name;
-        select.appendChild(opt);
-      }
-    });
   }
 
   if(canEditAttendees){
     var attendeeForm = document.getElementById('attendeeForm');
+    var attendeeSearch = document.getElementById('attendeeSearch');
+    var attendeeId = document.getElementById('attendeeId');
+    var attendeeResults = document.getElementById('attendeeResults');
+
+    if(attendeeSearch){
+      attendeeSearch.addEventListener('input', function(){
+        attendeeId.value = '';
+        var q = this.value.trim();
+        if(q.length < 2){
+          attendeeResults.innerHTML = '';
+          return;
+        }
+        fetch('functions/search_users.php?q=' + encodeURIComponent(q))
+          .then(r=>r.json())
+          .then(function(users){
+            attendeeResults.innerHTML = '';
+            users.forEach(function(u){
+              var btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'list-group-item list-group-item-action';
+              btn.textContent = u.name;
+              btn.dataset.id = u.id;
+              attendeeResults.appendChild(btn);
+            });
+          })
+          .catch(function(){
+            attendeeResults.innerHTML = '<div class="list-group-item">Error searching users</div>';
+          });
+      });
+
+      attendeeResults.addEventListener('click', function(e){
+        var btn = e.target.closest('button[data-id]');
+        if(!btn) return;
+        var uid = btn.dataset.id;
+        if(attendeesData.some(function(a){ return parseInt(a.attendee_user_id,10) === parseInt(uid,10); })){
+          alert('User already added');
+          return;
+        }
+        attendeeSearch.value = btn.textContent;
+        attendeeId.value = uid;
+        attendeeResults.innerHTML = '';
+      });
+    }
+
     attendeeForm.addEventListener('submit', function(e){
       e.preventDefault();
+      if(!attendeeId.value){
+        alert('Please select a user');
+        return;
+      }
       var formData = new FormData(attendeeForm);
       fetch('functions/add_attendee.php', {method:'POST', body:formData})
         .then(r=>r.json())
         .then(function(res){
           if(res.success){
             attendeeForm.reset();
-            renderAttendees(res.attendees);
+            attendeeResults.innerHTML = '';
+            renderAttendees(res.attendees || res.data || []);
           } else {
             alert(res.message || 'Failed to add attendee');
           }
+        })
+        .catch(function(){
+          alert('Failed to add attendee');
         });
     });
 
@@ -533,8 +571,11 @@ document.addEventListener('DOMContentLoaded', function(){
           .then(r=>r.json())
           .then(function(res){
             if(res.success){
-              renderAttendees(res.attendees);
+              renderAttendees(res.attendees || res.data || []);
             }
+          })
+          .catch(function(){
+            alert('Failed to remove attendee');
           });
       }
     });
@@ -548,7 +589,8 @@ document.addEventListener('DOMContentLoaded', function(){
       } else {
         renderAttendees([]);
       }
-    });
+    })
+    .catch(function(){ alert('Failed to load attendees'); });
 
   fetch('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(r=>r.json())
@@ -564,7 +606,8 @@ document.addEventListener('DOMContentLoaded', function(){
       } else {
         list.innerHTML = '<li class="list-group-item">No attachments.</li>';
       }
-    });
+    })
+    .catch(function(){ alert('Failed to load attachments'); });
 
   var uploadForm = document.getElementById('uploadForm');
   if(uploadForm){
@@ -589,7 +632,8 @@ document.addEventListener('DOMContentLoaded', function(){
           } else {
             alert(res.message || 'Upload failed');
           }
-        });
+        })
+        .catch(function(){ alert('Upload failed'); });
     });
   }
 
@@ -607,7 +651,8 @@ document.addEventListener('DOMContentLoaded', function(){
         } else {
           alert(res.message || 'Failed to create task');
         }
-      });
+      })
+      .catch(function(){ alert('Failed to create task'); });
   });
 
   document.getElementById('projectForm').addEventListener('submit', function(e){
@@ -624,7 +669,8 @@ document.addEventListener('DOMContentLoaded', function(){
         } else {
           alert(res.message || 'Failed to create project');
         }
-      });
+      })
+      .catch(function(){ alert('Failed to create project'); });
   });
 
   function esc(str){
