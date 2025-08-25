@@ -11,8 +11,6 @@ if(isset($_GET['msg'])){
 }
 
 // Filter dropdown data
-$types = get_lookup_items($pdo, 'PRODUCT_SERVICE_TYPE');
-$statuses = get_lookup_items($pdo, 'PRODUCT_SERVICE_STATUS');
 $categories = get_lookup_items($pdo, 'PRODUCT_SERVICE_CATEGORY');
 
 // Fetch product/service records with related info
@@ -20,15 +18,12 @@ $stmt = $pdo->query("SELECT ps.id, ps.name, ps.price,
                             ps.type_id, t.label AS type_label,
                             ps.status_id, s.label AS status_label,
                             GROUP_CONCAT(DISTINCT cat_li.id SEPARATOR '||') AS category_ids,
-                            GROUP_CONCAT(DISTINCT cat_li.label SEPARATOR '||') AS category_labels,
-                            GROUP_CONCAT(DISTINCT CONCAT(pe.first_name,' ',pe.last_name) SEPARATOR '||') AS people
+                            GROUP_CONCAT(DISTINCT cat_li.label SEPARATOR '||') AS category_labels
                       FROM module_products_services ps
                       JOIN lookup_list_items t ON ps.type_id = t.id
                       JOIN lookup_list_items s ON ps.status_id = s.id
                       LEFT JOIN module_products_services_category mpsc ON ps.id = mpsc.product_service_id
                       LEFT JOIN lookup_list_items cat_li ON mpsc.category_id = cat_li.id
-                      LEFT JOIN module_products_services_person mpsp ON ps.id = mpsp.product_service_id
-                      LEFT JOIN person pe ON mpsp.person_id = pe.id
                       GROUP BY ps.id, ps.name, ps.price, ps.type_id, type_label, ps.status_id, status_label
                       ORDER BY ps.name");
 $itemsRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,77 +31,61 @@ $items = [];
 foreach($itemsRaw as $row){
   $row['category_ids'] = $row['category_ids'] ? explode('||', $row['category_ids']) : [];
   $row['category_labels'] = $row['category_labels'] ? explode('||', $row['category_labels']) : [];
-  $row['people'] = $row['people'] ? explode('||', $row['people']) : [];
   $items[] = $row;
 }
 ?>
 <h2 class="mb-4">Products &amp; Services</h2>
 <?php if($message): ?><div class="alert alert-success"><?= h($message); ?></div><?php endif; ?>
-<div id="products" data-list='{"valueNames":["product",{"data":["type","status","category"]}],"page":9,"pagination":true}'>
-  <div class="row g-3 align-items-center mb-4">
-    <div class="col-auto">
+<div id="products" data-list='{"valueNames":["product","price","category","type","status"],"page":10,"pagination":true}'>
+  <div class="mb-4 d-flex flex-wrap gap-3">
+    <div class="search-box">
+      <form class="position-relative">
+        <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
+        <span class="fas fa-search search-box-icon"></span>
+      </form>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-phoenix-secondary px-7 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Category
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item filter-category" data-category="" href="#">All</a></li>
+        <?php foreach($categories as $c): ?>
+          <li><a class="dropdown-item filter-category" data-category="<?= $c['id']; ?>" href="#"><?= h($c['label']); ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+    <div class="ms-auto">
       <?php if(user_has_permission('products_services','create')): ?>
-      <a class="btn btn-primary" href="edit.php"><span class="fas fa-plus me-2"></span>Add</a>
+      <a class="btn btn-primary" id="addBtn" href="edit.php"><span class="fas fa-plus me-2"></span>Add product</a>
       <?php endif; ?>
     </div>
-    <div class="col">
-      <div class="row g-2">
-        <div class="col-md">
-          <select class="form-select" id="filterType">
-            <option value="">All Types</option>
-            <?php foreach($types as $t): ?>
-              <option value="<?= $t['id']; ?>"><?= h($t['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md">
-          <select class="form-select" id="filterStatus">
-            <option value="">All Statuses</option>
-            <?php foreach($statuses as $s): ?>
-              <option value="<?= $s['id']; ?>"><?= h($s['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md">
-          <select class="form-select" id="filterCategory">
-            <option value="">All Categories</option>
-            <?php foreach($categories as $c): ?>
-              <option value="<?= $c['id']; ?>"><?= h($c['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-auto">
-          <div class="search-box">
-            <form class="position-relative">
-              <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
-              <span class="fas fa-search search-box-icon"></span>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <div class="row list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <?php foreach($items as $i): ?>
-    <div class="col" data-type="<?= $i['type_id']; ?>" data-status="<?= $i['status_id']; ?>" data-category="<?= implode('|',$i['category_ids']); ?>">
-      <div class="card h-100">
-        <div class="card-body d-flex flex-column">
-          <h5 class="mb-2 product fw-semibold text-body-emphasis"><?= h($i['name']); ?></h5>
-          <p class="mb-1"><span class="badge bg-secondary"><?= h($i['type_label']); ?></span></p>
-          <p class="mb-1"><span class="badge bg-primary"><?= h($i['status_label']); ?></span></p>
-          <div class="mb-2 ps-category">
+  <div class="table-responsive scrollbar">
+    <table class="table fs-9 mb-0">
+      <thead>
+        <tr>
+          <th class="sort" scope="col" data-sort="product">PRODUCT NAME</th>
+          <th class="sort text-end" scope="col" data-sort="price" style="width:150px;">PRICE</th>
+          <th class="sort" scope="col" data-sort="category" style="width:200px;">CATEGORIES</th>
+          <th class="sort" scope="col" data-sort="type" style="width:150px;">TYPE</th>
+          <th class="sort" scope="col" data-sort="status" style="width:150px;">STATUS</th>
+          <th class="text-end" scope="col"></th>
+        </tr>
+      </thead>
+      <tbody class="list">
+        <?php foreach($items as $i): ?>
+        <tr data-category="<?= implode('|',$i['category_ids']); ?>">
+          <td class="product fw-semibold text-body-emphasis"><?= h($i['name']); ?></td>
+          <td class="price text-end"><?= $i['price'] !== null ? '$'.number_format($i['price'],2) : ''; ?></td>
+          <td class="category">
             <?php foreach($i['category_labels'] as $cl): ?>
               <span class="badge bg-info text-dark me-1"><?= h($cl); ?></span>
             <?php endforeach; ?>
-          </div>
-          <p class="fw-semibold mb-2 ps-price"><?= $i['price'] !== null ? '$'.number_format($i['price'],2) : ''; ?></p>
-          <div class="mt-auto ps-people">
-            <?php foreach($i['people'] as $p): ?>
-              <span class="badge bg-secondary me-1"><?= h($p); ?></span>
-            <?php endforeach; ?>
-          </div>
-          <div class="pt-2">
+          </td>
+          <td class="type"><?= h($i['type_label']); ?></td>
+          <td class="status"><?= h($i['status_label']); ?></td>
+          <td class="text-end">
             <?php if(user_has_permission('products_services','update')): ?>
             <a class="btn btn-warning btn-sm me-1" href="edit.php?id=<?= $i['id']; ?>" title="Edit"><span class="fa-solid fa-pen"></span></a>
             <?php endif; ?>
@@ -117,13 +96,12 @@ foreach($itemsRaw as $row){
               <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this record?');" title="Delete"><span class="fa-solid fa-trash"></span></button>
             </form>
             <?php endif; ?>
-          </div>
-        </div>
-      </div>
-    </div>
-    <?php endforeach; ?>
+          </td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   </div>
-
   <div class="row align-items-center justify-content-end py-3 pe-0 fs-9">
     <div class="col-auto d-flex">
       <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info></p>
@@ -140,25 +118,17 @@ document.addEventListener('DOMContentLoaded',function(){
   var el=document.getElementById('products');
   if(el){
     var list=new window.List(el,window.phoenix.utils.getData(el,'list'));
-    var type=document.getElementById('filterType');
-    var status=document.getElementById('filterStatus');
-    var category=document.getElementById('filterCategory');
-    function applyFilters(){
-      var t=type.value,s=status.value,c=category.value;
-      list.filter(function(item){
-        var match=true;
-        if(t && item.values().type!==t) match=false;
-        if(s && item.values().status!==s) match=false;
-        if(c){
-          var cats=item.values().category?item.values().category.split('|'):[];
-          if(cats.indexOf(c)===-1) match=false;
-        }
-        return match;
+    document.querySelectorAll('.filter-category').forEach(function(link){
+      link.addEventListener('click',function(e){
+        e.preventDefault();
+        var cat=this.getAttribute('data-category');
+        list.filter(function(item){
+          if(!cat) return true;
+          var cats=item.elm.getAttribute('data-category');
+          return cats && cats.split('|').indexOf(cat)!==-1;
+        });
       });
-    }
-    type.addEventListener('change',applyFilters);
-    status.addEventListener('change',applyFilters);
-    category.addEventListener('change',applyFilters);
+    });
   }
 });
 </script>

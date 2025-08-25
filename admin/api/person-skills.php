@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../includes/admin_guard.php';
 require_once __DIR__ . '/../../includes/helpers.php';
 header('Content-Type: application/json');
+// API endpoint to fetch a person's skills
 
 try {
     require_permission('person','read');
