@@ -67,13 +67,13 @@ $connected_calendars = $_SESSION['connected_calendars'] ?? [];
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" id="eventStart" type="text" name="start_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" id="eventStart" type="text" name="start_time" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6" for="eventStart">Starts at</label>
             </div>
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" id="eventEnd" type="text" name="end_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" id="eventEnd" type="text" name="end_time" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6" for="eventEnd">Ends at</label>
             </div>
           </div>
@@ -111,13 +111,13 @@ $connected_calendars = $_SESSION['connected_calendars'] ?? [];
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" type="text" name="start_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" type="text" name="start_time" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6">Starts at</label>
             </div>
           </div>
           <div class="flatpickr-input-container mb-3">
             <div class="form-floating">
-              <input class="form-control datetimepicker" type="text" name="end_date" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
+              <input class="form-control datetimepicker" type="text" name="end_time" placeholder="yyyy/mm/dd hh:mm" data-options='{"disableMobile":true,"enableTime":"true","dateFormat":"Y-m-d H:i"}' />
               <label class="ps-6">Ends at</label>
             </div>
           </div>
@@ -196,16 +196,16 @@ document.addEventListener('DOMContentLoaded', function() {
       // Populate edit form with selected event details
       form.id.value = info.event.id;
       form.title.value = info.event.title;
-      form.start_date.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-      form.end_date.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+      form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
       // Visibility uses visibility_id rather than legacy is_private flag
       form.visibility_id.value = info.event.extendedProps.visibility_id;
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
       const form = document.getElementById('addEventForm');
-      form.start_date.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
-      form.end_date.value = '';
+      form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
+      form.end_time.value = '';
       form.visibility_id.value = defaultVisibilityId;
       form.calendar_id.value = getCalendarId();
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
