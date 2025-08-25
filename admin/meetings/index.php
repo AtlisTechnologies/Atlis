@@ -1,5 +1,5 @@
 <?php
-require '../../includes/php_header.php';
+require '../admin_header.php';
 
 $action = $_GET['action'] ?? 'list';
 
@@ -15,50 +15,22 @@ switch ($action) {
       $stmt->execute([$id]);
       $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
-    require '../../includes/html_header.php';
-    ?>
-    <main class="main" id="top">
-      <?php // require '../../includes/left_navigation.php'; ?>
-      <?php require '../../includes/navigation.php'; ?>
-      <div id="main_content" class="content">
-        <?php require 'include/create_edit_view.php'; ?>
-        <?php require '../../includes/html_footer.php'; ?>
-      </div>
-    </main>
-    <?php require '../../includes/js_footer.php'; ?>
-    <?php
-    exit;
+    require 'include/create_edit_view.php';
+    require '../admin_footer.php';
+    break;
   case 'details':
     require_permission('meeting', 'read');
     $id = (int)($_GET['id'] ?? 0);
     $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly FROM module_meetings WHERE id = ?');
     $stmt->execute([$id]);
     $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    require '../../includes/html_header.php';
-    ?>
-    <main class="main" id="top">
-      <?php require '../../includes/navigation.php'; ?>
-      <div id="main_content" class="content">
-        <?php require 'include/details_view.php'; ?>
-        <?php require '../../includes/html_footer.php'; ?>
-      </div>
-    </main>
-    <?php require '../../includes/js_footer.php'; ?>
-    <?php
-    exit;
+    require 'include/details_view.php';
+    require '../admin_footer.php';
+    break;
   default:
     require_permission('meeting', 'read');
     $meetings = $pdo->query('SELECT id, title, start_time FROM module_meetings ORDER BY start_time DESC')->fetchAll(PDO::FETCH_ASSOC);
-    require '../../includes/html_header.php';
-    ?>
-    <main class="main" id="top">
-      <?php require '../../includes/navigation.php'; ?>
-      <div id="main_content" class="content">
-        <?php require 'include/list_view.php'; ?>
-        <?php require '../../includes/html_footer.php'; ?>
-      </div>
-    </main>
-    <?php require '../../includes/js_footer.php'; ?>
-    <?php
-    exit;
+    require 'include/list_view.php';
+    require '../admin_footer.php';
+    break;
 }
