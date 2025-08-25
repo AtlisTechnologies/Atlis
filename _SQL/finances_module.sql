@@ -314,3 +314,180 @@ CREATE TABLE admin_module_finances_sows_logins (
   FOREIGN KEY (sow_id) REFERENCES admin_module_finances_sows(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_type_id) REFERENCES lookup_list_items(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Lookup list for feature SoW statuses
+INSERT INTO lookup_lists (user_id, user_updated, name, description)
+VALUES (1,1,'FEATURE_SOW_STATUS','Statuses for feature-level SoWs');
+
+INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort_order)
+SELECT 1,1,l.id,'Draft','DRAFT',1 FROM lookup_lists l WHERE l.name='FEATURE_SOW_STATUS';
+INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort_order)
+SELECT 1,1,l.id,'On Hold','ON_HOLD',2 FROM lookup_lists l WHERE l.name='FEATURE_SOW_STATUS';
+INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort_order)
+SELECT 1,1,l.id,'In Progress','IN_PROGRESS',3 FROM lookup_lists l WHERE l.name='FEATURE_SOW_STATUS';
+INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort_order)
+SELECT 1,1,l.id,'Cancelled','CANCELLED',4 FROM lookup_lists l WHERE l.name='FEATURE_SOW_STATUS';
+INSERT INTO lookup_list_items (user_id, user_updated, list_id, label, code, sort_order)
+SELECT 1,1,l.id,'Complete','COMPLETE',5 FROM lookup_lists l WHERE l.name='FEATURE_SOW_STATUS';
+
+-- Base feature tables and versioning
+CREATE TABLE admin_feature_links (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  name VARCHAR(255) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_links_versions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  link_id INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  version INT(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (link_id) REFERENCES admin_feature_links(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_notes (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  name VARCHAR(255) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_notes_versions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  note_id INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  version INT(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (note_id) REFERENCES admin_feature_notes(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_questions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  name VARCHAR(255) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_questions_versions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  question_id INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  version INT(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (question_id) REFERENCES admin_feature_questions(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_logins (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  name VARCHAR(255) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_logins_versions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  login_id INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  version INT(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (login_id) REFERENCES admin_feature_logins(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Feature SoW tables
+CREATE TABLE admin_feature_sow (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  name VARCHAR(255) NOT NULL,
+  organization_id INT(11) DEFAULT NULL,
+  agency_id INT(11) DEFAULT NULL,
+  division_id INT(11) DEFAULT NULL,
+  status_id INT(11) DEFAULT NULL,
+  current_version_id INT(11) DEFAULT NULL,
+  client_signed TINYINT(1) DEFAULT 0,
+  client_signed_date DATETIME DEFAULT NULL,
+  atlis_signed TINYINT(1) DEFAULT 0,
+  atlis_signed_date DATETIME DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (organization_id) REFERENCES module_organization(id) ON DELETE SET NULL,
+  FOREIGN KEY (agency_id) REFERENCES module_agency(id) ON DELETE SET NULL,
+  FOREIGN KEY (division_id) REFERENCES module_division(id) ON DELETE SET NULL,
+  FOREIGN KEY (status_id) REFERENCES lookup_list_items(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE admin_feature_sow_versions (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11),
+  user_updated INT(11),
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  memo TEXT DEFAULT NULL,
+  sow_id INT(11) NOT NULL,
+  version INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  organization_id INT(11) DEFAULT NULL,
+  agency_id INT(11) DEFAULT NULL,
+  division_id INT(11) DEFAULT NULL,
+  status_id INT(11) DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_updated) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (sow_id) REFERENCES admin_feature_sow(id) ON DELETE CASCADE,
+  FOREIGN KEY (organization_id) REFERENCES module_organization(id) ON DELETE SET NULL,
+  FOREIGN KEY (agency_id) REFERENCES module_agency(id) ON DELETE SET NULL,
+  FOREIGN KEY (division_id) REFERENCES module_division(id) ON DELETE SET NULL,
+  FOREIGN KEY (status_id) REFERENCES lookup_list_items(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE admin_feature_sow
+  ADD CONSTRAINT fk_admin_feature_sow_current_version FOREIGN KEY (current_version_id)
+  REFERENCES admin_feature_sow_versions(id);
