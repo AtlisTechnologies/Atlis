@@ -1,0 +1,28 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+require_once '../../../includes/php_header.php';
+require_permission('admin_task_assignment','create');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  exit;
+}
+
+if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
+  die('Invalid CSRF token');
+}
+
+$task_id = isset($_POST['task_id']) ? (int)$_POST['task_id'] : 0;
+$user_id = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
+if (!$task_id || !$user_id) {
+  die('Missing data');
+}
+
+$pdo->prepare('INSERT INTO admin_task_assignments (task_id, user_id, user_updated) VALUES (:task,:user,:uid)')
+    ->execute([':task' => $task_id, ':user' => $user_id, ':uid' => $this_user_id]);
+
+admin_audit_log($pdo, $this_user_id, 'admin_task_assignments', $task_id, 'CREATE', null, json_encode(['user_id'=>$user_id]), 'Added assignment');
+
+header('Location: ../task.php?id=' . $task_id);
