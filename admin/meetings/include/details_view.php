@@ -275,14 +275,22 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function fetchJson(url, opts){
-    return fetch(url, opts).then(function(r){
-      if(!r.ok){
-        return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
-      }
-      return r.json().catch(function(e){
-        throw new Error('Invalid JSON: ' + e.message);
+    return fetch(url, opts)
+      .then(function(r){
+        if(!r.ok){
+          return r.text().then(function(t){
+            throw new Error(t || 'Request failed');
+          });
+        }
+        return r.text();
+      })
+      .then(function(t){
+        try {
+          return JSON.parse(t);
+        } catch(e){
+          throw new Error('Invalid JSON: ' + e.message);
+        }
       });
-    });
   }
 
   function updateOrder(){
