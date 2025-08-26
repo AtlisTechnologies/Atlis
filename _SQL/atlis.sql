@@ -3720,7 +3720,8 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`);
+  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
+  ADD KEY `idx_calendar_events_start_time` (`start_time`);
 
 --
 -- Indexes for table `module_calendar_event_attendees`
