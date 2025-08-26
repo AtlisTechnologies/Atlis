@@ -18,7 +18,9 @@
     <!-- Phoenix Core & Config -->
     <script src="<?php echo getURLDir(); ?>assets/js/config.js"></script>
     <script src="<?php echo getURLDir(); ?>assets/js/phoenix.js"></script>
-    <script src="<?php echo getURLDir(); ?>assets/js/file-manager.js"></script>
+    <?php if (!empty($loadFileManagerJs)): ?>
+      <script src="<?php echo getURLDir(); ?>assets/js/file-manager.js"></script>
+    <?php endif; ?>
 
     <!-- Project-specific JS (if any) -->
     <script src="<?php echo getURLDir(); ?>assets/js/projectmanagement-dashboard.js"></script>
