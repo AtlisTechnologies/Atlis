@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch(moveUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: fileId, parent: target.dataset.id })
+        body: JSON.stringify({ project_id: projectId, id: fileId, parent: target.dataset.id })
       }).then(() => fetchList());
     }
   });
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch(moveUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ create: true, path: path.join('/'), name })
+        body: JSON.stringify({ project_id: projectId, create: true, path: path.join('/'), name })
       }).then(() => fetchList());
     });
   });
