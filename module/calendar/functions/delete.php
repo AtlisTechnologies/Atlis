@@ -19,6 +19,7 @@ if ($id) {
     exit;
   }
   if ($existing['visibility_id'] == 199 && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    // Only the event owner or an Admin can delete a private event.
     http_response_code(403);
     exit;
   }
