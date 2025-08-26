@@ -193,19 +193,14 @@ document.addEventListener('DOMContentLoaded', function(){
     if(data){
       searchInput.value = data.name || '';
       idInput.value = data.attendee_user_id || '';
-      div.querySelector('input[name="role[]"]').value = data.role || '';
-      div.querySelector('input[name="check_in_time[]"]').value = data.check_in_time || '';
-      div.querySelector('input[name="check_out_time[]"]').value = data.check_out_time || '';
     }
   }
 
   function addAttendee(data){
     var row = document.createElement('div');
     row.className = 'row g-2 mb-2 attendee-item';
-    row.innerHTML = '<div class="col-md-4"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
-      '<div class="col-md-2"><input type="text" name="role[]" class="form-control" placeholder="Role"></div>' +
-      '<div class="col-md-3"><input type="datetime-local" name="check_in_time[]" class="form-control"></div>' +
-      '<div class="col-md-3"><div class="input-group"><input type="datetime-local" name="check_out_time[]" class="form-control"><button type="button" class="btn btn-outline-danger remove-attendee">&times;</button></div></div>';
+    row.innerHTML = '<div class="col-md-10"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
+      '<div class="col-md-2"><button type="button" class="btn btn-sm btn-danger remove-attendee">Remove</button></div>';
     attendeesContainer.appendChild(row);
     initAttendeeRow(row, data || {});
   }

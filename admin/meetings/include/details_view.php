@@ -68,19 +68,10 @@ $_SESSION['csrf_token'] = $token;
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-            <div class="col-md-4 position-relative">
+            <div class="col-md-6 position-relative">
               <input type="text" id="attendeeSearch" class="form-control" placeholder="Search user">
               <input type="hidden" name="attendee_user_id" id="attendeeId">
               <div class="list-group position-absolute w-100" id="attendeeResults" style="z-index:1000;"></div>
-            </div>
-            <div class="col-md-2">
-              <input type="text" name="role" class="form-control" placeholder="Role">
-            </div>
-            <div class="col-md-3">
-              <input type="datetime-local" name="check_in_time" class="form-control">
-            </div>
-            <div class="col-md-3">
-              <input type="datetime-local" name="check_out_time" class="form-control">
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
@@ -525,12 +516,10 @@ document.addEventListener('DOMContentLoaded', function(){
     if(attendees.length){
       attendees.forEach(function(a){
         var li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-start';
-        var info = '<div><div class="fw-bold">' + esc(a.name);
-        if(a.role) info += ' (' + esc(a.role) + ')';
-        info += '</div><small class="text-body-secondary">Check-in: ' + (a.check_in_time ? new Date(a.check_in_time).toLocaleString() : '-') + ' | Check-out: ' + (a.check_out_time ? new Date(a.check_out_time).toLocaleString() : '-') + '</small></div>';
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        var info = '<span>' + esc(a.name) + '</span>';
         if (canEditAttendees){
-          info += '<button class="btn btn-sm btn-link text-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
+          info += '<button class="btn btn-sm btn-danger remove-attendee" data-id="' + a.id + '">Remove</button>';
         }
         li.innerHTML = info;
         attendeesList.appendChild(li);
