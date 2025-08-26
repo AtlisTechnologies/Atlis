@@ -14,7 +14,7 @@ if(!$project_id || $name === ''){
   exit;
 }
 
-$maxFolders = (int)get_system_property($pdo,'PROJECT_FILE_MAX_FOLDER_COUNT');
+$maxFolders = (int)get_system_property($pdo,'PROJECT_FILE_MAX_FOLDERS');
 if($maxFolders){
   $stmt = $pdo->prepare('SELECT COUNT(*) FROM module_projects_folders WHERE project_id=:pid');
   $stmt->execute([':pid'=>$project_id]);
