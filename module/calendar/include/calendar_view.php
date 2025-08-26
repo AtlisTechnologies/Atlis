@@ -20,12 +20,19 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
     <?php if (!empty($calendars)) { ?>
-      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2" multiple>
-        <?php foreach ($calendars as $cal) { ?>
-          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-          <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
-        <?php } ?>
-      </select>
+      <div class="form-floating form-floating-advance-select me-2">
+        <label for="calendarSelect">Calendars Displayed</label>
+        <select id="calendarSelect"
+                class="form-select"
+                multiple
+                data-choices="data-choices"
+                data-options='{"removeItemButton":true}'>
+          <?php foreach ($calendars as $cal) { ?>
+            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
+          <?php } ?>
+        </select>
+      </div>
     <?php } ?>
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
