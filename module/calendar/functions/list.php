@@ -12,17 +12,26 @@ $events = [];
 try {
     if (user_has_role('Admin')) {
         if ($calendar_id) {
-            $stmt = $pdo->prepare('SELECT id, calendar_id, title, start_time, end_time, link_module, link_record_id, user_id, event_type_id, visibility_id FROM module_calendar_events WHERE calendar_id = :calid');
+            $stmt = $pdo->prepare('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.calendar_id = :calid');
             $stmt->execute([':calid' => $calendar_id]);
         } else {
-            $stmt = $pdo->query('SELECT id, calendar_id, title, start_time, end_time, link_module, link_record_id, user_id, event_type_id, visibility_id FROM module_calendar_events');
+            $stmt = $pdo->query('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id');
         }
     } else {
         if ($calendar_id) {
-            $stmt = $pdo->prepare('SELECT id, calendar_id, title, start_time, end_time, link_module, link_record_id, user_id, event_type_id, visibility_id FROM module_calendar_events WHERE (visibility_id = 198 OR user_id = :uid) AND calendar_id = :calid');
+            $chk = $pdo->prepare('SELECT is_private, user_id FROM module_calendar WHERE id = :calid');
+            $chk->execute([':calid' => $calendar_id]);
+            $cal = $chk->fetch(PDO::FETCH_ASSOC);
+            if ($cal && $cal['is_private'] && $cal['user_id'] != $this_user_id) {
+                http_response_code(403);
+                ob_clean();
+                echo json_encode(['error' => 'Access denied']);
+                exit;
+            }
+            $stmt = $pdo->prepare('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = :uid) AND (c.is_private = 0 OR c.user_id = :uid) AND e.calendar_id = :calid');
             $stmt->execute([':uid' => $this_user_id, ':calid' => $calendar_id]);
         } else {
-            $stmt = $pdo->prepare('SELECT id, calendar_id, title, start_time, end_time, link_module, link_record_id, user_id, event_type_id, visibility_id FROM module_calendar_events WHERE visibility_id = 198 OR user_id = :uid');
+            $stmt = $pdo->prepare('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = :uid) AND (c.is_private = 0 OR c.user_id = :uid)');
             $stmt->execute([':uid' => $this_user_id]);
         }
     }
@@ -41,7 +50,7 @@ try {
             'related_id' => $row['link_record_id'],
             'event_type_id' => $row['event_type_id'],
             'visibility_id' => $visibility,
-            'is_private' => (int)($visibility === 199)
+            'is_private' => (int)$row['is_private']
         ];
     }
 } catch (Exception $e) {
