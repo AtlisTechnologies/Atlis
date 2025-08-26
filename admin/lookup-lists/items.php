@@ -79,6 +79,7 @@ if($items){
   <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'))); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
+  <div class="col-md-1"><button class="btn btn-primary w-100" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">Bulk Add Items</button></div>
 </form>
 <div id="items" data-list='{"valueNames":["sort_order","code","label"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -148,6 +149,28 @@ if($items){
   <div class="d-flex justify-content-between align-items-center mt-3">
     <p class="mb-0" data-list-info></p>
     <ul class="pagination mb-0"></ul>
+  </div>
+</div>
+
+<div class="modal fade" id="bulkItemsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bulk Add Items</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <div class="form-text">Format: code|label|active_from|active_to</div>
+          <textarea class="form-control" name="items" rows="10"></textarea>
+        </div>
+        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+        <input type="hidden" name="list_id" value="<?= $list_id; ?>">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Add Items</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -317,6 +340,8 @@ loadItems();
 
 let allItems=[];
 fetch('../api/lookup-lists.php?entity=item&action=all').then(r=>r.json()).then(d=>{ if(d.success){ allItems=d.items; }});
+const bulkModalEl=document.getElementById('bulkItemsModal');
+const bulkItemsModal=new bootstrap.Modal(bulkModalEl);
 const relationsModal=new bootstrap.Modal(document.getElementById('relationsModal'));
 let currentItem=0;
 
@@ -349,6 +374,36 @@ function loadRelations(){
     }
   });
 }
+
+bulkModalEl.addEventListener('submit',function(e){
+  e.preventDefault();
+  const textarea=bulkModalEl.querySelector('textarea');
+  const lines=textarea.value.split('\n');
+  const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const items=[];
+  lines.forEach(line=>{
+    if(!line.trim()) return;
+    const parts=line.split('|');
+    const code=(parts[0]||'').trim();
+    const label=(parts[1]||'').trim();
+    const active_from=(parts[2]||'').trim()||yesterday;
+    const active_to=(parts[3]||'').trim();
+    items.push({code,label,active_from,active_to});
+  });
+  fetch('../api/lookup-lists.php?entity=item&action=bulk_create',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({csrf_token:csrfToken,list_id:listId,items})
+  }).then(r=>r.json()).then(d=>{
+    if(d.success){
+      bulkItemsModal.hide();
+      textarea.value='';
+      loadItems();
+    }else{
+      alert(d.error||'Error');
+    }
+  });
+});
 
 document.getElementById('addRelationBtn').addEventListener('click',()=>{
   const select=document.getElementById('relationSelect');
