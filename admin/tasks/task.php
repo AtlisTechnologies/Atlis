@@ -1,5 +1,6 @@
 <?php
-require '../admin_header.php';
+require_once '../includes/php_header.php';
+require_once '../includes/functions.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $editing = $id > 0;
@@ -11,7 +12,6 @@ if ($editing) {
   $task = $stmt->fetch(PDO::FETCH_ASSOC);
   if (!$task) {
     echo '<div class="alert alert-danger">Task not found.</div>';
-    require '../admin_footer.php';
     exit;
   }
 } else {
@@ -44,20 +44,6 @@ if ($editing) {
   $assStmt = $pdo->prepare('SELECT assigned_user_id FROM admin_task_assignments WHERE task_id = :id');
   $assStmt->execute([':id' => $id]);
   $assignedUserIds = $assStmt->fetchAll(PDO::FETCH_COLUMN);
-}
-
-$comments = [];
-if ($editing) {
-  $cstmt = $pdo->prepare('SELECT c.id, c.comment, u.email, c.date_created FROM admin_task_comments c JOIN users u ON c.user_id = u.id WHERE c.task_id = :id ORDER BY c.date_created');
-  $cstmt->execute([':id' => $id]);
-  $comments = $cstmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-$files = [];
-if ($editing) {
-  $fstmt = $pdo->prepare('SELECT id, file_name, file_path FROM admin_task_files WHERE task_id = :id ORDER BY date_created');
-  $fstmt->execute([':id' => $id]);
-  $files = $fstmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
@@ -155,64 +141,3 @@ $_SESSION['csrf_token'] = $token;
     <?php endif; ?>
   </div>
 </form>
-
-<?php if ($editing): ?>
-<hr>
-<h5>Files</h5>
-<ul class="list-unstyled">
-  <?php foreach ($files as $f): ?>
-  <li>
-    <a href="../tasks/uploads/<?= e(basename($f['file_path'])); ?>" target="_blank"><?= e($f['file_name']); ?></a>
-    <?php if (user_has_permission('admin_task_file','delete')): ?>
-    <form method="post" action="functions/delete_file.php" class="d-inline">
-      <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-      <input type="hidden" name="id" value="<?= $f['id']; ?>">
-      <button class="btn btn-sm btn-link text-danger">Delete</button>
-    </form>
-    <?php endif; ?>
-  </li>
-  <?php endforeach; ?>
-</ul>
-<?php if (user_has_permission('admin_task_file','create')): ?>
-<form method="post" action="functions/upload_file.php" enctype="multipart/form-data" class="mb-3">
-  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <input type="hidden" name="task_id" value="<?= $id; ?>">
-  <input type="file" name="file" required>
-  <button class="btn btn-sm btn-secondary">Upload</button>
-</form>
-<?php endif; ?>
-<hr>
-<h5>Comments</h5>
-<ul class="list-unstyled">
-  <?php foreach ($comments as $c): ?>
-  <li class="mb-2">
-    <strong><?= e($c['email']); ?>:</strong>
-    <?= nl2br(e($c['comment'])); ?>
-    <?php if (user_has_permission('admin_task_comment','delete')): ?>
-    <form method="post" action="functions/delete_comment.php" class="d-inline">
-      <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-      <input type="hidden" name="id" value="<?= $c['id']; ?>">
-      <button class="btn btn-sm btn-link text-danger">Delete</button>
-    </form>
-    <?php endif; ?>
-  </li>
-  <?php endforeach; ?>
-</ul>
-<?php if (user_has_permission('admin_task_comment','create')): ?>
-<form method="post" action="functions/add_comment.php" class="mb-3">
-  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <input type="hidden" name="task_id" value="<?= $id; ?>">
-  <textarea name="comment" class="form-control" rows="2" required></textarea>
-  <button class="btn btn-sm btn-secondary mt-2">Add Comment</button>
-</form>
-<?php endif; ?>
-<hr>
-<h5>Related Records</h5>
-<div id="relations">
-  <div class="row g-2 align-items-center mb-2">
-    <div class="col"><input type="text" name="relation_module[]" class="form-control" placeholder="Module"></div>
-    <div class="col"><input type="text" name="relation_record_id[]" class="form-control" placeholder="Record ID"></div>
-  </div>
-</div>
-<?php endif; ?>
-<?php require '../admin_footer.php'; ?>
