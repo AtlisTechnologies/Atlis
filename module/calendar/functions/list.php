@@ -28,6 +28,9 @@ try {
     }
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $visibility = $row['visibility_id'] === null ? 198 : (int)$row['visibility_id'];
+
         $events[] = [
             'id' => (int)$row['id'],
             'calendar_id' => (int)$row['calendar_id'],
@@ -37,8 +40,8 @@ try {
             'related_module' => $row['link_module'],
             'related_id' => $row['link_record_id'],
             'event_type_id' => $row['event_type_id'],
-            'visibility_id' => (int)$row['visibility_id'],
-            'is_private' => (int)($row['visibility_id'] == 199)
+            'visibility_id' => $visibility,
+            'is_private' => (int)($visibility === 199)
         ];
     }
 } catch (Exception $e) {
