@@ -7,7 +7,11 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid CSRF token',
+            'attendees' => []
+        ]);
         exit;
     }
 
@@ -19,7 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         if ($meeting_id && $attendee_user_id) {
-            $stmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_user_id, role,check_in_time, check_out_time) VALUES (:uid,:uid,:mid,:attendee,:role,:check_in,:check_out)');
+            $stmt = $pdo->prepare(
+                'INSERT INTO module_meeting_attendees (
+                    user_id,
+                    user_updated,
+                    meeting_id,
+                    attendee_user_id,
+                    role,
+                    check_in_time,
+                    check_out_time
+                ) VALUES (:uid,:uid,:mid,:attendee,:role,:check_in,:check_out)'
+            );
             $stmt->execute([
                 ':uid' => $this_user_id,
                 ':mid' => $meeting_id,
@@ -32,15 +46,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', 'Added attendee');
         }
 
-        $rosterStmt = $pdo->prepare('SELECT a.id, a.attendee_user_id, a.role, a.check_in_time, a.check_out_time, COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name FROM module_meeting_attendees a LEFT JOIN users u ON a.attendee_user_id = u.id LEFT JOIN person p ON u.id = p.user_id WHERE a.meeting_id =? ORDER BY name');
+        $rosterStmt = $pdo->prepare(
+            'SELECT a.id,
+                    a.attendee_user_id,
+                    a.role,
+                    a.check_in_time,
+                    a.check_out_time,
+                    COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
+             FROM module_meeting_attendees a
+             LEFT JOIN users u ON a.attendee_user_id = u.id
+             LEFT JOIN person p ON u.id = p.user_id
+             WHERE a.meeting_id = ?
+             ORDER BY name'
+        );
         $rosterStmt->execute([$meeting_id]);
         $attendees = $rosterStmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(['success' => true, 'attendees' => $attendees]);
     } catch (Exception $e) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage(),
+            'attendees' => []
+        ]);
     }
     exit;
 }
 
-echo json_encode(['success' => false, 'message' => 'Invalid request']);
+echo json_encode([
+    'success' => false,
+    'message' => 'Invalid request',
+    'attendees' => []
+]);

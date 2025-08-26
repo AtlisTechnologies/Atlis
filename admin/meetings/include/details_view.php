@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function fetchAgenda(){
-    fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+    return fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(function(data){
         if(data.success){
           renderAgenda(data.items);
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetchAgenda();
+  fetchAgenda().then(fetchAttendees);
 
   function loadQuestions(){
     fetchJson('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
@@ -536,6 +536,21 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
+  function fetchAttendees(){
+    return fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+      .then(function(data){
+        if(data.success){
+          renderAttendees(data.attendees);
+        } else {
+          renderAttendees([]);
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+        showToast('Failed to load attendees');
+      });
+  }
+
   function renderAttachments(files){
     attachmentsList.innerHTML = '';
     if(files && files.length){
@@ -644,19 +659,6 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   }
-
-  fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-    .then(function(data){
-      if(data.success){
-        renderAttendees(data.attendees);
-      } else {
-        renderAttendees([]);
-      }
-    })
-    .catch(function(err){
-      console.error(err);
-      showToast('Failed to load attendees');
-    });
 
   fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(function(data){
