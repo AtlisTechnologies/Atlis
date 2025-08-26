@@ -15,14 +15,17 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
 }
 
 $task_id = isset($_POST['task_id']) ? (int)$_POST['task_id'] : 0;
-$user_id = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
-if (!$task_id || !$user_id) {
+$assigned_user_id = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
+if (!$task_id || !$assigned_user_id) {
   die('Missing data');
 }
 
-$pdo->prepare('DELETE FROM admin_task_assignments WHERE task_id = :task AND user_id = :user')
-    ->execute([':task' => $task_id, ':user' => $user_id]);
+$pdo->prepare('DELETE FROM admin_task_assignments WHERE task_id = :task_id AND assigned_user_id = :assigned_user_id')
+    ->execute([
+      ':task_id' => $task_id,
+      ':assigned_user_id' => $assigned_user_id
+    ]);
 
-admin_audit_log($pdo, $this_user_id, 'admin_task_assignments', $task_id, 'DELETE', json_encode(['user_id'=>$user_id]), null, 'Removed assignment');
+admin_audit_log($pdo, $this_user_id, 'admin_task_assignments', $task_id, 'DELETE', json_encode(['assigned_user_id'=>$assigned_user_id]), null, 'Removed assignment');
 
 header('Location: ../task.php?id=' . $task_id);

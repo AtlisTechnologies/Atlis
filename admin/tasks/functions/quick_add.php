@@ -30,8 +30,12 @@ $stmt = $pdo->prepare('INSERT INTO admin_task (name, status_id, user_id, user_up
 $stmt->execute([':name' => $name, ':status_id' => $statusId, ':uid' => $this_user_id]);
 $taskId = (int)$pdo->lastInsertId();
 
-$pdo->prepare('INSERT INTO admin_task_assignments (task_id, user_id, user_updated) VALUES (:task,:user,:uid)')
-    ->execute([':task' => $taskId, ':user' => $this_user_id, ':uid' => $this_user_id]);
+$pdo->prepare('INSERT INTO admin_task_assignments (task_id, assigned_user_id, user_id, user_updated) VALUES (:task_id, :assigned_user_id, :uid, :uid)')
+    ->execute([
+      ':task_id' => $taskId,
+      ':assigned_user_id' => $this_user_id,
+      ':uid' => $this_user_id
+    ]);
 
 admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Quick add');
 
