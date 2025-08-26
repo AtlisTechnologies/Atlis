@@ -96,7 +96,7 @@ $_SESSION['csrf_token'] = $token; ?>
   <div class="alert alert-danger">
     <ul class="mb-0">
       <?php foreach ($errors as $e): ?>
-        <li><?php echo htmlspecialchars($e); ?></li>
+        <li><?php echo e($e); ?></li>
       <?php endforeach; ?>
     </ul>
   </div>
@@ -120,7 +120,7 @@ $_SESSION['csrf_token'] = $token; ?>
           <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center">
             <? if(isset($gender_id)){ $user_gender = get_lookup_item_label_from_id($pdo, $gender_id); }else{ $user_gender = NULL; } ?>
             <? if(isset($gender_id) && $user_gender == "Female"){ $gender_img = 10;  }elseif($user_gender == 'Male'){ $gender_img = 65; }else{ $gender_img = "avatar"; } ?>
-            <div class="avatar avatar-5xl"><img class="rounded-circle" src="<?php echo $profile_pic ? getURLDir() . htmlspecialchars($profile_pic) : getURLDir() . "assets/img/team/150x150/$gender_img.webp"; ?>" alt="" /></div>
+            <div class="avatar avatar-5xl"><img class="rounded-circle" src="<?php echo $profile_pic ? getURLDir() . e($profile_pic) : getURLDir() . "assets/img/team/150x150/$gender_img.webp"; ?>" alt="" /></div>
             <label class="w-100 h-100 position-absolute z-1" for="upload-avatar"></label>
         </div>
         </div>
@@ -150,10 +150,10 @@ $_SESSION['csrf_token'] = $token; ?>
                   <tbody>
                     <?php foreach ($profilePics as $pic): ?>
                       <tr>
-                        <td><img src="<?php echo getURLDir(); echo htmlspecialchars($pic['file_path'] ?? ''); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
-                        <td><?php echo htmlspecialchars($pic['status_label'] ?? ''); ?></td>
-                        <td><?php echo htmlspecialchars($pic['date_created'] ?? ''); ?></td>
-                        <td><?php echo htmlspecialchars($pic['width'] ?? ''); ?>x<?php echo htmlspecialchars($pic['height'] ?? ''); ?></td>
+                        <td><img src="<?php echo getURLDir(); echo e($pic['file_path'] ?? ''); ?>" class="img-thumbnail" style="width:60px;height:auto;"></td>
+                        <td><?php echo e($pic['status_label'] ?? ''); ?></td>
+                        <td><?php echo e($pic['date_created'] ?? ''); ?></td>
+                        <td><?php echo e($pic['width'] ?? ''); ?>x<?php echo e($pic['height'] ?? ''); ?></td>
                         <td>
                           <?php if ($pic['status_code'] !== 'ACTIVE'): ?>
                             <button type="submit" class="btn btn-sm btn-primary" form="reactivate-form" name="reactivate_pic_id" value="<?php echo $pic['id']; ?>" formnovalidate>Reactivate</button>
@@ -172,35 +172,35 @@ $_SESSION['csrf_token'] = $token; ?>
       <div class="row g-3 mb-3">
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="<?php echo e($first_name); ?>" required>
             <label for="first_name">First Name</label>
             <div class="invalid-feedback">Please provide a first name.</div>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="<?php echo htmlspecialchars($last_name); ?>" required>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="<?php echo e($last_name); ?>" required>
             <label for="last_name">Last Name</label>
             <div class="invalid-feedback">Please provide a last name.</div>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo e($email); ?>" required>
             <label for="email">Email</label>
             <div class="invalid-feedback">Please provide a valid email.</div>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo htmlspecialchars($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo e($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
             <label for="password">Password</label>
             <div class="invalid-feedback">Please provide a password.</div>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" value="<?php echo htmlspecialchars($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" value="<?php echo e($defaultPassword); ?>" <?php echo $id ? '' : 'required'; ?>>
             <label for="confirmPassword">Confirm Password</label>
             <div class="invalid-feedback">Please confirm password.</div>
           </div>
@@ -220,7 +220,7 @@ $_SESSION['csrf_token'] = $token; ?>
             <select class="form-select" id="gender_id" name="gender_id">
               <option value="">Select...</option>
               <?php foreach ($genderItems as $item): ?>
-                <option value="<?php echo $item['id']; ?>" <?php echo (int)$gender_id === (int)$item['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($item['label']); ?></option>
+                <option value="<?php echo $item['id']; ?>" <?php echo (int)$gender_id === (int)$item['id'] ? 'selected' : ''; ?>><?php echo e($item['label']); ?></option>
               <?php endforeach; ?>
             </select>
             <label for="gender_id">Gender</label>
@@ -228,7 +228,7 @@ $_SESSION['csrf_token'] = $token; ?>
         </div>
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
-            <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of Birth" value="<?php echo htmlspecialchars($dob); ?>">
+            <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of Birth" value="<?php echo e($dob); ?>">
             <label for="dob">Date of Birth</label>
           </div>
         </div>
@@ -248,19 +248,19 @@ $_SESSION['csrf_token'] = $token; ?>
           <div id="jti-details" class="row g-3 d-none">
             <div class="col-sm-6 col-md-4">
               <div class="form-floating">
-                <input type="date" class="form-control" id="JTI_start_date" name="JTI_start_date" placeholder="JTI Start Date" value="<?php echo htmlspecialchars($JTI_start_date); ?>">
+                <input type="date" class="form-control" id="JTI_start_date" name="JTI_start_date" placeholder="JTI Start Date" value="<?php echo e($JTI_start_date); ?>">
                 <label for="JTI_start_date">JTI Start Date</label>
               </div>
             </div>
             <div class="col-sm-6 col-md-4">
               <div class="form-floating">
-                <input type="date" class="form-control" id="JTI_end_date" name="JTI_end_date" placeholder="JTI End Date" value="<?php echo htmlspecialchars($JTI_end_date); ?>">
+                <input type="date" class="form-control" id="JTI_end_date" name="JTI_end_date" placeholder="JTI End Date" value="<?php echo e($JTI_end_date); ?>">
                 <label for="JTI_end_date">JTI End Date</label>
               </div>
             </div>
             <div class="col-sm-6 col-md-4">
               <div class="form-floating">
-                <input type="text" class="form-control" id="JTI_Team" name="JTI_Team" placeholder="JTI Team" value="<?php echo htmlspecialchars($JTI_Team); ?>">
+                <input type="text" class="form-control" id="JTI_Team" name="JTI_Team" placeholder="JTI Team" value="<?php echo e($JTI_Team); ?>">
                 <label for="JTI_Team">JTI Team</label>
               </div>
             </div>

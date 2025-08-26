@@ -52,11 +52,11 @@ require '../admin_header.php';
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="mb-3">
     <label class="form-label">Module</label>
-    <input type="text" name="module" class="form-control" value="<?= htmlspecialchars($module); ?>" required>
+    <input type="text" name="module" class="form-control" value="<?= e($module); ?>" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Action</label>
-    <input type="text" name="action" class="form-control" value="<?= htmlspecialchars($action); ?>" required>
+    <input type="text" name="action" class="form-control" value="<?= e($action); ?>" required>
   </div>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
   <a href="permissions.php" class="btn btn-secondary">Cancel</a>

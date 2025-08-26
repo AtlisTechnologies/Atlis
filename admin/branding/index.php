@@ -33,8 +33,8 @@ $bootstrapColors = ['primary','secondary','success','danger','warning','info','l
 ?>
   <div class="col">
     <?= $html ?>
-    <button class="btn btn-sm btn-link p-0 ms-1 copy-snippet" data-snippet="<?= htmlspecialchars($html, ENT_QUOTES) ?>" title="Copy HTML"><span class="fa-regular fa-copy"></span></button>
-    <code class="d-block mt-1"><?= htmlspecialchars($html) ?></code>
+    <button class="btn btn-sm btn-link p-0 ms-1 copy-snippet" data-snippet="<?= e($html, ENT_QUOTES) ?>" title="Copy HTML"><span class="fa-regular fa-copy"></span></button>
+    <code class="d-block mt-1"><?= e($html) ?></code>
   </div>
 <?php endforeach; ?>
 </div>
@@ -47,8 +47,8 @@ $bootstrapColors = ['primary','secondary','success','danger','warning','info','l
 ?>
   <div class="col">
     <?= $html ?>
-    <button class="btn btn-sm btn-link p-0 ms-1 copy-snippet" data-snippet="<?= htmlspecialchars($html, ENT_QUOTES) ?>" title="Copy HTML"><span class="fa-regular fa-copy"></span></button>
-    <code class="d-block mt-1"><?= htmlspecialchars($html) ?></code>
+    <button class="btn btn-sm btn-link p-0 ms-1 copy-snippet" data-snippet="<?= e($html, ENT_QUOTES) ?>" title="Copy HTML"><span class="fa-regular fa-copy"></span></button>
+    <code class="d-block mt-1"><?= e($html) ?></code>
   </div>
 <?php endforeach; ?>
 </div>

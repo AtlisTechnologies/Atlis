@@ -35,7 +35,7 @@ $stmt = $pdo->query('SELECT r.id, r.name, r.description, GROUP_CONCAT(pg.name OR
 $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Roles</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <div class="mb-3">
   <a href="edit.php" class="btn btn-sm btn-success">Add Role</a>
   <a href="permissions.php" class="btn btn-sm btn-info">Permissions</a>
@@ -61,10 +61,10 @@ $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <tbody class="list">
         <?php foreach($roles as $r): ?>
           <tr>
-            <td class="id"><?= htmlspecialchars($r['id']); ?></td>
-            <td class="name"><?= htmlspecialchars($r['name']); ?></td>
-            <td class="description"><?= htmlspecialchars($r['description']); ?></td>
-            <td class="groups"><?= htmlspecialchars($r['groups'] ?: '-'); ?></td>
+            <td class="id"><?= e($r['id']); ?></td>
+            <td class="name"><?= e($r['name']); ?></td>
+            <td class="description"><?= e($r['description']); ?></td>
+            <td class="groups"><?= e($r['groups'] ?: '-'); ?></td>
             <td>
               <a class="btn btn-sm btn-warning" href="edit.php?id=<?= $r['id']; ?>">Edit</a>
               <form method="post" class="d-inline">

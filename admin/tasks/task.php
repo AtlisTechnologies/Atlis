@@ -71,11 +71,11 @@ $_SESSION['csrf_token'] = $token;
   <?php endif; ?>
   <div class="mb-3">
     <label class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($task['name']); ?>" required>
+    <input type="text" name="name" class="form-control" value="<?= e($task['name']); ?>" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Description</label>
-    <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($task['description']); ?></textarea>
+    <textarea name="description" class="form-control" rows="3"><?= e($task['description']); ?></textarea>
   </div>
   <div class="row mb-3">
     <div class="col">
@@ -83,7 +83,7 @@ $_SESSION['csrf_token'] = $token;
       <select name="type_id" class="form-select">
         <option value="">--</option>
         <?php foreach ($types as $i): ?>
-        <option value="<?= $i['id']; ?>" <?= $task['type_id'] == $i['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($i['label']); ?></option>
+        <option value="<?= $i['id']; ?>" <?= $task['type_id'] == $i['id'] ? 'selected' : ''; ?>><?= e($i['label']); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -92,7 +92,7 @@ $_SESSION['csrf_token'] = $token;
       <select name="category_id" class="form-select">
         <option value="">--</option>
         <?php foreach ($categories as $i): ?>
-        <option value="<?= $i['id']; ?>" <?= $task['category_id'] == $i['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($i['label']); ?></option>
+        <option value="<?= $i['id']; ?>" <?= $task['category_id'] == $i['id'] ? 'selected' : ''; ?>><?= e($i['label']); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -101,7 +101,7 @@ $_SESSION['csrf_token'] = $token;
       <select name="sub_category_id" class="form-select">
         <option value="">--</option>
         <?php foreach ($subcategories as $i): ?>
-        <option value="<?= $i['id']; ?>" <?= $task['sub_category_id'] == $i['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($i['label']); ?></option>
+        <option value="<?= $i['id']; ?>" <?= $task['sub_category_id'] == $i['id'] ? 'selected' : ''; ?>><?= e($i['label']); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -112,7 +112,7 @@ $_SESSION['csrf_token'] = $token;
       <select name="status_id" class="form-select">
         <option value="">--</option>
         <?php foreach ($statuses as $i): ?>
-        <option value="<?= $i['id']; ?>" <?= $task['status_id'] == $i['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($i['label']); ?></option>
+        <option value="<?= $i['id']; ?>" <?= $task['status_id'] == $i['id'] ? 'selected' : ''; ?>><?= e($i['label']); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -121,7 +121,7 @@ $_SESSION['csrf_token'] = $token;
       <select name="priority_id" class="form-select">
         <option value="">--</option>
         <?php foreach ($priorities as $i): ?>
-        <option value="<?= $i['id']; ?>" <?= $task['priority_id'] == $i['id'] ? 'selected' : ''; ?>><?= htmlspecialchars($i['label']); ?></option>
+        <option value="<?= $i['id']; ?>" <?= $task['priority_id'] == $i['id'] ? 'selected' : ''; ?>><?= e($i['label']); ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -129,24 +129,24 @@ $_SESSION['csrf_token'] = $token;
   <div class="row mb-3">
     <div class="col">
       <label class="form-label">Start Date</label>
-      <input type="date" name="start_date" class="form-control" value="<?= htmlspecialchars($task['start_date']); ?>">
+      <input type="date" name="start_date" class="form-control" value="<?= e($task['start_date']); ?>">
     </div>
     <div class="col">
       <label class="form-label">Due Date</label>
-      <input type="date" name="due_date" class="form-control" value="<?= htmlspecialchars($task['due_date']); ?>">
+      <input type="date" name="due_date" class="form-control" value="<?= e($task['due_date']); ?>">
     </div>
   </div>
   <div class="mb-3">
     <label class="form-label">Assign Users</label>
     <select name="assignments[]" class="form-select" multiple>
       <?php foreach ($users as $u): ?>
-      <option value="<?= $u['id']; ?>" <?= in_array($u['id'], $assignedUserIds) ? 'selected' : ''; ?>><?= htmlspecialchars($u['email']); ?></option>
+      <option value="<?= $u['id']; ?>" <?= in_array($u['id'], $assignedUserIds) ? 'selected' : ''; ?>><?= e($u['email']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
   <div class="mb-3">
     <label class="form-label">Memo</label>
-    <textarea name="memo" class="form-control" rows="2"><?= htmlspecialchars($task['memo']); ?></textarea>
+    <textarea name="memo" class="form-control" rows="2"><?= e($task['memo']); ?></textarea>
   </div>
   <div class="mb-3">
     <button class="btn btn-sm btn-primary" type="submit">Save</button>
@@ -162,7 +162,7 @@ $_SESSION['csrf_token'] = $token;
 <ul class="list-unstyled">
   <?php foreach ($files as $f): ?>
   <li>
-    <a href="../tasks/uploads/<?= htmlspecialchars(basename($f['file_path'])); ?>" target="_blank"><?= htmlspecialchars($f['file_name']); ?></a>
+    <a href="../tasks/uploads/<?= e(basename($f['file_path'])); ?>" target="_blank"><?= e($f['file_name']); ?></a>
     <?php if (user_has_permission('admin_task_file','delete')): ?>
     <form method="post" action="functions/delete_file.php" class="d-inline">
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -186,8 +186,8 @@ $_SESSION['csrf_token'] = $token;
 <ul class="list-unstyled">
   <?php foreach ($comments as $c): ?>
   <li class="mb-2">
-    <strong><?= htmlspecialchars($c['email']); ?>:</strong>
-    <?= nl2br(htmlspecialchars($c['comment'])); ?>
+    <strong><?= e($c['email']); ?>:</strong>
+    <?= nl2br(e($c['comment'])); ?>
     <?php if (user_has_permission('admin_task_comment','delete')): ?>
     <form method="post" action="functions/delete_comment.php" class="d-inline">
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">

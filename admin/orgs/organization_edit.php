@@ -136,14 +136,14 @@ require '../admin_header.php';
       <input type="hidden" name="csrf_token" value="<?= $token; ?>">
       <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name); ?>" required>
+        <input type="text" name="name" class="form-control" value="<?= e($name); ?>" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Main Person</label>
         <select name="main_person" class="form-select">
           <option value="">-- None --</option>
           <?php foreach($personOptions as $pid => $pname): ?>
-            <option value="<?= $pid; ?>" <?= (int)$pid === (int)$main_person ? 'selected' : ''; ?>><?= htmlspecialchars($pname); ?></option>
+            <option value="<?= $pid; ?>" <?= (int)$pid === (int)$main_person ? 'selected' : ''; ?>><?= e($pname); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -151,7 +151,7 @@ require '../admin_header.php';
         <label class="form-label">Status</label>
         <select name="status" class="form-select">
           <?php foreach($statusOptions as $sid => $slabel): ?>
-            <option value="<?= $sid; ?>" <?= (int)$sid === (int)$status ? 'selected' : ''; ?>><?= htmlspecialchars($slabel); ?></option>
+            <option value="<?= $sid; ?>" <?= (int)$sid === (int)$status ? 'selected' : ''; ?>><?= e($slabel); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -159,12 +159,12 @@ require '../admin_header.php';
         <label class="form-label">Upload File</label>
         <?php if ($file_path): ?>
           <div class="mb-2">
-            <a href="/module/agency/download.php?type=organization&id=<?= $id; ?>" target="_blank"><?= htmlspecialchars($file_name); ?></a>
+            <a href="/module/agency/download.php?type=organization&id=<?= $id; ?>" target="_blank"><?= e($file_name); ?></a>
             <button class="btn btn-outline-danger btn-sm ms-2" name="remove_file" value="1" formnovalidate>Remove File</button>
             <?php if (strpos($file_type,'image/') === 0): ?>
-              <img src="/module/agency/uploads/organization/<?= htmlspecialchars($file_path); ?>" class="img-fluid mt-2" alt="Preview">
+              <img src="/module/agency/uploads/organization/<?= e($file_path); ?>" class="img-fluid mt-2" alt="Preview">
             <?php elseif ($file_type === 'application/pdf'): ?>
-              <embed src="/module/agency/uploads/organization/<?= htmlspecialchars($file_path); ?>" type="application/pdf" class="w-100 mt-2" style="height:200px;"></embed>
+              <embed src="/module/agency/uploads/organization/<?= e($file_path); ?>" type="application/pdf" class="w-100 mt-2" style="height:200px;"></embed>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -186,8 +186,8 @@ require '../admin_header.php';
         <tbody>
           <?php foreach($assignedPersons as $ap): ?>
             <tr>
-              <td><?= htmlspecialchars($ap['name']); ?></td>
-              <td><?= htmlspecialchars($ap['role_label'] ?? ''); ?></td>
+              <td><?= e($ap['name']); ?></td>
+              <td><?= e($ap['role_label'] ?? ''); ?></td>
               <td><?= $ap['is_lead'] ? 'Yes' : 'No'; ?></td>
               <td>
                 <form method="post" action="functions/organization_remove_person.php" class="d-inline">
@@ -208,7 +208,7 @@ require '../admin_header.php';
           <select name="person_id" class="form-select" required>
             <option value="">-- Person --</option>
             <?php foreach($personOptions as $pid=>$pname): ?>
-              <option value="<?= $pid; ?>"><?= htmlspecialchars($pname); ?></option>
+              <option value="<?= $pid; ?>"><?= e($pname); ?></option>
             <?php endforeach; ?>
           </select>
         </div>
@@ -216,7 +216,7 @@ require '../admin_header.php';
           <select name="role_id" class="form-select">
             <option value="">-- Role --</option>
             <?php foreach($roleOptions as $rid=>$rlabel): ?>
-              <option value="<?= $rid; ?>"><?= htmlspecialchars($rlabel); ?></option>
+              <option value="<?= $rid; ?>"><?= e($rlabel); ?></option>
             <?php endforeach; ?>
           </select>
         </div>

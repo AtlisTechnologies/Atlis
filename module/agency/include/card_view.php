@@ -8,7 +8,7 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title mb-1">
-              <?php echo htmlspecialchars($agency['name']); ?>
+              <?php echo e($agency['name']); ?>
               <span class="badge bg-primary-subtle text-primary ms-1"><?= (int)$agency['user_count']; ?></span>
               <span class="badge bg-secondary-subtle text-secondary ms-1"><?= (int)$agency['person_count']; ?></span>
             </h5>

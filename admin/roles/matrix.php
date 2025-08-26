@@ -60,7 +60,7 @@ foreach ($currentMap as $rid => $pids) {
 }
 ?>
   <h2 class="mb-4">Role Permission Groups</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <form method="post">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="table-responsive">
@@ -69,14 +69,14 @@ foreach ($currentMap as $rid => $pids) {
         <tr>
           <th>Permission</th>
           <?php foreach($roles as $r): ?>
-            <th><?= htmlspecialchars($r['name']); ?></th>
+            <th><?= e($r['name']); ?></th>
           <?php endforeach; ?>
         </tr>
       </thead>
       <tbody>
         <?php foreach($groups as $p): ?>
           <tr>
-            <td><?= htmlspecialchars($p['name']); ?></td>
+            <td><?= e($p['name']); ?></td>
             <?php foreach($roles as $r): ?>
               <td class="text-center">
                 <input type="checkbox" name="grp[<?= $r['id']; ?>][]" value="<?= $p['id']; ?>" <?= isset($assignedMap[$r['id']][$p['id']]) ? 'checked' : ''; ?>>

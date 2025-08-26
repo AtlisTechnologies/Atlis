@@ -7,16 +7,16 @@ $selProjects = $selectedProjects ?? [];
 <div class="container py-4">
   <h2 class="mb-4"><?= $board_id ? 'Edit Board' : 'Create Board' ?></h2>
   <form method="post" action="index.php?action=save">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($board_id) ?>">
+    <input type="hidden" name="id" value="<?= e($board_id) ?>">
     <div class="mb-3">
       <label class="form-label">Board Name</label>
-      <input class="form-control" name="name" value="<?= htmlspecialchars($name) ?>" required>
+      <input class="form-control" name="name" value="<?= e($name) ?>" required>
     </div>
     <div class="mb-3">
       <label class="form-label">Projects</label>
       <select class="form-select" name="projects[]" multiple>
         <?php foreach ($projects as $p): ?>
-          <option value="<?= $p['id'] ?>" <?= in_array($p['id'], $selProjects) ? 'selected' : '' ?>><?= htmlspecialchars($p['name']) ?></option>
+          <option value="<?= $p['id'] ?>" <?= in_array($p['id'], $selProjects) ? 'selected' : '' ?>><?= e($p['name']) ?></option>
         <?php endforeach; ?>
       </select>
     </div>

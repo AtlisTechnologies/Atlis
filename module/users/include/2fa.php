@@ -19,7 +19,7 @@ if (!$email) {
                 <div class="auth-form-box text-center">
                   <div class="text-center mb-7">
                     <h3 class="text-body-highlight">Enter the verification code</h3>
-                    <p class="text-body-tertiary">We sent a 6-digit code to <?php echo htmlspecialchars($masked); ?></p>
+                    <p class="text-body-tertiary">We sent a 6-digit code to <?php echo e($masked); ?></p>
                     <?
                     $stmt = $pdo->prepare("SELECT code FROM users_2fa WHERE used = 0 ORDER BY date_created DESC LIMIT 1");
                     $stmt->execute();

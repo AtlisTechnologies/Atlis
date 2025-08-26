@@ -68,7 +68,7 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
 
 <div class="row">
   <div class="col-12">
-    <h2 class="mb-4">Attributes for <?= htmlspecialchars($item['label']); ?>
+    <h2 class="mb-4">Attributes for <?= e($item['label']); ?>
       <br />
       <a class="btn btn-secondary" href="index.php">Back</a>
     </h2>
@@ -79,7 +79,7 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
 <?= flash_message($message); ?>
 <form method="post" class="row g-2 mb-3">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <input type="hidden" name="id" value="<?= htmlspecialchars($_POST['id'] ?? ''); ?>">
+  <input type="hidden" name="id" value="<?= e($_POST['id'] ?? ''); ?>">
   <div class="col-md-4">
     <select class="form-select" name="attr_code" required>
       <?php foreach ($attrItems as $attrItem): ?>
@@ -89,7 +89,7 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
       <?php endforeach; ?>
     </select>
   </div>
-    <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= htmlspecialchars($_POST['attr_value'] ?? ''); ?>"></div>
+    <div class="col-md-4"><input class="form-control" name="attr_value" placeholder="Value" value="<?= e($_POST['attr_value'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success" type="submit" id="saveBtn">Save</button></div>
 </form>
   <div id="attrs" data-list='{"valueNames":["attr_code","attr_value"],"page":25,"pagination":true}'>
@@ -104,10 +104,10 @@ $selectedAttrCode = $_POST['attr_code'] ?? '';
       <tbody class="list">
         <?php foreach($attrs as $a): ?>
           <tr>
-            <td class="attr_code"><?= htmlspecialchars($a['attr_code']); ?></td>
-            <td class="attr_value"><?= htmlspecialchars($a['attr_value']); ?></td>
+            <td class="attr_code"><?= e($a['attr_code']); ?></td>
+            <td class="attr_value"><?= e($a['attr_value']); ?></td>
             <td>
-              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= htmlspecialchars($a['attr_code'],ENT_QUOTES); ?>','<?= htmlspecialchars($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
+              <button class="btn btn-sm btn-warning" onclick="fillAttr(<?= $a['id']; ?>,'<?= e($a['attr_code'],ENT_QUOTES); ?>','<?= e($a['attr_value'],ENT_QUOTES); ?>');return false;">Edit</button>
               <form method="post" class="d-inline">
                 <input type="hidden" name="delete_id" value="<?= $a['id']; ?>">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">

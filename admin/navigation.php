@@ -48,7 +48,7 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <h2 class="mb-4">Navigation Links</h2>
 <?php if ($message): ?>
-  <div class="alert alert-success"><?= htmlspecialchars($message); ?></div>
+  <div class="alert alert-success"><?= e($message); ?></div>
 <?php endif; ?>
 <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createNavModal">Create Nav Link</button>
 <form method="post" id="navForm">
@@ -57,8 +57,8 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <ul id="navList" class="list-group">
     <?php foreach ($links as $link): ?>
       <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<?= $link['id']; ?>">
-        <span><?= htmlspecialchars($link['title']); ?></span>
-        <small class="text-muted"><?= htmlspecialchars($link['path']); ?></small>
+        <span><?= e($link['title']); ?></span>
+        <small class="text-muted"><?= e($link['path']); ?></small>
       </li>
     <?php endforeach; ?>
   </ul>

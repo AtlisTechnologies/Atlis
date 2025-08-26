@@ -23,7 +23,7 @@ $stmt = $pdo->query('SELECT id, module, action FROM admin_permissions ORDER BY m
 $perms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Permissions</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <a href="permission_edit.php" class="btn btn-sm btn-success mb-3">Add Permission</a>
 <div id="permissions" data-list='{"valueNames":["id","module","action"],"page":25,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -44,9 +44,9 @@ $perms = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <tbody class="list">
         <?php foreach($perms as $p): ?>
           <tr>
-            <td class="id"><?= htmlspecialchars($p['id']); ?></td>
-            <td class="module"><?= htmlspecialchars($p['module']); ?></td>
-            <td class="action"><?= htmlspecialchars($p['action']); ?></td>
+            <td class="id"><?= e($p['id']); ?></td>
+            <td class="module"><?= e($p['module']); ?></td>
+            <td class="action"><?= e($p['action']); ?></td>
             <td>
               <a class="btn btn-sm btn-warning" href="permission_edit.php?id=<?= $p['id']; ?>">Edit</a>
               <form method="post" class="d-inline">

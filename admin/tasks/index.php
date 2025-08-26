@@ -56,13 +56,13 @@ $tasks = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       <tbody class="list">
         <?php foreach($tasks as $t): ?>
         <tr>
-          <td class="id"><?= htmlspecialchars($t['id']); ?></td>
-          <td class="name"><?= htmlspecialchars($t['name']); ?></td>
-          <td class="type"><?= htmlspecialchars($t['type_label']); ?></td>
-          <td class="category"><?= htmlspecialchars($t['category_label']); ?></td>
-          <td class="subcategory"><?= htmlspecialchars($t['sub_category_label']); ?></td>
-          <td class="status"><?= htmlspecialchars($t['status_label']); ?></td>
-          <td class="priority"><?= htmlspecialchars($t['priority_label']); ?></td>
+          <td class="id"><?= e($t['id']); ?></td>
+          <td class="name"><?= e($t['name']); ?></td>
+          <td class="type"><?= e($t['type_label']); ?></td>
+          <td class="category"><?= e($t['category_label']); ?></td>
+          <td class="subcategory"><?= e($t['sub_category_label']); ?></td>
+          <td class="status"><?= e($t['status_label']); ?></td>
+          <td class="priority"><?= e($t['priority_label']); ?></td>
           <td>
             <a class="btn btn-sm btn-warning" href="task.php?id=<?= $t['id']; ?>">Edit</a>
             <?php if (user_has_permission('admin_task','delete')): ?>

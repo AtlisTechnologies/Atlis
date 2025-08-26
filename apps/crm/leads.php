@@ -24,9 +24,9 @@ require '../../includes/html_header.php';
           <div class="card h-100 shadow-sm">
             <div class="card-body d-flex flex-column justify-content-between">
               <div>
-                <h5 class="name mb-1"><?= htmlspecialchars(trim(($p['first_name'] ?? '') . ' ' . ($p['last_name'] ?? ''))); ?></h5>
+                <h5 class="name mb-1"><?= e(trim(($p['first_name'] ?? '') . ' ' . ($p['last_name'] ?? ''))); ?></h5>
                 <?php if($p['email']): ?>
-                  <p class="email text-muted small mb-2"><?= htmlspecialchars($p['email']); ?></p>
+                  <p class="email text-muted small mb-2"><?= e($p['email']); ?></p>
                 <?php endif; ?>
               </div>
               <div>
