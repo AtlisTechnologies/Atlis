@@ -32,8 +32,6 @@ $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="mb-3 d-flex gap-2">
   <?php if (user_has_permission('admin_task','create')): ?>
   <button class="btn btn-sm btn-success" id="addTaskBtn">Add Task</button>
-  <?php endif; ?>
-  <?php if (user_has_permission('admin_task','create')): ?>
   <form class="d-flex gap-2" method="post" action="functions/quick_add.php">
     <input type="hidden" name="csrf_token" value="<?= $token; ?>">
     <input class="form-control form-control-sm" type="text" name="name" placeholder="Quick Add" required>
@@ -72,7 +70,9 @@ $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
           <td class="status"><?= e($t['status_label']); ?></td>
           <td class="priority"><?= e($t['priority_label']); ?></td>
           <td>
+            <?php if (user_has_permission('admin_task', 'update')): ?>
             <a class="btn btn-sm btn-warning" href="task.php?id=<?= $t['id']; ?>">Edit</a>
+            <?php endif; ?>
             <?php if (user_has_permission('admin_task','delete')): ?>
             <form method="post" action="functions/delete.php" class="d-inline" onsubmit="return confirm('Delete this task?');">
               <input type="hidden" name="id" value="<?= $t['id']; ?>">

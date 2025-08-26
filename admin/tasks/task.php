@@ -136,8 +136,10 @@ $_SESSION['csrf_token'] = $token;
   </div>
   <div class="mb-3">
     <button class="btn btn-sm btn-primary" type="submit">Save</button>
-    <?php if ($editing && user_has_permission('admin_task','delete')): ?>
-    <a href="functions/delete.php?id=<?= $id; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this task?');">Delete</a>
-    <?php endif; ?>
+      <?php if ($editing): ?>
+      <?php if (user_has_permission('admin_task','delete')): ?>
+      <a href="functions/delete.php?id=<?= $id; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this task?');">Delete</a>
+      <?php endif; ?>
+      <?php endif; ?>
   </div>
 </form>
