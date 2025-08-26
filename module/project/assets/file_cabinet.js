@@ -79,8 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function fetchList() {
     const url = `${listUrl}?project_id=${encodeURIComponent(projectId)}&path=${encodeURIComponent(path.join('/'))}`;
     fetch(url)
-      .then(r => r.json())
-      .then(d => render(d.files || []));
+      .then(async r => {
+        if (!r.ok) {
+          const msg = await r.text();
+          throw new Error(msg || r.statusText);
+        }
+        return r.json();
+      })
+      .then(d => render(d.files || []))
+      .catch(err => {
+        console.error('File cabinet error:', err);
+        alert(`File cabinet error: ${err.message}`);
+      });
   }
 
   searchInput.addEventListener('input', () => {
@@ -120,7 +130,19 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ project_id: projectId, id: fileId, parent: target.dataset.id })
-      }).then(() => fetchList());
+      })
+        .then(async r => {
+          if (!r.ok) {
+            const msg = await r.text();
+            throw new Error(msg || r.statusText);
+          }
+          return r.json();
+        })
+        .then(() => fetchList())
+        .catch(err => {
+          console.error('File cabinet error:', err);
+          alert(`File cabinet error: ${err.message}`);
+        });
     }
   });
 
@@ -149,7 +171,19 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ project_id: projectId, create: true, path: path.join('/'), name })
-      }).then(() => fetchList());
+      })
+        .then(async r => {
+          if (!r.ok) {
+            const msg = await r.text();
+            throw new Error(msg || r.statusText);
+          }
+          return r.json();
+        })
+        .then(() => fetchList())
+        .catch(err => {
+          console.error('File cabinet error:', err);
+          alert(`File cabinet error: ${err.message}`);
+        });
     });
   });
 
