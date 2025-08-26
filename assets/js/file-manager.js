@@ -2378,30 +2378,35 @@
   ];
 
   const fileManagerInit = () => {
-    const fileDetailsContainer = document.querySelector(
-      '[data-details-container]'
-    );
+    const fileDetailsContainer = document.querySelector('[data-details-container]');
     if (!fileDetailsContainer) return;
+
     const fileContainer = document.querySelector('[data-files-container]');
-    if (!fileContainer) return;
     const fileDetails = fileDetailsContainer.querySelector('[data-file-details]');
     const filesSelected = document.querySelector('[data-files-selected]');
-    const fileManager = document.querySelector(
-      '[data-collapse-filemanager-sidebar]'
-    );
+    const fileManager = document.querySelector('[data-collapse-filemanager-sidebar]');
     const sidebarToggleBtn = document.querySelector('[data-toggle-sidebar]');
-    const fileDetailsToggleBtns = document.querySelectorAll(
-      '[data-toggle-file-details]'
-    );
+    const fileDetailsToggleBtns = document.querySelectorAll('[data-toggle-file-details]');
     const thumbnails = document.querySelectorAll('[data-file-thumbnail]');
     const removeBulkCheck = document.querySelector('[data-remove-bulk-check]');
-    const bulkSelectReplaceEl = document.querySelector(
-      '#file-manager-replace-element'
-    );
+    const bulkSelectReplaceEl = document.querySelector('#file-manager-replace-element');
     const bulkSelectActions = document.querySelector('#file-manager-actions');
     const bulkSelectEl = document.querySelector('[data-bulk-select]');
-    const bulkSelectInstance =
-      window.phoenix.BulkSelect.getInstance(bulkSelectEl);
+
+    if (
+      !fileContainer ||
+      !fileDetails ||
+      !filesSelected ||
+      !fileManager ||
+      !sidebarToggleBtn ||
+      !removeBulkCheck ||
+      !bulkSelectReplaceEl ||
+      !bulkSelectActions ||
+      !bulkSelectEl
+    )
+      return;
+
+    const bulkSelectInstance = window.phoenix.BulkSelect.getInstance(bulkSelectEl);
     let count = 0;
     let selectedFiles = [];
     let clickTimer = null;

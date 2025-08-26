@@ -19,6 +19,7 @@
     <script src="<?php echo getURLDir(); ?>assets/js/config.js"></script>
     <script src="<?php echo getURLDir(); ?>assets/js/phoenix.js"></script>
     <?php if (!empty($loadFileManagerJs)): ?>
+      <!-- File manager -->
       <script src="<?php echo getURLDir(); ?>assets/js/file-manager.js"></script>
     <?php endif; ?>
 
