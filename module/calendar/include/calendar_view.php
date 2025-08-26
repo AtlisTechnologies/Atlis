@@ -146,6 +146,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const calendarEl = document.getElementById('calendar');
 
+  const VISIBILITY_PUBLIC = 198;
+  const VISIBILITY_PRIVATE = 199;
+
+  function isEventPrivate(props) {
+    if ('visibility_id' in props) {
+      return String(props.visibility_id) === String(VISIBILITY_PRIVATE);
+    }
+    return String(props.is_private) === '1';
+  }
+
   function getCalendarId() {
     const sel = document.getElementById('calendarSelect');
     return sel ? sel.value : defaultCalendarId;
@@ -176,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
       form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId;
-      form.is_private.checked = info.event.extendedProps.is_private == 1;
+      form.is_private.checked = isEventPrivate(info.event.extendedProps);
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
@@ -222,6 +232,8 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
     this.calendar_id.value = getCalendarId();
     const fd = new FormData(this);
+    fd.append('visibility_id', this.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
+    fd.delete('is_private');
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/create.php', {
       method: 'POST',
       body: fd
@@ -249,6 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
     this.calendar_id.value = getCalendarId();
     const fd = new FormData(this);
+    fd.append('visibility_id', this.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
+    fd.delete('is_private');
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/update.php', {
       method: 'POST',
       body: fd
