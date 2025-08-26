@@ -4,7 +4,14 @@ require_permission('meeting', 'read');
 
 header('Content-Type: application/json');
 
-$meeting_id = (int)($_GET['meeting_id'] ?? 0);
+$method = $_SERVER['REQUEST_METHOD'];
+$data = $method === 'POST' ? $_POST : $_GET;
+$meeting_id = (int)($data['meeting_id'] ?? 0);
+
+if (!verify_csrf_token($data['csrf_token'] ?? '')) {
+    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+    exit;
+}
 
 if ($meeting_id) {
     $stmt = $pdo->prepare('SELECT id, meeting_id, agenda_id, question_text, answer_text, status_id FROM module_meeting_questions WHERE meeting_id = ? ORDER BY id');
