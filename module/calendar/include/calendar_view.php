@@ -1,5 +1,4 @@
 <?php
-$calendar_id = $_GET['calendar_id'] ?? 0;
 $calendars = [];
 $sql = 'SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY name';
 $stmt = $pdo->prepare($sql);
@@ -19,10 +18,10 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
     <?php if (!empty($calendars)) { ?>
-      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2">
+      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2" multiple>
         <?php foreach ($calendars as $cal) { ?>
           <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo e($cal_label); ?></option>
+          <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
         <?php } ?>
       </select>
     <?php } ?>
@@ -149,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const calendarEl = document.getElementById('calendar');
+  const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
 
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
@@ -160,16 +160,24 @@ document.addEventListener('DOMContentLoaded', function() {
     return String(props.is_private) === '1';
   }
 
-  function getCalendarId() {
+  function getCalendarIds() {
     const sel = document.getElementById('calendarSelect');
-    return sel ? sel.value : defaultCalendarId;
+    if (!sel) return [];
+    return Array.from(sel.selectedOptions).map(opt => opt.value);
+  }
+
+  function getCalendarId() {
+    const ids = getCalendarIds();
+    return ids.length ? ids[0] : defaultCalendarId;
   }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
 
     events: function(fetchInfo, successCallback, failureCallback) {
-      fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>')
+      const ids = getCalendarIds();
+      const url = ids.length ? `${listUrl}?calendar_ids=${ids.join(',')}` : listUrl;
+      fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
@@ -226,9 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const calSelect = document.getElementById('calendarSelect');
   if (calSelect) {
     calSelect.addEventListener('change', function() {
-      const url = new URL(window.location.href);
-      url.searchParams.set('calendar_id', this.value);
-      window.location.href = url.toString();
+      calendar.refetchEvents();
     });
   }
 
