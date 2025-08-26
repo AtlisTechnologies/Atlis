@@ -31,8 +31,6 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
 
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
     <?php if ($owns_calendar) { ?>
       <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
         <span class="fas fa-plus pe-2 fs-10"></span>Add Event
