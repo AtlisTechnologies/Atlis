@@ -277,14 +277,13 @@ document.addEventListener('DOMContentLoaded', function(){
   function fetchJson(url, opts){
     return fetch(url, opts).then(function(r){
       if(!r.ok){
-        return r.text().then(function(t){ showToast(t || 'Request failed'); throw new Error(t || 'Request failed'); });
+        return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
       }
       return r.text().then(function(text){
         try{
           return JSON.parse(text);
         } catch(e){
-          showToast('Invalid JSON: ' + e.message);
-          throw e;
+          throw new Error('Invalid JSON: ' + e.message);
         }
       });
     });
@@ -299,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('order_index', index + 1);
       params.append('csrf_token', csrfToken);
       fetch('functions/update_agenda_item.php', {method:'POST', body: params})
-        .catch(function(){ showToast('Failed to update agenda order'); });
+        .catch(function(err){ console.error(err); showToast('Failed to update agenda order'); });
     });
   }
 
@@ -356,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function(){
           renderAgenda([]);
         }
       })
-      .catch(function(){ showToast('Failed to load agenda'); });
+      .catch(function(err){ console.error(err); showToast('Failed to load agenda'); });
   }
 
   agendaList.addEventListener('click', function(e){
@@ -367,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('csrf_token', csrfToken);
       fetchJson('functions/delete_agenda_item.php', {method:'POST', body: params})
         .then(function(res){ if(res.success) renderAgenda(res.items); })
-        .catch(function(){ showToast('Failed to delete agenda item'); });
+        .catch(function(err){ console.error(err); showToast('Failed to delete agenda item'); });
     } else if(e.target.closest('.edit-agenda-item')){
       document.getElementById('agendaId').value = li.dataset.id;
       document.getElementById('agendaTitle').value = li.querySelector('.agenda-title').textContent;
@@ -410,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function(){
             bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
           }
         })
-        .catch(function(){ showToast('Failed to save agenda item'); });
+        .catch(function(err){ console.error(err); showToast('Failed to save agenda item'); });
     });
   }
 
@@ -424,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function(){
           renderQuestions();
         }
       })
-      .catch(function(){ showToast('Failed to load questions'); });
+      .catch(function(err){ console.error(err); showToast('Failed to load questions'); });
   }
 
   function renderQuestions(){
@@ -502,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 showToast('Failed to delete question');
               }
             })
-            .catch(function(){ showToast('Failed to delete question'); });
+            .catch(function(err){ console.error(err); showToast('Failed to delete question'); });
         }
       }
     });
@@ -577,7 +576,8 @@ document.addEventListener('DOMContentLoaded', function(){
               attendeeResults.appendChild(btn);
             });
           })
-          .catch(function(){
+          .catch(function(err){
+            console.error(err);
             attendeeResults.innerHTML = '<div class="list-group-item">Error searching users</div>';
             showToast('Error searching users');
           });
@@ -614,7 +614,8 @@ document.addEventListener('DOMContentLoaded', function(){
             showToast(res.message || 'Failed to add attendee');
           }
         })
-        .catch(function(){
+        .catch(function(err){
+          console.error(err);
           showToast('Failed to add attendee');
         });
     });
@@ -632,7 +633,8 @@ document.addEventListener('DOMContentLoaded', function(){
               renderAttendees(res.attendees || []);
             }
           })
-          .catch(function(){
+          .catch(function(err){
+            console.error(err);
             showToast('Failed to remove attendee');
           });
       }
@@ -647,7 +649,7 @@ document.addEventListener('DOMContentLoaded', function(){
         renderAttendees([]);
       }
     })
-    .catch(function(){ showToast('Failed to load attendees'); });
+    .catch(function(err){ console.error(err); showToast('Failed to load attendees'); });
 
   fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(function(data){
@@ -657,7 +659,7 @@ document.addEventListener('DOMContentLoaded', function(){
         renderAttachments([]);
       }
     })
-    .catch(function(){ showToast('Failed to load attachments'); });
+    .catch(function(err){ console.error(err); showToast('Failed to load attachments'); });
 
   var uploadForm = document.getElementById('uploadForm');
   if(uploadForm){
@@ -673,7 +675,7 @@ document.addEventListener('DOMContentLoaded', function(){
             showToast(res.message || 'Upload failed');
           }
         })
-        .catch(function(){ showToast('Upload failed'); });
+        .catch(function(err){ console.error(err); showToast('Upload failed'); });
     });
   }
 
@@ -697,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function(){
             showToast(res.message || 'Failed to delete file');
           }
         })
-        .catch(function(){ showToast('Failed to delete file'); });
+        .catch(function(err){ console.error(err); showToast('Failed to delete file'); });
       }
     });
   }
@@ -716,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function(){
           showToast(res.message || 'Failed to create task');
         }
       })
-      .catch(function(){ showToast('Failed to create task'); });
+      .catch(function(err){ console.error(err); showToast('Failed to create task'); });
   });
 
   document.getElementById('projectForm').addEventListener('submit', function(e){
@@ -733,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function(){
           showToast(res.message || 'Failed to create project');
         }
       })
-      .catch(function(){ showToast('Failed to create project'); });
+      .catch(function(err){ console.error(err); showToast('Failed to create project'); });
   });
 
   function esc(str){
