@@ -6,7 +6,7 @@ $token = generate_csrf_token();
 <h2 class="mb-4">Lookup Lists</h2>
 <div id="mainAlert"></div>
 <button id="addListBtn" class="btn btn-sm btn-success mb-3">Add Lookup List</button>
-<div id="lookup-lists" data-list='{"valueNames":["id","name","description","item-count", "date_updated"],"page":25,"pagination":true}'>
+<div id="lookup-lists" data-list-manual>
   <div class="row justify-content-between g-2 mb-3">
     <div class="col-auto">
       <input class="form-control form-control-sm search" placeholder="Search" />
@@ -78,6 +78,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const listsTableBody = document.getElementById('listsTableBody');
   const listModalLabel = document.getElementById('listModalLabel');
   const listLoading = document.getElementById('listLoading');
+  const listOptions = {
+    valueNames: ['id', 'name', 'description', 'item-count', 'date_updated'],
+    page: 25,
+    pagination: true
+  };
   let listJs;
 
   function showAlert(container, message, type = 'danger') {
@@ -118,8 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
     if (!listJs && lists.length) {
-      const options = JSON.parse(document.getElementById('lookup-lists').dataset.list);
-      listJs = new window.List('lookup-lists', options);
+      listJs = new window.List('lookup-lists', listOptions);
     } else if (listJs) {
       listJs.reIndex();
     }
