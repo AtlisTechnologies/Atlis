@@ -45,10 +45,15 @@ if ($editing) {
   $assignedUserIds = $assStmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
-$token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
+$token = generate_csrf_token();
+
+$message = $_SESSION['message'] ?? '';
+$error_message = $_SESSION['error_message'] ?? '';
+unset($_SESSION['message'], $_SESSION['error_message']);
 ?>
 <h2 class="mb-4"><?= $editing ? 'Edit Task' : 'Add Task'; ?></h2>
+<?= flash_message($message, 'success'); ?>
+<?= flash_message($error_message, 'danger'); ?>
 <form method="post" action="functions/<?= $editing ? 'update' : 'create'; ?>.php">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <?php if ($editing): ?>
