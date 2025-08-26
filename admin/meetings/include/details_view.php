@@ -252,6 +252,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var csrfToken = '<?= $token; ?>';
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
+  var agendaStatusMap = <?php echo json_encode($agendaStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
   var attendeesData = [];
@@ -331,17 +332,20 @@ document.addEventListener('DOMContentLoaded', function(){
         li.dataset.projectId = item.linked_project_id || '';
         var left = '<span><span class="drag-handle me-2 fas fa-grip-vertical"></span><span class="agenda-title">'+esc(item.title)+'</span>';
         var meta = [];
-        if(item.status_id){ meta.push('Status '+esc(item.status_id)); }
-        if(item.linked_task_id){ meta.push('<a href="'+baseUrl+'module/task/index.php?id='+item.linked_task_id+'">Task '+esc(item.linked_task_id)+'</a>'); }
-        if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(item.linked_project_id)+'</a>'); }
+        if(item.status_id){
+          var statusLabel = agendaStatusMap[item.status_id]?.label;
+          if(statusLabel) meta.push('Status '+esc(statusLabel));
+        }
+        if(item.linked_task_id){ meta.push('<a href="'+baseUrl+'module/task/index.php?id='+item.linked_task_id+'">Task '+esc(String(item.linked_task_id))+'</a>'); }
+        if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(String(item.linked_project_id))+'</a>'); }
         if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' | ')+'</small>'; }
         left += '</span>';
         var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-agenda-item">Edit</button><button class="btn btn-outline-danger delete-agenda-item">Delete</button></div>' : '';
         li.innerHTML = left + buttons
           + '<input type="hidden" name="agenda_title[]" value="'+esc(item.title)+'">'
-          + '<input type="hidden" name="agenda_status_id[]" value="'+esc(item.status_id || '')+'">'
-          + '<input type="hidden" name="agenda_linked_task_id[]" value="'+esc(item.linked_task_id || '')+'">'
-          + '<input type="hidden" name="agenda_linked_project_id[]" value="'+esc(item.linked_project_id || '')+'">';
+          + '<input type="hidden" name="agenda_status_id[]" value="'+esc(String(item.status_id || ''))+'">'
+          + '<input type="hidden" name="agenda_linked_task_id[]" value="'+esc(String(item.linked_task_id || ''))+'">'
+          + '<input type="hidden" name="agenda_linked_project_id[]" value="'+esc(String(item.linked_project_id || ''))+'">';
         agendaList.appendChild(li);
       });
     } else {
@@ -351,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function fetchAgenda(){
-    fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+    return fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(function(data){
         if(data.success){
           renderAgenda(data.items);
@@ -417,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetchAgenda();
+  fetchAgenda().then(fetchAttendees);
 
   function loadQuestions(){
     fetchJson('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
@@ -536,6 +540,21 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
+  function fetchAttendees(){
+    return fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+      .then(function(data){
+        if(data.success){
+          renderAttendees(data.attendees);
+        } else {
+          renderAttendees([]);
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+        showToast('Failed to load attendees');
+      });
+  }
+
   function renderAttachments(files){
     attachmentsList.innerHTML = '';
     if(files && files.length){
@@ -645,19 +664,6 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-    .then(function(data){
-      if(data.success){
-        renderAttendees(data.attendees);
-      } else {
-        renderAttendees([]);
-      }
-    })
-    .catch(function(err){
-      console.error(err);
-      showToast('Failed to load attendees');
-    });
-
   fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(function(data){
       if(data.success){
@@ -746,7 +752,13 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   function esc(str){
-    return str ? str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;') : '';
-  }
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
+    }
 });
 </script>

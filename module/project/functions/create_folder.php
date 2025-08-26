@@ -25,6 +25,7 @@ try{
     }
   }
 
+
   $parentPath = '';
   if($parent_id){
     $stmt = $pdo->prepare('SELECT path FROM module_projects_folders WHERE id=:id AND project_id=:pid');
@@ -35,7 +36,7 @@ try{
       echo json_encode(['error'=>'Parent folder not found']);
       exit;
     }
-  }
+
 
   $maxDepth = (int)get_system_property($pdo,'PROJECT_FILE_MAX_FOLDER_DEPTH');
   if($maxDepth){
