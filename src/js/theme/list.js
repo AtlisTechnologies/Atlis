@@ -15,6 +15,7 @@ const listInit = () => {
 
     if (lists.length) {
       lists.forEach(el => {
+        if (el.closest('[data-list-manual]')) return;
         const bulkSelect = el.querySelector('[data-bulk-select]');
 
         let options = getData(el, 'list');
