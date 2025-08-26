@@ -4,9 +4,6 @@ require_permission('admin_task','read');
 
 $token = generate_csrf_token();
 
-$message = $_SESSION['message'] ?? '';
-$error_message = $_SESSION['error_message'] ?? '';
-unset($_SESSION['message'], $_SESSION['error_message']);
 
 $sql = "SELECT t.id, t.name, 
                type.label AS type_label,
@@ -32,8 +29,9 @@ $userStmt = $pdo->query('SELECT id, email FROM users ORDER BY email');
 $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Tasks</h2>
-<?= flash_message($message, 'success'); ?>
-<?= flash_message($error_message, 'danger'); ?>
+<?= flash_message($_SESSION['message'] ?? '', 'success'); ?>
+<?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
+<?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
 <div class="mb-3 d-flex gap-2">
   <?php if (user_has_permission('admin_task','create')): ?>
   <button class="btn btn-sm btn-success" id="addTaskBtn">Add Task</button>
