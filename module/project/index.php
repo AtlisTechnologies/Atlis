@@ -106,28 +106,20 @@ $priorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
       $agencies  = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
       $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
     }
-    $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
-    $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
-    $modalWidths = [
-      'PDF' => 1000,
-      'URL' => 1000
-    ];
+      $fileTypes   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
+      $fileStatuses = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
+      $modalWidths = [
+        'PDF' => 1000,
+        'URL' => 1000
+      ];
 
     if ($action === 'details' && $current_project) {
-      $fileTypeItems   = get_lookup_items($pdo, 'PROJECT_FILE_TYPE');
-      $fileStatusItems = get_lookup_items($pdo, 'PROJECT_FILE_STATUS');
-      $modalWidths     = [];
-      $mwStmt = $pdo->prepare('SELECT li.code, COALESCE(attr.attr_value, "") AS width FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "WIDTH" WHERE l.name = "PROJECT_FILE_MODAL_PREVIEW_WIDTH"');
-      $mwStmt->execute();
-      foreach ($mwStmt as $mw) {
-        $modalWidths[$mw['code']] = $mw['width'];
-      }
-
-      $filesStmt = $pdo->prepare('SELECT f.id, f.user_id, f.question_id, f.file_name, f.file_path, f.file_size, f.file_type, f.date_created, f.description, f.file_type_id, f.status_id, f.sort_order, CONCAT(p.first_name, " ", p.last_name) AS user_name, ft.code AS type_code, ft.label AS type_label, COALESCE(ft_color.attr_value, "secondary") AS type_color_class, COALESCE(ft_def.attr_value = "true", 0) AS type_is_default, fs.code AS status_code, fs.label AS status_label, COALESCE(fs_color.attr_value, "secondary") AS status_color_class, COALESCE(fs_def.attr_value = "true", 0) AS status_is_default FROM module_projects_files f LEFT JOIN users u ON f.user_id = u.id LEFT JOIN person p ON u.id = p.user_id LEFT JOIN lookup_list_items ft ON f.file_type_id = ft.id LEFT JOIN lookup_list_item_attributes ft_color ON ft.id = ft_color.item_id AND ft_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes ft_def ON ft.id = ft_def.item_id AND ft_def.attr_code = "DEFAULT" LEFT JOIN lookup_list_items fs ON f.status_id = fs.id LEFT JOIN lookup_list_item_attributes fs_color ON fs.id = fs_color.item_id AND fs_color.attr_code = "COLOR-CLASS" LEFT JOIN lookup_list_item_attributes fs_def ON fs.id = fs_def.item_id AND fs_def.attr_code = "DEFAULT" WHERE f.project_id = :id AND f.note_id IS NULL AND f.question_id IS NULL ORDER BY f.sort_order, f.date_created DESC');
-
-
-      $filesStmt->execute([':id' => $project_id]);
-      $files = $filesStmt->fetchAll(PDO::FETCH_ASSOC);
+        $modalWidths     = [];
+        $mwStmt = $pdo->prepare('SELECT li.code, COALESCE(attr.attr_value, "") AS width FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = "WIDTH" WHERE l.name = "PROJECT_FILE_MODAL_PREVIEW_WIDTH"');
+        $mwStmt->execute();
+        foreach ($mwStmt as $mw) {
+          $modalWidths[$mw['code']] = $mw['width'];
+        }
 
         $notesStmt = $pdo->prepare('SELECT n.id, n.user_id, n.note_text, n.date_created, upp.file_path AS user_pic, CONCAT(p.first_name, " ", p.last_name) AS user_name FROM module_projects_notes n LEFT JOIN users u ON n.user_id = u.id LEFT JOIN users_profile_pics upp ON u.current_profile_pic_id = upp.id LEFT JOIN person p ON u.id = p.user_id WHERE n.project_id = :id ORDER BY n.date_created DESC');
       $notesStmt->execute([':id' => $project_id]);
@@ -253,9 +245,7 @@ $tasks = $tasks ?? [];
 $assignedUsers = $assignedUsers ?? [];
 $taskStatusItems = $taskStatusItems ?? [];
 $taskPriorityItems = $taskPriorityItems ?? [];
-$fileTypeItems = $fileTypeItems ?? [];
-$fileStatusItems = $fileStatusItems ?? [];
-$modalWidths = $modalWidths ?? [];
+  $modalWidths = $modalWidths ?? [];
 
 $questions = $questions ?? [];
 $questionAnswers = $questionAnswers ?? [];

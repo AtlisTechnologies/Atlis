@@ -55,12 +55,13 @@ if (!empty($current_project)) {
     $isOwner = ($current_project['user_id'] ?? 0) == $this_user_id;
     $isPrivate = !empty($current_project['is_private']);
     $canView = !$isPrivate || $is_admin || $isOwner;
+    $maxFolderDepth = (int)(get_system_property($pdo,'PROJECT_FILE_MAX_DEPTH') ?? 0);
 }
 ?>
 <?php if (!empty($current_project)): ?>
 <?php if ($canView): ?>
 <div class="row">
-  <div class="col-3 bg-body">
+  <div class="col-lg-3 col-xl-2 bg-body">
     <div class="">
       <div class="mb-5">
         <div class="d-flex justify-content-between">
@@ -216,119 +217,48 @@ if (!empty($current_project)) {
                 <hr>
 
                 <div class="px-4 px-lg-6">
-                  <h3 class="text-body-highlight fw-bold">Files</h3>
+                  <h3 class="text-body-highlight fw-bold mb-3">File Cabinet</h3>
                 </div>
-                <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($current_project['user_id'] ?? 0) == $this_user_id)): ?>
-                <div class="px-4 px-lg-6 py-4">
-                  <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="dropzone dropzone-multiple p-0" id="project-file-dropzone" data-dropzone="data-dropzone" data-options='{"url":"functions/upload_file.php","autoProcessQueue":true}'>
-                    <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                    <input type="hidden" name="note_id" value="">
-                    <div class="fallback">
-                      <input type="file" name="file" multiple />
+                <div class="px-4 px-lg-6" id="file-cabinet"
+                     data-project-id="<?= (int)$current_project['id'] ?>"
+                     data-list-endpoint="functions/file_cabinet_list.php"
+                     data-upload-endpoint="functions/upload_file.php"
+                     data-move-endpoint="functions/file_cabinet_move.php"
+                     data-max-depth="<?= (int)$maxFolderDepth ?>">
+                  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <nav aria-label="breadcrumb" class="me-2 mb-2 mb-sm-0">
+                      <ol class="breadcrumb mb-0" id="fc-breadcrumbs">
+                        <li class="breadcrumb-item active">Root</li>
+                      </ol>
+                    </nav>
+                    <div class="d-flex align-items-center">
+                      <input class="form-control form-control-sm me-2" id="fc-search" type="text" placeholder="Search files">
+                      <?php if (user_has_permission('project','create|update|delete')): ?>
+                        <button class="btn btn-sm btn-primary" data-create-folder>New Folder</button>
+                      <?php endif; ?>
                     </div>
-                    <div class="dz-message" data-dz-message="data-dz-message">
-                      <div class="dz-message-text"><img class="me-2" src="<?php echo getURLDir(); ?>assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop files here or click to upload</div>
-                    </div>
-                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
-                      <div class="d-flex mb-3 pb-3 border-bottom border-translucent media">
-                        <div class="border p-2 rounded-2 me-2">
-                          <img class="rounded-2 dz-image" src="<?php echo getURLDir(); ?>assets/img/icons/file.png" alt="" data-dz-thumbnail="data-dz-thumbnail" />
-                        </div>
-                        <div class="flex-1 d-flex flex-between-center">
-                          <div>
-                            <h6 data-dz-name></h6>
-                            <div class="d-flex align-items-center">
-                              <p class="mb-0 fs-9 text-body-quaternary lh-1" data-dz-size></p>
-                              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-                            </div>
-                            <span class="fs-10 text-danger" data-dz-errormessage></span>
-                          </div>
-                          <div class="dropdown">
-                            <button class="btn btn-link text-body-tertiary btn-sm dropdown-toggle btn-reveal dropdown-caret-none" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span class="fas fa-ellipsis-h"></span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end border border-translucent py-2">
-                              <a class="dropdown-item" href="#!" data-dz-remove>Remove File</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <?php endif; ?>
-
-                <?php if (!empty($files)):
-                  $fileTypeMap = array_column($fileTypes ?? [], null, 'code');
-                  $fileStatusMap = array_column($fileStatuses ?? [], null, 'code');
-                  usort($files, function($a, $b){ return ($a['sort_order'] ?? 0) <=> ($b['sort_order'] ?? 0); });
-                  $imageFiles = [];
-                  $otherFiles = [];
-                  foreach ($files as $f) {
-                    if (strpos($f['file_type'], 'image/') === 0) {
-                      $imageFiles[] = $f;
-                    } else {
-                      $otherFiles[] = $f;
-                    }
-                  }
-                ?>
-                  <?php if (!empty($imageFiles)): ?>
-                    <div class="border-top px-4 px-lg-6 py-4">
-                      <div class="row g-3">
-
-                        <?php foreach ($imageFiles as $f): ?>
-                          <div class="col-6 col-md-4 col-lg-3 position-relative">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>">
-                              <img class="img-fluid rounded" src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" alt="<?= h($f['file_name']) ?>">
-                            </a>
-                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
-                              <form action="functions/delete_file.php" method="post" class="position-absolute top-0 end-0 m-2" onsubmit="return confirm('Delete this file?');">
-                                <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                                <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                                <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                              </form>
-                            <?php endif; ?>
-                          </div>
-                        <?php endforeach; ?>
-
-                      </div>
-                    </div>
-                  <?php endif; ?>
-
-                  <?php if (!empty($otherFiles)): ?>
-                    <?php foreach ($otherFiles as $f): ?>
-                      <div class="border-top px-4 px-lg-6 py-4">
-                        <div class="me-n3">
-                          <div class="d-flex flex-between-center">
-                            <div class="d-flex mb-1"><span class="fa-solid fa-file me-2 text-body-tertiary fs-9"></span>
-                              <p class="text-body-highlight mb-0 lh-1">
-                                <a class="text-body-highlight" href="#" data-bs-toggle="modal" data-bs-target="#fileModal" data-file-src="<?php echo getURLDir(); ?><?= h($f['file_path']) ?>" data-file-type="<?= h($f['file_type']) ?>" data-file-code="<?= h($f['type_code'] ?? '') ?>"><?= h($f['file_name']) ?></a>
-                              </p>
-                            </div>
-                            <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
-                            <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
-                              <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
-                              <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
-                              <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
-                            </form>
-                            <?php endif; ?>
-                          </div>
-                          <div class="d-flex fs-9 text-body-tertiary mb-0 flex-wrap"><span><?= h($f['file_size']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['file_type']) ?></span><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap"><?= h($f['date_created']) ?></span><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">by <?= h($f['user_name'] ?? '') ?></span></div>
-                        </div>
-                      </div>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
-
-                  <?php if (empty($imageFiles) && empty($otherFiles)): ?>
-                    <div class="border-top px-4 px-lg-6 py-4">
-                      <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
-                    </div>
-                  <?php endif; ?>
-                <?php else: ?>
-                  <div class="border-top px-4 px-lg-6 py-4">
-                    <p class="fs-9 text-body-secondary mb-0">No files uploaded.</p>
                   </div>
-                <?php endif; ?>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-hover fs-9 mb-0" id="fc-table">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="sortable" data-sort="name">Name</th>
+                          <th scope="col" class="sortable text-nowrap" data-sort="type">Type</th>
+                          <th scope="col" class="sortable text-nowrap" data-sort="size">Size</th>
+                          <th scope="col" class="sortable text-nowrap" data-sort="modified">Modified</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                  <?php if (user_has_permission('project','create|update|delete')): ?>
+                    <div class="mt-3">
+                      <form action="functions/upload_file.php" class="dropzone dz-clickable" id="file-cabinet-dropzone"></form>
+                    </div>
+                  <?php endif; ?>
+                </div>
+                <script src="<?php echo getURLDir(); ?>assets/js/file-manager.js"></script>
+                <script src="<?php echo getURLDir(); ?>module/project/assets/file_cabinet.js"></script>
 
               </div>
             </div>
@@ -338,7 +268,7 @@ if (!empty($current_project)) {
     </div>
   </div>
 
-  <div class="col-9 bg-body">
+  <div class="col-lg-9 col-xl-10 bg-body">
     <h3 class="text-body-emphasis mb-4">Project overview</h3>
     <p class="text-body-secondary mb-4"><?= nl2br(h($current_project['description'] ?? '')) ?></p>
     <?php if (!empty($current_project['requirements']) || !empty($current_project['specifications'])): ?>
@@ -884,20 +814,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var thisUserId = <?= (int)$this_user_id ?>;
   var canAssignTask = <?= user_has_permission('task','update') ? 'true' : 'false' ?>;
   var viewerProjectAssigned = <?= $viewerAssigned ? 'true' : 'false' ?>;
-  window.addEventListener('load', function () {
-    if (window.Dropzone) {
-      var dz = Dropzone.forElement('#project-file-dropzone');
-      if (dz) {
-        dz.on('sending', function (file, xhr, formData) {
-          formData.append('project_id', projectId);
-          formData.append('note_id', '');
-        });
-        dz.on('queuecomplete', function () {
-          window.location.reload();
-        });
-      }
-    }
-  });
   var chartEl = document.querySelector('.echart-completed-task-chart');
   if (chartEl && window.echarts) {
     var chart = window.echarts.init(chartEl);
@@ -948,8 +864,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var statusOptions = <?= json_encode($taskStatusItems ?? []) ?>;
 
   var priorityOptions = <?= json_encode($taskPriorityItems ?? []) ?>;
-  var fileTypeItems = <?= json_encode($fileTypeItems ?? []) ?>;
-  var fileStatusItems = <?= json_encode($fileStatusItems ?? []) ?>;
   var modalWidths = <?= json_encode($modalWidths ?? []) ?>;
 
   var assigneeFilter = document.getElementById('assigneeFilter');
