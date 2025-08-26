@@ -1,6 +1,8 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('calendar', 'delete');
+
+require_permission('calendar','delete');
+
 header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
