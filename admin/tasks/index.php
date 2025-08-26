@@ -243,24 +243,28 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          const t = data.task;
-          const tr = document.createElement('tr');
-          let actions = `<a class="btn btn-sm btn-warning" href="task.php?id=${t.id}">Edit</a>`;
-          if (canDelete) {
-            actions += `<form method=\"post\" action=\"functions/delete.php\" class=\"d-inline\" onsubmit=\"return confirm('Delete this task?');\"><input type=\"hidden\" name=\"id\" value=\"${t.id}\"><input type=\"hidden\" name=\"csrf_token\" value=\"${csrfToken}\"><button class=\"btn btn-sm btn-danger\">Delete</button></form>`;
+          if (data.task) {
+            const t = data.task;
+            const tr = document.createElement('tr');
+            let actions = `<a class="btn btn-sm btn-warning" href="task.php?id=${t.id}">Edit</a>`;
+            if (canDelete) {
+              actions += `<form method=\"post\" action=\"functions/delete.php\" class=\"d-inline\" onsubmit=\"return confirm('Delete this task?');\"><input type=\"hidden\" name=\"id\" value=\"${t.id}\"><input type=\"hidden\" name=\"csrf_token\" value=\"${csrfToken}\"><button class=\"btn btn-sm btn-danger\">Delete</button></form>`;
+            }
+            tr.innerHTML = `
+              <td class="id">${escapeHtml(t.id)}</td>
+              <td class="name">${escapeHtml(t.name)}</td>
+              <td class="type">${escapeHtml(t.type_label || '')}</td>
+              <td class="category">${escapeHtml(t.category_label || '')}</td>
+              <td class="subcategory">${escapeHtml(t.sub_category_label || '')}</td>
+              <td class="status">${escapeHtml(t.status_label || '')}</td>
+              <td class="priority">${escapeHtml(t.priority_label || '')}</td>
+              <td>${actions}</td>`;
+            tasksTableBody.prepend(tr);
+            if (taskList) { taskList.reIndex(); }
+            taskModal.hide();
+          } else {
+            showAlert(data.error || 'Insert failed');
           }
-          tr.innerHTML = `
-            <td class="id">${escapeHtml(t.id)}</td>
-            <td class="name">${escapeHtml(t.name)}</td>
-            <td class="type">${escapeHtml(t.type_label || '')}</td>
-            <td class="category">${escapeHtml(t.category_label || '')}</td>
-            <td class="subcategory">${escapeHtml(t.sub_category_label || '')}</td>
-            <td class="status">${escapeHtml(t.status_label || '')}</td>
-            <td class="priority">${escapeHtml(t.priority_label || '')}</td>
-            <td>${actions}</td>`;
-          tasksTableBody.prepend(tr);
-          if (taskList) { taskList.reIndex(); }
-          taskModal.hide();
         } else {
           showAlert(data.error || 'Error');
         }

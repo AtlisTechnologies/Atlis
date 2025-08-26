@@ -53,29 +53,43 @@ $due_date = $_POST['due_date'] ?? null;
 $memo = $_POST['memo'] ?? null;
 $assigned_user_ids = isset($_POST['assignments']) ? array_map('intval', (array)$_POST['assignments']) : [];
 
-$stmt = $pdo->prepare('INSERT INTO admin_task (name, description, type_id, category_id, sub_category_id, status_id, priority_id, start_date, due_date, memo, user_id, user_updated) VALUES (:name,:description,:type_id,:category_id,:sub_category_id,:status_id,:priority_id,:start_date,:due_date,:memo,:uid,:uid)');
-$stmt->execute([
-  ':name' => $name,
-  ':description' => $description,
-  ':type_id' => $type_id,
-  ':category_id' => $category_id,
-  ':sub_category_id' => $sub_category_id,
-  ':status_id' => $status_id,
-  ':priority_id' => $priority_id,
-  ':start_date' => $start_date ?: null,
-  ':due_date' => $due_date ?: null,
-  ':memo' => $memo,
-  ':uid' => $this_user_id
-]);
-$taskId = (int)$pdo->lastInsertId();
-
-foreach ($assigned_user_ids as $assigned_user_id) {
-  $pdo->prepare('INSERT INTO admin_task_assignments (task_id, assigned_user_id, user_id, user_updated) VALUES (:task_id, :assigned_user_id, :uid, :uid)')
-      ->execute([
-        ':task_id' => $taskId,
-        ':assigned_user_id' => $assigned_user_id,
-        ':uid' => $this_user_id
-      ]);
+$taskId = 0;
+try {
+  $stmt = $pdo->prepare('INSERT INTO admin_task (name, description, type_id, category_id, sub_category_id, status_id, priority_id, start_date, due_date, memo, user_id, user_updated) VALUES (:name,:description,:type_id,:category_id,:sub_category_id,:status_id,:priority_id,:start_date,:due_date,:memo,:uid,:uid)');
+  $stmt->execute([
+    ':name' => $name,
+    ':description' => $description,
+    ':type_id' => $type_id,
+    ':category_id' => $category_id,
+    ':sub_category_id' => $sub_category_id,
+    ':status_id' => $status_id,
+    ':priority_id' => $priority_id,
+    ':start_date' => $start_date ?: null,
+    ':due_date' => $due_date ?: null,
+    ':memo' => $memo,
+    ':uid' => $this_user_id
+  ]);
+  $taskId = (int)$pdo->lastInsertId();
+  if ($taskId === 0) {
+    throw new PDOException('Insert failed');
+  }
+  foreach ($assigned_user_ids as $assigned_user_id) {
+    $pdo->prepare('INSERT INTO admin_task_assignments (task_id, assigned_user_id, user_id, user_updated) VALUES (:task_id, :assigned_user_id, :uid, :uid)')
+        ->execute([
+          ':task_id' => $taskId,
+          ':assigned_user_id' => $assigned_user_id,
+          ':uid' => $this_user_id
+        ]);
+  }
+} catch (PDOException $e) {
+  if ($isAjax) {
+    header('Content-Type: application/json');
+    echo json_encode(['success'=>false,'error'=>$e->getMessage()]);
+  } else {
+    $_SESSION['error_message']='Unable to save task';
+    header('Location: ../task.php');
+  }
+  exit;
 }
 
 admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Created task');
@@ -88,6 +102,6 @@ if ($isAjax) {
   echo json_encode(['success' => true, 'task' => $task]);
 } else {
   $_SESSION['message'] = 'Task saved';
-  header('Location: ../index.php');
+  header('Location: ../task.php?id=' . $taskId);
 }
 exit;
