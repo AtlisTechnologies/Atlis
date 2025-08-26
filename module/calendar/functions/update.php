@@ -11,8 +11,8 @@ $link_module = $_POST['link_module'] ?? null;
 $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
 $event_type_id = $_POST['event_type_id'] ?? null;
-$is_private = !empty($_POST['is_private']) ? 1 : 0;
-$visibility_id = $is_private ? 199 : 198;
+$visibility_id = (int)($_POST['visibility_id'] ?? 198);
+$is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 
 if ($id && $title && $start_time && $calendar_id) {
@@ -45,6 +45,7 @@ if ($id && $title && $start_time && $calendar_id) {
     'title' => $title,
     'start' => $start_time,
     'end' => $end_time,
+    'visibility_id' => $visibility_id,
     'is_private' => $is_private
   ]);
   exit;
