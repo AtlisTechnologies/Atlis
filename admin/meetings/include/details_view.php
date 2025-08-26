@@ -11,14 +11,19 @@ $_SESSION['csrf_token'] = $token;
 <div class="container-fluid py-4">
   <div class="row mb-3">
     <div class="col">
-      <h2><?php echo h($meeting['title'] ?? 'Meeting'); ?>
-        <?php if ($meetingStatusLabel): ?>
-          <span class="badge bg-secondary ms-2"><?php echo h($meetingStatusLabel); ?></span>
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0"><?php echo h($meeting['title'] ?? 'Meeting'); ?>
+          <?php if ($meetingStatusLabel): ?>
+            <span class="badge bg-secondary ms-2"><?php echo h($meetingStatusLabel); ?></span>
+          <?php endif; ?>
+          <?php if ($meetingTypeLabel): ?>
+            <span class="badge bg-secondary ms-1"><?php echo h($meetingTypeLabel); ?></span>
+          <?php endif; ?>
+        </h2>
+        <?php if (user_has_permission('meeting','update')): ?>
+          <a href="index.php?action=edit&id=<?php echo (int)$meeting['id']; ?>" class="btn btn-warning btn-sm">Edit Meeting</a>
         <?php endif; ?>
-        <?php if ($meetingTypeLabel): ?>
-          <span class="badge bg-secondary ms-1"><?php echo h($meetingTypeLabel); ?></span>
-        <?php endif; ?>
-      </h2>
+      </div>
       <?php if (!empty($meeting['description'])): ?>
       <p class="text-body-secondary mb-1"><?php echo h($meeting['description']); ?></p>
       <?php endif; ?>
@@ -93,6 +98,20 @@ $_SESSION['csrf_token'] = $token;
           <?php endif; ?>
           <ul class="list-group list-group-flush" id="attachmentsList"></ul>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="filePreviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">File Preview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe id="filePreviewFrame" class="w-100" style="height:70vh"></iframe>
       </div>
     </div>
   </div>
@@ -427,9 +446,9 @@ document.addEventListener('DOMContentLoaded', function(){
           agendaHtml = '<p class="mb-1"><small>Agenda: ' + esc(agendaMap[q.agenda_id]) + '</small></p>';
         }
         div.innerHTML = '<div class="d-flex justify-content-between">'
-          + '<div>'
+          + '<div class="flex-grow-1">'
           + '<p class="fw-bold mb-1">' + esc(q.question_text) + '</p>'
-          + (q.answer_text ? '<p class="mb-1">' + esc(q.answer_text) + '</p>' : '')
+          + '<input class="form-control form-control-sm answer-input mb-1" value="' + esc(q.answer_text || '') + '"' + (canEdit ? '' : ' disabled') + '>'
           + agendaHtml
           + '</div>'
           + '</div>'
@@ -492,6 +511,17 @@ document.addEventListener('DOMContentLoaded', function(){
   var attendeesList = document.getElementById('attendeesList');
   var attachmentsList = document.getElementById('attachmentsList');
 
+  if(attachmentsList){
+    attachmentsList.addEventListener('click', function(e){
+      var link = e.target.closest('.preview-file');
+      if(link){
+        e.preventDefault();
+        document.getElementById('filePreviewFrame').src = link.dataset.url;
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('filePreviewModal')).show();
+      }
+    });
+  }
+
   function renderAttendees(attendees){
     attendeesData = attendees;
     attendeesList.innerHTML = '';
@@ -532,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function(){
       files.forEach(function(f){
         var li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
-        var content = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+        var content = '<a href="#" class="preview-file" data-url="' + esc(f.url) + '">' + esc(f.name) + '</a>';
         content += '<a href="' + esc(f.url) + '" class="btn btn-sm btn-primary ms-2" download><span class="fa-solid fa-download"></span></a>';
         if(canEdit){
           content += '<button class="btn btn-sm btn-danger ms-2 delete-file" data-id="' + f.id + '"><span class="fa-solid fa-trash"></span></button>';
@@ -632,6 +662,27 @@ document.addEventListener('DOMContentLoaded', function(){
             console.error(err);
             showToast('Failed to remove attendee');
           });
+      }
+    });
+
+    document.getElementById('questionsList').addEventListener('change', function(e){
+      var input = e.target;
+      if(input.classList.contains('answer-input')){
+        var id = input.closest('[data-id]').dataset.id;
+        var fd = new FormData();
+        fd.append('id', id);
+        fd.append('meeting_id', meetingId);
+        fd.append('answer_text', input.value);
+        fd.append('csrf_token', csrfToken);
+        fetchJson('functions/update_question.php', {method:'POST', body: fd})
+          .then(function(res){
+            if(res.success && res.questions){
+              questionsData = res.questions;
+            } else {
+              showToast(res.message || 'Failed to update answer');
+            }
+          })
+          .catch(function(err){ console.error(err); showToast('Failed to update answer'); });
       }
     });
   }
