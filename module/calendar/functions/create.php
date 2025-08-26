@@ -16,7 +16,19 @@ $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 
-if ($title && $start_time && $calendar_id) {
+$chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
+$chk->execute([$calendar_id]);
+$calendar = $chk->fetch(PDO::FETCH_ASSOC);
+if (!$calendar) {
+  http_response_code(404);
+  exit;
+}
+if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  http_response_code(403);
+  exit;
+}
+
+if ($title && $start_time) {
   $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, visibility_id) VALUES (:uid, :calendar_id, :title, :start_time, :end_time, :event_type_id, :link_module, :link_record_id, :visibility_id)');
 
   $stmt->execute([
