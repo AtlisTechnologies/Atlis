@@ -2773,33 +2773,32 @@ INSERT INTO `module_projects_files` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_projects_file_folders`
+-- Table structure for table `module_projects_folders`
 --
 
-CREATE TABLE `module_projects_file_folders` (
+CREATE TABLE `module_projects_folders` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  `sort_order` int(11) DEFAULT 0,
-  `memo` text DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `module_projects_file_folders`
+-- Dumping data for table `module_projects_folders`
 --
 
-INSERT INTO `module_projects_file_folders` (`id`, `user_id`, `user_updated`, `project_id`, `parent_id`, `name`, `path`, `sort_order`, `memo`, `date_created`, `date_updated`) VALUES
-(1, 1, 1, 2, NULL, 'root', '/module/project/uploads/2/', 0, NULL, '2025-08-25 22:53:06', '2025-08-25 22:53:06'),
-(2, 1, 1, 3, NULL, 'root', '/module/project/uploads/3/', 0, NULL, '2025-08-25 22:53:06', '2025-08-25 22:53:06'),
-(3, 1, 1, 10, NULL, 'root', '/module/project/uploads/10/', 0, NULL, '2025-08-25 22:53:06', '2025-08-25 22:53:06'),
-(4, 1, 1, 15, NULL, 'root', '/module/project/uploads/15/', 0, NULL, '2025-08-25 22:53:06', '2025-08-25 22:53:06'),
-(5, 1, 1, 18, NULL, 'root', '/module/project/uploads/18/', 0, NULL, '2025-08-25 22:53:06', '2025-08-25 22:53:06');
+INSERT INTO `module_projects_folders` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `parent_id`, `name`, `path`) VALUES
+(1, 1, 1, '2025-08-25 22:53:06', '2025-08-25 22:53:06', NULL, 2, NULL, 'root', '/module/project/uploads/2/'),
+(2, 1, 1, '2025-08-25 22:53:06', '2025-08-25 22:53:06', NULL, 3, NULL, 'root', '/module/project/uploads/3/'),
+(3, 1, 1, '2025-08-25 22:53:06', '2025-08-25 22:53:06', NULL, 10, NULL, 'root', '/module/project/uploads/10/'),
+(4, 1, 1, '2025-08-25 22:53:06', '2025-08-25 22:53:06', NULL, 15, NULL, 'root', '/module/project/uploads/15/'),
+(5, 1, 1, '2025-08-25 22:53:06', '2025-08-25 22:53:06', NULL, 18, NULL, 'root', '/module/project/uploads/18/');
 
 -- --------------------------------------------------------
 
@@ -4136,14 +4135,15 @@ ALTER TABLE `module_projects_files`
   ADD KEY `fk_module_projects_files_folder_id` (`folder_id`);
 
 --
--- Indexes for table `module_projects_file_folders`
+  -- Indexes for table `module_projects_folders`
 --
-ALTER TABLE `module_projects_file_folders`
+ALTER TABLE `module_projects_folders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_projects_file_folders_user_id` (`user_id`),
-  ADD KEY `fk_module_projects_file_folders_user_updated` (`user_updated`),
-  ADD KEY `fk_module_projects_file_folders_project_id` (`project_id`),
-  ADD KEY `fk_module_projects_file_folders_parent_id` (`parent_id`);
+  ADD UNIQUE KEY `uniq_project_path` (`project_id`,`path`),
+  ADD KEY `fk_module_projects_folders_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_folders_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_folders_project_id` (`project_id`),
+  ADD KEY `fk_module_projects_folders_parent_id` (`parent_id`);
 
 --
 -- Indexes for table `module_projects_notes`
@@ -4669,10 +4669,9 @@ ALTER TABLE `module_projects_assignments`
 ALTER TABLE `module_projects_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
+-- AUTO_INCREMENT for table `module_projects_folders`
 --
--- AUTO_INCREMENT for table `module_projects_file_folders`
---
-ALTER TABLE `module_projects_file_folders`
+ALTER TABLE `module_projects_folders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
@@ -5177,20 +5176,19 @@ ALTER TABLE `module_projects_assignments`
 --
 ALTER TABLE `module_projects_files`
   ADD CONSTRAINT `fk_module_projects_files_file_type_id` FOREIGN KEY (`file_type_id`) REFERENCES `lookup_list_items` (`id`),
-  ADD CONSTRAINT `fk_module_projects_files_folder_id` FOREIGN KEY (`folder_id`) REFERENCES `module_projects_file_folders` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_projects_files_folder_id` FOREIGN KEY (`folder_id`) REFERENCES `module_projects_folders` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_projects_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_projects_notes` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_question_id` FOREIGN KEY (`question_id`) REFERENCES `module_projects_questions` (`id`),
   ADD CONSTRAINT `fk_module_projects_files_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
 
+-- Constraints for table `module_projects_folders`
 --
--- Constraints for table `module_projects_file_folders`
---
-ALTER TABLE `module_projects_file_folders`
-  ADD CONSTRAINT `fk_module_projects_file_folders_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `module_projects_file_folders` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_projects_file_folders_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_projects_file_folders_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_projects_file_folders_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+ALTER TABLE `module_projects_folders`
+  ADD CONSTRAINT `fk_module_projects_folders_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `module_projects_folders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_projects_folders_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_projects_folders_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_projects_folders_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `module_projects_notes`
