@@ -148,6 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
+  const currentUserId = <?php echo (int)$this_user_id; ?>;
+  const isAdmin = <?php echo user_has_role('Admin') ? 'true' : 'false'; ?>;
   const calendarEl = document.getElementById('calendar');
 
   const VISIBILITY_PUBLIC = 198;
@@ -183,6 +185,11 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
     eventClick: function(info) {
+      const ownerId = info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id;
+      if (ownerId !== undefined && parseInt(ownerId, 10) !== currentUserId && !isAdmin) {
+        alert('You do not have permission to edit this event.');
+        return;
+      }
       const form = document.getElementById('editEventForm');
       // Populate edit form with selected event details
       form.id.value = info.event.id;
