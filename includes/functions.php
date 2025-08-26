@@ -225,4 +225,19 @@ function import_system_properties(PDO $pdo, string $data, string $format='json')
   return true;
 }
 
+function get_project_folder_path(PDO $pdo, int $folder_id): string {
+  if(!$folder_id) return '';
+  $stmt = $pdo->prepare('SELECT path FROM module_projects_folders WHERE id = :id');
+  $stmt->execute([':id' => $folder_id]);
+  $path = $stmt->fetchColumn();
+  return $path ?: '';
+}
+
+function get_project_root_folder(PDO $pdo, int $project_id): ?int {
+  $stmt = $pdo->prepare('SELECT id FROM module_projects_folders WHERE project_id = :pid AND parent_id IS NULL');
+  $stmt->execute([':pid' => $project_id]);
+  $id = $stmt->fetchColumn();
+  return $id ? (int)$id : null;
+}
+
 ?>

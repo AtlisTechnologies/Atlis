@@ -1,11 +1,12 @@
 <?php
 require '../../../includes/php_header.php';
+require_permission('project','update');
 $id          = (int)($_POST['id'] ?? 0);
 $project_id  = (int)($_POST['project_id'] ?? 0);
 $question_id = (int)($_POST['question_id'] ?? 0);
 
 if ($id && $project_id) {
-  $sql = 'SELECT user_id, file_path, file_name FROM module_projects_files WHERE id = :id AND project_id = :pid';
+  $sql = 'SELECT user_id, file_path, file_name, folder_id FROM module_projects_files WHERE id = :id AND project_id = :pid';
   $params = [':id' => $id, ':pid' => $project_id];
   if ($question_id) {
     $sql .= ' AND question_id = :qid';
