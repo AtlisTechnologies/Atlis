@@ -5,18 +5,23 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 require_once '../../../includes/php_header.php';
 require_permission('admin_task','update');
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
+  echo json_encode(['success' => false, 'error' => 'Method not allowed']);
   exit;
 }
 
 if (!hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'] ?? '')) {
-  die('Invalid CSRF token');
+  echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']);
+  exit;
 }
 
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 if (!$id) {
-  die('Invalid ID');
+  echo json_encode(['success' => false, 'error' => 'Invalid ID']);
+  exit;
 }
 
 $oldStmt = $pdo->prepare('SELECT * FROM admin_task WHERE id = :id');
@@ -24,6 +29,10 @@ $oldStmt->execute([':id' => $id]);
 $old = $oldStmt->fetch(PDO::FETCH_ASSOC);
 
 $name = trim($_POST['name'] ?? '');
+if ($name === '') {
+  echo json_encode(['success' => false, 'error' => 'Name required']);
+  exit;
+}
 $description = $_POST['description'] ?? null;
 $type_id = $_POST['type_id'] !== '' ? (int)$_POST['type_id'] : null;
 $category_id = $_POST['category_id'] !== '' ? (int)$_POST['category_id'] : null;
@@ -62,5 +71,8 @@ foreach ($assigned_user_ids as $assigned_user_id) {
 }
 
 admin_audit_log($pdo, $this_user_id, 'admin_task', $id, 'UPDATE', json_encode($old), json_encode(['name'=>$name]), 'Updated task');
-
-header('Location: ../task.php?id=' . $id);
+  $fetchStmt = $pdo->prepare('SELECT t.id, t.name, type.label AS type_label, cat.label AS category_label, sub.label AS sub_category_label, st.label AS status_label, pr.label AS priority_label FROM admin_task t LEFT JOIN lookup_list_items type ON t.type_id = type.id LEFT JOIN lookup_list_items cat ON t.category_id = cat.id LEFT JOIN lookup_list_items sub ON t.sub_category_id = sub.id LEFT JOIN lookup_list_items st ON t.status_id = st.id LEFT JOIN lookup_list_items pr ON t.priority_id = pr.id WHERE t.id = :id');
+  $fetchStmt->execute([':id' => $id]);
+  $task = $fetchStmt->fetch(PDO::FETCH_ASSOC);
+  echo json_encode(['success' => true, 'task' => $task]);
+  exit;
