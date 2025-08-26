@@ -279,12 +279,8 @@ document.addEventListener('DOMContentLoaded', function(){
       if(!r.ok){
         return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
       }
-      return r.text().then(function(text){
-        try{
-          return JSON.parse(text);
-        } catch(e){
-          throw new Error('Invalid JSON: ' + e.message);
-        }
+      return r.json().catch(function(e){
+        throw new Error('Invalid JSON: ' + e.message);
       });
     });
   }
@@ -649,7 +645,10 @@ document.addEventListener('DOMContentLoaded', function(){
         renderAttendees([]);
       }
     })
-    .catch(function(err){ console.error(err); showToast('Failed to load attendees'); });
+    .catch(function(err){
+      console.error(err);
+      showToast('Failed to load attendees');
+    });
 
   fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
     .then(function(data){
