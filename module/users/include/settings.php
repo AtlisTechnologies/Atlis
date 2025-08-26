@@ -76,6 +76,23 @@
           <label for="defaultTaskPriority">Priority</label>
         </div>
       </div>
+      <div class="col-12 mt-3">
+        <h6 class="mb-2">Calendar</h6>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <select class="form-select" id="defaultCalendar" name="calendar_default">
+            <option value="">No default</option>
+            <?php foreach ($userCalendars as $cal): ?>
+              <option value="<?= $cal['id']; ?>"
+                <?= ($userDefaults['CALENDAR_DEFAULT'] ?? '') == $cal['id'] ? 'selected' : ''; ?>>
+                <?= h($cal['name']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+          <label for="defaultCalendar">Default Calendar</label>
+        </div>
+      </div>
       <div class="col-12 gy-6">
         <div class="row g-3 justify-content-end mt-3">
           <div class="col-auto">

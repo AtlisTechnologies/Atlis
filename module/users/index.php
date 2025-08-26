@@ -47,12 +47,17 @@ if ($action === 'settings') {
   $taskStatusItems      = get_lookup_items($pdo, 'TASK_STATUS');
   $taskPriorityItems    = get_lookup_items($pdo, 'TASK_PRIORITY');
 
+  $userCalendars = $pdo->prepare('SELECT id, name FROM module_calendar WHERE user_id = :uid');
+  $userCalendars->execute([':uid' => $this_user_id]);
+  $userCalendars = $userCalendars->fetchAll(PDO::FETCH_ASSOC);
+
   $userDefaults = [
     'PROJECT_STATUS'   => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_STATUS'),
     'PROJECT_PRIORITY' => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_PRIORITY'),
     'PROJECT_TYPE'     => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_TYPE'),
     'TASK_STATUS'      => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_STATUS'),
     'TASK_PRIORITY'    => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_PRIORITY'),
+    'CALENDAR_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_DEFAULT'),
   ];
 
   require '../../includes/html_header.php';
