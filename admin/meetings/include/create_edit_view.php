@@ -128,9 +128,9 @@ document.addEventListener('DOMContentLoaded', function(){
       fetch(url)
         .then(r => r.ok ? r.json() : Promise.reject(new Error('Search failed')))
         .then(renderOptions)
-        .catch(() => {
+        .catch(err => {
           list.innerHTML = '<option value="">Error</option>';
-          console.error('Search failed');
+          console.error('Search failed', err);
         });
     });
     textInput.addEventListener('change', function(){
