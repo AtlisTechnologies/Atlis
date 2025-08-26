@@ -4,14 +4,14 @@ header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
 if ($id) {
-  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar_events WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id, visibility_id FROM module_calendar_events WHERE id = ?');
   $chk->execute([$id]);
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
     http_response_code(404);
     exit;
   }
-  if ($existing['is_private'] && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  if ($existing['visibility_id'] == 199 && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }

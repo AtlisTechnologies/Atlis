@@ -12,23 +12,24 @@ $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
 $event_type_id = $_POST['event_type_id'] ?? null;
 $is_private = !empty($_POST['is_private']) ? 1 : 0;
+$visibility_id = $is_private ? 199 : 198;
 $attendees = $_POST['attendees'] ?? [];
 
 if ($id && $title && $start_time && $calendar_id) {
-  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar_events WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id, visibility_id FROM module_calendar_events WHERE id = ?');
   $chk->execute([$id]);
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
     http_response_code(404);
     exit;
   }
-  if ($existing['is_private'] && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  if ($existing['visibility_id'] == 199 && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
 
-  $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, calendar_id=?, title=?, start_time=?, end_time=?, event_type_id=?, link_module=?, link_record_id=?, is_private=? WHERE id=?');
-  $stmt->execute([$this_user_id, $calendar_id, $title, $start_time, $end_time, $event_type_id, $link_module, $link_record_id, $is_private, $id]);
+  $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, calendar_id=?, title=?, start_time=?, end_time=?, event_type_id=?, link_module=?, link_record_id=?, visibility_id=? WHERE id=?');
+  $stmt->execute([$this_user_id, $calendar_id, $title, $start_time, $end_time, $event_type_id, $link_module, $link_record_id, $visibility_id, $id]);
 
   $pdo->prepare('DELETE FROM module_calendar_event_attendees WHERE event_id=?')->execute([$id]);
   if (is_array($attendees)) {
