@@ -28,7 +28,9 @@ try {
     }
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
         $visibility = $row['visibility_id'] === null ? 198 : (int)$row['visibility_id'];
+
         $events[] = [
             'id' => (int)$row['id'],
             'calendar_id' => (int)$row['calendar_id'],
