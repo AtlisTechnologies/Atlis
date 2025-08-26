@@ -24,6 +24,7 @@ if ($id && $title && $start_time && $calendar_id) {
     exit;
   }
   if ($existing['visibility_id'] == 199 && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    // Prevent non-owners from editing private events unless they are Admins.
     http_response_code(403);
     exit;
   }

@@ -7,6 +7,18 @@ $name = trim($_POST['name'] ?? '');
 $is_private = !empty($_POST['is_private']) ? 1 : 0;
 
 if ($id && $name !== '') {
+  $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $chk->execute([$id]);
+  $existing = $chk->fetch(PDO::FETCH_ASSOC);
+  if (!$existing) {
+    http_response_code(404);
+    exit;
+  }
+  if ($existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    // Calendar updates are restricted to the owner unless the user is an Admin.
+    http_response_code(403);
+    exit;
+  }
   $stmt = $pdo->prepare('UPDATE module_calendar SET name=?, is_private=?, user_updated=? WHERE id=?');
   $stmt->execute([$name, $is_private, $this_user_id, $id]);
   echo json_encode(['success' => true]);
