@@ -26,7 +26,21 @@ if ($id && $title && $start_time && $calendar_id) {
     http_response_code(404);
     exit;
   }
-  if ($existing['calendar_owner'] != $this_user_id && !user_has_role('Admin')) {
+
+  $calendarChk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $calendarChk->execute([$calendar_id]);
+  $calendar = $calendarChk->fetch(PDO::FETCH_ASSOC);
+  if (!$calendar) {
+    http_response_code(404);
+    exit;
+  }
+
+  if ($existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
+
+    http_response_code(403);
+    exit;
+  }
+  if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
