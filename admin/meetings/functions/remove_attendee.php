@@ -28,9 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rosterStmt = $pdo->prepare(
             'SELECT a.id,
                     a.attendee_user_id,
-                    a.role,
-                    a.check_in_time,
-                    a.check_out_time,
                     COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
              FROM module_meeting_attendees a
              LEFT JOIN users u ON a.attendee_user_id = u.id
