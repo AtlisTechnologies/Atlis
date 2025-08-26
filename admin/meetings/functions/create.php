@@ -109,25 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       // Attendees
       $attendee_user_ids = isset($_POST['attendee_user_id']) && is_array($_POST['attendee_user_id']) ? $_POST['attendee_user_id'] : [];
-      $attendee_roles     = isset($_POST['role']) && is_array($_POST['role']) ? $_POST['role'] : [];
-      $check_in_times     = isset($_POST['check_in_time']) && is_array($_POST['check_in_time']) ? $_POST['check_in_time'] : [];
-      $check_out_times    = isset($_POST['check_out_time']) && is_array($_POST['check_out_time']) ? $_POST['check_out_time'] : [];
 
-      $attendeeStmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_user_id, role, check_in_time, check_out_time) VALUES (:uid,:uid,:mid,:attendee,:role,:check_in,:check_out)');
+      $attendeeStmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_user_id) VALUES (:uid,:uid,:mid,:attendee)');
       $attendee_count = count($attendee_user_ids);
       for ($i = 0; $i < $attendee_count; $i++) {
         $attendee_id = isset($attendee_user_ids[$i]) && $attendee_user_ids[$i] !== '' ? (int)$attendee_user_ids[$i] : null;
         if (!$attendee_id) { continue; }
-        $role = trim($attendee_roles[$i] ?? '');
-        $check_in  = isset($check_in_times[$i]) && $check_in_times[$i] !== '' ? $check_in_times[$i] : null;
-        $check_out = isset($check_out_times[$i]) && $check_out_times[$i] !== '' ? $check_out_times[$i] : null;
         $attendeeStmt->execute([
           ':uid' => $this_user_id,
           ':mid' => $id,
-          ':attendee' => $attendee_id,
-          ':role' => $role !== '' ? $role : null,
-          ':check_in' => $check_in,
-          ':check_out' => $check_out
+          ':attendee' => $attendee_id
         ]);
         $attendeeId = $pdo->lastInsertId();
         admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', 'Added attendee');

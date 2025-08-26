@@ -17,9 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
     $attendee_user_id = isset($_POST['attendee_user_id']) && $_POST['attendee_user_id'] !== '' ? (int)$_POST['attendee_user_id'] : null;
-    $role = trim($_POST['role'] ?? '');
-    $check_in_time = isset($_POST['check_in_time']) && $_POST['check_in_time'] !== '' ? $_POST['check_in_time'] : null;
-    $check_out_time = isset($_POST['check_out_time']) && $_POST['check_out_time'] !== '' ? $_POST['check_out_time'] : null;
 
     try {
         if ($meeting_id && $attendee_user_id) {
@@ -28,19 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     user_id,
                     user_updated,
                     meeting_id,
-                    attendee_user_id,
-                    role,
-                    check_in_time,
-                    check_out_time
-                ) VALUES (:uid,:uid,:mid,:attendee,:role,:check_in,:check_out)'
+                    attendee_user_id
+                ) VALUES (:uid,:uid,:mid,:attendee)'
             );
             $stmt->execute([
                 ':uid' => $this_user_id,
                 ':mid' => $meeting_id,
-                ':attendee' => $attendee_user_id,
-                ':role' => $role !== '' ? $role : null,
-                ':check_in' => $check_in_time,
-                ':check_out' => $check_out_time
+                ':attendee' => $attendee_user_id
             ]);
             $id = $pdo->lastInsertId();
             admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', 'Added attendee');
@@ -49,9 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rosterStmt = $pdo->prepare(
             'SELECT a.id,
                     a.attendee_user_id,
-                    a.role,
-                    a.check_in_time,
-                    a.check_out_time,
                     COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
              FROM module_meeting_attendees a
              LEFT JOIN users u ON a.attendee_user_id = u.id

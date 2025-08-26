@@ -1,8 +1,7 @@
 <?php
 $isEdit = !empty($meeting);
-// Lookup items for agenda and question statuses
+// Lookup items for agenda statuses
 $agendaStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
-$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 // Lookup items for meeting status and type
 $meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
 $meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
@@ -98,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
   var csrfToken = '<?php echo h($token); ?>';
   var agendaStatusMap   = <?php echo json_encode($agendaStatusMap); ?>;
-  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaList = document.getElementById('agendaList');
   var attendeesContainer = document.getElementById('attendeesContainer');
 
@@ -193,19 +191,14 @@ document.addEventListener('DOMContentLoaded', function(){
     if(data){
       searchInput.value = data.name || '';
       idInput.value = data.attendee_user_id || '';
-      div.querySelector('input[name="role[]"]').value = data.role || '';
-      div.querySelector('input[name="check_in_time[]"]').value = data.check_in_time || '';
-      div.querySelector('input[name="check_out_time[]"]').value = data.check_out_time || '';
     }
   }
 
   function addAttendee(data){
     var row = document.createElement('div');
     row.className = 'row g-2 mb-2 attendee-item';
-    row.innerHTML = '<div class="col-md-4"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
-      '<div class="col-md-2"><input type="text" name="role[]" class="form-control" placeholder="Role"></div>' +
-      '<div class="col-md-3"><input type="datetime-local" name="check_in_time[]" class="form-control"></div>' +
-      '<div class="col-md-3"><div class="input-group"><input type="datetime-local" name="check_out_time[]" class="form-control"><button type="button" class="btn btn-outline-danger remove-attendee">&times;</button></div></div>';
+    row.innerHTML = '<div class="col-md-10"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
+      '<div class="col-md-2"><button type="button" class="btn btn-sm btn-danger remove-attendee">Remove</button></div>';
     attendeesContainer.appendChild(row);
     initAttendeeRow(row, data || {});
   }
@@ -221,21 +214,13 @@ document.addEventListener('DOMContentLoaded', function(){
   function addQuestion(data){
     var div = document.createElement('div');
     div.className = 'border rounded p-3 mb-2';
-    var statusOptions = '<option value="">Select status</option>';
-    for (var id in questionStatusMap) {
-      if (Object.prototype.hasOwnProperty.call(questionStatusMap, id)) {
-        statusOptions += '<option value="' + id + '">' + esc(questionStatusMap[id].label) + '</option>';
-      }
-    }
     div.innerHTML = '<input type="text" name="question_text[]" class="form-control mb-2" placeholder="Question" required>' +
       '<textarea name="answer_text[]" class="form-control mb-2" placeholder="Answer"></textarea>' +
-      '<input type="number" name="agenda_id[]" class="form-control mb-2" placeholder="Agenda ID (optional)">' +
-      '<select name="status_id[]" class="form-select">' + statusOptions + '</select>';
+      '<input type="number" name="agenda_id[]" class="form-control mb-2" placeholder="Agenda ID (optional)">';
     if(data){
-      div.querySelector('input[name="question_text[]"]').value = data.question || '';
-      div.querySelector('textarea[name="answer_text[]"]').value = data.answer || '';
+      div.querySelector('input[name="question_text[]"]').value = data.question_text || '';
+      div.querySelector('textarea[name="answer_text[]"]').value = data.answer_text || '';
       div.querySelector('input[name="agenda_id[]"]').value = data.agenda_id || '';
-      if(data.status_id){ div.querySelector('select[name="status_id[]"]').value = data.status_id; }
     }
     document.getElementById('questionsContainer').appendChild(div);
   }

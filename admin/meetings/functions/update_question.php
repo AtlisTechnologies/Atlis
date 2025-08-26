@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $question_text = trim($_POST['question_text'] ?? '');
     $answer_text = trim($_POST['answer_text'] ?? '');
     $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
+    if ($status_id === null) {
+        $defaultStatus = get_lookup_items($pdo, 'MEETING_QUESTION_STATUS');
+        if (!empty($defaultStatus)) {
+            $status_id = (int)$defaultStatus[0]['id'];
+        }
+    }
 
     try {
         if ($id && $meeting_id) {

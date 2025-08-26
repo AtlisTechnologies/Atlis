@@ -1,5 +1,4 @@
 <?php
-$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 $agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
 $meetingStatusMap = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
 $meetingTypeMap   = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
@@ -68,19 +67,10 @@ $_SESSION['csrf_token'] = $token;
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-            <div class="col-md-4 position-relative">
+            <div class="col-md-6 position-relative">
               <input type="text" id="attendeeSearch" class="form-control" placeholder="Search user">
               <input type="hidden" name="attendee_user_id" id="attendeeId">
               <div class="list-group position-absolute w-100" id="attendeeResults" style="z-index:1000;"></div>
-            </div>
-            <div class="col-md-2">
-              <input type="text" name="role" class="form-control" placeholder="Role">
-            </div>
-            <div class="col-md-3">
-              <input type="datetime-local" name="check_in_time" class="form-control">
-            </div>
-            <div class="col-md-3">
-              <input type="datetime-local" name="check_out_time" class="form-control">
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
@@ -225,15 +215,6 @@ $_SESSION['csrf_token'] = $token;
             <option value="">None</option>
           </select>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <select name="status_id" id="statusSelect" class="form-select">
-            <option value="">None</option>
-            <?php foreach ($questionStatusMap as $sid => $s): ?>
-              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Save</button>
@@ -251,7 +232,6 @@ document.addEventListener('DOMContentLoaded', function(){
   var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var csrfToken = '<?= $token; ?>';
-  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaStatusMap = <?php echo json_encode($agendaStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
@@ -442,11 +422,6 @@ document.addEventListener('DOMContentLoaded', function(){
         var div = document.createElement('div');
         div.className = 'mb-3';
         div.dataset.id = q.id;
-        var statusHtml = '';
-        if(q.status_id && questionStatusMap[q.status_id]){
-          var s = questionStatusMap[q.status_id];
-          statusHtml = '<span class="badge bg-' + esc(s.color_class || 'secondary') + ' me-2">' + esc(s.label) + '</span>';
-        }
         var agendaHtml = '';
         if(q.agenda_id && agendaMap[q.agenda_id]){
           agendaHtml = '<p class="mb-1"><small>Agenda: ' + esc(agendaMap[q.agenda_id]) + '</small></p>';
@@ -457,7 +432,6 @@ document.addEventListener('DOMContentLoaded', function(){
           + (q.answer_text ? '<p class="mb-1">' + esc(q.answer_text) + '</p>' : '')
           + agendaHtml
           + '</div>'
-          + statusHtml
           + '</div>'
           + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-warning me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
         container.appendChild(div);
@@ -488,7 +462,6 @@ document.addEventListener('DOMContentLoaded', function(){
           document.getElementById('questionText').value = q.question_text;
           document.getElementById('answerText').value = q.answer_text || '';
           document.getElementById('agendaSelect').value = q.agenda_id || '';
-          document.getElementById('statusSelect').value = q.status_id || '';
           document.getElementById('questionModalLabel').textContent = 'Edit Question';
           updateAgendaSelect();
           bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
@@ -525,10 +498,8 @@ document.addEventListener('DOMContentLoaded', function(){
     if(attendees.length){
       attendees.forEach(function(a){
         var li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-start';
-        var info = '<div><div class="fw-bold">' + esc(a.name);
-        if(a.role) info += ' (' + esc(a.role) + ')';
-        info += '</div><small class="text-body-secondary">Check-in: ' + (a.check_in_time ? new Date(a.check_in_time).toLocaleString() : '-') + ' | Check-out: ' + (a.check_out_time ? new Date(a.check_out_time).toLocaleString() : '-') + '</small></div>';
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        var info = '<span>' + esc(a.name) + '</span>';
         if (canEditAttendees){
           info += '<button class="btn btn-sm btn-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
         }
