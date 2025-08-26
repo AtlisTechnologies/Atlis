@@ -197,6 +197,52 @@ function handleItem($action){
         echo json_encode(['success'=>false,'error'=>'Database error']);
       }
     }
+  }elseif($action==='bulk_create'){
+    $data=json_decode(file_get_contents('php://input'),true);
+    if(!verify_csrf_token($data['csrf_token']??'')){
+      echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
+      return;
+    }
+    $list_id=(int)($data['list_id']??0);
+    $items=$data['items']??[];
+    if($list_id<=0||!is_array($items)||empty($items)){
+      echo json_encode(['success'=>false,'error'=>'Invalid data']);
+      return;
+    }
+    try{
+      $pdo->beginTransaction();
+      $created=[];
+      $yesterday=date('Y-m-d',strtotime('-1 day'));
+      $labelCheck=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND label=:label');
+      $codeCheck=$pdo->prepare('SELECT id FROM lookup_list_items WHERE list_id=:list_id AND code=:code');
+      $insert=$pdo->prepare('INSERT INTO lookup_list_items (user_id,user_updated,list_id,label,code,active_from,active_to) VALUES (:uid,:uid,:list_id,:label,:code,:active_from,:active_to)');
+      $seenLabels=[]; $seenCodes=[];
+      foreach($items as $it){
+        $label=trim($it['label']??'');
+        $code=strtoupper(str_replace(' ','_',trim($it['code']??'')));
+        $active_from=$it['active_from']??$yesterday;
+        $active_to=$it['active_to']??null;
+        if($active_to===''||$active_to==='0000-00-00'){ $active_to=null; }
+        if($active_to!==null && $active_to < $active_from){ throw new Exception('active_to must be greater than or equal to active_from'); }
+        if($label===''||$code===''){ throw new Exception('Invalid data'); }
+        if(isset($seenLabels[$label])||isset($seenCodes[$code])){ throw new Exception('Duplicate label or code'); }
+        $seenLabels[$label]=true; $seenCodes[$code]=true;
+        $labelCheck->execute([':list_id'=>$list_id,':label'=>$label]);
+        if($labelCheck->fetch()){ throw new Exception('Label already exists'); }
+        $codeCheck->execute([':list_id'=>$list_id,':code'=>$code]);
+        if($codeCheck->fetch()){ throw new Exception('Code already exists'); }
+        $insert->execute([':uid'=>$this_user_id,':list_id'=>$list_id,':label'=>$label,':code'=>$code,':active_from'=>$active_from,':active_to'=>$active_to]);
+        $id=$pdo->lastInsertId();
+        audit_log($pdo,$this_user_id,'lookup_list_items',$id,'CREATE','Created lookup list item');
+        $created[]=$id;
+      }
+      $pdo->commit();
+      echo json_encode(['success'=>true,'created'=>$created]);
+    }catch(Exception $e){
+      $pdo->rollBack();
+      error_log($e->getMessage());
+      echo json_encode(['success'=>false,'error'=>$e->getMessage()]);
+    }
   }elseif($action==='update'){
     $id=(int)($_POST['id']??0);
     $label=trim($_POST['label']??'');
