@@ -12,6 +12,7 @@ date_default_timezone_set('America/Denver');
 // connect to Database
 require __DIR__ . '/config.php';
 require_once __DIR__ . '/lookup_helpers.php';
+require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/contractor_helpers.php';
 
 // Composer autoload (for third-party libraries)
