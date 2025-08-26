@@ -497,8 +497,12 @@ document.addEventListener('DOMContentLoaded', function(){
     if(files && files.length){
       files.forEach(function(f){
         var li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.innerHTML = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        var content = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+        if(canEdit){
+          content += '<button class="btn btn-sm btn-link text-danger ms-2 delete-file" data-id="' + f.id + '">Delete</button>';
+        }
+        li.innerHTML = content;
         attachmentsList.appendChild(li);
       });
     } else {
@@ -634,6 +638,32 @@ document.addEventListener('DOMContentLoaded', function(){
           }
         })
         .catch(function(){ alert('Upload failed'); });
+    });
+  }
+
+  if(canEdit){
+    attachmentsList.addEventListener('click', function(e){
+      if(e.target.classList.contains('delete-file')){
+        e.preventDefault();
+        var id = e.target.getAttribute('data-id');
+        var fd = new FormData();
+        fd.append('id', id);
+        fd.append('meeting_id', meetingId);
+        fd.append('csrf_token', csrfToken);
+        fetch('functions/delete_file.php', {
+          method: 'POST',
+          body: fd
+        })
+        .then(r=>r.json())
+        .then(function(res){
+          if(res.success && res.files){
+            renderAttachments(res.files);
+          } else {
+            alert(res.message || 'Failed to delete file');
+          }
+        })
+        .catch(function(){ alert('Failed to delete file'); });
+      }
     });
   }
 
