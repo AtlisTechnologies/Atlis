@@ -31,6 +31,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
+
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
     <?php if ($owns_calendar) { ?>
@@ -40,6 +41,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <?php } else { ?>
       <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
+
   </div>
 </div>
 
@@ -155,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
+
   const calendarEl = document.getElementById('calendar');
 
   const VISIBILITY_PUBLIC = 198;
@@ -190,6 +193,11 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
     eventClick: function(info) {
+      const ownerId = info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id;
+      if (ownerId !== undefined && parseInt(ownerId, 10) !== currentUserId && !isAdmin) {
+        alert('You do not have permission to edit this event.');
+        return;
+      }
       const form = document.getElementById('editEventForm');
       // Populate edit form with selected event details
       form.id.value = info.event.id;
@@ -212,18 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   calendar.render();
 
-  const connectGoogle = document.getElementById('connectGoogle');
-  if (connectGoogle) {
-    connectGoogle.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/google_oauth.php', 'googleOAuth', 'width=600,height=700');
-    });
-  }
-  const connectMicrosoft = document.getElementById('connectMicrosoft');
-  if (connectMicrosoft) {
-    connectMicrosoft.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/microsoft_oauth.php', 'microsoftOAuth', 'width=600,height=700');
-    });
-  }
   window.addEventListener('message', function(e) {
     if (e.data === 'calendarLinked') {
       window.location.reload();
