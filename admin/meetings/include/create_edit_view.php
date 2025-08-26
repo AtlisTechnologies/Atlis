@@ -3,11 +3,14 @@ $isEdit = !empty($meeting);
 // Lookup items for agenda and question statuses
 $agendaStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+// Lookup items for meeting status and type
+$meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
+$meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
 $token = generate_csrf_token();
 ?>
 <div class="container-fluid py-4">
   <h2 class="mb-4"><?php echo $isEdit ? 'Edit Meeting' : 'Create Meeting'; ?></h2>
-  <form id="meetingForm" method="post" action="functions/<?php echo $isEdit ? 'update.php' : 'create.php'; ?>">
+  <form id="meetingForm" method="post" enctype="multipart/form-data" action="functions/<?php echo $isEdit ? 'update.php' : 'create.php'; ?>">
     <input type="hidden" name="csrf_token" value="<?php echo h($token); ?>">
     <?php if ($isEdit): ?>
       <input type="hidden" name="id" value="<?php echo (int)$meeting['id']; ?>">
@@ -30,6 +33,26 @@ $token = generate_csrf_token();
       <div class="col-md-6">
         <label class="form-label" for="description">Description</label>
         <textarea id="description" name="description" class="form-control" placeholder="Meeting description" rows="1"><?php echo h($meeting['description'] ?? ''); ?></textarea>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="status_id">Status</label>
+        <select id="status_id" name="status_id" class="form-select">
+          <option value="">Select status</option>
+          <?php foreach ($meetingStatusList as $s): ?>
+            <option value="<?= (int)$s['id']; ?>" <?php echo (!empty($meeting['status_id']) && (int)$meeting['status_id'] === (int)$s['id']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="type_id">Type</label>
+        <select id="type_id" name="type_id" class="form-select">
+          <option value="">Select type</option>
+          <?php foreach ($meetingTypeList as $t): ?>
+            <option value="<?= (int)$t['id']; ?>" <?php echo (!empty($meeting['type_id']) && (int)$meeting['type_id'] === (int)$t['id']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
+          <?php endforeach; ?>
+        </select>
       </div>
     </div>
     <div class="mb-3">
@@ -58,8 +81,13 @@ $token = generate_csrf_token();
       <button type="button" class="btn btn-sm btn-secondary mt-2" id="addQuestion">Add Question</button>
     </div>
     <div class="mb-3">
+      <label class="form-label">Attendees</label>
+      <div id="attendeesContainer"></div>
+      <button type="button" class="btn btn-sm btn-secondary mt-2" id="addAttendee">Add Attendee</button>
+    </div>
+    <div class="mb-3">
       <label class="form-label">Upload Files</label>
-      <input type="file" name="file" id="meetingFile" class="form-control">
+      <input type="file" name="files[]" id="meetingFiles" multiple class="form-control">
     </div>
     <button class="btn btn-primary" type="submit">Save</button>
   </form>
@@ -68,9 +96,11 @@ $token = generate_csrf_token();
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
+  var csrfToken = '<?php echo h($token); ?>';
   var agendaStatusMap   = <?php echo json_encode($agendaStatusMap); ?>;
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaList = document.getElementById('agendaList');
+  var attendeesContainer = document.getElementById('attendeesContainer');
 
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
 
@@ -88,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function(){
         list.innerHTML = '';
         items.forEach(function(item){
           var opt = document.createElement('option');
-          opt.value = item.title;
+          var label = item.title || item.name || '';
+          opt.value = label;
           opt.dataset.id = item.id;
           list.appendChild(opt);
         });
@@ -147,6 +178,38 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
+  function initAttendeeRow(div, data){
+    var searchInput = div.querySelector('.attendee-search');
+    var idInput = div.querySelector('input[name="attendee_user_id[]"]');
+    initTypeahead(searchInput, idInput, 'functions/search_users.php');
+    if(data){
+      searchInput.value = data.name || '';
+      idInput.value = data.attendee_user_id || '';
+      div.querySelector('input[name="role[]"]').value = data.role || '';
+      div.querySelector('input[name="check_in_time[]"]').value = data.check_in_time || '';
+      div.querySelector('input[name="check_out_time[]"]').value = data.check_out_time || '';
+    }
+  }
+
+  function addAttendee(data){
+    var row = document.createElement('div');
+    row.className = 'row g-2 mb-2 attendee-item';
+    row.innerHTML = '<div class="col-md-4"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
+      '<div class="col-md-2"><input type="text" name="role[]" class="form-control" placeholder="Role"></div>' +
+      '<div class="col-md-3"><input type="datetime-local" name="check_in_time[]" class="form-control"></div>' +
+      '<div class="col-md-3"><div class="input-group"><input type="datetime-local" name="check_out_time[]" class="form-control"><button type="button" class="btn btn-outline-danger remove-attendee">&times;</button></div></div>';
+    attendeesContainer.appendChild(row);
+    initAttendeeRow(row, data || {});
+  }
+
+  document.getElementById('addAttendee').addEventListener('click', function(){ addAttendee(); });
+
+  attendeesContainer.addEventListener('click', function(e){
+    if(e.target.closest('.remove-attendee')){
+      e.target.closest('.attendee-item').remove();
+    }
+  });
+
   function addQuestion(data){
     var div = document.createElement('div');
     div.className = 'border rounded p-3 mb-2';
@@ -178,6 +241,11 @@ document.addEventListener('DOMContentLoaded', function(){
     fetch('functions/get_questions.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>').then(r=>r.json()).then(function(res){
       if(res.questions){ res.questions.forEach(function(q){ addQuestion(q); }); }
     });
+    fetch('functions/get_attendees.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>&csrf_token=' + encodeURIComponent(csrfToken))
+      .then(r=>r.json())
+      .then(function(res){
+        if(res.success && res.attendees){ res.attendees.forEach(function(a){ addAttendee(a); }); }
+      });
   }
 });
 </script>

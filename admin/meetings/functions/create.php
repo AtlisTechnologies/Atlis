@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $recur_daily = !empty($_POST['recur_daily']) ? 1 : 0;
   $recur_weekly = !empty($_POST['recur_weekly']) ? 1 : 0;
   $recur_monthly = !empty($_POST['recur_monthly']) ? 1 : 0;
+  $meeting_status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
+  $meeting_type_id   = isset($_POST['type_id']) && $_POST['type_id'] !== '' ? (int)$_POST['type_id'] : null;
 
   $errors = [];
   if ($title === '') {
@@ -45,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $start_time = $start_dt ? $start_dt->format('Y-m-d H:i:s') : null;
       $end_time = $end_dt ? $end_dt->format('Y-m-d H:i:s') : null;
 
-      $stmt = $pdo->prepare('INSERT INTO module_meetings (user_id, user_updated, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly) VALUES (?,?,?,?,?,?,?,?,?)');
-      $stmt->execute([$this_user_id, $this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly]);
+      $stmt = $pdo->prepare('INSERT INTO module_meetings (user_id, user_updated, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly, status_id, type_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+      $stmt->execute([$this_user_id, $this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $meeting_status_id, $meeting_type_id]);
       $id = $pdo->lastInsertId();
       admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', '', 'Created meeting');
 
@@ -103,6 +105,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $questionId = $pdo->lastInsertId();
         admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $questionId, 'CREATE', '', $qText);
+      }
+
+      // Attendees
+      $attendee_user_ids = isset($_POST['attendee_user_id']) && is_array($_POST['attendee_user_id']) ? $_POST['attendee_user_id'] : [];
+      $attendee_roles     = isset($_POST['role']) && is_array($_POST['role']) ? $_POST['role'] : [];
+      $check_in_times     = isset($_POST['check_in_time']) && is_array($_POST['check_in_time']) ? $_POST['check_in_time'] : [];
+      $check_out_times    = isset($_POST['check_out_time']) && is_array($_POST['check_out_time']) ? $_POST['check_out_time'] : [];
+
+      $attendeeStmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_user_id, role, check_in_time, check_out_time) VALUES (:uid,:uid,:mid,:attendee,:role,:check_in,:check_out)');
+      $attendee_count = count($attendee_user_ids);
+      for ($i = 0; $i < $attendee_count; $i++) {
+        $attendee_id = isset($attendee_user_ids[$i]) && $attendee_user_ids[$i] !== '' ? (int)$attendee_user_ids[$i] : null;
+        if (!$attendee_id) { continue; }
+        $role = trim($attendee_roles[$i] ?? '');
+        $check_in  = isset($check_in_times[$i]) && $check_in_times[$i] !== '' ? $check_in_times[$i] : null;
+        $check_out = isset($check_out_times[$i]) && $check_out_times[$i] !== '' ? $check_out_times[$i] : null;
+        $attendeeStmt->execute([
+          ':uid' => $this_user_id,
+          ':mid' => $id,
+          ':attendee' => $attendee_id,
+          ':role' => $role !== '' ? $role : null,
+          ':check_in' => $check_in,
+          ':check_out' => $check_out
+        ]);
+        $attendeeId = $pdo->lastInsertId();
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', 'Added attendee');
+      }
+
+      // Files
+      if (!empty($_FILES['files'])) {
+        $uploadDir = dirname(__DIR__) . '/uploads/' . $id . '/';
+        if (!is_dir($uploadDir)) {
+          mkdir($uploadDir, 0777, true);
+        }
+        $files = $_FILES['files'];
+        if (!is_array($files['name'])) {
+          $files = [
+            'name' => [$files['name']],
+            'type' => [$files['type']],
+            'tmp_name' => [$files['tmp_name']],
+            'error' => [$files['error']],
+            'size' => [$files['size']]
+          ];
+        }
+        $allowedImages = array_column(get_lookup_items($pdo, 'IMAGE_FILE_TYPES'), 'code');
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        foreach ($files['name'] as $index => $name) {
+          if ($files['error'][$index] !== UPLOAD_ERR_OK) { continue; }
+          $mime = finfo_file($finfo, $files['tmp_name'][$index]);
+          if (strpos($mime, 'image/') === 0 && !in_array($mime, $allowedImages, true)) { continue; }
+          $baseName = basename($name);
+          $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', $baseName);
+          $targetName = 'meeting_' . $id . '_' . time() . '_' . $safeName;
+          $targetPath = $uploadDir . $targetName;
+          if (move_uploaded_file($files['tmp_name'][$index], $targetPath)) {
+            $filePathDb = '/admin/meetings/uploads/' . $id . '/' . $targetName;
+            $fileStmt = $pdo->prepare('INSERT INTO module_meeting_files (user_id,user_updated,meeting_id,file_name,file_path,uploader_id) VALUES (:uid,:uid,:mid,:name,:path,:uid)');
+            $fileStmt->execute([
+              ':uid' => $this_user_id,
+              ':mid' => $id,
+              ':name' => $baseName,
+              ':path' => $filePathDb
+            ]);
+            $fileId = $pdo->lastInsertId();
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $fileId, 'UPLOAD', '', json_encode(['file'=>$baseName]));
+          }
+        }
+        finfo_close($finfo);
       }
 
       $pdo->commit();

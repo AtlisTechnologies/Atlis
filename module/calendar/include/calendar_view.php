@@ -1,7 +1,10 @@
 <?php
 $calendar_id = $_GET['calendar_id'] ?? 0;
 $calendars = [];
-$stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
+$sql = 'SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY name';
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
+$stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $event_types = get_lookup_items($pdo, 37);
@@ -18,7 +21,8 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <?php if (!empty($calendars)) { ?>
       <select id="calendarSelect" class="form-select form-select-sm w-auto me-2">
         <?php foreach ($calendars as $cal) { ?>
-          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo e($cal['name']); ?></option>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo e($cal_label); ?></option>
         <?php } ?>
       </select>
     <?php } ?>
