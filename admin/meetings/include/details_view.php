@@ -1,5 +1,4 @@
 <?php
-$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 $agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
 $meetingStatusMap = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
 $meetingTypeMap   = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
@@ -216,15 +215,6 @@ $_SESSION['csrf_token'] = $token;
             <option value="">None</option>
           </select>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <select name="status_id" id="statusSelect" class="form-select">
-            <option value="">None</option>
-            <?php foreach ($questionStatusMap as $sid => $s): ?>
-              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Save</button>
@@ -242,7 +232,6 @@ document.addEventListener('DOMContentLoaded', function(){
   var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var csrfToken = '<?= $token; ?>';
-  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaStatusMap = <?php echo json_encode($agendaStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
@@ -433,11 +422,6 @@ document.addEventListener('DOMContentLoaded', function(){
         var div = document.createElement('div');
         div.className = 'mb-3';
         div.dataset.id = q.id;
-        var statusHtml = '';
-        if(q.status_id && questionStatusMap[q.status_id]){
-          var s = questionStatusMap[q.status_id];
-          statusHtml = '<span class="badge bg-' + esc(s.color_class || 'secondary') + ' me-2">' + esc(s.label) + '</span>';
-        }
         var agendaHtml = '';
         if(q.agenda_id && agendaMap[q.agenda_id]){
           agendaHtml = '<p class="mb-1"><small>Agenda: ' + esc(agendaMap[q.agenda_id]) + '</small></p>';
@@ -448,9 +432,8 @@ document.addEventListener('DOMContentLoaded', function(){
           + (q.answer_text ? '<p class="mb-1">' + esc(q.answer_text) + '</p>' : '')
           + agendaHtml
           + '</div>'
-          + statusHtml
           + '</div>'
-          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-secondary me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
+          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-warning me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
         container.appendChild(div);
       });
     } else {
@@ -479,7 +462,6 @@ document.addEventListener('DOMContentLoaded', function(){
           document.getElementById('questionText').value = q.question_text;
           document.getElementById('answerText').value = q.answer_text || '';
           document.getElementById('agendaSelect').value = q.agenda_id || '';
-          document.getElementById('statusSelect').value = q.status_id || '';
           document.getElementById('questionModalLabel').textContent = 'Edit Question';
           updateAgendaSelect();
           bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
