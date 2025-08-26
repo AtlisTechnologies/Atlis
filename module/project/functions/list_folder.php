@@ -24,12 +24,30 @@ try{
     $current = $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  $stmt = $pdo->prepare('SELECT id,name,path FROM module_projects_folders WHERE project_id=:pid AND parent_id'.($folder_id?'=:fid':' IS NULL').' ORDER BY name');
-  $stmt->execute([':pid'=>$project_id, ':fid'=>$folder_id]);
+  $folderSql = 'SELECT id,name,path FROM module_projects_folders WHERE project_id=:pid AND ';
+  $folderParams = [':pid' => $project_id];
+  if($folder_id === null){
+    $folderSql .= 'parent_id IS NULL';
+  }else{
+    $folderSql .= 'parent_id = :fid';
+    $folderParams[':fid'] = $folder_id;
+  }
+  $folderSql .= ' ORDER BY name';
+  $stmt = $pdo->prepare($folderSql);
+  $stmt->execute($folderParams);
   $folders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  $stmt = $pdo->prepare('SELECT id,file_name,file_path,file_size,file_type FROM module_projects_files WHERE project_id=:pid AND folder_id'.($folder_id?'=:fid':' IS NULL').' AND note_id IS NULL AND question_id IS NULL ORDER BY sort_order, date_created DESC');
-  $stmt->execute([':pid'=>$project_id, ':fid'=>$folder_id]);
+  $fileSql = 'SELECT id,file_name,file_path,file_size,file_type FROM module_projects_files WHERE project_id=:pid AND ';
+  $fileParams = [':pid' => $project_id];
+  if($folder_id === null){
+    $fileSql .= 'folder_id IS NULL';
+  }else{
+    $fileSql .= 'folder_id = :fid';
+    $fileParams[':fid'] = $folder_id;
+  }
+  $fileSql .= ' AND note_id IS NULL AND question_id IS NULL ORDER BY sort_order, date_created DESC';
+  $stmt = $pdo->prepare($fileSql);
+  $stmt->execute($fileParams);
   $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   echo json_encode(['current'=>$current,'folders'=>$folders,'files'=>$files]);
