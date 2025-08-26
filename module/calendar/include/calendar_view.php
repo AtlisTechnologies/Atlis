@@ -6,7 +6,9 @@ $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $owned_calendar_ids = array_column(array_filter($calendars, fn($c) => !empty($c['owned'])), 'id');
+$owned_calendars = array_values(array_filter($calendars, fn($c) => !empty($c['owned'])));
 $owns_calendar = !empty($owned_calendar_ids);
+
 
 $user_default_calendar_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_DEFAULT') ?? 0;
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? $user_default_calendar_id;
@@ -15,6 +17,7 @@ $default_add_calendar_id = in_array($selected_calendar_id, $owned_calendar_ids, 
     : ($user_default_calendar_id ?: ($owned_calendar_ids[0] ?? 0));
 
 $event_types = get_lookup_items($pdo, 37);
+
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
@@ -24,19 +27,24 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
     <?php if (!empty($calendars)) { ?>
-      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2" multiple>
-        <?php foreach ($calendars as $cal) { ?>
-          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-          <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
-        <?php } ?>
-      </select>
+      <div class="form-floating form-floating-advance-select me-2">
+        <label for="calendarSelect">Calendars Displayed</label>
+        <select id="calendarSelect"
+                class="form-select"
+                multiple
+                data-choices="data-choices"
+                data-options='{"removeItemButton":true}'>
+          <?php foreach ($calendars as $cal) { ?>
+            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
+          <?php } ?>
+        </select>
+      </div>
     <?php } ?>
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
 
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
     <?php if ($owns_calendar) { ?>
       <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
         <span class="fas fa-plus pe-2 fs-10"></span>Add Event
@@ -54,7 +62,9 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   <div class="modal-dialog">
     <div class="modal-content border border-translucent">
       <form id="addEventForm" autocomplete="off">
+
         <input type="hidden" name="calendar_id" value="<?= (int)$default_add_calendar_id; ?>" />
+
         <div class="modal-header px-card border-0">
           <h5 class="mb-0 lh-sm text-body-highlight">Add Event</h5>
           <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">DISCARD</button>
@@ -178,7 +188,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
+
   const addEventModalEl = document.getElementById('addEventModal');
+
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
 
   const VISIBILITY_PUBLIC = 198;
@@ -211,6 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form && form.calendar_id) {
       form.calendar_id.value = cid;
     }
+  }
+
+  function selectCalendarRadio(form, cid) {
+    const radio = form.querySelector(`input[name="calendar_id"][value="${cid}"]`);
+    if (radio) radio.checked = true;
   }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -249,12 +266,12 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
-      const form = document.getElementById('addEventForm');
+      const form = addEventForm;
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
       form.event_type_id.value = defaultEventTypeId;
       form.is_private.checked = false;
-      form.calendar_id.value = getCalendarId();
+      selectCalendarRadio(form, getCalendarId());
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
   });
@@ -273,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
       selectCalendarRadio(addEventForm, getCalendarId());
@@ -283,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addEventForm.addEventListener('change', function(e) {
       if (e.target.name === 'calendar_id_radio') {
         this.calendar_id.value = e.target.value;
+
       }
     });
 
