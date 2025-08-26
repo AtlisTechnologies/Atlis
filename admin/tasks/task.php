@@ -1,6 +1,5 @@
 <?php
-require_once '../includes/php_header.php';
-require_once '../includes/functions.php';
+require_once __DIR__ . '/../admin_header.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $editing = $id > 0;
@@ -143,3 +142,4 @@ $_SESSION['csrf_token'] = $token;
       <?php endif; ?>
   </div>
 </form>
+<?php require_once __DIR__ . '/../admin_footer.php'; ?>
