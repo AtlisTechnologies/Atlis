@@ -257,7 +257,6 @@ if (!empty($current_project)) {
                     </div>
                   <?php endif; ?>
                 </div>
-                <script src="<?php echo getURLDir(); ?>assets/js/file-manager.js"></script>
                 <script src="<?php echo getURLDir(); ?>module/project/assets/file_cabinet.js"></script>
 
               </div>
