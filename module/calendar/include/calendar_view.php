@@ -1,11 +1,13 @@
 <?php
 $calendar_id = $_GET['calendar_id'] ?? 0;
 $calendars = [];
-$sql = 'SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY name';
+$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$owned_calendar_ids = array_column(array_filter($calendars, fn($c) => !empty($c['owned'])), 'id');
+$owns_calendar = !empty($owned_calendar_ids);
 
 $event_types = get_lookup_items($pdo, 37);
 
@@ -26,14 +28,18 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
         <?php } ?>
       </select>
     <?php } ?>
-    <?php if (user_has_permission('calendar','create')) { ?>
+    <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
-    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
-      <span class="fas fa-plus pe-2 fs-10"></span>Add Event
-    </button>
+    <?php if ($owns_calendar) { ?>
+      <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
+        <span class="fas fa-plus pe-2 fs-10"></span>Add Event
+      </button>
+    <?php } else { ?>
+      <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
+    <?php } ?>
   </div>
 </div>
 
@@ -148,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
+  const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
   const calendarEl = document.getElementById('calendar');
 
   const VISIBILITY_PUBLIC = 198;
@@ -234,7 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    this.calendar_id.value = getCalendarId();
+    const cid = parseInt(getCalendarId(), 10);
+    if (!ownedCalendarIds.includes(cid)) {
+      alert('Please select one of your calendars before adding an event.');
+      return;
+    }
+    this.calendar_id.value = cid;
     const fd = new FormData(this);
     fd.append('visibility_id', this.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
     fd.delete('is_private');
