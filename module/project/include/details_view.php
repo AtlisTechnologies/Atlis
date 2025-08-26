@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../../includes/functions.php';
 
 if (!empty($current_project)) {
+    $loadFileManagerJs = true;
     $statusId  = $current_project['status'] ?? null;
     $priorityId = $current_project['priority'] ?? null;
     $totalTasks = count($tasks ?? []);

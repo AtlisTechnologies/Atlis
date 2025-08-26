@@ -2378,10 +2378,12 @@
   ];
 
   const fileManagerInit = () => {
-    const fileContainer = document.querySelector('[data-files-container]');
     const fileDetailsContainer = document.querySelector(
       '[data-details-container]'
     );
+    if (!fileDetailsContainer) return;
+    const fileContainer = document.querySelector('[data-files-container]');
+    if (!fileContainer) return;
     const fileDetails = fileDetailsContainer.querySelector('[data-file-details]');
     const filesSelected = document.querySelector('[data-files-selected]');
     const fileManager = document.querySelector(
