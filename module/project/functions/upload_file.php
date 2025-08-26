@@ -14,6 +14,7 @@ $description = trim($_POST['description'] ?? '');
 $file_type_id = (int)($_POST['file_type_id'] ?? 0);
 $status_id    = (int)($_POST['status_id'] ?? 0);
 $sort_order   = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
+$folder_id = isset($_POST['folder_id']) && $_POST['folder_id'] !== '' ? (int)$_POST['folder_id'] : null;
 $response = [];
 
 if (!$file_type_id) {
@@ -26,7 +27,11 @@ if (!$status_id) {
 }
 
 if (!empty($_FILES['file'])) {
-    $uploadDir = '../uploads/';
+    $maxMb = (int)get_system_property($pdo,'PROJECT_FILE_MAX_UPLOAD_MB');
+    $maxSize = $maxMb ? $maxMb * 1024 * 1024 : 0;
+
+    $folderPath = get_project_folder_path($pdo,$folder_id);
+    $uploadDir = dirname(__DIR__) . '/uploads/' . $project_id . '/' . ($folderPath !== '' ? $folderPath . '/' : '');
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
@@ -49,13 +54,18 @@ if (!empty($_FILES['file'])) {
         $baseName = basename($name);
         $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', $baseName);
         $targetName = 'project_' . $project_id . '_' . time() . '_' . $safeName;
+        if($maxSize && $files['size'][$index] > $maxSize){
+            $response[] = ['name'=>$baseName,'error'=>'File too large'];
+            continue;
+        }
         $targetPath = $uploadDir . $targetName;
         if (move_uploaded_file($files['tmp_name'][$index], $targetPath)) {
-            $filePathDb = '/module/project/uploads/' . $targetName;
-            $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,note_id,description,file_type_id,status_id,sort_order,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:nid,:description,:file_type_id,:status_id,:sort_order,:name,:path,:size,:type)');
+            $filePathDb = '/module/project/uploads/' . $project_id . '/' . ($folderPath !== '' ? $folderPath . '/' : '') . $targetName;
+            $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,folder_id,note_id,description,file_type_id,status_id,sort_order,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:fid,:nid,:description,:file_type_id,:status_id,:sort_order,:name,:path,:size,:type)');
             $stmt->execute([
                 ':uid' => $this_user_id,
                 ':pid' => $project_id,
+                ':fid' => $folder_id,
                 ':nid' => $note_id,
                 ':description' => $description !== '' ? $description : null,
                 ':file_type_id' => $file_type_id,
