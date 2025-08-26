@@ -5,12 +5,10 @@ require_permission('admin_task', 'create');
 
 $isAjax = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest'
     || str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
-if ($isAjax) {
-  header('Content-Type: application/json');
-}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   if ($isAjax) {
+    header('Content-Type: application/json');
     http_response_code(405);
     echo json_encode(['success' => false, 'error' => 'Method not allowed']);
   } else {
@@ -22,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
   if ($isAjax) {
+    header('Content-Type: application/json');
     http_response_code(403);
     echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']);
   } else {
@@ -34,6 +33,7 @@ if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
 $name = trim($_POST['name'] ?? '');
 if ($name === '') {
   if ($isAjax) {
+    header('Content-Type: application/json');
     http_response_code(400);
     echo json_encode(['success' => false, 'error' => 'Name required']);
   } else {
@@ -81,6 +81,7 @@ foreach ($assigned_user_ids as $assigned_user_id) {
 admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Created task');
 
 if ($isAjax) {
+  header('Content-Type: application/json');
   $fetchStmt = $pdo->prepare('SELECT t.id, t.name, type.label AS type_label, cat.label AS category_label, sub.label AS sub_category_label, st.label AS status_label, pr.label AS priority_label FROM admin_task t LEFT JOIN lookup_list_items type ON t.type_id = type.id LEFT JOIN lookup_list_items cat ON t.category_id = cat.id LEFT JOIN lookup_list_items sub ON t.sub_category_id = sub.id LEFT JOIN lookup_list_items st ON t.status_id = st.id LEFT JOIN lookup_list_items pr ON t.priority_id = pr.id WHERE t.id = :id');
   $fetchStmt->execute([':id' => $taskId]);
   $task = $fetchStmt->fetch(PDO::FETCH_ASSOC);

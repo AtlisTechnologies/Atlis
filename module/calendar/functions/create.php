@@ -17,15 +17,15 @@ $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 
 if ($title && $start_time && $calendar_id) {
-  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
   $chk->execute([$calendar_id]);
   $calendar = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$calendar) {
     http_response_code(404);
     exit;
   }
-  if ($calendar['is_private'] && $calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
-    // Only the calendar owner may add events to a private calendar; Admins can override.
+  if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    // Only the calendar owner may add events; Admins can override.
     http_response_code(403);
     exit;
   }

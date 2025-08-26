@@ -113,17 +113,27 @@ document.addEventListener('DOMContentLoaded', function(){
     list.id = 'dl_' + Math.random().toString(36).slice(2);
     document.body.appendChild(list);
     textInput.setAttribute('list', list.id);
-    textInput.addEventListener('input', function(){
-      fetch(endpoint + '?q=' + encodeURIComponent(this.value)).then(r=>r.json()).then(function(items){
-        list.innerHTML = '';
-        items.forEach(function(item){
-          var opt = document.createElement('option');
-          var label = item.title || item.name || '';
-          opt.value = label;
-          opt.dataset.id = item.id;
-          list.appendChild(opt);
-        });
+    function renderOptions(items){
+      list.innerHTML = '';
+      items.forEach(function(item){
+        var opt = document.createElement('option');
+        var label = item.title || item.name || '';
+        opt.value = label;
+        opt.dataset.id = item.id;
+        list.appendChild(opt);
       });
+    }
+    textInput.addEventListener('input', function(){
+      var url = endpoint + '?q=' + encodeURIComponent(this.value);
+      fetch(url)
+        .then(function(r){
+          return r.ok ? r.json() : Promise.reject(new Error('Search failed'));
+        })
+        .then(renderOptions)
+        .catch(function(){
+          list.innerHTML = '<option value="">Error</option>';
+          console.error('Search failed');
+        });
     });
     textInput.addEventListener('change', function(){
       hiddenInput.value = '';

@@ -1,11 +1,12 @@
 <?php
-$calendar_id = $_GET['calendar_id'] ?? 0;
 $calendars = [];
-$sql = 'SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY name';
+$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$owned_calendar_ids = array_column(array_filter($calendars, fn($c) => !empty($c['owned'])), 'id');
+$owns_calendar = !empty($owned_calendar_ids);
 
 $event_types = get_lookup_items($pdo, 37);
 
@@ -19,21 +20,27 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
     <?php if (!empty($calendars)) { ?>
-      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2">
+      <select id="calendarSelect" class="form-select form-select-sm w-auto me-2" multiple>
         <?php foreach ($calendars as $cal) { ?>
           <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo e($cal_label); ?></option>
+          <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
         <?php } ?>
       </select>
     <?php } ?>
-    <?php if (user_has_permission('calendar','create')) { ?>
+    <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
+
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
     <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
-    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
-      <span class="fas fa-plus pe-2 fs-10"></span>Add Event
-    </button>
+    <?php if ($owns_calendar) { ?>
+      <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
+        <span class="fas fa-plus pe-2 fs-10"></span>Add Event
+      </button>
+    <?php } else { ?>
+      <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
+    <?php } ?>
+
   </div>
 </div>
 
@@ -148,7 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
+  const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
+
   const calendarEl = document.getElementById('calendar');
+  const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
 
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
@@ -160,16 +170,24 @@ document.addEventListener('DOMContentLoaded', function() {
     return String(props.is_private) === '1';
   }
 
-  function getCalendarId() {
+  function getCalendarIds() {
     const sel = document.getElementById('calendarSelect');
-    return sel ? sel.value : defaultCalendarId;
+    if (!sel) return [];
+    return Array.from(sel.selectedOptions).map(opt => opt.value);
+  }
+
+  function getCalendarId() {
+    const ids = getCalendarIds();
+    return ids.length ? ids[0] : defaultCalendarId;
   }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
 
     events: function(fetchInfo, successCallback, failureCallback) {
-      fetch('<?php echo getURLDir(); ?>module/calendar/functions/list.php?calendar_id=<?php echo $calendar_id; ?>')
+      const ids = getCalendarIds();
+      const url = ids.length ? `${listUrl}?calendar_ids=${ids.join(',')}` : listUrl;
+      fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
@@ -183,6 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
     eventClick: function(info) {
+      const ownerId = info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id;
+      if (ownerId !== undefined && parseInt(ownerId, 10) !== currentUserId && !isAdmin) {
+        alert('You do not have permission to edit this event.');
+        return;
+      }
       const form = document.getElementById('editEventForm');
       // Populate edit form with selected event details
       form.id.value = info.event.id;
@@ -205,18 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   calendar.render();
 
-  const connectGoogle = document.getElementById('connectGoogle');
-  if (connectGoogle) {
-    connectGoogle.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/google_oauth.php', 'googleOAuth', 'width=600,height=700');
-    });
-  }
-  const connectMicrosoft = document.getElementById('connectMicrosoft');
-  if (connectMicrosoft) {
-    connectMicrosoft.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/microsoft_oauth.php', 'microsoftOAuth', 'width=600,height=700');
-    });
-  }
   window.addEventListener('message', function(e) {
     if (e.data === 'calendarLinked') {
       window.location.reload();
@@ -226,15 +237,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const calSelect = document.getElementById('calendarSelect');
   if (calSelect) {
     calSelect.addEventListener('change', function() {
-      const url = new URL(window.location.href);
-      url.searchParams.set('calendar_id', this.value);
-      window.location.href = url.toString();
+      calendar.refetchEvents();
     });
   }
 
   document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    this.calendar_id.value = getCalendarId();
+    const cid = parseInt(getCalendarId(), 10);
+    if (!ownedCalendarIds.includes(cid)) {
+      alert('Please select one of your calendars before adding an event.');
+      return;
+    }
+    this.calendar_id.value = cid;
     const fd = new FormData(this);
     fd.append('visibility_id', this.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
     fd.delete('is_private');
