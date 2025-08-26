@@ -1,9 +1,7 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
-require_once '../../../includes/php_header.php';
-require_permission('admin_task','update');
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+require_once __DIR__ . '/../../../includes/php_header.php';
+require_permission('admin_task', 'update');
 
 header('Content-Type: application/json');
 
