@@ -6,11 +6,16 @@ $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $owned_calendar_ids = array_column(array_filter($calendars, fn($c) => !empty($c['owned'])), 'id');
+$owned_calendars = array_values(array_filter($calendars, fn($c) => !empty($c['owned'])));
 $owns_calendar = !empty($owned_calendar_ids);
+
+$selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
+$default_add_calendar_id = in_array($selected_calendar_id, $owned_calendar_ids, true)
+  ? $selected_calendar_id
+  : ($owned_calendar_ids[0] ?? 0);
 
 $event_types = get_lookup_items($pdo, 37);
 
-$selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
@@ -55,7 +60,22 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   <div class="modal-dialog">
     <div class="modal-content border border-translucent">
       <form id="addEventForm" autocomplete="off">
-        <input type="hidden" name="calendar_id" value="<?= (int)$selected_calendar_id; ?>" />
+        <div class="mb-3">
+          <label class="form-label d-block">Calendar</label>
+          <?php foreach ($owned_calendars as $cal): ?>
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="radio"
+                     name="calendar_id"
+                     id="addCal<?= $cal['id']; ?>"
+                     value="<?= $cal['id']; ?>"
+                     <?= $cal['id'] == $default_add_calendar_id ? 'checked' : ''; ?>>
+              <label class="form-check-label" for="addCal<?= $cal['id']; ?>">
+                <?= h($cal['name']); ?>
+              </label>
+            </div>
+          <?php endforeach; ?>
+        </div>
         <div class="modal-header px-card border-0">
           <h5 class="mb-0 lh-sm text-body-highlight">Add Event</h5>
           <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">DISCARD</button>
@@ -163,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
 
   const calendarEl = document.getElementById('calendar');
+  const addEventForm = document.getElementById('addEventForm');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
 
   const VISIBILITY_PUBLIC = 198;
@@ -184,6 +205,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function getCalendarId() {
     const ids = getCalendarIds();
     return ids.length ? ids[0] : defaultCalendarId;
+  }
+
+  function selectCalendarRadio(form, cid) {
+    const radio = form.querySelector(`input[name="calendar_id"][value="${cid}"]`);
+    if (radio) radio.checked = true;
   }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -222,12 +248,12 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
     dateClick: function(info) {
-      const form = document.getElementById('addEventForm');
+      const form = addEventForm;
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
       form.event_type_id.value = defaultEventTypeId;
       form.is_private.checked = false;
-      form.calendar_id.value = getCalendarId();
+      selectCalendarRadio(form, getCalendarId());
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
   });
@@ -246,16 +272,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  document.getElementById('addEventForm').addEventListener('submit', function(e) {
+  document.getElementById('addEventModal').addEventListener('show.bs.modal', function() {
+    selectCalendarRadio(addEventForm, getCalendarId());
+  });
+
+  addEventForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const cid = parseInt(getCalendarId(), 10);
+    const form = this;
+    const cid = parseInt(form.querySelector('input[name="calendar_id"]:checked').value, 10);
     if (!ownedCalendarIds.includes(cid)) {
       alert('Please select one of your calendars before adding an event.');
       return;
     }
-    this.calendar_id.value = cid;
-    const fd = new FormData(this);
-    fd.append('visibility_id', this.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
+    const fd = new FormData(form);
+    fd.append('visibility_id', form.is_private.checked ? VISIBILITY_PRIVATE : VISIBILITY_PUBLIC);
     fd.delete('is_private');
     fetch('<?php echo getURLDir(); ?>module/calendar/functions/create.php', {
       method: 'POST',
