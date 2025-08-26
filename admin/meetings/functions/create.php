@@ -8,6 +8,11 @@ if ($isAjax) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+    exit;
+  }
   $title = trim($_POST['title'] ?? '');
   $description = trim($_POST['description'] ?? '');
   $start_raw = $_POST['start_time'] ?? '';
