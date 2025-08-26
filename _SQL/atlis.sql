@@ -291,9 +291,6 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (15, 'Finances', 'finances/index.php', 'dollar-sign', 12, 1, 1, '2025-08-25 00:40:13', '2025-08-25 00:43:46', NULL,
 (16, 'Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL);
 
-INSERT INTO admin_navigation_links (title, path, icon, sort_order, user_id, user_updated, date_created, date_updated, memo)
-VALUES ('Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -422,24 +419,6 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (108, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 'admin_task_comment', 'update'),
 (109, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 'admin_task_comment', 'delete');
 
-INSERT INTO admin_permissions (user_id, user_updated, date_created, date_updated, memo, module, action) VALUES
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task','create'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task','read'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task','update'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task','delete'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_assignment','create'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_assignment','read'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_assignment','update'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_assignment','delete'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_file','create'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_file','read'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_file','update'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_file','delete'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_comment','create'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_comment','read'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_comment','update'),
-  (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'admin_task_comment','delete');
-
 -- --------------------------------------------------------
 
 --
@@ -479,9 +458,6 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (16, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services', 'Permissions for managing products and services'),
 (17, 1, 1, '2025-08-24 23:53:15', '2025-08-24 23:53:15', NULL, 'Finances', 'Permissions for finance module',
 (18, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 'Admin Tasks', 'Permissions for managing administrative tasks');
-
-INSERT INTO admin_permission_groups (user_id, user_updated, date_created, date_updated, memo, name, description)
-VALUES (1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,'Admin Tasks','Permissions for managing administrative tasks');
 
 -- --------------------------------------------------------
 
@@ -611,12 +587,6 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (115, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 18, 108),
 (116, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 18, 109);
 
-INSERT INTO admin_permission_group_permissions (user_id, user_updated, permission_group_id, permission_id)
-SELECT 1,1,pg.id,p.id
-FROM admin_permission_groups pg
-JOIN admin_permissions p ON p.module IN ('admin_task','admin_task_assignment','admin_task_file','admin_task_comment')
-WHERE pg.name='Admin Tasks';
-
 -- --------------------------------------------------------
 
 --
@@ -716,9 +686,6 @@ INSERT INTO `admin_role_permissions` (`id`, `user_id`, `user_updated`, `date_cre
 (45, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 15, 16,
 (46, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 1, 18);
 
-INSERT INTO admin_role_permissions (user_id, user_updated, date_created, date_updated, memo, role_id, permission_group_id)
-SELECT 1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,1,pg.id FROM admin_permission_groups pg WHERE pg.name='Admin Tasks';
-
 -- --------------------------------------------------------
 
 --
@@ -776,9 +743,6 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (42, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 1, 16),
 (43, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 15, 16,
 (44, 1, 1, '2025-09-01 00:00:00', '2025-09-01 00:00:00', NULL, 1, 18);
-
-INSERT INTO admin_role_permission_groups (user_id, user_updated, date_created, date_updated, memo, role_id, permission_group_id)
-SELECT 1,1,'2025-09-01 00:00:00','2025-09-01 00:00:00',NULL,1,pg.id FROM admin_permission_groups pg WHERE pg.name='Admin Tasks';
 
 -- --------------------------------------------------------
 
@@ -3452,123 +3416,6 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (4, 1, 1, '2025-08-21 22:14:15', '2025-08-22 08:26:16', NULL, '1_1755836055.JPEG', 'module/users/uploads/1_1755836055.JPEG', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
 (5, 1, 1, '2025-08-22 08:26:01', '2025-08-22 08:26:16', NULL, '535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 'module/users/uploads/535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 72399, 'image/jpeg', 'db5dc9b5e63e2d99f123f9e42ab5f902239c4f8f9ba2674c54e2084159fc5a51', 600, 596, 1, 83);
 
--- Table structure for table `admin_task`
---
-
-CREATE TABLE `admin_task` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `type_id` int(11) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `sub_category_id` int(11) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `priority_id` int(11) DEFAULT NULL,
-  `start_date` datetime DEFAULT NULL,
-  `due_date` datetime DEFAULT NULL,
-  `is_completed` tinyint(1) DEFAULT 0,
-  `completed_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_task`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_task_assignments`
---
-
-CREATE TABLE `admin_task_assignments` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `assigned_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_task_assignments`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_task_files`
---
-
-CREATE TABLE `admin_task_files` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `mime_type` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_task_files`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_task_comments`
---
-
-CREATE TABLE `admin_task_comments` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `comment_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_task_comments`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_task_relations`
---
-
-CREATE TABLE `admin_task_relations` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `task_id` int(11) NOT NULL,
-  `related_module` varchar(255) NOT NULL,
-  `related_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin_task_relations`
---
-
--- --------------------------------------------------------
-
 --
 
 -- --------------------------------------------------------
@@ -4383,51 +4230,6 @@ ALTER TABLE `users_profile_pics`
   ADD KEY `fk_users_profile_pics_uploaded_by` (`uploaded_by`),
   ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
 
--- Indexes for table `admin_task`
---
-ALTER TABLE `admin_task`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_admin_task_user_id` (`user_id`),
-  ADD KEY `fk_admin_task_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_task_type_id` (`type_id`),
-  ADD KEY `fk_admin_task_category_id` (`category_id`),
-  ADD KEY `fk_admin_task_sub_category_id` (`sub_category_id`),
-  ADD KEY `fk_admin_task_status_id` (`status_id`),
-  ADD KEY `fk_admin_task_priority_id` (`priority_id`);
-
--- Indexes for table `admin_task_assignments`
---
-ALTER TABLE `admin_task_assignments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_admin_task_assignments_user_id` (`user_id`),
-  ADD KEY `fk_admin_task_assignments_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_task_assignments_task_id` (`task_id`),
-  ADD KEY `fk_admin_task_assignments_assigned_user_id` (`assigned_user_id`);
-
--- Indexes for table `admin_task_files`
---
-ALTER TABLE `admin_task_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_admin_task_files_user_id` (`user_id`),
-  ADD KEY `fk_admin_task_files_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_task_files_task_id` (`task_id`);
-
--- Indexes for table `admin_task_comments`
---
-ALTER TABLE `admin_task_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_admin_task_comments_user_id` (`user_id`),
-  ADD KEY `fk_admin_task_comments_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_task_comments_task_id` (`task_id`);
-
--- Indexes for table `admin_task_relations`
---
-ALTER TABLE `admin_task_relations`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_admin_task_relations_user_id` (`user_id`),
-  ADD KEY `fk_admin_task_relations_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_task_relations_task_id` (`task_id`);
-
 --
 
 -- Indexes for table `admin_task`
@@ -4891,31 +4693,6 @@ ALTER TABLE `users_2fa`
 --
 ALTER TABLE `users_profile_pics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
--- AUTO_INCREMENT for table `admin_task`
---
-ALTER TABLE `admin_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
--- AUTO_INCREMENT for table `admin_task_assignments`
---
-ALTER TABLE `admin_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
--- AUTO_INCREMENT for table `admin_task_files`
---
-ALTER TABLE `admin_task_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
--- AUTO_INCREMENT for table `admin_task_comments`
---
-ALTER TABLE `admin_task_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
--- AUTO_INCREMENT for table `admin_task_relations`
---
-ALTER TABLE `admin_task_relations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 
@@ -5416,6 +5193,7 @@ ALTER TABLE `person_skills`
   ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+
 -- Constraints for table `admin_task`
 --
 ALTER TABLE `admin_task`
