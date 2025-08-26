@@ -29,8 +29,8 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <?php if (user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectGoogle">Connect Google Calendar</button>
-    <button class="btn btn-outline-secondary btn-sm me-2" type="button" id="connectMicrosoft">Connect Microsoft Calendar</button>
+    <button class="btn btn-outline-secondary btn-sm me-2 disabled text-decoration-line-through" type="button" id="connectGoogle" disabled>Connect Google Calendar</button><span class="text-muted ms-1 me-2">Coming&nbsp;Soon!</span>
+    <button class="btn btn-outline-secondary btn-sm me-2 disabled text-decoration-line-through" type="button" id="connectMicrosoft" disabled>Connect Microsoft Calendar</button><span class="text-muted ms-1 me-2">Coming&nbsp;Soon!</span>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
       <span class="fas fa-plus pe-2 fs-10"></span>Add Event
     </button>
@@ -205,18 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   calendar.render();
 
-  const connectGoogle = document.getElementById('connectGoogle');
-  if (connectGoogle) {
-    connectGoogle.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/google_oauth.php', 'googleOAuth', 'width=600,height=700');
-    });
-  }
-  const connectMicrosoft = document.getElementById('connectMicrosoft');
-  if (connectMicrosoft) {
-    connectMicrosoft.addEventListener('click', function() {
-      window.open('<?php echo getURLDir(); ?>module/calendar/functions/microsoft_oauth.php', 'microsoftOAuth', 'width=600,height=700');
-    });
-  }
   window.addEventListener('message', function(e) {
     if (e.data === 'calendarLinked') {
       window.location.reload();
