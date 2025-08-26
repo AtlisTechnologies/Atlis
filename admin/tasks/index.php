@@ -204,6 +204,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const tasksTableBody = document.querySelector('#tasks tbody.list');
   const addTaskBtn = document.getElementById('addTaskBtn');
   const canDelete = <?= user_has_permission('admin_task','delete') ? 'true' : 'false'; ?>;
+  const jsonHeaders = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'application/json'
+  };
   let taskList;
   const options = JSON.parse(document.getElementById('tasks').dataset.list);
   if (window.List) {
@@ -231,7 +235,11 @@ document.addEventListener('DOMContentLoaded', function () {
   taskForm.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(taskForm);
-    fetch('functions/create.php', { method: 'POST', body: formData })
+    fetch('functions/create.php', {
+      method: 'POST',
+      body: formData,
+      headers: jsonHeaders
+    })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
