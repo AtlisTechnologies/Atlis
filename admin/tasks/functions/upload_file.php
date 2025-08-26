@@ -1,9 +1,7 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
-require_once '../../../includes/php_header.php';
-require_permission('admin_task_file','create');
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+require_once __DIR__ . '/../../../includes/php_header.php';
+require_permission('admin_task', 'create');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -34,7 +32,7 @@ finfo_close($finfo);
 $safe = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($file['name'], PATHINFO_FILENAME));
 $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 $filename = $safe . '_' . time() . '.' . $ext;
-$destDir = '../uploads/';
+$destDir = __DIR__ . '/../uploads/';
 if (!is_dir($destDir)) { mkdir($destDir, 0755, true); }
 $dest = $destDir . $filename;
 if (!move_uploaded_file($file['tmp_name'], $dest)) {
