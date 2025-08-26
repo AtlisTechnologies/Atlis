@@ -8,9 +8,9 @@ $modules = require __DIR__ . '/modules.php';
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title"><span class="me-2" data-feather="<?= htmlspecialchars($module['icon']); ?>"></span><?= htmlspecialchars($module['title']); ?></h5>
-          <p class="card-text"><?php if(isset($module['memo'])){ htmlspecialchars($module['memo']); } ?></p>
-          <a href="<?= htmlspecialchars($module['path']); ?>" class="btn btn-primary btn-sm">Manage</a>
+          <h5 class="card-title"><span class="me-2" data-feather="<?= e($module['icon']); ?>"></span><?= e($module['title']); ?></h5>
+          <p class="card-text"><?php if(isset($module['memo'])){ e($module['memo']); } ?></p>
+          <a href="<?= e($module['path']); ?>" class="btn btn-primary btn-sm">Manage</a>
         </div>
       </div>
     </div>

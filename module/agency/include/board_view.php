@@ -17,7 +17,7 @@ foreach ($agencies as $agency) {
           <?php foreach (($data['items'] ?? []) as $agency): ?>
             <div class="card mb-2">
               <div class="card-body p-2">
-                <?= htmlspecialchars($agency['name']); ?>
+                <?= e($agency['name']); ?>
                 <span class="badge bg-primary-subtle text-primary ms-1"><?= (int)$agency['user_count']; ?></span>
                 <span class="badge bg-secondary-subtle text-secondary ms-1"><?= (int)$agency['person_count']; ?></span>
               </div>

@@ -8,8 +8,8 @@ $navLinks = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <ul class="navbar-nav flex-column" id="navbarVerticalNav">
         <?php foreach ($navLinks as $link): ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= htmlspecialchars($link['path']); ?>">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= htmlspecialchars($link['icon']); ?>"></span></span><span class="nav-link-text"><?= htmlspecialchars($link['title']); ?></span></div>
+          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= e($link['path']); ?>">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= e($link['icon']); ?>"></span></span><span class="nav-link-text"><?= e($link['title']); ?></span></div>
           </a>
         </li>
         <?php endforeach; ?>

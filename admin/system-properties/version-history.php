@@ -16,16 +16,16 @@ if($id){
   $versions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
-<h2 class="mb-4">Version History: <?= htmlspecialchars($name); ?></h2>
+<h2 class="mb-4">Version History: <?= e($name); ?></h2>
 <table class="table table-striped table-sm">
   <thead><tr><th>Version</th><th>Date</th><th>User</th><th>Previous Value</th><th>Action</th></tr></thead>
   <tbody>
   <?php foreach($versions as $v): ?>
     <tr data-id="<?= $v['id']; ?>">
-      <td><?= htmlspecialchars($v['version_number']); ?></td>
-      <td><?= htmlspecialchars($v['date_created']); ?></td>
-      <td><?= htmlspecialchars($v['user_id']); ?></td>
-      <td><pre class="mb-0"><?= htmlspecialchars($v['previous_value']); ?></pre></td>
+      <td><?= e($v['version_number']); ?></td>
+      <td><?= e($v['date_created']); ?></td>
+      <td><?= e($v['user_id']); ?></td>
+      <td><pre class="mb-0"><?= e($v['previous_value']); ?></pre></td>
       <td><button class="btn btn-sm btn-warning restore" data-id="<?= $v['id']; ?>">Restore</button></td>
     </tr>
   <?php endforeach; ?>

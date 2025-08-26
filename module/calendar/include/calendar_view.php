@@ -21,7 +21,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <?php if (!empty($calendars)) { ?>
       <select id="calendarSelect" class="form-select form-select-sm w-auto me-2">
         <?php foreach ($calendars as $cal) { ?>
-          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo htmlspecialchars($cal['name']); ?></option>
+          <option value="<?php echo $cal['id']; ?>" <?php echo ($cal['id'] == $calendar_id ? 'selected' : ''); ?>><?php echo e($cal['name']); ?></option>
         <?php } ?>
       </select>
     <?php } ?>

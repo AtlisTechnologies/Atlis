@@ -11,7 +11,7 @@
       <div class="col-md-4">
         <div class="card h-100">
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title"><?= htmlspecialchars($b['name']) ?></h5>
+            <h5 class="card-title"><?= e($b['name']) ?></h5>
             <div class="mt-auto">
               <a class="btn btn-sm btn-falcon-primary" href="index.php?action=board&id=<?= $b['id'] ?>">Open</a>
               <a class="btn btn-sm btn-falcon-secondary" href="index.php?action=edit&id=<?= $b['id'] ?>">Edit</a>

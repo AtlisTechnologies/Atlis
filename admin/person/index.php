@@ -38,7 +38,7 @@ $stmt->execute([':ph_status'=>$defaultPhoneStatus, ':addr_status'=>$defaultAddrS
 $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Persons</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <a href="edit.php" class="btn btn-sm btn-success mb-3">Add Person</a>
 <div id="persons" data-list='{"valueNames":["name","email"],"page":20,"pagination":true}'>
   <div class="row justify-content-between g-2 mb-3">
@@ -52,22 +52,22 @@ $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card h-100 shadow-sm">
           <div class="card-body d-flex flex-column justify-content-between">
             <div>
-              <h5 class="name mb-1"><?= htmlspecialchars(trim(($p['first_name'] ?? '').' '.($p['last_name'] ?? ''))); ?></h5>
+              <h5 class="name mb-1"><?= e(trim(($p['first_name'] ?? '').' '.($p['last_name'] ?? ''))); ?></h5>
               <?php if($p['email']): ?>
-                <p class="email text-muted small mb-1"><?= htmlspecialchars($p['email']); ?></p>
+                <p class="email text-muted small mb-1"><?= e($p['email']); ?></p>
               <?php endif; ?>
               <?php if($p['org_name'] || $p['agency_name'] || $p['division_name']): ?>
                 <p class="text-muted small mb-1">
-                  <?= htmlspecialchars($p['org_name'] ?? ''); ?>
-                  <?php if($p['agency_name']): ?>/ <?= htmlspecialchars($p['agency_name']); ?><?php endif; ?>
-                  <?php if($p['division_name']): ?>/ <?= htmlspecialchars($p['division_name']); ?><?php endif; ?>
+                  <?= e($p['org_name'] ?? ''); ?>
+                  <?php if($p['agency_name']): ?>/ <?= e($p['agency_name']); ?><?php endif; ?>
+                  <?php if($p['division_name']): ?>/ <?= e($p['division_name']); ?><?php endif; ?>
                 </p>
               <?php endif; ?>
               <?php if($p['phone_number']): ?>
-                <p class="text-muted small mb-1">📞 <?= htmlspecialchars($p['phone_number']); ?></p>
+                <p class="text-muted small mb-1">📞 <?= e($p['phone_number']); ?></p>
               <?php endif; ?>
               <?php if($p['address_line1']): ?>
-                <p class="text-muted small mb-2">🏠 <?= htmlspecialchars($p['address_line1']); ?><?= $p['city'] ? ', '.htmlspecialchars($p['city']) : ''; ?><?= $p['state_code'] ? ' '.htmlspecialchars($p['state_code']) : ''; ?><?= $p['postal_code'] ? ' '.htmlspecialchars($p['postal_code']) : ''; ?></p>
+                <p class="text-muted small mb-2">🏠 <?= e($p['address_line1']); ?><?= $p['city'] ? ', '.e($p['city']) : ''; ?><?= $p['state_code'] ? ' '.e($p['state_code']) : ''; ?><?= $p['postal_code'] ? ' '.e($p['postal_code']) : ''; ?></p>
               <?php endif; ?>
             </div>
             <div>

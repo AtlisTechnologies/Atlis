@@ -149,9 +149,9 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
     $path = "/module/agency/uploads/{$subdir}/{$path}";
   }
   $src = getURLDir() . ltrim($path, '/');
-  $downloadUrl = htmlspecialchars($downloadUrl, ENT_QUOTES);
-  $escName = htmlspecialchars($file_name);
-  $src = htmlspecialchars($src, ENT_QUOTES);
+  $downloadUrl = e($downloadUrl, ENT_QUOTES);
+  $escName = e($file_name);
+  $src = e($src, ENT_QUOTES);
   if (strpos($file_type, 'image/') === 0) {
     return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" target=\"_blank\"><img src=\"{$src}\" class=\"img-thumbnail\" style=\"max-width:100px;\" alt=\"{$escName}\"></a></div>";
   }
@@ -159,7 +159,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
 }
 ?>
 <h2 class="mb-4">Organizations</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <?php if (user_has_permission('organization','create')): ?>
   <a href="organization_edit.php" class="btn btn-sm btn-success mb-3">Add Organization</a>
 <?php endif; ?>
@@ -168,7 +168,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between align-items-start">
       <div>
-        <span class="badge bg-primary me-1">Org</span><span class="fw-semibold"><?= htmlspecialchars($org['name']); ?></span>
+        <span class="badge bg-primary me-1">Org</span><span class="fw-semibold"><?= e($org['name']); ?></span>
         <?= render_file_attachment($org['file_path'], $org['file_name'], $org['file_type'], "/module/agency/download.php?type=organization&id={$org['id']}", 'organization'); ?>
         <?php if (!empty($org['persons'])): ?>
           <br><small>
@@ -178,7 +178,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
                 $label = $p['name'];
                 if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
                 if ($p['is_lead']) $label .= ' [Lead]';
-                $parts[] = htmlspecialchars($label);
+                $parts[] = e($label);
               }
               echo implode(', ', $parts);
             ?>
@@ -208,7 +208,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
           <div class="card mb-2">
             <div class="card-header d-flex justify-content-between align-items-start">
               <div>
-                <span class="badge bg-success me-1">Agency</span><span class="fw-semibold"><?= htmlspecialchars($agency['name']); ?></span>
+                <span class="badge bg-success me-1">Agency</span><span class="fw-semibold"><?= e($agency['name']); ?></span>
                 <?= render_file_attachment($agency['file_path'], $agency['file_name'], $agency['file_type'], "/module/agency/download.php?type=agency&id={$agency['id']}", 'agency'); ?>
                 <?php if (!empty($agency['persons'])): ?>
                   <br><small>
@@ -218,7 +218,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
                         $label = $p['name'];
                         if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
                         if ($p['is_lead']) $label .= ' [Lead]';
-                        $parts[] = htmlspecialchars($label);
+                        $parts[] = e($label);
                       }
                       echo implode(', ', $parts);
                     ?>
@@ -247,7 +247,7 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
                 <?php foreach ($agency['divisions'] as $division): ?>
                   <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div>
-                      <span class="badge bg-warning me-1">Division</span><?= htmlspecialchars($division['name']); ?>
+                      <span class="badge bg-warning me-1">Division</span><?= e($division['name']); ?>
                       <?= render_file_attachment($division['file_path'], $division['file_name'], $division['file_type'], "/module/agency/download.php?type=division&id={$division['id']}", 'division'); ?>
                     </div>
                     <div class="text-end">

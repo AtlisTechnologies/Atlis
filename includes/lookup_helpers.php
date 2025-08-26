@@ -57,12 +57,12 @@ function render_status_badge(array $lookupList, int|string|null $id, ?string $cl
 
     $attrString = '';
     foreach ($attributes as $attr => $value) {
-        $attrString .= ' ' . htmlspecialchars($attr) . '="' . htmlspecialchars($value) . '"';
+        $attrString .= ' ' . e($attr) . '="' . e($value) . '"';
     }
 
-    $classString = trim('badge badge-phoenix badge-phoenix-' . htmlspecialchars($color) . ' ' . ($classes ?? ''));
+    $classString = trim('badge badge-phoenix badge-phoenix-' . e($color) . ' ' . ($classes ?? ''));
 
-    return '<span class="' . $classString . '"' . $attrString . '><span class="badge-label">' . htmlspecialchars($label) . '</span></span>';
+    return '<span class="' . $classString . '"' . $attrString . '><span class="badge-label">' . e($label) . '</span></span>';
 }
 
 /**

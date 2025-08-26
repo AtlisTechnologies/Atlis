@@ -70,18 +70,18 @@ require '../admin_header.php';
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="mb-3">
     <label class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name); ?>" required>
+    <input type="text" name="name" class="form-control" value="<?= e($name); ?>" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Description</label>
-    <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($description); ?></textarea>
+    <textarea name="description" class="form-control" rows="3"><?= e($description); ?></textarea>
   </div>
   <div class="mb-3">
     <label class="form-label">Permission Groups</label>
     <?php foreach($allGroups as $g): ?>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="groups[]" value="<?= $g['id']; ?>" <?= in_array($g['id'], $assignedGroups) ? 'checked' : '';?>>
-        <label class="form-check-label"><?= htmlspecialchars($g['name']); ?></label>
+        <label class="form-check-label"><?= e($g['name']); ?></label>
       </div>
     <?php endforeach; ?>
   </div>

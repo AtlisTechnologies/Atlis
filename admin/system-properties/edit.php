@@ -36,13 +36,13 @@ foreach($types as $t){
 <h2 class="mb-4"><?= $id?'Edit':'Add'; ?> System Property</h2>
 <form id="propertyForm">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-  <input type="hidden" name="id" value="<?= htmlspecialchars($id); ?>">
+  <input type="hidden" name="id" value="<?= e($id); ?>">
   <div class="mb-3">
     <label class="form-label">Category</label>
     <select class="form-select" data-choices name="category_id">
       <option value="">Select Category</option>
       <?php foreach($categories as $c): ?>
-        <option value="<?= $c['id']; ?>" <?= $prop['category_id']==$c['id']?'selected':''; ?>><?= htmlspecialchars($c['label']); ?></option>
+        <option value="<?= $c['id']; ?>" <?= $prop['category_id']==$c['id']?'selected':''; ?>><?= e($c['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -51,29 +51,29 @@ foreach($types as $t){
     <select class="form-select" data-choices name="type_id">
       <option value="">Select Type</option>
       <?php foreach($types as $t): ?>
-        <option value="<?= $t['id']; ?>" <?= $prop['type_id']==$t['id']?'selected':''; ?>><?= htmlspecialchars($t['label']); ?></option>
+        <option value="<?= $t['id']; ?>" <?= $prop['type_id']==$t['id']?'selected':''; ?>><?= e($t['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
   <div class="mb-3">
     <label class="form-label">Name</label>
-    <input type="text" class="form-control" name="name" value="<?= htmlspecialchars($prop['name']); ?>" required>
+    <input type="text" class="form-control" name="name" value="<?= e($prop['name']); ?>" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Value</label>
     <?php if($isPasswordType): ?>
     <div class="input-group" data-password="data-password">
-      <input type="password" class="form-control" name="value" value="<?= htmlspecialchars($prop['value']); ?>" data-password-input="data-password-input" required>
+      <input type="password" class="form-control" name="value" value="<?= e($prop['value']); ?>" data-password-input="data-password-input" required>
       <button class="btn btn-outline-secondary" type="button" data-password-toggle="data-password-toggle"><span class="uil uil-eye show"></span><span class="uil uil-eye-slash hide"></span></button>
     </div>
     <?php else: ?>
-    <textarea class="form-control" name="value" required><?= htmlspecialchars($prop['value']); ?></textarea>
+    <textarea class="form-control" name="value" required><?= e($prop['value']); ?></textarea>
     <?php endif; ?>
 
   </div>
   <div class="mb-3">
     <label class="form-label">Memo</label>
-    <textarea class="form-control" name="memo"><?= htmlspecialchars($prop['memo'] ?? ''); ?></textarea>
+    <textarea class="form-control" name="memo"><?= e($prop['memo'] ?? ''); ?></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
   <a href="index.php" class="btn btn-secondary">Cancel</a>

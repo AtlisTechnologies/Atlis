@@ -50,15 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <div class="mb-3">
     <label class="form-label">Name</label>
-    <input type="text" class="form-control" name="name" value="<?= htmlspecialchars($name); ?>" required>
+    <input type="text" class="form-control" name="name" value="<?= e($name); ?>" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Description</label>
-    <textarea class="form-control" name="description"><?= htmlspecialchars($description); ?></textarea>
+    <textarea class="form-control" name="description"><?= e($description); ?></textarea>
   </div>
   <div class="mb-3">
     <label class="form-label">Memo</label>
-    <textarea class="form-control" name="memo"><?= htmlspecialchars($memo); ?></textarea>
+    <textarea class="form-control" name="memo"><?= e($memo); ?></textarea>
   </div>
   <button class="btn <?= $btnClass; ?>" type="submit">Save</button>
   <a href="index.php" class="btn btn-secondary">Back</a>

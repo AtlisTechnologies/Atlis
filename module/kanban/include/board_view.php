@@ -2,7 +2,7 @@
 // Expects $board and $statuses from index.php
 ?>
 <div class="container py-4">
-  <h2 class="mb-4"><?= htmlspecialchars($board['name'] ?? 'Board') ?></h2>
+  <h2 class="mb-4"><?= e($board['name'] ?? 'Board') ?></h2>
   <div class="row g-3 kanban-board" data-board-id="<?= $board['id'] ?>">
     <?php foreach ($statuses as $st):
       $tasks = fetch_tasks_for_status($pdo, $board['id'], $st['status_id']);
@@ -10,12 +10,12 @@
     <div class="col-md-3">
       <div class="card h-100">
         <div class="card-header">
-          <h5 class="mb-0"><?= htmlspecialchars($st['label']) ?></h5>
+          <h5 class="mb-0"><?= e($st['label']) ?></h5>
         </div>
         <div class="card-body min-vh-50 kanban-column" data-status-id="<?= $st['status_id'] ?>">
           <?php foreach ($tasks as $t): ?>
             <div class="card mb-2 p-2 kanban-item" data-task-id="<?= $t['id'] ?>" draggable="true">
-              <?= htmlspecialchars($t['name']) ?>
+              <?= e($t['name']) ?>
             </div>
           <?php endforeach; ?>
         </div>

@@ -9,8 +9,8 @@ $error_message = $_SESSION['error_message'] ?? '';
 unset($_SESSION['message'], $_SESSION['error_message']);
 ?>
 <h2 class="mb-4">Users</h2>
-<?php if($message){ echo '<div class="alert alert-success">'.htmlspecialchars($message).'</div>'; }
-if($error_message){ echo '<div class="alert alert-danger">'.htmlspecialchars($error_message).'</div>'; } ?>
+<?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; }
+if($error_message){ echo '<div class="alert alert-danger">'.e($error_message).'</div>'; } ?>
 <a href="edit.php" class="btn btn-success mb-3">Add User</a>
 <table class="table table-striped">
   <thead><tr><th>Email</th></tr></thead>
@@ -21,10 +21,10 @@ if($error_message){ echo '<div class="alert alert-danger">'.htmlspecialchars($er
         <h4>
           <a href="edit.php?id=<?php echo $u['id']; ?>">
             <img src="<?php if(isset($u['file_path'])){ echo getURLDir() . $u['file_path']; }else{ echo '/_atlis/assets/img/team/avatar.webp';  }?>" class="img-thumbnail" style="width:40px;height:40px;">
-            <?php echo htmlspecialchars($u['name']); ?>
+            <?php echo e($u['name']); ?>
           </a>
         </h4>
-        <?php echo htmlspecialchars($u['email']); ?>
+        <?php echo e($u['email']); ?>
         <?php if (!empty($u['roles'])): ?>
           <div class="text-body-secondary small"><?php echo h($u['roles']); ?></div>
         <?php endif; ?>

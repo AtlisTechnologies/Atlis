@@ -28,19 +28,19 @@ $props = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <tbody class="list">
         <?php foreach($props as $p): ?>
         <?php $isPassword = stripos($p['type'],'password') !== false || stripos($p['name'],'password') !== false; ?>
-        <tr data-id="<?= htmlspecialchars($p['id']); ?>">
-          <td class="id"><?= htmlspecialchars($p['id']); ?></td>
-          <td class="name"><?= htmlspecialchars($p['name']); ?></td>
-          <td class="category"><?= htmlspecialchars($p['category']); ?></td>
-          <td class="type"><?= htmlspecialchars($p['type']); ?></td>
+        <tr data-id="<?= e($p['id']); ?>">
+          <td class="id"><?= e($p['id']); ?></td>
+          <td class="name"><?= e($p['name']); ?></td>
+          <td class="category"><?= e($p['category']); ?></td>
+          <td class="type"><?= e($p['type']); ?></td>
           <td>
             <?php if($isPassword): ?>
             <div class="d-flex align-items-center">
-              <input type="password" class="form-control-plaintext form-control-sm w-auto" value="<?= htmlspecialchars($p['value'], ENT_QUOTES); ?>" readonly>
+              <input type="password" class="form-control-plaintext form-control-sm w-auto" value="<?= e($p['value'], ENT_QUOTES); ?>" readonly>
               <button type="button" class="btn btn-sm btn-phoenix-secondary ms-2 toggle-password"><span class="fa-solid fa-eye"></span></button>
             </div>
             <?php else: ?>
-            <?= htmlspecialchars($p['value']); ?>
+            <?= e($p['value']); ?>
             <?php endif; ?>
           </td>
           <td>
