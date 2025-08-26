@@ -29,7 +29,7 @@ $priority_id = $_POST['priority_id'] !== '' ? (int)$_POST['priority_id'] : null;
 $start_date = $_POST['start_date'] ?? null;
 $due_date = $_POST['due_date'] ?? null;
 $memo = $_POST['memo'] ?? null;
-$assignments = isset($_POST['assignments']) ? array_map('intval', (array)$_POST['assignments']) : [];
+$assigned_user_ids = isset($_POST['assignments']) ? array_map('intval', (array)$_POST['assignments']) : [];
 
 $stmt = $pdo->prepare('INSERT INTO admin_task (name, description, type_id, category_id, sub_category_id, status_id, priority_id, start_date, due_date, memo, user_id, user_updated) VALUES (:name,:description,:type_id,:category_id,:sub_category_id,:status_id,:priority_id,:start_date,:due_date,:memo,:uid,:uid)');
 $stmt->execute([
@@ -47,9 +47,13 @@ $stmt->execute([
 ]);
 $taskId = (int)$pdo->lastInsertId();
 
-foreach ($assignments as $uid) {
-  $pdo->prepare('INSERT INTO admin_task_assignments (task_id, user_id, user_updated) VALUES (:task_id, :user_id, :uid)')
-      ->execute([':task_id' => $taskId, ':user_id' => $uid, ':uid' => $this_user_id]);
+foreach ($assigned_user_ids as $assigned_user_id) {
+  $pdo->prepare('INSERT INTO admin_task_assignments (task_id, assigned_user_id, user_id, user_updated) VALUES (:task_id, :assigned_user_id, :uid, :uid)')
+      ->execute([
+        ':task_id' => $taskId,
+        ':assigned_user_id' => $assigned_user_id,
+        ':uid' => $this_user_id
+      ]);
 }
 
 admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Created task');

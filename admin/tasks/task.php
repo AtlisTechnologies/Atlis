@@ -39,11 +39,11 @@ $priorities = get_lookup_items($pdo, 'ADMIN_TASK_PRIORITY');
 $userStmt = $pdo->query('SELECT id, email FROM users ORDER BY email');
 $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$assignedIds = [];
+$assignedUserIds = [];
 if ($editing) {
-  $assStmt = $pdo->prepare('SELECT user_id FROM admin_task_assignments WHERE task_id = :id');
+  $assStmt = $pdo->prepare('SELECT assigned_user_id FROM admin_task_assignments WHERE task_id = :id');
   $assStmt->execute([':id' => $id]);
-  $assignedIds = $assStmt->fetchAll(PDO::FETCH_COLUMN);
+  $assignedUserIds = $assStmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
 $comments = [];
@@ -140,7 +140,7 @@ $_SESSION['csrf_token'] = $token;
     <label class="form-label">Assign Users</label>
     <select name="assignments[]" class="form-select" multiple>
       <?php foreach ($users as $u): ?>
-      <option value="<?= $u['id']; ?>" <?= in_array($u['id'], $assignedIds) ? 'selected' : ''; ?>><?= htmlspecialchars($u['email']); ?></option>
+      <option value="<?= $u['id']; ?>" <?= in_array($u['id'], $assignedUserIds) ? 'selected' : ''; ?>><?= htmlspecialchars($u['email']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
