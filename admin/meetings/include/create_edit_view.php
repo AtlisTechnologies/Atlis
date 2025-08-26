@@ -126,11 +126,9 @@ document.addEventListener('DOMContentLoaded', function(){
     textInput.addEventListener('input', function(){
       var url = endpoint + '?q=' + encodeURIComponent(this.value);
       fetch(url)
-        .then(function(r){
-          return r.ok ? r.json() : Promise.reject(new Error('Search failed'));
-        })
+        .then(r => r.ok ? r.json() : Promise.reject(new Error('Search failed')))
         .then(renderOptions)
-        .catch(function(){
+        .catch(() => {
           list.innerHTML = '<option value="">Error</option>';
           console.error('Search failed');
         });
