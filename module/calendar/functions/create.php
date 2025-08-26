@@ -29,6 +29,7 @@ if ($title && $start_time && $calendar_id) {
     http_response_code(403);
     exit;
   }
+
   $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, visibility_id) VALUES (:uid, :calendar_id, :title, :start_time, :end_time, :event_type_id, :link_module, :link_record_id, :visibility_id)');
 
   $stmt->execute([

@@ -1,5 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
+require_permission('calendar','delete');
 header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
@@ -7,6 +8,7 @@ $id = (int)($_POST['id'] ?? 0);
 if ($id) {
   $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
   $chk->execute([$id]);
+
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
     http_response_code(404);
@@ -14,6 +16,7 @@ if ($id) {
   }
   if ($existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     // Calendar deletions are limited to the owner; Admins may override.
+
     http_response_code(403);
     exit;
   }

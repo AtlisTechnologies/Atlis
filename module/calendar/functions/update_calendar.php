@@ -1,5 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
+require_permission('calendar','update');
 header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
@@ -9,6 +10,7 @@ $is_private = !empty($_POST['is_private']) ? 1 : 0;
 if ($id && $name !== '') {
   $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
   $chk->execute([$id]);
+
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
     http_response_code(404);
@@ -16,6 +18,7 @@ if ($id && $name !== '') {
   }
   if ($existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
     // Calendar updates are restricted to the owner unless the user is an Admin.
+
     http_response_code(403);
     exit;
   }

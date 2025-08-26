@@ -468,6 +468,8 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
 
+  }
+
   var attendeesList = document.getElementById('attendeesList');
   var attachmentsList = document.getElementById('attachmentsList');
 
