@@ -27,8 +27,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     audit_log($pdo,$this_user_id,'lookup_list_items',$delId,'DELETE','Deleted lookup list item');
     $message='Item deleted.';
 
-  }elseif(isset($_POST['attr_delete_id'])){
-    $delId=(int)$_POST['attr_delete_id'];
+  }elseif(isset($_POST['id']) && !isset($_POST['label']) && !isset($_POST['code']) && !isset($_POST['attr_code'])){
+    $delId=(int)$_POST['id'];
     $pdo->prepare('DELETE FROM lookup_list_item_attributes WHERE id=:id')->execute([':id'=>$delId]);
 
     // UPDATE THE LOOKUP LIST date_updated
@@ -110,22 +110,22 @@ if($items){
                 <div class="mb-1">
                   <form class="d-inline attr-form">
                     <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                    <input type="hidden" name="attr_item_id" value="<?= $it['id']; ?>">
-                    <input type="hidden" name="attr_id" value="<?= $a['id']; ?>">
+                    <input type="hidden" name="item_id" value="<?= $it['id']; ?>">
+                    <input type="hidden" name="id" value="<?= $a['id']; ?>">
                     <input class="form-control form-control-sm d-inline w-auto" name="attr_code" value="<?= h($a['attr_code']); ?>" required>
                     <input class="form-control form-control-sm d-inline w-auto" name="attr_value" value="<?= h($a['attr_value']); ?>">
                     <button class="btn btn-sm btn-warning">Update</button>
                   </form>
                   <form class="d-inline attr-delete-form">
                     <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                    <input type="hidden" name="attr_delete_id" value="<?= $a['id']; ?>">
+                    <input type="hidden" name="id" value="<?= $a['id']; ?>">
                     <button class="btn btn-sm btn-danger">Delete</button>
                   </form>
                 </div>
               <?php endforeach; ?>
               <form class="d-inline attr-form">
                 <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                <input type="hidden" name="attr_item_id" value="<?= $it['id']; ?>">
+                <input type="hidden" name="item_id" value="<?= $it['id']; ?>">
                 <input class="form-control form-control-sm d-inline w-auto" name="attr_code" placeholder="Code" required>
                 <input class="form-control form-control-sm d-inline w-auto" name="attr_value" placeholder="Value">
                 <button class="btn btn-sm btn-success">Add</button>
@@ -215,21 +215,21 @@ function renderAttrs(it){
   (it.attrs||[]).forEach(a=>{
     html+=`<div class="mb-1"><form class="d-inline attr-form">
       <input type="hidden" name="csrf_token" value="${csrfToken}">
-      <input type="hidden" name="attr_item_id" value="${it.id}">
-      <input type="hidden" name="attr_id" value="${a.id}">
+      <input type="hidden" name="item_id" value="${it.id}">
+      <input type="hidden" name="id" value="${a.id}">
       <input class="form-control form-control-sm d-inline w-auto" name="attr_code" value="${esc(a.attr_code)}" required>
       <input class="form-control form-control-sm d-inline w-auto" name="attr_value" value="${esc(a.attr_value||'')}">
       <button class="btn btn-sm btn-warning">Update</button>
     </form>
     <form class="d-inline attr-delete-form">
       <input type="hidden" name="csrf_token" value="${csrfToken}">
-      <input type="hidden" name="attr_delete_id" value="${a.id}">
+      <input type="hidden" name="id" value="${a.id}">
       <button class="btn btn-sm btn-danger">Delete</button>
     </form></div>`;
   });
   html+=`<form class="d-inline attr-form">
     <input type="hidden" name="csrf_token" value="${csrfToken}">
-    <input type="hidden" name="attr_item_id" value="${it.id}">
+    <input type="hidden" name="item_id" value="${it.id}">
     <input class="form-control form-control-sm d-inline w-auto" name="attr_code" placeholder="Code" required>
     <input class="form-control form-control-sm d-inline w-auto" name="attr_value" placeholder="Value">
     <button class="btn btn-sm btn-success">Add</button>
@@ -293,7 +293,7 @@ document.getElementById('items').addEventListener('submit',function(e){
   if(f.classList.contains('attr-form')){
     e.preventDefault();
     const data=new FormData(f);
-    const action=data.get('attr_id')? 'update':'create';
+    const action=data.get('id')? 'update':'create';
     data.append('entity','attribute');
     data.append('action',action);
     fetch('../api/lookup-lists.php',{method:'POST',body:new URLSearchParams(data)}).then(r=>r.json()).then(d=>{
