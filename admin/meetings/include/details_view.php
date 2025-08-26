@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(String(item.linked_project_id))+'</a>'); }
         if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' | ')+'</small>'; }
         left += '</span>';
-        var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-agenda-item">Edit</button><button class="btn btn-outline-danger delete-agenda-item">Delete</button></div>' : '';
+        var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-warning edit-agenda-item">Edit</button><button class="btn btn-danger delete-agenda-item">Delete</button></div>' : '';
         li.innerHTML = left + buttons
           + '<input type="hidden" name="agenda_title[]" value="'+esc(item.title)+'">'
           + '<input type="hidden" name="agenda_status_id[]" value="'+esc(String(item.status_id || ''))+'">'
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function(){
           + '</div>'
           + statusHtml
           + '</div>'
-          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-secondary me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
+          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-warning me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
         container.appendChild(div);
       });
     } else {
@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if(a.role) info += ' (' + esc(a.role) + ')';
         info += '</div><small class="text-body-secondary">Check-in: ' + (a.check_in_time ? new Date(a.check_in_time).toLocaleString() : '-') + ' | Check-out: ' + (a.check_out_time ? new Date(a.check_out_time).toLocaleString() : '-') + '</small></div>';
         if (canEditAttendees){
-          info += '<button class="btn btn-sm btn-link text-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
+          info += '<button class="btn btn-sm btn-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
         }
         li.innerHTML = info;
         attendeesList.appendChild(li);
@@ -562,8 +562,9 @@ document.addEventListener('DOMContentLoaded', function(){
         var li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         var content = '<a href="' + esc(f.url) + '" target="_blank">' + esc(f.name) + '</a>';
+        content += '<a href="' + esc(f.url) + '" class="btn btn-sm btn-primary ms-2" download><span class="fa-solid fa-download"></span></a>';
         if(canEdit){
-          content += '<button class="btn btn-sm btn-link text-danger ms-2 delete-file" data-id="' + f.id + '">Delete</button>';
+          content += '<button class="btn btn-sm btn-danger ms-2 delete-file" data-id="' + f.id + '"><span class="fa-solid fa-trash"></span></button>';
         }
         li.innerHTML = content;
         attachmentsList.appendChild(li);
@@ -694,9 +695,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   if(canEdit){
     attachmentsList.addEventListener('click', function(e){
-      if(e.target.classList.contains('delete-file')){
+      var btn = e.target.closest('.delete-file');
+      if(btn){
         e.preventDefault();
-        var id = e.target.getAttribute('data-id');
+        var id = btn.getAttribute('data-id');
         var fd = new FormData();
         fd.append('id', id);
         fd.append('meeting_id', meetingId);
