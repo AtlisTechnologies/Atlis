@@ -4,9 +4,6 @@ $calendars = [];
 $stmt = $pdo->query('SELECT id, name FROM module_calendar ORDER BY name');
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$event_types = $pdo->query("SELECT id,label FROM lookup_list_items WHERE list_id=37 ORDER BY sort_order,label")->fetchAll(PDO::FETCH_ASSOC);
-
-$visibilities = get_lookup_items($pdo, 38);
 $event_types = get_lookup_items($pdo, 37);
 
 $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? 0;
