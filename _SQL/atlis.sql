@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2025 at 03:50 AM
+-- Generation Time: Aug 26, 2025 at 04:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -986,7 +986,19 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (225, 1, 1, '2025-08-25 13:04:33', '2025-08-25 13:04:33', NULL, 'lookup_lists', 61, 'CREATE', 'Created lookup list'),
 (226, 1, 1, '2025-08-25 13:05:22', '2025-08-25 13:05:22', NULL, 'lookup_list_items', 269, 'CREATE', 'Created lookup list item'),
 (227, 1, 1, '2025-08-25 14:02:04', '2025-08-25 14:02:04', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(228, 1, 1, '2025-08-25 18:21:55', '2025-08-25 18:21:55', NULL, 'users', 1, 'LOGIN', 'User logged in');
+(228, 1, 1, '2025-08-25 18:21:55', '2025-08-25 18:21:55', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(229, 1, 1, '2025-08-25 19:57:42', '2025-08-25 19:57:42', NULL, 'lookup_list_items', 270, 'CREATE', 'Created lookup list item'),
+(230, 1, 1, '2025-08-25 19:57:58', '2025-08-25 19:57:58', NULL, 'lookup_list_items', 271, 'CREATE', 'Created lookup list item'),
+(231, 1, 1, '2025-08-25 19:58:13', '2025-08-25 19:58:13', NULL, 'lookup_list_items', 272, 'CREATE', 'Created lookup list item'),
+(232, 1, 1, '2025-08-25 19:58:22', '2025-08-25 19:58:22', NULL, 'lookup_list_items', 273, 'CREATE', 'Created lookup list item'),
+(233, 1, 1, '2025-08-25 19:58:30', '2025-08-25 19:58:30', NULL, 'lookup_list_items', 274, 'CREATE', 'Created lookup list item'),
+(234, 1, 1, '2025-08-25 19:58:48', '2025-08-25 19:58:48', NULL, 'lookup_list_items', 275, 'CREATE', 'Created lookup list item'),
+(235, 1, 1, '2025-08-25 19:58:52', '2025-08-25 19:58:52', NULL, 'lookup_list_items', 276, 'CREATE', 'Created lookup list item'),
+(236, 1, 1, '2025-08-25 19:58:59', '2025-08-25 19:58:59', NULL, 'lookup_list_items', 277, 'CREATE', 'Created lookup list item'),
+(237, 1, 1, '2025-08-25 19:59:10', '2025-08-25 19:59:10', NULL, 'lookup_list_items', 278, 'CREATE', 'Created lookup list item'),
+(238, 1, 1, '2025-08-25 19:59:33', '2025-08-25 19:59:33', NULL, 'lookup_list_items', 279, 'CREATE', 'Created lookup list item'),
+(239, 1, 1, '2025-08-25 19:59:38', '2025-08-25 19:59:38', NULL, 'lookup_list_items', 280, 'CREATE', 'Created lookup list item'),
+(240, 1, 1, '2025-08-25 19:59:56', '2025-08-25 19:59:56', NULL, 'lookup_list_items', 281, 'CREATE', 'Created lookup list item');
 
 -- --------------------------------------------------------
 
@@ -1327,7 +1339,19 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (266, 1, 1, '2025-08-25 13:03:13', '2025-08-25 13:03:13', NULL, 58, 'Outreach / Prospecting', 'ATLIS-OUTREACH', 0, '2025-08-24', NULL),
 (267, 1, 1, '2025-08-25 13:03:32', '2025-08-25 13:03:32', NULL, 58, 'Family', 'PERSONAL-FAMILY', 0, '2025-08-24', NULL),
 (268, 1, 1, '2025-08-25 13:04:22', '2025-08-25 13:04:22', NULL, 58, 'Masonry', 'MASONRY', 0, '2025-08-24', NULL),
-(269, 1, 1, '2025-08-25 13:05:22', '2025-08-25 13:05:22', NULL, 61, 'Masonic Business Meeting', 'MASONRY-BIZMEETING', 0, '2025-08-24', NULL);
+(269, 1, 1, '2025-08-25 13:05:22', '2025-08-25 13:05:22', NULL, 61, 'Masonic Business Meeting', 'MASONRY-BIZMEETING', 0, '2025-08-24', NULL),
+(270, 1, 1, '2025-08-25 19:57:42', '2025-08-25 19:57:42', NULL, 61, 'Atlis - Contractor', 'ATLIS-CONTRACTOR', 0, '2025-08-24', NULL),
+(271, 1, 1, '2025-08-25 19:57:58', '2025-08-25 19:57:58', NULL, 61, 'Atlis - Agency', 'ATLIS-AGENCY', 0, '2025-08-24', NULL),
+(272, 1, 1, '2025-08-25 19:58:13', '2025-08-25 19:58:13', NULL, 56, 'Active', 'ACTIVE', 0, '2025-08-24', NULL),
+(273, 1, 1, '2025-08-25 19:58:22', '2025-08-25 19:58:22', NULL, 56, 'Pending', 'PENDING', 0, '2025-08-24', NULL),
+(274, 1, 1, '2025-08-25 19:58:30', '2025-08-25 19:58:30', NULL, 56, 'Cancelled', 'CANCELLED', 0, '2025-08-24', NULL),
+(275, 1, 1, '2025-08-25 19:58:48', '2025-08-25 19:58:48', NULL, 57, 'Low', 'LOW', 0, '2025-08-24', NULL),
+(276, 1, 1, '2025-08-25 19:58:52', '2025-08-25 19:58:52', NULL, 57, 'Medium', 'MEDIUM', 0, '2025-08-24', NULL),
+(277, 1, 1, '2025-08-25 19:58:59', '2025-08-25 19:58:59', NULL, 57, 'High', 'HIGH', 0, '2025-08-24', NULL),
+(278, 1, 1, '2025-08-25 19:59:10', '2025-08-25 19:59:10', NULL, 57, 'Urgent !', 'URGENT', 0, '2025-08-24', NULL),
+(279, 1, 1, '2025-08-25 19:59:33', '2025-08-25 19:59:33', NULL, 60, 'Daily', 'DAILY', 0, '2025-08-24', NULL),
+(280, 1, 1, '2025-08-25 19:59:38', '2025-08-25 19:59:38', NULL, 60, 'Monthly', 'MONTHLY', 0, '2025-08-24', NULL),
+(281, 1, 1, '2025-08-25 19:59:56', '2025-08-25 19:59:56', NULL, 60, 'Every 2 Weeks', 'TWO-WEEKS', 0, '2025-08-24', NULL);
 
 -- --------------------------------------------------------
 
@@ -4111,7 +4135,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -4123,7 +4147,7 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
