@@ -1,3 +1,4 @@
+<?php $token = generate_csrf_token(); ?>
 <div class="p-4" id="meetingList" data-list='{"valueNames":["meeting-title","start-time"],"page":25,"pagination":true}'>
   <h2 class="mb-4">Meetings<span class="text-body-tertiary fw-normal">(<?= count($meetings) ?>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
@@ -17,6 +18,7 @@
   </div>
   <?php if (user_has_permission('meeting','create')): ?>
   <form id="meetingQuickAdd" class="row g-2 align-items-center mb-3">
+    <input type="hidden" name="csrf_token" value="<?= h($token); ?>">
     <div class="col-md-6">
       <input class="form-control" type="text" name="title" placeholder="Meeting title" required>
     </div>
@@ -61,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function(){
       e.preventDefault();
       var data = new FormData(form);
       data.append('ajax',1);
+      data.append('csrf_token', form.querySelector('input[name="csrf_token"]').value);
       fetch('functions/create.php',{method:'POST',body:data})
         .then(r=>r.json())
         .then(function(res){
