@@ -4,24 +4,21 @@
 
 # OS generated files
 .DS_Store
-
 # Node
 node_modules/
 package-lock.json
-
 # XAMPP-specific files
 xampp/
 xamppfiles/
 php.ini
 my.cnf
 config.inc.php
-
 # Upload directories
 uploads/
 **/uploads/
-
+!module/conferences/uploads/
+!module/conferences/uploads/.gitkeep
 # Composer
 vendor/
-
 # OAuth config
 includes/config.oauth.php
