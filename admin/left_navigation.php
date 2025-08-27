@@ -28,7 +28,9 @@ $currentPath = $normalize($requestUri);
         $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkDir . '/');
         ?>
         <li class="nav-item">
-          <a class="nav-link<?= $isActive ? ' active' : ''; ?>" href="<?php echo getURLDir(); ?>admin/<?= e($link['path']); ?>"<?= $isActive ? ' aria-current="page"' : ''; ?>>
+          <a class="nav-link<?= $isActive ? ' active' : ''; ?>"
+             href="<?= getURLDir(); ?>admin/<?= e($link['path']); ?>"
+             <?= $isActive ? 'aria-current="page"' : ''; ?>>
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= e($link['icon']); ?>"></span></span><span class="nav-link-text"><?= e($link['title']); ?></span></div>
           </a>
         </li>
