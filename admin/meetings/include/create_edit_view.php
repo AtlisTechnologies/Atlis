@@ -9,6 +9,7 @@ $meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
 $meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
 $token = generate_csrf_token();
 ?>
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
 <div class="container-fluid py-4">
   <h2 class="mb-4"><?php echo $isEdit ? 'Edit Meeting' : 'Create Meeting'; ?></h2>
   <form id="meetingForm" method="post" enctype="multipart/form-data" action="functions/<?php echo $isEdit ? 'update.php' : 'create.php'; ?>">
@@ -103,6 +104,19 @@ document.addEventListener('DOMContentLoaded', function(){
   var agendaList = document.getElementById('agendaList');
   var attendeesContainer = document.getElementById('attendeesContainer');
 
+  function showToast(msg, type = 'danger'){
+    var container = document.getElementById('toastContainer');
+    if(!container){ alert(msg); return; }
+    var toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.innerHTML = '<div class="d-flex"><div class="toast-body">'+esc(msg)+'</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>';
+    container.appendChild(toastEl);
+    new bootstrap.Toast(toastEl).show();
+  }
+
   new Sortable(agendaList, {handle: '.drag-handle', animation:150});
 
   function esc(str){
@@ -180,11 +194,27 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   });
 
-  document.getElementById('meetingForm').addEventListener('submit', function(){
+  document.getElementById('meetingForm').addEventListener('submit', function(e){
+    e.preventDefault();
     Array.from(agendaList.querySelectorAll('li')).forEach(function(li, idx){
       var orderInput = li.querySelector('input[name="agenda_order_index[]"]');
       if(orderInput){ orderInput.value = idx + 1; }
     });
+    var fd = new FormData(this);
+    fetch(this.action, {method:'POST', body: fd})
+      .then(r => r.json())
+      .then(function(res){
+        if(res.success && res.id){
+          window.location = 'index.php?action=details&id=' + res.id;
+        } else {
+          var msg = res.message || (res.errors ? res.errors.join(', ') : 'Failed to save meeting');
+          showToast(msg);
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+        showToast('Failed to save meeting');
+      });
   });
 
   function initAttendeeRow(div, data){
