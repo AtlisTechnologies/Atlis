@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 08:08 AM
+-- Generation Time: Aug 27, 2025 at 08:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1276,7 +1276,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (58, 1, 1, '2025-08-25 12:58:09', '2025-08-25 12:58:09', '', 'ADMIN_TASK_CATEGORY', ''),
 (59, 1, 1, '2025-08-25 12:59:21', '2025-08-25 12:59:21', '', 'ADMIN_TASK_TYPE', ''),
 (60, 1, 1, '2025-08-25 13:01:12', '2025-08-25 13:01:12', '', 'ADMIN_TASK_RECURRING_TYPE', ''),
-(61, 1, 1, '2025-08-25 13:04:33', '2025-08-25 13:04:33', '', 'ADMIN_TASK_SUB_CATEGORY', '');
+(61, 1, 1, '2025-08-25 13:04:33', '2025-08-25 13:04:33', '', 'ADMIN_TASK_SUB_CATEGORY', ''),
+(62, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'CORPORATE_FEATURE', 'Corporate module features');
 
 -- --------------------------------------------------------
 
@@ -1549,20 +1550,13 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (279, 1, 1, '2025-08-26 00:37:43', '2025-08-26 00:37:43', NULL, 39, 'Scheduled', 'SCHEDULED', 0, '2025-08-25', NULL),
 (280, 1, 1, '2025-08-26 00:37:59', '2025-08-26 00:37:59', NULL, 40, 'General', 'GENERAL', 0, '2025-08-25', NULL),
 (281, 1, 1, '2025-08-26 22:29:20', '2025-08-26 22:29:20', NULL, 61, 'Dave', 'DAVE', 0, '0000-00-00', '0000-00-00'),
-(282, 1, 1, '2025-08-26 22:29:20', '2025-08-26 22:29:20', NULL, 61, 'Emry', 'EMRY', 0, '0000-00-00', '0000-00-00');
-
--- Add corporate features lookup list
-INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
-(62, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'CORPORATE_FEATURE', 'Corporate module features');
-
--- Populate corporate features
-INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `code`, `sort_order`, `active_from`, `active_to`) VALUES
-(281, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Business Strategy', 'BUSINESS_STRATEGY', 1, '2025-08-26', NULL),
-(282, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Prospecting', 'PROSPECTING', 2, '2025-08-26', NULL),
-(283, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Finance', 'FINANCE', 3, '2025-08-26', NULL),
-(284, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Accounting', 'ACCOUNTING', 4, '2025-08-26', NULL),
-(285, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Assets', 'ASSETS', 5, '2025-08-26', NULL),
-(286, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Human Resources', 'HUMAN_RESOURCES', 6, '2025-08-26', NULL);
+(282, 1, 1, '2025-08-26 22:29:20', '2025-08-26 22:29:20', NULL, 61, 'Emry', 'EMRY', 0, '0000-00-00', '0000-00-00'),
+(283, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Business Strategy', 'BUSINESS_STRATEGY', 1, '2025-08-26', NULL),
+(284, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Prospecting', 'PROSPECTING', 2, '2025-08-26', NULL),
+(285, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Finance', 'FINANCE', 3, '2025-08-26', NULL),
+(286, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Accounting', 'ACCOUNTING', 4, '2025-08-26', NULL),
+(287, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Assets', 'ASSETS', 5, '2025-08-26', NULL),
+(288, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Human Resources', 'HUMAN_RESOURCES', 6, '2025-08-26', NULL);
 
 -- --------------------------------------------------------
 
@@ -2183,6 +2177,24 @@ CREATE TABLE `module_contractors_status_history` (
   `contractor_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `status_date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_corporate`
+--
+
+CREATE TABLE `module_corporate` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `feature_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -3612,29 +3624,6 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (4, 1, 1, '2025-08-21 22:14:15', '2025-08-22 08:26:16', NULL, '1_1755836055.JPEG', 'module/users/uploads/1_1755836055.JPEG', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
 (5, 1, 1, '2025-08-22 08:26:01', '2025-08-22 08:26:16', NULL, '535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 'module/users/uploads/535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 72399, 'image/jpeg', 'db5dc9b5e63e2d99f123f9e42ab5f902239c4f8f9ba2674c54e2084159fc5a51', 600, 596, 1, 83);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `module_corporate`
---
-
-CREATE TABLE `module_corporate` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `feature_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_corporate`
---
-
-
 --
 -- Indexes for dumped tables
 --
@@ -3975,6 +3964,15 @@ ALTER TABLE `module_contractors_status_history`
   ADD KEY `fk_module_contractors_status_history_user_updated` (`user_updated`),
   ADD KEY `fk_module_contractors_status_history_contractor_id` (`contractor_id`),
   ADD KEY `fk_module_contractors_status_history_status_id` (`status_id`);
+
+--
+-- Indexes for table `module_corporate`
+--
+ALTER TABLE `module_corporate`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_corporate_user_id` (`user_id`),
+  ADD KEY `fk_module_corporate_user_updated` (`user_updated`),
+  ADD KEY `fk_module_corporate_feature_id` (`feature_id`);
 
 --
 -- Indexes for table `module_division`
@@ -4394,15 +4392,6 @@ ALTER TABLE `users_profile_pics`
   ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
 
 --
--- Indexes for table `module_corporate`
---
-ALTER TABLE `module_corporate`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_corporate_user_id` (`user_id`),
-  ADD KEY `fk_module_corporate_user_updated` (`user_updated`),
-  ADD KEY `fk_module_corporate_feature_id` (`feature_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -4506,8 +4495,7 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -4615,7 +4603,7 @@ ALTER TABLE `module_contractors_status_history`
 -- AUTO_INCREMENT for table `module_corporate`
 --
 ALTER TABLE `module_corporate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_division`
@@ -5121,6 +5109,14 @@ ALTER TABLE `module_contractors_status_history`
   ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_corporate`
+--
+ALTER TABLE `module_corporate`
+  ADD CONSTRAINT `fk_module_corporate_feature_id` FOREIGN KEY (`feature_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `module_division`
 --
 ALTER TABLE `module_division`
@@ -5368,14 +5364,6 @@ ALTER TABLE `person_skills`
   ADD CONSTRAINT `fk_person_skills_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_skills_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_corporate`
---
-ALTER TABLE `module_corporate`
-  ADD CONSTRAINT `fk_module_corporate_feature_id` FOREIGN KEY (`feature_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `users`
