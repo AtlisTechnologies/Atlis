@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 10:11 AM
+-- Generation Time: Aug 27, 2025 at 07:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -330,6 +330,86 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin_finances_invoices`
+--
+
+CREATE TABLE `admin_finances_invoices` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `corporate_id` int(11) NOT NULL,
+  `invoice_number` varchar(255) NOT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `bill_to` varchar(255) DEFAULT NULL,
+  `invoice_date` date DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `total_amount` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_finances_invoice_items`
+--
+
+CREATE TABLE `admin_finances_invoice_items` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `quantity` decimal(10,2) DEFAULT NULL,
+  `rate` decimal(10,2) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `time_entry_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_finances_invoice_sow`
+--
+
+CREATE TABLE `admin_finances_invoice_sow` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `statement_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_finances_statements_of_work`
+--
+
+CREATE TABLE `admin_finances_statements_of_work` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `corporate_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `admin_navigation_links`
 --
 
@@ -365,7 +445,10 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (13, 'Products & Services', 'products-services/index.php', 'box', 9, 1, 1, '2025-08-27 00:00:00', '2025-08-25 00:43:46', NULL),
 (15, 'Finances', 'finances/index.php', 'dollar-sign', 12, 1, 1, '2025-08-25 00:40:13', '2025-08-25 00:43:46', NULL),
 (19, 'Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL),
-(20, 'Corporate', 'corporate/index.php', 'briefcase', 14, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL);
+(20, 'Corporate', 'corporate/index.php', 'briefcase', 14, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL),
+(21, 'Finances › Invoices', 'corporate/finances/invoices/index.php', 'file-text', 15, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:23:00', NULL),
+(22, 'Finances › Statements of Work', 'corporate/finances/statements-of-work/index.php', 'file', 16, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:22:52', NULL),
+(23, 'Time Tracking', 'corporate/time-tracking/index.php', 'clock', 17, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -501,7 +584,19 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (120, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'conference', 'create'),
 (121, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'conference', 'read'),
 (122, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'conference', 'update'),
-(123, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'conference', 'delete');
+(123, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'conference', 'delete'),
+(124, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_invoices', 'create'),
+(125, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_invoices', 'read'),
+(126, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_invoices', 'update'),
+(127, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_invoices', 'delete'),
+(128, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_statements_of_work', 'create'),
+(129, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_statements_of_work', 'read'),
+(130, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_statements_of_work', 'update'),
+(131, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_finances_statements_of_work', 'delete'),
+(132, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_time_tracking', 'create'),
+(133, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_time_tracking', 'read'),
+(134, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_time_tracking', 'update'),
+(135, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'admin_time_tracking', 'delete');
 
 -- --------------------------------------------------------
 
@@ -543,7 +638,10 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (17, 1, 1, '2025-08-24 23:53:15', '2025-08-24 23:53:15', NULL, 'Finances', 'Permissions for finance module'),
 (18, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'Admin Tasks', 'Permissions for managing administrative tasks'),
 (19, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Corporate', 'Permissions for managing corporate records'),
-(20, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'Conferences', 'Permissions for managing conferences');
+(20, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'Conferences', 'Permissions for managing conferences'),
+(21, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'Finances Invoices', 'Permissions for managing invoices'),
+(22, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'Finances Statements of Work', 'Permissions for managing statements of work'),
+(23, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'Time Tracking', 'Permissions for managing time tracking');
 
 -- --------------------------------------------------------
 
@@ -679,7 +777,19 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (123, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 20, 120),
 (124, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 20, 121),
 (125, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 20, 122),
-(126, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 20, 123);
+(126, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 20, 123),
+(127, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 21, 124),
+(128, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 21, 125),
+(129, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 21, 126),
+(130, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 21, 127),
+(131, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 22, 128),
+(132, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 22, 129),
+(133, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 22, 130),
+(134, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 22, 131),
+(135, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 23, 132),
+(136, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 23, 133),
+(137, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 23, 134),
+(138, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 23, 135);
 
 -- --------------------------------------------------------
 
@@ -960,6 +1070,27 @@ CREATE TABLE `admin_task_relations` (
   `task_id` int(11) NOT NULL,
   `related_module` varchar(255) NOT NULL,
   `related_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_time_tracking_entries`
+--
+
+CREATE TABLE `admin_time_tracking_entries` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `corporate_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `work_date` date NOT NULL,
+  `hours` decimal(10,2) NOT NULL,
+  `rate` decimal(10,2) DEFAULT NULL,
+  `invoice_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1353,7 +1484,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (61, 1, 1, '2025-08-25 13:04:33', '2025-08-25 13:04:33', '', 'ADMIN_TASK_SUB_CATEGORY', ''),
 (62, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'CORPORATE_FEATURE', 'Corporate module features'),
 (63, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'CONFERENCE_TYPE', 'Types of conferences'),
-(64, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'CONFERENCE_TOPIC', 'Topics for conferences');
+(64, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'CONFERENCE_TOPIC', 'Topics for conferences'),
+(66, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'CORPORATE_FINANCE_SECTION', 'Sections for corporate finance');
 
 -- --------------------------------------------------------
 
@@ -1634,7 +1766,11 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (289, 1, 1, '2025-08-27 00:58:54', '2025-08-27 00:58:54', NULL, 63, 'Journal Technologies ( JTI )', 'JTI', 0, '2025-08-26', NULL),
 (290, 1, 1, '2025-08-27 00:59:03', '2025-08-27 00:59:03', NULL, 63, 'Court', 'COURT', 0, '2025-08-26', NULL),
 (291, 1, 1, '2025-08-27 00:59:19', '2025-08-27 00:59:19', NULL, 64, 'Technical', 'TECHNICAL', 0, '2025-08-26', NULL),
-(292, 1, 1, '2025-08-27 00:59:29', '2025-08-27 00:59:29', NULL, 64, 'Finance', 'FINANCE', 0, '2025-08-26', NULL);
+(292, 1, 1, '2025-08-27 00:59:29', '2025-08-27 00:59:29', NULL, 64, 'Finance', 'FINANCE', 0, '2025-08-26', NULL),
+(293, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 62, 'Finances', 'FINANCES', 0, '2025-08-26', NULL),
+(294, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 62, 'Time Tracking', 'TIME_TRACKING', 1, '2025-08-26', NULL),
+(295, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 66, 'Invoices', 'INVOICES', 0, '2025-08-26', NULL),
+(296, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 66, 'Statements of Work', 'STATEMENTS_OF_WORK', 1, '2025-08-26', NULL);
 
 -- --------------------------------------------------------
 
@@ -1928,7 +2064,7 @@ CREATE TABLE `module_calendar` (
 
 INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`) VALUES
 (1, 1, NULL, '2025-08-23 15:44:36', '2025-08-23 15:44:36', NULL, 'Dave', 0),
-(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-23 15:45:27', NULL, 'Dave - Private', 1);
+(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-27 10:36:24', NULL, 'Dave', 1);
 
 -- --------------------------------------------------------
 
@@ -3942,6 +4078,46 @@ ALTER TABLE `admin_audit_log`
   ADD KEY `fk_admin_audit_log_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `admin_finances_invoices`
+--
+ALTER TABLE `admin_finances_invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_finances_invoices_user_id` (`user_id`),
+  ADD KEY `fk_admin_finances_invoices_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_finances_invoices_corporate_id` (`corporate_id`),
+  ADD KEY `fk_admin_finances_invoices_status_id` (`status_id`);
+
+--
+-- Indexes for table `admin_finances_invoice_items`
+--
+ALTER TABLE `admin_finances_invoice_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_finances_invoice_items_user_id` (`user_id`),
+  ADD KEY `fk_admin_finances_invoice_items_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_finances_invoice_items_invoice_id` (`invoice_id`),
+  ADD KEY `fk_admin_finances_invoice_items_time_entry_id` (`time_entry_id`);
+
+--
+-- Indexes for table `admin_finances_invoice_sow`
+--
+ALTER TABLE `admin_finances_invoice_sow`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_finances_invoice_sow_user_id` (`user_id`),
+  ADD KEY `fk_admin_finances_invoice_sow_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_finances_invoice_sow_invoice_id` (`invoice_id`),
+  ADD KEY `fk_admin_finances_invoice_sow_statement_id` (`statement_id`);
+
+--
+-- Indexes for table `admin_finances_statements_of_work`
+--
+ALTER TABLE `admin_finances_statements_of_work`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_finances_sow_user_id` (`user_id`),
+  ADD KEY `fk_admin_finances_sow_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_finances_sow_corporate_id` (`corporate_id`),
+  ADD KEY `fk_admin_finances_sow_status_id` (`status_id`);
+
+--
 -- Indexes for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
@@ -4053,6 +4229,17 @@ ALTER TABLE `admin_task_relations`
   ADD KEY `fk_admin_task_relations_user_id` (`user_id`),
   ADD KEY `fk_admin_task_relations_user_updated` (`user_updated`),
   ADD KEY `fk_admin_task_relations_task_id` (`task_id`);
+
+--
+-- Indexes for table `admin_time_tracking_entries`
+--
+ALTER TABLE `admin_time_tracking_entries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_admin_time_tracking_entries_user_id` (`user_id`),
+  ADD KEY `fk_admin_time_tracking_entries_user_updated` (`user_updated`),
+  ADD KEY `fk_admin_time_tracking_entries_corporate_id` (`corporate_id`),
+  ADD KEY `fk_admin_time_tracking_entries_person_id` (`person_id`),
+  ADD KEY `fk_admin_time_tracking_entries_invoice_id` (`invoice_id`);
 
 --
 -- Indexes for table `admin_user_roles`
@@ -4779,28 +4966,52 @@ ALTER TABLE `admin_audit_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
+-- AUTO_INCREMENT for table `admin_finances_invoices`
+--
+ALTER TABLE `admin_finances_invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_finances_invoice_items`
+--
+ALTER TABLE `admin_finances_invoice_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_finances_invoice_sow`
+--
+ALTER TABLE `admin_finances_invoice_sow`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_finances_statements_of_work`
+--
+ALTER TABLE `admin_finances_statements_of_work`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -4851,6 +5062,12 @@ ALTER TABLE `admin_task_relations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `admin_time_tracking_entries`
+--
+ALTER TABLE `admin_time_tracking_entries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `admin_user_roles`
 --
 ALTER TABLE `admin_user_roles`
@@ -4866,13 +5083,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -5281,6 +5498,42 @@ ALTER TABLE `users_profile_pics`
 --
 
 --
+-- Constraints for table `admin_finances_invoices`
+--
+ALTER TABLE `admin_finances_invoices`
+  ADD CONSTRAINT `fk_admin_finances_invoices_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_invoices_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_invoices_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_invoices_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_finances_invoice_items`
+--
+ALTER TABLE `admin_finances_invoice_items`
+  ADD CONSTRAINT `fk_admin_finances_invoice_items_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_invoice_items_time_entry_id` FOREIGN KEY (`time_entry_id`) REFERENCES `admin_time_tracking_entries` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_invoice_items_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_invoice_items_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_finances_invoice_sow`
+--
+ALTER TABLE `admin_finances_invoice_sow`
+  ADD CONSTRAINT `fk_admin_finances_invoice_sow_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_invoice_sow_statement_id` FOREIGN KEY (`statement_id`) REFERENCES `admin_finances_statements_of_work` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_invoice_sow_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_invoice_sow_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_finances_statements_of_work`
+--
+ALTER TABLE `admin_finances_statements_of_work`
+  ADD CONSTRAINT `fk_admin_finances_sow_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_sow_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_sow_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_finances_sow_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
@@ -5363,6 +5616,16 @@ ALTER TABLE `admin_task_relations`
   ADD CONSTRAINT `fk_admin_task_relations_task_id` FOREIGN KEY (`task_id`) REFERENCES `admin_task` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_task_relations_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_task_relations_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_time_tracking_entries`
+--
+ALTER TABLE `admin_time_tracking_entries`
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `admin_user_roles`
