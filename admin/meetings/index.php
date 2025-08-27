@@ -9,7 +9,7 @@ switch ($action) {
     $id = (int)($_GET['id'] ?? 0);
     $meeting = [];
     if ($id) {
-      $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly FROM module_meetings WHERE id = ?');
+      $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly, status_id, type_id FROM module_meetings WHERE id = ?');
       $stmt->execute([$id]);
       $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
@@ -19,7 +19,7 @@ switch ($action) {
   case 'details':
     require_permission('meeting', 'read');
     $id = (int)($_GET['id'] ?? 0);
-    $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly FROM module_meetings WHERE id = ?');
+    $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly, status_id, type_id FROM module_meetings WHERE id = ?');
     $stmt->execute([$id]);
     $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     require 'include/details_view.php';
