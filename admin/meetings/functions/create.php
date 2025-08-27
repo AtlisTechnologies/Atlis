@@ -2,14 +2,9 @@
 require '../../../includes/php_header.php';
 require_permission('meeting', 'create');
 
-$isAjax = isset($_POST['ajax']) || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
-if ($isAjax) {
-  header('Content-Type: application/json');
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  header('Content-Type: application/json');
   if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-    header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
     exit;
   }
@@ -167,34 +162,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
 
       $pdo->commit();
-      $meeting = ['id'=>$id,'title'=>$title,'start_time'=>$start_time];
+      echo json_encode(['success'=>true,'id'=>$id]);
+      exit;
     } catch (Exception $e) {
       $pdo->rollBack();
       $errors[] = $e->getMessage();
     }
   }
-
-  if ($isAjax) {
-    if (empty($errors)) {
-      echo json_encode(['success'=>true,'meeting'=>$meeting]);
-    } else {
-      echo json_encode(['success'=>false,'errors'=>$errors]);
-    }
-    exit;
-  } else {
-    if (empty($errors)) {
-      header('Location: ../index.php');
-    } else {
-      echo implode('\n', $errors);
-    }
-    exit;
-  }
-}
-
-if ($isAjax) {
-  echo json_encode(['success'=>false]);
+  echo json_encode(['success'=>false,'errors'=>$errors]);
   exit;
 }
 
-header('Location: ../index.php');
+header('Content-Type: application/json');
+echo json_encode(['success'=>false]);
 exit;
