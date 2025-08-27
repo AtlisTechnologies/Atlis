@@ -2,14 +2,14 @@
 require '../../../includes/php_header.php';
 require_permission('conference','update');
 
-$id = (int)($_POST['id'] ?? 0);
-$option = trim($_POST['option'] ?? '');
-if ($id && $option !== '') {
-  $stmt = $pdo->prepare('SELECT ticket_options FROM module_conferences WHERE id=?');
-  $stmt->execute([$id]);
-  $opts = $stmt->fetchColumn();
-  $optArr = $opts ? json_decode($opts, true) : [];
-  $optArr[] = $option;
-  $pdo->prepare('UPDATE module_conferences SET ticket_options=? WHERE id=?')->execute([json_encode($optArr),$id]);
+$conference_id = (int)($_POST['conference_id'] ?? 0);
+$option_name = trim($_POST['option_name'] ?? '');
+$price = (float)($_POST['price'] ?? 0);
+
+if ($conference_id && $option_name !== '') {
+  $stmt = $pdo->prepare('INSERT INTO module_conference_ticket_options (user_id, conference_id, option_name, price) VALUES (?,?,?,?)');
+  $stmt->execute([$this_user_id, $conference_id, $option_name, $price]);
+  echo json_encode(['success'=>true,'id'=>$pdo->lastInsertId()]);
+} else {
+  echo json_encode(['success'=>false]);
 }
-echo json_encode(['success'=>true]);
