@@ -2,6 +2,8 @@
 $isEdit = !empty($meeting);
 // Lookup items for agenda statuses
 $agendaStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
+// Lookup items for question statuses
+$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 // Lookup items for meeting status and type
 $meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
 $meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
@@ -97,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
   var csrfToken = '<?php echo h($token); ?>';
   var agendaStatusMap   = <?php echo json_encode($agendaStatusMap); ?>;
+  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaList = document.getElementById('agendaList');
   var attendeesContainer = document.getElementById('attendeesContainer');
 
@@ -214,12 +217,20 @@ document.addEventListener('DOMContentLoaded', function(){
   function addQuestion(data){
     var div = document.createElement('div');
     div.className = 'border rounded p-3 mb-2';
+    var statusOptions = '<option value="">Select status</option>';
+    for (var id in questionStatusMap){
+      if(Object.prototype.hasOwnProperty.call(questionStatusMap, id)){
+        statusOptions += '<option value="' + id + '">' + esc(questionStatusMap[id].label) + '</option>';
+      }
+    }
     div.innerHTML = '<input type="text" name="question_text[]" class="form-control mb-2" placeholder="Question" required>' +
       '<textarea name="answer_text[]" class="form-control mb-2" placeholder="Answer"></textarea>' +
+      '<select name="question_status_id[]" class="form-select mb-2">' + statusOptions + '</select>' +
       '<input type="number" name="agenda_id[]" class="form-control mb-2" placeholder="Agenda ID (optional)">';
     if(data){
       div.querySelector('input[name="question_text[]"]').value = data.question_text || '';
       div.querySelector('textarea[name="answer_text[]"]').value = data.answer_text || '';
+      div.querySelector('select[name="question_status_id[]"]').value = data.status_id || '';
       div.querySelector('input[name="agenda_id[]"]').value = data.agenda_id || '';
     }
     document.getElementById('questionsContainer').appendChild(div);
@@ -228,10 +239,12 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('addQuestion').addEventListener('click', function(){ addQuestion(); });
 
   if(isEdit){
-    fetch('functions/get_agenda.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>').then(r=>r.json()).then(function(res){
+    fetch('functions/get_agenda.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>&csrf_token=' + encodeURIComponent(csrfToken))
+      .then(r=>r.json()).then(function(res){
       if(res.items){ res.items.forEach(function(item){ addAgendaItem(item); }); }
     });
-    fetch('functions/get_questions.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>').then(r=>r.json()).then(function(res){
+    fetch('functions/get_questions.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>&csrf_token=' + encodeURIComponent(csrfToken))
+      .then(r=>r.json()).then(function(res){
       if(res.questions){ res.questions.forEach(function(q){ addQuestion(q); }); }
     });
     fetch('functions/get_attendees.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>&csrf_token=' + encodeURIComponent(csrfToken))
