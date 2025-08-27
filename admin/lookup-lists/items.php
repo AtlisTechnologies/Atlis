@@ -80,6 +80,7 @@ if($items){
   <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
 </form>
+<hr class="my-3">
 <div class="row align-items-center g-2 mb-3">
   <div class="col-auto">
     <button class="btn btn-sm btn-phoenix-primary" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">
@@ -98,6 +99,7 @@ if($items){
     <input class="form-control form-control-sm search w-75" placeholder="Search" />
   </div>
 </div>
+<hr class="my-3">
 <div id="items" data-list='{"valueNames":["sort_order","code","label"],"page":25,"pagination":true}'>
   <div class="table-responsive">
     <table class="table table-striped table-sm mb-0">
