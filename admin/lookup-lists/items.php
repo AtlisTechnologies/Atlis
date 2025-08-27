@@ -82,7 +82,7 @@ if($items){
 </form>
 <div class="row align-items-center g-2 mb-3">
   <div class="col-auto">
-    <button class="btn btn-sm btn-phoenix-primary" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">
+    <button class="btn btn-atlis btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">
       Bulk Add Items
     </button>
   </div>
