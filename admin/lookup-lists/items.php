@@ -79,22 +79,26 @@ if($items){
   <div class="col-md-2"><input class="form-control" type="date" name="active_from" value="<?= h($_POST['active_from'] ?? date('Y-m-d', strtotime('-1 day'))); ?>" required></div>
   <div class="col-md-2"><input class="form-control" type="date" name="active_to" value="<?= h($_POST['active_to'] ?? ''); ?>"></div>
   <div class="col-md-2"><button class="btn btn-success w-100" type="submit" id="saveBtn">Save</button></div>
-  <div class="col-md-1"><button class="btn btn-primary w-100" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">Bulk Add Items</button></div>
 </form>
-<div id="items" data-list='{"valueNames":["sort_order","code","label"],"page":25,"pagination":true}'>
-  <div class="row justify-content-between g-2 mb-3">
-    <div class="col-auto">
-      <input class="form-control form-control-sm search" placeholder="Search" />
-    </div>
-    <div class="col-auto">
-      <select id="statusFilter" class="form-select form-select-sm">
-        <option value="active" selected>Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="future">Future</option>
-        <option value="all">All</option>
-      </select>
-    </div>
+<div class="row align-items-center g-2 mb-3">
+  <div class="col-auto">
+    <button class="btn btn-sm btn-phoenix-primary" type="button" data-bs-toggle="modal" data-bs-target="#bulkItemsModal">
+      Bulk Add Items
+    </button>
   </div>
+  <div class="col-auto">
+    <select id="statusFilter" class="form-select form-select-sm">
+      <option value="active" selected>Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="future">Future</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+  <div class="col d-flex justify-content-center">
+    <input class="form-control form-control-sm search w-75" placeholder="Search" />
+  </div>
+</div>
+<div id="items" data-list='{"valueNames":["sort_order","code","label"],"page":25,"pagination":true}'>
   <div class="table-responsive">
     <table class="table table-striped table-sm mb-0">
       <thead>
