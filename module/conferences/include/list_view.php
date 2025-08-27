@@ -5,8 +5,8 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Date</th>
+        <th>Name</th>
+        <th>Start</th>
         <th>Location</th>
       </tr>
     </thead>
@@ -14,8 +14,15 @@
       <?php if (!empty($conferences)): ?>
         <?php foreach ($conferences as $c): ?>
           <tr>
-            <td><a href="index.php?action=details&id=<?= (int)$c['id'] ?>"><?= h($c['title']) ?></a></td>
-            <td><?= h($c['schedule']) ?></td>
+            <td><a href="index.php?action=details&id=<?= (int)$c['id'] ?>"><?= h($c['name']) ?></a></td>
+            <td>
+              <?php if (!empty($c['start_datetime'])): ?>
+                <?= h(date('M jS, Y g:ia', strtotime($c['start_datetime']))) ?>
+                <?php if (!empty($c['end_datetime'])): ?>
+                  &ndash; <?= h(date('M jS, Y g:ia', strtotime($c['end_datetime']))) ?>
+                <?php endif; ?>
+              <?php endif; ?>
+            </td>
             <td><?= h($c['venue']) ?></td>
           </tr>
         <?php endforeach; ?>
