@@ -292,7 +292,17 @@ function loadItems(){
       tbody.innerHTML='';
       d.items.forEach(it=>tbody.appendChild(renderItem(it)));
       initSortable();
+      filterItems();
     }
+  });
+}
+
+function filterItems(){
+  const term = document.querySelector('.search').value.toLowerCase();
+  document.querySelectorAll('#items tbody tr').forEach(row => {
+    const code = row.querySelector('.code')?.textContent.toLowerCase() || '';
+    const label = row.querySelector('.label')?.textContent.toLowerCase() || '';
+    row.style.display = (code.includes(term) || label.includes(term)) ? '' : 'none';
   });
 }
 
@@ -339,6 +349,7 @@ document.getElementById('items').addEventListener('submit',function(e){
 });
 
 document.getElementById('statusFilter').addEventListener('change',loadItems);
+document.querySelector('.search').addEventListener('input', filterItems);
 loadItems();
 
 
