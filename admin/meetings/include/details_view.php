@@ -301,6 +301,14 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('meeting_id', meetingId);
       params.append('order_index', index + 1);
       params.append('csrf_token', csrfToken);
+      var titleInput = li.querySelector('input[name="agenda_title[]"]');
+      var statusInput = li.querySelector('input[name="agenda_status_id[]"]');
+      var taskInput = li.querySelector('input[name="agenda_linked_task_id[]"]');
+      var projectInput = li.querySelector('input[name="agenda_linked_project_id[]"]');
+      if(titleInput){ params.append('title', titleInput.value); }
+      if(statusInput){ params.append('status_id', statusInput.value); }
+      if(taskInput){ params.append('linked_task_id', taskInput.value); }
+      if(projectInput){ params.append('linked_project_id', projectInput.value); }
       fetch('functions/update_agenda_item.php', {method:'POST', body: params})
         .catch(function(err){ console.error(err); showToast('Failed to update agenda order'); });
     });
