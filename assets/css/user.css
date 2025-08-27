@@ -14,17 +14,6 @@
   --atlis-border: #86d1cf;
 }
 
-/* Vertical Navbar Active Link */
-.navbar-vertical .nav-link.active {
-  background-color: #00948E;
-  color: #fff;
-}
-
-.navbar-vertical .nav-link.active .nav-link-icon,
-.navbar-vertical .nav-link.active .nav-link-text {
-  color: #fff;
-}
-
 /* 1. Buttons */
 .btn-atlis,
 .atlis.btn {
@@ -1860,3 +1849,13 @@ blockquote {
   border-width: 2px;
 }
 
+/* Highlight active item in admin left navigation */
+.navbar-vertical .nav-link.active {
+  background-color: #00948E;
+  color: #fff;
+}
+
+.navbar-vertical .nav-link.active .nav-link-text,
+.navbar-vertical .nav-link.active .nav-link-icon {
+  color: #fff;
+}
