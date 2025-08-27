@@ -3,17 +3,29 @@ $stmt = $pdo->query('SELECT title, path, icon FROM admin_navigation_links ORDER 
 $navLinks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Determine the current request path relative to /admin/
-$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$currentPath = trim(preg_replace('#^/admin/#', '', $requestUri), '/');
+$requestUri = $_SERVER['SCRIPT_NAME'];
+
+// Normalize a path by removing the /admin/ prefix and trailing /index.php
+$normalize = function(string $path): string {
+    $path = preg_replace('#^/admin/#', '', $path);
+    $path = preg_replace('#/index\\.php$#', '', $path);
+    return trim($path, '/');
+};
+
+$currentPath = $normalize($requestUri);
 ?>
 <nav class="navbar navbar-vertical navbar-expand-lg">
   <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content">
       <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-        <?php foreach ($navLinks as $link): ?>
-        <?php
-        $linkPath = trim($link['path'], '/');
-        $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkPath . '/');
+<?php foreach ($navLinks as $link): ?>
+<?php
+        $linkPath = $normalize($link['path']);
+        $linkDir = trim(dirname($linkPath), '/');
+        if ($linkDir === '') {
+            $linkDir = $linkPath;
+        }
+        $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkDir . '/');
         ?>
         <li class="nav-item">
           <a class="nav-link<?= $isActive ? ' active' : ''; ?>" href="<?php echo getURLDir(); ?>admin/<?= e($link['path']); ?>"<?= $isActive ? ' aria-current="page"' : ''; ?>>
