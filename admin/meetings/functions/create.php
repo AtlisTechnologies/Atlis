@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $question_texts = isset($_POST['question_text']) && is_array($_POST['question_text']) ? $_POST['question_text'] : [];
       $answer_texts = isset($_POST['answer_text']) && is_array($_POST['answer_text']) ? $_POST['answer_text'] : [];
       $question_agenda_ids = isset($_POST['agenda_id']) && is_array($_POST['agenda_id']) ? $_POST['agenda_id'] : [];
-      $question_status_ids = isset($_POST['status_id']) && is_array($_POST['status_id']) ? $_POST['status_id'] : [];
+      $question_status_ids = $_POST['question_status_id'] ?? [];
 
       $questionStmt = $pdo->prepare('INSERT INTO module_meeting_questions (user_id, user_updated, meeting_id, agenda_id, question_text, answer_text, status_id) VALUES (:uid,:uid,:mid,:aid,:q,:a,:status)');
       $question_count = count($question_texts);
