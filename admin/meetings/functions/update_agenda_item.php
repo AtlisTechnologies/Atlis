@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':id' => $id,
                 ':mid' => $meeting_id
             ]);
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'UPDATE', 'Updated agenda item');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'UPDATE', '', json_encode(['title'=>$title]), 'Updated agenda item');
             reorder_agenda($pdo, $meeting_id);
         } elseif ($meeting_id) {
             reorder_agenda($pdo, $meeting_id);

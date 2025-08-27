@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':project_id' => $linked_project_id
             ]);
             $id = $pdo->lastInsertId();
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'CREATE', 'Added agenda item');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $id, 'CREATE', '', json_encode(['title'=>$title]), 'Added agenda item');
             reorder_agenda($pdo, $meeting_id);
         } elseif ($meeting_id) {
             reorder_agenda($pdo, $meeting_id);
