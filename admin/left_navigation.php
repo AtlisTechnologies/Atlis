@@ -5,9 +5,9 @@ $navLinks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Determine the current request path relative to /admin/
 $requestUri = $_SERVER['SCRIPT_NAME'];
 
-// Normalize a path by removing the /admin/ prefix and trailing /index.php
+// Normalize a path by removing any base directory and trailing /index.php
 $normalize = function(string $path): string {
-    $path = preg_replace('#^/admin/#', '', $path);
+    $path = preg_replace('#^.*?/admin/#', '', $path); // strips any base directory plus /admin/
     $path = preg_replace('#/index\\.php$#', '', $path);
     return trim($path, '/');
 };
