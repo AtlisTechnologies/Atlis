@@ -32,7 +32,7 @@ if ($action === 'create-edit') {
   }
 } else {
   require_permission('conference','read');
-  $stmt = $pdo->query('SELECT id,name,start_datetime,venue FROM module_conferences ORDER BY start_datetime DESC');
+  $stmt = $pdo->query('SELECT id,name,start_datetime,end_datetime,venue FROM module_conferences ORDER BY start_datetime DESC');
   $conferences = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
