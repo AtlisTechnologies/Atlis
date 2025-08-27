@@ -1,14 +1,22 @@
 <?php
 $stmt = $pdo->query('SELECT title, path, icon FROM admin_navigation_links ORDER BY sort_order');
 $navLinks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Determine the current request path relative to /admin/
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$currentPath = trim(preg_replace('#^/admin/#', '', $requestUri), '/');
 ?>
 <nav class="navbar navbar-vertical navbar-expand-lg">
   <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content">
       <ul class="navbar-nav flex-column" id="navbarVerticalNav">
         <?php foreach ($navLinks as $link): ?>
+        <?php
+        $linkPath = trim($link['path'], '/');
+        $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkPath . '/');
+        ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo getURLDir(); ?>admin/<?= e($link['path']); ?>">
+          <a class="nav-link<?= $isActive ? ' active' : ''; ?>" href="<?php echo getURLDir(); ?>admin/<?= e($link['path']); ?>"<?= $isActive ? ' aria-current="page"' : ''; ?>>
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="<?= e($link['icon']); ?>"></span></span><span class="nav-link-text"><?= e($link['title']); ?></span></div>
           </a>
         </li>
