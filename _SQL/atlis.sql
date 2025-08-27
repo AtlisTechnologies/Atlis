@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 09:09 AM
+-- Generation Time: Aug 27, 2025 at 10:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -287,7 +287,45 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (238, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[8,9,11,13]', '[13,11,8,9]'),
 (239, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 'admin_role_permission_groups', 13, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
 (240, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 'admin_role_permission_groups', 14, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
-(241, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 'admin_role_permission_groups', 15, 'SYNC', 'Updated role group assignments', '[16]', '[16]');
+(241, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 'admin_role_permission_groups', 15, 'SYNC', 'Updated role group assignments', '[16]', '[16]'),
+(242, 1, 1, '2025-08-27 01:12:59', '2025-08-27 01:12:59', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(243, 1, 1, '2025-08-27 01:14:21', '2025-08-27 01:14:21', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', ''),
+(244, 1, 1, '2025-08-27 01:15:46', '2025-08-27 01:15:46', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(245, 1, 1, '2025-08-27 01:16:19', '2025-08-27 01:16:19', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', ''),
+(246, 1, 1, '2025-08-27 01:16:26', '2025-08-27 01:16:26', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', ''),
+(247, 1, 1, '2025-08-27 01:52:51', '2025-08-27 01:52:51', NULL, 'module_meeting_files', 1, 'UPLOAD', '', '', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}'),
+(248, 1, 1, '2025-08-27 01:54:21', '2025-08-27 01:54:21', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(249, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(250, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"- I\'ll follow up with Winnie on 5 hours.\"}'),
+(251, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"call with Docstader\"}'),
+(252, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"RESTART WITH LAKE\"}'),
+(253, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(254, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(255, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(256, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(257, 1, 1, '2025-08-27 01:55:31', '2025-08-27 01:55:31', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}'),
+(258, 1, 1, '2025-08-27 01:57:02', '2025-08-27 01:57:02', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"\"}'),
+(259, 1, 1, '2025-08-27 01:57:02', '2025-08-27 01:57:02', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"\"}'),
+(260, 1, 1, '2025-08-27 01:57:02', '2025-08-27 01:57:02', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"\"}'),
+(261, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(262, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_agenda', 4, 'CREATE', 'Added agenda item', '', '{\"title\":\"test\"}'),
+(263, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_agenda', 5, 'CREATE', 'Added agenda item', '', '{\"title\":\"test 2\"}'),
+(264, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_agenda', 6, 'CREATE', 'Added agenda item', '', '{\"title\":\"test 3\"}'),
+(265, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_questions', 3, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(266, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_questions', 4, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(267, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(268, 1, 1, '2025-08-27 01:58:33', '2025-08-27 01:58:33', NULL, 'module_meeting_attendees', 4, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(269, 1, 1, '2025-08-27 02:07:07', '2025-08-27 02:07:07', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(270, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Dave + Sean\"}'),
+(271, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Test 1\"}'),
+(272, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Test 2\"}'),
+(273, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Test 3\"}'),
+(274, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_agenda', 4, 'CREATE', 'Added agenda item', '', '{\"title\":\"Test 4\"}'),
+(275, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(276, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Overall question is, are you interested in Contracting with my business, Atlis Technologies, to build this B.I. product\\/service?\"}'),
+(277, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(278, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(279, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}');
 
 -- --------------------------------------------------------
 
@@ -1998,6 +2036,13 @@ CREATE TABLE `module_conferences` (
   `share_count` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_conferences`
+--
+
+INSERT INTO `module_conferences` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `event_type_id`, `topic_id`, `mode`, `venue`, `country_id`, `state_id`, `city`, `start_datetime`, `end_datetime`, `timezone`, `registration_deadline`, `description`, `organizers`, `sponsors`, `is_private`, `show_ticket_count`, `going_count`, `interested_count`, `share_count`) VALUES
+(1, 1, NULL, '2025-08-27 02:09:37', '2025-08-27 02:09:37', NULL, '2025 JTI User Conference', 289, 291, 'ONLINE', 'Downtown LA', NULL, NULL, NULL, '2025-11-13 09:00:00', '2025-11-14 18:00:00', NULL, NULL, 'Idk yet', 'JTI', 'JTI', 0, 1, 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -2071,6 +2116,15 @@ CREATE TABLE `module_conference_tags` (
   `conference_id` int(11) NOT NULL,
   `tag` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_conference_tags`
+--
+
+INSERT INTO `module_conference_tags` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `conference_id`, `tag`) VALUES
+(1, 1, NULL, '2025-08-27 02:09:37', '2025-08-27 02:09:37', NULL, 1, 'JTI'),
+(2, 1, NULL, '2025-08-27 02:09:37', '2025-08-27 02:09:37', NULL, 1, 'eCourt'),
+(3, 1, NULL, '2025-08-27 02:09:37', '2025-08-27 02:09:37', NULL, 1, 'eSeries');
 
 -- --------------------------------------------------------
 
@@ -2617,7 +2671,7 @@ CREATE TABLE `module_meetings` (
 --
 
 INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `start_time`, `end_time`, `recur_daily`, `recur_weekly`, `recur_monthly`, `calendar_event_id`, `status_id`, `type_id`) VALUES
-(1, 1, 1, '2025-08-27 00:47:41', '2025-08-27 00:49:33', NULL, 'Sean + Dave', 'Meeting with Davey and Soup for Mass Judge Reassignment + BNX17BNX18 \r\n\r\nMcLean County is 4 different agencies.........\r\n\r\nUtah Prosecution Council Status Not Started\r\n\r\nAtlisware hosting / VPN\r\n\r\nMileny & Joseph\r\n	- needs laptop\r\n\r\nRESTART WITH LAKE\r\n	- create policy\r\n\r\ncall with Docstader\r\n\r\n- I\'ll follow up with Winnie on 5 hours.', '2025-08-26 14:00:00', '2025-08-26 15:30:00', 0, 0, 0, NULL, 202, 204);
+(1, 1, 1, '2025-08-27 02:07:07', '2025-08-27 02:07:07', NULL, 'Dave + Sean', '', '2025-08-26 14:00:00', NULL, 0, 0, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2640,6 +2694,16 @@ CREATE TABLE `module_meeting_agenda` (
   `linked_project_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_meeting_agenda`
+--
+
+INSERT INTO `module_meeting_agenda` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `order_index`, `title`, `status_id`, `linked_task_id`, `linked_project_id`) VALUES
+(1, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 1, 'Test 1', 226, NULL, NULL),
+(2, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 2, 'Test 2', 227, NULL, NULL),
+(3, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 3, 'Test 3', 228, NULL, NULL),
+(4, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 4, 'Test 4', NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2656,6 +2720,14 @@ CREATE TABLE `module_meeting_attendees` (
   `meeting_id` int(11) NOT NULL,
   `attendee_user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_meeting_attendees`
+--
+
+INSERT INTO `module_meeting_attendees` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `attendee_user_id`) VALUES
+(1, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 1),
+(2, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -2676,6 +2748,13 @@ CREATE TABLE `module_meeting_files` (
   `uploader_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module_meeting_files`
+--
+
+INSERT INTO `module_meeting_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `file_name`, `file_path`, `uploader_id`) VALUES
+(1, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, 'meeting_3_1756236860_joke-missed.gif', '/admin/meetings/uploads/1/meeting_1_1756282064_meeting_3_1756236860_joke-missed.gif', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -2695,6 +2774,14 @@ CREATE TABLE `module_meeting_questions` (
   `answer_text` text DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_meeting_questions`
+--
+
+INSERT INTO `module_meeting_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `agenda_id`, `question_text`, `answer_text`, `status_id`) VALUES
+(1, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, NULL, 'When should we schedule the restart?', '', NULL),
+(2, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 1, NULL, 'Overall question is, are you interested in Contracting with my business, Atlis Technologies, to build this B.I. product/service?', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -4689,7 +4776,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT for table `admin_navigation_links`
@@ -4845,7 +4932,7 @@ ALTER TABLE `module_calendar_external_accounts`
 -- AUTO_INCREMENT for table `module_conferences`
 --
 ALTER TABLE `module_conferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_conference_attendees`
@@ -4869,7 +4956,7 @@ ALTER TABLE `module_conference_images`
 -- AUTO_INCREMENT for table `module_conference_tags`
 --
 ALTER TABLE `module_conference_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_conference_ticket_options`
@@ -4989,25 +5076,25 @@ ALTER TABLE `module_meetings`
 -- AUTO_INCREMENT for table `module_meeting_agenda`
 --
 ALTER TABLE `module_meeting_agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_attendees`
 --
 ALTER TABLE `module_meeting_attendees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_files`
 --
 ALTER TABLE `module_meeting_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_questions`
 --
 ALTER TABLE `module_meeting_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module_organization`
