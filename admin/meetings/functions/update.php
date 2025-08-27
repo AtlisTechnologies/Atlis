@@ -42,9 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_time = $end_dt ? $end_dt->format('Y-m-d H:i:s') : null;
     $stmt = $pdo->prepare('UPDATE module_meetings SET user_updated=?, title=?, description=?, start_time=?, end_time=?, recur_daily=?, recur_weekly=?, recur_monthly=?, status_id=?, type_id=? WHERE id=?');
     $stmt->execute([$this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $meeting_status_id, $meeting_type_id, $id]);
-   admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'UPDATE', 'Updated meeting');
+    admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'UPDATE', '', '', 'Updated meeting');
     header('Location: ../index.php?action=details&id=' . $id);
-    exit;
+    exit; // ensure no further execution after redirect
   }
 
   http_response_code(400);
