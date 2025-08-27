@@ -46,6 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->execute([$this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $meeting_status_id, $meeting_type_id, $id]);
       admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'UPDATE', '', json_encode(['title'=>$title]), 'Updated meeting');
 
+      // Remove existing child records before inserting new data
+      $pdo->prepare('DELETE FROM module_meeting_agenda WHERE meeting_id=?')->execute([$id]);
+      $pdo->prepare('DELETE FROM module_meeting_questions WHERE meeting_id=?')->execute([$id]);
+      $pdo->prepare('DELETE FROM module_meeting_attendees WHERE meeting_id=?')->execute([$id]);
+
       // Agenda items
       $agenda_titles = isset($_POST['agenda_title']) && is_array($_POST['agenda_title']) ? $_POST['agenda_title'] : [];
       $agenda_status_ids = isset($_POST['agenda_status_id']) && is_array($_POST['agenda_status_id']) ? $_POST['agenda_status_id'] : [];
