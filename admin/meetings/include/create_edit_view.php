@@ -40,7 +40,7 @@ $token = generate_csrf_token();
         <select id="status_id" name="status_id" class="form-select">
           <option value="">Select status</option>
           <?php foreach ($meetingStatusList as $s): ?>
-            <option value="<?= (int)$s['id']; ?>" <?php echo (!empty($meeting['status_id']) && (int)$meeting['status_id'] === (int)$s['id']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
+            <option value="<?= (int)$s['id']; ?>" <?php echo (isset($meeting['status_id']) && (int)$meeting['status_id'] === (int)$s['id']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -49,7 +49,7 @@ $token = generate_csrf_token();
         <select id="type_id" name="type_id" class="form-select">
           <option value="">Select type</option>
           <?php foreach ($meetingTypeList as $t): ?>
-            <option value="<?= (int)$t['id']; ?>" <?php echo (!empty($meeting['type_id']) && (int)$meeting['type_id'] === (int)$t['id']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
+            <option value="<?= (int)$t['id']; ?>" <?php echo (isset($meeting['type_id']) && (int)$meeting['type_id'] === (int)$t['id']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>

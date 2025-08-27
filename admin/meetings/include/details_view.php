@@ -2,8 +2,8 @@
 $agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
 $meetingStatusMap = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
 $meetingTypeMap   = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
-$meetingStatusLabel = !empty($meeting['status_id']) && isset($meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['label'] : null;
-$meetingTypeLabel   = !empty($meeting['type_id']) && isset($meetingTypeMap[$meeting['type_id']]) ? $meetingTypeMap[$meeting['type_id']]['label'] : null;
+$meetingStatusLabel = isset($meeting['status_id'], $meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['label'] : null;
+$meetingTypeLabel   = isset($meeting['type_id'], $meetingTypeMap[$meeting['type_id']]) ? $meetingTypeMap[$meeting['type_id']]['label'] : null;
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 ?>
