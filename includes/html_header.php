@@ -18,6 +18,7 @@
 
   <script src="<?php echo getURLDir(); ?>vendors/popper/popper.min.js"></script>
   <script src="<?php echo getURLDir(); ?>vendors/bootstrap/bootstrap.min.js"></script>
+  <script src="<?php echo getURLDir(); ?>vendors/fontawesome/all.min.js"></script>
 
   <!-- Vendor CSS (Phoenix, FontAwesome, etc) -->
   <link href="<?php echo getURLDir(); ?>vendors/glightbox/glightbox.min.css" rel="stylesheet">

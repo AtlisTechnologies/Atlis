@@ -59,13 +59,16 @@ if($items){
 }
 ?>
 
-<div class="row">
-  <div class="col-12">
-    <h2 class="mb-4">Items for <?= h($list['name']); ?>
-      <br />
-      <a class="btn btn-secondary" href="index.php">Back</a>
-    </h2>
+<div class="row align-items-center mb-4">
+  <div class="col-auto">
+    <a class="btn btn-secondary" href="index.php">
+      <i class="fa-solid fa-arrow-left me-1"></i>Back to All Lookup Lists
+    </a>
   </div>
+  <div class="col text-center">
+    <h2 class="mb-0">Items for <?= h($list['name']); ?></h2>
+  </div>
+  <div class="col-auto"></div>
 </div>
 
 <?= flash_message($error, 'danger'); ?>
