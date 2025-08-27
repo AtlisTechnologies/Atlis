@@ -23,13 +23,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)($_POST['id'] ?? 0);
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
     $order_index = (int)($_POST['order_index'] ?? 0);
-    $title = trim($_POST['title'] ?? '');
-    $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
-    $linked_task_id = isset($_POST['linked_task_id']) && $_POST['linked_task_id'] !== '' ? (int)$_POST['linked_task_id'] : null;
-    $linked_project_id = isset($_POST['linked_project_id']) && $_POST['linked_project_id'] !== '' ? (int)$_POST['linked_project_id'] : null;
+    $titleProvided = isset($_POST['title']) && trim($_POST['title']) !== '';
+    $statusProvided = isset($_POST['status_id']) && $_POST['status_id'] !== '';
+    $taskProvided = isset($_POST['linked_task_id']) && $_POST['linked_task_id'] !== '';
+    $projectProvided = isset($_POST['linked_project_id']) && $_POST['linked_project_id'] !== '';
+    $title = $titleProvided ? trim($_POST['title']) : '';
+    $status_id = $statusProvided ? (int)$_POST['status_id'] : null;
+    $linked_task_id = $taskProvided ? (int)$_POST['linked_task_id'] : null;
+    $linked_project_id = $projectProvided ? (int)$_POST['linked_project_id'] : null;
 
     try {
         if ($id && $meeting_id) {
+            $existing = null;
+            if (!$titleProvided || !$statusProvided || !$taskProvided || !$projectProvided) {
+                $checkStmt = $pdo->prepare('SELECT title, status_id, linked_task_id, linked_project_id FROM module_meeting_agenda WHERE id=? AND meeting_id=?');
+                $checkStmt->execute([$id, $meeting_id]);
+                $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
+                if (!$existing) {
+                    throw new Exception('Agenda item not found');
+                }
+                if (!$titleProvided) { $title = $existing['title']; }
+                if (!$statusProvided) { $status_id = $existing['status_id']; }
+                if (!$taskProvided) { $linked_task_id = $existing['linked_task_id']; }
+                if (!$projectProvided) { $linked_project_id = $existing['linked_project_id']; }
+            }
+
             $stmt = $pdo->prepare('UPDATE module_meeting_agenda SET user_updated=:uid, order_index=:order_index, title=:title, status_id=:status_id, linked_task_id=:task_id, linked_project_id=:project_id WHERE id=:id AND meeting_id=:mid');
             $stmt->execute([
                 ':uid' => $this_user_id,
