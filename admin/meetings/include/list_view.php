@@ -1,4 +1,5 @@
 <?php $token = generate_csrf_token(); ?>
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
 <div class="p-4" id="meetingList" data-list='{"valueNames":["meeting-title","start-time"],"page":25,"pagination":true}'>
   <h2 class="mb-4">Meetings<span class="text-body-tertiary fw-normal">(<?= count($meetings) ?>)</span></h2>
   <div class="row align-items-center g-3 mb-3">
@@ -56,6 +57,21 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+  function showToast(msg, type = 'success'){
+    var container = document.getElementById('toastContainer');
+    if(!container){
+      alert(msg);
+      return;
+    }
+    var toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.innerHTML = '<div class="d-flex"><div class="toast-body">'+msg+'</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>';
+    container.appendChild(toastEl);
+    new bootstrap.Toast(toastEl).show();
+  }
   var meetingList = new List('meetingList', { valueNames: ['meeting-title','start-time'], page:25, pagination:true });
   var form = document.getElementById('meetingQuickAdd');
   if(form){
@@ -73,8 +89,13 @@ document.addEventListener('DOMContentLoaded', function(){
                        `<div class="col-auto text-body-tertiary start-time">${res.meeting.start_time || ''}</div></div>`;
             document.getElementById('meetingListContainer').insertAdjacentHTML('afterbegin', html);
             meetingList.add({'meeting-title': res.meeting.title, 'start-time': res.meeting.start_time});
+            form.reset();
+            showToast('Meeting created');
           }
-          form.reset();
+        })
+        .catch(function(err){
+          console.error(err);
+          showToast('Creation failed','danger');
         });
     });
   }
