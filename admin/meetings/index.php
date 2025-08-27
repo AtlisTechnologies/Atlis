@@ -4,13 +4,11 @@ require '../admin_header.php';
 $action = $_GET['action'] ?? 'list';
 
 switch ($action) {
-  case 'create':
   case 'edit':
-    $perm = ($action === 'create') ? 'create' : 'update';
-    require_permission('meeting', $perm);
+    require_permission('meeting', 'update');
     $id = (int)($_GET['id'] ?? 0);
     $meeting = [];
-    if ($action === 'edit' && $id) {
+    if ($id) {
       $stmt = $pdo->prepare('SELECT id, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly FROM module_meetings WHERE id = ?');
       $stmt->execute([$id]);
       $meeting = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
