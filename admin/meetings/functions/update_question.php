@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':id' => $id,
                 ':mid' => $meeting_id
             ]);
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $id, 'UPDATE', 'Updated question');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $id, 'UPDATE', '', json_encode(['question'=>$question_text,'answer'=>$answer_text]), 'Updated question');
         }
 
         $listStmt = $pdo->prepare('SELECT id, meeting_id, agenda_id, question_text, answer_text, status_id FROM module_meeting_questions WHERE meeting_id=? ORDER BY id');

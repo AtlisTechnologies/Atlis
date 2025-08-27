@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt = $pdo->prepare('INSERT INTO module_meetings (user_id, user_updated, title, description, start_time, end_time, recur_daily, recur_weekly, recur_monthly, status_id, type_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
       $stmt->execute([$this_user_id, $this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $meeting_status_id, $meeting_type_id]);
       $id = $pdo->lastInsertId();
-      admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', '', 'Created meeting');
+      admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'CREATE', '', json_encode(['title'=>$title]), 'Created meeting');
 
       // Agenda items
       $agenda_titles = isset($_POST['agenda_title']) && is_array($_POST['agenda_title']) ? $_POST['agenda_title'] : [];
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           ':project_id' => $project_id
         ]);
         $agendaId = $pdo->lastInsertId();
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $agendaId, 'CREATE', '', $aTitle);
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_agenda', $agendaId, 'CREATE', '', json_encode(['title'=>$aTitle]), 'Added agenda item');
       }
 
       // Questions
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           ':status' => $status_id
         ]);
         $questionId = $pdo->lastInsertId();
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $questionId, 'CREATE', '', $qText);
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_questions', $questionId, 'CREATE', '', json_encode(['question'=>$qText]), 'Added question');
       }
 
       // Attendees
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           ':attendee' => $attendee_id
         ]);
         $attendeeId = $pdo->lastInsertId();
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', 'Added attendee');
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', json_encode(['user_id'=>$attendee_id]), 'Added attendee');
       }
 
       // Files
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               ':path' => $filePathDb
             ]);
             $fileId = $pdo->lastInsertId();
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $fileId, 'UPLOAD', '', json_encode(['file'=>$baseName]));
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $fileId, 'UPLOAD', '', json_encode(['file'=>$baseName]), 'Uploaded file');
           }
         }
         finfo_close($finfo);

@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':attendee' => $attendee_user_id
             ]);
             $id = $pdo->lastInsertId();
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', 'Added attendee');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', '', json_encode(['user_id'=>$attendee_user_id]), 'Added attendee');
         }
 
         // Refresh roster after successful insert

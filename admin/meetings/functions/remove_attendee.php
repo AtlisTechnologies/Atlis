@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id && $meeting_id) {
             $pdo->prepare('DELETE FROM module_meeting_attendees WHERE id=:id AND meeting_id=:mid')
                 ->execute([':id' => $id, ':mid' => $meeting_id]);
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'DELETE', 'Removed attendee');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'DELETE', '', '', 'Removed attendee');
         }
 
         $rosterStmt = $pdo->prepare(

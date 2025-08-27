@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (is_file($fullPath)) {
                     unlink($fullPath);
                 }
-                admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $id, 'DELETE', json_encode(['file' => $file['file_name']]), '');
+                admin_audit_log($pdo, $this_user_id, 'module_meeting_files', $id, 'DELETE', json_encode(['file' => $file['file_name']]), '', 'Deleted file');
             }
         }
 
