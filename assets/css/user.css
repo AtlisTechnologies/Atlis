@@ -14,6 +14,16 @@
   --atlis-border: #86d1cf;
 }
 
+/* Navbar Vertical Active Link */
+.navbar-vertical .nav-link.active {
+    background-color: #00948E;
+    color: #fff;
+}
+.navbar-vertical .nav-link.active .nav-link-icon,
+.navbar-vertical .nav-link.active .nav-link-text {
+    color: #fff;
+}
+
 /* 1. Buttons */
 .btn-atlis,
 .atlis.btn {
