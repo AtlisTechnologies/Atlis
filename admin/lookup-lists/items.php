@@ -161,7 +161,7 @@ if($items){
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <div class="form-text">Format: code|label|active_from|active_to</div>
+          <div class="form-text">Each line: code|label|active_from|active_to</div>
           <textarea class="form-control" name="items" rows="10"></textarea>
         </div>
         <input type="hidden" name="csrf_token" value="<?= $token; ?>">

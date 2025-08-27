@@ -27,8 +27,9 @@ try {
   echo json_encode(['success'=>false,'error'=>'Server error']);
 }
 
-function verifyToken() {
-  if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+function verifyToken($token = null) {
+  $token = $token ?? ($_POST['csrf_token'] ?? '');
+  if (!verify_csrf_token($token)) {
     echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
     exit;
   }
@@ -199,10 +200,7 @@ function handleItem($action){
     }
   }elseif($action==='bulk_create'){
     $data=json_decode(file_get_contents('php://input'),true);
-    if(!verify_csrf_token($data['csrf_token']??'')){
-      echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
-      return;
-    }
+    verifyToken($data['csrf_token'] ?? '');
     $list_id=(int)($data['list_id']??0);
     $items=$data['items']??[];
     if($list_id<=0||!is_array($items)||empty($items)){
