@@ -303,7 +303,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (12, 'Branding', 'branding/index.php', 'aperture', 6, 1, 1, '2025-08-24 01:53:50', '2025-08-25 00:43:46', NULL),
 (13, 'Products & Services', 'products-services/index.php', 'box', 9, 1, 1, '2025-08-27 00:00:00', '2025-08-25 00:43:46', NULL),
 (15, 'Finances', 'finances/index.php', 'dollar-sign', 12, 1, 1, '2025-08-25 00:40:13', '2025-08-25 00:43:46', NULL),
-(19, 'Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL);
+(19, 'Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL),
+(20, 'Corporate', 'corporate/index.php', 'briefcase', 14, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -431,7 +432,11 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (112, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'admin_task_comment', 'create'),
 (113, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'admin_task_comment', 'read'),
 (114, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'admin_task_comment', 'update'),
-(115, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'admin_task_comment', 'delete');
+(115, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'admin_task_comment', 'delete'),
+(116, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'corporate', 'create'),
+(117, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'corporate', 'read'),
+(118, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'corporate', 'update'),
+(119, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'corporate', 'delete');
 
 -- --------------------------------------------------------
 
@@ -471,7 +476,8 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (15, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Meetings', 'Permissions for managing meetings'),
 (16, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services', 'Permissions for managing products and services'),
 (17, 1, 1, '2025-08-24 23:53:15', '2025-08-24 23:53:15', NULL, 'Finances', 'Permissions for finance module'),
-(18, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'Admin Tasks', 'Permissions for managing administrative tasks');
+(18, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 'Admin Tasks', 'Permissions for managing administrative tasks'),
+(19, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'Corporate', 'Permissions for managing corporate records');
 
 -- --------------------------------------------------------
 
@@ -599,7 +605,11 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (115, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 18, 108),
 (116, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 18, 111),
 (117, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 18, 109),
-(118, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 18, 110);
+(118, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL, 18, 110),
+(119, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 19, 116),
+(120, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 19, 117),
+(121, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 19, 118),
+(122, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 19, 119);
 
 -- --------------------------------------------------------
 
@@ -1521,6 +1531,19 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (278, 1, 1, '2025-08-26 00:30:56', '2025-08-26 00:31:05', NULL, 56, 'Done !', 'DONE', 0, '2025-08-25', NULL),
 (279, 1, 1, '2025-08-26 00:37:43', '2025-08-26 00:37:43', NULL, 39, 'Scheduled', 'SCHEDULED', 0, '2025-08-25', NULL),
 (280, 1, 1, '2025-08-26 00:37:59', '2025-08-26 00:37:59', NULL, 40, 'General', 'GENERAL', 0, '2025-08-25', NULL);
+
+-- Add corporate features lookup list
+INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`) VALUES
+(62, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'CORPORATE_FEATURE', 'Corporate module features');
+
+-- Populate corporate features
+INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `list_id`, `label`, `code`, `sort_order`, `active_from`, `active_to`) VALUES
+(281, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Business Strategy', 'BUSINESS_STRATEGY', 1, '2025-08-26', NULL),
+(282, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Prospecting', 'PROSPECTING', 2, '2025-08-26', NULL),
+(283, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Finance', 'FINANCE', 3, '2025-08-26', NULL),
+(284, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Accounting', 'ACCOUNTING', 4, '2025-08-26', NULL),
+(285, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Assets', 'ASSETS', 5, '2025-08-26', NULL),
+(286, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Human Resources', 'HUMAN_RESOURCES', 6, '2025-08-26', NULL);
 
 -- --------------------------------------------------------
 
@@ -3581,6 +3604,29 @@ INSERT INTO `users_profile_pics` (`id`, `user_id`, `user_updated`, `date_created
 (4, 1, 1, '2025-08-21 22:14:15', '2025-08-22 08:26:16', NULL, '1_1755836055.JPEG', 'module/users/uploads/1_1755836055.JPEG', 143231, 'image/jpeg', 'f692123980cc18e618350c55f549f246d2cf73cf6e0632142019eb27bb34df3e', 513, 458, 1, 82),
 (5, 1, 1, '2025-08-22 08:26:01', '2025-08-22 08:26:16', NULL, '535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 'module/users/uploads/535471462_1222365166585268_6061415345364469578_n_1755872761.JPEG', 72399, 'image/jpeg', 'db5dc9b5e63e2d99f123f9e42ab5f902239c4f8f9ba2674c54e2084159fc5a51', 600, 596, 1, 83);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_corporate`
+--
+
+CREATE TABLE `module_corporate` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `feature_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_corporate`
+--
+
+
 --
 -- Indexes for dumped tables
 --
@@ -4336,6 +4382,15 @@ ALTER TABLE `users_profile_pics`
   ADD KEY `fk_users_profile_pics_status_id` (`status_id`);
 
 --
+-- Indexes for table `module_corporate`
+--
+ALTER TABLE `module_corporate`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_corporate_user_id` (`user_id`),
+  ADD KEY `fk_module_corporate_user_updated` (`user_updated`),
+  ADD KEY `fk_module_corporate_feature_id` (`feature_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -4349,25 +4404,25 @@ ALTER TABLE `admin_audit_log`
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -4433,13 +4488,13 @@ ALTER TABLE `audit_log`
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -4542,6 +4597,12 @@ ALTER TABLE `module_contractors_notes`
 --
 ALTER TABLE `module_contractors_status_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_corporate`
+--
+ALTER TABLE `module_corporate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `module_division`
@@ -5292,6 +5353,14 @@ ALTER TABLE `person_skills`
   ADD CONSTRAINT `fk_person_skills_skill_id` FOREIGN KEY (`skill_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_person_skills_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_person_skills_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_corporate`
+--
+ALTER TABLE `module_corporate`
+  ADD CONSTRAINT `fk_module_corporate_feature_id` FOREIGN KEY (`feature_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `users`
