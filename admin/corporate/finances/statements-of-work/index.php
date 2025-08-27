@@ -2,7 +2,7 @@
 require '../../../admin_header.php';
 require_permission('admin_finances_statements_of_work','read');
 
-$sowStmt = $pdo->query('SELECT id, title, status_id FROM module_finances_statements_of_work ORDER BY date_created DESC');
+$sowStmt = $pdo->query('SELECT id, title, status_id FROM admin_finances_statements_of_work ORDER BY date_created DESC');
 $sows = $sowStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Statements of Work</h2>

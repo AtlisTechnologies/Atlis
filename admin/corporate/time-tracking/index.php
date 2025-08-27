@@ -2,9 +2,9 @@
 require '../../admin_header.php';
 require_permission('admin_time_tracking','read');
 
-$invoiceStmt = $pdo->query('SELECT id, title FROM module_finances_invoices ORDER BY title');
+$invoiceStmt = $pdo->query('SELECT id, title FROM admin_finances_invoices ORDER BY title');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
-$entryStmt = $pdo->query('SELECT t.id, t.description, t.hours, i.title AS invoice_title FROM module_time_tracking_entries t LEFT JOIN module_finances_invoices i ON t.invoice_id = i.id ORDER BY t.date_created DESC');
+$entryStmt = $pdo->query('SELECT t.id, t.description, t.hours, i.title AS invoice_title FROM module_time_tracking_entries t LEFT JOIN admin_finances_invoices i ON t.invoice_id = i.id ORDER BY t.date_created DESC');
 $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Time Tracking</h2>

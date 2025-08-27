@@ -6,11 +6,11 @@ header('Content-Type: application/json');
 
 $id = $_GET['id'] ?? null;
 if ($id) {
-  $stmt = $pdo->prepare('SELECT * FROM module_finances_statements_of_work WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT * FROM admin_finances_statements_of_work WHERE id = :id');
   $stmt->execute([':id' => $id]);
   $data = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
-  $stmt = $pdo->query('SELECT * FROM module_finances_statements_of_work');
+  $stmt = $pdo->query('SELECT * FROM admin_finances_statements_of_work');
   $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 

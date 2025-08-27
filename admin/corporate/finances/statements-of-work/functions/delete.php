@@ -10,7 +10,7 @@ if (!$id) {
   exit;
 }
 
-$stmt = $pdo->prepare('DELETE FROM module_finances_statements_of_work WHERE id = :id');
+$stmt = $pdo->prepare('DELETE FROM admin_finances_statements_of_work WHERE id = :id');
 $stmt->execute([':id' => $id]);
 
 echo json_encode(['success' => true]);

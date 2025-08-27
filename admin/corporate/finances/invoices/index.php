@@ -2,7 +2,7 @@
 require '../../../admin_header.php';
 require_permission('admin_finances_invoices','read');
 
-$invoiceStmt = $pdo->query('SELECT id, title, amount FROM module_finances_invoices ORDER BY date_created DESC');
+$invoiceStmt = $pdo->query('SELECT id, title, amount FROM admin_finances_invoices ORDER BY date_created DESC');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Invoices</h2>

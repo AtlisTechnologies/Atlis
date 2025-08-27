@@ -13,7 +13,7 @@ if (!$id || $title === '') {
   exit;
 }
 
-$stmt = $pdo->prepare('UPDATE module_finances_statements_of_work SET title = :title, details = :details, user_updated = :uid WHERE id = :id');
+$stmt = $pdo->prepare('UPDATE admin_finances_statements_of_work SET title = :title, details = :details, user_updated = :uid WHERE id = :id');
 $stmt->execute([
   ':title' => $title,
   ':details' => $details,

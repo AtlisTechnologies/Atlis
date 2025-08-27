@@ -12,7 +12,7 @@ if ($title === '') {
   exit;
 }
 
-$stmt = $pdo->prepare('INSERT INTO module_finances_statements_of_work (user_id, title, details) VALUES (:uid, :title, :details)');
+$stmt = $pdo->prepare('INSERT INTO admin_finances_statements_of_work (user_id, title, details) VALUES (:uid, :title, :details)');
 $stmt->execute([
   ':uid' => $this_user_id,
   ':title' => $title,
