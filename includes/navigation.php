@@ -56,6 +56,16 @@
         <?php // ================ ?>
         <?php // END TASKS NAV LINK ?>
         <?php // ================ ?>
+        <?php // CONFERENCES NAV LINK ?>
+        <?php if (user_has_permission('conference','read')): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle lh-1" href="<?php echo getURLDir(); ?>module/conferences/">
+            <span class="uil fs-8 me-2 fas fa-handshake"></span>Conferences</a>
+        </li>
+        <?php endif; ?>
+        <?php // ================ ?>
+        <?php // END CONFERENCES NAV LINK ?>
+        <?php // ================ ?>
         <?php // CALENDAR NAV LINK ?>
         <?php if (user_has_permission('calendar','read')): ?>
         <li class="nav-item dropdown">
