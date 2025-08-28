@@ -128,6 +128,7 @@ try {
             'related_id' => $row['link_record_id'],
             'event_type_id' => $row['event_type_id'],
             'visibility_id' => $visibility,
+            'user_id' => (int)$row['user_id'],
             'calendar_user_id' => (int)$row['calendar_user_id'],
             'is_private' => (int)$row['is_private']
         ];
