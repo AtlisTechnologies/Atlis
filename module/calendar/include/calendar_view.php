@@ -213,6 +213,7 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
         <div class="mb-3"><strong>Description:</strong> <span id="detailDesc"></span></div>
         <div class="mb-3"><strong>Related Module:</strong> <span id="detailModule"></span></div>
         <div class="mb-3"><strong>Related ID:</strong> <span id="detailRecord"></span></div>
+        <div class="mb-3"><strong>Owner:</strong> <span id="detailOwner"></span></div>
       </div>
       <div class="modal-footer d-flex justify-content-end align-items-center border-0">
         <button class="btn btn-primary px-4 d-none" type="button" id="detailEditBtn">Edit</button>
@@ -333,6 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('detailModule').textContent = info.event.extendedProps.related_module || info.event.extendedProps.link_module || '';
       document.getElementById('detailRecord').textContent = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id || '';
       const ownerId = parseInt(info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id, 10);
+      document.getElementById('detailOwner').textContent = ownerId || '';
       if (detailEditBtn) {
         if (ownerId === currentUserId || isAdmin) {
           detailEditBtn.classList.remove('d-none');
@@ -353,17 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
           detailEditBtn.onclick = null;
         }
       }
-
-      const form = document.getElementById('editEventForm');
-      // Populate edit form with selected event details
-      form.id.value = info.event.id;
-      form.title.value = info.event.title;
-      form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-      form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
-      form.is_private.checked = isEventPrivate(info.event.extendedProps);
-      bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
-
+      bootstrap.Modal.getOrCreateInstance(detailModalEl).show();
     },
     dateClick: function(info) {
       const form = addEventForm;
@@ -406,14 +398,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     function ensureSelected() {
-      const personalChecked = sidebar.querySelectorAll('.calendar-checkbox[data-owned="1"]:checked');
-      if (!personalChecked.length) {
-        const firstPersonal = sidebar.querySelector('.calendar-checkbox[data-owned="1"]');
-        if (firstPersonal) firstPersonal.checked = true;
-      }
       const anyChecked = sidebar.querySelectorAll('.calendar-checkbox:checked');
       if (!anyChecked.length) {
-        const publicCb = document.getElementById(`cal${userPublicCalendarId}`);
+        const publicCb = document.getElementById(`cal${userPublicCalendarId}`) || sidebar.querySelector('.calendar-checkbox');
         if (publicCb) publicCb.checked = true;
       }
     }
