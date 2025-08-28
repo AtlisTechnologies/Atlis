@@ -5,6 +5,16 @@ require_permission('admin_finances_invoices','update');
 require_once __DIR__ . '/utils.php';
 header('Content-Type: application/json');
 
+if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+  echo json_encode(['success'=>false,'error'=>'Invalid request method']);
+  exit;
+}
+
+if(!verify_csrf_token($_POST['csrf_token'] ?? '')){
+  echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
+  exit;
+}
+
 $invoice_id = $_POST['invoice_id'] ?? null;
 $time_entry_id = $_POST['time_entry_id'] ?? null;
 if(!$invoice_id || !$time_entry_id){
