@@ -2,37 +2,28 @@
 $isEdit = !empty($meeting);
 
 // Lookup items for agenda statuses and determine default
-$agendaStatusItems = get_lookup_items($pdo, 'MEETING_AGENDA_STATUS');
-$agendaStatusMap   = array_column($agendaStatusItems, null, 'id');
-$defaultAgendaStatusId = null;
-foreach ($agendaStatusItems as $item) {
-    if (!empty($item['is_default'])) {
-        $defaultAgendaStatusId = (int)$item['id'];
-        break;
+function get_default_lookup_id(array $items): ?int {
+    foreach ($items as $item) {
+        if (!empty($item['is_default'])) {
+            return (int) $item['id'];
+        }
     }
+    return null;
 }
+
+$agendaStatusItems   = get_lookup_items($pdo, 'MEETING_AGENDA_STATUS');
+$agendaStatusMap     = array_column($agendaStatusItems, null, 'id');
+$defaultAgendaStatusId = get_default_lookup_id($agendaStatusItems);
 
 // Lookup items for question statuses
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 
 // Lookup items for meeting status and type with defaults
-$meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
-$defaultMeetingStatusId = null;
-foreach ($meetingStatusList as $item) {
-    if (!empty($item['is_default'])) {
-        $defaultMeetingStatusId = (int)$item['id'];
-        break;
-    }
-}
+$meetingStatusList     = get_lookup_items($pdo, 'MEETING_STATUS');
+$defaultMeetingStatusId = get_default_lookup_id($meetingStatusList);
 
-$meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
-$defaultMeetingTypeId = null;
-foreach ($meetingTypeList as $item) {
-    if (!empty($item['is_default'])) {
-        $defaultMeetingTypeId = (int)$item['id'];
-        break;
-    }
-}
+$meetingTypeList       = get_lookup_items($pdo, 'MEETING_TYPE');
+$defaultMeetingTypeId   = get_default_lookup_id($meetingTypeList);
 $token = generate_csrf_token();
 ?>
 <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
@@ -214,12 +205,17 @@ document.addEventListener('DOMContentLoaded', function(){
     var options = '<option value="">Select status</option>';
     for (var id in agendaStatusMap){
       if(Object.prototype.hasOwnProperty.call(agendaStatusMap, id)){
-        options += '<option value="' + id + '">' + esc(agendaStatusMap[id].label) + '</option>';
+        var selected = '';
+        if (data && data.status_id) {
+          selected = (parseInt(data.status_id, 10) === parseInt(id, 10)) ? ' selected' : '';
+        } else if (defaultAgendaStatusId !== null && parseInt(defaultAgendaStatusId, 10) === parseInt(id, 10)) {
+          selected = ' selected';
+        }
+        options += '<option value="' + id + '"' + selected + '>' + esc(agendaStatusMap[id].label) + '</option>';
       }
     }
     statusSelect.innerHTML = options;
     li.querySelector('input[name="agenda_title[]"]').value = data && data.title ? data.title : '';
-    statusSelect.value = data && data.status_id ? data.status_id : defaultAgendaStatusId;
     li.querySelector('input[name="agenda_order_index[]"]').value = data && data.order_index ? data.order_index : '';
     li.querySelector('input[name="agenda_linked_task_id[]"]').value = data && data.linked_task_id ? data.linked_task_id : '';
     li.querySelector('input[name="agenda_linked_project_id[]"]').value = data && data.linked_project_id ? data.linked_project_id : '';
