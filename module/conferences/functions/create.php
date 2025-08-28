@@ -3,7 +3,7 @@ require '../../../includes/php_header.php';
 require_permission('conference','create');
 
 $name           = $_POST['name'] ?? '';
-$event_type_id  = $_POST['event_type_id'] ?? null;
+$conference_type_id  = $_POST['conference_type_id'] ?? null;
 $topic_id       = $_POST['topic_id'] ?? null;
 $mode           = $_POST['mode'] ?? null;
 $venue          = $_POST['venue'] ?? '';
@@ -15,7 +15,7 @@ $sponsors       = $_POST['sponsors'] ?? '';
 $is_private     = !empty($_POST['is_private']) ? 1 : 0;
 
 $stmt = $pdo->prepare('INSERT INTO module_conferences (user_id, name, event_type_id, topic_id, mode, venue, start_datetime, end_datetime, description, organizers, sponsors, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-$stmt->execute([$this_user_id, $name, $event_type_id, $topic_id, $mode, $venue, $start_datetime, $end_datetime, $description, $organizers, $sponsors, $is_private]);
+$stmt->execute([$this_user_id, $name, $conference_type_id, $topic_id, $mode, $venue, $start_datetime, $end_datetime, $description, $organizers, $sponsors, $is_private]);
 $conferenceId = $pdo->lastInsertId();
 
 // Tags
@@ -46,22 +46,6 @@ if ($ticketJson !== '') {
     }
 }
 
-// Custom fields (JSON array of {name, field_type, field_options})
-$fieldsJson = $_POST['custom_fields'] ?? '';
-if ($fieldsJson !== '') {
-    $fields = json_decode($fieldsJson, true);
-    if (is_array($fields)) {
-        $fieldStmt = $pdo->prepare('INSERT INTO module_conference_custom_fields (user_id, conference_id, name, field_type, field_options) VALUES (?,?,?,?,?)');
-        foreach ($fields as $f) {
-            $fname = $f['name'] ?? null;
-            $ftype = $f['field_type'] ?? null;
-            $fopt  = $f['field_options'] ?? null;
-            if ($fname && $ftype) {
-                $fieldStmt->execute([$this_user_id, $conferenceId, $fname, $ftype, $fopt]);
-            }
-        }
-    }
-}
 
 // Images
 if (!empty($_FILES['images']['tmp_name'][0])) {

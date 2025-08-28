@@ -21,9 +21,17 @@
       <?php if (!empty($conference['mode'])): ?><p><strong>Mode:</strong> <?= h($conference['mode']) ?></p><?php endif; ?>
       <?php if (!empty($conference['organizers'])): ?><p><strong>Organizers:</strong> <?= nl2br(h($conference['organizers'])) ?></p><?php endif; ?>
       <?php if (!empty($conference['sponsors'])): ?><p><strong>Sponsors:</strong> <?= nl2br(h($conference['sponsors'])) ?></p><?php endif; ?>
-      <?php if (!empty($conference['tags'])): ?><p><strong>Tags:</strong> <?= h($conference['tags']) ?></p><?php endif; ?>
-      <?php if (!empty($conference['ticket_options'])): ?><p><strong>Ticket Options:</strong> <?= nl2br(h($conference['ticket_options'])) ?></p><?php endif; ?>
-      <?php if (!empty($conference['custom_fields'])): ?><p><strong>Custom Fields:</strong> <?= nl2br(h($conference['custom_fields'])) ?></p><?php endif; ?>
+      <?php if (!empty($conference['going_count']) || !empty($conference['interested_count']) || !empty($conference['share_count'])): ?>
+        <p><strong>Attendees:</strong> Going <?= (int)$conference['going_count'] ?>, Interested <?= (int)$conference['interested_count'] ?>, Shares <?= (int)$conference['share_count'] ?></p>
+      <?php endif; ?>
+      <?php if (!empty($tags)): ?><p><strong>Tags:</strong> <?= h(implode(', ', $tags)) ?></p><?php endif; ?>
+      <?php if (!empty($tickets)): ?>
+        <p><strong>Ticket Options:</strong>
+          <?php foreach ($tickets as $i => $t): ?>
+            <?= h($t['option_name']) ?><?php if ($t['price'] !== null && $t['price'] !== ''): ?> ($<?= h($t['price']) ?>)<?php endif; ?><?php if ($i < count($tickets) - 1): ?>, <?php endif; ?>
+          <?php endforeach; ?>
+        </p>
+      <?php endif; ?>
       <div><?= nl2br(h($conference['description'] ?? '')) ?></div>
     </div>
   </div>
