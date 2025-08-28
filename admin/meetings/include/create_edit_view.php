@@ -11,12 +11,14 @@ function get_default_lookup_id(array $items): ?int {
     return null;
 }
 
-$agendaStatusItems   = get_lookup_items($pdo, 'MEETING_AGENDA_STATUS');
-$agendaStatusMap     = array_column($agendaStatusItems, null, 'id');
+$agendaStatusItems     = get_lookup_items($pdo, 'MEETING_AGENDA_STATUS');
+$agendaStatusMap       = array_column($agendaStatusItems, null, 'id');
 $defaultAgendaStatusId = get_default_lookup_id($agendaStatusItems);
 
-// Lookup items for question statuses
-$questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+// Lookup items for question statuses and determine default
+$questionStatusItems     = get_lookup_items($pdo, 'MEETING_QUESTION_STATUS');
+$questionStatusMap       = array_column($questionStatusItems, null, 'id');
+$defaultQuestionStatusId = get_default_lookup_id($questionStatusItems);
 
 // Lookup items for meeting status and type with defaults
 $meetingStatusList     = get_lookup_items($pdo, 'MEETING_STATUS');
@@ -136,9 +138,10 @@ $token = generate_csrf_token();
 document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
   var csrfToken = '<?php echo h($token); ?>';
-  var agendaStatusMap   = <?php echo json_encode($agendaStatusMap); ?>;
-  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
+  var agendaStatusMap       = <?php echo json_encode($agendaStatusMap); ?>;
+  var questionStatusMap     = <?php echo json_encode($questionStatusMap); ?>;
   var defaultAgendaStatusId = <?php echo json_encode($defaultAgendaStatusId); ?>;
+  var defaultQuestionStatusId = <?php echo json_encode($defaultQuestionStatusId); ?>;
   var agendaList = document.getElementById('agendaList');
   var attendeeSelect = document.getElementById('attendeeSelect');
   var attendeeHiddenInputs = document.getElementById('attendeeHiddenInputs');
@@ -280,12 +283,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   if(attendeeSelect){
-    attendeeChoices = new Choices(attendeeSelect, {
-      removeItemButton: true,
-      placeholder: true,
-      placeholderValue: 'Search user',
-      searchPlaceholderValue: 'Search user'
-    });
+    attendeeChoices = new Choices(attendeeSelect,{removeItemButton:true,searchChoices:false,shouldSort:false});
 
     attendeeSelect.addEventListener('search', function(event){
       var term = event.detail.value;
@@ -294,9 +292,9 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(r => r.ok ? r.json() : [])
         .then(function(users){
           attendeeChoices.clearChoices();
-          users.forEach(function(u){
-            attendeeChoices.addChoice({ value: u.id, label: u.name });
-          });
+          attendeeChoices.setChoices(users.map(function(u){
+            return { value: u.id, label: u.name };
+          }), 'value', 'label', true);
         });
     });
 
@@ -317,7 +315,13 @@ document.addEventListener('DOMContentLoaded', function(){
     var statusOptions = '<option value="">Select status</option>';
     for (var id in questionStatusMap){
       if(Object.prototype.hasOwnProperty.call(questionStatusMap, id)){
-        statusOptions += '<option value="' + id + '">' + esc(questionStatusMap[id].label) + '</option>';
+        var selected = '';
+        if (data && data.status_id) {
+          selected = (parseInt(data.status_id, 10) === parseInt(id, 10)) ? ' selected' : '';
+        } else if (defaultQuestionStatusId !== null && parseInt(defaultQuestionStatusId, 10) === parseInt(id, 10)) {
+          selected = ' selected';
+        }
+        statusOptions += '<option value="' + id + '"' + selected + '>' + esc(questionStatusMap[id].label) + '</option>';
       }
     }
     div.innerHTML = '<input type="text" name="question_text[]" class="form-control mb-2" placeholder="Question" required>' +
@@ -327,7 +331,6 @@ document.addEventListener('DOMContentLoaded', function(){
     if(data){
       div.querySelector('input[name="question_text[]"]').value = data.question_text || '';
       div.querySelector('textarea[name="answer_text[]"]').value = data.answer_text || '';
-      div.querySelector('select[name="question_status_id[]"]').value = data.status_id || '';
       div.querySelector('input[name="agenda_id[]"]').value = data.agenda_id || '';
     }
     document.getElementById('questionsContainer').appendChild(div);
