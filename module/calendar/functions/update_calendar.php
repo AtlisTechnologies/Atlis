@@ -22,6 +22,12 @@ if ($id && $name !== '') {
     http_response_code(403);
     exit;
   }
+  $dup = $pdo->prepare('SELECT id FROM module_calendar WHERE user_id = ? AND name = ? AND id != ? LIMIT 1');
+  $dup->execute([$existing['user_id'], $name, $id]);
+  if ($dup->fetchColumn()) {
+    echo json_encode(['success' => false, 'error' => 'Calendar name already exists']);
+    exit;
+  }
   if (!empty($existing['is_default']) && $is_private) {
     echo json_encode(['success' => false, 'error' => 'Default calendar cannot be private']);
     exit;
