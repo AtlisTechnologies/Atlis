@@ -427,23 +427,21 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.appendChild(div);
       });
     }
-    function ensureSelected() {
-      const anyChecked = sidebar.querySelector('.calendar-checkbox:checked');
-      if (!anyChecked) {
-        const firstCb = sidebar.querySelector('.calendar-checkbox');
-        if (firstCb) firstCb.checked = true;
+    function ensureSelected(changed) {
+      if (!sidebar.querySelector('.calendar-checkbox:checked')) {
+        changed.checked = true;
       }
     }
     sidebar.querySelectorAll('.calendar-checkbox').forEach(cb => {
       cb.addEventListener('change', () => {
-        ensureSelected();
+        ensureSelected(cb);
         calendar.refetchEvents();
         if (addEventForm) {
           selectCalendarRadio(addEventForm, getCalendarId());
         }
       });
     });
-    ensureSelected();
+    ensureSelected(sidebar.querySelector('.calendar-checkbox'));
     if (addEventForm) {
       selectCalendarRadio(addEventForm, getCalendarId());
     }
