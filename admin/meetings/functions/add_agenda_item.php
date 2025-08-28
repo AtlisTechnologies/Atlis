@@ -16,19 +16,17 @@ function reorder_agenda($pdo, $meeting_id){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        echo json_encode(['success' => false, 'error' => 'Invalid CSRF token']);
         exit;
     }
 
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
     $order_index = (int)($_POST['order_index'] ?? 0);
     $title = trim($_POST['title'] ?? '');
-    $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
-    if ($status_id === null) {
+    $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : 0;
+    if (!$status_id) {
         $defaultStatus = array_filter(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), fn($i) => !empty($i['is_default']));
-        if ($defaultStatus) {
-            $status_id = (int)array_values($defaultStatus)[0]['id'];
-        }
+        $status_id = $defaultStatus ? (int)array_values($defaultStatus)[0]['id'] : null;
     }
     $linked_task_id = isset($_POST['linked_task_id']) && $_POST['linked_task_id'] !== '' ? (int)$_POST['linked_task_id'] : null;
     $linked_project_id = isset($_POST['linked_project_id']) && $_POST['linked_project_id'] !== '' ? (int)$_POST['linked_project_id'] : null;
@@ -58,9 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => true, 'items' => $updatedAgenda]);
     } catch (Exception $e) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
     exit;
 }
 
-echo json_encode(['success' => false, 'message' => 'Invalid request']);
+echo json_encode(['success' => false, 'error' => 'Invalid request']);
