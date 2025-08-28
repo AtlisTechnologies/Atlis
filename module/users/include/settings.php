@@ -93,6 +93,17 @@
           <label for="defaultCalendar">Default Calendar</label>
         </div>
       </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <select class="form-select" id="defaultEventType" name="calendar_event_type_default">
+            <option value="">No default</option>
+            <?php foreach ($calendarEventTypeItems as $item): ?>
+              <option value="<?= $item['id']; ?>" <?= ($userDefaults['CALENDAR_EVENT_TYPE_DEFAULT'] ?? '') == $item['id'] ? 'selected' : ''; ?>><?= h($item['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label for="defaultEventType">Default Event Type</label>
+        </div>
+      </div>
       <div class="col-12 gy-6">
         <div class="row g-3 justify-content-end mt-3">
           <div class="col-auto">

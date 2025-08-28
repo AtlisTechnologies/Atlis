@@ -46,6 +46,7 @@ if ($action === 'settings') {
   $projectTypeItems     = get_lookup_items($pdo, 'PROJECT_TYPE');
   $taskStatusItems      = get_lookup_items($pdo, 'TASK_STATUS');
   $taskPriorityItems    = get_lookup_items($pdo, 'TASK_PRIORITY');
+  $calendarEventTypeItems = get_lookup_items($pdo, 'CALENDAR_EVENT_TYPE');
 
   $userCalendars = $pdo->prepare('SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid');
   $userCalendars->execute([':uid' => $this_user_id]);
@@ -58,6 +59,7 @@ if ($action === 'settings') {
     'TASK_STATUS'      => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_STATUS'),
     'TASK_PRIORITY'    => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_PRIORITY'),
     'CALENDAR_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_DEFAULT'),
+    'CALENDAR_EVENT_TYPE_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE_DEFAULT'),
   ];
 
   require '../../includes/html_header.php';
