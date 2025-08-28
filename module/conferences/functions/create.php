@@ -7,51 +7,65 @@ $conference_type_id  = $_POST['conference_type_id'] ?? null;
 $topic_id       = $_POST['topic_id'] ?? null;
 $mode           = $_POST['mode'] ?? null;
 $venue          = $_POST['venue'] ?? '';
+$country_id     = $_POST['country_id'] ?? null;
+$state_id       = $_POST['state_id'] ?? null;
+$city           = $_POST['city'] ?? null;
+$latitude       = $_POST['latitude'] ?? null;
+$longitude      = $_POST['longitude'] ?? null;
 $start_datetime = !empty($_POST['start_datetime']) ? date('Y-m-d H:i:s', strtotime($_POST['start_datetime'])) : null;
 $end_datetime   = !empty($_POST['end_datetime']) ? date('Y-m-d H:i:s', strtotime($_POST['end_datetime'])) : null;
+$timezone       = $_POST['timezone'] ?? null;
+$registration_deadline = !empty($_POST['registration_deadline']) ? date('Y-m-d', strtotime($_POST['registration_deadline'])) : null;
 $description    = $_POST['description'] ?? '';
 $organizers     = $_POST['organizers'] ?? '';
 $sponsors       = $_POST['sponsors'] ?? '';
+$banner_image_id = $_POST['banner_image_id'] ?? null;
 $is_private     = !empty($_POST['is_private']) ? 1 : 0;
+$show_ticket_count = !empty($_POST['show_ticket_count']) ? 1 : 0;
 
-$stmt = $pdo->prepare('INSERT INTO module_conferences (user_id, name, event_type_id, topic_id, mode, venue, start_datetime, end_datetime, description, organizers, sponsors, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-$stmt->execute([$this_user_id, $name, $conference_type_id, $topic_id, $mode, $venue, $start_datetime, $end_datetime, $description, $organizers, $sponsors, $is_private]);
+$stmt = $pdo->prepare('INSERT INTO module_conferences (user_id, name, event_type_id, topic_id, mode, venue, country_id, state_id, city, latitude, longitude, start_datetime, end_datetime, timezone, registration_deadline, description, organizers, sponsors, banner_image_id, is_private, show_ticket_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+$stmt->execute([$this_user_id, $name, $event_type_id, $topic_id, $mode, $venue, $country_id, $state_id, $city, $latitude, $longitude, $start_datetime, $end_datetime, $timezone, $registration_deadline, $description, $organizers, $sponsors, $banner_image_id, $is_private, $show_ticket_count]);
 $conferenceId = $pdo->lastInsertId();
 
 // Tags
-$tagsStr = $_POST['tags'] ?? '';
-if ($tagsStr !== '') {
-    $tags = array_filter(array_map('trim', explode(',', $tagsStr)));
-    if ($tags) {
-        $tagStmt = $pdo->prepare('INSERT INTO module_conference_tags (user_id, conference_id, tag) VALUES (?,?,?)');
-        foreach ($tags as $tag) {
-            $tagStmt->execute([$this_user_id, $conferenceId, $tag]);
+$tagsInput = $_POST['tags'] ?? [];
+$tags = [];
+if (is_string($tagsInput)) {
+    $tags = array_filter(array_map('trim', explode(',', $tagsInput)));
+} elseif (is_array($tagsInput)) {
+    $tags = array_filter(array_map('trim', $tagsInput));
+}
+if ($tags) {
+    $tagStmt = $pdo->prepare('INSERT INTO module_conference_tags (user_id, conference_id, tag) VALUES (?,?,?)');
+    foreach ($tags as $tag) {
+        $tagStmt->execute([$this_user_id, $conferenceId, $tag]);
+    }
+}
+
+// Ticket options array
+$ticketOptions = $_POST['ticket_options'] ?? [];
+if (is_string($ticketOptions)) {
+    $decoded = json_decode($ticketOptions, true);
+    $ticketOptions = is_array($decoded) ? $decoded : [];
+}
+if (is_array($ticketOptions)) {
+    $ticketStmt = $pdo->prepare('INSERT INTO module_conference_ticket_options (user_id, conference_id, option_name, price) VALUES (?,?,?,?)');
+    foreach ($ticketOptions as $t) {
+        $name  = $t['option_name'] ?? ($t['name'] ?? null);
+        $price = $t['price'] ?? 0;
+        if ($name) {
+            $ticketStmt->execute([$this_user_id, $conferenceId, $name, $price]);
         }
     }
 }
 
-// Ticket options (JSON array of {option_name, price})
-$ticketJson = $_POST['ticket_options'] ?? '';
-if ($ticketJson !== '') {
-    $tickets = json_decode($ticketJson, true);
-    if (is_array($tickets)) {
-        $ticketStmt = $pdo->prepare('INSERT INTO module_conference_ticket_options (user_id, conference_id, option_name, price) VALUES (?,?,?,?)');
-        foreach ($tickets as $t) {
-            $name  = $t['option_name'] ?? ($t['name'] ?? null);
-            $price = $t['price'] ?? 0;
-            if ($name !== null) {
-                $ticketStmt->execute([$this_user_id, $conferenceId, $name, $price]);
-            }
-        }
-    }
-}
 
-
-// Images
+// Images with optional banner index
+$bannerIndex = $_POST['banner_image_index'] ?? null;
 if (!empty($_FILES['images']['tmp_name'][0])) {
     $uploadDir = '../uploads/';
     if (!is_dir($uploadDir)) { mkdir($uploadDir,0777,true); }
-    $imgStmt = $pdo->prepare('INSERT INTO module_conference_images (user_id, conference_id, file_name, file_path, file_size, file_type) VALUES (?,?,?,?,?,?)');
+    $imgStmt = $pdo->prepare('INSERT INTO module_conference_images (user_id, conference_id, file_name, file_path, file_size, file_type, is_banner) VALUES (?,?,?,?,?,?,?)');
     foreach ($_FILES['images']['tmp_name'] as $i => $tmp) {
         if ($_FILES['images']['error'][$i] === UPLOAD_ERR_OK) {
             $base = basename($_FILES['images']['name'][$i]);
@@ -59,8 +73,13 @@ if (!empty($_FILES['images']['tmp_name'][0])) {
             $target = 'conf_' . $conferenceId . '_' . time() . '_' . $safe;
             $targetPath = $uploadDir . $target;
             if (move_uploaded_file($tmp, $targetPath)) {
+                $isBanner = ($bannerIndex !== null && (int)$bannerIndex === $i) ? 1 : 0;
                 $path = '/module/conferences/uploads/' . $target;
-                $imgStmt->execute([$this_user_id, $conferenceId, $base, $path, $_FILES['images']['size'][$i], $_FILES['images']['type'][$i]]);
+                $imgStmt->execute([$this_user_id, $conferenceId, $base, $path, $_FILES['images']['size'][$i], $_FILES['images']['type'][$i], $isBanner]);
+                if ($isBanner) {
+                    $newImgId = $pdo->lastInsertId();
+                    $pdo->prepare('UPDATE module_conferences SET banner_image_id=? WHERE id=?')->execute([$newImgId, $conferenceId]);
+                }
             }
         }
     }
