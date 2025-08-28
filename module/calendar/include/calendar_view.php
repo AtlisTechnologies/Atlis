@@ -45,6 +45,10 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <div id="calendarSidebar"></div>
   </div>
   <div class="col">
+    <div id="calendarAlert"></div>
+    <div id="calendarSpinner" class="spinner-border text-primary" role="status" style="display:none;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
   </div>
 </div>
@@ -191,6 +195,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
+  const calendarSpinner = document.getElementById('calendarSpinner');
+  const alertPlaceholder = document.getElementById('calendarAlert');
+
+  function showAlert(message, type = 'danger') {
+    if (!alertPlaceholder) return;
+    alertPlaceholder.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}` +
+      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+  }
 
   if (openAddEventBtn && openAddEventBtn.disabled) {
     bootstrap.Tooltip.getOrCreateInstance(openAddEventBtn);
@@ -231,15 +243,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const ids = getCalendarIds();
       const fetchIds = ids.length ? ids : [userPublicCalendarId];
       const url = `${listUrl}?calendar_ids=${fetchIds.join(',')}`;
+      if (calendarSpinner) calendarSpinner.style.display = 'block';
       fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
         })
-        .then(data => successCallback(data))
+        .then(data => {
+          if (calendarSpinner) calendarSpinner.style.display = 'none';
+          successCallback(data);
+        })
         .catch(err => {
+          if (calendarSpinner) calendarSpinner.style.display = 'none';
           console.error('Failed to load events', err);
-          alert('Failed to load events: ' + err.message);
+          showAlert('Failed to load events: ' + err.message);
           if (failureCallback) failureCallback(err);
         });
     },
@@ -286,9 +303,20 @@ document.addEventListener('DOMContentLoaded', function() {
             <label class="form-check-label" for="cal${cal.id}">${cal.name}</label>`;
           sidebar.appendChild(div);
         });
+        function ensureSelected() {
+          const checked = sidebar.querySelectorAll('.calendar-checkbox:checked');
+          if (!checked.length) {
+            const publicCb = document.getElementById(`cal${userPublicCalendarId}`);
+            if (publicCb) publicCb.checked = true;
+          }
+        }
         document.querySelectorAll('.calendar-checkbox').forEach(cb => {
-          cb.addEventListener('change', () => calendar.refetchEvents());
+          cb.addEventListener('change', () => {
+            ensureSelected();
+            calendar.refetchEvents();
+          });
         });
+        ensureSelected();
         calendar.render();
         calendar.refetchEvents();
       })
@@ -305,14 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.reload();
     }
   });
-
-
-  const sidebar = document.getElementById('calendarSidebar');
-  if (sidebar) {
-    sidebar.addEventListener('change', () => {
-      calendar.refetchEvents();
-    });
-  }
 
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
