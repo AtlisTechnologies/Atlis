@@ -31,6 +31,9 @@ $_SESSION['csrf_token'] = $token;
       <?php if (!empty($meeting['end_time'])): ?>
       <p class="mb-0"><strong>End:</strong> <?php echo h(date('l, F j, Y g:i A', strtotime($meeting['end_time']))); ?></p>
       <?php endif; ?>
+      <?php if (!empty($meeting['calendar_event_id'])): ?>
+      <p class="mb-0"><a href="../calendar/index.php?action=details&id=<?= (int)$meeting['calendar_event_id']; ?>">View Calendar Event: <?= h($meeting['calendar_event_title']); ?></a></p>
+      <?php endif; ?>
       <p class="mb-0"><strong>Recurs:</strong> <?php
         $recur = [];
         if (!empty($meeting['recur_daily'])) $recur[] = 'Daily';
