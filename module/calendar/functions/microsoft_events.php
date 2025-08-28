@@ -42,7 +42,7 @@ function fetch_microsoft_events(PDO $pdo, int $userId): array {
                 }
                 curl_close($ch);
             } catch (Exception $e) {
-                if (isset($ch) && is_resource($ch)) {
+                if (isset($ch)) {
                     curl_close($ch);
                 }
                 error_log($e->getMessage());
@@ -78,7 +78,7 @@ function fetch_microsoft_events(PDO $pdo, int $userId): array {
         }
         curl_close($ch);
     } catch (Exception $e) {
-        if (isset($ch) && is_resource($ch)) {
+        if (isset($ch)) {
             curl_close($ch);
         }
         error_log($e->getMessage());
