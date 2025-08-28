@@ -129,9 +129,14 @@ document.addEventListener('DOMContentLoaded', function(){
           return r.json();
         })
         .then(function(res){
-          if(res.success && (res.id || (res.meeting && res.meeting.id))){
-            var id = res.id || res.meeting.id;
-            window.location = 'index.php?action=edit&id=' + id;
+          if(res.success){
+            showToast('Meeting created','success');
+            var id = res.id || (res.meeting && res.meeting.id);
+            if(id){
+              setTimeout(function(){
+                window.location = 'index.php?action=edit&id=' + id;
+              }, 1000);
+            }
           } else {
             showToast('Creation failed','danger');
           }
