@@ -15,6 +15,7 @@ $event_type_id = $_POST['event_type_id'] ?? null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
+$attended = $_POST['attended'] ?? [];
 
 if ($title && $start_time && $calendar_id) {
   $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
@@ -47,9 +48,14 @@ if ($title && $start_time && $calendar_id) {
   $eventId = $pdo->lastInsertId();
 
   if (is_array($attendees)) {
-    $aStmt = $pdo->prepare('INSERT INTO module_calendar_event_attendees (user_id, event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
-    foreach ($attendees as $aid) {
-      $aStmt->execute([':uid' => $this_user_id, ':eid' => $eventId, ':aid' => $aid]);
+    $aStmt = $pdo->prepare('INSERT INTO module_calendar_person_attendees (user_id, event_id, attendee_person_id, attended) VALUES (:uid, :eid, :pid, :att)');
+    foreach ($attendees as $idx => $pid) {
+      $aStmt->execute([
+        ':uid' => $calendar['user_id'],
+        ':eid' => $eventId,
+        ':pid' => $pid,
+        ':att' => !empty($attended[$idx]) ? 1 : 0
+      ]);
     }
   }
 

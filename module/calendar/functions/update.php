@@ -17,6 +17,7 @@ $event_type_id = $_POST['event_type_id'] ?? null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
+$attended = $_POST['attended'] ?? [];
 
 if ($id && $title && $start_time && $calendar_id) {
   $chk = $pdo->prepare('SELECT e.user_id, e.visibility_id, e.calendar_id, c.user_id AS calendar_owner FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.id = ?');
@@ -53,11 +54,16 @@ if ($id && $title && $start_time && $calendar_id) {
   $stmt = $pdo->prepare('UPDATE module_calendar_events SET user_updated=?, calendar_id=?, title=?, start_time=?, end_time=?, event_type_id=?, link_module=?, link_record_id=?, visibility_id=? WHERE id=?');
   $stmt->execute([$this_user_id, $calendar_id, $title, $start_time, $end_time, $event_type_id, $link_module, $link_record_id, $visibility_id, $id]);
 
-  $pdo->prepare('DELETE FROM module_calendar_event_attendees WHERE event_id=?')->execute([$id]);
+  $pdo->prepare('DELETE FROM module_calendar_person_attendees WHERE event_id=?')->execute([$id]);
   if (is_array($attendees)) {
-    $aStmt = $pdo->prepare('INSERT INTO module_calendar_event_attendees (user_id, event_id, attendee_user_id) VALUES (:uid, :eid, :aid)');
-    foreach ($attendees as $aid) {
-      $aStmt->execute([':uid' => $this_user_id, ':eid' => $id, ':aid' => $aid]);
+    $aStmt = $pdo->prepare('INSERT INTO module_calendar_person_attendees (user_id, event_id, attendee_person_id, attended) VALUES (:uid, :eid, :pid, :att)');
+    foreach ($attendees as $idx => $pid) {
+      $aStmt->execute([
+        ':uid' => $calendar['user_id'],
+        ':eid' => $id,
+        ':pid' => $pid,
+        ':att' => !empty($attended[$idx]) ? 1 : 0
+      ]);
     }
   }
 
