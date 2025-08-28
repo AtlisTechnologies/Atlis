@@ -24,6 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $order_index = (int)($_POST['order_index'] ?? 0);
     $title = trim($_POST['title'] ?? '');
     $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
+    if ($status_id === null) {
+        $defaultStatus = array_filter(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), fn($i) => !empty($i['is_default']));
+        if ($defaultStatus) {
+            $status_id = (int)array_values($defaultStatus)[0]['id'];
+        }
+    }
     $linked_task_id = isset($_POST['linked_task_id']) && $_POST['linked_task_id'] !== '' ? (int)$_POST['linked_task_id'] : null;
     $linked_project_id = isset($_POST['linked_project_id']) && $_POST['linked_project_id'] !== '' ? (int)$_POST['linked_project_id'] : null;
 
@@ -48,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $listStmt = $pdo->prepare('SELECT id, meeting_id, order_index, title, status_id, linked_task_id, linked_project_id FROM module_meeting_agenda WHERE meeting_id=? ORDER BY order_index');
         $listStmt->execute([$meeting_id]);
-        $items = $listStmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(['success' => true, 'items' => $items]);
+        $updatedAgenda = $listStmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'items' => $updatedAgenda]);
     } catch (Exception $e) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);

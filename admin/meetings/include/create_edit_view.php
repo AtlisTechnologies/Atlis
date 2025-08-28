@@ -1,12 +1,38 @@
 <?php
 $isEdit = !empty($meeting);
-// Lookup items for agenda statuses
-$agendaStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
+
+// Lookup items for agenda statuses and determine default
+$agendaStatusItems = get_lookup_items($pdo, 'MEETING_AGENDA_STATUS');
+$agendaStatusMap   = array_column($agendaStatusItems, null, 'id');
+$defaultAgendaStatusId = null;
+foreach ($agendaStatusItems as $item) {
+    if (!empty($item['is_default'])) {
+        $defaultAgendaStatusId = (int)$item['id'];
+        break;
+    }
+}
+
 // Lookup items for question statuses
 $questionStatusMap = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
-// Lookup items for meeting status and type
+
+// Lookup items for meeting status and type with defaults
 $meetingStatusList = get_lookup_items($pdo, 'MEETING_STATUS');
+$defaultMeetingStatusId = null;
+foreach ($meetingStatusList as $item) {
+    if (!empty($item['is_default'])) {
+        $defaultMeetingStatusId = (int)$item['id'];
+        break;
+    }
+}
+
 $meetingTypeList   = get_lookup_items($pdo, 'MEETING_TYPE');
+$defaultMeetingTypeId = null;
+foreach ($meetingTypeList as $item) {
+    if (!empty($item['is_default'])) {
+        $defaultMeetingTypeId = (int)$item['id'];
+        break;
+    }
+}
 $token = generate_csrf_token();
 ?>
 <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
@@ -43,7 +69,13 @@ $token = generate_csrf_token();
         <select id="status_id" name="status_id" class="form-select">
           <option value="">Select status</option>
           <?php foreach ($meetingStatusList as $s): ?>
-            <option value="<?= (int)$s['id']; ?>" <?php echo (isset($meeting['status_id']) && (int)$meeting['status_id'] === (int)$s['id']) ? 'selected' : ''; ?>><?= h($s['label']); ?></option>
+            <option value="<?= (int)$s['id']; ?>" <?php
+              if (isset($meeting['status_id'])) {
+                  echo ((int)$meeting['status_id'] === (int)$s['id']) ? 'selected' : '';
+              } elseif ($defaultMeetingStatusId !== null && (int)$s['id'] === $defaultMeetingStatusId) {
+                  echo 'selected';
+              }
+            ?>><?= h($s['label']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -52,7 +84,13 @@ $token = generate_csrf_token();
         <select id="type_id" name="type_id" class="form-select">
           <option value="">Select type</option>
           <?php foreach ($meetingTypeList as $t): ?>
-            <option value="<?= (int)$t['id']; ?>" <?php echo (isset($meeting['type_id']) && (int)$meeting['type_id'] === (int)$t['id']) ? 'selected' : ''; ?>><?= h($t['label']); ?></option>
+            <option value="<?= (int)$t['id']; ?>" <?php
+              if (isset($meeting['type_id'])) {
+                  echo ((int)$meeting['type_id'] === (int)$t['id']) ? 'selected' : '';
+              } elseif ($defaultMeetingTypeId !== null && (int)$t['id'] === $defaultMeetingTypeId) {
+                  echo 'selected';
+              }
+            ?>><?= h($t['label']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -108,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var csrfToken = '<?php echo h($token); ?>';
   var agendaStatusMap   = <?php echo json_encode($agendaStatusMap); ?>;
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
+  var defaultAgendaStatusId = <?php echo json_encode($defaultAgendaStatusId); ?>;
   var agendaList = document.getElementById('agendaList');
   var attendeesContainer = document.getElementById('attendeesContainer');
   var eventSearchInput = document.getElementById('calendar_event_search');
@@ -180,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     statusSelect.innerHTML = options;
     li.querySelector('input[name="agenda_title[]"]').value = data && data.title ? data.title : '';
-    statusSelect.value = data && data.status_id ? data.status_id : '';
+    statusSelect.value = data && data.status_id ? data.status_id : defaultAgendaStatusId;
     li.querySelector('input[name="agenda_order_index[]"]').value = data && data.order_index ? data.order_index : '';
     li.querySelector('input[name="agenda_linked_task_id[]"]').value = data && data.linked_task_id ? data.linked_task_id : '';
     li.querySelector('input[name="agenda_linked_project_id[]"]').value = data && data.linked_project_id ? data.linked_project_id : '';
