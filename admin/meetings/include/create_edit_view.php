@@ -119,9 +119,9 @@ $token = generate_csrf_token();
       <button type="button" class="btn btn-sm btn-secondary mt-2" id="addQuestion">Add Question</button>
     </div>
     <div class="mb-3">
-      <label class="form-label">Attendees</label>
-      <div id="attendeesContainer"></div>
-      <button type="button" class="btn btn-sm btn-secondary mt-2" id="addAttendee">Add Attendee</button>
+      <label class="form-label" for="attendeeSelect">Attendees</label>
+      <select id="attendeeSelect" class="form-select" placeholder="Search user"></select>
+      <div id="attendeeHiddenInputs"></div>
     </div>
     <div class="mb-3">
       <label class="form-label">Upload Files</label>
@@ -131,6 +131,7 @@ $token = generate_csrf_token();
   </form>
 </div>
 <script src="<?php echo getURLDir(); ?>vendors/sortablejs/Sortable.min.js"></script>
+<script src="<?php echo getURLDir(); ?>vendors/choices/choices.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
@@ -139,7 +140,8 @@ document.addEventListener('DOMContentLoaded', function(){
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var defaultAgendaStatusId = <?php echo json_encode($defaultAgendaStatusId); ?>;
   var agendaList = document.getElementById('agendaList');
-  var attendeesContainer = document.getElementById('attendeesContainer');
+  var attendeeSelect = document.getElementById('attendeeSelect');
+  var attendeeHiddenInputs = document.getElementById('attendeeHiddenInputs');
   var eventSearchInput = document.getElementById('calendar_event_search');
   var eventIdInput = document.getElementById('calendar_event_id');
   if(eventSearchInput && eventIdInput){
@@ -253,7 +255,10 @@ document.addEventListener('DOMContentLoaded', function(){
       .then(r => r.json())
       .then(function(res){
         if(res.success && res.id){
-          window.location = 'index.php?action=details&id=' + res.id;
+          showToast('Meeting saved', 'success');
+          setTimeout(function(){
+            window.location = 'index.php?action=details&id=' + res.id;
+          }, 1000);
         } else {
           var msg = res.message || (res.errors ? res.errors.join(', ') : 'Failed to save meeting');
           showToast(msg);
@@ -265,32 +270,46 @@ document.addEventListener('DOMContentLoaded', function(){
       });
   });
 
-  function initAttendeeRow(div, data){
-    var searchInput = div.querySelector('.attendee-search');
-    var idInput = div.querySelector('input[name="attendee_user_id[]"]');
-    initTypeahead(searchInput, idInput, 'functions/search_users.php');
-    if(data){
-      searchInput.value = data.name || '';
-      idInput.value = data.attendee_user_id || '';
-    }
+  var attendeeChoices;
+  function addHiddenAttendee(id){
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'attendee_user_id[]';
+    input.value = id;
+    attendeeHiddenInputs.appendChild(input);
   }
 
-  function addAttendee(data){
-    var row = document.createElement('div');
-    row.className = 'row g-2 mb-2 attendee-item';
-    row.innerHTML = '<div class="col-md-10"><input type="text" class="form-control attendee-search" placeholder="Search user"><input type="hidden" name="attendee_user_id[]"></div>' +
-      '<div class="col-md-2"><button type="button" class="btn btn-sm btn-danger remove-attendee">Remove</button></div>';
-    attendeesContainer.appendChild(row);
-    initAttendeeRow(row, data || {});
+  if(attendeeSelect){
+    attendeeChoices = new Choices(attendeeSelect, {
+      removeItemButton: true,
+      placeholder: true,
+      placeholderValue: 'Search user',
+      searchPlaceholderValue: 'Search user'
+    });
+
+    attendeeSelect.addEventListener('search', function(event){
+      var term = event.detail.value;
+      if(!term){ return; }
+      fetch('functions/search_users.php?q=' + encodeURIComponent(term))
+        .then(r => r.ok ? r.json() : [])
+        .then(function(users){
+          attendeeChoices.clearChoices();
+          users.forEach(function(u){
+            attendeeChoices.addChoice({ value: u.id, label: u.name });
+          });
+        });
+    });
+
+    attendeeSelect.addEventListener('addItem', function(e){
+      addHiddenAttendee(e.detail.value);
+    });
+
+    attendeeSelect.addEventListener('removeItem', function(e){
+      Array.from(attendeeHiddenInputs.querySelectorAll('input[name="attendee_user_id[]"]')).forEach(function(input){
+        if(input.value === e.detail.value){ input.remove(); }
+      });
+    });
   }
-
-  document.getElementById('addAttendee').addEventListener('click', function(){ addAttendee(); });
-
-  attendeesContainer.addEventListener('click', function(e){
-    if(e.target.closest('.remove-attendee')){
-      e.target.closest('.attendee-item').remove();
-    }
-  });
 
   function addQuestion(data){
     var div = document.createElement('div');
@@ -328,7 +347,12 @@ document.addEventListener('DOMContentLoaded', function(){
     fetch('functions/get_attendees.php?meeting_id=<?php echo $isEdit ? (int)$meeting['id'] : 0; ?>&csrf_token=' + encodeURIComponent(csrfToken))
       .then(r=>r.json())
       .then(function(res){
-        if(res.success && res.attendees){ res.attendees.forEach(function(a){ addAttendee(a); }); }
+        if(res.success && res.attendees && attendeeChoices){
+          attendeeChoices.setChoices(res.attendees.map(function(a){
+            return { value: a.attendee_user_id, label: a.name, selected: true };
+          }), 'value', 'label', false);
+          res.attendees.forEach(function(a){ addHiddenAttendee(a.attendee_user_id); });
+        }
       });
   }
 });
