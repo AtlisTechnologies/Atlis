@@ -2,6 +2,14 @@
 require '../../../includes/php_header.php';
 require_permission('meeting', 'create');
 
+function get_default_lookup_item_id(PDO $pdo, string $listName): ?int {
+  $sql = "SELECT li.id FROM lookup_list_items li\n            JOIN lookup_lists l ON li.list_id = l.id\n            JOIN lookup_list_item_attributes a ON a.item_id = li.id\n           WHERE l.name = :name\n             AND a.attr_code = 'DEFAULT'\n             AND a.attr_value = 'true'\n           LIMIT 1";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([':name' => $listName]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  return $row['id'] ?? null;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Content-Type: application/json');
   if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -20,20 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $calendar_event_id = isset($_POST['calendar_event_id']) && $_POST['calendar_event_id'] !== '' ? (int)$_POST['calendar_event_id'] : null;
 
   if (!$meeting_status_id) {
-    foreach (get_lookup_items($pdo, 'MEETING_STATUS') as $item) {
-      if (!empty($item['is_default'])) {
-        $meeting_status_id = (int)$item['id'];
-        break;
-      }
-    }
+    $meeting_status_id = get_default_lookup_item_id($pdo, 'MEETING_STATUS');
   }
   if (!$meeting_type_id) {
-    foreach (get_lookup_items($pdo, 'MEETING_TYPE') as $item) {
-      if (!empty($item['is_default'])) {
-        $meeting_type_id = (int)$item['id'];
-        break;
-      }
-    }
+    $meeting_type_id = get_default_lookup_item_id($pdo, 'MEETING_TYPE');
   }
 
   $errors = [];
@@ -53,10 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $errors[] = 'End time must be after start time';
     }
   } elseif ($start_dt) {
-    $interval = get_system_property($pdo, 'ADMIN_MEETING_DEFAULT_END_DATE');
-    if ($interval) {
+    $intervalVal = get_system_property($pdo, 'ADMIN_MEETING_DEFAULT_END_DATE');
+    if ($intervalVal) {
       $end_dt = clone $start_dt;
-      $end_dt->modify('+' . $interval);
+      try {
+        $end_dt->add(new DateInterval($intervalVal));
+      } catch (Exception $e) {
+        $end_dt->modify('+' . $intervalVal);
+      }
     }
   }
 
@@ -80,15 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $agendaStmt = $pdo->prepare('INSERT INTO module_meeting_agenda (user_id, user_updated, meeting_id, order_index, title, status_id, linked_task_id, linked_project_id) VALUES (:uid,:uid,:mid,:order_index,:title,:status_id,:task_id,:project_id)');
       $agenda_count = count($agenda_titles);
-      $defaultAgendaStatusId = null;
-      if ($agenda_count) {
-        foreach (get_lookup_items($pdo, 'MEETING_AGENDA_STATUS') as $item) {
-          if (!empty($item['is_default'])) {
-            $defaultAgendaStatusId = (int)$item['id'];
-            break;
-          }
-        }
-      }
+      $defaultAgendaStatusId = $agenda_count ? get_default_lookup_item_id($pdo, 'MEETING_AGENDA_STATUS') : null;
       for ($i = 0; $i < $agenda_count; $i++) {
         $aTitle = trim($agenda_titles[$i] ?? '');
         if ($aTitle === '') { continue; }
