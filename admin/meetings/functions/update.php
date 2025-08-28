@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $recur_monthly = !empty($_POST['recur_monthly']) ? 1 : 0;
   $meeting_status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
   $meeting_type_id   = isset($_POST['type_id']) && $_POST['type_id'] !== '' ? (int)$_POST['type_id'] : null;
+  $calendar_event_id = isset($_POST['calendar_event_id']) && $_POST['calendar_event_id'] !== '' ? (int)$_POST['calendar_event_id'] : null;
 
   $errors = [];
   if ($title === '') {
@@ -42,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $pdo->beginTransaction();
       $start_time = $start_dt ? $start_dt->format('Y-m-d H:i:s') : null;
       $end_time = $end_dt ? $end_dt->format('Y-m-d H:i:s') : null;
-      $stmt = $pdo->prepare('UPDATE module_meetings SET user_updated=?, title=?, description=?, start_time=?, end_time=?, recur_daily=?, recur_weekly=?, recur_monthly=?, status_id=?, type_id=? WHERE id=?');
-      $stmt->execute([$this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $meeting_status_id, $meeting_type_id, $id]);
+      $stmt = $pdo->prepare('UPDATE module_meetings SET user_updated=?, title=?, description=?, start_time=?, end_time=?, recur_daily=?, recur_weekly=?, recur_monthly=?, calendar_event_id=?, status_id=?, type_id=? WHERE id=?');
+      $stmt->execute([$this_user_id, $title, $description, $start_time, $end_time, $recur_daily, $recur_weekly, $recur_monthly, $calendar_event_id, $meeting_status_id, $meeting_type_id, $id]);
       admin_audit_log($pdo, $this_user_id, 'module_meeting', $id, 'UPDATE', '', json_encode(['title'=>$title]), 'Updated meeting');
 
       // Remove existing child records before inserting new data
