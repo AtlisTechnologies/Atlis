@@ -86,87 +86,99 @@ require_permission('admin_strategy','read');
 </div>
 
 <script>
-$(function() {
-  // Load strategies with filters
-  function loadStrategies() {
-    $.getJSON('functions/read_strategies.php', {
+$(function(){
+  let strategiesCache = [];
+  function escapeHtml(text=""){ return $('<div>').text(text).html(); }
+  function loadStrategies(){
+    $.getJSON('functions/read_strategies.php',{
       status: $('#filterStatus').val(),
       priority: $('#filterPriority').val(),
       tags: $('#filterTags').val()
-    }, function(resp) {
-      if (resp.success) {
-        $('#strategyList').html(resp.html);
+    }, function(resp){
+      if(resp.success){
+        strategiesCache = resp.strategies;
+        if(resp.strategies.length){
+          let html='';
+          resp.strategies.forEach(s=>{
+            html += `<div class="card mb-2 strategy-item" data-id="${s.id}"><div class="card-body d-flex justify-content-between"><span>${escapeHtml(s.title)}</span></div></div>`;
+          });
+          $('#strategyList').html(html);
+        } else {
+          $('#strategyList').html('<div class="text-center text-body-tertiary py-5">No strategies found.</div>');
+        }
       }
     });
   }
   $('#filterStatus, #filterPriority').on('change', loadStrategies);
-  $('#filterTags').on('keyup', debounce(loadStrategies, 300));
-
-  // Add strategy
-  $('#addStrategyForm').on('submit', function(e) {
+  $('#filterTags').on('keyup', debounce(loadStrategies,300));
+  $('#strategyList').on('click','.strategy-item',function(){
+    const id = $(this).data('id');
+    const strategy = strategiesCache.find(s => s.id == id);
+    $('.strategy-item').removeClass('active');
+    $(this).addClass('active');
+    if(strategy){
+      $('#overview').html('<h4>'+escapeHtml(strategy.title)+'</h4>');
+    }
+    loadObjectives(id);
+    $('#collaborators').text('Loading...');
+    $('#notes').text('Loading...');
+    $('#files').text('Loading...');
+    $('#kpi').text('Loading...');
+  });
+  $('#addStrategyForm').on('submit', function(e){
     e.preventDefault();
-    $.post('functions/create_strategy.php', $(this).serialize(), function(resp) {
-      if (resp.success) {
-        if (window.phoenix && phoenix.toast) { phoenix.toast.success('Strategy added'); } else { alert('Strategy added'); }
+    $.post('functions/create_strategy.php', $(this).serialize(), function(resp){
+      if(resp.success){
+        if(window.phoenix && phoenix.toast){ phoenix.toast.success('Strategy added'); } else { alert('Strategy added'); }
         $('#addStrategyModal').modal('hide');
         loadStrategies();
       } else {
-        if (window.phoenix && phoenix.toast) { phoenix.toast.error(resp.error || 'Error'); } else { alert(resp.error || 'Error'); }
+        if(window.phoenix && phoenix.toast){ phoenix.toast.error(resp.error || 'Error'); } else { alert(resp.error || 'Error'); }
       }
     }, 'json');
   });
-
-  // Objectives tree loading
-  function loadObjectives(strategyId) {
-    $.getJSON('functions/read_objectives.php', {strategy_id: strategyId}, function(resp) {
-      if (resp.success) {
+  function loadObjectives(strategyId){
+    $.getJSON('functions/read_objectives.php',{strategy_id:strategyId},function(resp){
+      if(resp.success){
         const treeHtml = buildObjectivesTree(resp.objectives);
         $('#objectivesTree').html(treeHtml);
         $('#objectivesTree ul').sortable({
-          connectWith: '#objectivesTree ul',
-          placeholder: 'sortable-placeholder',
-          update: function(event, ui) {
+          connectWith:'#objectivesTree ul',
+          placeholder:'sortable-placeholder',
+          update:function(event,ui){
             const hierarchy = collectHierarchy($('#objectivesTree > ul'));
-            $.post('functions/reorder_objectives.php', {hierarchy: JSON.stringify(hierarchy)}, function(r) {
-              if (r.success) {
-                if (window.phoenix && phoenix.toast) { phoenix.toast.success('Objectives reordered'); }
-              }
-            }, 'json');
+            $.post('functions/reorder_objectives.php',{hierarchy: JSON.stringify(hierarchy)},function(r){
+              if(r.success && window.phoenix && phoenix.toast){ phoenix.toast.success('Objectives reordered'); }
+            },'json');
           }
         });
       }
     });
   }
-
-  function buildObjectivesTree(items, parent = 0) {
+  function buildObjectivesTree(items, parent=0){
     let html = '<ul class="list-unstyled" data-parent="'+parent+'">';
     items.filter(o => +o.parent_id === parent).forEach(o => {
       html += '<li data-id="'+o.id+'">'+
-        '<div class="d-flex align-items-center mb-2"><span class="flex-grow-1">'+o.title+'</span>'+
-        '<div class="progress flex-grow-1 ms-2" style="height:4px;">
-          <div class="progress-bar" style="width:'+ (o.progress||0) +'%"></div>
-        </div></div>'+
-        buildObjectivesTree(items, o.id) +
+        '<div class="d-flex align-items-center mb-2"><span class="flex-grow-1">'+escapeHtml(o.title)+'</span>'+ 
+        '<div class="progress flex-grow-1 ms-2" style="height:4px;"><div class="progress-bar" style="width:'+(o.progress||0)+'%"></div></div></div>'+ 
+        buildObjectivesTree(items, o.id)+
       '</li>';
     });
     html += '</ul>';
     return html;
   }
-
-  function collectHierarchy($ul) {
-    const arr = [];
-    $ul.children('li').each(function(index) {
-      const id = $(this).data('id');
-      const children = collectHierarchy($(this).children('ul'));
-      arr.push({id: id, parent_id: $ul.data('parent'), sort: index, children: children});
+  function collectHierarchy($ul){
+    const arr=[];
+    $ul.children('li').each(function(index){
+      const id=$(this).data('id');
+      const children=collectHierarchy($(this).children('ul'));
+      arr.push({id:id,parent_id:$ul.data('parent'),sort:index,children:children});
     });
     return arr;
   }
-
-  function debounce(fn, delay) {
-    let timer; return function() { clearTimeout(timer); timer = setTimeout(fn, delay); };
+  function debounce(fn,delay){
+    let timer; return function(){ clearTimeout(timer); timer=setTimeout(fn,delay); };
   }
-
   loadStrategies();
 });
 </script>
