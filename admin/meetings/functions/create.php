@@ -19,6 +19,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $meeting_type_id   = isset($_POST['type_id']) && $_POST['type_id'] !== '' ? (int)$_POST['type_id'] : null;
   $calendar_event_id = isset($_POST['calendar_event_id']) && $_POST['calendar_event_id'] !== '' ? (int)$_POST['calendar_event_id'] : null;
 
+  if (!$meeting_status_id) {
+    foreach (get_lookup_items($pdo, 'MEETING_STATUS') as $item) {
+      if (!empty($item['is_default'])) {
+        $meeting_status_id = (int)$item['id'];
+        break;
+      }
+    }
+  }
+  if (!$meeting_type_id) {
+    foreach (get_lookup_items($pdo, 'MEETING_TYPE') as $item) {
+      if (!empty($item['is_default'])) {
+        $meeting_type_id = (int)$item['id'];
+        break;
+      }
+    }
+  }
+
   $errors = [];
   if ($title === '') {
     $errors[] = 'Title is required';
@@ -34,6 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $errors[] = 'Invalid end time';
     } elseif ($start_dt && $end_dt <= $start_dt) {
       $errors[] = 'End time must be after start time';
+    }
+  } elseif ($start_dt) {
+    $interval = get_system_property($pdo, 'ADMIN_MEETING_DEFAULT_END_DATE');
+    if ($interval) {
+      $end_dt = clone $start_dt;
+      $end_dt->modify('+' . $interval);
     }
   }
 
@@ -57,11 +80,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $agendaStmt = $pdo->prepare('INSERT INTO module_meeting_agenda (user_id, user_updated, meeting_id, order_index, title, status_id, linked_task_id, linked_project_id) VALUES (:uid,:uid,:mid,:order_index,:title,:status_id,:task_id,:project_id)');
       $agenda_count = count($agenda_titles);
+      $defaultAgendaStatusId = null;
+      if ($agenda_count) {
+        foreach (get_lookup_items($pdo, 'MEETING_AGENDA_STATUS') as $item) {
+          if (!empty($item['is_default'])) {
+            $defaultAgendaStatusId = (int)$item['id'];
+            break;
+          }
+        }
+      }
       for ($i = 0; $i < $agenda_count; $i++) {
         $aTitle = trim($agenda_titles[$i] ?? '');
         if ($aTitle === '') { continue; }
         $order_index = isset($agenda_order_indexes[$i]) && $agenda_order_indexes[$i] !== '' ? (int)$agenda_order_indexes[$i] : $i + 1;
-        $status_id = isset($agenda_status_ids[$i]) && $agenda_status_ids[$i] !== '' ? (int)$agenda_status_ids[$i] : null;
+        $status_id = isset($agenda_status_ids[$i]) && $agenda_status_ids[$i] !== '' ? (int)$agenda_status_ids[$i] : $defaultAgendaStatusId;
         $task_id = isset($agenda_linked_task_ids[$i]) && $agenda_linked_task_ids[$i] !== '' ? (int)$agenda_linked_task_ids[$i] : null;
         $project_id = isset($agenda_linked_project_ids[$i]) && $agenda_linked_project_ids[$i] !== '' ? (int)$agenda_linked_project_ids[$i] : null;
         $agendaStmt->execute([
@@ -163,14 +195,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
 
       $pdo->commit();
-      echo json_encode(['success'=>true,'id'=>$id]);
+      $redirect = $_POST['redirect'] ?? ('../index.php?action=edit&id=' . $id);
+      echo json_encode(['success'=>true,'id'=>$id,'redirect'=>$redirect]);
       exit;
     } catch (Exception $e) {
       $pdo->rollBack();
       $errors[] = $e->getMessage();
     }
   }
-  echo json_encode(['success'=>false,'errors'=>$errors]);
+  echo json_encode(['success'=>false,'errors'=>$errors,'message'=>($errors[0] ?? 'Unable to create meeting')]);
   exit;
 }
 
