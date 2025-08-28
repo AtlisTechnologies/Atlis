@@ -1,6 +1,6 @@
 <?php
 $calendars = [];
-$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
+$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
@@ -16,47 +16,66 @@ $default_add_calendar_id = in_array($selected_calendar_id, $owned_calendar_ids, 
     ? $selected_calendar_id
     : ($user_default_calendar_id ?: ($owned_calendar_ids[0] ?? 0));
 
+$user_public_calendar_id = 0;
+foreach ($owned_calendars as $cal) {
+    if ((int)$cal['is_private'] === 0) {
+        $user_public_calendar_id = (int)$cal['id'];
+        break;
+    }
+}
+
 $event_types = get_lookup_items($pdo, 37);
 
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
-<div class="row g-0 mb-4 align-items-center">
-  <div class="col-5 col-md-6">
-    <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
+<div class="row">
+  <div class="col-md-3">
+    <div id="calendarSidebar"></div>
   </div>
-  <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
-    <?php if (!empty($calendars)) { ?>
-      <div class="form-floating form-floating-advance-select me-2">
-        <label for="calendarSelect">Calendars Displayed</label>
-        <select id="calendarSelect"
-                class="form-select"
-                multiple
-                data-choices="data-choices"
-                data-options='{"removeItemButton":true}'>
-          <?php foreach ($calendars as $cal) { ?>
-            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
-          <?php } ?>
-        </select>
+  <div class="col-md-9">
+    <div class="row g-0 mb-4 align-items-center">
+      <div class="col-5 col-md-6">
+        <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
       </div>
-    <?php } ?>
-    <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
-      <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
-    <?php } ?>
+      <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
+        <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
+          <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
+        <?php } ?>
 
-    <?php if ($owns_calendar) { ?>
-      <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
-        <span class="fas fa-plus pe-2 fs-10"></span>Add Event
-      </button>
-    <?php } else { ?>
-      <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
-    <?php } ?>
+        <?php if ($owns_calendar) { ?>
+          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
+            <span class="fas fa-plus pe-2 fs-10"></span>Add Event
+          </button>
+        <?php } else { ?>
+          <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
+        <?php } ?>
 
+      </div>
+    </div>
+
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
   </div>
 </div>
 
-<div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+<div class="row">
+  <?php if (!empty($calendars)) { ?>
+    <div class="col-md-3">
+      <div id="calendarSidebar">
+        <?php foreach ($calendars as $cal) { ?>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <div class="form-check">
+            <input class="form-check-input calendar-filter" type="checkbox" value="<?php echo $cal['id']; ?>" id="calFilter<?php echo $cal['id']; ?>"<?php echo (int)$cal['id'] === (int)$user_default_calendar_id ? ' checked' : ''; ?>>
+            <label class="form-check-label" for="calFilter<?php echo $cal['id']; ?>"><?php echo e($cal_label); ?></label>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+  <?php } ?>
+  <div class="col">
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+  </div>
+</div>
 
 <div class="modal fade" id="addEventModal" tabindex="-1">
   <div class="modal-dialog">
@@ -181,18 +200,16 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
-  const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
+  const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
-
+  const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
-
   const addEventModalEl = document.getElementById('addEventModal');
-
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
-
+  const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
 
@@ -204,14 +221,26 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getCalendarIds() {
+    const cbs = document.querySelectorAll('.calendar-checkbox:checked');
+    return Array.from(cbs).map(cb => cb.value);
+
+    //return Array.from(document.querySelectorAll('.calendar-filter:checked')).map(cb => cb.value);
+
+    const boxes = document.querySelectorAll('#calendarSelect input[type="checkbox"]:checked');
+    if (boxes.length) {
+      return Array.from(boxes).map(b => b.value);
+    }
     const sel = document.getElementById('calendarSelect');
-    if (!sel) return [];
-    return Array.from(sel.selectedOptions).map(opt => opt.value);
+    if (sel && sel.tagName === 'SELECT') {
+      return Array.from(sel.selectedOptions).map(opt => opt.value);
+    }
+    return [];
+
   }
 
   function getCalendarId() {
     const ids = getCalendarIds();
-    const cid = ids.length ? ids[0] : defaultCalendarId;
+    const cid = ids.length ? ids[0] : userPublicCalendarId;
     return ownedCalendarIds.includes(parseInt(cid, 10)) ? cid : defaultAddCalendarId;
   }
 
@@ -225,17 +254,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function selectCalendarRadio(form, cid) {
-    const radio = form.querySelector(`input[name="calendar_id"][value="${cid}"]`);
-    if (radio) radio.checked = true;
-  }
-
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
 
     events: function(fetchInfo, successCallback, failureCallback) {
       const ids = getCalendarIds();
-      const url = ids.length ? `${listUrl}?calendar_ids=${ids.join(',')}` : listUrl;
+      const fetchIds = ids.length ? ids : [userPublicCalendarId];
+      const url = `${listUrl}?calendar_ids=${fetchIds.join(',')}`;
       fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -275,7 +300,34 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
   });
-  calendar.render();
+  function initSidebar() {
+    fetch(listCalendarsUrl)
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        const sidebar = document.getElementById('calendarSidebar');
+        data.forEach(cal => {
+          const div = document.createElement('div');
+          div.className = 'form-check';
+          div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" value="${cal.id}" id="cal${cal.id}" checked>
+            <label class="form-check-label" for="cal${cal.id}">${cal.name}</label>`;
+          sidebar.appendChild(div);
+        });
+        document.querySelectorAll('.calendar-checkbox').forEach(cb => {
+          cb.addEventListener('change', () => calendar.refetchEvents());
+        });
+        calendar.render();
+        calendar.refetchEvents();
+      })
+      .catch(err => {
+        console.error('Failed to load calendars', err);
+        calendar.render();
+      });
+  }
+
+  initSidebar();
 
   window.addEventListener('message', function(e) {
     if (e.data === 'calendarLinked') {
@@ -283,13 +335,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  const calSelect = document.getElementById('calendarSelect');
-  if (calSelect) {
-    calSelect.addEventListener('change', function() {
+
+  const sidebar = document.getElementById('calendarSidebar');
+  if (sidebar) {
+    sidebar.addEventListener('change', () => {
       calendar.refetchEvents();
     });
   }
-
 
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
@@ -367,5 +419,29 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to update event: ' + err.message);
     });
   });
+
+  window.deleteCalendar = function(id) {
+    const fd = new FormData();
+    fd.append('id', id);
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete_calendar.php', {
+      method: 'POST',
+      body: fd
+    })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      if (data.success) {
+        calendar.refetchEvents();
+      } else {
+        alert(data.error || 'Unable to delete calendar.');
+      }
+    })
+    .catch(err => {
+      console.error('Failed to delete calendar', err);
+      alert('Failed to delete calendar: ' + err.message);
+    });
+  };
 });
 </script>

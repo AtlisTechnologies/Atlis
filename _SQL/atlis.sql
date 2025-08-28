@@ -2065,7 +2065,21 @@ CREATE TABLE `module_calendar` (
 
 INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`) VALUES
 (1, 1, NULL, '2025-08-23 15:44:36', '2025-08-23 15:44:36', NULL, 'Dave', 0, 1),
-(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-27 10:36:24', NULL, 'Dave', 1, 0);
+(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-27 10:36:24', NULL, 'Dave', 1, 0),
+(3, 2, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Sean', 0, 1),
+(4, 4, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Tyler', 0, 1),
+(5, 5, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'RJ', 0, 1),
+(6, 6, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Kasper', 0, 1),
+(7, 7, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Mileny', 0, 1),
+(8, 8, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Kenny', 0, 1),
+(9, 9, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Richard', 0, 1),
+(10, 10, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Emma', 0, 1),
+(11, 11, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Tom', 0, 1),
+(12, 12, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Winnie', 0, 1),
+(13, 13, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Zach', 0, 1),
+(14, 14, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Nancy', 0, 1),
+(15, 15, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Chris', 0, 1),
+(16, 18, NULL, '2025-08-28 00:00:00', '2025-08-28 00:00:00', NULL, 'Alisha', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -5127,7 +5141,7 @@ ALTER TABLE `module_agency_persons`
 -- AUTO_INCREMENT for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_events`

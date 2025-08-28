@@ -1,5 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
+
 require_permission('calendar','read');
 
 header('Content-Type: application/json');
@@ -15,10 +16,10 @@ try {
     );
     $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($calendars);
+
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }
 
 exit;
-
