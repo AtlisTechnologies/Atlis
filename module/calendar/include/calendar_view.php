@@ -1,6 +1,6 @@
 <?php
 $calendars = [];
-$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
+$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
@@ -15,6 +15,14 @@ $selected_calendar_id = $_SESSION['selected_calendar_id'] ?? $user_default_calen
 $default_add_calendar_id = in_array($selected_calendar_id, $owned_calendar_ids, true)
     ? $selected_calendar_id
     : ($user_default_calendar_id ?: ($owned_calendar_ids[0] ?? 0));
+
+$user_public_calendar_id = 0;
+foreach ($owned_calendars as $cal) {
+    if ((int)$cal['is_private'] === 0) {
+        $user_public_calendar_id = (int)$cal['id'];
+        break;
+    }
+}
 
 $event_types = get_lookup_items($pdo, 37);
 
@@ -46,6 +54,25 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
       </div>
     </div>
 
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+  </div>
+</div>
+
+<div class="row">
+  <?php if (!empty($calendars)) { ?>
+    <div class="col-md-3">
+      <div id="calendarSidebar">
+        <?php foreach ($calendars as $cal) { ?>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <div class="form-check">
+            <input class="form-check-input calendar-filter" type="checkbox" value="<?php echo $cal['id']; ?>" id="calFilter<?php echo $cal['id']; ?>"<?php echo (int)$cal['id'] === (int)$user_default_calendar_id ? ' checked' : ''; ?>>
+            <label class="form-check-label" for="calFilter<?php echo $cal['id']; ?>"><?php echo e($cal_label); ?></label>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+  <?php } ?>
+  <div class="col">
     <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
   </div>
 </div>
@@ -173,19 +200,16 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
-  const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
+  const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
-
+  const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
-
   const addEventModalEl = document.getElementById('addEventModal');
-
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
   const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
-
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
 
@@ -199,11 +223,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function getCalendarIds() {
     const cbs = document.querySelectorAll('.calendar-checkbox:checked');
     return Array.from(cbs).map(cb => cb.value);
+
+    //return Array.from(document.querySelectorAll('.calendar-filter:checked')).map(cb => cb.value);
+
+    const boxes = document.querySelectorAll('#calendarSelect input[type="checkbox"]:checked');
+    if (boxes.length) {
+      return Array.from(boxes).map(b => b.value);
+    }
+    const sel = document.getElementById('calendarSelect');
+    if (sel && sel.tagName === 'SELECT') {
+      return Array.from(sel.selectedOptions).map(opt => opt.value);
+    }
+    return [];
+
   }
 
   function getCalendarId() {
     const ids = getCalendarIds();
-    const cid = ids.length ? ids[0] : defaultCalendarId;
+    const cid = ids.length ? ids[0] : userPublicCalendarId;
     return ownedCalendarIds.includes(parseInt(cid, 10)) ? cid : defaultAddCalendarId;
   }
 
@@ -222,7 +259,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     events: function(fetchInfo, successCallback, failureCallback) {
       const ids = getCalendarIds();
-      const url = ids.length ? `${listUrl}?calendar_ids=${ids.join(',')}` : listUrl;
+      const fetchIds = ids.length ? ids : [userPublicCalendarId];
+      const url = `${listUrl}?calendar_ids=${fetchIds.join(',')}`;
       fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -296,6 +334,14 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.reload();
     }
   });
+
+
+  const sidebar = document.getElementById('calendarSidebar');
+  if (sidebar) {
+    sidebar.addEventListener('change', () => {
+      calendar.refetchEvents();
+    });
+  }
 
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
@@ -373,5 +419,29 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to update event: ' + err.message);
     });
   });
+
+  window.deleteCalendar = function(id) {
+    const fd = new FormData();
+    fd.append('id', id);
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete_calendar.php', {
+      method: 'POST',
+      body: fd
+    })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      if (data.success) {
+        calendar.refetchEvents();
+      } else {
+        alert(data.error || 'Unable to delete calendar.');
+      }
+    })
+    .catch(err => {
+      console.error('Failed to delete calendar', err);
+      alert('Failed to delete calendar: ' + err.message);
+    });
+  };
 });
 </script>
