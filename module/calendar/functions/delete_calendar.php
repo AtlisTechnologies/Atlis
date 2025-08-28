@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $id = (int)($_POST['id'] ?? 0);
 
 if ($id) {
-  $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id, is_default FROM module_calendar WHERE id = ?');
   $chk->execute([$id]);
 
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
@@ -18,6 +18,10 @@ if ($id) {
     // Calendar deletions are limited to the owner; Admins may override.
 
     http_response_code(403);
+    exit;
+  }
+  if (!empty($existing['is_default'])) {
+    echo json_encode(['success' => false, 'error' => 'Cannot delete default calendar']);
     exit;
   }
   $stmt = $pdo->prepare('DELETE FROM module_calendar WHERE id = ?');

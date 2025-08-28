@@ -8,7 +8,7 @@ $name = trim($_POST['name'] ?? '');
 $is_private = !empty($_POST['is_private']) ? 1 : 0;
 
 if ($id && $name !== '') {
-  $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id, is_default FROM module_calendar WHERE id = ?');
   $chk->execute([$id]);
 
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
@@ -21,6 +21,13 @@ if ($id && $name !== '') {
 
     http_response_code(403);
     exit;
+  }
+  if (!empty($existing['is_default']) && $is_private) {
+    echo json_encode(['success' => false, 'error' => 'Default calendar cannot be private']);
+    exit;
+  }
+  if (!empty($existing['is_default'])) {
+    $is_private = 0;
   }
   $stmt = $pdo->prepare('UPDATE module_calendar SET name=?, is_private=?, user_updated=? WHERE id=?');
   $stmt->execute([$name, $is_private, $this_user_id, $id]);

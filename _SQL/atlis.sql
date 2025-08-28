@@ -2055,16 +2055,17 @@ CREATE TABLE `module_calendar` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `is_private` tinyint(1) DEFAULT 0
+  `is_private` tinyint(1) DEFAULT 0,
+  `is_default` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar`
 --
 
-INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`) VALUES
-(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-23 15:44:36', NULL, 'Dave', 0),
-(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-27 10:36:24', NULL, 'Dave', 1);
+INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`) VALUES
+(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-23 15:44:36', NULL, 'Dave', 0, 1),
+(2, 1, NULL, '2025-08-23 15:45:27', '2025-08-27 10:36:24', NULL, 'Dave', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4337,7 +4338,8 @@ ALTER TABLE `module_agency_persons`
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_calendar_user_default` (`user_id`,`is_default`);
 
 --
 -- Indexes for table `module_calendar_events`
