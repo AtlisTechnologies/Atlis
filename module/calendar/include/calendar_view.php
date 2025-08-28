@@ -1,10 +1,18 @@
 <?php
 $calendars = [];
-$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
+$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned, CASE WHEN user_id = :uid THEN ics_token ELSE NULL END AS ics_token FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
 $calendars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($calendars as &$cal) {
+    if (!empty($cal['owned']) && empty($cal['ics_token'])) {
+        $token = bin2hex(random_bytes(16));
+        $upd = $pdo->prepare('UPDATE module_calendar SET ics_token = ? WHERE id = ?');
+        $upd->execute([$token, $cal['id']]);
+        $cal['ics_token'] = $token;
+    }
+}
 $owned_calendar_ids = array_column(array_filter($calendars, fn($c) => !empty($c['owned'])), 'id');
 $owned_calendars = array_values(array_filter($calendars, fn($c) => !empty($c['owned'])));
 $owns_calendar = !empty($owned_calendar_ids);
@@ -221,6 +229,23 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
   </div>
 </div>
 
+<div class="modal fade" id="calendarSettingsModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content border border-translucent">
+      <div class="modal-header px-card border-0">
+        <h5 class="mb-0 lh-sm text-body-highlight">Calendar Settings</h5>
+        <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
+      </div>
+      <div class="modal-body p-card py-0">
+        <div class="mb-3">
+          <label class="form-label" for="calendarFeedUrl">iCal Feed URL</label>
+          <input type="text" class="form-control" id="calendarFeedUrl" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="<?php echo getURLDir(); ?>vendors/fullcalendar/index.global.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -245,6 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const addEventModalEl = document.getElementById('addEventModal');
   const openAddEventBtn = document.getElementById('openAddEvent');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
+  const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
   const calendarSpinner = document.getElementById('calendarSpinner');
@@ -389,7 +415,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const div = document.createElement('div');
         div.className = 'fs-7 d-flex align-items-center gap-2';
         div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" data-owned="1" value="${cal.id}" id="cal${cal.id}" checked>` +
-          `<label for="cal${cal.id}" class="mb-0">${cal.name}</label>`;
+          `<label for="cal${cal.id}" class="mb-0 flex-grow-1">${cal.name}</label>` +
+          `<a href="#" class="ms-auto" onclick="openCalSettings(${cal.id});return false;">Feed</a>`;
         sidebar.appendChild(div);
       });
     }
@@ -561,6 +588,15 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  window.openCalSettings = function(id) {
+    const cal = calendarsData.find(c => parseInt(c.id, 10) === parseInt(id, 10));
+    if (!cal || parseInt(cal.owned, 10) !== 1) { return; }
+    const url = `${feedUrlBase}?calendar_id=${cal.id}&ics_token=${cal.ics_token}`;
+    const input = document.getElementById('calendarFeedUrl');
+    if (input) { input.value = url; }
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('calendarSettingsModal')).show();
+  };
 
   window.deleteCalendar = function(id) {
     const fd = new FormData();

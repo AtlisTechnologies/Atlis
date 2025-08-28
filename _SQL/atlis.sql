@@ -2053,7 +2053,6 @@ INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, 
 (18, 19, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Davey Rivers', 0, 1, 'b4ffc3a3-83dd-11f0-ac71-e89c259bf719'),
 (19, 1, NULL, '2025-08-27 23:21:29', '2025-08-28 01:07:50', NULL, 'Emry Soccer Schedule', 1, 0, 'b4ffc3d8-83dd-11f0-ac71-e89c259bf719'),
 (20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 01:07:50', NULL, 'TEST', 0, 0, 'b4ffc40b-83dd-11f0-ac71-e89c259bf719');
-
 -- --------------------------------------------------------
 
 --
