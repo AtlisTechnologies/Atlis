@@ -21,42 +21,34 @@ $event_types = get_lookup_items($pdo, 37);
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
-<div class="row g-0 mb-4 align-items-center">
-  <div class="col-5 col-md-6">
-    <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
+<div class="row">
+  <div class="col-md-3">
+    <div id="calendarSidebar"></div>
   </div>
-  <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
-    <?php if (!empty($calendars)) { ?>
-      <div class="form-floating form-floating-advance-select me-2">
-        <label for="calendarSelect">Calendars Displayed</label>
-        <select id="calendarSelect"
-                class="form-select"
-                multiple
-                data-choices="data-choices"
-                data-options='{"removeItemButton":true}'>
-          <?php foreach ($calendars as $cal) { ?>
-            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
-          <?php } ?>
-        </select>
+  <div class="col-md-9">
+    <div class="row g-0 mb-4 align-items-center">
+      <div class="col-5 col-md-6">
+        <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
       </div>
-    <?php } ?>
-    <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
-      <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
-    <?php } ?>
+      <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
+        <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
+          <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
+        <?php } ?>
 
-    <?php if ($owns_calendar) { ?>
-      <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
-        <span class="fas fa-plus pe-2 fs-10"></span>Add Event
-      </button>
-    <?php } else { ?>
-      <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
-    <?php } ?>
+        <?php if ($owns_calendar) { ?>
+          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
+            <span class="fas fa-plus pe-2 fs-10"></span>Add Event
+          </button>
+        <?php } else { ?>
+          <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
+        <?php } ?>
 
+      </div>
+    </div>
+
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
   </div>
 </div>
-
-<div id="calendar" class="calendar-outline mt-6 mb-9"></div>
 
 <div class="modal fade" id="addEventModal" tabindex="-1">
   <div class="modal-dialog">
@@ -192,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const addEventModalEl = document.getElementById('addEventModal');
 
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
+  const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
 
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
@@ -204,9 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getCalendarIds() {
-    const sel = document.getElementById('calendarSelect');
-    if (!sel) return [];
-    return Array.from(sel.selectedOptions).map(opt => opt.value);
+    const cbs = document.querySelectorAll('.calendar-checkbox:checked');
+    return Array.from(cbs).map(cb => cb.value);
   }
 
   function getCalendarId() {
@@ -223,11 +215,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form && form.calendar_id) {
       form.calendar_id.value = cid;
     }
-  }
-
-  function selectCalendarRadio(form, cid) {
-    const radio = form.querySelector(`input[name="calendar_id"][value="${cid}"]`);
-    if (radio) radio.checked = true;
   }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -275,21 +262,40 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
   });
-  calendar.render();
+  function initSidebar() {
+    fetch(listCalendarsUrl)
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        const sidebar = document.getElementById('calendarSidebar');
+        data.forEach(cal => {
+          const div = document.createElement('div');
+          div.className = 'form-check';
+          div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" value="${cal.id}" id="cal${cal.id}" checked>
+            <label class="form-check-label" for="cal${cal.id}">${cal.name}</label>`;
+          sidebar.appendChild(div);
+        });
+        document.querySelectorAll('.calendar-checkbox').forEach(cb => {
+          cb.addEventListener('change', () => calendar.refetchEvents());
+        });
+        calendar.render();
+        calendar.refetchEvents();
+      })
+      .catch(err => {
+        console.error('Failed to load calendars', err);
+        calendar.render();
+      });
+  }
+
+  initSidebar();
 
   window.addEventListener('message', function(e) {
     if (e.data === 'calendarLinked') {
       window.location.reload();
     }
   });
-
-  const calSelect = document.getElementById('calendarSelect');
-  if (calSelect) {
-    calSelect.addEventListener('change', function() {
-      calendar.refetchEvents();
-    });
-  }
-
 
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
