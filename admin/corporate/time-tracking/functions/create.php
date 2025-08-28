@@ -4,21 +4,29 @@ require_once __DIR__ . '/../../../../includes/php_header.php';
 require_permission('admin_time_tracking','create');
 header('Content-Type: application/json');
 
-$description = trim($_POST['description'] ?? '');
+$memo = trim($_POST['memo'] ?? '');
 $hours = $_POST['hours'] ?? null;
 $invoice_id = $_POST['invoice_id'] ?? null;
+$person_id = $_POST['person_id'] ?? null;
+$work_date = $_POST['work_date'] ?? null;
+$rate = $_POST['rate'] ?? null;
+$corporate_id = $_POST['corporate_id'] ?? 1;
 
-if ($description === '' || $hours === null) {
+if ($memo === '' || $hours === null || !$person_id || !$work_date) {
   echo json_encode(['success' => false, 'error' => 'Missing fields']);
   exit;
 }
 
-$stmt = $pdo->prepare('INSERT INTO module_time_tracking_entries (user_id, description, hours, invoice_id) VALUES (:uid, :description, :hours, :invoice_id)');
+$stmt = $pdo->prepare('INSERT INTO admin_time_tracking_entries (user_id, corporate_id, person_id, work_date, hours, rate, invoice_id, memo) VALUES (:uid, :cid, :person_id, :work_date, :hours, :rate, :invoice_id, :memo)');
 $stmt->execute([
   ':uid' => $this_user_id,
-  ':description' => $description,
+  ':cid' => $corporate_id,
+  ':person_id' => $person_id,
+  ':work_date' => $work_date,
   ':hours' => $hours,
-  ':invoice_id' => $invoice_id ?: null
+  ':rate' => $rate,
+  ':invoice_id' => $invoice_id ?: null,
+  ':memo' => $memo
 ]);
 
 echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);

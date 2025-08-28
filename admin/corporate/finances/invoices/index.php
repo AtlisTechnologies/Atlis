@@ -2,11 +2,11 @@
 require '../../../admin_header.php';
 require_permission('admin_finances_invoices','read');
 
-$invoiceStmt = $pdo->query('SELECT id, title, amount FROM admin_finances_invoices ORDER BY date_created DESC');
+$invoiceStmt = $pdo->query('SELECT id, invoice_number, total_amount FROM admin_finances_invoices ORDER BY date_created DESC');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Invoices</h2>
-<div id="invoiceList" data-list='{"valueNames":["id","title","amount"],"page":25,"pagination":true}'>
+<div id="invoiceList" data-list='{"valueNames":["id","invoice_number","total_amount"],"page":25,"pagination":true}'>
   <div class="row g-3 justify-content-between mb-4">
     <div class="col-auto">
       <?php if (user_has_permission('admin_finances_invoices','create')): ?>
@@ -25,21 +25,21 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="bg-body-emphasis border-top border-bottom border-translucent position-relative top-1 mx-n4 px-4">
     <div class="row g-0 text-body-tertiary fw-bold fs-10 py-2">
       <div class="col px-2 sort" data-sort="id">ID</div>
-      <div class="col px-2 sort" data-sort="title">Title</div>
-      <div class="col px-2 sort" data-sort="amount">Amount</div>
+      <div class="col px-2 sort" data-sort="invoice_number">Invoice #</div>
+      <div class="col px-2 sort" data-sort="total_amount">Total Amount</div>
       <div class="col px-2">Entries</div>
     </div>
     <div class="list">
       <?php foreach($invoices as $inv): ?>
         <?php
-          $timeStmt = $pdo->prepare('SELECT id, description, hours FROM module_time_tracking_entries WHERE invoice_id = :iid');
+          $timeStmt = $pdo->prepare('SELECT id, memo, hours FROM admin_time_tracking_entries WHERE invoice_id = :iid');
           $timeStmt->execute([':iid' => $inv['id']]);
           $timeEntries = $timeStmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
         <div class="row g-0 border-bottom py-2">
           <div class="col px-2 id"><?= h($inv['id']); ?></div>
-          <div class="col px-2 title"><?= h($inv['title']); ?></div>
-          <div class="col px-2 amount"><?= h($inv['amount']); ?></div>
+          <div class="col px-2 invoice_number"><?= h($inv['invoice_number']); ?></div>
+          <div class="col px-2 total_amount"><?= h($inv['total_amount']); ?></div>
           <div class="col px-2">
             <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#timeEntries<?= $inv['id']; ?>">View</button>
           </div>
@@ -56,7 +56,7 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                   <ul class="list-group">
                     <?php foreach($timeEntries as $te): ?>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><?= h($te['description']); ?></span>
+                        <span><?= h($te['memo']); ?></span>
                         <span class="badge bg-primary rounded-pill"><?= h($te['hours']); ?>h</span>
                       </li>
                     <?php endforeach; ?>
@@ -93,12 +93,28 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-body">
         <form id="invoiceForm">
           <div class="mb-3">
-            <label class="form-label" for="title">Title</label>
-            <input class="form-control" id="title" name="title" type="text" required />
+            <label class="form-label" for="invoice_number">Invoice #</label>
+            <input class="form-control" id="invoice_number" name="invoice_number" type="text" required />
           </div>
           <div class="mb-3">
-            <label class="form-label" for="amount">Amount</label>
-            <input class="form-control" id="amount" name="amount" type="number" step="0.01" />
+            <label class="form-label" for="status_id">Status ID</label>
+            <input class="form-control" id="status_id" name="status_id" type="number" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="bill_to">Bill To</label>
+            <input class="form-control" id="bill_to" name="bill_to" type="text" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="invoice_date">Invoice Date</label>
+            <input class="form-control" id="invoice_date" name="invoice_date" type="date" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="due_date">Due Date</label>
+            <input class="form-control" id="due_date" name="due_date" type="date" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="total_amount">Total Amount</label>
+            <input class="form-control" id="total_amount" name="total_amount" type="number" step="0.01" />
           </div>
           <button class="btn btn-primary" type="submit">Save</button>
         </form>
