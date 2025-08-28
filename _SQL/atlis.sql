@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 05:22 PM
+-- Generation Time: Aug 29, 2025 at 12:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,24 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (15, 1, 1, '2025-08-28 02:05:03', '2025-08-28 02:05:03', NULL, 'module_meeting_attendees', 2, 'DELETE', 'Removed attendee', '', ''),
 (16, 1, 1, '2025-08-28 02:05:07', '2025-08-28 02:05:07', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
 (17, 1, 1, '2025-08-28 02:05:30', '2025-08-28 02:05:30', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
-(18, 1, 1, '2025-08-28 02:07:33', '2025-08-28 02:07:33', NULL, 'module_meeting_questions', 2, 'UPDATE', 'Updated question', '', '{\"question\":\"\",\"answer\":\"no\"}');
+(18, 1, 1, '2025-08-28 02:07:33', '2025-08-28 02:07:33', NULL, 'module_meeting_questions', 2, 'UPDATE', 'Updated question', '', '{\"question\":\"\",\"answer\":\"no\"}'),
+(19, 1, 1, '2025-08-28 11:00:37', '2025-08-28 11:00:37', NULL, 'module_meeting', 2, 'CREATE', 'Created meeting', '', '{\"title\":\"Test\"}'),
+(20, 1, 1, '2025-08-28 15:59:52', '2025-08-28 15:59:52', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Atlis Internal - Dave + Sean\"}'),
+(21, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Atlis Internal - Dave + Sean\"}'),
+(22, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(23, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ashlin\"}'),
+(24, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(25, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(26, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(27, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_questions', 3, 'CREATE', 'Added question', '', '{\"question\":\"JOSEPH, WHERE DO YOU RECOMMEND WE START ?\"}'),
+(28, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(29, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(30, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(31, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"resource.pdf\"}'),
+(32, 1, 1, '2025-08-28 16:05:42', '2025-08-28 16:05:42', NULL, 'module_meeting_questions', 1, 'UPDATE', 'Updated question', '', '{\"question\":\"\",\"answer\":\"tomorrow!\"}'),
+(33, 1, 1, '2025-08-28 16:06:30', '2025-08-28 16:06:30', NULL, 'module_meeting_attendees', 1, 'DELETE', 'Removed attendee', '', ''),
+(34, 1, 1, '2025-08-28 16:07:59', '2025-08-28 16:07:59', NULL, 'module_meeting_questions', 3, 'UPDATE', 'Updated question', '', '{\"question\":\"JOEY, WHERE DO YOU RECOMMEND WE START ?\",\"answer\":\"\"}'),
+(35, 1, 1, '2025-08-28 16:08:05', '2025-08-28 16:08:05', NULL, 'module_meeting_questions', 3, 'UPDATE', 'Updated question', '', '{\"question\":\"JOEY, WHERE DO YOU RECOMMEND WE START ?\",\"answer\":\"\"}');
 
 -- --------------------------------------------------------
 
@@ -537,7 +554,15 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (160, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'strategy_file', 'create'),
 (161, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'strategy_file', 'read'),
 (162, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'strategy_file', 'update'),
-(163, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'strategy_file', 'delete');
+(163, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'strategy_file', 'delete'),
+(164, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'create'),
+(165, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'read'),
+(166, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'update'),
+(167, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'delete'),
+(168, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'create'),
+(169, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'read'),
+(170, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'update'),
+(171, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'delete');
 
 -- --------------------------------------------------------
 
@@ -588,7 +613,9 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (26, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL, 'admin_strategy_files', 'Permissions for managing strategy files'),
 (27, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_finances_invoices', 'Permissions for admin finances invoices'),
 (28, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_finances_statements_of_work', 'Permissions for admin finances statements of work'),
-(29, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_time_tracking', 'Permissions for admin time tracking');
+(29, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_time_tracking', 'Permissions for admin time tracking'),
+(30, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'Permissions for corporate notes management'),
+(31, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'Permissions for corporate files management');
 
 -- --------------------------------------------------------
 
@@ -776,7 +803,15 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (181, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 29, 132),
 (182, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 29, 135),
 (183, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 29, 133),
-(184, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 29, 134);
+(184, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 29, 134),
+(188, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 30, 164),
+(189, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 30, 167),
+(190, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 30, 165),
+(191, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 30, 166),
+(195, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 168),
+(196, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 171),
+(197, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 169),
+(198, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 170);
 
 -- --------------------------------------------------------
 
@@ -945,7 +980,9 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (153, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 13, 11),
 (154, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 10),
 (155, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 11),
-(156, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 15, 16);
+(156, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 15, 16),
+(157, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 30),
+(158, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 31);
 
 -- --------------------------------------------------------
 
@@ -1599,7 +1636,9 @@ CREATE TABLE `audit_log` (
 INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`) VALUES
 (1, 4, 4, '2025-08-28 01:14:57', '2025-08-28 01:14:57', NULL, 'users', 4, 'LOGIN', 'User logged in'),
 (2, 1, 1, '2025-08-28 01:54:06', '2025-08-28 01:54:06', NULL, 'lookup_list_items', 311, 'CREATE', 'Created lookup list item'),
-(3, 1, 1, '2025-08-28 01:54:21', '2025-08-28 01:54:21', NULL, 'lookup_list_item_attributes', 184, 'CREATE', 'Created item attribute');
+(3, 1, 1, '2025-08-28 01:54:21', '2025-08-28 01:54:21', NULL, 'lookup_list_item_attributes', 184, 'CREATE', 'Created item attribute'),
+(4, 1, 1, '2025-08-28 15:49:23', '2025-08-28 15:49:23', NULL, 'lookup_list_items', 312, 'CREATE', 'Created lookup list item'),
+(5, 1, 1, '2025-08-28 15:50:00', '2025-08-28 15:50:00', NULL, 'lookup_list_item_attributes', 185, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -1982,7 +2021,8 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (308, 1, 1, '2025-08-28 00:54:27', '2025-08-28 00:54:27', NULL, 70, 'Draft', 'DRAFT', 0, '2025-08-27', NULL),
 (309, 1, 1, '2025-08-28 00:54:30', '2025-08-28 00:54:30', NULL, 70, 'Paid', 'PAID', 0, '2025-08-27', NULL),
 (310, 1, 1, '2025-08-28 00:54:42', '2025-08-28 00:54:42', NULL, 70, 'Sent', 'SENT', 0, '2025-08-27', NULL),
-(311, 1, 1, '2025-08-28 01:54:06', '2025-08-28 01:54:06', NULL, 70, 'In Progress', 'INPROGRESS', 0, '2025-08-27', NULL);
+(311, 1, 1, '2025-08-28 01:54:06', '2025-08-28 01:54:06', NULL, 70, 'In Progress', 'INPROGRESS', 0, '2025-08-27', NULL),
+(312, 1, 1, '2025-08-28 15:49:23', '2025-08-28 15:49:23', NULL, 37, 'Follow Up', 'FOLLOWUP', 0, '2025-08-27', NULL);
 
 -- --------------------------------------------------------
 
@@ -2176,7 +2216,8 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (181, 1, 1, '2025-08-28 00:54:53', '2025-08-28 00:54:53', NULL, 308, 'DEFAULT', 'true'),
 (182, 1, 1, '2025-08-28 00:55:11', '2025-08-28 00:55:11', NULL, 309, 'COLOR-CLASS', 'success'),
 (183, 1, 1, '2025-08-28 00:55:14', '2025-08-28 00:55:14', NULL, 310, 'COLOR-CLASS', 'atlis'),
-(184, 1, 1, '2025-08-28 01:54:21', '2025-08-28 01:54:21', NULL, 311, 'COLOR-CLASS', 'grape');
+(184, 1, 1, '2025-08-28 01:54:21', '2025-08-28 01:54:21', NULL, 311, 'COLOR-CLASS', 'grape'),
+(185, 1, 1, '2025-08-28 15:50:00', '2025-08-28 15:50:00', NULL, 312, 'COLOR-CLASS', 'pink');
 
 -- --------------------------------------------------------
 
@@ -2323,7 +2364,9 @@ INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, 
 (17, 18, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Alisha Wilkins', 0, 1, 'b4ffc374-83dd-11f0-ac71-e89c259bf719'),
 (18, 19, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Davey Rivers', 0, 1, 'b4ffc3a3-83dd-11f0-ac71-e89c259bf719'),
 (19, 1, NULL, '2025-08-27 23:21:29', '2025-08-28 01:07:50', NULL, 'Emry Soccer Schedule', 1, 0, 'b4ffc3d8-83dd-11f0-ac71-e89c259bf719'),
-(20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 01:07:50', NULL, 'TEST', 0, 0, 'b4ffc40b-83dd-11f0-ac71-e89c259bf719');
+(20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 01:07:50', NULL, 'TEST', 0, 0, 'b4ffc40b-83dd-11f0-ac71-e89c259bf719'),
+(21, 1, NULL, '2025-08-28 10:44:24', '2025-08-28 10:44:24', NULL, 'Mason', 0, 0, '6acebc7a1c530c4a2068aed456bca8b7'),
+(22, 1, NULL, '2025-08-28 10:44:36', '2025-08-28 10:44:36', NULL, 'Mason - Private', 1, 0, '8f13636c02ad6c29f84b621ff3c28d7c');
 
 -- --------------------------------------------------------
 
@@ -2345,7 +2388,7 @@ CREATE TABLE `module_calendar_events` (
   `event_type_id` int(11) DEFAULT NULL,
   `link_module` varchar(50) DEFAULT NULL,
   `link_record_id` int(11) DEFAULT NULL,
-  `visibility_id` int(11) DEFAULT NULL
+  `visibility_id` int(11) NOT NULL DEFAULT 198
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2357,7 +2400,10 @@ INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_cre
 (2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198),
 (3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198),
 (4, 4, NULL, '2025-08-28 00:15:36', '2025-08-28 00:15:36', NULL, 5, 'SOUP', '2025-08-27 12:00:00', '2025-08-27 12:00:00', 196, NULL, NULL, 198),
-(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199);
+(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199),
+(6, 1, NULL, '2025-08-28 10:43:24', '2025-08-28 10:43:24', '', 1, 'Lake - Kasper & RJ', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198),
+(7, 1, NULL, '2025-08-28 10:44:55', '2025-08-28 10:44:55', '', 1, 'test', '2025-08-30 14:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198),
+(8, 1, NULL, '2025-08-28 15:38:39', '2025-08-28 15:38:39', '', 1, 'test', '2025-08-29 15:30:00', '2025-08-29 19:00:00', 193, NULL, NULL, 198);
 
 -- --------------------------------------------------------
 
@@ -2990,7 +3036,7 @@ CREATE TABLE `module_meetings` (
 --
 
 INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `start_time`, `end_time`, `recur_daily`, `recur_weekly`, `recur_monthly`, `calendar_event_id`, `status_id`, `type_id`) VALUES
-(1, 1, 1, '2025-08-28 02:03:15', '2025-08-28 02:04:44', NULL, 'Atlis - Dave + Sean', '', '2025-08-27 14:00:00', '2025-08-27 15:00:00', 0, 0, 0, 3, 279, 204);
+(1, 1, 1, '2025-08-28 15:59:52', '2025-08-28 15:59:52', NULL, 'Atlis Internal - Dave + Sean', '', '2025-08-26 14:00:00', '2025-08-26 15:00:00', 0, 0, 0, NULL, 279, 204);
 
 -- --------------------------------------------------------
 
@@ -3018,9 +3064,9 @@ CREATE TABLE `module_meeting_agenda` (
 --
 
 INSERT INTO `module_meeting_agenda` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `order_index`, `title`, `status_id`, `linked_task_id`, `linked_project_id`) VALUES
-(1, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:07:58', NULL, 1, 3, 'Dave', 226, NULL, NULL),
-(2, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:07:58', NULL, 1, 2, 'Ashlin', 227, NULL, NULL),
-(3, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:05:53', NULL, 1, 1, 'Emry', 228, NULL, NULL);
+(1, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:15:40', NULL, 1, 2, 'Dave', 226, NULL, NULL),
+(2, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:15:36', NULL, 1, 3, 'Ashlin', 227, NULL, NULL),
+(3, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:15:40', NULL, 1, 1, 'Emry', 228, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3044,8 +3090,8 @@ CREATE TABLE `module_meeting_attendees` (
 --
 
 INSERT INTO `module_meeting_attendees` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `attendee_user_id`) VALUES
-(1, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:04:44', NULL, 1, 1),
-(3, 1, 1, '2025-08-28 02:05:07', '2025-08-28 02:05:07', NULL, 1, 2);
+(2, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 1, 2),
+(3, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3071,7 +3117,7 @@ CREATE TABLE `module_meeting_files` (
 --
 
 INSERT INTO `module_meeting_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `file_name`, `file_path`, `uploader_id`) VALUES
-(1, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:04:44', NULL, 1, '1st Invoice.PNG', '/admin/meetings/uploads/1/meeting_1_1756368284_1st_Invoice.PNG', 1);
+(1, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 1, 'resource.pdf', '/admin/meetings/uploads/1/meeting_1_1756418599_resource.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -3098,9 +3144,9 @@ CREATE TABLE `module_meeting_questions` (
 --
 
 INSERT INTO `module_meeting_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `agenda_id`, `question_text`, `answer_text`, `status_id`) VALUES
-(1, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:04:54', NULL, 1, NULL, '', 'yes', 229),
-(2, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:07:33', NULL, 1, NULL, '', 'no', 229),
-(3, 1, 1, '2025-08-28 02:04:44', '2025-08-28 02:04:44', NULL, 1, NULL, 'JOSEPH, WHERE DO YOU RECOMMEND WE START ?', '', 230);
+(1, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:05:42', NULL, 1, NULL, '', 'tomorrow!', 229),
+(2, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:03:19', NULL, 1, NULL, 'Can you make it to the JTI User Conference?', '', 230),
+(3, 1, 1, '2025-08-28 16:03:19', '2025-08-28 16:08:05', NULL, 1, NULL, 'JOEY, WHERE DO YOU RECOMMEND WE START ?', '', 230);
 
 -- --------------------------------------------------------
 
@@ -4708,7 +4754,8 @@ ALTER TABLE `module_agency_persons`
 --
 ALTER TABLE `module_calendar`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idx_module_calendar_ics_token` (`ics_token`);
+  ADD UNIQUE KEY `idx_module_calendar_ics_token` (`ics_token`),
+  ADD UNIQUE KEY `uk_calendar_owner_name` (`user_id`,`name`);
 
 --
 -- Indexes for table `module_calendar_events`
@@ -4721,7 +4768,8 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
   ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
-  ADD KEY `idx_calendar_events_start_time` (`start_time`);
+  ADD KEY `idx_calendar_events_start_time` (`start_time`),
+  ADD KEY `idx_calendar_events_link` (`link_module`,`link_record_id`);
 
 --
 -- Indexes for table `module_calendar_external_accounts`
@@ -5369,7 +5417,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `admin_corporate`
@@ -5429,19 +5477,19 @@ ALTER TABLE `admin_navigation_links`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -5459,7 +5507,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT for table `admin_task`
@@ -5507,7 +5555,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -5519,13 +5567,13 @@ ALTER TABLE `lookup_lists`
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=312;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -5555,13 +5603,13 @@ ALTER TABLE `module_agency_persons`
 -- AUTO_INCREMENT for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_events`
 --
 ALTER TABLE `module_calendar_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_external_accounts`
