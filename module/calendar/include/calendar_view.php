@@ -30,26 +30,24 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
 
-<?php if (user_has_permission('calendar','create')): ?>
-<div class="d-flex justify-content-end mb-3">
-  <a href="index.php?action=create" class="btn btn-primary">Create Calendar</a>
-</div>
-<?php endif; ?>
-
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-primary" type="button" id="openAddEvent" <?= $owns_calendar ? '' : 'disabled data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create a calendar to add events"'; ?>>Add Event</button>
-</div>
-
-<div class="row">
-  <div class="col-md-3">
+<div class="row g-0">
+  <div class="col-lg-2 col-md-3 px-0">
+    <?php if (user_has_permission('calendar','create')): ?>
+      <div class="mb-3 text-center">
+        <a href="index.php?action=create" class="btn btn-atlis w-100">Create Calendar</a>
+      </div>
+    <?php endif; ?>
     <div id="calendarSidebar"></div>
   </div>
-  <div class="col">
+  <div class="col px-3">
+    <div class="d-flex justify-content-center mb-3">
+      <button class="btn btn-success" type="button" id="openAddEvent" <?= $owns_calendar ? '' : 'disabled data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create a calendar to add events"'; ?>>Add Event</button>
+    </div>
     <div id="calendarAlert"></div>
     <div id="calendarSpinner" class="spinner-border text-primary" role="status" style="display:none;">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+    <div id="calendar" class="calendar-outline"></div>
   </div>
 </div>
 
@@ -192,11 +190,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const addEventModalEl = document.getElementById('addEventModal');
   const openAddEventBtn = document.getElementById('openAddEvent');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
-  const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
   const calendarSpinner = document.getElementById('calendarSpinner');
   const alertPlaceholder = document.getElementById('calendarAlert');
+  const calendarsData = <?php echo json_encode($calendars); ?>;
+  const currentUserId = <?= (int)$this_user_id ?>;
+  const isAdmin = <?= user_has_role('Admin') ? 'true' : 'false' ?>;
 
   function showAlert(message, type = 'danger') {
     if (!alertPlaceholder) return;
@@ -262,8 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
     eventClick: function(info) {
-      const ownerId = info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id;
-      if (ownerId !== undefined && parseInt(ownerId, 10) !== currentUserId && !isAdmin) {
+      const ownerId = parseInt(info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id, 10);
+      if (ownerId !== currentUserId && !isAdmin) {
         alert('You do not have permission to edit this event.');
         return;
       }
@@ -286,45 +286,65 @@ document.addEventListener('DOMContentLoaded', function() {
       selectCalendarRadio(form, getCalendarId());
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
-  });
+    });
   function initSidebar() {
-    fetch(listCalendarsUrl)
-      .then(r => {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(data => {
-        const sidebar = document.getElementById('calendarSidebar');
-        sidebar.innerHTML = '';
-        data.forEach(cal => {
-          const div = document.createElement('div');
-          div.className = 'form-check';
-          div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" value="${cal.id}" id="cal${cal.id}" checked>
-            <label class="form-check-label" for="cal${cal.id}">${cal.name}</label>`;
-          sidebar.appendChild(div);
-        });
-        function ensureSelected() {
-          const checked = sidebar.querySelectorAll('.calendar-checkbox:checked');
-          if (!checked.length) {
-            const publicCb = document.getElementById(`cal${userPublicCalendarId}`);
-            if (publicCb) publicCb.checked = true;
-          }
-        }
-        document.querySelectorAll('.calendar-checkbox').forEach(cb => {
-          cb.addEventListener('change', () => {
-            ensureSelected();
-            calendar.refetchEvents();
-          });
-        });
-        ensureSelected();
-        calendar.render();
-        calendar.refetchEvents();
-      })
-      .catch(err => {
-        console.error('Failed to load calendars', err);
-        calendar.render();
+    const sidebar = document.getElementById('calendarSidebar');
+    sidebar.innerHTML = '';
+    const myCals = calendarsData.filter(c => parseInt(c.owned, 10));
+    const otherCals = calendarsData.filter(c => !parseInt(c.owned, 10));
+    if (myCals.length) {
+      const hMy = document.createElement('h6');
+      hMy.textContent = 'My Calendars';
+      sidebar.appendChild(hMy);
+      myCals.forEach(cal => {
+        const div = document.createElement('div');
+        div.className = 'form-check form-check-lg';
+        div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" data-owned="1" value="${cal.id}" id="cal${cal.id}" checked>` +
+          `<label class="form-check-label fs-5" for="cal${cal.id}">${cal.name}</label>`;
+        sidebar.appendChild(div);
       });
+    }
+    if (otherCals.length) {
+      const hOther = document.createElement('h6');
+      hOther.textContent = 'Others Calendars';
+      sidebar.appendChild(hOther);
+      otherCals.forEach(cal => {
+        const div = document.createElement('div');
+        div.className = 'form-check form-check-lg';
+        div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" value="${cal.id}" id="cal${cal.id}" checked>` +
+          `<label class="form-check-label fs-5" for="cal${cal.id}">${cal.name}</label>`;
+        sidebar.appendChild(div);
+      });
+    }
+    function ensureSelected() {
+      const personalChecked = sidebar.querySelectorAll('.calendar-checkbox[data-owned="1"]:checked');
+      if (!personalChecked.length) {
+        const firstPersonal = sidebar.querySelector('.calendar-checkbox[data-owned="1"]');
+        if (firstPersonal) firstPersonal.checked = true;
+      }
+      const anyChecked = sidebar.querySelectorAll('.calendar-checkbox:checked');
+      if (!anyChecked.length) {
+        const publicCb = document.getElementById(`cal${userPublicCalendarId}`);
+        if (publicCb) publicCb.checked = true;
+      }
+    }
+    sidebar.querySelectorAll('.calendar-checkbox').forEach(cb => {
+      cb.addEventListener('change', () => {
+        ensureSelected();
+        calendar.refetchEvents();
+        if (addEventForm) {
+          selectCalendarRadio(addEventForm, getCalendarId());
+        }
+      });
+    });
+    ensureSelected();
+    if (addEventForm) {
+      selectCalendarRadio(addEventForm, getCalendarId());
+    }
+    calendar.render();
+    calendar.refetchEvents();
   }
+
 
   initSidebar();
 
