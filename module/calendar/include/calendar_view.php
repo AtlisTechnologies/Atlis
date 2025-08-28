@@ -43,6 +43,7 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
 ?>
 
 <link rel="stylesheet" href="<?php echo getURLDir(); ?>assets/css/theme.css">
+<link rel="stylesheet" href="<?php echo getURLDir(); ?>assets/css/calendar-override.css">
 
 <div class="row g-0">
   <div class="col-lg-2 col-md-3 px-0">
@@ -58,7 +59,35 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
     <div id="calendarSpinner" class="spinner-border text-primary" role="status" style="display:none;">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div id="calendar" class="calendar-outline"></div>
+    <div class="row g-0 mb-4 align-items-center">
+      <div class="col-5 col-md-6">
+        <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
+      </div>
+      <div class="col-7 col-md-6 d-flex justify-content-end">
+        <button id="addEventButton" class="btn btn-primary btn-sm" type="button"><span class="fas fa-plus pe-2 fs-10"></span>Add Event</button>
+      </div>
+    </div>
+    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 border-y border-translucent">
+      <div class="row py-3 gy-3 gx-0">
+        <div class="col-6 col-md-4 order-1 d-flex align-items-center">
+          <button class="btn btn-sm btn-phoenix-primary px-4" data-event="today">Today</button>
+        </div>
+        <div class="col-12 col-md-4 order-md-1 d-flex align-items-center justify-content-center">
+          <button class="btn icon-item icon-item-sm shadow-none text-body-emphasis p-0" type="button" data-event="prev" title="Previous"><span class="fas fa-chevron-left"></span></button>
+          <h3 class="px-3 text-body-emphasis fw-semibold calendar-title mb-0"> </h3>
+          <button class="btn icon-item icon-item-sm shadow-none text-body-emphasis p-0" type="button" data-event="next" title="Next"><span class="fas fa-chevron-right"></span></button>
+        </div>
+        <div class="col-6 col-md-4 ms-auto order-1 d-flex justify-content-end">
+          <div>
+            <div class="btn-group btn-group-sm" role="group">
+              <button class="btn btn-phoenix-secondary active-view" data-fc-view="dayGridMonth">Month</button>
+              <button class="btn btn-phoenix-secondary" data-fc-view="timeGridWeek">Week</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calendar-outline mt-6 mb-9" id="appCalendar"></div>
   </div>
 </div>
 
@@ -194,27 +223,8 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
 </div>
 
 <div class="modal fade" id="eventDetailsModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content border border-translucent">
-      <div class="modal-header px-card border-0">
-        <h5 class="mb-0 lh-sm text-body-highlight">Event Details</h5>
-        <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
-      </div>
-      <div class="modal-body p-card py-0">
-        <div class="mb-3"><strong>Title:</strong> <span id="detailTitle"></span></div>
-        <div class="mb-3"><strong>Starts at:</strong> <span id="detailStart"></span></div>
-        <div class="mb-3"><strong>Ends at:</strong> <span id="detailEnd"></span></div>
-        <div class="mb-3"><strong>Event Type:</strong> <span id="detailType"></span></div>
-        <div class="mb-3"><strong>Description:</strong> <span id="detailDesc"></span></div>
-        <div class="mb-3"><strong>Related Module:</strong> <span id="detailModule"></span></div>
-        <div class="mb-3"><strong>Related ID:</strong> <span id="detailRecord"></span></div>
-        <div class="mb-3"><strong>Owner:</strong> <span id="detailOwner"></span></div>
-        <div class="mb-3"><a id="detailLink" href="#" class="d-none" target="_blank">View Record</a></div>
-      </div>
-      <div class="modal-footer d-flex justify-content-end align-items-center border-0">
-        <button class="btn btn-primary px-4 d-none" type="button" id="detailEditBtn">Edit</button>
-      </div>
-    </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border border-translucent"></div>
   </div>
 </div>
 
@@ -256,9 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
   const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
-  const calendarEl = document.getElementById('calendar');
+  const calendarEl = document.getElementById('appCalendar');
   const addEventForm = document.getElementById('addEventForm');
   const addEventModalEl = document.getElementById('addEventModal');
+  const addEventButton = document.getElementById('addEventButton');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
   const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
   const calendarSpinner = document.getElementById('calendarSpinner');
@@ -272,7 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const createCalendarForm = document.getElementById('createCalendarForm');
   const createCalendarModalEl = document.getElementById('createCalendarModal');
   const detailModalEl = document.getElementById('eventDetailsModal');
-  const detailEditBtn = document.getElementById('detailEditBtn');
   const eventStartInput = document.getElementById('eventStart');
   const eventEndInput = document.getElementById('eventEnd');
   if (eventStartInput && eventEndInput) {
@@ -337,9 +347,12 @@ document.addEventListener('DOMContentLoaded', function() {
     bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
   }
 
+  if (addEventButton) {
+    addEventButton.addEventListener('click', openAddEvent);
+  }
+
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: { left: 'prev,next today', center: 'title addEvent', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-    customButtons: { addEvent: { text: 'Add Event', click: openAddEvent } },
+    headerToolbar: false,
     initialView: 'dayGridMonth',
 
     events: function(fetchInfo, successCallback, failureCallback) {
@@ -363,53 +376,48 @@ document.addEventListener('DOMContentLoaded', function() {
           if (failureCallback) failureCallback(err);
         });
     },
-
     eventClick: function(info) {
       if (!detailModalEl) return;
-      document.getElementById('detailTitle').textContent = info.event.title || '';
-      document.getElementById('detailStart').textContent = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-      document.getElementById('detailEnd').textContent = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      document.getElementById('detailType').textContent = eventTypeMap[info.event.extendedProps.event_type_id] || '';
-      document.getElementById('detailDesc').textContent = info.event.extendedProps.description || info.event.extendedProps.memo || '';
-      document.getElementById('detailModule').textContent = info.event.extendedProps.related_module || info.event.extendedProps.link_module || '';
-      document.getElementById('detailRecord').textContent = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id || '';
-      const detailLink = document.getElementById('detailLink');
-      if (detailLink) {
-        const relatedModule = info.event.extendedProps.related_module || info.event.extendedProps.link_module;
-        const relatedId = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id;
-        if (relatedModule && relatedId) {
-          detailLink.href = `/module/${relatedModule}/index.php?action=view&id=${relatedId}`;
-          detailLink.classList.remove('d-none');
-        } else {
-          detailLink.href = '#';
-          detailLink.classList.add('d-none');
-        }
-      }
+      const relatedModule = info.event.extendedProps.related_module || info.event.extendedProps.link_module;
+      const relatedId = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id;
+      const link = (relatedModule && relatedId) ? `/module/${relatedModule}/index.php?action=view&id=${relatedId}` : '';
       const eventOwnerId = parseInt(info.event.extendedProps.user_id, 10);
       const calOwnerId = parseInt(info.event.extendedProps.calendar_user_id, 10);
       const displayOwner = eventOwnerId || calOwnerId || '';
-      document.getElementById('detailOwner').textContent = displayOwner;
-      if (detailEditBtn) {
-        const canEdit = (eventOwnerId === currentUserId) || (calOwnerId === currentUserId) || isAdmin;
-        if (canEdit) {
-          detailEditBtn.classList.remove('d-none');
-          detailEditBtn.onclick = function() {
-            const form = document.getElementById('editEventForm');
-            form.id.value = info.event.id;
-            form.title.value = info.event.title;
-            form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-            form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-            form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
-            selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
-            bootstrap.Modal.getInstance(detailModalEl).hide();
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
-          };
-        } else {
-          detailEditBtn.classList.add('d-none');
-          detailEditBtn.onclick = null;
-        }
+      const canEdit = (eventOwnerId === currentUserId) || (calOwnerId === currentUserId) || isAdmin;
+      const footer = canEdit ? `<div class="modal-footer d-flex justify-content-end border-0"><button class="btn btn-primary px-4" type="button" id="detailEditBtn">Edit</button></div>` : '';
+      const body = `
+        <div class="modal-header ps-card border-bottom border-translucent justify-content-between">
+          <div><h4 class="modal-title text-body-highlight mb-0">${info.event.title || ''}</h4></div>
+          <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close"><span class='fas fa-times fs-8'></span></button>
+        </div>
+        <div class="modal-body p-card py-0">
+          <div class="mb-3"><strong>Starts at:</strong> ${dayjs(info.event.start).format('YYYY-MM-DD HH:mm')}</div>
+          <div class="mb-3"><strong>Ends at:</strong> ${info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : ''}</div>
+          <div class="mb-3"><strong>Event Type:</strong> ${eventTypeMap[info.event.extendedProps.event_type_id] || ''}</div>
+          <div class="mb-3"><strong>Description:</strong> ${info.event.extendedProps.description || info.event.extendedProps.memo || ''}</div>
+          <div class="mb-3"><strong>Related Module:</strong> ${relatedModule || ''}</div>
+          <div class="mb-3"><strong>Related ID:</strong> ${relatedId || ''}</div>
+          <div class="mb-3"><strong>Owner:</strong> ${displayOwner}</div>
+          ${link ? `<div class="mb-3"><a href="${link}" target="_blank">View Record</a></div>` : ''}
+        </div>
+        ${footer}`;
+      detailModalEl.querySelector('.modal-content').innerHTML = body;
+      const modal = bootstrap.Modal.getOrCreateInstance(detailModalEl);
+      modal.show();
+      if (canEdit) {
+        detailModalEl.querySelector('#detailEditBtn').addEventListener('click', function() {
+          const form = document.getElementById('editEventForm');
+          form.id.value = info.event.id;
+          form.title.value = info.event.title;
+          form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+          form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+          form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
+          selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
+          modal.hide();
+          bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
+        });
       }
-      bootstrap.Modal.getOrCreateInstance(detailModalEl).show();
     },
     dateClick: function(info) {
       const form = addEventForm;
@@ -420,6 +428,28 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
     });
+
+  const prevBtn = document.querySelector('[data-event="prev"]');
+  const nextBtn = document.querySelector('[data-event="next"]');
+  const todayBtn = document.querySelector('[data-event="today"]');
+  const viewBtns = document.querySelectorAll('[data-fc-view]');
+  const titleEl = document.querySelector('.calendar-title');
+  if (prevBtn) prevBtn.addEventListener('click', () => calendar.prev());
+  if (nextBtn) nextBtn.addEventListener('click', () => calendar.next());
+  if (todayBtn) todayBtn.addEventListener('click', () => calendar.today());
+  if (viewBtns.length) {
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        calendar.changeView(this.dataset.fcView);
+        viewBtns.forEach(b => b.classList.remove('active-view'));
+        this.classList.add('active-view');
+      });
+    });
+  }
+  calendar.on('datesSet', function(info) {
+    if (titleEl) titleEl.textContent = info.view.title;
+  });
+
   let calendarRendered = false;
   function initSidebar() {
     const sidebar = document.getElementById('calendarSidebar');
