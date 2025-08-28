@@ -222,6 +222,7 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
         <div class="mb-3"><strong>Related Module:</strong> <span id="detailModule"></span></div>
         <div class="mb-3"><strong>Related ID:</strong> <span id="detailRecord"></span></div>
         <div class="mb-3"><strong>Owner:</strong> <span id="detailOwner"></span></div>
+        <div class="mb-3"><a id="detailLink" href="#" class="d-none" target="_blank">View Record</a></div>
       </div>
       <div class="modal-footer d-flex justify-content-end align-items-center border-0">
         <button class="btn btn-primary px-4 d-none" type="button" id="detailEditBtn">Edit</button>
@@ -359,6 +360,18 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('detailDesc').textContent = info.event.extendedProps.description || info.event.extendedProps.memo || '';
       document.getElementById('detailModule').textContent = info.event.extendedProps.related_module || info.event.extendedProps.link_module || '';
       document.getElementById('detailRecord').textContent = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id || '';
+      const detailLink = document.getElementById('detailLink');
+      if (detailLink) {
+        const relatedModule = info.event.extendedProps.related_module || info.event.extendedProps.link_module;
+        const relatedId = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id;
+        if (relatedModule && relatedId) {
+          detailLink.href = `/module/${relatedModule}/index.php?action=view&id=${relatedId}`;
+          detailLink.classList.remove('d-none');
+        } else {
+          detailLink.href = '#';
+          detailLink.classList.add('d-none');
+        }
+      }
       const eventOwnerId = parseInt(info.event.extendedProps.user_id, 10);
       const calOwnerId = parseInt(info.event.extendedProps.calendar_user_id, 10);
       const displayOwner = eventOwnerId || calOwnerId || '';
