@@ -1,7 +1,7 @@
 <?php
 
 function fetch_google_events(PDO $pdo, int $userId): array {
-    $cacheKey = 'google_calendar_events';
+    $cacheKey = 'google_calendar_events_' . $userId;
     if (isset($_SESSION[$cacheKey]) && $_SESSION[$cacheKey]['time'] > time() - 300) {
         return $_SESSION[$cacheKey]['data'];
     }
@@ -13,15 +13,32 @@ function fetch_google_events(PDO $pdo, int $userId): array {
         return [];
     }
 
-    $ch = curl_init('https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=50&singleEvents=true&orderBy=startTime');
-    curl_setopt_array($ch, [
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
-        CURLOPT_RETURNTRANSFER => true,
-    ]);
-    $res = curl_exec($ch);
-    curl_close($ch);
+    try {
+        $ch = curl_init('https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=50&singleEvents=true&orderBy=startTime');
+        if ($ch === false) {
+            throw new Exception('Failed to initialize cURL');
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
+            CURLOPT_RETURNTRANSFER => true,
+        ]);
+        $res = curl_exec($ch);
+        if ($res === false) {
+            throw new Exception(curl_error($ch));
+        }
+        curl_close($ch);
+    } catch (Exception $e) {
+        if (isset($ch) && is_resource($ch)) {
+            curl_close($ch);
+        }
+        error_log($e->getMessage());
+        return [];
+    }
 
     $data = json_decode($res, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [];
+    }
     $events = [];
     if (!empty($data['items'])) {
         foreach ($data['items'] as $item) {
