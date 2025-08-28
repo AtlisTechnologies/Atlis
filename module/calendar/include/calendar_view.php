@@ -29,6 +29,11 @@ $event_types = get_lookup_items($pdo, 37);
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
+<?php if (user_has_permission('calendar','create')): ?>
+<div class="d-flex justify-content-end mb-3">
+  <a href="index.php?action=create" class="btn btn-primary">Create Calendar</a>
+</div>
+<?php endif; ?>
 <div class="row">
   <div class="col-md-3">
     <div id="calendarSidebar"></div>
