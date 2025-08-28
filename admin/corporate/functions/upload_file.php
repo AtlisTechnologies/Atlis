@@ -20,7 +20,7 @@ if($cid && !empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK
   $targetPath = $uploadDir . $targetName;
   if(move_uploaded_file($_FILES['file']['tmp_name'],$targetPath)){
     $dbPath = 'admin/corporate/uploads/' . $targetName;
-    $stmt = $pdo->prepare('INSERT INTO module_corporate_files (user_id,user_updated,corporate_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:cid,:name,:path,:size,:type)');
+    $stmt = $pdo->prepare('INSERT INTO admin_corporate_files (user_id,user_updated,corporate_id,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:cid,:name,:path,:size,:type)');
     $stmt->execute([
       ':uid'=>$this_user_id,
       ':cid'=>$cid,
@@ -30,7 +30,7 @@ if($cid && !empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK
       ':type'=>$_FILES['file']['type']
     ]);
     $fid = $pdo->lastInsertId();
-    admin_audit_log($pdo,$this_user_id,'module_corporate_files',$fid,'UPLOAD','',json_encode(['file'=>$orig]));
+    admin_audit_log($pdo,$this_user_id,'admin_corporate_files',$fid,'UPLOAD','',json_encode(['file'=>$orig]));
     echo json_encode(['success'=>true,'file'=>['id'=>$fid,'file_name'=>$orig,'file_path'=>getURLDir() . $dbPath]]);
     exit;
   }

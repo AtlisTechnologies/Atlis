@@ -5,7 +5,7 @@ require_permission('admin_corporate','read');
 $token = generate_csrf_token();
 
 // Load corporate settings (single row)
-$stmt = $pdo->query('SELECT * FROM module_corporate LIMIT 1');
+$stmt = $pdo->query('SELECT * FROM admin_corporate LIMIT 1');
 $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'=>'','feature_id'=>null];
 $features = get_lookup_items($pdo, 'CORPORATE_FEATURE');
 ?>
@@ -47,7 +47,7 @@ $features = get_lookup_items($pdo, 'CORPORATE_FEATURE');
       <div class="card-body">
         <ul class="list-unstyled" id="notesList">
           <?php
-          $nstmt = $pdo->prepare('SELECT id, note_text FROM module_corporate_notes WHERE corporate_id = :id ORDER BY date_created DESC');
+          $nstmt = $pdo->prepare('SELECT id, note_text FROM admin_corporate_notes WHERE corporate_id = :id ORDER BY date_created DESC');
           $nstmt->execute([':id' => $corporate['id']]);
           foreach ($nstmt as $n): ?>
           <li class="d-flex justify-content-between align-items-start mb-2" data-note-id="<?= (int)$n['id']; ?>">
@@ -76,7 +76,7 @@ $features = get_lookup_items($pdo, 'CORPORATE_FEATURE');
       <div class="card-body">
         <ul class="list-unstyled" id="filesList">
           <?php
-          $fstmt = $pdo->prepare('SELECT id, file_name, file_path FROM module_corporate_files WHERE corporate_id = :id ORDER BY date_created DESC');
+          $fstmt = $pdo->prepare('SELECT id, file_name, file_path FROM admin_corporate_files WHERE corporate_id = :id ORDER BY date_created DESC');
           $fstmt->execute([':id' => $corporate['id']]);
           foreach ($fstmt as $f): ?>
           <li class="d-flex justify-content-between align-items-start mb-2" data-file-id="<?= (int)$f['id']; ?>">

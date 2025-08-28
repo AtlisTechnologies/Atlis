@@ -10,7 +10,7 @@ if(!verify_csrf_token($_POST['csrf_token'] ?? '')){
 
 $id = (int)($_POST['id'] ?? 0);
 if($id){
-  $stmt = $pdo->prepare('SELECT file_path FROM module_corporate_files WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT file_path FROM admin_corporate_files WHERE id = :id');
   $stmt->execute([':id'=>$id]);
   $path = $stmt->fetchColumn();
   if($path){
@@ -19,8 +19,8 @@ if($id){
       unlink($full);
     }
   }
-  $pdo->prepare('DELETE FROM module_corporate_files WHERE id = :id')->execute([':id'=>$id]);
-  admin_audit_log($pdo,$this_user_id,'module_corporate_files',$id,'DELETE','', '');
+  $pdo->prepare('DELETE FROM admin_corporate_files WHERE id = :id')->execute([':id'=>$id]);
+  admin_audit_log($pdo,$this_user_id,'admin_corporate_files',$id,'DELETE','', '');
   echo json_encode(['success'=>true]);
   exit;
 }

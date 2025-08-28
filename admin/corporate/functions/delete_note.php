@@ -10,9 +10,9 @@ if(!verify_csrf_token($_POST['csrf_token'] ?? '')){
 
 $id = (int)($_POST['id'] ?? 0);
 if($id){
-  $stmt = $pdo->prepare('DELETE FROM module_corporate_notes WHERE id = :id');
+  $stmt = $pdo->prepare('DELETE FROM admin_corporate_notes WHERE id = :id');
   $stmt->execute([':id'=>$id]);
-  admin_audit_log($pdo,$this_user_id,'module_corporate_notes',$id,'DELETE','', '');
+  admin_audit_log($pdo,$this_user_id,'admin_corporate_notes',$id,'DELETE','', '');
   echo json_encode(['success'=>true]);
   exit;
 }

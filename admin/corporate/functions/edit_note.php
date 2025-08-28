@@ -12,9 +12,9 @@ $id = (int)($_POST['id'] ?? 0);
 $text = trim($_POST['note_text'] ?? '');
 
 if($id && $text !== ''){
-  $stmt = $pdo->prepare('UPDATE module_corporate_notes SET note_text = :text, user_updated = :uid WHERE id = :id');
+  $stmt = $pdo->prepare('UPDATE admin_corporate_notes SET note_text = :text, user_updated = :uid WHERE id = :id');
   $stmt->execute([':text'=>$text, ':uid'=>$this_user_id, ':id'=>$id]);
-  admin_audit_log($pdo,$this_user_id,'module_corporate_notes',$id,'UPDATE','',$text);
+  admin_audit_log($pdo,$this_user_id,'admin_corporate_notes',$id,'UPDATE','',$text);
   echo json_encode(['success'=>true]);
   exit;
 }

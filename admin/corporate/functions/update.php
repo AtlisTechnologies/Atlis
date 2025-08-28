@@ -14,7 +14,7 @@ $description = trim($_POST['description'] ?? '');
 $feature_id = $_POST['feature_id'] !== '' ? (int)$_POST['feature_id'] : null;
 
 if($id && $name !== ''){
-  $stmt = $pdo->prepare('UPDATE module_corporate SET name = :name, description = :description, feature_id = :feature_id, user_updated = :uid WHERE id = :id');
+  $stmt = $pdo->prepare('UPDATE admin_corporate SET name = :name, description = :description, feature_id = :feature_id, user_updated = :uid WHERE id = :id');
   $stmt->execute([
     ':name'=>$name,
     ':description'=>$description,
@@ -22,7 +22,7 @@ if($id && $name !== ''){
     ':uid'=>$this_user_id,
     ':id'=>$id
   ]);
-  admin_audit_log($pdo,$this_user_id,'module_corporate',$id,'UPDATE','',json_encode(['name'=>$name]));
+  admin_audit_log($pdo,$this_user_id,'admin_corporate',$id,'UPDATE','',json_encode(['name'=>$name]));
   echo json_encode(['success'=>true]);
   exit;
 }
