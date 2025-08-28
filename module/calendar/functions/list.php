@@ -12,17 +12,28 @@ $raw_ids = $_GET['calendar_ids'] ?? [];
 if (!is_array($raw_ids)) {
     $raw_ids = explode(',', $raw_ids);
 }
-$calendar_ids = array_unique(array_filter(array_map('intval', $raw_ids)));
+$calendar_ids = array_unique(array_map('intval', $raw_ids));
+if (empty($calendar_ids) || in_array(0, $calendar_ids, true)) {
+    try {
+        $stmt = $pdo->prepare('SELECT id FROM module_calendar WHERE user_id = ? AND is_private = 0 LIMIT 1');
+        $stmt->execute([$this_user_id]);
+        $defaultCalendarId = $stmt->fetchColumn();
+        $calendar_ids = $defaultCalendarId ? [(int)$defaultCalendarId] : [];
+    } catch (Exception $e) {
+        $calendar_ids = [];
+    }
+}
+$calendar_ids = array_filter($calendar_ids);
 
 try {
     if (user_has_role('Admin')) {
         if (!empty($calendar_ids)) {
             $placeholders = implode(',', array_fill(0, count($calendar_ids), '?'));
-            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.calendar_id IN ($placeholders)";
+            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.calendar_id IN ($placeholders)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute($calendar_ids);
         } else {
-            $stmt = $pdo->query('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id');
+            $stmt = $pdo->query('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id');
         }
     } else {
         if (!empty($calendar_ids)) {
@@ -35,12 +46,12 @@ try {
                 echo json_encode(['error' => 'Access denied']);
                 exit;
             }
-            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?) AND e.calendar_id IN ($placeholders)";
+            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?) AND e.calendar_id IN ($placeholders)";
             $params = array_merge([$this_user_id, $this_user_id], $calendar_ids);
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
         } else {
-            $stmt = $pdo->prepare('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?)');
+            $stmt = $pdo->prepare('SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?)');
             $stmt->execute([$this_user_id, $this_user_id]);
         }
     }
@@ -59,6 +70,7 @@ try {
             'related_id' => $row['link_record_id'],
             'event_type_id' => $row['event_type_id'],
             'visibility_id' => $visibility,
+            'calendar_user_id' => (int)$row['calendar_user_id'],
             'is_private' => (int)$row['is_private']
         ];
     }
@@ -69,37 +81,29 @@ try {
     exit;
 }
 
+$extEvents = [];
+$providers = [];
 try {
-    $extEvents = [];
     $stmt = $pdo->prepare('SELECT provider FROM module_calendar_external_accounts WHERE user_id = ?');
     $stmt->execute([$this_user_id]);
     $providers = $stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (Exception $e) {
-    http_response_code(500);
-    ob_clean();
-    echo json_encode(['error' => $e->getMessage()]);
-    exit;
+    $providers = [];
 }
 
-if (!empty($providers)) {
+if (!empty($providers) && function_exists('curl_init')) {
     if (in_array('google', $providers, true)) {
         try {
             $extEvents = array_merge($extEvents, fetch_google_events($pdo, $this_user_id));
         } catch (Exception $e) {
-            http_response_code(500);
-            ob_clean();
-            echo json_encode(['error' => $e->getMessage()]);
-            exit;
+            $providers = [];
         }
     }
-    if (in_array('microsoft', $providers, true)) {
+    if (!empty($providers) && in_array('microsoft', $providers, true)) {
         try {
             $extEvents = array_merge($extEvents, fetch_microsoft_events($pdo, $this_user_id));
         } catch (Exception $e) {
-            http_response_code(500);
-            ob_clean();
-            echo json_encode(['error' => $e->getMessage()]);
-            exit;
+            $providers = [];
         }
     }
     $events = array_merge($events, $extEvents);
