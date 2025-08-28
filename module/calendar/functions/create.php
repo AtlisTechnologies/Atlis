@@ -14,9 +14,20 @@ $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
 $event_type_id = isset($_POST['event_type_id']) && $_POST['event_type_id'] !== '' ? (int)$_POST['event_type_id'] : null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
+if (!in_array($visibility_id, [198, 199], true)) {
+  http_response_code(400);
+  echo json_encode(['error' => 'Invalid visibility_id']);
+  exit;
+}
 $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 $attended = $_POST['attended'] ?? [];
+
+if ($end_time && strtotime($start_time) >= strtotime($end_time)) {
+  http_response_code(400);
+  echo json_encode(['error' => 'Start time must be before end time']);
+  exit;
+}
 
 if ($title && $start_time && $calendar_id) {
   $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
@@ -51,35 +62,48 @@ if ($title && $start_time && $calendar_id) {
     $params[':event_type_id'] = $event_type_id;
   }
 
-  $sql = 'INSERT INTO module_calendar_events (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute($params);
-  $eventId = $pdo->lastInsertId();
+  try {
+    $pdo->beginTransaction();
 
-  if (is_array($attendees)) {
-    $aStmt = $pdo->prepare('INSERT INTO module_calendar_person_attendees (user_id, event_id, attendee_person_id, attended) VALUES (:uid, :eid, :pid, :att)');
-    foreach ($attendees as $idx => $pid) {
-      $aStmt->execute([
-        ':uid' => $calendar['user_id'],
-        ':eid' => $eventId,
-        ':pid' => $pid,
-        ':att' => !empty($attended[$idx]) ? 1 : 0
-      ]);
+    $sql = 'INSERT INTO module_calendar_events (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $eventId = $pdo->lastInsertId();
+
+    if (is_array($attendees)) {
+      $aStmt = $pdo->prepare('INSERT INTO module_calendar_person_attendees (user_id, event_id, attendee_person_id, attended) VALUES (:uid, :eid, :pid, :att)');
+      foreach ($attendees as $idx => $pid) {
+        $aStmt->execute([
+          ':uid' => $calendar['user_id'],
+          ':eid' => $eventId,
+          ':pid' => $pid,
+          ':att' => !empty($attended[$idx]) ? 1 : 0
+        ]);
+      }
     }
-  }
 
-  echo json_encode([
-    'success' => true,
-    'id' => $eventId,
-    'calendar_id' => $calendar_id,
-    'title' => $title,
-    'description' => $memo,
-    'start' => $start_time,
-    'end' => $end_time,
-    'visibility_id' => $visibility_id,
-    'is_private' => $is_private
-  ]);
-  exit;
+    $pdo->commit();
+
+    echo json_encode([
+      'success' => true,
+      'id' => $eventId,
+      'calendar_id' => $calendar_id,
+      'title' => $title,
+      'description' => $memo,
+      'start' => $start_time,
+      'end' => $end_time,
+      'visibility_id' => $visibility_id,
+      'is_private' => $is_private
+    ]);
+    exit;
+  } catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+      $pdo->rollBack();
+    }
+    http_response_code(500);
+    echo json_encode(['error' => 'Database error']);
+    exit;
+  }
 }
 
 echo json_encode(['success' => false]);
