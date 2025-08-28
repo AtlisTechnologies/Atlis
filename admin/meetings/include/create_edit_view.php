@@ -57,6 +57,13 @@ $token = generate_csrf_token();
         </select>
       </div>
     </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="calendar_event_search">Event</label>
+        <input type="text" id="calendar_event_search" class="form-control" placeholder="Search event">
+        <input type="hidden" name="calendar_event_id" id="calendar_event_id" value="<?php echo h($meeting['calendar_event_id'] ?? ''); ?>">
+      </div>
+    </div>
     <div class="mb-3">
       <label class="form-label">Recurrence</label>
       <div class="form-check form-check-inline">
@@ -103,6 +110,12 @@ document.addEventListener('DOMContentLoaded', function(){
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaList = document.getElementById('agendaList');
   var attendeesContainer = document.getElementById('attendeesContainer');
+  var eventSearchInput = document.getElementById('calendar_event_search');
+  var eventIdInput = document.getElementById('calendar_event_id');
+  if(eventSearchInput && eventIdInput){
+    initTypeahead(eventSearchInput, eventIdInput, 'functions/search_events.php');
+  }
+
 
   function showToast(msg, type = 'danger'){
     var container = document.getElementById('toastContainer');
