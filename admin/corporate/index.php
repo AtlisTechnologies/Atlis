@@ -6,8 +6,7 @@ $token = generate_csrf_token();
 
 // Load corporate settings (single row)
 $stmt = $pdo->query('SELECT * FROM admin_corporate LIMIT 1');
-$corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'=>'','feature_id'=>null];
-$features = get_lookup_items($pdo, 'CORPORATE_FEATURE');
+$corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'=>''];
 ?>
 <h2 class="mb-4">Corporate Settings</h2>
 <div id="flash"></div>
@@ -22,15 +21,6 @@ $features = get_lookup_items($pdo, 'CORPORATE_FEATURE');
     <div class="mb-3">
       <label class="form-label" for="description">Description</label>
       <textarea class="form-control" id="description" name="description" rows="3"><?= e($corporate['description']); ?></textarea>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="feature_id">Feature</label>
-      <select class="form-select" id="feature_id" name="feature_id">
-        <option value="">Select</option>
-        <?php foreach ($features as $f): ?>
-        <option value="<?= (int)$f['id']; ?>" <?= (int)$corporate['feature_id'] === (int)$f['id'] ? 'selected' : ''; ?>><?= e($f['label']); ?></option>
-        <?php endforeach; ?>
-      </select>
     </div>
     <?php if (user_has_permission('admin_corporate','update')): ?>
     <button class="btn btn-primary" type="submit">Save Settings</button>
