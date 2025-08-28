@@ -14,7 +14,7 @@ if (user_has_role('Admin')) {
     $stmt = $pdo->prepare('SELECT e.id, e.title, e.start_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.title LIKE :q ORDER BY e.start_time DESC LIMIT 10');
     $stmt->execute([':q' => "%" . $q . "%"]);
 } else {
-    $stmt = $pdo->prepare('SELECT e.id, e.title, e.start_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = :uid) AND (c.is_private = 0 OR c.user_id = :uid) AND e.title LIKE :q ORDER BY e.start_time DESC LIMIT 10');
+    $stmt = $pdo->prepare('SELECT e.id, e.title, e.start_time FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.user_id = :uid AND e.title LIKE :q ORDER BY e.start_time DESC LIMIT 10');
     $stmt->execute([':uid' => $this_user_id, ':q' => "%" . $q . "%"]);
 }
 
