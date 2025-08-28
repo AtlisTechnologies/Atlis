@@ -2,9 +2,9 @@
 require '../../admin_header.php';
 require_permission('admin_time_tracking','read');
 
-$invoiceStmt = $pdo->query('SELECT id, title FROM admin_finances_invoices ORDER BY title');
+$invoiceStmt = $pdo->query('SELECT id, invoice_number FROM admin_finances_invoices ORDER BY invoice_number');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
-$entryStmt = $pdo->query('SELECT t.id, t.description, t.hours, i.title AS invoice_title FROM module_time_tracking_entries t LEFT JOIN admin_finances_invoices i ON t.invoice_id = i.id ORDER BY t.date_created DESC');
+$entryStmt = $pdo->query('SELECT t.id, t.memo, t.hours, i.invoice_number AS invoice_number FROM admin_time_tracking_entries t LEFT JOIN admin_finances_invoices i ON t.invoice_id = i.id ORDER BY t.date_created DESC');
 $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Time Tracking</h2>
@@ -12,19 +12,31 @@ $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="col-lg-4">
     <form id="timeEntryForm">
       <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
-        <input class="form-control" id="description" name="description" type="text" required />
+        <label class="form-label" for="memo">Description</label>
+        <input class="form-control" id="memo" name="memo" type="text" required />
       </div>
       <div class="mb-3">
         <label class="form-label" for="hours">Hours</label>
         <input class="form-control" id="hours" name="hours" type="number" step="0.01" required />
       </div>
       <div class="mb-3">
+        <label class="form-label" for="person_id">Person ID</label>
+        <input class="form-control" id="person_id" name="person_id" type="number" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="work_date">Work Date</label>
+        <input class="form-control" id="work_date" name="work_date" type="date" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="rate">Rate</label>
+        <input class="form-control" id="rate" name="rate" type="number" step="0.01" />
+      </div>
+      <div class="mb-3">
         <label class="form-label" for="invoice_id">Invoice</label>
         <select class="form-select" id="invoice_id" name="invoice_id">
           <option value="">-- none --</option>
           <?php foreach($invoices as $i): ?>
-            <option value="<?= $i['id']; ?>"><?= h($i['title']); ?></option>
+            <option value="<?= $i['id']; ?>"><?= h($i['invoice_number']); ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -34,19 +46,19 @@ $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
     </form>
   </div>
   <div class="col-lg-8">
-    <div id="timeEntryList" data-list='{"valueNames":["description","hours","invoice"],"page":25,"pagination":true}'>
+    <div id="timeEntryList" data-list='{"valueNames":["memo","hours","invoice"],"page":25,"pagination":true}'>
       <div class="bg-body-emphasis border-top border-bottom border-translucent position-relative top-1 mx-n4 px-4">
         <div class="row g-0 text-body-tertiary fw-bold fs-10 py-2">
-          <div class="col px-2 sort" data-sort="description">Description</div>
+          <div class="col px-2 sort" data-sort="memo">Description</div>
           <div class="col px-2 sort" data-sort="hours">Hours</div>
           <div class="col px-2 sort" data-sort="invoice">Invoice</div>
         </div>
         <div class="list">
           <?php foreach($entries as $e): ?>
             <div class="row g-0 border-bottom py-2">
-              <div class="col px-2 description"><?= h($e['description']); ?></div>
+              <div class="col px-2 memo"><?= h($e['memo']); ?></div>
               <div class="col px-2 hours"><?= h($e['hours']); ?></div>
-              <div class="col px-2 invoice"><?= h($e['invoice_title'] ?? ''); ?></div>
+              <div class="col px-2 invoice"><?= h($e['invoice_number'] ?? ''); ?></div>
             </div>
           <?php endforeach; ?>
         </div>

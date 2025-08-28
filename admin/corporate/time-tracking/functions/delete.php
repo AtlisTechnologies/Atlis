@@ -10,7 +10,7 @@ if (!$id) {
   exit;
 }
 
-$stmt = $pdo->prepare('DELETE FROM module_time_tracking_entries WHERE id = :id');
+$stmt = $pdo->prepare('DELETE FROM admin_time_tracking_entries WHERE id = :id');
 $stmt->execute([':id' => $id]);
 
 echo json_encode(['success' => true]);

@@ -6,11 +6,11 @@ header('Content-Type: application/json');
 
 $id = $_GET['id'] ?? null;
 if ($id) {
-  $stmt = $pdo->prepare('SELECT * FROM admin_finances_invoices WHERE id = :id');
+  $stmt = $pdo->prepare('SELECT id, invoice_number, status_id, bill_to, invoice_date, due_date, total_amount FROM admin_finances_invoices WHERE id = :id');
   $stmt->execute([':id' => $id]);
   $data = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
-  $stmt = $pdo->query('SELECT * FROM admin_finances_invoices');
+  $stmt = $pdo->query('SELECT id, invoice_number, status_id, bill_to, invoice_date, due_date, total_amount FROM admin_finances_invoices');
   $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
