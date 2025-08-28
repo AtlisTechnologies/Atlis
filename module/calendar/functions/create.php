@@ -5,6 +5,7 @@ require_permission('calendar','create');
 header('Content-Type: application/json');
 
 $title = trim($_POST['title'] ?? '');
+$memo = trim($_POST['memo'] ?? '');
 
 $start_time = $_POST['start_time'] ?? null;
 $end_time = $_POST['end_time'] ?? null;
@@ -31,12 +32,13 @@ if ($title && $start_time && $calendar_id) {
     exit;
   }
 
-  $columns = ['user_id', 'calendar_id', 'title', 'start_time', 'end_time', 'link_module', 'link_record_id', 'visibility_id'];
-  $placeholders = [':uid', ':calendar_id', ':title', ':start_time', ':end_time', ':link_module', ':link_record_id', ':visibility_id'];
+  $columns = ['user_id', 'calendar_id', 'title', 'memo', 'start_time', 'end_time', 'link_module', 'link_record_id', 'visibility_id'];
+  $placeholders = [':uid', ':calendar_id', ':title', ':memo', ':start_time', ':end_time', ':link_module', ':link_record_id', ':visibility_id'];
   $params = [
     ':uid' => $this_user_id,
     ':calendar_id' => $calendar_id,
     ':title' => $title,
+    ':memo' => $memo,
     ':start_time' => $start_time,
     ':end_time' => $end_time,
     ':link_module' => $link_module,
@@ -71,6 +73,7 @@ if ($title && $start_time && $calendar_id) {
     'id' => $eventId,
     'calendar_id' => $calendar_id,
     'title' => $title,
+    'description' => $memo,
     'start' => $start_time,
     'end' => $end_time,
     'visibility_id' => $visibility_id,

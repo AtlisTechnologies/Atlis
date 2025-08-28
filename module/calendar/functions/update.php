@@ -7,6 +7,7 @@ header('Content-Type: application/json');
 
 $id = (int)($_POST['id'] ?? 0);
 $title = trim($_POST['title'] ?? '');
+$memo = trim($_POST['memo'] ?? '');
 
 $start_time = $_POST['start_time'] ?? null;
 $end_time = $_POST['end_time'] ?? null;
@@ -55,6 +56,7 @@ if ($id && $title && $start_time && $calendar_id) {
     'user_updated = :user_updated',
     'calendar_id = :calendar_id',
     'title = :title',
+    'memo = :memo',
     'start_time = :start_time',
     'end_time = :end_time',
     'link_module = :link_module',
@@ -66,6 +68,7 @@ if ($id && $title && $start_time && $calendar_id) {
     ':user_updated' => $this_user_id,
     ':calendar_id' => $calendar_id,
     ':title' => $title,
+    ':memo' => $memo,
     ':start_time' => $start_time,
     ':end_time' => $end_time,
     ':link_module' => $link_module,
@@ -101,6 +104,7 @@ if ($id && $title && $start_time && $calendar_id) {
     'id' => $id,
     'calendar_id' => $calendar_id,
     'title' => $title,
+    'description' => $memo,
     'start' => $start_time,
     'end' => $end_time,
     'visibility_id' => $visibility_id,
