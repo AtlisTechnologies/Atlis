@@ -3,6 +3,8 @@ $agendaStatusMap    = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS
 $questionStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
 $meetingStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
 $meetingTypeMap     = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
+$taskStatusMap      = array_column(get_lookup_items($pdo, 'TASK_STATUS'), null, 'id');
+$taskPriorityMap    = array_column(get_lookup_items($pdo, 'TASK_PRIORITY'), null, 'id');
 $meetingStatusLabel = isset($meeting['status_id'], $meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['label'] : null;
 $meetingStatusColor = isset($meeting['status_id'], $meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['color_class'] : 'secondary';
 $meetingTypeLabel   = isset($meeting['type_id'], $meetingTypeMap[$meeting['type_id']]) ? $meetingTypeMap[$meeting['type_id']]['label'] : null;
@@ -79,10 +81,7 @@ $_SESSION['csrf_token'] = $token;
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <input type="hidden" name="csrf_token" value="<?= $token; ?>">
             <div class="col-md-6">
-              <div class="form-floating">
-                <select id="attendeeSelect" class="form-select"></select>
-                <label for="attendeeSelect">Search user</label>
-              </div>
+              <select id="attendeeSelect" class="form-select" placeholder="Select attendee" data-placeholder="Select attendee"></select>
               <div id="attendeeHiddenInputs"></div>
             </div>
             <div class="col-12">
@@ -135,8 +134,38 @@ $_SESSION['csrf_token'] = $token;
       <div class="modal-body">
         <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
         <div class="mb-3">
-          <label class="form-label">Title</label>
-          <input type="text" name="title" class="form-control" required>
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Project</label>
+          <input type="number" name="project_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-select" required>
+            <option value="">Select status</option>
+            <?php foreach ($taskStatusMap as $sid => $s): ?>
+              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Priority</label>
+          <select name="priority" class="form-select" required>
+            <option value="">Select priority</option>
+            <?php foreach ($taskPriorityMap as $pid => $p): ?>
+              <option value="<?= (int)$pid ?>"><?= h($p['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Start Date</label>
+          <input type="date" name="start_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Due Date</label>
+          <input type="date" name="due_date" class="form-control" required>
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>
@@ -237,6 +266,15 @@ $_SESSION['csrf_token'] = $token;
           <textarea name="answer_text" id="answerText" class="form-control"></textarea>
         </div>
         <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status_id" id="questionStatus" class="form-select">
+            <option value="">None</option>
+            <?php foreach ($questionStatusMap as $sid => $s): ?>
+              <option value="<?= (int)$sid ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
           <label class="form-label">Agenda Item</label>
           <select name="agenda_id" id="agendaSelect" class="form-select">
             <option value="">None</option>
@@ -305,23 +343,21 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function updateOrder(){
     var items = agendaList.querySelectorAll('li[data-id]');
-    items.forEach(function(li, index){
-      var params = new URLSearchParams();
-      params.append('id', li.dataset.id);
-      params.append('meeting_id', meetingId);
-      params.append('order_index', index + 1);
-      params.append('csrf_token', csrfToken);
-      var titleInput = li.querySelector('input[name="agenda_title[]"]');
-      var statusInput = li.querySelector('input[name="agenda_status_id[]"]');
-      var taskInput = li.querySelector('input[name="agenda_linked_task_id[]"]');
-      var projectInput = li.querySelector('input[name="agenda_linked_project_id[]"]');
-      if(titleInput){ params.append('title', titleInput.value); }
-      if(statusInput){ params.append('status_id', statusInput.value); }
-      if(taskInput){ params.append('linked_task_id', taskInput.value); }
-      if(projectInput){ params.append('linked_project_id', projectInput.value); }
-      fetch('functions/update_agenda_item.php', {method:'POST', body: params})
-        .catch(function(err){ console.error(err); showToast('Failed to update agenda order'); });
+    var fd = new FormData();
+    fd.append('meeting_id', meetingId);
+    fd.append('csrf_token', csrfToken);
+    items.forEach(function(li){
+      fd.append('ids[]', li.dataset.id);
     });
+    fetchJson('functions/reorder_agenda.php', {method:'POST', body: fd})
+      .then(function(res){
+        if(res.success && res.items){
+          renderAgenda(res.items);
+        } else {
+          showToast(res.message || 'Failed to update agenda order');
+        }
+      })
+      .catch(function(err){ console.error(err); showToast('Failed to update agenda order'); });
   }
 
   function updateAgendaSelect(){
@@ -468,14 +504,13 @@ document.addEventListener('DOMContentLoaded', function(){
           var qs = questionStatusMap[q.status_id];
           statusHtml = ' <span class="badge bg-'+esc(qs.color_class)+'">'+esc(qs.label)+'</span>';
         }
-        div.innerHTML = '<div class="d-flex justify-content-between">'
-          + '<div class="flex-grow-1">'
-          + '<p class="fw-bold mb-1">' + esc(q.question_text) + statusHtml + '</p>'
-          + '<input class="form-control form-control-sm answer-input mb-1" value="' + esc(q.answer_text || '') + '"' + (canEdit ? '' : ' disabled') + '>'
-          + agendaHtml
+        var actions = canEdit ? '<span class="ms-2"><i class="fas fa-pen text-warning me-2 edit-question"></i><i class="fas fa-trash text-danger delete-question"></i></span>' : '';
+        div.innerHTML = '<p class="fw-bold mb-1 d-flex justify-content-between align-items-center"><span>' + esc(q.question_text) + statusHtml + '</span>' + actions + '</p>'
+          + '<div class="input-group input-group-sm mb-1">'
+          + '<input class="form-control answer-input" value="' + esc(q.answer_text || '') + '"' + (canEdit ? '' : ' disabled') + '>'
+          + (canEdit ? '<button class="btn btn-outline-success save-answer" type="button"><span class="fas fa-save"></span></button>' : '')
           + '</div>'
-          + '</div>'
-          + (canEdit ? '<div class="mt-2 text-end"><button class="btn btn-sm btn-warning me-1 edit-question" data-id="'+q.id+'">Edit</button><button class="btn btn-sm btn-danger delete-question" data-id="'+q.id+'">Delete</button></div>' : '');
+          + agendaHtml;
         container.appendChild(div);
       });
     } else {
@@ -495,22 +530,27 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     document.getElementById('questionsList').addEventListener('click', function(e){
-      var tgt = e.target;
-      if(tgt.classList.contains('edit-question')){
-        var id = tgt.dataset.id;
+      var editBtn = e.target.closest('.edit-question');
+      var deleteBtn = e.target.closest('.delete-question');
+      var saveBtn = e.target.closest('.save-answer');
+      if(editBtn){
+        var card = editBtn.closest('[data-id]');
+        var id = card ? card.dataset.id : null;
         var q = questionsData.find(function(item){ return item.id == id; });
         if(q){
           document.getElementById('questionId').value = q.id;
           document.getElementById('questionText').value = q.question_text;
           document.getElementById('answerText').value = q.answer_text || '';
           document.getElementById('agendaSelect').value = q.agenda_id || '';
+          document.getElementById('questionStatus').value = q.status_id || '';
           document.getElementById('questionModalLabel').textContent = 'Edit Question';
           updateAgendaSelect();
           bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
         }
-      } else if(tgt.classList.contains('delete-question')){
-        var id = tgt.dataset.id;
-        if(confirm('Delete this question?')){
+      } else if(deleteBtn){
+        var card = deleteBtn.closest('[data-id]');
+        var id = card ? card.dataset.id : null;
+        if(id && confirm('Delete this question?')){
           var fd = new FormData();
           fd.append('id', id);
           fd.append('meeting_id', meetingId);
@@ -526,8 +566,49 @@ document.addEventListener('DOMContentLoaded', function(){
             })
             .catch(function(err){ console.error(err); showToast('Failed to delete question'); });
         }
+      } else if(saveBtn){
+        var card = saveBtn.closest('[data-id]');
+        var id = card ? card.dataset.id : null;
+        if(id){
+          var input = card.querySelector('.answer-input');
+          var fd = new FormData();
+          fd.append('id', id);
+          fd.append('meeting_id', meetingId);
+          fd.append('answer_text', input ? input.value : '');
+          fd.append('csrf_token', csrfToken);
+          fetchJson('functions/update_question.php', {method:'POST', body: fd})
+            .then(function(res){
+              if(res.success && res.questions){
+                questionsData = res.questions;
+              } else {
+                showToast(res.message || 'Failed to save answer');
+              }
+            })
+            .catch(function(err){ console.error(err); showToast('Failed to save answer'); });
+        }
       }
     });
+
+    var questionForm = document.getElementById('questionForm');
+    if(questionForm){
+      questionForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var fd = new FormData(questionForm);
+        var url = fd.get('id') ? 'functions/update_question.php' : 'functions/add_question.php';
+        fetchJson(url, {method:'POST', body: fd})
+          .then(function(res){
+            if(res.success && res.questions){
+              questionsData = res.questions;
+              renderQuestions();
+              bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+              questionForm.reset();
+            } else {
+              showToast(res.message || 'Failed to save question');
+            }
+          })
+          .catch(function(err){ console.error(err); showToast('Failed to save question'); });
+      });
+    }
 
   }
 
@@ -602,10 +683,10 @@ document.addEventListener('DOMContentLoaded', function(){
     var attendeeForm = document.getElementById('attendeeForm');
     var attendeeSelect = document.getElementById('attendeeSelect');
     var attendeeHiddenInputs = document.getElementById('attendeeHiddenInputs');
-    var attendeeChoices = null;
+      var attendeeChoices = null;
 
-    if(attendeeSelect){
-      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, searchPlaceholderValue:'Search user'});
+      if(attendeeSelect){
+        attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:''});
       attendeeSelect.addEventListener('search', function(e){
         var q = (e.detail.value || '').trim();
         if(q.length < 2){ return; }
@@ -672,99 +753,6 @@ document.addEventListener('DOMContentLoaded', function(){
           });
       }
     });
-
-    document.getElementById('questionsList').addEventListener('change', function(e){
-      var input = e.target;
-      if(input.classList.contains('answer-input')){
-        var id = input.closest('[data-id]').dataset.id;
-        var fd = new FormData();
-        fd.append('id', id);
-        fd.append('meeting_id', meetingId);
-        fd.append('answer_text', input.value);
-        fd.append('csrf_token', csrfToken);
-        fetchJson('functions/update_question.php', {method:'POST', body: fd})
-          .then(function(res){
-            if(res.success && res.questions){
-              questionsData = res.questions;
-            } else {
-              showToast(res.message || 'Failed to update answer');
-            }
-          })
-          .catch(function(err){ console.error(err); showToast('Failed to update answer'); });
-      }
-    });
-  }
-
-  fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-    .then(function(data){
-      if(data.success){
-        renderAttachments(data.files);
-      } else {
-        renderAttachments([]);
-      }
-    })
-    .catch(function(err){ console.error(err); showToast('Failed to load attachments'); });
-
-  var uploadForm = document.getElementById('uploadForm');
-  if(uploadForm){
-    uploadForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      var formData = new FormData(uploadForm);
-      fetchJson('functions/upload_file.php', {method:'POST', body: formData})
-        .then(function(res){
-          if(res.success && res.files){
-            renderAttachments(res.files);
-            uploadForm.reset();
-          } else {
-            showToast(res.message || 'Upload failed');
-          }
-        })
-        .catch(function(err){ console.error(err); showToast('Upload failed'); });
-    });
-  }
-
-  if(canEdit){
-    attachmentsList.addEventListener('click', function(e){
-      var btn = e.target.closest('.delete-file');
-      if(btn){
-        e.preventDefault();
-        var id = btn.getAttribute('data-id');
-        var fd = new FormData();
-        fd.append('id', id);
-        fd.append('meeting_id', meetingId);
-        fd.append('csrf_token', csrfToken);
-        fetchJson('functions/delete_file.php', {
-          method: 'POST',
-          body: fd
-        })
-        .then(function(res){
-          if(res.success && res.files){
-            renderAttachments(res.files);
-          } else {
-            showToast(res.message || 'Failed to delete file');
-          }
-        })
-        .catch(function(err){ console.error(err); showToast('Failed to delete file'); });
-      }
-    });
-  }
-
-  document.getElementById('taskForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var form = this;
-    var fd = new FormData(form);
-    fd.append('csrf_token', csrfToken);
-    fetchJson('functions/create_task.php', {method:'POST', body:fd})
-      .then(function(res){
-        var type = res.success ? 'success' : 'danger';
-        showToast(res.message || (res.success ? 'Task created' : 'Failed to create task'), type);
-        if(res.success){
-          bootstrap.Modal.getInstance(document.getElementById('taskModal')).hide();
-          form.reset();
-        }
-      })
-      .catch(function(err){ console.error(err); showToast('Failed to create task'); });
-  });
 
   document.getElementById('projectForm').addEventListener('submit', function(e){
     e.preventDefault();
