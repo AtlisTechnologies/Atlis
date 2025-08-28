@@ -18,15 +18,15 @@ $attendees = $_POST['attendees'] ?? [];
 $attended = $_POST['attended'] ?? [];
 
 if ($title && $start_time && $calendar_id) {
-  $chk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $chk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
   $chk->execute([$calendar_id]);
   $calendar = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$calendar) {
     http_response_code(404);
     exit;
   }
-  if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
-    // Only the calendar owner may add events; Admins can override.
+  if ($calendar['is_private'] && $calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
+    // Only the owner or an Admin may add events to a private calendar.
     http_response_code(403);
     exit;
   }
@@ -62,6 +62,7 @@ if ($title && $start_time && $calendar_id) {
   echo json_encode([
     'success' => true,
     'id' => $eventId,
+    'calendar_id' => $calendar_id,
     'title' => $title,
     'start' => $start_time,
     'end' => $end_time,
