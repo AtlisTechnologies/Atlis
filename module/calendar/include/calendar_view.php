@@ -26,7 +26,11 @@ foreach ($owned_calendars as $cal) {
 
 $event_types = get_lookup_items($pdo, 'CALENDAR_EVENT_TYPE');
 
+
+$user_default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE') ?? 0;
+//$default_event_type_id = $user_default_event_type_id ?: ($event_types[0]['id'] ?? 0);
 $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE_DEFAULT') ?? 0;
+
 
 ?>
 
@@ -34,7 +38,7 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
   <div class="col-lg-2 col-md-3 px-0">
     <?php if (user_has_permission('calendar','create')): ?>
       <div class="mb-3 text-center">
-        <a href="index.php?action=create" class="btn btn-atlis w-100">Create Calendar</a>
+        <button class="btn btn-atlis w-100" type="button" data-bs-toggle="modal" data-bs-target="#createCalendarModal">Create Calendar</button>
       </div>
     <?php endif; ?>
     <div id="calendarSidebar"></div>
@@ -79,14 +83,14 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
               <label class="ps-6" for="eventEnd">Ends at</label>
             </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="addEventType">Event Type</label>
+          <div class="form-floating mb-3">
             <select class="form-select" id="addEventType" name="event_type_id">
               <option value="" <?= $default_event_type_id ? '' : 'selected'; ?>>Select type</option>
               <?php foreach ($event_types as $et): ?>
                 <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"<?= (int)$et['id'] === (int)$default_event_type_id ? ' selected' : ''; ?>><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
+            <label for="addEventType">Event Type</label>
           </div>
 
           <?php if ($owns_calendar) { ?>
@@ -144,14 +148,14 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
               <label class="ps-6">Ends at</label>
             </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="editEventType">Event Type</label>
+          <div class="form-floating mb-3">
             <select class="form-select" id="editEventType" name="event_type_id">
               <option value="">Select type</option>
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"<?= (int)$et['id'] === (int)$default_event_type_id ? ' selected' : ''; ?>><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
+            <label for="editEventType">Event Type</label>
           </div>
 
           <div class="form-check mb-3">
@@ -164,6 +168,55 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
           <button class="btn btn-primary px-4" type="submit">Update</button>
         </div>
       </form>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="createCalendarModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content border border-translucent">
+      <form id="createCalendarForm" autocomplete="off">
+        <div class="modal-header px-card border-0">
+          <h5 class="mb-0 lh-sm text-body-highlight">Create Calendar</h5>
+          <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
+        </div>
+        <div class="modal-body p-card py-0">
+          <div class="form-floating mb-3">
+            <input class="form-control" id="calendarName" type="text" name="name" placeholder="Calendar Name" required />
+            <label for="calendarName">Name</label>
+          </div>
+          <div class="form-check mb-3 fs-7">
+            <input class="form-check-input" type="checkbox" id="calendarPrivate" name="is_private" value="1">
+            <label class="form-check-label" for="calendarPrivate">Private</label>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-end align-items-center border-0">
+          <button class="btn btn-primary px-4" type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="eventDetailsModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content border border-translucent">
+      <div class="modal-header px-card border-0">
+        <h5 class="mb-0 lh-sm text-body-highlight">Event Details</h5>
+        <button class="btn p-1 fs-10 text-body" type="button" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
+      </div>
+      <div class="modal-body p-card py-0">
+        <div class="mb-3"><strong>Title:</strong> <span id="detailTitle"></span></div>
+        <div class="mb-3"><strong>Starts at:</strong> <span id="detailStart"></span></div>
+        <div class="mb-3"><strong>Ends at:</strong> <span id="detailEnd"></span></div>
+        <div class="mb-3"><strong>Event Type:</strong> <span id="detailType"></span></div>
+        <div class="mb-3"><strong>Description:</strong> <span id="detailDesc"></span></div>
+        <div class="mb-3"><strong>Related Module:</strong> <span id="detailModule"></span></div>
+        <div class="mb-3"><strong>Related ID:</strong> <span id="detailRecord"></span></div>
+      </div>
+      <div class="modal-footer d-flex justify-content-end align-items-center border-0">
+        <button class="btn btn-primary px-4 d-none" type="button" id="detailEditBtn">Edit</button>
+      </div>
     </div>
   </div>
 </div>
@@ -199,6 +252,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarsData = <?php echo json_encode($calendars); ?>;
   const currentUserId = <?= (int)$this_user_id ?>;
   const isAdmin = <?= user_has_role('Admin') ? 'true' : 'false' ?>;
+  const eventTypes = <?php echo json_encode($event_types); ?>;
+  const eventTypeMap = {};
+  eventTypes.forEach(et => { eventTypeMap[et.id] = et.label; });
+  const createCalendarForm = document.getElementById('createCalendarForm');
+  const createCalendarModalEl = document.getElementById('createCalendarModal');
+  const detailModalEl = document.getElementById('eventDetailsModal');
+  const detailEditBtn = document.getElementById('detailEditBtn');
 
   function showAlert(message, type = 'danger') {
     if (!alertPlaceholder) return;
@@ -264,11 +324,36 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
     eventClick: function(info) {
+      if (!detailModalEl) return;
+      document.getElementById('detailTitle').textContent = info.event.title || '';
+      document.getElementById('detailStart').textContent = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+      document.getElementById('detailEnd').textContent = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      document.getElementById('detailType').textContent = eventTypeMap[info.event.extendedProps.event_type_id] || '';
+      document.getElementById('detailDesc').textContent = info.event.extendedProps.description || info.event.extendedProps.memo || '';
+      document.getElementById('detailModule').textContent = info.event.extendedProps.related_module || info.event.extendedProps.link_module || '';
+      document.getElementById('detailRecord').textContent = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id || '';
       const ownerId = parseInt(info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id, 10);
-      if (ownerId !== currentUserId && !isAdmin) {
-        alert('You do not have permission to edit this event.');
-        return;
+      if (detailEditBtn) {
+        if (ownerId === currentUserId || isAdmin) {
+          detailEditBtn.classList.remove('d-none');
+          detailEditBtn.onclick = function() {
+            const form = document.getElementById('editEventForm');
+            form.id.value = info.event.id;
+            form.title.value = info.event.title;
+            form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+            form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+            form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
+            form.is_private.checked = isEventPrivate(info.event.extendedProps);
+            selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
+            bootstrap.Modal.getInstance(detailModalEl).hide();
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
+          };
+        } else {
+          detailEditBtn.classList.add('d-none');
+          detailEditBtn.onclick = null;
+        }
       }
+
       const form = document.getElementById('editEventForm');
       // Populate edit form with selected event details
       form.id.value = info.event.id;
@@ -278,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
       form.is_private.checked = isEventPrivate(info.event.extendedProps);
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
+
     },
     dateClick: function(info) {
       const form = addEventForm;
@@ -289,6 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
     });
+  let calendarRendered = false;
   function initSidebar() {
     const sidebar = document.getElementById('calendarSidebar');
     sidebar.innerHTML = '';
@@ -300,9 +387,9 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebar.appendChild(hMy);
       myCals.forEach(cal => {
         const div = document.createElement('div');
-        div.className = 'form-check form-check-lg';
+        div.className = 'fs-7 d-flex align-items-center gap-2';
         div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" data-owned="1" value="${cal.id}" id="cal${cal.id}" checked>` +
-          `<label class="form-check-label fs-5" for="cal${cal.id}">${cal.name}</label>`;
+          `<label for="cal${cal.id}" class="mb-0">${cal.name}</label>`;
         sidebar.appendChild(div);
       });
     }
@@ -312,9 +399,9 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebar.appendChild(hOther);
       otherCals.forEach(cal => {
         const div = document.createElement('div');
-        div.className = 'form-check form-check-lg';
+        div.className = 'fs-7 d-flex align-items-center gap-2';
         div.innerHTML = `<input class="form-check-input calendar-checkbox" type="checkbox" value="${cal.id}" id="cal${cal.id}" checked>` +
-          `<label class="form-check-label fs-5" for="cal${cal.id}">${cal.name}</label>`;
+          `<label for="cal${cal.id}" class="mb-0">${cal.name}</label>`;
         sidebar.appendChild(div);
       });
     }
@@ -343,7 +430,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (addEventForm) {
       selectCalendarRadio(addEventForm, getCalendarId());
     }
-    calendar.render();
+    if (!calendarRendered) {
+      calendar.render();
+      calendarRendered = true;
+    }
     calendar.refetchEvents();
   }
 
@@ -359,6 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (addEventModalEl && addEventForm) {
     addEventModalEl.addEventListener('show.bs.modal', function() {
       selectCalendarRadio(addEventForm, getCalendarId());
+      addEventForm.event_type_id.value = defaultEventTypeId || '';
     });
   }
 
@@ -405,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  document.getElementById('openAddEvent').addEventListener('click', () => { selectCalendarRadio(addEventForm, getCalendarId()); bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show(); });
+  document.getElementById('openAddEvent').addEventListener('click', () => { selectCalendarRadio(addEventForm, getCalendarId()); addEventForm.event_type_id.value = defaultEventTypeId || ''; bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show(); });
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -434,6 +525,42 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to update event: ' + err.message);
     });
   });
+
+  if (createCalendarForm) {
+    createCalendarForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fd = new FormData(this);
+      fetch('<?php echo getURLDir(); ?>module/calendar/functions/create_calendar.php', {
+        method: 'POST',
+        body: fd
+      })
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        if (data.success) {
+          bootstrap.Modal.getInstance(createCalendarModalEl).hide();
+          this.reset();
+          fetch('<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php')
+            .then(r => r.json())
+            .then(cals => {
+              calendarsData.length = 0;
+              cals.forEach(c => calendarsData.push(c));
+              ownedCalendarIds.length = 0;
+              cals.filter(c => parseInt(c.owned, 10)).forEach(c => ownedCalendarIds.push(parseInt(c.id, 10)));
+              initSidebar();
+            });
+        } else {
+          alert(data.error || 'Error creating calendar');
+        }
+      })
+      .catch(err => {
+        console.error('Failed to create calendar', err);
+        alert('Failed to create calendar: ' + err.message);
+      });
+    });
+  }
 
   window.deleteCalendar = function(id) {
     const fd = new FormData();
