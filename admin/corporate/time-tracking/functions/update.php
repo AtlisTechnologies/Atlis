@@ -9,6 +9,7 @@ $memo = trim($_POST['memo'] ?? '');
 $hours = $_POST['hours'] ?? null;
 $invoice_id = $_POST['invoice_id'] ?? null;
 $person_id = $_POST['person_id'] ?? null;
+$project_id = $_POST['project_id'] ?? null;
 $work_date = $_POST['work_date'] ?? null;
 $rate = $_POST['rate'] ?? null;
 
@@ -17,10 +18,11 @@ if (!$id || $memo === '' || $hours === null || !$person_id || !$work_date) {
   exit;
 }
 
-$stmt = $pdo->prepare('UPDATE admin_time_tracking_entries SET memo = :memo, person_id = :person_id, work_date = :work_date, hours = :hours, rate = :rate, invoice_id = :invoice_id, user_updated = :uid WHERE id = :id');
+$stmt = $pdo->prepare('UPDATE admin_time_tracking_entries SET memo = :memo, person_id = :person_id, project_id = :project_id, work_date = :work_date, hours = :hours, rate = :rate, invoice_id = :invoice_id, user_updated = :uid WHERE id = :id');
 $stmt->execute([
   ':memo' => $memo,
   ':person_id' => $person_id,
+  ':project_id' => $project_id ?: null,
   ':work_date' => $work_date,
   ':hours' => $hours,
   ':rate' => $rate,
