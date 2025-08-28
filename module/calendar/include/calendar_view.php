@@ -52,9 +52,6 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
     <div id="calendarSidebar"></div>
   </div>
   <div class="col px-3">
-    <div class="d-flex justify-content-center mb-3">
-      <button class="btn btn-success" type="button" id="openAddEvent" <?= $owns_calendar ? '' : 'disabled data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create a calendar to add events"'; ?>>Add Event</button>
-    </div>
     <div id="calendarAlert"></div>
     <div id="calendarSpinner" class="spinner-border text-primary" role="status" style="display:none;">
       <span class="visually-hidden">Loading...</span>
@@ -248,6 +245,8 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
   </div>
 </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3" id="calendarToast"></div>
+
 <script src="<?php echo getURLDir(); ?>vendors/fullcalendar/index.global.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -270,7 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
   const addEventModalEl = document.getElementById('addEventModal');
-  const openAddEventBtn = document.getElementById('openAddEvent');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
   const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
   const VISIBILITY_PUBLIC = 198;
@@ -294,8 +292,20 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
   }
 
-  if (openAddEventBtn && openAddEventBtn.disabled) {
-    bootstrap.Tooltip.getOrCreateInstance(openAddEventBtn);
+  function showToast(message) {
+    const container = document.getElementById('calendarToast');
+    if (!container) return;
+    const el = document.createElement('div');
+    el.className = 'toast align-items-center text-bg-primary border-0';
+    el.role = 'alert';
+    el.ariaLive = 'assertive';
+    el.ariaAtomic = 'true';
+    el.innerHTML = `<div class="d-flex"><div class="toast-body">${message}</div>` +
+      '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>';
+    container.appendChild(el);
+    const toast = new bootstrap.Toast(el);
+    toast.show();
+    el.addEventListener('hidden.bs.toast', () => el.remove());
   }
 
   function isEventPrivate(props) {
@@ -326,7 +336,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function openAddEvent() {
+    const cid = parseInt(getCalendarId(), 10);
+    if (!ownedCalendarIds.includes(cid)) {
+      showToast('Create a calendar to add events');
+      return;
+    }
+    selectCalendarRadio(addEventForm, cid);
+    addEventForm.event_type_id.value = defaultEventTypeId || '';
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
+  }
+
   const calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: { left: 'prev,next today', center: 'title addEvent', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+    customButtons: { addEvent: { text: 'Add Event', click: openAddEvent } },
     initialView: 'dayGridMonth',
 
     events: function(fetchInfo, successCallback, failureCallback) {
@@ -512,6 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.success) {
           bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
           this.reset();
+          showToast('Event created');
           calendar.refetchEvents();
         } else {
           alert(data.error || 'An error occurred while adding the event.');
@@ -523,8 +547,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
-  document.getElementById('openAddEvent').addEventListener('click', () => { selectCalendarRadio(addEventForm, getCalendarId()); addEventForm.event_type_id.value = defaultEventTypeId || ''; bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show(); });
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -578,6 +600,8 @@ document.addEventListener('DOMContentLoaded', function() {
               ownedCalendarIds.length = 0;
               cals.filter(c => parseInt(c.owned, 10)).forEach(c => ownedCalendarIds.push(parseInt(c.id, 10)));
               initSidebar();
+              calendar.refetchEvents();
+              showToast('Calendar created');
             });
         } else {
           alert(data.error || 'Error creating calendar');
