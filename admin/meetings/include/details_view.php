@@ -88,8 +88,10 @@ $_SESSION['csrf_token'] = $token;
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <div class="col-md-6">
-              <select id="attendeeSelect" class="form-select" placeholder="Select attendee" data-placeholder="Select attendee"></select>
-              <div id="attendeeHiddenInputs"></div>
+              <div class="form-floating">
+                <select id="attendeeSelect" name="attendee_user_ids[]" class="form-select" multiple data-placeholder="Select attendee"></select>
+                <label for="attendeeSelect">Select attendee</label>
+              </div>
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
@@ -370,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var res = await fetchJson('functions/reorder_agenda.php', {method:'POST', body: fd});
       if(res.success && res.items){
         renderAgenda(res.items);
+        showToast('Agenda order updated', 'success');
       } else {
         showToast(res.message || 'Failed to update agenda order');
       }
@@ -451,7 +454,12 @@ document.addEventListener('DOMContentLoaded', function(){
       params.append('csrf_token', csrfToken);
       try{
         var res = await fetchJson('functions/delete_agenda_item.php', {method:'POST', body: params});
-        if(res.success){ renderAgenda(res.items); }
+        if(res.success){
+          renderAgenda(res.items);
+          showToast('Agenda item deleted', 'success');
+        } else {
+          showToast(res.message || 'Failed to delete agenda item');
+        }
       } catch(err){
         console.error(err);
         showToast('Failed to delete agenda item');
@@ -497,6 +505,9 @@ document.addEventListener('DOMContentLoaded', function(){
         if(res.success){
           renderAgenda(res.items);
           bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
+          showToast('Agenda item saved', 'success');
+        } else {
+          showToast(res.message || 'Failed to save agenda item');
         }
       } catch(err){
         console.error(err);
@@ -599,6 +610,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if(res.success){
               questionsData = res.questions;
               renderQuestions();
+              showToast('Question deleted', 'success');
             } else {
               showToast('Failed to delete question');
             }
@@ -621,6 +633,8 @@ document.addEventListener('DOMContentLoaded', function(){
             var res = await fetchJson('functions/update_question.php', {method:'POST', body: fd});
             if(res.success && res.questions){
               questionsData = res.questions;
+              renderQuestions();
+              showToast('Answer saved', 'success');
             } else {
               showToast(res.message || 'Failed to save answer');
             }
@@ -646,6 +660,7 @@ document.addEventListener('DOMContentLoaded', function(){
             renderQuestions();
             bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
             questionForm.reset();
+            showToast('Question saved', 'success');
           } else {
             showToast(res.message || 'Failed to save question');
           }
@@ -660,14 +675,62 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var attendeesList = document.getElementById('attendeesList');
   var attachmentsList = document.getElementById('attachmentsList');
+  var uploadForm = document.getElementById('uploadForm');
 
   if(attachmentsList){
-    attachmentsList.addEventListener('click', function(e){
+    attachmentsList.addEventListener('click', async function(e){
       var link = e.target.closest('.preview-file');
       if(link){
         e.preventDefault();
         document.getElementById('filePreviewFrame').src = link.dataset.url;
         bootstrap.Modal.getOrCreateInstance(document.getElementById('filePreviewModal')).show();
+        return;
+      }
+      var del = e.target.closest('.delete-file');
+      if(del){
+        var id = del.getAttribute('data-id');
+        var li = del.closest('li');
+        var fd = new FormData();
+        fd.append('id', id);
+        fd.append('meeting_id', meetingId);
+        fd.append('csrf_token', csrfToken);
+        try{
+          var res = await fetchJson('functions/delete_file.php', {method:'POST', body:fd});
+          if(res.success){
+            li.remove();
+            showToast('File deleted', 'success');
+            if(res.files && attachmentsHeader){ attachmentsHeader.textContent = 'Attachments (' + res.files.length + ')'; }
+            if(!attachmentsList.querySelector('li')){
+              attachmentsList.innerHTML = '<li class="list-group-item">No attachments.</li>';
+            }
+          } else {
+            showToast(res.message || 'Failed to delete file');
+          }
+        } catch(err){
+          console.error(err);
+          showToast('Failed to delete file');
+        }
+      }
+    });
+  }
+
+  if(uploadForm){
+    uploadForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      var fd = new FormData(uploadForm);
+      fd.append('csrf_token', csrfToken);
+      try{
+        var res = await fetchJson('functions/upload_file.php', {method:'POST', body:fd});
+        if(res.success){
+          renderAttachments(res.files || []);
+          showToast('File uploaded', 'success');
+          uploadForm.reset();
+        } else {
+          showToast(res.message || 'Failed to upload file');
+        }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to upload file');
       }
     });
   }
@@ -745,11 +808,10 @@ document.addEventListener('DOMContentLoaded', function(){
   if(canEditAttendees){
     var attendeeForm = document.getElementById('attendeeForm');
     var attendeeSelect = document.getElementById('attendeeSelect');
-    var attendeeHiddenInputs = document.getElementById('attendeeHiddenInputs');
-      var attendeeChoices = null;
+    var attendeeChoices = null;
 
-      if(attendeeSelect){
-        attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:''});
+    if(attendeeSelect){
+      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:'', removeItemButton:true});
       attendeeSelect.addEventListener('search', async function(e){
         var q = (e.detail.value || '').trim();
         if(q.length < 2){ return; }
@@ -762,37 +824,31 @@ document.addEventListener('DOMContentLoaded', function(){
           showToast('Error searching users');
         }
       });
-
-      attendeeSelect.addEventListener('change', function(){
-        attendeeHiddenInputs.innerHTML = '';
-        if(this.value){
-          var input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = 'attendee_user_id';
-          input.value = this.value;
-          attendeeHiddenInputs.appendChild(input);
-        }
-      });
     }
 
     attendeeForm.addEventListener('submit', async function(e){
       e.preventDefault();
-      if(!attendeeHiddenInputs.querySelector('input[name="attendee_user_id"]')){
+      var selected = attendeeChoices ? attendeeChoices.getValue(true) : Array.from(attendeeSelect.selectedOptions).map(function(o){return o.value;});
+      if(!selected.length){
         showToast('Please select a user', 'warning');
         return;
       }
-      var formData = new FormData(attendeeForm);
-      formData.append('csrf_token', csrfToken);
       try{
-        var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:formData});
-        var type = res.success ? 'success' : 'danger';
-        showToast(res.message || (res.success ? 'Attendee added' : 'Failed to add attendee'), type);
-        if(res.success){
-          attendeeForm.reset();
-          attendeeHiddenInputs.innerHTML = '';
-          if(attendeeChoices){ attendeeChoices.clearChoices(); attendeeChoices.removeActiveItems(); }
-          renderAttendees(res.attendees || []);
+        for(const uid of selected){
+          var fd = new FormData();
+          fd.append('meeting_id', meetingId);
+          fd.append('attendee_user_id', uid);
+          fd.append('csrf_token', csrfToken);
+          var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:fd});
+          if(res.success){
+            renderAttendees(res.attendees || []);
+            showToast('Attendee added', 'success');
+          } else {
+            showToast(res.message || 'Failed to add attendee');
+          }
         }
+        attendeeForm.reset();
+        if(attendeeChoices){ attendeeChoices.removeActiveItems(); }
       } catch(err){
         console.error(err);
         showToast('Failed to add attendee');
@@ -810,6 +866,9 @@ document.addEventListener('DOMContentLoaded', function(){
           var res = await fetchJson('functions/remove_attendee.php', {method:'POST', body:formData});
           if(res.success){
             renderAttendees(res.attendees || []);
+            showToast('Attendee removed', 'success');
+          } else {
+            showToast(res.message || 'Failed to remove attendee');
           }
         } catch(err){
           console.error(err);
