@@ -26,6 +26,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             $message = 'Navigation link created.';
         }
+    } elseif (isset($_POST['update_nav_link'])) {
+        require_permission('navigation_links','update');
+        $id    = (int)($_POST['id'] ?? 0);
+        $title = trim($_POST['name'] ?? '');
+        $path  = trim($_POST['path'] ?? '');
+        $icon  = trim($_POST['icon'] ?? '');
+        if ($id > 0 && $title !== '' && $path !== '') {
+            $stmt = $pdo->prepare('UPDATE admin_navigation_links SET title = :title, path = :path, icon = :icon, user_updated = :uid WHERE id = :id');
+            $stmt->execute([
+                ':title' => $title,
+                ':path' => $path,
+                ':icon' => $icon,
+                ':uid'  => $this_user_id,
+                ':id'   => $id
+            ]);
+            $message = 'Navigation link updated.';
+        }
     } else {
         require_permission('navigation_links','update');
         $order = isset($_POST['order']) ? explode(',', $_POST['order']) : [];
@@ -42,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$stmt = $pdo->query('SELECT id, title, path FROM admin_navigation_links ORDER BY sort_order');
+$stmt = $pdo->query('SELECT id, title, path, icon FROM admin_navigation_links ORDER BY sort_order');
 $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -57,13 +74,49 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <ul id="navList" class="list-group">
     <?php foreach ($links as $link): ?>
       <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<?= $link['id']; ?>">
-        <span><?= e($link['title']); ?></span>
+        <div class="d-flex align-items-center">
+          <button type="button" class="btn btn-link p-0 me-2 edit-nav-link" data-id="<?= $link['id']; ?>" data-title="<?= e($link['title']); ?>" data-path="<?= e($link['path']); ?>" data-icon="<?= e($link['icon']); ?>">
+            <span class="fas fa-cog"></span>
+          </button>
+          <span class="me-2" data-feather="<?= e($link['icon']); ?>"></span>
+          <span><?= e($link['title']); ?></span>
+        </div>
         <small class="text-muted"><?= e($link['path']); ?></small>
       </li>
     <?php endforeach; ?>
   </ul>
   <button type="submit" class="btn btn-primary mt-3">Save Order</button>
 </form>
+<div class="modal fade" id="editNavModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Nav Link</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+        <input type="hidden" name="id" id="editNavId">
+        <div class="mb-3">
+          <label for="editNavName" class="form-label">Name</label>
+          <input type="text" id="editNavName" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="editNavPath" class="form-label">Path</label>
+          <input type="text" id="editNavPath" name="path" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="editNavIcon" class="form-label">Feather Icon</label>
+          <input type="text" id="editNavIcon" name="icon" class="form-control" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" name="update_nav_link">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="modal fade" id="createNavModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <form method="post" class="modal-content">
@@ -102,6 +155,15 @@ $(function(){
     var order = $('#navList').sortable('toArray', {attribute: 'data-id'});
     $('#navOrder').val(order.join(','));
   });
+  $('.edit-nav-link').on('click', function(){
+    $('#editNavId').val($(this).data('id'));
+    $('#editNavName').val($(this).data('title'));
+    $('#editNavPath').val($(this).data('path'));
+    $('#editNavIcon').val($(this).data('icon'));
+    var modal = new bootstrap.Modal(document.getElementById('editNavModal'));
+    modal.show();
+  });
+  feather.replace();
 });
 </script>
 <?php require 'admin_footer.php'; ?>
