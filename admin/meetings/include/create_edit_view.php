@@ -121,8 +121,10 @@ $token = generate_csrf_token();
       <button type="button" class="btn btn-sm btn-secondary mt-2" id="addQuestion">Add Question</button>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="attendeeSelect">Attendees</label>
-      <select id="attendeeSelect" class="form-select" placeholder="Search user"></select>
+      <div class="form-floating">
+        <select id="attendeeSelect" class="form-select" placeholder="Search user" multiple></select>
+        <label for="attendeeSelect">Attendees</label>
+      </div>
       <div id="attendeeHiddenInputs"></div>
     </div>
     <div class="mb-3">
@@ -274,16 +276,19 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   var attendeeChoices;
-  function addHiddenAttendee(id){
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'attendee_user_id[]';
-    input.value = id;
-    attendeeHiddenInputs.appendChild(input);
+  function syncHiddenAttendees(){
+    attendeeHiddenInputs.innerHTML = '';
+    attendeeChoices.getValue(true).forEach(function(id){
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'attendee_user_id[]';
+      input.value = id;
+      attendeeHiddenInputs.appendChild(input);
+    });
   }
 
   if(attendeeSelect){
-    attendeeChoices = new Choices(attendeeSelect,{removeItemButton:true,searchChoices:false,shouldSort:false});
+    attendeeChoices = new Choices(attendeeSelect,{removeItemButton:true});
 
     attendeeSelect.addEventListener('search', function(event){
       var term = event.detail.value;
@@ -298,15 +303,8 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 
-    attendeeSelect.addEventListener('addItem', function(e){
-      addHiddenAttendee(e.detail.value);
-    });
-
-    attendeeSelect.addEventListener('removeItem', function(e){
-      Array.from(attendeeHiddenInputs.querySelectorAll('input[name="attendee_user_id[]"]')).forEach(function(input){
-        if(input.value === e.detail.value){ input.remove(); }
-      });
-    });
+    attendeeSelect.addEventListener('addItem', syncHiddenAttendees);
+    attendeeSelect.addEventListener('removeItem', syncHiddenAttendees);
   }
 
   function addQuestion(data){
@@ -354,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function(){
           attendeeChoices.setChoices(res.attendees.map(function(a){
             return { value: a.attendee_user_id, label: a.name, selected: true };
           }), 'value', 'label', false);
-          res.attendees.forEach(function(a){ addHiddenAttendee(a.attendee_user_id); });
+          syncHiddenAttendees();
         }
       });
   }
