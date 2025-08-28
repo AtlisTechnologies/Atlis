@@ -278,11 +278,15 @@ document.addEventListener('DOMContentLoaded', function(){
   var attendeeChoices;
   function syncHiddenAttendees(){
     attendeeHiddenInputs.innerHTML = '';
-    attendeeChoices.getValue(true).forEach(function(id){
+    attendeeChoices.getValue().forEach(function(item){
       var input = document.createElement('input');
       input.type = 'hidden';
-      input.name = 'attendee_user_id[]';
-      input.value = id;
+      input.name = 'attendee_person_id[]';
+      input.value = item.value;
+      input.dataset.personId = item.value;
+      if(item.customProperties && item.customProperties.user_id){
+        input.dataset.userId = item.customProperties.user_id;
+      }
       attendeeHiddenInputs.appendChild(input);
     });
   }
@@ -293,12 +297,12 @@ document.addEventListener('DOMContentLoaded', function(){
     attendeeSelect.addEventListener('search', function(event){
       var term = event.detail.value;
       if(!term){ return; }
-      fetch('functions/search_users.php?q=' + encodeURIComponent(term))
+      fetch('functions/search_people.php?q=' + encodeURIComponent(term))
         .then(r => r.ok ? r.json() : [])
         .then(function(users){
           attendeeChoices.clearChoices();
           attendeeChoices.setChoices(users.map(function(u){
-            return { value: u.id, label: u.name };
+            return { value: u.id, label: u.name, customProperties:{ user_id: u.user_id || '' } };
           }), 'value', 'label', true);
         });
     });
@@ -350,7 +354,12 @@ document.addEventListener('DOMContentLoaded', function(){
       .then(function(res){
         if(res.success && res.attendees && attendeeChoices){
           attendeeChoices.setChoices(res.attendees.map(function(a){
-            return { value: a.attendee_user_id, label: a.name, selected: true };
+            return {
+              value: a.attendee_person_id || a.person_id,
+              label: a.name,
+              selected: true,
+              customProperties:{ user_id: a.attendee_user_id || a.user_id || '' }
+            };
           }), 'value', 'label', false);
           syncHiddenAttendees();
         }
