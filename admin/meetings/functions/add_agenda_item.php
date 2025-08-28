@@ -23,13 +23,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
     $order_index = (int)($_POST['order_index'] ?? 0);
     $title = trim($_POST['title'] ?? '');
-    $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : 0;
+    $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
     if (!$status_id) {
-        $defaultStatus = array_filter(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), fn($i) => !empty($i['is_default']));
-        $status_id = $defaultStatus ? (int)array_values($defaultStatus)[0]['id'] : null;
+        $status_id = lookup_default_id($pdo, 'MEETING_AGENDA_STATUS');
     }
     $linked_task_id = isset($_POST['linked_task_id']) && $_POST['linked_task_id'] !== '' ? (int)$_POST['linked_task_id'] : null;
+    if ($linked_task_id) {
+        $chkTask = $pdo->prepare('SELECT id FROM module_tasks WHERE id = ?');
+        $chkTask->execute([$linked_task_id]);
+        if (!$chkTask->fetchColumn()) {
+            echo json_encode(['success' => false, 'error' => 'Invalid task ID']);
+            exit;
+        }
+    }
     $linked_project_id = isset($_POST['linked_project_id']) && $_POST['linked_project_id'] !== '' ? (int)$_POST['linked_project_id'] : null;
+    if ($linked_project_id) {
+        $chkProj = $pdo->prepare('SELECT id FROM module_projects WHERE id = ?');
+        $chkProj->execute([$linked_project_id]);
+        if (!$chkProj->fetchColumn()) {
+            echo json_encode(['success' => false, 'error' => 'Invalid project ID']);
+            exit;
+        }
+    }
 
     try {
         if ($meeting_id && $title !== '') {
