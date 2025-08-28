@@ -14,12 +14,12 @@ if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
     exit;
 }
 
-$name = trim($_POST['name'] ?? '');
+$name       = trim($_POST['name'] ?? '');
 $project_id = isset($_POST['project_id']) ? (int)$_POST['project_id'] : 0;
-$status = trim($_POST['status'] ?? '');
-$priority = trim($_POST['priority'] ?? '');
+$status     = isset($_POST['status']) ? (int)$_POST['status'] : 0;
+$priority   = isset($_POST['priority']) ? (int)$_POST['priority'] : 0;
 $start_date = $_POST['start_date'] ?? '';
-$due_date = $_POST['due_date'] ?? '';
+$due_date   = $_POST['due_date'] ?? '';
 
 $errors = [];
 if ($name === '' || strlen($name) > 255) {
@@ -27,19 +27,40 @@ if ($name === '' || strlen($name) > 255) {
 }
 if ($project_id <= 0) {
     $errors[] = 'Valid project_id required';
+} else {
+    $pstmt = $pdo->prepare('SELECT id FROM module_projects WHERE id = :id');
+    $pstmt->execute([':id' => $project_id]);
+    if (!$pstmt->fetchColumn()) {
+        $errors[] = 'Project not found';
+    }
 }
-if ($status === '' || strlen($status) > 11) {
+
+if ($status <= 0) {
     $errors[] = 'Valid status required';
+} else {
+    $sst = $pdo->prepare('SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE li.id = :id AND l.name = "TASK_STATUS"');
+    $sst->execute([':id' => $status]);
+    if (!$sst->fetchColumn()) {
+        $errors[] = 'Invalid status';
+    }
 }
-if ($priority === '' || strlen($priority) > 11) {
+
+if ($priority <= 0) {
     $errors[] = 'Valid priority required';
+} else {
+    $pst = $pdo->prepare('SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE li.id = :id AND l.name = "TASK_PRIORITY"');
+    $pst->execute([':id' => $priority]);
+    if (!$pst->fetchColumn()) {
+        $errors[] = 'Invalid priority';
+    }
 }
+
 $start_dt = DateTime::createFromFormat('Y-m-d', $start_date);
-if (!$start_dt) {
+$due_dt   = DateTime::createFromFormat('Y-m-d', $due_date);
+if (!$start_dt || $start_dt->format('Y-m-d') !== $start_date) {
     $errors[] = 'Invalid start_date';
 }
-$due_dt = DateTime::createFromFormat('Y-m-d', $due_date);
-if (!$due_dt) {
+if (!$due_dt || $due_dt->format('Y-m-d') !== $due_date) {
     $errors[] = 'Invalid due_date';
 }
 if ($start_dt && $due_dt && $due_dt < $start_dt) {
