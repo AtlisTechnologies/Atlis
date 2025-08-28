@@ -1,6 +1,6 @@
 <?php
 $calendars = [];
-$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
+$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
@@ -35,8 +35,9 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
                 data-choices="data-choices"
                 data-options='{"removeItemButton":true}'>
           <?php foreach ($calendars as $cal) { ?>
-            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
+            <?php $cal_label = (!empty($cal['is_default']) ? '★ ' : '') . $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+            <?php $own_default = !empty($cal['is_default']) && !empty($cal['owned']); ?>
+            <option value="<?php echo $cal['id']; ?>"<?php echo $own_default ? ' disabled' : ''; ?> selected><?php echo e($cal_label); ?></option>
           <?php } ?>
         </select>
       </div>
@@ -185,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
+  const userDefaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
 
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
@@ -205,8 +207,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getCalendarIds() {
     const sel = document.getElementById('calendarSelect');
-    if (!sel) return [];
-    return Array.from(sel.selectedOptions).map(opt => opt.value);
+    const ids = sel ? Array.from(sel.selectedOptions).map(opt => opt.value) : [];
+    if (userDefaultCalendarId && !ids.includes(String(userDefaultCalendarId))) {
+      ids.push(String(userDefaultCalendarId));
+    }
+    return ids;
   }
 
   function getCalendarId() {
