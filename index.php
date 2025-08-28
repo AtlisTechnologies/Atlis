@@ -13,6 +13,7 @@
     <?php // =============================================== ?>
     <div id="main_content" class="content">
 
+      <?php // Dashboard jumbotron with dynamic navigation links ?>
       <?php require 'includes/home/jumbotron.php'; ?>
 
       <?php // START HTML FOOTER ?>
