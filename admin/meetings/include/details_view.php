@@ -57,29 +57,36 @@ $_SESSION['csrf_token'] = $token;
   <div class="row">
     <div class="col-lg-6">
       <div class="card mb-3">
-        <div class="card-header">Agenda</div>
+        <div class="card-header"><span id="agendaHeader">Agenda</span></div>
         <div class="card-body p-0">
-          <ul class="list-group list-group-flush" id="agendaList"></ul>
+          <ul class="list-group list-group-flush" id="agendaList">
+            <li class="list-group-item text-center" id="agendaSpinner">
+              <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="card mb-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Questions</span>
+          <span id="questionsHeader">Questions</span>
           <?php if (user_has_permission('meeting','update')): ?>
             <button class="btn btn-sm btn-primary" id="addQuestionBtn">Add Question</button>
           <?php endif; ?>
         </div>
-        <div class="card-body" id="questionsList"></div>
+        <div class="card-body" id="questionsList">
+          <div class="text-center py-3" id="questionsSpinner">
+            <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-lg-6">
       <div class="card mb-3">
-        <div class="card-header">Attendees</div>
+        <div class="card-header"><span id="attendeesHeader">Attendees</span></div>
         <div class="card-body p-0">
           <?php if (user_has_permission('meeting','update')): ?>
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
-            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
             <div class="col-md-6">
               <select id="attendeeSelect" class="form-select" placeholder="Select attendee" data-placeholder="Select attendee"></select>
               <div id="attendeeHiddenInputs"></div>
@@ -89,11 +96,15 @@ $_SESSION['csrf_token'] = $token;
             </div>
           </form>
           <?php endif; ?>
-          <ul class="list-group list-group-flush" id="attendeesList"></ul>
+          <ul class="list-group list-group-flush" id="attendeesList">
+            <li class="list-group-item text-center" id="attendeesSpinner">
+              <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="card mb-3">
-        <div class="card-header">Attachments</div>
+        <div class="card-header"><span id="attachmentsHeader">Attachments</span></div>
         <div class="card-body">
           <?php if (user_has_permission('meeting','update')): ?>
           <form id="uploadForm" class="mb-3">
@@ -103,7 +114,11 @@ $_SESSION['csrf_token'] = $token;
             <button class="btn btn-sm btn-primary" type="submit">Upload</button>
           </form>
           <?php endif; ?>
-          <ul class="list-group list-group-flush" id="attachmentsList"></ul>
+          <ul class="list-group list-group-flush" id="attachmentsList">
+            <li class="list-group-item text-center" id="attachmentsSpinner">
+              <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -215,7 +230,6 @@ $_SESSION['csrf_token'] = $token;
       <div class="modal-body">
         <input type="hidden" name="id" id="agendaId">
         <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <div class="mb-3">
           <label class="form-label">Title</label>
           <input type="text" name="title" id="agendaTitle" class="form-control" required>
@@ -255,7 +269,6 @@ $_SESSION['csrf_token'] = $token;
       </div>
       <div class="modal-body">
         <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
         <input type="hidden" name="id" id="questionId">
         <div class="mb-3">
           <label class="form-label">Question</label>
@@ -304,6 +317,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var questionsData = [];
   var attendeesData = [];
   var agendaList = document.getElementById('agendaList');
+  var agendaHeader = document.getElementById('agendaHeader');
+  var questionsHeader = document.getElementById('questionsHeader');
+  var attendeesHeader = document.getElementById('attendeesHeader');
+  var attachmentsHeader = document.getElementById('attachmentsHeader');
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
   function showToast(message, type = 'danger'){
@@ -341,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function(){
       });
   }
 
-  function updateOrder(){
+  async function updateOrder(){
     var items = agendaList.querySelectorAll('li[data-id]');
     var fd = new FormData();
     fd.append('meeting_id', meetingId);
@@ -349,15 +366,17 @@ document.addEventListener('DOMContentLoaded', function(){
     items.forEach(function(li){
       fd.append('ids[]', li.dataset.id);
     });
-    fetchJson('functions/reorder_agenda.php', {method:'POST', body: fd})
-      .then(function(res){
-        if(res.success && res.items){
-          renderAgenda(res.items);
-        } else {
-          showToast(res.message || 'Failed to update agenda order');
-        }
-      })
-      .catch(function(err){ console.error(err); showToast('Failed to update agenda order'); });
+    try{
+      var res = await fetchJson('functions/reorder_agenda.php', {method:'POST', body: fd});
+      if(res.success && res.items){
+        renderAgenda(res.items);
+      } else {
+        showToast(res.message || 'Failed to update agenda order');
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to update agenda order');
+    }
   }
 
   function updateAgendaSelect(){
@@ -385,9 +404,10 @@ document.addEventListener('DOMContentLoaded', function(){
         li.dataset.projectId = item.linked_project_id || '';
         var left = '<span><span class="drag-handle me-2 fas fa-grip-vertical"></span><span class="agenda-title">'+esc(item.title)+'</span>';
         var meta = [];
-        if(item.status_id){
+        if(item.status_id && agendaStatusMap[item.status_id]){
           var s = agendaStatusMap[item.status_id];
-          if(s) meta.push('<span class="badge bg-'+esc(s.color_class)+'">'+esc(s.label)+'</span>');
+          var color = s.color_class || 'secondary';
+          meta.push('<span class="badge bg-'+esc(color)+'">'+esc(s.label)+'</span>');
         }
         if(item.linked_task_id){ meta.push('<a href="'+baseUrl+'module/task/index.php?id='+item.linked_task_id+'">Task '+esc(String(item.linked_task_id))+'</a>'); }
         if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(String(item.linked_project_id))+'</a>'); }
@@ -404,30 +424,38 @@ document.addEventListener('DOMContentLoaded', function(){
     } else {
       agendaList.innerHTML = '<li class="list-group-item">No agenda items.</li>';
     }
+    if(agendaHeader){ agendaHeader.textContent = 'Agenda (' + (items ? items.length : 0) + ')'; }
     updateAgendaSelect();
   }
 
-  function fetchAgenda(){
-    return fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-      .then(function(data){
-        if(data.success){
-          renderAgenda(data.items);
-        } else {
-          renderAgenda([]);
-        }
-      })
-      .catch(function(err){ console.error(err); showToast('Failed to load agenda'); });
+  async function fetchAgenda(){
+    try{
+      var data = await fetchJson('functions/get_agenda.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
+      if(data.success){
+        renderAgenda(data.items);
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to load agenda');
+    } finally {
+      var sp = document.getElementById('agendaSpinner');
+      if(sp) sp.remove();
+    }
   }
 
-  agendaList.addEventListener('click', function(e){
+  agendaList.addEventListener('click', async function(e){
     var li = e.target.closest('li[data-id]');
     if(!li) return;
     if(e.target.closest('.delete-agenda-item')){
       var params = new URLSearchParams({id: li.dataset.id, meeting_id: meetingId});
       params.append('csrf_token', csrfToken);
-      fetchJson('functions/delete_agenda_item.php', {method:'POST', body: params})
-        .then(function(res){ if(res.success) renderAgenda(res.items); })
-        .catch(function(err){ console.error(err); showToast('Failed to delete agenda item'); });
+      try{
+        var res = await fetchJson('functions/delete_agenda_item.php', {method:'POST', body: params});
+        if(res.success){ renderAgenda(res.items); }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to delete agenda item');
+      }
     } else if(e.target.closest('.edit-agenda-item')){
       document.getElementById('agendaId').value = li.dataset.id;
       document.getElementById('agendaTitle').value = li.querySelector('.agenda-title').textContent;
@@ -455,43 +483,47 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var agendaForm = document.getElementById('agendaForm');
   if(agendaForm){
-    agendaForm.addEventListener('submit', function(e){
+    agendaForm.addEventListener('submit', async function(e){
       e.preventDefault();
       var formData = new FormData(agendaForm);
+      formData.append('csrf_token', csrfToken);
       var id = formData.get('id');
       var li = agendaList.querySelector('li[data-id="'+id+'"]');
       if(li){
         formData.append('order_index', Array.from(agendaList.children).indexOf(li)+1);
       }
-      fetchJson('functions/update_agenda_item.php', {method:'POST', body: formData})
-        .then(function(res){
-          if(res.success){
-            renderAgenda(res.items);
-            bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
-          }
-        })
-        .catch(function(err){ console.error(err); showToast('Failed to save agenda item'); });
+      try{
+        var res = await fetchJson('functions/update_agenda_item.php', {method:'POST', body: formData});
+        if(res.success){
+          renderAgenda(res.items);
+          bootstrap.Modal.getInstance(document.getElementById('agendaModal')).hide();
+        }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to save agenda item');
+      }
     });
   }
 
-  fetchAgenda().then(function(){
-    loadQuestions();
-    fetchAttachments();
-    fetchAttendees();
-  });
+  (async function(){
+    await fetchAgenda();
+    await Promise.all([loadQuestions(), fetchAttachments(), fetchAttendees()]);
+  })();
 
-  function loadQuestions(){
-    fetchJson('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-      .then(function(res){
-        if(res.success){
-          questionsData = res.questions;
-          renderQuestions();
-        } else {
-          questionsData = [];
-          renderQuestions();
-        }
-      })
-      .catch(function(err){ console.error(err); showToast('Failed to load questions'); });
+  async function loadQuestions(){
+    try{
+      var res = await fetchJson('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
+      if(res.success){
+        questionsData = res.questions;
+        renderQuestions();
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to load questions');
+    } finally {
+      var sp = document.getElementById('questionsSpinner');
+      if(sp) sp.remove();
+    }
   }
 
   function renderQuestions(){
@@ -509,7 +541,8 @@ document.addEventListener('DOMContentLoaded', function(){
         var statusHtml = '';
         if(q.status_id && questionStatusMap[q.status_id]){
           var qs = questionStatusMap[q.status_id];
-          statusHtml = ' <span class="badge bg-'+esc(qs.color_class)+'">'+esc(qs.label)+'</span>';
+          var color = qs.color_class || 'secondary';
+          statusHtml = ' <span class="badge bg-'+esc(color)+'">'+esc(qs.label)+'</span>';
         }
         var actions = canEdit ? '<span class="ms-2"><i class="fas fa-pen text-warning me-2 edit-question"></i><i class="fas fa-trash text-danger delete-question"></i></span>' : '';
         div.innerHTML = '<p class="fw-bold mb-1 d-flex justify-content-between align-items-center"><span>' + esc(q.question_text) + statusHtml + '</span>' + actions + '</p>'
@@ -523,6 +556,7 @@ document.addEventListener('DOMContentLoaded', function(){
     } else {
       container.innerHTML = '<p class="text-body-secondary mb-0">No questions.</p>';
     }
+    if(questionsHeader){ questionsHeader.textContent = 'Questions (' + questionsData.length + ')'; }
   }
 
   if(canEdit){
@@ -534,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function(){
       bootstrap.Modal.getOrCreateInstance(document.getElementById('questionModal')).show();
     });
 
-    document.getElementById('questionsList').addEventListener('click', function(e){
+    document.getElementById('questionsList').addEventListener('click', async function(e){
       var editBtn = e.target.closest('.edit-question');
       var deleteBtn = e.target.closest('.delete-question');
       var saveBtn = e.target.closest('.save-answer');
@@ -560,16 +594,18 @@ document.addEventListener('DOMContentLoaded', function(){
           fd.append('id', id);
           fd.append('meeting_id', meetingId);
           fd.append('csrf_token', csrfToken);
-          fetchJson('functions/delete_question.php', {method:'POST', body:fd})
-            .then(function(res){
-              if(res.success){
-                questionsData = res.questions;
-                renderQuestions();
-              } else {
-                showToast('Failed to delete question');
-              }
-            })
-            .catch(function(err){ console.error(err); showToast('Failed to delete question'); });
+          try{
+            var res = await fetchJson('functions/delete_question.php', {method:'POST', body:fd});
+            if(res.success){
+              questionsData = res.questions;
+              renderQuestions();
+            } else {
+              showToast('Failed to delete question');
+            }
+          } catch(err){
+            console.error(err);
+            showToast('Failed to delete question');
+          }
         }
       } else if(saveBtn){
         var card = saveBtn.closest('[data-id]');
@@ -581,37 +617,42 @@ document.addEventListener('DOMContentLoaded', function(){
           fd.append('meeting_id', meetingId);
           fd.append('answer_text', input ? input.value : '');
           fd.append('csrf_token', csrfToken);
-          fetchJson('functions/update_question.php', {method:'POST', body: fd})
-            .then(function(res){
-              if(res.success && res.questions){
-                questionsData = res.questions;
-              } else {
-                showToast(res.message || 'Failed to save answer');
-              }
-            })
-            .catch(function(err){ console.error(err); showToast('Failed to save answer'); });
+          try{
+            var res = await fetchJson('functions/update_question.php', {method:'POST', body: fd});
+            if(res.success && res.questions){
+              questionsData = res.questions;
+            } else {
+              showToast(res.message || 'Failed to save answer');
+            }
+          } catch(err){
+            console.error(err);
+            showToast('Failed to save answer');
+          }
         }
       }
     });
 
     var questionForm = document.getElementById('questionForm');
     if(questionForm){
-      questionForm.addEventListener('submit', function(e){
+      questionForm.addEventListener('submit', async function(e){
         e.preventDefault();
         var fd = new FormData(questionForm);
+        fd.append('csrf_token', csrfToken);
         var url = fd.get('id') ? 'functions/update_question.php' : 'functions/add_question.php';
-        fetchJson(url, {method:'POST', body: fd})
-          .then(function(res){
-            if(res.success && res.questions){
-              questionsData = res.questions;
-              renderQuestions();
-              bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
-              questionForm.reset();
-            } else {
-              showToast(res.message || 'Failed to save question');
-            }
-          })
-          .catch(function(err){ console.error(err); showToast('Failed to save question'); });
+        try{
+          var res = await fetchJson(url, {method:'POST', body: fd});
+          if(res.success && res.questions){
+            questionsData = res.questions;
+            renderQuestions();
+            bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+            questionForm.reset();
+          } else {
+            showToast(res.message || 'Failed to save question');
+          }
+        } catch(err){
+          console.error(err);
+          showToast('Failed to save question');
+        }
       });
     }
 
@@ -648,21 +689,22 @@ document.addEventListener('DOMContentLoaded', function(){
     } else {
       attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
     }
+    if(attendeesHeader){ attendeesHeader.textContent = 'Attendees (' + attendees.length + ')'; }
   }
 
-  function fetchAttendees(){
-    return fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-      .then(function(data){
-        if(data.success){
-          renderAttendees(data.attendees);
-        } else {
-          renderAttendees([]);
-        }
-      })
-      .catch(function(err){
-        console.error(err);
-        showToast('Failed to load attendees');
-      });
+  async function fetchAttendees(){
+    try{
+      var data = await fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
+      if(data.success){
+        renderAttendees(data.attendees);
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to load attendees');
+    } finally {
+      var sp = document.getElementById('attendeesSpinner');
+      if(sp) sp.remove();
+    }
   }
 
   function renderAttachments(files){
@@ -682,21 +724,22 @@ document.addEventListener('DOMContentLoaded', function(){
     } else {
       attachmentsList.innerHTML = '<li class="list-group-item">No attachments.</li>';
     }
+    if(attachmentsHeader){ attachmentsHeader.textContent = 'Attachments (' + (files ? files.length : 0) + ')'; }
   }
 
-  function fetchAttachments(){
-    return fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
-      .then(function(data){
-        if(data.success){
-          renderAttachments(data.files);
-        } else {
-          renderAttachments([]);
-        }
-      })
-      .catch(function(err){
-        console.error(err);
-        showToast('Failed to load attachments');
-      });
+  async function fetchAttachments(){
+    try{
+      var data = await fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
+      if(data.success){
+        renderAttachments(data.files);
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to load attachments');
+    } finally {
+      var sp = document.getElementById('attachmentsSpinner');
+      if(sp) sp.remove();
+    }
   }
 
   if(canEditAttendees){
@@ -707,15 +750,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
       if(attendeeSelect){
         attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:''});
-      attendeeSelect.addEventListener('search', function(e){
+      attendeeSelect.addEventListener('search', async function(e){
         var q = (e.detail.value || '').trim();
         if(q.length < 2){ return; }
-        fetchJson('functions/search_users.php?q=' + encodeURIComponent(q))
-          .then(function(users){
-            var opts = users.map(function(u){ return {value:u.id, label:u.name}; });
-            attendeeChoices.setChoices(opts, 'value', 'label', true);
-          })
-          .catch(function(err){ console.error(err); showToast('Error searching users'); });
+        try{
+          var users = await fetchJson('functions/search_users.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
+          var opts = users.map(function(u){ return {value:u.id, label:u.name}; });
+          attendeeChoices.setChoices(opts, 'value', 'label', true);
+        } catch(err){
+          console.error(err);
+          showToast('Error searching users');
+        }
       });
 
       attendeeSelect.addEventListener('change', function(){
@@ -730,67 +775,68 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     }
 
-    attendeeForm.addEventListener('submit', function(e){
+    attendeeForm.addEventListener('submit', async function(e){
       e.preventDefault();
       if(!attendeeHiddenInputs.querySelector('input[name="attendee_user_id"]')){
         showToast('Please select a user', 'warning');
         return;
       }
       var formData = new FormData(attendeeForm);
-      fetchJson('functions/add_attendee.php', {method:'POST', body:formData})
-        .then(function(res){
-          var type = res.success ? 'success' : 'danger';
-          showToast(res.message || (res.success ? 'Attendee added' : 'Failed to add attendee'), type);
-          if(res.success){
-            attendeeForm.reset();
-            attendeeHiddenInputs.innerHTML = '';
-            if(attendeeChoices){ attendeeChoices.clearChoices(); attendeeChoices.removeActiveItems(); }
-            renderAttendees(res.attendees || []);
-          }
-        })
-        .catch(function(err){
-          console.error(err);
-          showToast('Failed to add attendee');
-        });
+      formData.append('csrf_token', csrfToken);
+      try{
+        var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:formData});
+        var type = res.success ? 'success' : 'danger';
+        showToast(res.message || (res.success ? 'Attendee added' : 'Failed to add attendee'), type);
+        if(res.success){
+          attendeeForm.reset();
+          attendeeHiddenInputs.innerHTML = '';
+          if(attendeeChoices){ attendeeChoices.clearChoices(); attendeeChoices.removeActiveItems(); }
+          renderAttendees(res.attendees || []);
+        }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to add attendee');
+      }
     });
 
-    attendeesList.addEventListener('click', function(e){
+    attendeesList.addEventListener('click', async function(e){
       if(e.target.classList.contains('remove-attendee')){
         var id = e.target.getAttribute('data-id');
         var formData = new FormData();
         formData.append('id', id);
         formData.append('meeting_id', meetingId);
         formData.append('csrf_token', csrfToken);
-        fetchJson('functions/remove_attendee.php', {method:'POST', body:formData})
-          .then(function(res){
-            if(res.success){
-              renderAttendees(res.attendees || []);
-            }
-          })
-          .catch(function(err){
-            console.error(err);
-            showToast('Failed to remove attendee');
-          });
+        try{
+          var res = await fetchJson('functions/remove_attendee.php', {method:'POST', body:formData});
+          if(res.success){
+            renderAttendees(res.attendees || []);
+          }
+        } catch(err){
+          console.error(err);
+          showToast('Failed to remove attendee');
+        }
       }
     });
 
   }
 
-  document.getElementById('projectForm').addEventListener('submit', function(e){
+  document.getElementById('projectForm').addEventListener('submit', async function(e){
     e.preventDefault();
     var form = this;
     var fd = new FormData(form);
     fd.append('csrf_token', csrfToken);
-    fetchJson('functions/create_project.php', {method:'POST', body:fd})
-      .then(function(res){
-        var type = res.success ? 'success' : 'danger';
-        showToast(res.message || (res.success ? 'Project created' : 'Failed to create project'), type);
-        if(res.success){
-          bootstrap.Modal.getInstance(document.getElementById('projectModal')).hide();
-          form.reset();
-        }
-      })
-      .catch(function(err){ console.error(err); showToast('Failed to create project'); });
+    try{
+      var res = await fetchJson('functions/create_project.php', {method:'POST', body:fd});
+      var type = res.success ? 'success' : 'danger';
+      showToast(res.message || (res.success ? 'Project created' : 'Failed to create project'), type);
+      if(res.success){
+        bootstrap.Modal.getInstance(document.getElementById('projectModal')).hide();
+        form.reset();
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Failed to create project');
+    }
   });
 
   function esc(str){
