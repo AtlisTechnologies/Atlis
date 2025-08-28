@@ -18,10 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $answer_text = trim($_POST['answer_text'] ?? '');
     $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
     if ($status_id === null) {
-        $defaultStatus = get_lookup_items($pdo, 'MEETING_QUESTION_STATUS');
-        if (!empty($defaultStatus)) {
-            $status_id = (int)$defaultStatus[0]['id'];
-        }
+        $defaultStatus = array_filter(
+            get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'),
+            fn($i) => (!empty($i['is_default']) && $i['is_default'] == 1) || (!empty($i['default']) && $i['default'] == 1)
+        );
+        $status_id = $defaultStatus ? (int)array_values($defaultStatus)[0]['id'] : null;
     }
 
     try {
