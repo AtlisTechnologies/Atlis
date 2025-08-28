@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 05:55 AM
+-- Generation Time: Aug 28, 2025 at 04:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -4603,7 +4603,8 @@ ALTER TABLE `module_agency_persons`
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_calendar_owner_name` (`user_id`,`name`);
 
 --
 -- Indexes for table `module_calendar_events`
@@ -4615,8 +4616,9 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
-  ADD KEY `idx_calendar_events_start_time` (`start_time`);
+  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`);
+
+CREATE INDEX idx_calendar_events_start_time ON module_calendar_events(start_time);
 
 --
 -- Indexes for table `module_calendar_external_accounts`
