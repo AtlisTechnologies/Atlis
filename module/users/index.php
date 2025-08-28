@@ -47,7 +47,7 @@ if ($action === 'settings') {
   $taskStatusItems      = get_lookup_items($pdo, 'TASK_STATUS');
   $taskPriorityItems    = get_lookup_items($pdo, 'TASK_PRIORITY');
 
-  $userCalendars = $pdo->prepare('SELECT id, name FROM module_calendar WHERE user_id = :uid');
+  $userCalendars = $pdo->prepare('SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid');
   $userCalendars->execute([':uid' => $this_user_id]);
   $userCalendars = $userCalendars->fetchAll(PDO::FETCH_ASSOC);
 

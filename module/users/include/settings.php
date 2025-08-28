@@ -86,7 +86,7 @@
             <?php foreach ($userCalendars as $cal): ?>
               <option value="<?= $cal['id']; ?>"
                 <?= ($userDefaults['CALENDAR_DEFAULT'] ?? '') == $cal['id'] ? 'selected' : ''; ?>>
-                <?= h($cal['name']); ?>
+                <?= h($cal['name']); if($cal['is_private'] == 1){ echo " - Private"; } ?>
               </option>
             <?php endforeach; ?>
           </select>
