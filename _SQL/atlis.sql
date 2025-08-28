@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 05:13 AM
+-- Generation Time: Aug 28, 2025 at 05:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -328,7 +328,14 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (279, 1, 1, '2025-08-27 02:07:44', '2025-08-27 02:07:44', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}'),
 (280, 1, 1, '2025-08-27 18:30:54', '2025-08-27 18:30:54', NULL, 'module_meeting', 2, 'CREATE', 'Created meeting', '', '{\"title\":\"DEMO MY IDEA FOR NEW BENCH VIEW\"}'),
 (281, 1, 1, '2025-08-27 18:31:32', '2025-08-27 18:31:32', NULL, 'module_meeting', 3, 'CREATE', 'Created meeting', '', '{\"title\":\"SPEC, REQ, AND SCOPE DISCOVERY FOR MASS JUDGE REASSIGNMENT\"}'),
-(282, 1, 1, '2025-08-27 18:32:05', '2025-08-27 18:32:05', NULL, 'person', 64, 'CREATE', 'Created person', NULL, '{\"user_id\":19,\"first_name\":\"Davey\",\"last_name\":\"Rivers\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}');
+(282, 1, 1, '2025-08-27 18:32:05', '2025-08-27 18:32:05', NULL, 'person', 64, 'CREATE', 'Created person', NULL, '{\"user_id\":19,\"first_name\":\"Davey\",\"last_name\":\"Rivers\",\"gender_id\":59,\"organization_id\":null,\"agency_id\":null,\"division_id\":null,\"dob\":null}'),
+(283, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20]', '[18,24,26,25,3,13,20,10,19,6,12,17,21,22,11,15,5,2,16,8,4,7,9,23,1]'),
+(284, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[2,3,5,6,8,9,11,13]', '[3,13,6,11,5,2,8,9]'),
+(285, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[8,9,11,13]', '[13,11,8,9]'),
+(286, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[8,9,11,13]', '[13,11,8,9]'),
+(287, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 13, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(288, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 14, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(289, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 'admin_role_permission_groups', 15, 'SYNC', 'Updated role group assignments', '[16]', '[16]');
 
 -- --------------------------------------------------------
 
@@ -976,46 +983,52 @@ CREATE TABLE `admin_role_permission_groups` (
 --
 
 INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
-(71, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 18),
-(72, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 3),
-(73, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 13),
-(74, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 20),
-(75, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 10),
-(76, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 19),
-(77, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 6),
-(78, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 12),
-(79, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 17),
-(80, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 11),
-(81, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 15),
-(82, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 5),
-(83, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 2),
-(84, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 16),
-(85, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 8),
-(86, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 4),
-(87, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 7),
-(88, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 9),
-(89, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 1, 1),
-(90, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 3),
-(91, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 13),
-(92, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 6),
-(93, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 11),
-(94, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 5),
-(95, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 2),
-(96, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 8),
-(97, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 10, 9),
-(98, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 11, 13),
-(99, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 11, 11),
-(100, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 11, 8),
-(101, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 11, 9),
-(102, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 12, 13),
-(103, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 12, 11),
-(104, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 12, 8),
-(105, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 12, 9),
-(106, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 13, 10),
-(107, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 13, 11),
-(108, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 14, 10),
-(109, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 14, 11),
-(110, 1, 1, '2025-08-27 01:06:09', '2025-08-27 01:06:09', NULL, 15, 16);
+(111, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 18),
+(112, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 24),
+(113, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 26),
+(114, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 25),
+(115, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 3),
+(116, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 13),
+(117, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 20),
+(118, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 10),
+(119, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 19),
+(120, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 6),
+(121, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 12),
+(122, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 17),
+(123, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 21),
+(124, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 22),
+(125, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 11),
+(126, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 15),
+(127, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 5),
+(128, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 2),
+(129, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 16),
+(130, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 8),
+(131, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 4),
+(132, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 7),
+(133, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 9),
+(134, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 23),
+(135, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 1),
+(136, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 3),
+(137, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 13),
+(138, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 6),
+(139, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 11),
+(140, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 5),
+(141, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 2),
+(142, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 8),
+(143, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 9),
+(144, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 13),
+(145, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 11),
+(146, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 8),
+(147, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 9),
+(148, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 13),
+(149, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 11),
+(150, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 8),
+(151, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 9),
+(152, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 13, 10),
+(153, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 13, 11),
+(154, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 10),
+(155, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 11),
+(156, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 15, 16);
 
 -- --------------------------------------------------------
 
@@ -1467,7 +1480,8 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (257, 1, 1, '2025-08-27 00:59:59', '2025-08-27 00:59:59', NULL, 'lookup_lists', 55, 'DELETE', 'Deleted lookup list'),
 (258, 1, 1, '2025-08-27 01:00:11', '2025-08-27 01:00:11', NULL, 'lookup_lists', 54, 'DELETE', 'Deleted lookup list'),
 (259, 1, 1, '2025-08-27 19:44:13', '2025-08-27 19:44:13', NULL, 'lookup_list_items', 297, 'CREATE', 'Created lookup list item'),
-(260, 1, 1, '2025-08-27 19:44:19', '2025-08-27 19:44:19', NULL, 'lookup_list_item_attributes', 155, 'CREATE', 'Created item attribute');
+(260, 1, 1, '2025-08-27 19:44:19', '2025-08-27 19:44:19', NULL, 'lookup_list_item_attributes', 155, 'CREATE', 'Created item attribute'),
+(261, 4, 4, '2025-08-27 21:20:51', '2025-08-27 21:20:51', NULL, 'users', 4, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -2184,18 +2198,6 @@ CREATE TABLE `module_calendar_events` (
   `link_record_id` int(11) DEFAULT NULL,
   `visibility_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_calendar_events`
---
-
-INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`) VALUES
-(1, 1, NULL, '2025-08-25 00:10:22', '2025-08-25 01:39:45', NULL, 1, 'test', '2025-08-25 12:00:00', '2025-08-26 12:00:00', NULL, NULL, NULL, 198),
-(2, 1, NULL, '2025-08-25 00:11:09', '2025-08-25 01:39:45', NULL, 1, 'DAVE', '2025-08-25 12:30:00', '2025-08-25 11:45:00', NULL, NULL, NULL, 198),
-(3, 1, NULL, '2025-08-25 01:40:44', '2025-08-25 01:40:44', NULL, 1, 'Meeting with JIS Team', '2025-08-25 14:00:00', '2025-08-25 16:00:00', 196, NULL, NULL, 198),
-(4, 1, NULL, '2025-08-25 02:19:37', '2025-08-25 02:19:37', NULL, 1, 'dfgdfg', '2025-08-27 12:00:00', '2025-08-30 12:00:00', 193, NULL, NULL, 199),
-(5, 8, NULL, '2025-08-25 02:20:59', '2025-08-25 02:20:59', NULL, 1, 'KMEISTER', '2025-08-27 12:00:00', '2025-08-28 12:00:00', 197, NULL, NULL, 198),
-(7, 1, NULL, '2025-08-27 18:34:16', '2025-08-27 18:34:16', NULL, 1, 'test', '2025-08-16 12:00:00', '2025-08-17 12:00:00', 196, NULL, NULL, 198);
 
 -- --------------------------------------------------------
 
@@ -4216,7 +4218,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
 (1, 1, 1, '2025-08-06 16:08:42', '2025-08-25 18:21:53', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-25 18:21:53', 0, 0, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-26 00:22:54', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-26 00:22:54', 0, 0, NULL, NULL, ''),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-27 21:20:47', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-27 21:20:47', 0, 0, NULL, NULL, ''),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
@@ -4254,7 +4256,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(20, 4, 4, '2025-08-26 00:22:54', '2025-08-26 00:22:57', NULL, '433299', '2025-08-26 00:32:54', 1);
+(21, 4, 4, '2025-08-27 21:20:47', '2025-08-27 21:20:51', NULL, '756585', '2025-08-27 21:30:47', 1);
 
 -- --------------------------------------------------------
 
@@ -5249,7 +5251,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=283;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoices`
@@ -5315,7 +5317,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `admin_task`
@@ -5363,7 +5365,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=262;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -5417,7 +5419,7 @@ ALTER TABLE `module_calendar`
 -- AUTO_INCREMENT for table `module_calendar_events`
 --
 ALTER TABLE `module_calendar_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_external_accounts`
@@ -5807,7 +5809,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
