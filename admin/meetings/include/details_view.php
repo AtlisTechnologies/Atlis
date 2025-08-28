@@ -474,13 +474,20 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetchAgenda().then(fetchAttendees);
+  fetchAgenda().then(function(){
+    loadQuestions();
+    fetchAttachments();
+    fetchAttendees();
+  });
 
   function loadQuestions(){
     fetchJson('functions/get_questions.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(function(res){
         if(res.success){
           questionsData = res.questions;
+          renderQuestions();
+        } else {
+          questionsData = [];
           renderQuestions();
         }
       })
@@ -517,8 +524,6 @@ document.addEventListener('DOMContentLoaded', function(){
       container.innerHTML = '<p class="text-body-secondary mb-0">No questions.</p>';
     }
   }
-
-  loadQuestions();
 
   if(canEdit){
     document.getElementById('addQuestionBtn').addEventListener('click', function(){
@@ -679,6 +684,21 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
+  function fetchAttachments(){
+    return fetchJson('functions/get_attachments.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+      .then(function(data){
+        if(data.success){
+          renderAttachments(data.files);
+        } else {
+          renderAttachments([]);
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+        showToast('Failed to load attachments');
+      });
+  }
+
   if(canEditAttendees){
     var attendeeForm = document.getElementById('attendeeForm');
     var attendeeSelect = document.getElementById('attendeeSelect');
@@ -753,6 +773,8 @@ document.addEventListener('DOMContentLoaded', function(){
           });
       }
     });
+
+  }
 
   document.getElementById('projectForm').addEventListener('submit', function(e){
     e.preventDefault();
