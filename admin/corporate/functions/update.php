@@ -11,14 +11,11 @@ if(!verify_csrf_token($_POST['csrf_token'] ?? '')){
 $id = (int)($_POST['id'] ?? 0);
 $name = trim($_POST['name'] ?? '');
 $description = trim($_POST['description'] ?? '');
-$feature_id = $_POST['feature_id'] !== '' ? (int)$_POST['feature_id'] : null;
-
 if($id && $name !== ''){
-  $stmt = $pdo->prepare('UPDATE admin_corporate SET name = :name, description = :description, feature_id = :feature_id, user_updated = :uid WHERE id = :id');
+  $stmt = $pdo->prepare('UPDATE admin_corporate SET name = :name, description = :description, user_updated = :uid WHERE id = :id');
   $stmt->execute([
     ':name'=>$name,
     ':description'=>$description,
-    ':feature_id'=>$feature_id,
     ':uid'=>$this_user_id,
     ':id'=>$id
   ]);
