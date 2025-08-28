@@ -16,10 +16,10 @@ if ($userId) {
   audit_log($pdo, $userId, 'users', $userId, 'LOGOUT', 'User logged out');
 }
 
-// Clear session and destroy
+// Rotate session ID then clear session and destroy
+session_regenerate_id(true);
 $_SESSION = [];
 session_unset();
 session_destroy();
-//session_regenerate_id(true);
 
 ?>
