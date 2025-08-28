@@ -29,9 +29,17 @@ $event_types = get_lookup_items($pdo, 37);
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
+
+<?php if (user_has_permission('calendar','create')): ?>
+<div class="d-flex justify-content-end mb-3">
+  <a href="index.php?action=create" class="btn btn-primary">Create Calendar</a>
+</div>
+<?php endif; ?>
+
 <div class="d-flex justify-content-end mb-3">
   <button class="btn btn-primary" type="button" id="openAddEvent" <?= $owns_calendar ? '' : 'disabled data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create a calendar to add events"'; ?>>Add Event</button>
 </div>
+
 <div class="row">
   <div class="col-md-3">
     <div id="calendarSidebar"></div>
