@@ -32,6 +32,18 @@ $today_date = date('Y-m-d');
 $date_today = date("l, F j, Y");
 $tomorrow = date('l, F j, Y',strtotime("$today +1 days"));
 
+function ensure_user_public_calendar(PDO $pdo, int $uid): void {
+  $chk = $pdo->prepare('SELECT id FROM module_calendar WHERE user_id = ? LIMIT 1');
+  $chk->execute([$uid]);
+  if (!$chk->fetchColumn()) {
+    $nameStmt = $pdo->prepare('SELECT first_name FROM person WHERE user_id = ?');
+    $nameStmt->execute([$uid]);
+    $name = $nameStmt->fetchColumn();
+    $ins = $pdo->prepare('INSERT INTO module_calendar (user_id, name, is_private, is_default) VALUES (?,?,0,1)');
+    $ins->execute([$uid, $name]);
+  }
+}
+
 $is_logged_in = isset($_SESSION['user_logged_in']) ? $_SESSION['user_logged_in'] : false;
 $is_admin = $is_logged_in && (($_SESSION['type'] ?? '') === 'ADMIN');
 
@@ -72,6 +84,7 @@ if ($is_logged_in) {
     $this_user_gender_code = $row['gender_code'];
 
     $this_user_name = $this_user_first_name . " " . $this_user_last_name;
+    ensure_user_public_calendar($pdo, $this_user_id);
   } // END THIS_USER
 }
 

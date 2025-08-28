@@ -1,6 +1,6 @@
 <?php
 $calendars = [];
-$sql = 'SELECT id, name, is_private, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
+$sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':uid', $this_user_id, PDO::PARAM_INT);
 $stmt->execute();
@@ -44,6 +44,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
             <label class="form-check-label" for="calendarCheck<?php echo (int)$cal['id']; ?>"><?php echo e($cal_label); ?></label>
           </div>
         <?php } ?>
+
       </div>
     <?php } ?>
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
@@ -191,14 +192,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
   const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
-
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
-
   const addEventModalEl = document.getElementById('addEventModal');
-
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
-
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
 
@@ -219,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return Array.from(sel.selectedOptions).map(opt => opt.value);
     }
     return [];
+
   }
 
   function getCalendarId() {
@@ -382,5 +380,29 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to update event: ' + err.message);
     });
   });
+
+  window.deleteCalendar = function(id) {
+    const fd = new FormData();
+    fd.append('id', id);
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete_calendar.php', {
+      method: 'POST',
+      body: fd
+    })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      if (data.success) {
+        calendar.refetchEvents();
+      } else {
+        alert(data.error || 'Unable to delete calendar.');
+      }
+    })
+    .catch(err => {
+      console.error('Failed to delete calendar', err);
+      alert('Failed to delete calendar: ' + err.message);
+    });
+  };
 });
 </script>
