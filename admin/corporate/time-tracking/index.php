@@ -3,6 +3,7 @@ require '../../admin_header.php';
 require_permission('admin_time_tracking','read');
 
 $filter = $_GET['filter'] ?? 'all';
+$invoiceFilter = $_GET['invoice_id'] ?? '';
 
 $invoiceStmt = $pdo->query('SELECT id, invoice_number FROM admin_finances_invoices ORDER BY invoice_number');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -11,16 +12,16 @@ $persons = $personStmt->fetchAll(PDO::FETCH_ASSOC);
 $projectStmt = $pdo->query('SELECT id, name FROM module_projects ORDER BY name');
 $projects = $projectStmt->fetchAll(PDO::FETCH_ASSOC);
 
-switch($filter){
-  case 'billed':
-    $entryStmt = $pdo->query("SELECT t.id,t.memo,t.hours,t.person_id,t.project_id,p.first_name,p.last_name,i.invoice_number FROM admin_time_tracking_entries t JOIN person p ON t.person_id=p.id LEFT JOIN admin_finances_invoices i ON t.invoice_id=i.id WHERE t.invoice_id IS NOT NULL ORDER BY t.date_created DESC");
-    break;
-  case 'unbilled':
-    $entryStmt = $pdo->query("SELECT t.id,t.memo,t.hours,t.person_id,t.project_id,p.first_name,p.last_name,i.invoice_number FROM admin_time_tracking_entries t JOIN person p ON t.person_id=p.id LEFT JOIN admin_finances_invoices i ON t.invoice_id=i.id WHERE t.invoice_id IS NULL ORDER BY t.date_created DESC");
-    break;
-  default:
-    $entryStmt = $pdo->query("SELECT t.id,t.memo,t.hours,t.person_id,t.project_id,p.first_name,p.last_name,i.invoice_number FROM admin_time_tracking_entries t JOIN person p ON t.person_id=p.id LEFT JOIN admin_finances_invoices i ON t.invoice_id=i.id ORDER BY t.date_created DESC");
-}
+$baseSql = "SELECT t.id,t.memo,t.hours,t.rate,(t.hours*t.rate) AS amount,t.person_id,t.project_id,p.first_name,p.last_name,i.invoice_number,t.invoice_id FROM admin_time_tracking_entries t JOIN person p ON t.person_id=p.id LEFT JOIN admin_finances_invoices i ON t.invoice_id=i.id";
+$where = [];
+if($filter==='billed'){ $where[] = 't.invoice_id IS NOT NULL'; }
+elseif($filter==='unbilled'){ $where[] = 't.invoice_id IS NULL'; }
+if($invoiceFilter!==''){ $where[] = 't.invoice_id = :invoice_id'; }
+$sql = $baseSql . ($where ? ' WHERE '.implode(' AND ',$where) : '') . ' ORDER BY t.date_created DESC';
+$entryStmt = $pdo->prepare($sql);
+$params = [];
+if($invoiceFilter!==''){ $params[':invoice_id'] = $invoiceFilter; }
+$entryStmt->execute($params);
 $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Time Tracking</h2>
@@ -29,6 +30,15 @@ $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
   <li class="nav-item"><a class="nav-link<?= $filter==='unbilled'?' active':'' ?>" href="?filter=unbilled">Unbilled</a></li>
   <li class="nav-item"><a class="nav-link<?= $filter==='billed'?' active':'' ?>" href="?filter=billed">Billed</a></li>
 </ul>
+<form class="mb-3" method="get">
+  <input type="hidden" name="filter" value="<?= h($filter); ?>">
+  <select class="form-select w-auto d-inline" name="invoice_id" onchange="this.form.submit()">
+    <option value="">Filter by Invoice</option>
+    <?php foreach($invoices as $i): ?>
+      <option value="<?= $i['id']; ?>" <?= $invoiceFilter==$i['id']?'selected':''; ?>><?= h($i['invoice_number']); ?></option>
+    <?php endforeach; ?>
+  </select>
+</form>
 <div class="mb-3 text-end">
   <?php if (user_has_permission('admin_time_tracking','create')): ?>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#entryModal" id="addEntryBtn"><span class="fa-solid fa-plus"></span></button>
@@ -37,14 +47,17 @@ $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
-      <tr><th>Description</th><th>Person</th><th>Hours</th><th>Invoice</th><th></th></tr>
+      <tr><th><input type="checkbox" id="select_all"></th><th>Description</th><th>Person</th><th>Hours</th><th>Rate</th><th>Amount</th><th>Invoice</th><th></th></tr>
     </thead>
     <tbody>
       <?php foreach($entries as $e): ?>
         <tr>
+          <td><input type="checkbox" class="entry-check" value="<?= $e['id']; ?>"></td>
           <td><?= h($e['memo']); ?></td>
           <td><?= h($e['first_name'].' '.$e['last_name']); ?></td>
           <td><?= h($e['hours']); ?></td>
+          <td><?= h($e['rate']); ?></td>
+          <td><?= h($e['amount']); ?></td>
           <td><?= h($e['invoice_number'] ?? 'Unbilled'); ?></td>
           <td>
             <?php if (user_has_permission('admin_time_tracking','update')): ?>
@@ -55,6 +68,19 @@ $entries = $entryStmt->fetchAll(PDO::FETCH_ASSOC);
       <?php endforeach; ?>
     </tbody>
   </table>
+</div>
+
+<div class="d-flex align-items-center mt-3">
+  <div class="me-2">
+    <select class="form-select" id="bulk_invoice_id">
+      <option value="">Select Invoice</option>
+      <?php foreach($invoices as $i): ?>
+        <option value="<?= $i['id']; ?>"><?= h($i['invoice_number']); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <button class="btn btn-primary me-2" id="bulkAttach" type="button">Attach</button>
+  <button class="btn btn-danger" id="bulkDetach" type="button">Detach</button>
 </div>
 
 <div class="modal fade" id="entryModal" tabindex="-1" aria-hidden="true">
@@ -155,6 +181,27 @@ document.addEventListener('DOMContentLoaded',function(){
     var id=document.getElementById('entry_id').value;
     var url=id?'functions/update.php':'functions/create.php';
     fetch(url,{method:'POST',body:fd}).then(r=>r.json()).then(data=>{if(data.success){location.reload();}else{alert(data.error||'Error');}});
+  });
+  document.getElementById('select_all')?.addEventListener('change',function(){
+    document.querySelectorAll('.entry-check').forEach(ch=>ch.checked=this.checked);
+  });
+  document.getElementById('bulkAttach')?.addEventListener('click',function(){
+    var ids=[...document.querySelectorAll('.entry-check:checked')].map(ch=>ch.value);
+    var inv=document.getElementById('bulk_invoice_id').value;
+    if(ids.length && inv){
+      var fd=new FormData();
+      fd.append('invoice_id',inv);
+      ids.forEach(id=>fd.append('ids[]',id));
+      fetch('functions/link_invoice.php',{method:'POST',body:fd}).then(r=>r.json()).then(()=>location.reload());
+    }
+  });
+  document.getElementById('bulkDetach')?.addEventListener('click',function(){
+    var ids=[...document.querySelectorAll('.entry-check:checked')].map(ch=>ch.value);
+    if(ids.length){
+      var fd=new FormData();
+      ids.forEach(id=>fd.append('ids[]',id));
+      fetch('functions/unlink_invoice.php',{method:'POST',body:fd}).then(r=>r.json()).then(()=>location.reload());
+    }
   });
   var params=new URLSearchParams(window.location.search);
   if(params.get('id')){

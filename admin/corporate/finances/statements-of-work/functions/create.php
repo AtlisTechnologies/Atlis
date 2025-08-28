@@ -5,6 +5,7 @@ require_permission('admin_finances_statements_of_work','create');
 header('Content-Type: application/json');
 
 $title = trim($_POST['title'] ?? '');
+$description = trim($_POST['description'] ?? '');
 $start_date = $_POST['start_date'] ?? null;
 $end_date = $_POST['end_date'] ?? null;
 $status_id = $_POST['status_id'] ?? null;
@@ -37,11 +38,12 @@ if(!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   }
 }
 
-$stmt = $pdo->prepare('INSERT INTO admin_finances_statements_of_work (user_id, corporate_id, title, start_date, end_date, status_id, file_name, file_path, file_size, file_type) VALUES (:uid, :cid, :title, :start_date, :end_date, :status_id, :fname, :fpath, :fsize, :ftype)');
+$stmt = $pdo->prepare('INSERT INTO admin_finances_statements_of_work (user_id, corporate_id, title, description, start_date, end_date, status_id, file_name, file_path, file_size, file_type) VALUES (:uid, :cid, :title, :description, :start_date, :end_date, :status_id, :fname, :fpath, :fsize, :ftype)');
 $stmt->execute([
   ':uid' => $this_user_id,
   ':cid' => $corporate_id,
   ':title' => $title,
+  ':description' => $description,
   ':start_date' => $start_date,
   ':end_date' => $end_date,
   ':status_id' => $status_id,

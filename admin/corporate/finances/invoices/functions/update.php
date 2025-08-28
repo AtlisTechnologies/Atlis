@@ -9,8 +9,12 @@ $invoice_number = trim($_POST['invoice_number'] ?? '');
 $status_id = $_POST['status_id'] ?? null;
 $bill_to = trim($_POST['bill_to'] ?? '');
 $invoice_date = $_POST['invoice_date'] ?? null;
+$period_start = $_POST['period_start'] ?? null;
+$period_end = $_POST['period_end'] ?? null;
 $due_date = $_POST['due_date'] ?? null;
 $total_amount = $_POST['total_amount'] ?? null;
+$agency_id = $_POST['agency_id'] ?? null;
+$division_id = $_POST['division_id'] ?? null;
 
 if (!$id || $invoice_number === '') {
   echo json_encode(['success' => false, 'error' => 'Invalid input']);
@@ -42,12 +46,16 @@ if(!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   }
 }
 
-$stmt = $pdo->prepare('UPDATE admin_finances_invoices SET invoice_number = :invoice_number, status_id = :status_id, bill_to = :bill_to, invoice_date = :invoice_date, due_date = :due_date, total_amount = :total_amount, file_name=:fname, file_path=:fpath, file_size=:fsize, file_type=:ftype, user_updated = :uid WHERE id = :id');
+$stmt = $pdo->prepare('UPDATE admin_finances_invoices SET invoice_number = :invoice_number, agency_id=:agency_id, division_id=:division_id, status_id = :status_id, bill_to = :bill_to, invoice_date = :invoice_date, period_start=:period_start, period_end=:period_end, due_date = :due_date, total_amount = :total_amount, file_name=:fname, file_path=:fpath, file_size=:fsize, file_type=:ftype, user_updated = :uid WHERE id = :id');
 $stmt->execute([
   ':invoice_number' => $invoice_number,
+  ':agency_id' => $agency_id,
+  ':division_id' => $division_id,
   ':status_id' => $status_id,
   ':bill_to' => $bill_to,
   ':invoice_date' => $invoice_date,
+  ':period_start' => $period_start,
+  ':period_end' => $period_end,
   ':due_date' => $due_date,
   ':total_amount' => $total_amount,
   ':fname'=>$file_name,

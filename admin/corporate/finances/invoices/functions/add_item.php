@@ -2,6 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../../includes/php_header.php';
 require_permission('admin_finances_invoices','update');
+require_once __DIR__ . '/utils.php';
 header('Content-Type: application/json');
 
 $invoice_id = $_POST['invoice_id'] ?? null;
@@ -26,5 +27,7 @@ $stmt->execute([
   ':amt'=>$amount,
   ':teid'=>$time_entry_id
 ]);
+
+recalc_invoice_total($pdo, (int)$invoice_id, $this_user_id);
 
 echo json_encode(['success'=>true,'id'=>$pdo->lastInsertId()]);

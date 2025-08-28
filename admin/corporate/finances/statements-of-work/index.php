@@ -1,9 +1,12 @@
 <?php
 require '../../admin_header.php';
 require_permission('admin_finances_statements_of_work','read');
+require_once __DIR__ . '/../../../../includes/lookup_helpers.php';
 
-$sowStmt = $pdo->query('SELECT s.id,s.title,s.status_id,l.name AS status,s.start_date,s.end_date FROM admin_finances_statements_of_work s LEFT JOIN lookup_list_items l ON s.status_id=l.id ORDER BY s.date_created DESC');
+$sowStmt = $pdo->query('SELECT s.id,s.title,s.description,s.status_id,l.name AS status,s.start_date,s.end_date,s.file_name,s.file_path FROM admin_finances_statements_of_work s LEFT JOIN lookup_list_items l ON s.status_id=l.id ORDER BY s.date_created DESC');
 $sows = $sowStmt->fetchAll(PDO::FETCH_ASSOC);
+$statusOptions = get_lookup_items($pdo,'SOW_STATUS');
+$invoicesAll = $pdo->query('SELECT id,invoice_number FROM admin_finances_invoices ORDER BY invoice_number')->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Statements of Work</h2>
 <div id="sowList" data-list='{"valueNames":["title","status","start_date","end_date"],"page":25,"pagination":true}'>
@@ -55,9 +58,18 @@ $sows = $sowStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="sow-edit-form" data-id="<?= $sow['id']; ?>">
                   <input type="hidden" name="id" value="<?= $sow['id']; ?>">
                   <div class="mb-3"><label class="form-label">Title<input class="form-control" name="title" value="<?= h($sow['title']); ?>" required></label></div>
-                  <div class="mb-3"><label class="form-label">Status ID<input class="form-control" name="status_id" value="<?= h($sow['status_id']); ?>"></label></div>
+                  <div class="mb-3"><label class="form-label">Description<textarea class="form-control" name="description" rows="3"><?= h($sow['description']); ?></textarea></label></div>
+                  <div class="mb-3"><label class="form-label">Status<select class="form-select" name="status_id">
+                    <option value="">-- select --</option>
+                    <?php foreach($statusOptions as $s): ?>
+                      <option value="<?= $s['id']; ?>" <?= ($sow['status_id']==$s['id'])?'selected':''; ?>><?= h($s['label']); ?></option>
+                    <?php endforeach; ?>
+                  </select></label></div>
                   <div class="mb-3"><label class="form-label">Start Date<input class="form-control" type="date" name="start_date" value="<?= h($sow['start_date']); ?>"></label></div>
                   <div class="mb-3"><label class="form-label">End Date<input class="form-control" type="date" name="end_date" value="<?= h($sow['end_date']); ?>"></label></div>
+                  <?php if($sow['file_path']): ?>
+                    <div class="mb-2"><a href="<?= getURLDir().h($sow['file_path']); ?>" target="_blank"><?= h($sow['file_name']); ?></a></div>
+                  <?php endif; ?>
                   <div class="mb-3"><label class="form-label">File<input class="form-control" type="file" name="file"></label></div>
                   <button class="btn btn-primary" type="submit">Save</button>
                 </form>
@@ -74,7 +86,12 @@ $sows = $sowStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="link-invoice-form" data-sow="<?= $sow['id']; ?>">
                   <input type="hidden" name="statement_id" value="<?= $sow['id']; ?>">
                   <div class="input-group mb-3">
-                    <input class="form-control" name="invoice_id" type="number" placeholder="Invoice ID">
+                    <select class="form-select" name="invoice_id" data-choices="data-choices">
+                      <option value="">Select Invoice</option>
+                      <?php foreach($invoicesAll as $invAll): ?>
+                        <option value="<?= $invAll['id']; ?>"><?= h($invAll['invoice_number']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
                     <button class="btn btn-outline-primary" type="submit">Attach</button>
                   </div>
                 </form>
@@ -107,7 +124,13 @@ $sows = $sowStmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-body">
         <form id="sowCreateForm">
           <div class="mb-3"><label class="form-label">Title<input class="form-control" name="title" required></label></div>
-          <div class="mb-3"><label class="form-label">Status ID<input class="form-control" name="status_id" type="number"></label></div>
+          <div class="mb-3"><label class="form-label">Description<textarea class="form-control" name="description" rows="3"></textarea></label></div>
+          <div class="mb-3"><label class="form-label">Status<select class="form-select" name="status_id">
+            <option value="">-- select --</option>
+            <?php foreach($statusOptions as $s): ?>
+              <option value="<?= $s['id']; ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select></label></div>
           <div class="mb-3"><label class="form-label">Start Date<input class="form-control" type="date" name="start_date"></label></div>
           <div class="mb-3"><label class="form-label">End Date<input class="form-control" type="date" name="end_date"></label></div>
           <div class="mb-3"><label class="form-label">File<input class="form-control" type="file" name="file"></label></div>
