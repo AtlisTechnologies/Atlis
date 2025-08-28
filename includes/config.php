@@ -6,12 +6,19 @@ require 'functions.php';
 // Add IDs here to restrict specific admin accounts
 $restricted_admin_ids = [];
 
+// Load environment variables from optional .env file
+$envFile = __DIR__ . '/../.env';
+$env = [];
+if (file_exists($envFile)) {
+    $env = parse_ini_file($envFile);
+}
+
 // DB Credentials
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_NAME', 'atlis');
-define('DB_PASSWORD', '');
-define('DB_PORT', '3306');
+define('DB_HOST', $env['DB_HOST'] ?? getenv('DB_HOST') ?? 'localhost');
+define('DB_USER', $env['DB_USER'] ?? getenv('DB_USER') ?? '');
+define('DB_NAME', $env['DB_NAME'] ?? getenv('DB_NAME') ?? 'atlis');
+define('DB_PASSWORD', $env['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?? '');
+define('DB_PORT', $env['DB_PORT'] ?? getenv('DB_PORT') ?? '3306');
 
 // Contractors module upload configuration
 define('CONTRACTOR_UPLOAD_DIR', __DIR__ . '/../admin/contractors/uploads/');
