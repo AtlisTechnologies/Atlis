@@ -1,9 +1,12 @@
 <?php
-$agendaStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
-$meetingStatusMap = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
-$meetingTypeMap   = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
+$agendaStatusMap    = array_column(get_lookup_items($pdo, 'MEETING_AGENDA_STATUS'), null, 'id');
+$questionStatusMap  = array_column(get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'), null, 'id');
+$meetingStatusMap   = array_column(get_lookup_items($pdo, 'MEETING_STATUS'), null, 'id');
+$meetingTypeMap     = array_column(get_lookup_items($pdo, 'MEETING_TYPE'), null, 'id');
 $meetingStatusLabel = isset($meeting['status_id'], $meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['label'] : null;
+$meetingStatusColor = isset($meeting['status_id'], $meetingStatusMap[$meeting['status_id']]) ? $meetingStatusMap[$meeting['status_id']]['color_class'] : 'secondary';
 $meetingTypeLabel   = isset($meeting['type_id'], $meetingTypeMap[$meeting['type_id']]) ? $meetingTypeMap[$meeting['type_id']]['label'] : null;
+$meetingTypeColor   = isset($meeting['type_id'], $meetingTypeMap[$meeting['type_id']]) ? $meetingTypeMap[$meeting['type_id']]['color_class'] : 'secondary';
 $token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $token;
 ?>
@@ -14,10 +17,10 @@ $_SESSION['csrf_token'] = $token;
       <div class="d-flex justify-content-between align-items-center">
         <h2 class="mb-0"><?php echo h($meeting['title'] ?? 'Meeting'); ?>
           <?php if ($meetingStatusLabel): ?>
-            <span class="badge bg-secondary ms-2"><?php echo h($meetingStatusLabel); ?></span>
+            <span class="badge bg-<?= h($meetingStatusColor); ?> ms-2"><?php echo h($meetingStatusLabel); ?></span>
           <?php endif; ?>
           <?php if ($meetingTypeLabel): ?>
-            <span class="badge bg-secondary ms-1"><?php echo h($meetingTypeLabel); ?></span>
+            <span class="badge bg-<?= h($meetingTypeColor); ?> ms-1"><?php echo h($meetingTypeLabel); ?></span>
           <?php endif; ?>
         </h2>
         <?php if (user_has_permission('meeting','update')): ?>
@@ -75,10 +78,12 @@ $_SESSION['csrf_token'] = $token;
           <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-            <div class="col-md-6 position-relative">
-              <input type="text" id="attendeeSearch" class="form-control" placeholder="Search user">
-              <input type="hidden" name="attendee_user_id" id="attendeeId">
-              <div class="list-group position-absolute w-100" id="attendeeResults" style="z-index:1000;"></div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <select id="attendeeSelect" class="form-select"></select>
+                <label for="attendeeSelect">Search user</label>
+              </div>
+              <div id="attendeeHiddenInputs"></div>
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
@@ -246,6 +251,7 @@ $_SESSION['csrf_token'] = $token;
 </div>
 <?php endif; ?>
 
+<script src="<?php echo getURLDir(); ?>vendors/choices/choices.min.js"></script>
 <script src="<?php echo getURLDir(); ?>vendors/sortablejs/Sortable.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -255,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var csrfToken = '<?= $token; ?>';
   var agendaStatusMap = <?php echo json_encode($agendaStatusMap); ?>;
+  var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
   var attendeesData = [];
@@ -343,12 +350,12 @@ document.addEventListener('DOMContentLoaded', function(){
         var left = '<span><span class="drag-handle me-2 fas fa-grip-vertical"></span><span class="agenda-title">'+esc(item.title)+'</span>';
         var meta = [];
         if(item.status_id){
-          var statusLabel = agendaStatusMap[item.status_id]?.label;
-          if(statusLabel) meta.push('Status '+esc(statusLabel));
+          var s = agendaStatusMap[item.status_id];
+          if(s) meta.push('<span class="badge bg-'+esc(s.color_class)+'">'+esc(s.label)+'</span>');
         }
         if(item.linked_task_id){ meta.push('<a href="'+baseUrl+'module/task/index.php?id='+item.linked_task_id+'">Task '+esc(String(item.linked_task_id))+'</a>'); }
         if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(String(item.linked_project_id))+'</a>'); }
-        if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' | ')+'</small>'; }
+        if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' ')+'</small>'; }
         left += '</span>';
         var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-warning edit-agenda-item">Edit</button><button class="btn btn-danger delete-agenda-item">Delete</button></div>' : '';
         li.innerHTML = left + buttons
@@ -456,9 +463,14 @@ document.addEventListener('DOMContentLoaded', function(){
         if(q.agenda_id && agendaMap[q.agenda_id]){
           agendaHtml = '<p class="mb-1"><small>Agenda: ' + esc(agendaMap[q.agenda_id]) + '</small></p>';
         }
+        var statusHtml = '';
+        if(q.status_id && questionStatusMap[q.status_id]){
+          var qs = questionStatusMap[q.status_id];
+          statusHtml = ' <span class="badge bg-'+esc(qs.color_class)+'">'+esc(qs.label)+'</span>';
+        }
         div.innerHTML = '<div class="d-flex justify-content-between">'
           + '<div class="flex-grow-1">'
-          + '<p class="fw-bold mb-1">' + esc(q.question_text) + '</p>'
+          + '<p class="fw-bold mb-1">' + esc(q.question_text) + statusHtml + '</p>'
           + '<input class="form-control form-control-sm answer-input mb-1" value="' + esc(q.answer_text || '') + '"' + (canEdit ? '' : ' disabled') + '>'
           + agendaHtml
           + '</div>'
@@ -588,66 +600,51 @@ document.addEventListener('DOMContentLoaded', function(){
 
   if(canEditAttendees){
     var attendeeForm = document.getElementById('attendeeForm');
-    var attendeeSearch = document.getElementById('attendeeSearch');
-    var attendeeId = document.getElementById('attendeeId');
-    var attendeeResults = document.getElementById('attendeeResults');
+    var attendeeSelect = document.getElementById('attendeeSelect');
+    var attendeeHiddenInputs = document.getElementById('attendeeHiddenInputs');
+    var attendeeChoices = null;
 
-    if(attendeeSearch){
-      attendeeSearch.addEventListener('input', function(){
-        attendeeId.value = '';
-        var q = this.value.trim();
-        if(q.length < 2){
-          attendeeResults.innerHTML = '';
-          return;
-        }
+    if(attendeeSelect){
+      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, searchPlaceholderValue:'Search user'});
+      attendeeSelect.addEventListener('search', function(e){
+        var q = (e.detail.value || '').trim();
+        if(q.length < 2){ return; }
         fetchJson('functions/search_users.php?q=' + encodeURIComponent(q))
           .then(function(users){
-            attendeeResults.innerHTML = '';
-            users.forEach(function(u){
-              var btn = document.createElement('button');
-              btn.type = 'button';
-              btn.className = 'list-group-item list-group-item-action';
-              btn.textContent = u.name;
-              btn.dataset.id = u.id;
-              attendeeResults.appendChild(btn);
-            });
+            var opts = users.map(function(u){ return {value:u.id, label:u.name}; });
+            attendeeChoices.setChoices(opts, 'value', 'label', true);
           })
-          .catch(function(err){
-            console.error(err);
-            attendeeResults.innerHTML = '<div class="list-group-item">Error searching users</div>';
-            showToast('Error searching users');
-          });
+          .catch(function(err){ console.error(err); showToast('Error searching users'); });
       });
 
-      attendeeResults.addEventListener('click', function(e){
-        var btn = e.target.closest('button[data-id]');
-        if(!btn) return;
-        var uid = btn.dataset.id;
-        if(attendeesData.some(function(a){ return parseInt(a.attendee_user_id,10) === parseInt(uid,10); })){
-          showToast('User already added', 'warning');
-          return;
+      attendeeSelect.addEventListener('change', function(){
+        attendeeHiddenInputs.innerHTML = '';
+        if(this.value){
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'attendee_user_id';
+          input.value = this.value;
+          attendeeHiddenInputs.appendChild(input);
         }
-        attendeeSearch.value = btn.textContent;
-        attendeeId.value = uid;
-        attendeeResults.innerHTML = '';
       });
     }
 
     attendeeForm.addEventListener('submit', function(e){
       e.preventDefault();
-      if(!attendeeId.value){
+      if(!attendeeHiddenInputs.querySelector('input[name="attendee_user_id"]')){
         showToast('Please select a user', 'warning');
         return;
       }
       var formData = new FormData(attendeeForm);
       fetchJson('functions/add_attendee.php', {method:'POST', body:formData})
         .then(function(res){
+          var type = res.success ? 'success' : 'danger';
+          showToast(res.message || (res.success ? 'Attendee added' : 'Failed to add attendee'), type);
           if(res.success){
             attendeeForm.reset();
-            attendeeResults.innerHTML = '';
+            attendeeHiddenInputs.innerHTML = '';
+            if(attendeeChoices){ attendeeChoices.clearChoices(); attendeeChoices.removeActiveItems(); }
             renderAttendees(res.attendees || []);
-          } else {
-            showToast(res.message || 'Failed to add attendee');
           }
         })
         .catch(function(err){
@@ -759,11 +756,11 @@ document.addEventListener('DOMContentLoaded', function(){
     fd.append('csrf_token', csrfToken);
     fetchJson('functions/create_task.php', {method:'POST', body:fd})
       .then(function(res){
+        var type = res.success ? 'success' : 'danger';
+        showToast(res.message || (res.success ? 'Task created' : 'Failed to create task'), type);
         if(res.success){
           bootstrap.Modal.getInstance(document.getElementById('taskModal')).hide();
           form.reset();
-        } else {
-          showToast(res.message || 'Failed to create task');
         }
       })
       .catch(function(err){ console.error(err); showToast('Failed to create task'); });
@@ -776,11 +773,11 @@ document.addEventListener('DOMContentLoaded', function(){
     fd.append('csrf_token', csrfToken);
     fetchJson('functions/create_project.php', {method:'POST', body:fd})
       .then(function(res){
+        var type = res.success ? 'success' : 'danger';
+        showToast(res.message || (res.success ? 'Project created' : 'Failed to create project'), type);
         if(res.success){
           bootstrap.Modal.getInstance(document.getElementById('projectModal')).hide();
           form.reset();
-        } else {
-          showToast(res.message || 'Failed to create project');
         }
       })
       .catch(function(err){ console.error(err); showToast('Failed to create project'); });
