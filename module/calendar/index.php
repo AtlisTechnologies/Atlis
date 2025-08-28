@@ -4,6 +4,8 @@ require '../../includes/php_header.php';
 $action = $_GET['action'] ?? '';
 if ($action === 'create') {
     require_permission('calendar', 'create');
+} elseif ($action === 'manage') {
+    require_permission('calendar', 'read');
 }
 
 require '../../includes/html_header.php';
@@ -15,6 +17,8 @@ require '../../includes/html_header.php';
     <?php
       if ($action === 'create') {
           require 'include/create_form.php';
+      } elseif ($action === 'manage') {
+          require 'include/manage.php';
       } else {
           require 'include/calendar_view.php';
       }
