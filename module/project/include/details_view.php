@@ -284,7 +284,7 @@ if (!empty($current_project)) {
       </div>
     <?php endif; ?>
 
-    <?php if (user_has_permission('admin_business_strategy','update') && user_has_permission('project','read')): ?>
+    <?php if (user_has_permission('admin_strategy','update') && user_has_permission('project','read')): ?>
       <?php
         $krStmt = $pdo->prepare('SELECT id, name, progress_percent FROM module_strategy_key_results WHERE project_id = :pid');
         $krStmt->execute([':pid' => $current_project['id']]);

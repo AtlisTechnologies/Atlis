@@ -182,7 +182,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php else: ?>
           <p class="fs-9 text-body-secondary mb-4">No team members assigned.</p>
         <?php endif; ?>
-        <?php if (user_has_permission('admin_business_strategy','update') && user_has_permission('task','read')): ?>
+        <?php if (user_has_permission('admin_strategy','update') && user_has_permission('task','read')): ?>
           <?php
             $krStmt = $pdo->prepare('SELECT id, name, progress_percent FROM module_strategy_key_results WHERE task_id = :tid');
             $krStmt->execute([':tid' => $current_task['id']]);
