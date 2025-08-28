@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 08:48 AM
+-- Generation Time: Aug 28, 2025 at 08:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2035,7 +2035,15 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (296, 1, 1, '2025-08-28 00:26:26', '2025-08-28 00:26:26', NULL, 'lookup_list_items', 256, 'DELETE', 'Deleted lookup list item'),
 (297, 1, 1, '2025-08-28 00:26:29', '2025-08-28 00:26:29', NULL, 'lookup_list_items', 257, 'DELETE', 'Deleted lookup list item'),
 (298, 1, 1, '2025-08-28 00:26:37', '2025-08-28 00:26:37', NULL, 'lookup_list_item_attributes', 178, 'CREATE', 'Created item attribute'),
-(299, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 'lookup_list_item_attributes', 179, 'CREATE', 'Created item attribute');
+(299, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 'lookup_list_item_attributes', 179, 'CREATE', 'Created item attribute'),
+(300, 1, 1, '2025-08-28 00:54:00', '2025-08-28 00:54:00', NULL, 'lookup_lists', 70, 'CREATE', 'Created lookup list'),
+(301, 1, 1, '2025-08-28 00:54:27', '2025-08-28 00:54:27', NULL, 'lookup_list_items', 308, 'CREATE', 'Created lookup list item'),
+(302, 1, 1, '2025-08-28 00:54:30', '2025-08-28 00:54:30', NULL, 'lookup_list_items', 309, 'CREATE', 'Created lookup list item'),
+(303, 1, 1, '2025-08-28 00:54:42', '2025-08-28 00:54:42', NULL, 'lookup_list_items', 310, 'CREATE', 'Created lookup list item'),
+(304, 1, 1, '2025-08-28 00:54:50', '2025-08-28 00:54:50', NULL, 'lookup_list_item_attributes', 180, 'CREATE', 'Created item attribute'),
+(305, 1, 1, '2025-08-28 00:54:53', '2025-08-28 00:54:53', NULL, 'lookup_list_item_attributes', 181, 'CREATE', 'Created item attribute'),
+(306, 1, 1, '2025-08-28 00:55:11', '2025-08-28 00:55:11', NULL, 'lookup_list_item_attributes', 182, 'CREATE', 'Created item attribute'),
+(307, 1, 1, '2025-08-28 00:55:14', '2025-08-28 00:55:14', NULL, 'lookup_list_item_attributes', 183, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -2121,7 +2129,8 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (66, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'CORPORATE_FINANCE_SECTION', 'Sections for corporate finance'),
 (67, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_STATUS', 'Status values for corporate strategies'),
 (68, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_PRIORITY', 'Priority levels for corporate strategies'),
-(69, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_ROLE', 'Roles for strategy collaborators');
+(69, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_ROLE', 'Roles for strategy collaborators'),
+(70, 1, 1, '2025-08-28 00:54:00', '2025-08-28 00:54:00', '', 'CORPORATE_FINANCE_INVOICE_STATUS', '');
 
 -- --------------------------------------------------------
 
@@ -2413,7 +2422,10 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (304, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 69, 'Owner', 'OWNER', 1, '2025-08-26', NULL),
 (305, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 69, 'Editor', 'EDITOR', 2, '2025-08-26', NULL),
 (306, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 69, 'Viewer', 'VIEWER', 3, '2025-08-26', NULL),
-(307, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 67, 'Draft', 'DRAFT', 1, '2025-08-26', NULL);
+(307, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 67, 'Draft', 'DRAFT', 1, '2025-08-26', NULL),
+(308, 1, 1, '2025-08-28 00:54:27', '2025-08-28 00:54:27', NULL, 70, 'Draft', 'DRAFT', 0, '2025-08-27', NULL),
+(309, 1, 1, '2025-08-28 00:54:30', '2025-08-28 00:54:30', NULL, 70, 'Paid', 'PAID', 0, '2025-08-27', NULL),
+(310, 1, 1, '2025-08-28 00:54:42', '2025-08-28 00:54:42', NULL, 70, 'Sent', 'SENT', 0, '2025-08-27', NULL);
 
 -- --------------------------------------------------------
 
@@ -2602,7 +2614,11 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (176, 1, 1, '2025-08-27 22:48:27', '2025-08-27 22:48:27', NULL, 266, 'COLOR-CLASS', 'atlis'),
 (177, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 267, 'COLOR-CLASS', 'forest'),
 (178, 1, 1, '2025-08-28 00:26:37', '2025-08-28 00:26:37', NULL, 258, 'COLOR-CLASS', 'grape'),
-(179, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 193, '***CORE***', '***CORE***');
+(179, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 193, '***CORE***', '***CORE***'),
+(180, 1, 1, '2025-08-28 00:54:50', '2025-08-28 00:54:50', NULL, 308, 'COLOR-CLASS', 'primary'),
+(181, 1, 1, '2025-08-28 00:54:53', '2025-08-28 00:54:53', NULL, 308, 'DEFAULT', 'true'),
+(182, 1, 1, '2025-08-28 00:55:11', '2025-08-28 00:55:11', NULL, 309, 'COLOR-CLASS', 'success'),
+(183, 1, 1, '2025-08-28 00:55:14', '2025-08-28 00:55:14', NULL, 310, 'COLOR-CLASS', 'atlis');
 
 -- --------------------------------------------------------
 
@@ -6226,25 +6242,25 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
