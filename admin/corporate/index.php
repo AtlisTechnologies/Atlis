@@ -29,6 +29,7 @@ $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'
 </form>
 
 <div class="row">
+  <?php if (user_has_permission('admin_corporate_notes','read')): ?>
   <div class="col-md-6">
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
@@ -43,13 +44,13 @@ $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'
           <li class="d-flex justify-content-between align-items-start mb-2" data-note-id="<?= (int)$n['id']; ?>">
             <span><?= e($n['note_text']); ?></span>
             <span>
-              <?php if (user_has_permission('admin_corporate','update')): ?><button class="btn btn-sm btn-outline-secondary edit-note">Edit</button><?php endif; ?>
-              <?php if (user_has_permission('admin_corporate','delete')): ?><button class="btn btn-sm btn-outline-danger delete-note">Delete</button><?php endif; ?>
+              <?php if (user_has_permission('admin_corporate_notes','update')): ?><button class="btn btn-sm btn-outline-secondary edit-note">Edit</button><?php endif; ?>
+              <?php if (user_has_permission('admin_corporate_notes','delete')): ?><button class="btn btn-sm btn-outline-danger delete-note">Delete</button><?php endif; ?>
             </span>
           </li>
           <?php endforeach; ?>
         </ul>
-        <?php if (user_has_permission('admin_corporate','create')): ?>
+        <?php if (user_has_permission('admin_corporate_notes','create')): ?>
         <form id="noteForm" class="mt-3">
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <input type="hidden" name="corporate_id" value="<?= (int)$corporate['id']; ?>">
@@ -60,6 +61,8 @@ $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'
       </div>
     </div>
   </div>
+  <?php endif; ?>
+  <?php if (user_has_permission('admin_corporate_files','read')): ?>
   <div class="col-md-6">
     <div class="card mb-4">
       <div class="card-header"><h5 class="mb-0">Files</h5></div>
@@ -71,11 +74,11 @@ $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'
           foreach ($fstmt as $f): ?>
           <li class="d-flex justify-content-between align-items-start mb-2" data-file-id="<?= (int)$f['id']; ?>">
             <a href="<?= getURLDir() . e($f['file_path']); ?>" target="_blank"><?= e($f['file_name']); ?></a>
-            <?php if (user_has_permission('admin_corporate','delete')): ?><button class="btn btn-sm btn-outline-danger delete-file">Delete</button><?php endif; ?>
+            <?php if (user_has_permission('admin_corporate_files','delete')): ?><button class="btn btn-sm btn-outline-danger delete-file">Delete</button><?php endif; ?>
           </li>
           <?php endforeach; ?>
         </ul>
-        <?php if (user_has_permission('admin_corporate','create')): ?>
+        <?php if (user_has_permission('admin_corporate_files','create')): ?>
         <form id="fileForm" class="mt-3" enctype="multipart/form-data">
           <input type="hidden" name="csrf_token" value="<?= $token; ?>">
           <input type="hidden" name="corporate_id" value="<?= (int)$corporate['id']; ?>">
@@ -86,6 +89,7 @@ $corporate = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['id'=>0,'name'=>'','description'
       </div>
     </div>
   </div>
+  <?php endif; ?>
 </div>
 
 <script>
@@ -115,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const li = document.createElement('li');
           li.className='d-flex justify-content-between align-items-start mb-2';
           li.dataset.noteId = d.note.id;
-          li.innerHTML = `<span>${escapeHtml(d.note.note_text)}</span><span><?php if (user_has_permission('admin_corporate','update')): ?><button class="btn btn-sm btn-outline-secondary edit-note">Edit</button><?php endif; ?> <?php if (user_has_permission('admin_corporate','delete')): ?><button class="btn btn-sm btn-outline-danger delete-note">Delete</button><?php endif; ?></span>`;
+          li.innerHTML = `<span>${escapeHtml(d.note.note_text)}</span><span><?php if (user_has_permission('admin_corporate_notes','update')): ?><button class="btn btn-sm btn-outline-secondary edit-note">Edit</button><?php endif; ?> <?php if (user_has_permission('admin_corporate_notes','delete')): ?><button class="btn btn-sm btn-outline-danger delete-note">Delete</button><?php endif; ?></span>`;
           document.getElementById('notesList').prepend(li);
           noteForm.reset();
           showFlash('Note added');
@@ -125,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(()=>showFlash('Server error','danger'));
   });
 
-  document.getElementById('notesList').addEventListener('click', e => {
+  const notesList = document.getElementById('notesList');
+  notesList && notesList.addEventListener('click', e => {
     const li = e.target.closest('li');
     if(!li) return;
     if(e.target.classList.contains('delete-note')){
@@ -161,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const li = document.createElement('li');
           li.className='d-flex justify-content-between align-items-start mb-2';
           li.dataset.fileId = d.file.id;
-          li.innerHTML = `<a href="${escapeHtml(d.file.file_path)}" target="_blank">${escapeHtml(d.file.file_name)}</a><?php if (user_has_permission('admin_corporate','delete')): ?> <button class="btn btn-sm btn-outline-danger delete-file">Delete</button><?php endif; ?>`;
+          li.innerHTML = `<a href="${escapeHtml(d.file.file_path)}" target="_blank">${escapeHtml(d.file.file_name)}</a><?php if (user_has_permission('admin_corporate_files','delete')): ?> <button class="btn btn-sm btn-outline-danger delete-file">Delete</button><?php endif; ?>`;
           document.getElementById('filesList').prepend(li);
           fileForm.reset();
           showFlash('File uploaded');
@@ -171,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(()=>showFlash('Server error','danger'));
   });
 
-  document.getElementById('filesList').addEventListener('click', e => {
+  const filesList = document.getElementById('filesList');
+  filesList && filesList.addEventListener('click', e => {
     if(e.target.classList.contains('delete-file')){
       const li = e.target.closest('li');
       const fd = new FormData();
