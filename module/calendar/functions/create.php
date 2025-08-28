@@ -11,7 +11,7 @@ $end_time = $_POST['end_time'] ?? null;
 $link_module = $_POST['link_module'] ?? null;
 $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
-$event_type_id = $_POST['event_type_id'] ?? null;
+$event_type_id = isset($_POST['event_type_id']) && $_POST['event_type_id'] !== '' ? (int)$_POST['event_type_id'] : null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
@@ -31,20 +31,27 @@ if ($title && $start_time && $calendar_id) {
     exit;
   }
 
-  $stmt = $pdo->prepare('INSERT INTO module_calendar_events (user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, visibility_id) VALUES (:uid, :calendar_id, :title, :start_time, :end_time, :event_type_id, :link_module, :link_record_id, :visibility_id)');
-
-  $stmt->execute([
+  $columns = ['user_id', 'calendar_id', 'title', 'start_time', 'end_time', 'link_module', 'link_record_id', 'visibility_id'];
+  $placeholders = [':uid', ':calendar_id', ':title', ':start_time', ':end_time', ':link_module', ':link_record_id', ':visibility_id'];
+  $params = [
     ':uid' => $this_user_id,
     ':calendar_id' => $calendar_id,
     ':title' => $title,
     ':start_time' => $start_time,
     ':end_time' => $end_time,
-    ':event_type_id' => $event_type_id,
     ':link_module' => $link_module,
     ':link_record_id' => $link_record_id,
     ':visibility_id' => $visibility_id
+  ];
+  if ($event_type_id !== null) {
+    $columns[] = 'event_type_id';
+    $placeholders[] = ':event_type_id';
+    $params[':event_type_id'] = $event_type_id;
+  }
 
-  ]);
+  $sql = 'INSERT INTO module_calendar_events (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
   $eventId = $pdo->lastInsertId();
 
   if (is_array($attendees)) {
@@ -73,3 +80,4 @@ if ($title && $start_time && $calendar_id) {
 }
 
 echo json_encode(['success' => false]);
+exit;

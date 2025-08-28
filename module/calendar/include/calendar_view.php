@@ -24,10 +24,13 @@ foreach ($owned_calendars as $cal) {
     }
 }
 
-$event_types = get_lookup_items($pdo, 37);
+$event_types = get_lookup_items($pdo, 'CALENDAR_EVENT_TYPE');
+
 
 $user_default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE') ?? 0;
-$default_event_type_id = $user_default_event_type_id ?: ($event_types[0]['id'] ?? 0);
+//$default_event_type_id = $user_default_event_type_id ?: ($event_types[0]['id'] ?? 0);
+$default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE_DEFAULT') ?? 0;
+
 
 ?>
 
@@ -350,7 +353,17 @@ document.addEventListener('DOMContentLoaded', function() {
           detailEditBtn.onclick = null;
         }
       }
-      bootstrap.Modal.getOrCreateInstance(detailModalEl).show();
+
+      const form = document.getElementById('editEventForm');
+      // Populate edit form with selected event details
+      form.id.value = info.event.id;
+      form.title.value = info.event.title;
+      form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+      form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+      form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
+      form.is_private.checked = isEventPrivate(info.event.extendedProps);
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
+
     },
     dateClick: function(info) {
       const form = addEventForm;

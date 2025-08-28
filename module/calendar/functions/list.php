@@ -126,7 +126,7 @@ try {
             'end' => $row['end_time'],
             'related_module' => $row['link_module'],
             'related_id' => $row['link_record_id'],
-            'event_type_id' => $row['event_type_id'],
+            'event_type_id' => $row['event_type_id'] !== null ? (int)$row['event_type_id'] : null,
             'visibility_id' => $visibility,
             'user_id' => (int)$row['user_id'],
             'calendar_user_id' => (int)$row['calendar_user_id'],
