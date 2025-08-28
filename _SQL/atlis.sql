@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 07:03 AM
+-- Generation Time: Aug 28, 2025 at 08:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -381,7 +381,115 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (332, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
 (333, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
 (334, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
-(335, 1, 1, '2025-08-27 22:19:33', '2025-08-27 22:19:33', NULL, 'module_meeting_files', 1, 'DELETE', 'Deleted file', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}', '');
+(335, 1, 1, '2025-08-27 22:19:33', '2025-08-27 22:19:33', NULL, 'module_meeting_files', 1, 'DELETE', 'Deleted file', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}', ''),
+(336, 1, 1, '2025-08-27 23:14:35', '2025-08-27 23:14:35', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Atlis - Dave + Sean\"}'),
+(337, 1, 1, '2025-08-27 23:24:02', '2025-08-27 23:24:02', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Atlis ---- Dave + Sean\"}'),
+(338, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Atlis ---- Dave + Sean\"}'),
+(339, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(340, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ashlin\"}'),
+(341, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(342, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(343, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(344, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(345, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(346, 1, 1, '2025-08-27 23:27:27', '2025-08-27 23:27:27', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"slack-vs-teams-3.png\"}'),
+(347, 1, 1, '2025-08-27 23:28:30', '2025-08-27 23:28:30', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(348, 1, 1, '2025-08-27 23:28:30', '2025-08-27 23:28:30', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(349, 1, 1, '2025-08-27 23:28:30', '2025-08-27 23:28:30', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(350, 1, 1, '2025-08-27 23:28:34', '2025-08-27 23:28:34', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(351, 1, 1, '2025-08-27 23:28:34', '2025-08-27 23:28:34', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(352, 1, 1, '2025-08-27 23:28:34', '2025-08-27 23:28:34', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(353, 1, 1, '2025-08-27 23:28:37', '2025-08-27 23:28:37', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(354, 1, 1, '2025-08-27 23:28:37', '2025-08-27 23:28:37', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(355, 1, 1, '2025-08-27 23:28:37', '2025-08-27 23:28:37', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(356, 1, 1, '2025-08-27 23:28:39', '2025-08-27 23:28:39', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(357, 1, 1, '2025-08-27 23:28:39', '2025-08-27 23:28:39', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(358, 1, 1, '2025-08-27 23:28:39', '2025-08-27 23:28:39', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(359, 1, 1, '2025-08-27 23:29:13', '2025-08-27 23:29:13', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"user_id\":19}'),
+(360, 1, 1, '2025-08-27 23:31:15', '2025-08-27 23:31:15', NULL, 'module_meeting_questions', 2, 'UPDATE', 'Updated question', '', '{\"question\":\"\",\"answer\":\"test\"}'),
+(361, 1, 1, '2025-08-27 23:34:40', '2025-08-27 23:34:40', NULL, 'module_projects', 30, 'CREATE', 'Created project from meeting', NULL, '{\"name\":\"TEST 69\"}'),
+(362, 1, 1, '2025-08-28 00:00:17', '2025-08-28 00:00:17', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(363, 1, 1, '2025-08-28 00:00:17', '2025-08-28 00:00:17', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(364, 1, 1, '2025-08-28 00:00:17', '2025-08-28 00:00:17', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(365, 1, 1, '2025-08-28 00:00:24', '2025-08-28 00:00:24', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(366, 1, 1, '2025-08-28 00:00:24', '2025-08-28 00:00:24', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(367, 1, 1, '2025-08-28 00:00:24', '2025-08-28 00:00:24', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(368, 1, 1, '2025-08-28 00:00:32', '2025-08-28 00:00:32', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(369, 1, 1, '2025-08-28 00:00:32', '2025-08-28 00:00:32', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(370, 1, 1, '2025-08-28 00:00:32', '2025-08-28 00:00:32', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(371, 1, 1, '2025-08-28 00:00:35', '2025-08-28 00:00:35', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(372, 1, 1, '2025-08-28 00:00:35', '2025-08-28 00:00:35', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(373, 1, 1, '2025-08-28 00:00:35', '2025-08-28 00:00:35', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(374, 1, 1, '2025-08-28 00:01:07', '2025-08-28 00:01:07', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(375, 1, 1, '2025-08-28 00:01:07', '2025-08-28 00:01:07', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(376, 1, 1, '2025-08-28 00:01:07', '2025-08-28 00:01:07', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(377, 1, 1, '2025-08-28 00:01:53', '2025-08-28 00:01:53', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(378, 1, 1, '2025-08-28 00:01:53', '2025-08-28 00:01:53', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(379, 1, 1, '2025-08-28 00:01:53', '2025-08-28 00:01:53', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(380, 1, 1, '2025-08-28 00:01:55', '2025-08-28 00:01:55', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(381, 1, 1, '2025-08-28 00:01:55', '2025-08-28 00:01:55', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(382, 1, 1, '2025-08-28 00:01:55', '2025-08-28 00:01:55', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(383, 1, 1, '2025-08-28 00:02:20', '2025-08-28 00:02:20', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(384, 1, 1, '2025-08-28 00:02:20', '2025-08-28 00:02:20', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(385, 1, 1, '2025-08-28 00:02:20', '2025-08-28 00:02:20', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(386, 1, 1, '2025-08-28 00:02:30', '2025-08-28 00:02:30', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(387, 1, 1, '2025-08-28 00:02:30', '2025-08-28 00:02:30', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(388, 1, 1, '2025-08-28 00:02:30', '2025-08-28 00:02:30', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(389, 1, 1, '2025-08-28 00:02:37', '2025-08-28 00:02:37', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(390, 1, 1, '2025-08-28 00:02:37', '2025-08-28 00:02:37', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(391, 1, 1, '2025-08-28 00:02:37', '2025-08-28 00:02:37', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(392, 1, 1, '2025-08-28 00:02:44', '2025-08-28 00:02:44', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(393, 1, 1, '2025-08-28 00:02:44', '2025-08-28 00:02:44', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(394, 1, 1, '2025-08-28 00:02:44', '2025-08-28 00:02:44', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(395, 1, 1, '2025-08-28 00:03:10', '2025-08-28 00:03:10', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(396, 1, 1, '2025-08-28 00:03:10', '2025-08-28 00:03:10', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(397, 1, 1, '2025-08-28 00:03:10', '2025-08-28 00:03:10', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(398, 1, 1, '2025-08-28 00:04:41', '2025-08-28 00:04:41', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(399, 1, 1, '2025-08-28 00:04:41', '2025-08-28 00:04:41', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(400, 1, 1, '2025-08-28 00:04:41', '2025-08-28 00:04:41', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(401, 1, 1, '2025-08-28 00:04:47', '2025-08-28 00:04:47', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(402, 1, 1, '2025-08-28 00:04:47', '2025-08-28 00:04:47', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(403, 1, 1, '2025-08-28 00:04:47', '2025-08-28 00:04:47', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(404, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(405, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(406, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(407, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(408, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(409, 1, 1, '2025-08-28 00:04:50', '2025-08-28 00:04:50', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(410, 1, 1, '2025-08-28 00:09:16', '2025-08-28 00:09:16', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Atlis Meeting - Dave + Sean\"}'),
+(411, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Atlis Meeting - Dave + Sean\"}'),
+(412, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(413, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(414, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ashlin\"}'),
+(415, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(416, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"JOSEPH, WHERE DO YOU RECOMMEND WE START ?\"}'),
+(417, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_questions', 3, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(418, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(419, 1, 1, '2025-08-28 00:12:53', '2025-08-28 00:12:53', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(420, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Atlis Meeting - Dave + Sean\"}'),
+(421, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_agenda', 4, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(422, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_agenda', 5, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(423, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_agenda', 6, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ashlin\"}'),
+(424, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_questions', 4, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(425, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_questions', 5, 'CREATE', 'Added question', '', '{\"question\":\"JOSEPH, WHERE DO YOU RECOMMEND WE START ?\"}'),
+(426, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_questions', 6, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(427, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"user_id\":1}'),
+(428, 1, 1, '2025-08-28 00:16:49', '2025-08-28 00:16:49', NULL, 'module_meeting_attendees', 4, 'CREATE', 'Added attendee', '', '{\"user_id\":2}'),
+(429, 1, 1, '2025-08-28 00:17:30', '2025-08-28 00:17:30', NULL, 'module_meeting_agenda', 4, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(430, 1, 1, '2025-08-28 00:17:30', '2025-08-28 00:17:30', NULL, 'module_meeting_agenda', 6, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(431, 1, 1, '2025-08-28 00:17:30', '2025-08-28 00:17:30', NULL, 'module_meeting_agenda', 5, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(432, 1, 1, '2025-08-28 00:17:46', '2025-08-28 00:17:46', NULL, 'module_meeting_agenda', 6, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Ashlin\"}'),
+(433, 1, 1, '2025-08-28 00:17:46', '2025-08-28 00:17:46', NULL, 'module_meeting_agenda', 5, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Dave\"}'),
+(434, 1, 1, '2025-08-28 00:17:46', '2025-08-28 00:17:46', NULL, 'module_meeting_agenda', 4, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"Emry\"}'),
+(435, 1, 1, '2025-08-28 00:40:53', '2025-08-28 00:40:53', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"Atlis Meeting - Dave + Sean\"}'),
+(436, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Atlis Meeting - Dave + Sean\"}'),
+(437, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(438, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(439, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ashlin\"}'),
+(440, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(441, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(442, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_questions', 3, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(443, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"ATLIS_INVOICE_134 ---- ERROR.pdf\"}');
 
 -- --------------------------------------------------------
 
@@ -467,6 +575,40 @@ CREATE TABLE `admin_finances_invoices` (
   `total_amount` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admin_finances_invoices`
+--
+
+INSERT INTO `admin_finances_invoices` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `corporate_id`, `invoice_number`, `status_id`, `bill_to`, `invoice_date`, `due_date`, `total_amount`) VALUES
+(34, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #1 - Last two weeks of October 2024', NULL, NULL, NULL, NULL, 2062.50),
+(35, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #2 -  First two weeks of November 2024', NULL, NULL, NULL, NULL, 2662.50),
+(36, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #3 - Last two weeks of November 2024', NULL, NULL, NULL, NULL, 2887.50),
+(37, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #4 - First two weeks of December 2024', NULL, NULL, NULL, NULL, 2490.00),
+(38, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #5 - Last two weeks of December 2024', NULL, NULL, NULL, NULL, 375.00),
+(39, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #6 - First two weeks of January 2025', NULL, NULL, NULL, NULL, 2437.50),
+(40, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 10, 'First half of January 2025', NULL, NULL, NULL, NULL, 423.00),
+(41, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 11, '1st TEMPLATE', NULL, NULL, NULL, NULL, 0.00),
+(42, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #7 - Last two weeks of January 2025', NULL, NULL, NULL, NULL, 3499.50),
+(43, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 10, 'Last half of January 2025', NULL, NULL, NULL, NULL, 486.00),
+(44, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 10, 'First half of February 2025', NULL, NULL, NULL, NULL, 288.00),
+(45, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #8 - First two weeks of February 2025', NULL, NULL, NULL, NULL, 2925.00),
+(46, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #9 - Last two weeks of February 2025', NULL, NULL, NULL, NULL, 6000.00),
+(47, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 10, 'Last half of February 2025', NULL, NULL, NULL, NULL, 517.50),
+(48, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County Invoice #10 - First two weeks of March 2025', NULL, NULL, NULL, NULL, 5850.00),
+(49, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 10, 'First half of March 2025', NULL, NULL, NULL, NULL, 427.50),
+(50, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #11 - Last two weeks of March 2025', NULL, NULL, NULL, NULL, 5475.00),
+(51, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #12 - First two weeks of April 2025', NULL, NULL, NULL, NULL, 6000.00),
+(52, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #13 - April 14th to April 25th', NULL, NULL, NULL, NULL, 5700.00),
+(53, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #14 - April 28th to May 9th', NULL, NULL, NULL, NULL, 6000.00),
+(54, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #15 - May 12th to May 23rd', NULL, NULL, NULL, NULL, 6000.00),
+(55, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #16 - May 26th to June 6th', NULL, NULL, NULL, NULL, 5625.00),
+(56, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #158 - June 9th to June 20th', NULL, NULL, NULL, NULL, 6000.00),
+(57, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #159 - June 23rd to July 4th', NULL, NULL, NULL, NULL, 5400.00),
+(58, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #160 - July 7th to July 18th', NULL, NULL, NULL, NULL, 5400.00),
+(59, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #162 - July 21st to Aug 1', NULL, NULL, NULL, NULL, 5400.00),
+(60, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #163 - Aug 4th to Aug 15th', NULL, NULL, NULL, NULL, 5700.00),
+(61, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 1, 'Lake County eCourt Invoice #164 - Aug 18th to Aug 29th', NULL, NULL, NULL, NULL, 4200.00);
+
 -- --------------------------------------------------------
 
 --
@@ -487,6 +629,40 @@ CREATE TABLE `admin_finances_invoice_items` (
   `amount` decimal(10,2) DEFAULT NULL,
   `time_entry_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_finances_invoice_items`
+--
+
+INSERT INTO `admin_finances_invoice_items` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `invoice_id`, `description`, `quantity`, `rate`, `amount`, `time_entry_id`) VALUES
+(32, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 34, '13.75 Hours worked in first two weeks of November 2024', 13.75, 150.00, 2062.50, NULL),
+(33, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 35, '17.75 Hours worked in last two weeks of November 2024', 17.75, 150.00, 2662.50, NULL),
+(34, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 36, 'This project continued to grow as RJ and I dove into the database.\r\nThe initial excel file LC provided me, that I created a data map from, was only half of what really needed to be exported from the database. There were MANY non-Case entities that were no', 19.25, 150.00, 2887.50, NULL),
+(35, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 37, '4th invoice to Lake County.\r\nATLIS Invoice #140.', 16.60, 150.00, 2490.00, NULL),
+(36, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 38, '', 2.50, 150.00, 375.00, NULL),
+(37, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 39, 'JANUARY 2025 INVOICE #6\r\nInvoice #143', 16.25, 150.00, 2437.50, NULL),
+(38, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 40, '$423 for rate\r\n$20 for formula that Ashlin bought\r\n\r\nPaige paid via AFCU transfer on 1/16/25 at 3:00pm', 47.00, 9.00, 423.00, NULL),
+(39, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 41, 'Need a contract...', 0.00, 0.00, 0.00, NULL),
+(40, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 42, '', 23.33, 150.00, 3499.50, NULL),
+(41, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 43, 'Last half of January 2025', 54.00, 9.00, 486.00, NULL),
+(42, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 44, 'We will be gone Feb 3rd - Feb 6th at Disneyland.', 32.00, 9.00, 288.00, NULL),
+(43, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 45, 'Recreated this one on 2/2/25', 19.50, 150.00, 2925.00, NULL),
+(44, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 46, 'First invoice working almost 20 hours per week !', 40.00, 150.00, 6000.00, NULL),
+(45, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 47, '', 57.50, 9.00, 517.50, NULL),
+(46, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 48, 'First Week: March 3rd - 7th\r\nSecond Week:  March 10th - 14th', 39.00, 150.00, 5850.00, NULL),
+(47, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 49, '', 47.50, 9.00, 427.50, NULL),
+(48, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 50, '', 36.50, 150.00, 5475.00, NULL),
+(49, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 51, 'March 31st to April 11th, 2025', 40.00, 150.00, 6000.00, NULL),
+(50, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 52, '', 38.00, 150.00, 5700.00, NULL),
+(51, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 53, 'April 28th - May 9th', 40.00, 150.00, 6000.00, NULL),
+(52, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 54, '', 40.00, 150.00, 6000.00, NULL),
+(53, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 55, 'May 26th was Memorial Day - Did not work.', 37.50, 150.00, 5625.00, NULL),
+(54, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 56, 'Invoice #158', 40.00, 150.00, 6000.00, NULL),
+(55, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 57, 'Invoice #159 - Will include a holiday.  NEW INVOICE STYLE.', 36.00, 150.00, 5400.00, NULL),
+(56, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 58, 'Invoice #160', 36.00, 150.00, 5400.00, NULL),
+(57, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 59, 'Invoice #162', 36.00, 150.00, 5400.00, NULL),
+(58, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 60, '', 38.00, 150.00, 5700.00, NULL),
+(59, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', NULL, 61, '', 28.00, 150.00, 4200.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -1277,6 +1453,238 @@ CREATE TABLE `admin_time_tracking_entries` (
   `invoice_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admin_time_tracking_entries`
+--
+
+INSERT INTO `admin_time_tracking_entries` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `corporate_id`, `person_id`, `work_date`, `hours`, `rate`, `invoice_id`) VALUES
+(2, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Kick off meeting with the team. ', 1, 1, '2024-10-16', 0.75, 150.00, 34),
+(3, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I worked on RJ\'s Excel worksheet, or data map, inputting core data points I knew from eDefender.', 1, 1, '2024-10-22', 4.25, 150.00, 34),
+(4, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with team and few others. Keith shared his screen while in eDefender Aux and we worked through the excel sheet of required data points for this project. We completed 2 out of the 3 columns of required data points from RJ\'s Excel worksheet.', 1, 1, '2024-10-23', 4.25, 150.00, 34),
+(5, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continue working on the data map filling out the columns for eDefender metadata and the structure of the SQL database.', 1, 1, '2024-10-25', 2.00, 150.00, 34),
+(6, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Data Map work round 2! We\'ve completed 90% of the required data points from the data map RJ provided. I need to complete the SQL table/column parts and the \"File Cabinet\" panel.', 1, 1, '2024-10-29', 2.50, 150.00, 34),
+(7, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on the data map --> The File Cabinet', 1, 1, '2024-11-02', 2.00, 150.00, 35),
+(8, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Finished the data map and emailed team updates.', 1, 1, '2024-11-04', 1.50, 150.00, 35),
+(9, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ. Finished SQL pseudo code and started creating actual queries in PHP script.', 1, 1, '2024-11-13', 3.25, 150.00, 35),
+(10, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'SQL pseudo code.\r\nRJ wrote to Jeff asking if we could use MySQL. Jeff said no, he prefers Excel.\r\nNo problem.', 1, 1, '2024-11-08', 3.00, 150.00, 35),
+(11, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Created PHP script to export data to excel.', 1, 1, '2024-11-14', 4.00, 150.00, 35),
+(12, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '- Zoom call with RJ.\r\n- Installed XAMP & SQLSRV drivers on RJ\'s laptop\r\n- Worked on PHP Script: completed tCase and tCaseAssignment', 1, 1, '2024-11-15', 4.00, 150.00, 35),
+(13, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Created Agenda for Nov 21st meeting. Created a list of all the Searches and Entities we need to build and export to Excel.', 1, 1, '2024-11-20', 3.50, 150.00, 36),
+(14, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with RJ and worked in excel for 30 minutes before meeting with GAL team at 9am MST.\r\nMeeting with GAL team. I controlled Keith\'s mouse and we created Searches/Reports for each table that has GAL Case data. We ended with 26 excel exports.\r\n\r\nTODO: get a copy of the Searches and add in the foreign key id for any Search where the root entity (well, sub-root, all started on Case) has collections.', 1, 1, '2024-11-21', 4.00, 150.00, 36),
+(15, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with RJ create queries and exporting remaining tables from SSMS.', 1, 1, '2024-11-21', 1.75, 150.00, 36),
+(16, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued exporting GAL data via SSMS. Exported tables: all of Directory and all of LookupLists.\r\nTomorrow I will finish the few remaining and Iteration One will be complete.', 1, 1, '2024-11-21', 3.00, 150.00, 36),
+(17, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Exported the remaining tables in SQL Server to RJ\'s laptop. Iteration One completed. Keith is reviewing the data.', 1, 1, '2024-11-22', 2.00, 150.00, 36),
+(18, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with team. I controlled Keith\'s mouse as we reviewed the data exported from the Reports. We learned we need to create filters/criteria on most Reports to only get GAL data. We created filters for each report, saved in a Sheets document in my Google Drive. \r\nI also exported all of the Searches from eDefender and emailed them to myself so I can work on them locally. My action item is to add the filters to each of the Reports. Upon completion, we plan to meet next Monday, December 2nd, at 1pm CST / Noon MDT.', 1, 1, '2024-11-27', 3.00, 150.00, 36),
+(19, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Final config items for GAL Case searches before full export.', 1, 1, '2024-11-30', 2.00, 150.00, 36),
+(20, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with GAL team on Zoom. Imported searches. Data analysis. Exported 50 rows from each and shared with RJ to provide to Jeff.', 1, 1, '2024-12-02', 4.00, 150.00, 37),
+(21, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'First meeting with Jeff. Built 75% of the ERD after the meeting. Emailed RJ to get the excel sheets for the non-tCase tables. (Lookuplist, Directory, DocDef, and Statute) -- will finish ERD when I receive those excel sheets from RJ.', 1, 1, '2024-12-06', 4.25, 150.00, 37),
+(22, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Created an ERD for Jeff as he requested.', 1, 1, '2024-12-08', 2.50, 150.00, 37),
+(23, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with GAL team and did final touches to Searches and Exported all tables to excel. Had a timeout issue with 5 tables I built in eDefender, so I had to build the queries in SQL.\r\nI built queries and exported the remaining tables with RJ after the Zoom meeting with entire GAL team. In total, there are 39 excel sheets, all separate tables with data. I also made minor modifications to the ERD. At the end of the day, RJ and I put all files in the same folder, zipped it up, and uploaded it to Jeff\'s dropbox.', 1, 1, '2024-12-10', 5.85, 150.00, 37),
+(24, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ, Kasper, and Jamie. Reviewed issues in the eCourt Porta, eCourt, and GAL Case process. We discussed many different things. I am going to type up a detailed email with development propositions and options.', 1, 1, '2024-12-20', 2.50, 150.00, 38),
+(25, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Jeff and GAL team on Zoom. Found some discrepancies in the data dump. Need to include additional case.category and remove two other filters. Need to export every table again that isn\'t the entire table. Worked with RJ after the Zoom meeting to rebuild SQL queries to get all required data. Also chatted with eCourt team about needed config within eCourt and it\'s portal.', 1, 1, '2025-01-03', 5.50, 150.00, 39),
+(26, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued exporting GAL data via SQL Server.', 1, 1, '2025-01-04', 1.00, 150.00, 39),
+(27, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom session disconnected. Texted RJ and he reconnected us and I continued exporting GAL data via SQL Server.', 1, 1, '2025-01-05', 1.00, 150.00, 39),
+(28, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Completed the remaining data exports to Excel via SQL Server SSMS. Emailed/texted Winnie and RJ where the zip file is located containing all of the excel sheets.', 1, 1, '2025-01-05', 4.50, 150.00, 39),
+(29, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'First Day!', 10, 1, '2025-01-06', 7.00, 9.00, 40),
+(30, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Re-exported the tCase table and added CourtCaseNumber column as requested by Jeff.', 1, 1, '2025-01-06', 0.50, 150.00, 39),
+(31, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Day 2', 10, 1, '2025-01-07', 8.00, 9.00, 40),
+(32, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with RJ and Kasper about eCourt portal config.', 1, 1, '2025-01-09', 2.75, 150.00, 39),
+(33, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom meeting with Jeff and RJ reviewing the data that Jeff has.', 1, 1, '2025-01-10', 1.00, 150.00, 39),
+(34, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Ashlin dopped Eli off at Paige\'s house.', 10, 1, '2025-01-13', 7.50, 9.00, 40),
+(35, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-14', 8.50, 9.00, 40),
+(36, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-15', 8.00, 9.00, 40),
+(37, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Quick 30 minute meeting. About 12 people on the call, including Cameron. Sounds like they\'re in need of several different pieces of software: CRM, SalesCenter, replacement for FranConnect, etc.  They chatted a bit, and concluded with some solutions. They\'re currently paying $10k/mo for FranConnect and they want me to develop something to replace it.', 11, 1, '2025-01-15', 0.50, NULL, 41),
+(38, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '*paige running late morning on drop off*', 10, 1, '2025-01-16', 8.00, 9.00, 40),
+(39, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ and Kasper.', 1, 1, '2025-01-17', 2.25, 150.00, 42),
+(40, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Service Depot was down. Joe said the AWS EC2 was down, so he restarted it, and it came back online. I tried logging in, but got an SMTP authentication error. Joe said we needed to create an \"App Password\" on the noreply@worriedbird.com email. I did that, and provided Joe the password.  I can now successfully login the backend of the SD.\r\nI also emailed Kevin and Greg at Phoenix asking who should be my main contact to share info about the SD to. Also who to discuss the details of the software proposal with.', 11, 1, '2025-01-20', 1.50, NULL, 41),
+(41, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-21', 8.00, 9.00, 43),
+(42, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Emergency meeting with RJ to fix issues in eCourt Portal', 1, 1, '2025-01-21', 1.33, 150.00, 42),
+(43, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-22', 8.50, 9.00, 43),
+(44, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ and Kasper to fix issues in eCourt and Portal.', 1, 1, '2025-01-24', 3.50, 150.00, 42),
+(45, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-23', 8.50, 9.00, 43),
+(46, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-27', 5.50, 9.00, 43),
+(47, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Working in eCourt and Portal with RJ and Kasper. Created GAL role in AUX Portal and granted that role permissions, menu links, and view access as needed.', 1, 1, '2025-01-27', 2.00, 150.00, 42),
+(48, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom meeting with RJ in eCourt', 1, 1, '2025-01-28', 3.00, 150.00, 42),
+(49, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-29', 7.75, 9.00, 43),
+(50, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'eCourt Portal issues with RJ and Kasper via Zoom.', 1, 1, '2025-01-29', 2.75, 150.00, 42),
+(51, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Quick look into Portal authorities in AUX. Connected via Zoom with RJ.', 1, 1, '2025-01-30', 1.50, 150.00, 42),
+(52, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-30', 8.00, 9.00, 43),
+(53, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Round 2 today. Worked with RJ and Kasper on eCourt Portal Roles. Kasper and I did a deep dive into the inception of functions within functions to pin point exactly where GAL users are being denied access to JA/JD/AD cases.  We found a solution and fixed it in AUX. We plan to fix it in Prod tomorrow.', 1, 1, '2025-01-30', 2.50, 150.00, 42),
+(54, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ and Kasper. We spent more time combing through the authorities and permissions in eCourt and the Portal.  We created and scripted new conditions to allow GAL users to view JD/JA/AD cases. Also to allow GAL\'s to view parties which have a partyType of \"minor\" which conversely blocked all other roles. We got everything done in AUX and 1/2 of it done in Prod.  The only component that Prod is missing, is GAL\'s ability to view \"minor\" parties. Kasper said he\'s going to do that Monday. I will be offline Mon-Thu but will be available by phone, if needed.', 1, 1, '2025-01-31', 4.50, 150.00, 42),
+(55, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-01-28', 7.75, NULL, 43),
+(56, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'ALL JUVENILE CASES ARE ALL SEALED\r\n- Jamie Schunemen 2/7/25 @ 1:47pm\r\n\r\n\r\nPortal User CASE Authority\r\n	This is where we determine the Role of the Portal User that is logged in. (their portal permissions are inherited from their Role)\r\n	This is where the permissions of viewing a SEALED CASE is allowed or denied.\r\n\r\n\r\nPortal User DOCUMENT Authority\r\n	This is where the permissions of viewing a SEALED DOCUMENT is allowed or denied.\r\n\r\n\r\nCan Probation Officers \r\n	- view MH cases?\r\n	ANSWER: No? ( not super confident... )\r\n\r\n	- view MH documents?\r\n	ANSWER: \r\n\r\n	- view that it was just filed????\r\n	(could do Velocity code to show that)', 1, 1, '2025-02-07', 2.25, 150.00, 45),
+(57, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'PROBATION OFFICER ROLE and permissions in the Portal.\r\nScripted a condition to allow access to SRI document types', 1, 1, '2025-02-10', 2.00, 150.00, 45),
+(58, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Code Review for Kasper.', 1, 1, '2025-02-10', 1.00, 150.00, 45),
+(59, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-10', 6.50, 9.00, 44),
+(60, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-11', 7.50, 9.00, 44),
+(61, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-12', 9.50, 9.00, 44),
+(62, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-02-11', 3.00, 150.00, 45),
+(63, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-13', 8.50, 9.00, 44),
+(64, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with RJ and Kasper on Probation Officer and GAL permissions in the Portal. We\'ve completed scripting the conditions to give those roles permissions for sealed Cases and Documents. We\'ve started doing some integrity checked and making sure permissions are all set correctly.', 1, 1, '2025-02-13', 2.00, 150.00, 45),
+(65, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'RJ stayed logged in Zoom and allowed me to continue working. I built some SQL queries and two  searches in eCourt to do integrity checks on sealed Cases and Documents. They will be very useful to check permissions per case type / seal type / user roles. I\'ll demo them to RJ and Kasper tomorrow.', 1, 1, '2025-02-13', 3.50, 150.00, 45),
+(66, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with RJ and Kasper doing code review and verifying the integrity of our condition script for Probation Officers in the Portal as to what type of sealed cases and sealed documents they can view. We were ready to move the config from AUX to Prod, but RJ said it\'s not on hold so some people can meet and make decisions. Encountered a few issues and questions that RJ is working on resolving and answering. We did decide to go ahead with utilizing a Task Manager system that I will develop that will be hosted (somewhere) at Lake. We also discussed installing a local environment of eCourt that us 3 can work in without worry of \"stepping on others toes\". Especially JTI.', 1, 1, '2025-02-14', 3.75, 150.00, 45),
+(67, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Started developing and customizing our Task/Issue/Enhancement Tracker website.', 1, 1, '2025-02-14', 2.00, 150.00, 45),
+(68, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued developing and setting up our Task/Issue/Enhancement Tracker app. XAMPP running Apache, PHP, and MySQL. Pseudo coding the database structure; trying to keep things simple but normalized.', 1, 1, '2025-02-17', 4.00, 150.00, 46),
+(69, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Created project fold for the web app and built the basic PHP files, installed Bootstrap 5 CSS Framework, DropZone.js, etc.', 1, 1, '2025-02-18', 2.00, 150.00, 46),
+(70, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with RJ and Kasper. Created a new Portal role called \"Probation Officer - Basic\". RJ brought Dr. Winton on the call and we asked questions about permissions to view certain sealed documents. Found a couple of user data entry issues where some sealed documents (evaluations) are using different DocDefs.', 1, 1, '2025-02-18', 2.00, 150.00, 46),
+(71, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ and Kasper. Created GAL specific Folder Views and \"Add Document\" screens for the GAL role in the Portal. Discussed future plans and roadblocks with the Probation Officer role(s) in the Portal as well. Continued working on the eCourt Tracker website. Got a simple home index.php page running and lightly setup.\r\nI also created the GAL Case Summary Screen node (438) in Prod Portal and created all the tabs for events, documents, etc.  Jamie will test it tomorrow.', 1, 1, '2025-02-19', 4.00, 150.00, 46),
+(72, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Developed more of the eCourt Tracker website. My goal is to get a simple MVP with basic features that we can start using asap. We really need a centralized place for notes, issues, enhancements, etc.', 1, 1, '2025-02-20', 2.00, 150.00, 46),
+(73, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ and Kasper. We spent the 1st hour discussing some issues that others are having in the eCourt AUX system. There are too many hands in this system and we\'re inevitably clashing as we\'re apparently working on the same scripts. We have always backed up, made copies, and done everything as safe as possible. We need our own eCourt app to develop and test in.\r\nSpent some time looking into the eCourt Production database and learned some interesting things. I emailed Winnie and the team those details (and concerns)\r\nFinally, I typed up a few detailed emails about project updates, team needs, and concerns.', 1, 1, '2025-02-20', 4.00, 150.00, 46),
+(74, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-18', 9.00, 9.00, 47),
+(75, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-19', 8.25, 9.00, 47),
+(76, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-20', 8.25, 9.00, 47),
+(77, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-24', 8.25, 9.00, 47),
+(78, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom call with RJ. I worked in SQL Server and finished configuring the GAL screens in the Portal so they can submit/file documents in the eCourt Portal.', 1, 1, '2025-02-21', 2.00, 150.00, 46),
+(79, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Called RJ in the morning and he said we\'re still on a code freeze so we can\'t work on the Probation Officer authorities/permissions. I continued working on our eCourt Tracker web app. I got most of the frontend done.', 1, 1, '2025-02-24', 4.00, 150.00, 46),
+(80, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'RJ called me at ~2:30pm and said he\'s at the Courthouse so we won\'t meet together today. I continued working on the eCourt Tracking web app. I completed the rest of the frontend and began creating the MySQL/MariaDB database.', 1, 1, '2025-02-25', 2.00, 150.00, 46),
+(81, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Reviewed an email from RJ & Winnie about an enhancement request from some users to add an icon/flag/status so a judge and/or court clerk could easily see if the case/defendant has been granted a \'Fee Waiver\'. After reviewing and responding I can do it and work on it this afternoon with RJ, I continued architecting the database for our eCourt Tracker web app.', 1, 1, '2025-02-26', 2.00, 150.00, 46),
+(82, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Created 3 potential solutions for Mike Nerheim, the enhancement requestor for the flag/status in the case header for a judge or clerk to quickly find if the case/defendant has a \'Fee Waiver\' granted. Solutions created in eCourt AUX, under the supervision of RJ. I emailed Winnie and RJ screenshots of the solutions I created. Ready to demo to Mike or answer any questions.', 1, 1, '2025-02-26', 4.00, 150.00, 46),
+(83, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-25', 8.50, 9.00, 47),
+(84, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-26', 7.00, 9.00, 47),
+(85, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-02-27', 8.25, 9.00, 47),
+(86, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'RJ coordinated a meeting with Winnie and Kasper so I could demo the \"Fee Waiver\" icon/button/widget in the Case Header. (A judge was in Winnie\'s office and approved as well)\r\nEverybody like what I built. Winnie asked me to configure it for FAMILY cases (case type = 211110) - I didn\'t realize Family cases have a \"Respondent\" instead of a \"Defendant\" so I had to change some code a bit but eventually got it to work. Emailed Winnie and team an update.', 1, 1, '2025-02-27', 2.50, 150.00, 46),
+(87, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Winnie informed the court clerk and others about the Fee Waiver icon/modal in the case header. They provided some feedback. Meeting with RJ on Zoom to make the requested adjustments, test, then plan move to move all of the config to Prod.', 1, 1, '2025-02-28', 3.00, 150.00, 46),
+(88, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Followed up with RJ\'s email to clarify the config we did today was in AUX, not PROD.\r\nExported the FEE WAIVER forms and lookup lists and continued working on the FEE WAIVER enhancement request, making the pop-up modal have a better UI/UX.\r\nAlso investigated the issue on the \"View Fee Waivers\" screen in the FINANCIALS drop down. (this issue persists on AUX and PROD).', 1, 1, '2025-02-28', 2.50, 150.00, 46),
+(89, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-03', 7.00, 9.00, 49),
+(90, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on the eCourt Enhancement & Issue Tracker. Got a lot more of the database built and backend configured. I\'ve started using it minimally locally. I\'ll be ready to deploy this week if a host server is ready.\r\nZoom call with RJ and Kasper. I show the other examples of the Fee Waiver enhancement. We decided on one and moved the config to Production. Emailed Winnie and team that it\'s been completed.', 1, 1, '2025-03-03', 4.00, 150.00, 48),
+(91, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Completed backend for eCourt Enhancement & Issue Tracker. Demo\'d it to RJ and Kasper on our Zoom call today. \r\nEmail from Winnie about an issue in the Portal where a Private Attorney had \"Search GAL Cases\" in their Search Case dropdown. I fixed that issue and replied with details.\r\nCollaborated with RJ and Kasper about adding the Fee Waiver header icon to Bench View as well.', 1, 1, '2025-03-04', 4.00, 150.00, 48),
+(92, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Updated eCourt Tracker with previously worked on enhancements, issues, and notes.\r\nReceived an email from Winnie about the Fee Waiver widget not displaying names correctly. I quickly fixed the code and sent it to Kasper, who updated it in PROD. Working correctly now.', 1, 1, '2025-03-05', 0.75, 150.00, 48),
+(93, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued developing the Fee Waiver widget for the Bench View for Judges within eCourt.\r\nZoom call with RJ and Kasper. Reviewed and learned how eCourt E2E/Data Shepard works; specifically how eCourt receives and seals Documents from Lake eDefender and what the Court Clerk\'s manual work process is.  I provided insights, expertise, and things to consider to the team.', 1, 1, '2025-03-05', 3.25, 150.00, 48),
+(94, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with RJ to get the Fee Waiver widget in the header of a Judge\'s \"BENCH VIEW\" from the Case Header. Developed and implemented it in AUX. (working on the UI was a bit difficult, but we got it to look good!) And updated eCourt PROD with the code.', 1, 1, '2025-03-06', 4.00, 150.00, 48),
+(95, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Reviewed Kasper\'s email/screenshots and code (what I could) as he implemented the \"Fee Waiver\" enhancement to CIVIL cases (later included Probate & Guardianship case categories) and Judge\'s \"Bench View\". I also researched and tested some database stuff within eCourt and began drafting a proposal to get a copy of the eCourt config tables from the database for a local environment. \r\nFurther development to the Lake County eCourt Enhancement Tracker.', 1, 1, '2025-03-07', 3.00, 150.00, 48),
+(96, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Recorded historical notes to enhancements and issues that RJ has brought up in the Lake County eCourt Tracker. (sounds like some big enhancements are incoming, especially for viewing E2E sealed documents). Met with RJ and Kasper and we work that Kasper did on Friday with the Fee Waiver enhancement, Workflow processes, spent awhile on an assignment Kasper has to add a quick Zoom link for Judge\'s to review Search Warrant cases, and stamping tool.', 1, 1, '2025-03-10', 4.00, 150.00, 48),
+(97, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-04', 8.00, 9.00, 49),
+(98, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-05', 7.50, 9.00, 49),
+(99, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-06', 8.00, 9.00, 49),
+(100, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-10', 8.00, 9.00, 49),
+(101, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 10, 1, '2025-03-11', 9.00, 9.00, 49),
+(102, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'ZOOM LINK:\r\nconcluded that the judges will share a Zoom shared room.\r\n\r\nLonnie (SA) is on board to test after\r\n(SA) is on board to test after\r\n\r\nCONTACT AT THE STATE\'S ATTORNEYS OFFICE\r\nLRenda@lakecounty.gov', 1, 1, '2025-03-11', 4.00, 150.00, 48),
+(103, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with just Kasper and I. We reviewed the Zoom link plan for Judge\'s to review Search Warrant cases. We also brainstormed some ideas for the eCourt Clerk\'s ability to send Sealed Documents to a \'hopper\' email for ePros and eDef. I then spend some time developing simple demos for those and will show them to RJ tomorrow.', 1, 1, '2025-03-12', 4.00, 150.00, 48),
+(104, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Developed separate demos in my local eCourt environment, for the eCourt Clerk\'s ability to send sealed documents to eDefender and eProsecutor emails. Built a new icon in the case header to run a widget that allows users to select which sealed documents on a case to send. Demod to RJ on our call today and emailed screenshot to Winnie.', 1, 1, '2025-03-13', 2.00, 150.00, 48),
+(105, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with Davey Rivers to gather specs, scope, and requirements for the Judge Mass Reassignment task. Emailed Winnie my notes and confidence that I can build something that is much more simple, efficient, and will require significant less manual work.', 1, 1, '2025-03-13', 2.00, 150.00, 48),
+(106, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I didn\'t hear from RJ at all, but I met with Kasper. We reviewed our current workload of tasks. I took some notes and recorded them on each Enhancement/Task/Issue in the eCourt Tracker app. We spent most of our time going through eCourt Prod and exporting configuration files. I was able to get most things I needed besides: navigations/menus, Workflows, Time Standards, and the Directory. Those are quite crucial to allowing me to work. I also logged in my dwilkins@lakecountyil.gov email address, but was unable to connect with Beyond Identity nor access eCourt through Office365. We\'ll review next week!', 1, 1, '2025-03-14', 4.00, 150.00, 48),
+(107, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on setting up and configuring local eCourt. Received the Menu/Navigation export from Kasper. Configuring metadata/entities and database structure. Updated notes and comments in eCourt Tracker for tasks.', 1, 1, '2025-03-17', 3.00, 150.00, 50),
+(108, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with team. Demo\'d Court Sending Sealed Documents via Icon in the case header. Investigated issue with generated doc is cutoff in Microsoft Edge. \r\nI learned my emails are not being received by some @lakecountyil.gov email\'s (Winnie\'s included) so I re-emailed Judge Mass Reassignment documentation and also the Court Sending Sealed Documents enhancement documentation.', 1, 1, '2025-03-18', 4.00, 150.00, 50),
+(109, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom meeting with team. Worked with Kasper and we created a new datetime stamp for Judge\'s so they can stamp current time on documents with the date. We looked at some reports, biz rules, and configuration for how the Dockets/Court Calls are specific and sent via ICCIC and AWS.\r\nLooked into a potential eCourt Issue from Searches/Reports taking too long to run.\r\nLooked into another potential eCourt Issue where the CSFR Protection is disabled.', 1, 1, '2025-03-19', 4.00, 150.00, 50),
+(110, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'No meeting with RJ and Kasper. I talked to Leah about the \'Sending Sealed Documents\' to ePros and eDefender a bit. I emailed Keith at Public Defender to chat about it from the eDefender side. Continued working on the \'Interpreter Needed\' enhancement as well. Continued building my local eCourt environment; several more things I need setup before I can work on Davey Rivers \'Mass Judge Reassignment\' enhancement.', 1, 1, '2025-03-20', 3.00, 150.00, 50),
+(111, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked in \'Interpreter Needed\' Enhancement for Leah. Created several different options in my local eCourt to show the team next week. Emailed a few questions to Leah about how it should work. especially due to how JTI configured it.', 1, 1, '2025-03-21', 2.50, 150.00, 50),
+(112, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Final touch ups for demo of \'Interpreter Needed\' Enhancement to Leah and team. Met with team and demo\'d to Leah. Few questions answered and further clarifications from Leah. Will copy the workflow so Clerk\'s get second task if multiple languages are entered.\r\nWorked with Kasper and another person about Daily Docket reports and users that are emailed.', 1, 1, '2025-03-24', 4.00, 150.00, 50),
+(113, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Connected successfully to eCourt Prod through Office365. Downloaded some other admin config files I need for my local environment to work more efficiently. Taking a bit longer to get my local eCourt app setup, but safer way so no case/person/sensitive data is transferred.', 1, 1, '2025-03-25', 2.00, 150.00, 50),
+(114, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Zoom meeting with RJ, Kasper, and Milton. We worked primarily on figuring out the way case data is passed to the AdGator screens in the courthouses as apparently they\'re showing incorrect data. We\'re trying to build Searches/Reports in eCourt to compare against, but not getting the best insight. Kasper has some questions he\'ll email to Leah.', 1, 1, '2025-03-25', 2.00, 150.00, 50),
+(115, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on setting up my local eCourt environment. Looked at some various DocDef\'s and PDF templates that users are having issues with text fields truncating input data.\r\nZoom meeting with RJ, Kasper, and Milton. Reviewed AdGators / Daily Court Docket issue. Leah joined us as well and answered a few questions. Kasper emailed Tracy Medina @ JTI to hopefully get some questions answered. I showed the team how to run Reports, save them, and schedule them.', 1, 1, '2025-03-26', 4.00, 150.00, 50),
+(116, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with Kasper and Milton reviewing the AdGator and DailyDocket reports that are sent daily to many email addresses and an AWS S3 bucket that the Court\'s TVs displays case data per courtroom. There are several issues and inconsistencies we\'re looking into. Tracy Medina responded to Kasper\'s email we sent yesterday and didn\'t provide any help.\r\nSpent more time in my local eCourt reviewing the biz rules that compile the data and send it to AWS. Also Reviewed the /Reports and how to schedule them.', 1, 1, '2025-03-27', 4.00, 150.00, 50),
+(117, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Downloaded and acquired installation files for eCourt so we can work on it during out meeting.\r\nZoom call with Kasper and Milton. Spent most of the meeting setting up and installing software required for an eCourt Test environment on a server Kasper received access to.\r\nSpent more time working on my local eCourt configuration and Reports issue from yesterday.', 1, 1, '2025-03-28', 4.00, 150.00, 50),
+(118, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Config in my local eCourt. Meeting with Kasper and RJ setting up eCourt Test app. Got the baseline up and running (blank database) -- need to use config management tool or export --> import from eCourt PROD to get the actual config.  Also requested for server node increase... RAM/CPU particularly. ', 1, 1, '2025-03-31', 4.00, 150.00, 51),
+(119, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Received urgent email from RJ to investigate why Civil (and other) EVENT Summary Screens are broken. Learned that David Jackson, from JTI, made some changes to several Events FVs.', 1, 1, '2025-04-01', 0.50, 150.00, 51),
+(120, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with RJ, Kasper, and Milton. Discussed current projects and tasks and prioritized what we should be working on first. Kasper said the \'case audit log\' task should be first priority, so while they were on a separate meeting, I found some useful Searches and wrote some SQL queries that should be useful. I plan to build a specific Search or SQL query as a solution for this task.', 1, 1, '2025-04-01', 3.50, 150.00, 51),
+(121, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'After a phone call with Winnie, I created a spreadsheet with 3 different options for the GAL project. \r\nMeeting with RJ, Kasper, and Winnie. I outlined the details of each option and the pros and cons. We went with option 3: me building a separate web app. This will be apart from my regular 20 hours with a separate SOW.', 1, 1, '2025-04-02', 4.00, 150.00, 51),
+(122, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Kasper, RJ, and Milton. Reviewed current tasks. Asked Davey Rivers to hop on our meeting to discuss the mass judge reassignment. Kasper and I then worked in our eCourt Test environment and began copying all of the config from PROD. Because eCourt doesn\'t have very many ROAs, I\'m also building a SQL query for case auditing. I also worked on the GAL project document.', 1, 1, '2025-04-03', 4.00, 150.00, 51),
+(123, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Discussions about GAL project with team. Plan to meet later today. Emails with team and recorded notes about Option #3.', 1, 1, '2025-04-04', 1.50, 150.00, 51),
+(124, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with the GAL team. Winnie, RJ, Kasper, and myself included. Jamie and Kathy demo\'d a lot of their processes. Our team hopped on a call afterward to discuss details internally. I still think option #3, a custom web app, is the best solution. I positively recommended that to Winnie.', 1, 1, '2025-04-04', 2.50, 150.00, 51),
+(125, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked individually on GAL project details; created spreadsheet outlining with entities we need case data from to create a separate web app. \r\nMeeting with RJ and Kasper. Reviewed details about shipping the laptop to me and got everything else setup on it that we needed to. \r\nWorked on eCourt Test. Imported biz rules and workflows.', 1, 1, '2025-04-07', 4.00, 150.00, 51),
+(126, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Connected to eCourt PROD early in the morning, hoping it wouldn\'t timeout when I checked the Performance graphs and database index checks.', 1, 1, '2025-04-08', 1.50, 150.00, 51),
+(127, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with RJ and Kasper. Discussed priorities and updates to our current tasks and projects. I showed them my documentation about the GAL project and asked necessary questions. Kasper and I worked on the eCourt Test environment, setting up needed configuration. We then worked on the \"Interpreter Needed\" project for Leah. I then emailed Leah Balzer an update about the \"Interpreter Needed\" project and the plan forward.', 1, 1, '2025-04-08', 2.50, 150.00, 51),
+(128, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Kasper and RJ. Discussed ongoing and new projects and tasks. RJ invited Davey Rivers onto the call so we could review the UI / formatting issue that users (specifically Judges) are having with the Dashboard Calendar Gadget. JTI confirmed via email they\'ve escalated it to their Dev team. Nothing we can do other than create a new single-column dashboard to give the calendar more real estate. And use Google Chrome, not MS Edge.\r\nTalked with Davey Rivers about the Judge Mass Reassignment issue more.\r\nWorked with Kasper on the eCourt Test environment to get the proper configuration.\r\nWorked on Leah Balzer\'s requested enhancement of adding multiple \"Interpreter\'s Required\" to an event. Created metadata and restarted in eCourt Test.', 1, 1, '2025-04-09', 3.25, 150.00, 51),
+(129, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Reviewed more performance issues, took more screenshots of graphs, and reviewed eCourt Logs sent by Kasper.', 1, 1, '2025-04-09', 0.75, 150.00, 51),
+(130, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with RJ and Kasper. Updated them on the eGAL project and the critical questions I need answered. Continued working on configuring our local eCourt Test environment. We\'re hitting walls as we try to do certain things, which requires us to import more. (can\'t even create a case!) We tried to import Statutes and all of the components within the Directory.', 1, 1, '2025-04-10', 4.00, 150.00, 51),
+(131, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on importing Statutes and the Directory into my local eCourt.', 1, 1, '2025-04-11', 1.25, 150.00, 51),
+(132, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Kasper. We reviewed some tasks we\'re working on and continued configuring our eCourt Test environment. Worked on the Interpreter Needed project for Leah and invited her onto our call to demo what we\'ve completed. Asked some questions for clarification on the workflows.\r\nLooked into a Judge\'s DirPerson accounts as they\'re getting work queue tasks when they shouldn\'t.\r\nContinued working on Directory import, with little success. ', 1, 1, '2025-04-11', 2.75, 150.00, 51),
+(133, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with RJ and Kasper. We worked on the Interpreter Required project for Leah and scheduled to meet with her tomorrow. Kasper brought up some issues with a Report that ran twice. After our meeting, I investigated and provided details.', 1, 1, '2025-04-14', 4.00, 150.00, 52),
+(134, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with RJ and Kasper. Invited Leah Balzer onto our call to demo the Interpreter Needed project. She liked everything. We did find out some more places the data needs to appear (that wasn\'t brought up at the beginning of the project) so I need to do some rework and plan to demo again tomorrow.', 1, 1, '2025-04-15', 4.00, 150.00, 52),
+(135, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on Multiple Interpreters Needed project. Based on Leah\'s review and some new information acquired, we needed to change how the metadata is set, which affects every other item within this config. I found a good solution that will have minimal impact, but still require a restart. I emailed Winnie and the team about our need for a restart in both AUX and PROD.', 1, 1, '2025-04-16', 4.00, 150.00, 52),
+(136, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'We switched gears a bit and started working on the Case Audit Log project. We\'re reviewing the requirements and ways we can accomplish this project. Kasper and I brainstormed and developed completing it with a Search, Report, straight SQL, or a Folder View. Best option is to use the ROA table, but Lake eCourt doesn\'t have very many ROAs for some reason. Not sure why the core ones were deleted.', 1, 1, '2025-04-17', 4.00, 150.00, 52),
+(137, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on Multiple Interpreter Needed project. Emailed team how the new workflow and metadata is configured and how it will work. Ready to demo to Leah, but she\'s off this week. Added to all CTCR screens, but need to add to all other ADD/UPDATE/VIEW Event screens. Demo\'d to Kapser (and RJ) at our daily meeting.', 1, 1, '2025-04-18', 4.00, 150.00, 52),
+(138, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with Kasper. Worked through Velocity scripting for the Case Audit Log project. Working through our different options to complete this project -- I\'m thinking Folder View or SQL will be a good short term solution. Might do something different for a long term solution. Definitely need to get the ROAs into eCourt.  We\'ll test them in AUX and eCourt Test first.', 1, 1, '2025-04-21', 4.00, 150.00, 52),
+(139, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Started earlier and worked on the Case Audit project. Wrote some Velocity code on the Folder View, tested SQL in a biz rule, and prepped to demo to Kasper and RJ. \r\nMet with RJ and Kasper and demo\'d what I previously worked on for the Case Audit project. Decided to go the Folder View route --at least for the short term--  Kasper and I might switch the process for a more long term solution and enable/implement  the ROA. \r\nAt the end, we also created the metadata for the \"Interpreter Needed\" project as JTI will be doing a restart of AUX tonight.', 1, 1, '2025-04-22', 6.00, 150.00, 52),
+(140, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I told the team I was sick today and could not meet. Worked for just an hour on Case Audit Log project.', 1, 1, '2025-04-23', 1.00, 150.00, 52),
+(141, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Did not meet with team. Kasper and RJ had meetings with JTI for eSupervisor/eProbation project. \r\nI continued working on the Case Audit Log project and a bit more on the Interpreter Needed project. JTI did a restart in AUX eCourt last night -- I\'m unable to access AUX through the VPN or O365, so I can\'t validate if the metadata/restart is correct.  Kasper said it looks good!', 1, 1, '2025-04-24', 4.00, 150.00, 52),
+(142, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on the Case Audit Log project. Got more done on the Folder View to show to Kasper. Quick meeting with Kasper at 2pm. Discussed schedule next week and I demo\'d the Case Audit Log FV.', 1, 1, '2025-04-25', 3.00, 150.00, 52),
+(143, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Kasper and RJ.  Worked primarily on the Case Audit project and some solutions for it. We need better scope and requirements and a way to work with the massive 1.7tb database. RJ logged me into SQL Server and I\'ve created some helpful queries as well.', 1, 1, '2025-04-28', 3.00, 150.00, 53),
+(144, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I imported 50 ROAs into eCourt Test and created a Case Log screen under the Case Summary dropdown. It will be a great module for tracking future cases. Note: As an Admin, I get ACCESS DENIED on Case Notes summary screen for a Crim/Traffic case.', 1, 1, '2025-04-29', 3.00, 150.00, 53),
+(145, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked primarily on the Case Audit Log project. I\'m nearly done with it, so I reached out to Winnie. I am ready to run the script to get the case details for specific cases. I do have a few things to show her and the team but I know they are busy with the eSupervisor project.', 1, 1, '2025-04-30', 4.00, 150.00, 53),
+(146, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'No meeting with team today as they\'re working on other projects. I got a lot done on the Multiple Interpreters Needed project. I\'ve found a potential bug in eCourt... (Interpreter Required checkbox will $_POST as \'true\' even if it\'s unchecked... really annoying.) Will look at adding JavaScript to $_POST NULL if it\'s !checked', 1, 1, '2025-05-01', 3.00, 150.00, 53),
+(147, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I added some JavaScript in a static text field on the ADD-Events form that will $_POST NULL if it\'s !checked. Got the Cancellation workflows finished as well. Almost ready to demo and show Leah.', 1, 1, '2025-05-02', 4.00, 150.00, 53),
+(148, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Hour meeting with Kasper and RJ reviewing projects like the Case Auditing task, Multiple Interpreters Needed per Event, and a bit more about the Emailing Sealed Documents task. I demo\'d what I have completed on the Case Audit to Kasper. We have have some questions to progress.', 1, 1, '2025-05-05', 4.00, 150.00, 53),
+(149, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'RJ and Kasper are busy with the eProbation/eSupervisor teams, which gave me time to continue working on outstanding projects. I have questions about the Case Audit task, Kasper is scheduling a time to meet with requestors later this week.', 1, 1, '2025-05-06', 4.00, 150.00, 53),
+(150, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked primarily on the Multiple Interpreters Needed project. Started brainstorming more ideas for the Emailing Sealed Documents project as well. Will be ready to demo on Friday, May 9th. Met with RJ and Kasper for a bit reviewing other projects.', 1, 1, '2025-05-07', 4.00, 150.00, 53),
+(151, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked a bit on each project that I\'m demoing tomorrow: Case Auditing, Multiple Interpreters Needed, and but mostly Emailing Sealed Documents. Creating two separate options: 1) manual process and 2) automated through a Workflow.', 1, 1, '2025-05-08', 6.00, 150.00, 53),
+(152, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Final touches to the 3 separate projects that I demo\'d: Case Auditing, Multiple Interpreters Needed, and Emailing Sealed Documents. Demo\'d to team and Leah from 1pm to 3pm CST.', 1, 1, '2025-05-09', 5.00, 150.00, 53),
+(153, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '\'Whiteboarded\' and wrote strategy documentation for emailing sealed docs to ePros and eDef. I\'m considering creating new metadata or using existing/core, but don\'t want to have issues with JTI\'s E2E/DataShepard workflows or systems or screens. Being very careful while keeping this project simple. I have several questions, specifically for how the WFs will trigger. We need to create specific logic and conditions.', 1, 1, '2025-05-12', 4.00, 150.00, 54),
+(154, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Wrote the pseudo code in Groovy for the Workflows for the Emailing Sealed Documents project. Started using the eCourt MailManager (email module) and found issues with the SMTP server not sending/forwarding the emails via biz rule.  eCourt is sending them correctly, though. I reached out to Kasper and he\'ll investigate. Wrote more strategy documentation as well.', 1, 1, '2025-05-13', 4.00, 150.00, 54),
+(155, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on our top priority projects: Emailing Sealed Documents, Case Auditing/History, and Multiple Interpreters on Event. Our eCourt Dev environment isn\'t sending emails with the current SMTP settings. I shared this issue with RJ and Kasper when we met today.\r\nKasper and I also looked at a request from a Judge to add a minor\'s name in the Bench View.', 1, 1, '2025-05-14', 4.00, 150.00, 54),
+(156, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on the Emailing Sealed Documents workflow and business rules. I will demo to RJ and Kasper tomorrow. Also built Searches and Reports for a historical log.\r\nProd restart is being discussed. I would like to get the metadata created for the Multiple Interpreters project when JTI restarts. I already did it for AUX.', 1, 1, '2025-05-15', 4.00, 150.00, 54);
+INSERT INTO `admin_time_tracking_entries` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `corporate_id`, `person_id`, `work_date`, `hours`, `rate`, `invoice_id`) VALUES
+(157, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Demo\'d everything I have developed for the \'Emailing Sealed Documents\' project to Kasper. Including: all business rules, documentation & strategy, workflows, searches, reports, metadata, etc. He approved and says it all looks good. I posed some questions that we need answered from others. He\'ll be reaching out to Winnie + Leah to meet as we have some crucial components we have questions on.', 1, 1, '2025-05-16', 4.00, 150.00, 54),
+(158, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued to work on the Emailing Sealed Documents project. Met with Kasper and RJ at 2pm MDT and I demo\'d emailing sealed documents to RJ since he hadn\'t seen it yet. We then went down a rabbit hole of finding which DocDefs to filter on and even inviting a Probation Officer onto the call to provide insight.', 1, 1, '2025-05-19', 4.00, 150.00, 54),
+(159, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Defining specs and mapping the workflows for the Email Sealed Documents project. There are many different scenarios we need to consider to trigger the different workflows. Will meet with Kasper and RJ tomorrow to discuss.  Also worked on an Excel spreadsheet listing tasks, projects, and issues we\'re currently working on or are on the backlog.', 1, 1, '2025-05-20', 4.00, 150.00, 54),
+(160, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'I was asked to compile a list tasks, projects, issues, etc. that we\'re either currently working on or which are on the backlog and send to Winnie as they may be converted to SoWs. I created a spreadsheet with those projects as I continued working on the top 3 priority projects with Kasper and RJ.', 1, 1, '2025-05-21', 4.00, 150.00, 54),
+(161, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on the \"Email Sealed Documents\" to ePros & eDef project. Kasper scheduled a meeting with Leah and Winnie tomorrow where I will demo what is completed and ask the crucial questions.', 1, 1, '2025-05-22', 4.00, 150.00, 54),
+(162, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Demo\'d all of the config that I have developed for the \"Email Sealed Documents\" project to Winnie, Leah, Kasper, and RJ.  It was received well. We got some crucial questions answered. The answers significantly changed how these workflows will work, which is totally fine. No work lost, just some  restructuring required and changes to the workflows, biz rules, and triggering conditions.', 1, 1, '2025-05-23', 4.00, 150.00, 54),
+(163, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'With my notes and further instruction from our meeting last Friday, I continued working on the \"Emailing Sealed Documents\" in eCourt Dev.\r\nGuardian of Minor, *minor\'s name* task. Emailed the JIS team + Leah providing a recommendation and suggesting Leah\'s fix of changing the biz rule that generates the Case.caseName (case caption) is not a good option.', 1, 1, '2025-05-27', 4.00, 150.00, 55),
+(164, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with the team + Winnie at 3pm CST. We discussed a variety of things, including if I could have a demo ready this week for the Guardianship of Minor tasks to display the Minor\'s name in different places within eCourt. We also talked about the GAL project and plan to accept, approve, and sign the SoW that I provided.', 1, 1, '2025-05-28', 4.00, 150.00, 55),
+(165, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked primarily on the task of Guardian of Minor cases and displaying the Case.CaseName (Case Caption, as Lake calls it) on the 3 different places: Judge\'s Court View, Daily Docket Calendar, and Case Header.  Developed config for each of those places and demo\'d to the team + others at 3pm CST.', 1, 1, '2025-05-29', 4.00, 150.00, 55),
+(166, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on the Guardianship of Minor project. Completed all of the configuration and development in eCourt Dev. Connected with RJ and Kasper and they allowed me to control their screen so I was able to move the configuration to eCourt AUX.  We also talked about the Case Audit (FOIA) project. Kasper exported the main Case Summary report and the folder view I built to give to Winnie and the other requestors.', 1, 1, '2025-05-30', 4.50, 150.00, 55),
+(167, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Conversed with Winnie about assisting the business team with Gia Tran and Davey Rivers.  They\'ve both reached out to me individually requesting my help on a few things. I worked on the Guardianship of Minor task as Winnie sent me an issue she found. I don\'t have access to AUX so I can\'t fix anything yet, but I will look in the database for details. I also got more done on the Emailing Sealed Documents workflows. Planning to demo to the team on Wednesday.', 1, 1, '2025-06-02', 4.00, 150.00, 55),
+(168, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Investigated more into the Guardianship of Minor case caption issue. Learned that about half of them are in all caps, so I need to add that condition to the Velocity code when I get access to eCourt AUX again. I looked at some performance issues with Searches and emailed the JIS team what I found and recommend.', 1, 1, '2025-06-03', 4.00, 150.00, 55),
+(169, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on the Workflow and business rule for Emailing Sealed Documents before meeting with RJ and Kasper in the afternoon. Completed all the logical conditions for emailing to Public Defender and demo\'d to them both. Reviewed some other minor tasks with Kasper as well.', 1, 1, '2025-06-04', 5.00, 150.00, 55),
+(170, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Davey Rivers + Gia Tran reached out to me so I asked Winnie and the JIS team about the plan moving forward with them so I don\'t take on work that isn\'t in budget or scope. We discussed some needs and will be all meeting together next Thursday.  My access to AUX was restored so I worked on the Guardianship of Minor task and fixed the issue with uppercase captions and sent detailed emails to the team.', 1, 1, '2025-06-05', 4.00, 150.00, 55),
+(171, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Winnie emailed me asking for a status on the Guardianship of Minor project which I completed yesterday. I edited my Velocity code in all of the places requested to display the minor\'s name. \r\n(I typed up a detailed email but didn\'t send it yet as I had a few more things I need to look into) Investigated and found the details why some captions are uppercase and provided those details to the team. When they test and approve in AUX I will move the config to PROD.', 1, 1, '2025-06-06', 4.00, 150.00, 55),
+(172, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Working in SQL Server to get an eDef database for a Dev/Config environment which will allow us a much more simple way to work on different tasks and projects that involve eDefender & eProsecutor.  Winnie let me know the Guardianship config is ready to move to PROD. I let her know I can do it essentially whenever I\'m given the thumbs up and it won\'t take long.', 1, 1, '2025-06-10', 4.00, 150.00, 56),
+(173, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Continued working on getting an eDef database for a Dev/Config environment.\r\nMeeting with Winnie, Leah, RJ, and Kasper. I demo\'d the frontend manual way of Emailing Sealed Documents and asked a few process questions to Leah and got the answers I needed. I have a bit more work to do it on but things are looking good.  Hurdles: SMTP server and all of it\'s complexities and revoking eDefender/eProsecutor access to view the sealed documents.', 1, 1, '2025-06-11', 4.00, 150.00, 56),
+(174, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Gia\'s team to review outstanding tasks and projects from the business side of eCourt. I reviewed all of the tasks from a spreadsheet Gia sent after the meeting. I need to chat with Winnie and JIS team to discuss priorities. I also worked with Kasper on a script that JTI will be running to fix Person records with ampersand\'s in incorrect places. Will need to clear the cache via Hibernate. Continued working on eCourt/eDef database config tables as well.', 1, 1, '2025-06-12', 4.00, 150.00, 56),
+(175, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Morning meeting with Winnie, RJ, and Kasper about tasks and the GAL project.  They provided an update about their previous meeting with the GALs and desire for this system. I developed a single-page UI to show how I\'m envisioning eGAL to look. We also discussed options for integrating the GAL cases into eCourt instead of a separate web app.', 1, 1, '2025-06-13', 1.50, 150.00, 56),
+(176, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Team and I didn\'t have anything to review, so we didn\'t have a meeting. I continued working on eDefender env/database and Email Sealed Documents. I\'ll be ready to demo to RJ and Kasper this week after developing the few things Leah requested.', 1, 1, '2025-06-16', 4.00, 150.00, 56),
+(177, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on the frontend for the Email Sealed Documents project based on my notes from our last meeting with Leah. Made the UI in the modal (Icon in Case Header) to show a log of when documents have been sent and allowing for custom email address.', 1, 1, '2025-06-17', 4.00, 150.00, 56),
+(178, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Kasper was called for something urgent so we cancelled our meeting today.\r\nWorked on the backend of manually sending sealed documents (Court Clerks when somebody calls and needs for previous/existing case). I will be demo\'ing this to the team on Friday.', 1, 1, '2025-06-18', 4.00, 150.00, 56),
+(179, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Quick meeting with RJ and Kasper in the afternoon to review Gia\'s tasks and priorities. Continued working on ESD project afterward.', 1, 1, '2025-06-13', 2.50, 150.00, 56),
+(180, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked on Emailing Sealed Documents project. Few adjustments to the frontend to make it as simple as possible with the least amount of clicking or typing for the Court Clerks. Testing entire manual process and it\'s working correctly: emailing selected documents and creating a tracking record of it on the Document. No new metadata needs to be created. I\'m planning on demoing it to Kasper and RJ tomorrow.', 1, 1, '2025-06-19', 4.00, 150.00, 56),
+(181, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Demo\'d the Emailing Sealed Documents project to Kasper. I\'ll send Winnie and RJ an email with a screenshot and link. Had a few questions for Leah and she was thankfully able to hop on our call and answer our questions. She also answered some questions about the \"P\" cases and adding the minor\'s name to the CaseCaption. More work to do on that and more questions that need answers.', 1, 1, '2025-06-20', 4.00, 150.00, 56),
+(182, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Worked with Kasper on eCourt/eDef database configuration and exporting config tables. Working on our own environment to learn how eDefender\'s navigation (green buttons) and eCourt Viewer works.', 1, 1, '2025-06-09', 4.00, 150.00, 56),
+(183, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Meeting with Kasper. Demo\'d ESD project, database, coordinating with Leah and Winnie for more demo\'s next week when RJ is back online.', 1, 1, '2025-06-23', 4.00, 150.00, 57),
+(184, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-06-24', 4.00, 150.00, 57),
+(185, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'cancelled meeting with Kasper (RJ is off)', 1, 1, '2025-06-25', 4.00, 150.00, 57),
+(186, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with Winnie to discuss Gia\'s tasks', 1, 1, '2025-06-26', 4.00, 150.00, 57),
+(187, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'cancelled meeting with Kasper (RJ is off)', 1, 1, '2025-06-27', 4.00, 150.00, 57),
+(188, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'SEAN WAS ON OUR USUAL MEETING\r\nREVIEWED GIA AND DAVEY\'S TASKS', 1, 1, '2025-06-30', 4.00, 150.00, 57),
+(189, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-01', 4.00, 150.00, 57),
+(190, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-02', 4.00, 150.00, 57),
+(191, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-03', 4.00, 150.00, 57),
+(192, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '2pm - meeting with Kasper and RJ. Worked on and discussed various projects, mainly ESD and the tasks/projects requested from the Business Ops team, Gia & Davey, and how to prioritize time.\r\nRequested AUP approvals for Sean and Kenny to access/view systems.\r\nGia is planning a meeting with me this week. I reached out to Jamie to meet as well.', 1, 1, '2025-07-07', 4.00, 150.00, 58),
+(193, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Full work day, no meetings. Worked mainly on ESD project reworking some manual processes on the frontend and workflow on the backend. Completing requests from Leah.\r\nTalked with Leah & Winnie separately about getting Sean Cadina and Kenny Reynolds approved access to Lake\'s systems. Kenny for reports and Sean for GAL and daily projects.', 1, 1, '2025-07-08', 4.00, 150.00, 58),
+(194, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '2pm - met with Kasper and RJ reviewing ESD project and plans of next steps.\r\nContinued working on ESD project to demo on Friday.', 1, 1, '2025-07-09', 4.00, 150.00, 58),
+(195, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '12pm - Meeting with Winnie, Jamie, Kathy, + few others reviewing GAL intake process and consulting strategies to build the eGAL app. Strategized with Sean afterward and built a technical/conceptual document.', 1, 1, '2025-07-10', 4.00, 150.00, 58),
+(196, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '10am - ESD demo to JIS team + Court Clerks\r\nEmailed JIS team the technical/conceptual document for the GAL project.\r\n1pm - Meeting with Gia, Davey, & Anthony: demo and trained Report Scheduling & Workflows', 1, 1, '2025-07-11', 4.00, 150.00, 58),
+(197, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-15', 4.00, 150.00, 58),
+(198, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-14', 4.00, 150.00, 58),
+(199, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-16', 4.00, 150.00, 58),
+(200, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-17', 4.00, 150.00, 58),
+(201, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-21', 4.00, 150.00, 59),
+(202, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-22', 4.00, 150.00, 59),
+(203, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-23', 4.00, 150.00, 59),
+(204, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-24', 4.00, 150.00, 59),
+(205, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-28', 4.00, 150.00, 59),
+(206, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-29', 4.00, 150.00, 59),
+(207, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-07-30', 4.00, 150.00, 59),
+(208, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '8am - demo Emailing Sealed Documents to Judge Novak', 1, 1, '2025-07-31', 4.00, 150.00, 59),
+(209, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-01', 4.00, 150.00, 59),
+(210, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-04', 4.00, 150.00, 60),
+(211, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-05', 4.00, 150.00, 60),
+(212, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '- Bench View button drama. Several emails with team.\r\n- Met with Kasper and RJ for an hour and half.', 1, 1, '2025-08-06', 4.00, 150.00, 60),
+(213, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Research and analysis into how \"Bench View\" is being used. Created demo material and demo\'d to Gia, Davey, and JIS team. Proposed solutions based on Judge\'s requirements.', 1, 1, '2025-08-12', 4.00, 150.00, 60),
+(214, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-13', 4.00, 150.00, 60),
+(215, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-14', 4.00, 150.00, 60),
+(216, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Met with RJ to coordinate ESD, Bench View, and Judge Mass Reassignment.\r\nAnd GAL.', 1, 1, '2025-08-15', 4.00, 150.00, 60),
+(217, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'SEAN CADINA\'S HOURS', 1, 1, '2025-08-15', 4.00, 150.00, 60),
+(218, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Sealed badge in the Document Viewer left navigation.\r\nMeeting with Kasper & RJ about ESD schedule and planning restart.', 1, 1, '2025-08-18', 4.00, 150.00, 61),
+(219, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-19', 4.00, 150.00, 61),
+(220, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'No pressing items so no meeting with Kasper and RJ.', 1, 1, '2025-08-20', 4.00, 150.00, 61),
+(221, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Sean', 1, 1, '2025-08-07', 4.00, 150.00, 60),
+(222, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'SEAN', 1, 1, '2025-08-11', 2.00, 150.00, 60),
+(223, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-21', 4.00, 150.00, 61),
+(224, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-22', 4.00, 150.00, 61),
+(225, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', 'Good long meeting with Kasper & RJ covered a lot.', 1, 1, '2025-08-25', 4.00, 150.00, 61),
+(226, NULL, NULL, '2025-08-27 23:47:31', '2025-08-27 23:47:31', '', 1, 1, '2025-08-26', 4.00, 150.00, 61);
+
 -- --------------------------------------------------------
 
 --
@@ -1620,7 +2028,14 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (289, 1, 1, '2025-08-27 22:48:01', '2025-08-27 22:48:01', NULL, 'lookup_list_item_attributes', 174, 'CREATE', 'Created item attribute'),
 (290, 1, 1, '2025-08-27 22:48:23', '2025-08-27 22:48:23', NULL, 'lookup_list_item_attributes', 175, 'CREATE', 'Created item attribute'),
 (291, 1, 1, '2025-08-27 22:48:27', '2025-08-27 22:48:27', NULL, 'lookup_list_item_attributes', 176, 'CREATE', 'Created item attribute'),
-(292, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 'lookup_list_item_attributes', 177, 'CREATE', 'Created item attribute');
+(292, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 'lookup_list_item_attributes', 177, 'CREATE', 'Created item attribute'),
+(293, 4, 4, '2025-08-27 23:06:43', '2025-08-27 23:06:43', NULL, 'users', 4, 'LOGIN', 'User logged in'),
+(294, 4, 4, '2025-08-27 23:50:34', '2025-08-27 23:50:34', NULL, 'users', 4, 'LOGIN', 'User logged in'),
+(295, 4, 4, '2025-08-28 00:15:21', '2025-08-28 00:15:21', NULL, 'users', 4, 'LOGIN', 'User logged in'),
+(296, 1, 1, '2025-08-28 00:26:26', '2025-08-28 00:26:26', NULL, 'lookup_list_items', 256, 'DELETE', 'Deleted lookup list item'),
+(297, 1, 1, '2025-08-28 00:26:29', '2025-08-28 00:26:29', NULL, 'lookup_list_items', 257, 'DELETE', 'Deleted lookup list item'),
+(298, 1, 1, '2025-08-28 00:26:37', '2025-08-28 00:26:37', NULL, 'lookup_list_item_attributes', 178, 'CREATE', 'Created item attribute'),
+(299, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 'lookup_list_item_attributes', 179, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -1678,7 +2093,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (34, 1, 1, '2025-08-22 00:00:00', '2025-08-22 00:00:00', NULL, 'DIVISION_PERSON_ROLES', 'Roles for persons assigned to divisions'),
 (35, 1, 1, '2025-08-22 20:43:49', '2025-08-22 20:43:49', '', 'PROJECT_SUB_TYPE', ''),
 (36, 1, 1, '2025-08-23 00:00:00', '2025-08-23 00:00:00', '', 'FEEDBACK_TYPE', 'Types of feedback'),
-(37, 1, 1, '2025-08-23 11:07:04', '2025-08-23 11:10:01', '', 'CALENDAR_EVENT_TYPE', ''),
+(37, 1, 1, '2025-08-23 11:07:04', '2025-08-28 00:26:29', '', 'CALENDAR_EVENT_TYPE', ''),
 (38, 1, 1, '2025-08-23 11:07:08', '2025-08-23 11:09:03', '', 'CALENDAR_VISIBILITY', ''),
 (39, 1, 1, '2025-08-23 15:58:35', '2025-08-27 21:45:35', '', 'MEETING_STATUS', 'Status values for meetings'),
 (40, 1, 1, '2025-08-23 15:58:41', '2025-08-23 16:08:51', '', 'MEETING_TYPE', 'Types of meetings.'),
@@ -1952,8 +2367,6 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (253, 1, 1, '2025-08-25 00:51:22', '2025-08-25 00:51:22', NULL, 53, 'Owner', 'OWNER', 1, '2025-08-24', NULL),
 (254, 1, 1, '2025-08-25 00:51:22', '2025-08-25 00:51:22', NULL, 53, 'Contributor', 'CONTRIBUTOR', 2, '2025-08-24', NULL),
 (255, 1, 1, '2025-08-25 00:51:22', '2025-08-25 00:51:22', NULL, 53, 'Viewer', 'VIEWER', 3, '2025-08-24', NULL),
-(256, 1, 1, '2025-08-25 01:39:32', '2025-08-25 01:39:32', NULL, 37, 'Meeting', 'MEETING', 1, '2025-08-25', NULL),
-(257, 1, 1, '2025-08-25 01:39:32', '2025-08-25 01:39:32', NULL, 37, 'Task', 'TASK', 2, '2025-08-25', NULL),
 (258, 1, 1, '2025-08-25 01:39:32', '2025-08-25 01:39:32', NULL, 37, 'Reminder', 'REMINDER', 3, '2025-08-25', NULL),
 (259, 1, 1, '2025-08-25 01:39:32', '2025-08-25 01:39:32', NULL, 7, 'Icon / Class', 'ICON-CLASS', 3, '2025-08-25', NULL),
 (262, 1, 1, '2025-08-25 01:54:03', '2025-08-25 01:54:03', NULL, 49, 'eSeries', 'ESERIES', 0, '2025-08-24', NULL),
@@ -2187,7 +2600,9 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (174, 1, 1, '2025-08-27 22:48:01', '2025-08-27 22:48:01', NULL, 274, 'COLOR-CLASS', 'danger'),
 (175, 1, 1, '2025-08-27 22:48:23', '2025-08-27 22:48:23', NULL, 268, 'COLOR-CLASS', 'citrus'),
 (176, 1, 1, '2025-08-27 22:48:27', '2025-08-27 22:48:27', NULL, 266, 'COLOR-CLASS', 'atlis'),
-(177, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 267, 'COLOR-CLASS', 'forest');
+(177, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 267, 'COLOR-CLASS', 'forest'),
+(178, 1, 1, '2025-08-28 00:26:37', '2025-08-28 00:26:37', NULL, 258, 'COLOR-CLASS', 'grape'),
+(179, 1, 1, '2025-08-28 00:27:03', '2025-08-28 00:27:03', NULL, 193, '***CORE***', '***CORE***');
 
 -- --------------------------------------------------------
 
@@ -2316,23 +2731,24 @@ CREATE TABLE `module_calendar` (
 --
 
 INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`) VALUES
-(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-27 20:19:26', NULL, 'Dave', 0, 1),
-(2, 1, NULL, '2025-08-27 18:51:39', '2025-08-27 20:19:35', NULL, 'LA FAMILIA DE WILKINS', 1, 0),
-(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Sean', 0, 1),
-(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Tyler', 0, 1),
-(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'RJ', 0, 1),
-(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Kasper', 0, 1),
-(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Mileny', 0, 1),
-(9, 8, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Kenny', 0, 1),
-(10, 9, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Richard', 0, 1),
-(11, 10, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Emma', 0, 1),
-(12, 11, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Tom', 0, 1),
-(13, 12, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Winnie', 0, 1),
-(14, 13, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Zach', 0, 1),
-(15, 14, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Nancy', 0, 1),
-(16, 15, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Chris', 0, 1),
-(17, 18, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Alisha', 0, 1),
-(18, 19, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Davey', 0, 1);
+(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-27 23:08:47', NULL, 'Dave Wilkins', 0, 1),
+(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Sean Cadina', 0, 1),
+(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Tyler Jessop', 0, 1),
+(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'RJ Calara', 0, 1),
+(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Kasper Krynski', 0, 1),
+(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Mileny Valdez', 0, 1),
+(9, 8, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Kenny Reynolds', 0, 1),
+(10, 9, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Richard Sprague', 0, 1),
+(11, 10, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Emma Baylor', 0, 1),
+(12, 11, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Tom Wilkins', 0, 1),
+(13, 12, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Winnie Webber', 0, 1),
+(14, 13, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Zach Jenks', 0, 1),
+(15, 14, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Nancy Crandall', 0, 1),
+(16, 15, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Chris Docstader', 0, 1),
+(17, 18, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Alisha Wilkins', 0, 1),
+(18, 19, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Davey Rivers', 0, 1),
+(19, 1, NULL, '2025-08-27 23:21:29', '2025-08-27 23:21:29', NULL, 'Emry Soccer Schedule', 1, 0),
+(20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 00:25:25', NULL, 'TEST', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2356,6 +2772,17 @@ CREATE TABLE `module_calendar_events` (
   `link_record_id` int(11) DEFAULT NULL,
   `visibility_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_calendar_events`
+--
+
+INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`) VALUES
+(1, 1, NULL, '2025-08-27 23:05:57', '2025-08-27 23:05:57', NULL, 1, 'Senses Fail', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198),
+(2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198),
+(3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198),
+(4, 4, NULL, '2025-08-28 00:15:36', '2025-08-28 00:15:36', NULL, 5, 'SOUP', '2025-08-27 12:00:00', '2025-08-27 12:00:00', 196, NULL, NULL, 198),
+(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199);
 
 -- --------------------------------------------------------
 
@@ -2988,7 +3415,7 @@ CREATE TABLE `module_meetings` (
 --
 
 INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `start_time`, `end_time`, `recur_daily`, `recur_weekly`, `recur_monthly`, `calendar_event_id`, `status_id`, `type_id`) VALUES
-(1, 1, 1, '2025-08-27 21:39:15', '2025-08-27 21:49:07', NULL, 'Atlis - Dave + Sean', '', '2025-08-26 14:00:00', NULL, 0, 0, 0, NULL, NULL, 204);
+(1, 1, 1, '2025-08-28 00:40:53', '2025-08-28 00:40:53', NULL, 'Atlis Meeting - Dave + Sean', '', '2025-08-26 14:00:00', '2025-08-26 15:00:00', 0, 0, 0, NULL, 279, 204);
 
 -- --------------------------------------------------------
 
@@ -3016,9 +3443,9 @@ CREATE TABLE `module_meeting_agenda` (
 --
 
 INSERT INTO `module_meeting_agenda` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `order_index`, `title`, `status_id`, `linked_task_id`, `linked_project_id`) VALUES
-(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 1, 'test 1', 226, NULL, NULL),
-(2, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 2, 'test 2', 227, NULL, NULL),
-(3, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 3, 'test 3', 226, NULL, NULL);
+(1, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, 1, 'Emry', 226, NULL, NULL),
+(2, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, 2, 'Dave', 226, NULL, NULL),
+(3, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, 3, 'Ashlin', 226, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3036,14 +3463,6 @@ CREATE TABLE `module_meeting_attendees` (
   `meeting_id` int(11) NOT NULL,
   `attendee_user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_meeting_attendees`
---
-
-INSERT INTO `module_meeting_attendees` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `attendee_user_id`) VALUES
-(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:07', NULL, 1, 1),
-(2, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:07', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -3063,6 +3482,13 @@ CREATE TABLE `module_meeting_files` (
   `file_path` varchar(255) DEFAULT NULL,
   `uploader_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_meeting_files`
+--
+
+INSERT INTO `module_meeting_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `file_name`, `file_path`, `uploader_id`) VALUES
+(1, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, 'ATLIS_INVOICE_134 ---- ERROR.pdf', '/admin/meetings/uploads/1/meeting_1_1756363546_ATLIS_INVOICE_134_----_ERROR.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -3089,8 +3515,9 @@ CREATE TABLE `module_meeting_questions` (
 --
 
 INSERT INTO `module_meeting_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `agenda_id`, `question_text`, `answer_text`, `status_id`) VALUES
-(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:07', NULL, 1, NULL, 'When should we schedule the restart?', '', NULL),
-(2, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:07', NULL, 1, NULL, 'JOSEPH, WHERE DO YOU RECOMMEND WE START ?', '', NULL);
+(1, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, NULL, 'When should we schedule the restart?', '', 229),
+(2, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, NULL, 'Can you make it to the JTI User Conference?', 'Yes, he can.', 231),
+(3, 1, 1, '2025-08-28 00:45:46', '2025-08-28 00:45:46', NULL, 1, NULL, 'Do you need a laptop or monitors?', '', 230);
 
 -- --------------------------------------------------------
 
@@ -3300,7 +3727,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (26, 1, 1, '2025-08-26 22:42:00', '2025-08-26 22:42:00', NULL, 1, 1, 0, 'test 1', '', '', '', 55, 58, 182, '0000-00-00', NULL, 0),
 (27, 1, 1, '2025-08-26 22:46:48', '2025-08-26 22:46:48', NULL, 1, 1, 0, 'test 3', '', '', '', 55, 58, 182, '0000-00-00', NULL, 0),
 (28, 1, 1, '2025-08-26 22:46:57', '2025-08-26 22:46:57', NULL, 1, 8, 0, 'sadfasdf', 'asdfsadf', '', '', 55, 58, 182, '0000-00-00', NULL, 0),
-(29, 1, 1, '2025-08-27 21:52:16', '2025-08-27 21:52:16', NULL, NULL, NULL, 0, 'test 69', 'test 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+(29, 1, 1, '2025-08-27 21:52:16', '2025-08-27 21:52:16', NULL, NULL, NULL, 0, 'test 69', 'test 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(30, 1, 1, '2025-08-27 23:34:40', '2025-08-27 23:34:40', NULL, NULL, NULL, 0, 'TEST 69', 'TEST 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3460,6 +3888,64 @@ INSERT INTO `module_projects_folders` (`id`, `user_id`, `user_updated`, `date_cr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_projects_invoices`
+--
+
+CREATE TABLE `module_projects_invoices` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `name` varchar(999) DEFAULT NULL,
+  `amount` varchar(999) DEFAULT NULL,
+  `hours` varchar(999) DEFAULT NULL,
+  `rate` varchar(999) DEFAULT NULL,
+  `last_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_updated_by` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `status` varchar(999) DEFAULT NULL,
+  `date_sent` datetime DEFAULT NULL,
+  `date_paid` datetime DEFAULT NULL,
+  `attachment` varchar(999) DEFAULT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_invoices`
+--
+
+INSERT INTO `module_projects_invoices` (`id`, `project_id`, `name`, `amount`, `hours`, `rate`, `last_updated`, `last_updated_by`, `date_created`, `created_by`, `status`, `date_sent`, `date_paid`, `attachment`, `notes`) VALUES
+(1, 1, 'Lake County Invoice #1 - Last two weeks of October 2024', '2062.5', '13.75', '150', '0000-00-00 00:00:00', 1, '2024-11-12 15:36:34', 1, 'PAID', '2024-10-30 15:35:37', '2024-11-14 11:25:00', NULL, '13.75 Hours worked in first two weeks of November 2024'),
+(6, 1, 'Lake County Invoice #2 -  First two weeks of November 2024', '2662.5', '17.75', '150', '0000-00-00 00:00:00', NULL, '2024-11-13 20:20:28', 1, 'PAID', '2024-11-15 16:14:00', '2024-12-06 15:24:00', NULL, '17.75 Hours worked in last two weeks of November 2024'),
+(9, 1, 'Lake County Invoice #3 - Last two weeks of November 2024', '2887.5', '19.25', '150', '0000-00-00 00:00:00', NULL, '2024-11-20 15:28:45', 1, 'PAID', '2024-12-02 17:24:00', '2024-12-19 15:04:00', NULL, 'This project continued to grow as RJ and I dove into the database.\r\nThe initial excel file LC provided me, that I created a data map from, was only half of what really needed to be exported from the database. There were MANY non-Case entities that were not on the data map. Because of this, I switched from doing a PHP script on Nov 19th, 2024, to creating Searches/Reports in eDefender for all Case related Entities and exporting the results to excel.\r\nOn Nov 21st, we created 24 different Reports and exported them all to excel. After our meeting, I worked in SSMS and began exporting the remaining non-Case tables via \"Export Data\" and manually executing SQL and copy/pasting results to Excel.'),
+(10, 1, 'Lake County Invoice #4 - First two weeks of December 2024', '2490', '16.6', '150', '0000-00-00 00:00:00', NULL, '2024-12-02 16:40:16', 1, 'PAID', '2024-12-20 18:49:00', '2025-01-10 12:55:00', NULL, '4th invoice to Lake County.\r\nATLIS Invoice #140.'),
+(14, 1, 'Lake County Invoice #5 - Last two weeks of December 2024', '375', '2.5', '150', '0000-00-00 00:00:00', NULL, '2024-12-20 15:49:02', 1, 'PAID', '2025-01-02 18:25:00', '2025-01-16 15:24:00', NULL, ''),
+(15, 1, 'Lake County Invoice #6 - First two weeks of January 2025', '2437.5', '16.25', '150', '0000-00-00 00:00:00', NULL, '2025-01-02 18:26:08', 1, 'PAID', '2025-01-16 16:23:00', '2025-02-06 18:56:00', NULL, 'JANUARY 2025 INVOICE #6\r\nInvoice #143'),
+(16, 10, 'First half of January 2025', '423', '47', '9', '0000-00-00 00:00:00', NULL, '2025-01-06 08:18:13', 1, 'PAID', '2025-01-16 15:03:00', '2025-01-16 15:03:00', NULL, '$423 for rate\r\n$20 for formula that Ashlin bought\r\n\r\nPaige paid via AFCU transfer on 1/16/25 at 3:00pm'),
+(17, 11, '1st TEMPLATE', '0', '0', '0', '2025-01-15 11:10:03', NULL, '2025-01-15 11:10:03', 1, 'INPROGRESS', '2025-01-15 11:09:00', '2025-01-15 11:10:00', NULL, 'Need a contract...'),
+(18, 1, 'Lake County Invoice #7 - Last two weeks of January 2025', '3499.5', '23.33', '150', '0000-00-00 00:00:00', NULL, '2025-01-16 15:27:08', 1, 'PAID', '2025-01-31 18:02:00', '2025-02-13 20:27:00', NULL, ''),
+(19, 10, 'Last half of January 2025', '486', '54', '9', '0000-00-00 00:00:00', NULL, '2025-01-21 07:50:47', 1, 'PAID', '2025-01-31 18:10:00', '2025-01-31 19:47:00', NULL, 'Last half of January 2025'),
+(21, 10, 'First half of February 2025', '288', '32', '9', '0000-00-00 00:00:00', NULL, '2025-02-02 19:49:16', 1, 'PAID', '2025-02-14 14:00:00', '2025-02-16 18:38:00', NULL, 'We will be gone Feb 3rd - Feb 6th at Disneyland.'),
+(22, 1, 'Lake County Invoice #8 - First two weeks of February 2025', '2925', '19.5', '150', '0000-00-00 00:00:00', NULL, '2025-02-02 19:55:13', 1, 'PAID', '2025-02-18 04:48:00', '2025-03-06 16:46:00', NULL, 'Recreated this one on 2/2/25'),
+(23, 1, 'Lake County Invoice #9 - Last two weeks of February 2025', '6000', '40', '150', '0000-00-00 00:00:00', NULL, '2025-02-16 00:07:11', 1, 'PAID', '2025-02-28 22:46:00', '2025-03-21 13:39:00', NULL, 'First invoice working almost 20 hours per week !'),
+(24, 10, 'Last half of February 2025', '517.5', '57.5', '9', '0000-00-00 00:00:00', NULL, '2025-02-24 18:37:48', 1, 'PAID', '2025-03-03 16:12:00', '2025-03-03 21:44:00', NULL, ''),
+(25, 1, 'Lake County Invoice #10 - First two weeks of March 2025', '5850', '39', '150', '0000-00-00 00:00:00', NULL, '2025-03-03 21:52:16', 1, 'PAID', '2025-03-17 00:41:00', '2025-04-18 17:41:00', NULL, 'First Week: March 3rd - 7th\r\nSecond Week:  March 10th - 14th'),
+(26, 10, 'First half of March 2025', '427.5', '47.5', '9', '0000-00-00 00:00:00', NULL, '2025-03-03 16:12:55', 1, 'INPROGRESS', '0000-00-00 00:00:00', NULL, NULL, ''),
+(27, 1, 'Lake County eCourt Invoice #11 - Last two weeks of March 2025', '5475', '36.5', '150', '0000-00-00 00:00:00', NULL, '2025-03-17 00:36:26', 1, 'PAID', '2025-03-29 13:44:00', '2025-04-25 15:15:00', NULL, ''),
+(28, 1, 'Lake County eCourt Invoice #12 - First two weeks of April 2025', '6000', '40', '150', '0000-00-00 00:00:00', NULL, '2025-03-29 12:43:59', 1, 'PAID', '2025-04-14 12:32:00', '2025-05-02 16:07:00', NULL, 'March 31st to April 11th, 2025'),
+(29, 1, 'Lake County eCourt Invoice #13 - April 14th to April 25th', '5700', '38', '150', '0000-00-00 00:00:00', NULL, '2025-04-15 22:10:54', 1, 'PAID', '2025-04-26 20:55:00', '2025-05-09 14:47:00', NULL, ''),
+(30, 1, 'Lake County eCourt Invoice #14 - April 28th to May 9th', '6000', '40', '150', '0000-00-00 00:00:00', NULL, '2025-04-26 19:17:49', 1, 'PAID', '2025-05-09 16:13:00', '2025-05-23 18:55:00', NULL, 'April 28th - May 9th'),
+(31, 1, 'Lake County eCourt Invoice #15 - May 12th to May 23rd', '6000', '40', '150', '0000-00-00 00:00:00', NULL, '2025-05-09 15:21:49', 1, 'PAID', '2025-05-27 15:29:00', '2025-06-20 16:38:00', NULL, ''),
+(32, 1, 'Lake County eCourt Invoice #16 - May 26th to June 6th', '5625', '37.5', '150', '0000-00-00 00:00:00', NULL, '2025-05-27 17:18:25', 1, 'PAID', '2025-06-09 12:30:00', '2025-07-03 15:27:00', NULL, 'May 26th was Memorial Day - Did not work.'),
+(33, 1, 'Lake County eCourt Invoice #158 - June 9th to June 20th', '6000', '40', '150', '0000-00-00 00:00:00', NULL, '2025-06-09 12:27:17', 1, 'PAID', '2025-06-20 18:56:00', '2025-08-26 04:14:00', NULL, 'Invoice #158'),
+(34, 1, 'Lake County eCourt Invoice #159 - June 23rd to July 4th', '5400', '36', '150', '0000-00-00 00:00:00', NULL, '2025-06-20 17:27:12', 1, 'PAID', '2025-07-15 18:34:00', '2025-08-08 11:13:00', NULL, 'Invoice #159 - Will include a holiday.  NEW INVOICE STYLE.'),
+(35, 1, 'Lake County eCourt Invoice #160 - July 7th to July 18th', '5400', '36', '150', '0000-00-00 00:00:00', NULL, '2025-07-11 16:40:59', 1, 'PAID', '2025-07-23 18:27:00', '2025-08-15 15:16:00', NULL, 'Invoice #160'),
+(36, 1, 'Lake County eCourt Invoice #162 - July 21st to Aug 1', '5400', '36', '150', '0000-00-00 00:00:00', NULL, '2025-07-23 22:12:03', 1, 'SENT', '2025-08-03 14:25:00', NULL, NULL, 'Invoice #162'),
+(37, 1, 'Lake County eCourt Invoice #163 - Aug 4th to Aug 15th', '5700', '38', '150', '0000-00-00 00:00:00', NULL, '2025-08-03 14:25:32', 1, 'SENT', '2025-08-21 00:24:00', NULL, NULL, ''),
+(38, 1, 'Lake County eCourt Invoice #164 - Aug 18th to Aug 29th', '4200', '28', '150', '0000-00-00 00:00:00', NULL, '2025-08-18 16:33:33', 1, 'INPROGRESS', '0000-00-00 00:00:00', NULL, NULL, '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_projects_notes`
 --
 
@@ -3558,6 +4044,261 @@ INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_projects_timetracking`
+--
+
+CREATE TABLE `module_projects_timetracking` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `invoice_id` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) NOT NULL,
+  `last_updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_updated_by` int(11) DEFAULT NULL,
+  `hours` varchar(100) DEFAULT NULL,
+  `rate` varchar(999) DEFAULT NULL,
+  `time` varchar(100) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `status` varchar(999) DEFAULT NULL,
+  `date_work_start` datetime DEFAULT NULL,
+  `date_work_end` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_timetracking`
+--
+
+INSERT INTO `module_projects_timetracking` (`id`, `project_id`, `invoice_id`, `date_created`, `created_by`, `last_updated`, `last_updated_by`, `hours`, `rate`, `time`, `notes`, `status`, `date_work_start`, `date_work_end`) VALUES
+(12, 1, 1, '2024-11-13 20:02:33', 1, '0000-00-00 00:00:00', 1, '0.75', '150', '2:30pm - 3:45pm', 'Kick off meeting with the team. ', NULL, '2024-10-16 14:30:00', '2024-10-16 15:45:00'),
+(13, 1, 1, '2024-11-13 20:03:10', 1, '0000-00-00 00:00:00', 1, '4.25', '150', '2:00pm - 6:15pm', 'I worked on RJ\'s Excel worksheet, or data map, inputting core data points I knew from eDefender.', NULL, '2024-10-22 14:00:00', '2024-10-22 18:15:00'),
+(14, 1, 1, '2024-11-13 20:03:44', 1, '0000-00-00 00:00:00', 1, '4.25', '150', '8:30am - 10:45am', 'Meeting with team and few others. Keith shared his screen while in eDefender Aux and we worked through the excel sheet of required data points for this project. We completed 2 out of the 3 columns of required data points from RJ\'s Excel worksheet.', NULL, '2024-10-23 08:30:00', '2024-10-23 10:45:00'),
+(15, 1, 1, '2024-11-13 20:04:19', 1, '0000-00-00 00:00:00', 1, '2', '150', '4:00pm - 6:00pm', 'Continue working on the data map filling out the columns for eDefender metadata and the structure of the SQL database.', NULL, '2024-10-25 16:00:00', '2024-10-23 18:00:00'),
+(16, 1, 1, '2024-11-13 20:04:59', 1, '0000-00-00 00:00:00', 1, '2.5', '150', '2:00pm - 4:30pm', 'Data Map work round 2! We\'ve completed 90% of the required data points from the data map RJ provided. I need to complete the SQL table/column parts and the \"File Cabinet\" panel.', NULL, '2024-10-29 14:00:00', '2024-10-29 16:30:00'),
+(18, 1, 6, '2024-11-13 20:09:09', 1, '0000-00-00 00:00:00', 1, '2', '150', '4:00pm - 5:00pm', 'Continued working on the data map --> The File Cabinet', NULL, '2024-11-02 16:00:00', '2024-11-02 18:00:00'),
+(19, 1, 6, '2024-11-13 20:09:49', 1, '0000-00-00 00:00:00', 1, '1.5', '150', '3:00pm - 4:30pm', 'Finished the data map and emailed team updates.', NULL, '2024-11-04 15:00:00', '2024-11-04 16:30:00'),
+(21, 1, 6, '2024-11-13 20:11:25', 1, '0000-00-00 00:00:00', 1, '3.25', '150', '1:30pm - 4:45pm', 'Zoom call with RJ. Finished SQL pseudo code and started creating actual queries in PHP script.', NULL, '2024-11-13 13:30:00', '2024-11-13 16:45:00'),
+(22, 1, 6, '2024-11-13 20:12:08', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:30pm - 4:30pm', 'SQL pseudo code.\r\nRJ wrote to Jeff asking if we could use MySQL. Jeff said no, he prefers Excel.\r\nNo problem.', NULL, '2024-11-08 13:30:00', '2024-11-08 16:30:00'),
+(23, 1, 6, '2024-11-14 12:34:16', 1, '0000-00-00 00:00:00', 1, '4', '150', '5:00pm to 9:00pm', 'Created PHP script to export data to excel.', NULL, '2024-11-14 17:00:00', '2024-11-14 21:00:00'),
+(24, 1, 6, '2024-11-15 14:13:44', 1, '0000-00-00 00:00:00', 1, '4', '150', '10:00 AM - 2:00 PM', '- Zoom call with RJ.\r\n- Installed XAMP & SQLSRV drivers on RJ\'s laptop\r\n- Worked on PHP Script: completed tCase and tCaseAssignment', NULL, '2024-11-15 10:00:00', '2024-11-15 14:00:00'),
+(30, 1, 9, '2024-11-20 15:27:42', 1, '0000-00-00 00:00:00', 1, '3.5', '150', '3:30 PM - 7:00 PM', 'Created Agenda for Nov 21st meeting. Created a list of all the Searches and Entities we need to build and export to Excel.', NULL, '2024-11-20 15:30:00', '2024-11-20 19:00:00'),
+(31, 1, 9, '2024-11-21 12:21:49', 1, '0000-00-00 00:00:00', 1, '4', '150', '8:30 AM - 12:30 PM', 'Met with RJ and worked in excel for 30 minutes before meeting with GAL team at 9am MST.\r\nMeeting with GAL team. I controlled Keith\'s mouse and we created Searches/Reports for each table that has GAL Case data. We ended with 26 excel exports.\r\n\r\nTODO: get a copy of the Searches and add in the foreign key id for any Search where the root entity (well, sub-root, all started on Case) has collections.', NULL, '2024-11-21 08:30:00', '2024-11-21 12:30:00'),
+(32, 1, 9, '2024-11-21 19:49:27', 1, '2024-11-21 19:49:27', 1, '1.75', '150', '1:00 PM - 2:45 PM', 'Worked with RJ create queries and exporting remaining tables from SSMS.', NULL, '2024-11-21 13:00:00', '2024-11-21 14:45:00'),
+(33, 1, 9, '2024-11-21 19:51:23', 1, '2024-11-21 19:51:23', 1, '3', '150', '4:15 PM - 7:15 PM', 'Continued exporting GAL data via SSMS. Exported tables: all of Directory and all of LookupLists.\r\nTomorrow I will finish the few remaining and Iteration One will be complete.', NULL, '2024-11-21 16:15:00', '2024-11-21 19:15:00'),
+(34, 1, 9, '2024-11-24 15:24:18', 1, '0000-00-00 00:00:00', 1, '2', '150', '10:00 AM - 12:00 PM', 'Exported the remaining tables in SQL Server to RJ\'s laptop. Iteration One completed. Keith is reviewing the data.', NULL, '2024-11-22 10:00:00', '2024-11-22 12:00:00'),
+(35, 1, 9, '2024-11-27 15:44:08', 1, '2024-11-27 15:44:08', 1, '3', '150', '12:00 PM - 3:00 PM', 'Zoom call with team. I controlled Keith\'s mouse as we reviewed the data exported from the Reports. We learned we need to create filters/criteria on most Reports to only get GAL data. We created filters for each report, saved in a Sheets document in my Google Drive. \r\nI also exported all of the Searches from eDefender and emailed them to myself so I can work on them locally. My action item is to add the filters to each of the Reports. Upon completion, we plan to meet next Monday, December 2nd, at 1pm CST / Noon MDT.', NULL, '2024-11-27 12:00:00', '2024-11-27 15:00:00'),
+(36, 1, 9, '2024-12-02 16:38:32', 1, '0000-00-00 00:00:00', 1, '2', '150', '5:00 PM - 7:00 PM', 'Final config items for GAL Case searches before full export.', NULL, '2024-11-30 17:00:00', '2024-11-30 19:00:00'),
+(37, 1, 10, '2024-12-02 16:41:23', 1, '2024-12-02 16:41:23', 1, '4', '150', '12:00 PM - 4:00 PM', 'Met with GAL team on Zoom. Imported searches. Data analysis. Exported 50 rows from each and shared with RJ to provide to Jeff.', NULL, '2024-12-02 12:00:00', '2024-12-02 16:00:00'),
+(38, 1, 10, '2024-12-06 12:43:01', 1, '0000-00-00 00:00:00', 1, '4.25', '150', '12:30 PM - 4:45 PM', 'First meeting with Jeff. Built 75% of the ERD after the meeting. Emailed RJ to get the excel sheets for the non-tCase tables. (Lookuplist, Directory, DocDef, and Statute) -- will finish ERD when I receive those excel sheets from RJ.', NULL, '2024-12-06 12:30:00', '2024-12-06 16:45:00'),
+(39, 1, 10, '2024-12-10 10:24:15', 1, '0000-00-00 00:00:00', 1, '2.5', '150', '6:30 PM - 9:00 PM', 'Created an ERD for Jeff as he requested.', NULL, '2024-12-08 18:30:00', '2024-12-08 21:00:00'),
+(40, 1, 10, '2024-12-10 18:09:36', 1, '0000-00-00 00:00:00', 1, '5.85', '150', '12:30 PM - 6:21 PM', 'Met with GAL team and did final touches to Searches and Exported all tables to excel. Had a timeout issue with 5 tables I built in eDefender, so I had to build the queries in SQL.\r\nI built queries and exported the remaining tables with RJ after the Zoom meeting with entire GAL team. In total, there are 39 excel sheets, all separate tables with data. I also made minor modifications to the ERD. At the end of the day, RJ and I put all files in the same folder, zipped it up, and uploaded it to Jeff\'s dropbox.', NULL, '2024-12-10 12:30:00', '2024-12-10 18:21:00'),
+(41, 1, 14, '2024-12-20 15:40:37', 1, '0000-00-00 00:00:00', 1, '2.5', '150', '1:00 PM - 3:30 PM', 'Zoom call with RJ, Kasper, and Jamie. Reviewed issues in the eCourt Porta, eCourt, and GAL Case process. We discussed many different things. I am going to type up a detailed email with development propositions and options.', NULL, '2024-12-20 13:00:00', '2024-12-20 15:30:00'),
+(42, 1, 15, '2025-01-03 12:32:52', 1, '0000-00-00 00:00:00', 1, '5.5', '150', '12:30 PM - 6:00 PM', 'Meeting with Jeff and GAL team on Zoom. Found some discrepancies in the data dump. Need to include additional case.category and remove two other filters. Need to export every table again that isn\'t the entire table. Worked with RJ after the Zoom meeting to rebuild SQL queries to get all required data. Also chatted with eCourt team about needed config within eCourt and it\'s portal.', NULL, '2025-01-03 12:30:00', '2025-01-03 18:00:00'),
+(43, 1, 15, '2025-01-05 14:52:14', 1, '2025-01-05 14:52:14', 1, '1', '150', '1:00 PM - 2:00 PM', 'Continued exporting GAL data via SQL Server.', NULL, '2025-01-04 13:00:00', '2025-01-04 14:00:00'),
+(44, 1, 15, '2025-01-05 14:52:58', 1, '0000-00-00 00:00:00', 1, '1', '150', '10:00 AM - 11:00 AM', 'Zoom session disconnected. Texted RJ and he reconnected us and I continued exporting GAL data via SQL Server.', NULL, '2025-01-05 10:00:00', '2025-01-05 11:00:00'),
+(45, 1, 15, '2025-01-05 14:53:43', 1, '0000-00-00 00:00:00', 1, '4.5', '150', '1:30 PM - 6:00 PM', 'Completed the remaining data exports to Excel via SQL Server SSMS. Emailed/texted Winnie and RJ where the zip file is located containing all of the excel sheets.', NULL, '2025-01-05 13:30:00', '2025-01-05 18:00:00'),
+(46, 10, 16, '2025-01-06 08:18:28', 1, '0000-00-00 00:00:00', 1, '7', '9', '8:00 AM - 3:00 PM', 'First Day!', NULL, '2025-01-06 08:00:00', '2025-01-06 15:00:00'),
+(47, 1, 15, '2025-01-06 12:37:25', 1, '0000-00-00 00:00:00', 1, '0.5', '150', '12:45 PM - 1:15 PM', 'Re-exported the tCase table and added CourtCaseNumber column as requested by Jeff.', NULL, '2025-01-06 12:45:00', '2025-01-06 13:15:00'),
+(48, 10, 16, '2025-01-07 13:37:39', 1, '0000-00-00 00:00:00', 1, '8', '9', '7:00 AM - 3:00 PM', 'Day 2', NULL, '2025-01-07 07:00:00', '2025-01-07 15:00:00'),
+(49, 1, 15, '2025-01-09 13:34:29', 1, '0000-00-00 00:00:00', 1, '2.75', '150', '1:30 PM - 4:15 PM', 'Meeting with RJ and Kasper about eCourt portal config.', NULL, '2025-01-09 13:30:00', '2025-01-09 16:15:00'),
+(57, 1, 15, '2025-01-10 12:55:17', 1, '0000-00-00 00:00:00', 1, '1', '150', '1:00 PM - 2:00 PM', 'Zoom meeting with Jeff and RJ reviewing the data that Jeff has.', NULL, '2025-01-10 13:00:00', '2025-01-10 14:00:00'),
+(58, 10, 16, '2025-01-13 16:52:05', 1, '0000-00-00 00:00:00', 1, '7.5', '9', '7:00 AM - 2:30 PM', 'Ashlin dopped Eli off at Paige\'s house.', NULL, '2025-01-13 07:00:00', '2025-01-13 14:30:00'),
+(59, 10, 16, '2025-01-14 07:12:18', 1, '0000-00-00 00:00:00', 1, '8.5', '9', '7:00 AM - 3:30 PM', '', NULL, '2025-01-14 07:00:00', '2025-01-14 15:30:00'),
+(60, 10, 16, '2025-01-15 07:21:21', 1, '0000-00-00 00:00:00', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-01-15 07:00:00', '2025-01-15 15:00:00'),
+(61, 11, 17, '2025-01-15 14:57:47', 1, '2025-01-15 14:57:47', 1, '0.5', NULL, '11:00 AM - 11:30 AM', 'Quick 30 minute meeting. About 12 people on the call, including Cameron. Sounds like they\'re in need of several different pieces of software: CRM, SalesCenter, replacement for FranConnect, etc.  They chatted a bit, and concluded with some solutions. They\'re currently paying $10k/mo for FranConnect and they want me to develop something to replace it.', NULL, '2025-01-15 11:00:00', '2025-01-15 11:30:00'),
+(62, 10, 16, '2025-01-16 07:10:01', 1, '0000-00-00 00:00:00', 1, '8', '9', '7:00 AM - 3:00 PM', '*paige running late morning on drop off*', NULL, '2025-01-16 07:00:00', '2025-01-16 15:00:00'),
+(64, 1, 18, '2025-01-17 16:04:48', 1, '2025-01-17 16:04:48', 1, '2.25', '150', '1:45 PM - 4:00 PM', 'Zoom call with RJ and Kasper.', NULL, '2025-01-17 13:45:00', '2025-01-17 16:00:00'),
+(65, 11, 17, '2025-01-20 14:48:05', 1, '2025-01-20 14:48:05', 1, '1.5', NULL, '1:30 PM - 3:00 PM', 'Service Depot was down. Joe said the AWS EC2 was down, so he restarted it, and it came back online. I tried logging in, but got an SMTP authentication error. Joe said we needed to create an \"App Password\" on the noreply@worriedbird.com email. I did that, and provided Joe the password.  I can now successfully login the backend of the SD.\r\nI also emailed Kevin and Greg at Phoenix asking who should be my main contact to share info about the SD to. Also who to discuss the details of the software proposal with.', NULL, '2025-01-20 13:30:00', '2025-01-20 15:00:00'),
+(66, 10, 19, '2025-01-21 07:51:12', 1, '0000-00-00 00:00:00', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-01-21 07:00:00', '2025-01-21 15:00:00'),
+(67, 1, 18, '2025-01-21 10:59:34', 1, '2025-01-21 10:59:34', 1, '1.33', '150', '9:40 AM - 11:00 AM', 'Emergency meeting with RJ to fix issues in eCourt Portal', NULL, '2025-01-21 09:40:00', '2025-01-21 11:00:00'),
+(68, 10, 19, '2025-01-22 15:15:07', 1, '0000-00-00 00:00:00', 1, '8.5', '9', '7:00 AM - 3:30 PM', '', NULL, '2025-01-22 07:00:00', '2025-01-22 15:30:00'),
+(69, 1, 18, '2025-01-24 13:01:59', 1, '0000-00-00 00:00:00', 1, '3.5', '150', '1:00 PM - 4:30 PM', 'Zoom call with RJ and Kasper to fix issues in eCourt and Portal.', NULL, '2025-01-24 13:00:00', '2025-01-24 16:30:00'),
+(70, 10, 19, '2025-01-24 16:56:07', 1, '0000-00-00 00:00:00', 1, '8.5', '9', '7:00 AM - 3:30 PM', '', NULL, '2025-01-23 07:00:00', '2025-01-23 15:30:00'),
+(71, 10, 19, '2025-01-27 12:26:02', 1, '0000-00-00 00:00:00', 1, '5.5', '9', '9:00 AM - 2:30 PM', '', NULL, '2025-01-27 09:00:00', '2025-01-27 14:30:00'),
+(72, 1, 18, '2025-01-27 14:00:10', 1, '0000-00-00 00:00:00', 1, '2', '150', '2:00 PM - 4:00 PM', 'Working in eCourt and Portal with RJ and Kasper. Created GAL role in AUX Portal and granted that role permissions, menu links, and view access as needed.', NULL, '2025-01-27 14:00:00', '2025-01-27 16:00:00'),
+(73, 1, 18, '2025-01-28 13:17:10', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:15 PM - 4:15 PM', 'Zoom meeting with RJ in eCourt', NULL, '2025-01-28 13:15:00', '2025-01-28 16:15:00'),
+(74, 10, 19, '2025-01-29 09:49:45', 1, '0000-00-00 00:00:00', 1, '7.75', '9', '7:00 AM - 2:45 PM', '', NULL, '2025-01-29 07:00:00', '2025-01-29 14:45:00'),
+(75, 1, 18, '2025-01-29 13:58:00', 1, '0000-00-00 00:00:00', 1, '2.75', '150', '2:00 PM - 4:45 PM', 'eCourt Portal issues with RJ and Kasper via Zoom.', NULL, '2025-01-29 14:00:00', '2025-01-29 16:45:00'),
+(76, 1, 18, '2025-01-30 09:40:13', 1, '0000-00-00 00:00:00', 1, '1.5', '150', '9:00 AM - 10:30 AM', 'Quick look into Portal authorities in AUX. Connected via Zoom with RJ.', NULL, '2025-01-30 09:00:00', '2025-01-30 10:30:00'),
+(77, 10, 19, '2025-01-30 10:31:35', 1, '0000-00-00 00:00:00', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-01-30 07:00:00', '2025-01-30 15:00:00'),
+(78, 1, 18, '2025-01-30 16:40:30', 1, '0000-00-00 00:00:00', 1, '2.5', '150', '2:15 PM - 4:45 PM', 'Round 2 today. Worked with RJ and Kasper on eCourt Portal Roles. Kasper and I did a deep dive into the inception of functions within functions to pin point exactly where GAL users are being denied access to JA/JD/AD cases.  We found a solution and fixed it in AUX. We plan to fix it in Prod tomorrow.', NULL, '2025-01-30 14:15:00', '2025-01-30 16:45:00'),
+(79, 1, 18, '2025-01-31 16:49:26', 1, '2025-01-31 16:49:26', 1, '4.5', '150', '12:00 PM - 4:30 PM', 'Zoom call with RJ and Kasper. We spent more time combing through the authorities and permissions in eCourt and the Portal.  We created and scripted new conditions to allow GAL users to view JD/JA/AD cases. Also to allow GAL\'s to view parties which have a partyType of \"minor\" which conversely blocked all other roles. We got everything done in AUX and 1/2 of it done in Prod.  The only component that Prod is missing, is GAL\'s ability to view \"minor\" parties. Kasper said he\'s going to do that Monday. I will be offline Mon-Thu but will be available by phone, if needed.', NULL, '2025-01-31 12:00:00', '2025-01-31 16:30:00'),
+(80, 10, 19, '2025-01-31 17:42:15', 1, '2025-01-31 17:42:15', 1, '7.75', NULL, '7:00 AM - 2:45 PM', '', NULL, '2025-01-28 07:00:00', '2025-01-28 14:45:00'),
+(84, 1, 22, '2025-02-07 14:36:26', 1, '2025-02-07 14:36:26', 1, '2.25', '150', '12:00 PM - 2:15 PM', 'ALL JUVENILE CASES ARE ALL SEALED\r\n- Jamie Schunemen 2/7/25 @ 1:47pm\r\n\r\n\r\nPortal User CASE Authority\r\n	This is where we determine the Role of the Portal User that is logged in. (their portal permissions are inherited from their Role)\r\n	This is where the permissions of viewing a SEALED CASE is allowed or denied.\r\n\r\n\r\nPortal User DOCUMENT Authority\r\n	This is where the permissions of viewing a SEALED DOCUMENT is allowed or denied.\r\n\r\n\r\nCan Probation Officers \r\n	- view MH cases?\r\n	ANSWER: No? ( not super confident... )\r\n\r\n	- view MH documents?\r\n	ANSWER: \r\n\r\n	- view that it was just filed????\r\n	(could do Velocity code to show that)', NULL, '2025-02-07 12:00:00', '2025-02-07 14:15:00'),
+(85, 1, 22, '2025-02-10 14:57:11', 1, '2025-02-10 14:57:11', 1, '2', '150', '1:00 PM - 3:00 PM', 'PROBATION OFFICER ROLE and permissions in the Portal.\r\nScripted a condition to allow access to SRI document types', NULL, '2025-02-10 13:00:00', '2025-02-10 15:00:00'),
+(86, 1, 22, '2025-02-10 17:22:36', 1, '0000-00-00 00:00:00', 1, '1', '150', '7:00 PM - 8:00 PM', 'Code Review for Kasper.', NULL, '2025-02-10 19:00:00', '2025-02-10 20:00:00'),
+(87, 10, 21, '2025-02-11 07:57:38', 1, '2025-02-11 07:57:38', 1, '6.5', '9', '8:30 AM - 3:00 PM', '', NULL, '2025-02-10 08:30:00', '2025-02-10 15:00:00'),
+(88, 10, 21, '2025-02-11 07:58:05', 1, '2025-02-11 07:58:05', 1, '7.5', '9', '7:30 AM - 3:00 PM', '', NULL, '2025-02-11 07:30:00', '2025-02-11 15:00:00'),
+(89, 10, 21, '2025-02-12 07:26:11', 1, '0000-00-00 00:00:00', 1, '9.5', '9', '7:00 AM - 4:30 PM', '', NULL, '2025-02-12 07:00:00', '2025-02-12 16:30:00'),
+(90, 1, 22, '2025-02-12 18:59:37', 1, '2025-02-12 18:59:37', 1, '3', '150', '1:00 PM - 4:00 PM', '', NULL, '2025-02-11 13:00:00', '2025-02-11 16:00:00'),
+(91, 10, 21, '2025-02-13 09:19:33', 1, '0000-00-00 00:00:00', 1, '8.5', '9', '7:00 AM - 3:30 PM', '', NULL, '2025-02-13 07:00:00', '2025-02-13 15:30:00'),
+(92, 1, 22, '2025-02-13 19:56:13', 1, '2025-02-13 19:56:13', 1, '2', '150', '2:00 PM - 4:00 PM', 'Worked with RJ and Kasper on Probation Officer and GAL permissions in the Portal. We\'ve completed scripting the conditions to give those roles permissions for sealed Cases and Documents. We\'ve started doing some integrity checked and making sure permissions are all set correctly.', NULL, '2025-02-13 14:00:00', '2025-02-13 16:00:00'),
+(93, 1, 22, '2025-02-13 19:58:53', 1, '0000-00-00 00:00:00', 1, '3.5', '150', '4:30 PM - 8:00 PM', 'RJ stayed logged in Zoom and allowed me to continue working. I built some SQL queries and two  searches in eCourt to do integrity checks on sealed Cases and Documents. They will be very useful to check permissions per case type / seal type / user roles. I\'ll demo them to RJ and Kasper tomorrow.', NULL, '2025-02-13 16:30:00', '2025-02-13 20:00:00'),
+(94, 1, 22, '2025-02-14 16:51:06', 1, '0000-00-00 00:00:00', 1, '3.75', '150', '2:00 PM - 5:45 PM', 'Worked with RJ and Kasper doing code review and verifying the integrity of our condition script for Probation Officers in the Portal as to what type of sealed cases and sealed documents they can view. We were ready to move the config from AUX to Prod, but RJ said it\'s not on hold so some people can meet and make decisions. Encountered a few issues and questions that RJ is working on resolving and answering. We did decide to go ahead with utilizing a Task Manager system that I will develop that will be hosted (somewhere) at Lake. We also discussed installing a local environment of eCourt that us 3 can work in without worry of \"stepping on others toes\". Especially JTI.', NULL, '2025-02-14 14:00:00', '2025-02-14 17:45:00'),
+(95, 1, 22, '2025-02-14 17:09:27', 1, '2025-02-14 17:09:27', 1, '2', '150', '9:59 PM - 11:59 PM', 'Started developing and customizing our Task/Issue/Enhancement Tracker website.', NULL, '2025-02-14 21:59:00', '2025-02-14 23:59:00'),
+(96, 1, 23, '2025-02-18 07:22:11', 1, '2025-02-18 07:22:11', 1, '4', '150', '9:00 AM - 1:00 PM', 'Continued developing and setting up our Task/Issue/Enhancement Tracker app. XAMPP running Apache, PHP, and MySQL. Pseudo coding the database structure; trying to keep things simple but normalized.', NULL, '2025-02-17 09:00:00', '2025-02-17 13:00:00'),
+(97, 1, 23, '2025-02-19 21:05:43', 1, '0000-00-00 00:00:00', 1, '2', '150', '10:00 AM - 12:00 PM', 'Created project fold for the web app and built the basic PHP files, installed Bootstrap 5 CSS Framework, DropZone.js, etc.', NULL, '2025-02-18 10:00:00', '2025-02-18 12:00:00'),
+(98, 1, 23, '2025-02-18 16:02:16', 1, '2025-02-18 16:02:16', 1, '2', '150', '2:00 PM - 4:00 PM', 'Worked with RJ and Kasper. Created a new Portal role called \"Probation Officer - Basic\". RJ brought Dr. Winton on the call and we asked questions about permissions to view certain sealed documents. Found a couple of user data entry issues where some sealed documents (evaluations) are using different DocDefs.', NULL, '2025-02-18 14:00:00', '2025-02-18 16:00:00'),
+(100, 1, 23, '2025-02-19 21:08:51', 1, '0000-00-00 00:00:00', 1, '4', '150', '2:00 PM - 6:00 PM', 'Zoom call with RJ and Kasper. Created GAL specific Folder Views and \"Add Document\" screens for the GAL role in the Portal. Discussed future plans and roadblocks with the Probation Officer role(s) in the Portal as well. Continued working on the eCourt Tracker website. Got a simple home index.php page running and lightly setup.\r\nI also created the GAL Case Summary Screen node (438) in Prod Portal and created all the tabs for events, documents, etc.  Jamie will test it tomorrow.', NULL, '2025-02-19 14:00:00', '2025-02-19 18:00:00'),
+(103, 1, 23, '2025-02-20 22:59:45', 1, '0000-00-00 00:00:00', 1, '2', '150', '8:30 AM - 10:30 AM', 'Developed more of the eCourt Tracker website. My goal is to get a simple MVP with basic features that we can start using asap. We really need a centralized place for notes, issues, enhancements, etc.', NULL, '2025-02-20 08:30:00', '2025-02-20 10:30:00'),
+(104, 1, 23, '2025-02-20 23:03:01', 1, '0000-00-00 00:00:00', 1, '4', '150', '2:00 PM - 6:00 PM', 'Zoom call with RJ and Kasper. We spent the 1st hour discussing some issues that others are having in the eCourt AUX system. There are too many hands in this system and we\'re inevitably clashing as we\'re apparently working on the same scripts. We have always backed up, made copies, and done everything as safe as possible. We need our own eCourt app to develop and test in.\r\nSpent some time looking into the eCourt Production database and learned some interesting things. I emailed Winnie and the team those details (and concerns)\r\nFinally, I typed up a few detailed emails about project updates, team needs, and concerns.', NULL, '2025-02-20 14:00:00', '2025-02-20 18:00:00'),
+(105, 10, 24, '2025-02-24 18:39:43', 1, '2025-02-24 18:39:43', 1, '9', '9', '7:00 AM - 4:00 PM', '', NULL, '2025-02-18 07:00:00', '2025-02-18 16:00:00'),
+(106, 10, 24, '2025-02-24 18:40:11', 1, '2025-02-24 18:40:11', 1, '8.25', '9', '7:00 AM - 3:15 PM', '', NULL, '2025-02-19 07:00:00', '2025-02-19 15:15:00'),
+(107, 10, 24, '2025-02-24 18:40:48', 1, '2025-02-24 18:40:48', 1, '8.25', '9', '7:00 AM - 3:15 PM', '', NULL, '2025-02-20 07:00:00', '2025-02-20 15:15:00'),
+(108, 10, 24, '2025-02-24 18:41:56', 1, '0000-00-00 00:00:00', 1, '8.25', '9', '7:00 AM - 3:15 PM', '', NULL, '2025-02-24 07:00:00', '2025-02-24 15:15:00'),
+(109, 1, 23, '2025-02-25 14:03:26', 1, '2025-02-25 14:03:26', 1, '2', '150', '10:00 AM - 12:00 PM', 'Zoom call with RJ. I worked in SQL Server and finished configuring the GAL screens in the Portal so they can submit/file documents in the eCourt Portal.', NULL, '2025-02-21 10:00:00', '2025-02-21 12:00:00'),
+(110, 1, 23, '2025-02-25 14:06:07', 1, '2025-02-25 14:06:07', 1, '4', '150', '9:30 AM - 1:30 PM', 'Called RJ in the morning and he said we\'re still on a code freeze so we can\'t work on the Probation Officer authorities/permissions. I continued working on our eCourt Tracker web app. I got most of the frontend done.', NULL, '2025-02-24 09:30:00', '2025-02-24 13:30:00'),
+(112, 1, 23, '2025-02-26 19:56:14', 1, '2025-02-26 19:56:14', 1, '2', '150', '3:00 PM - 5:00 PM', 'RJ called me at ~2:30pm and said he\'s at the Courthouse so we won\'t meet together today. I continued working on the eCourt Tracking web app. I completed the rest of the frontend and began creating the MySQL/MariaDB database.', NULL, '2025-02-25 15:00:00', '2025-02-25 17:00:00'),
+(113, 1, 23, '2025-02-26 19:59:25', 1, '2025-02-26 19:59:25', 1, '2', '150', '8:45 AM - 10:45 AM', 'Reviewed an email from RJ & Winnie about an enhancement request from some users to add an icon/flag/status so a judge and/or court clerk could easily see if the case/defendant has been granted a \'Fee Waiver\'. After reviewing and responding I can do it and work on it this afternoon with RJ, I continued architecting the database for our eCourt Tracker web app.', NULL, '2025-02-26 08:45:00', '2025-02-26 10:45:00'),
+(114, 1, 23, '2025-02-26 20:01:42', 1, '2025-02-26 20:01:42', 1, '4', '150', '2:00 PM - 6:00 PM', 'Created 3 potential solutions for Mike Nerheim, the enhancement requestor for the flag/status in the case header for a judge or clerk to quickly find if the case/defendant has a \'Fee Waiver\' granted. Solutions created in eCourt AUX, under the supervision of RJ. I emailed Winnie and RJ screenshots of the solutions I created. Ready to demo to Mike or answer any questions.', NULL, '2025-02-26 14:00:00', '2025-02-26 18:00:00'),
+(115, 10, 24, '2025-02-26 22:59:22', 1, '0000-00-00 00:00:00', 1, '8.5', '9', '7:00 AM - 3:30 PM', '', NULL, '2025-02-25 07:00:00', '2025-02-25 15:30:00'),
+(116, 10, 24, '2025-02-26 22:59:41', 1, '2025-02-26 22:59:41', 1, '7', '9', '7:00 AM - 2:00 PM', '', NULL, '2025-02-26 07:00:00', '2025-02-26 14:00:00'),
+(117, 10, 24, '2025-02-27 08:19:14', 1, '0000-00-00 00:00:00', 1, '8.25', '9', '7:00 AM - 3:15 PM', '', NULL, '2025-02-27 07:00:00', '2025-02-27 15:15:00'),
+(118, 1, 23, '2025-02-27 17:11:24', 1, '2025-02-27 17:11:24', 1, '2.5', '150', '2:40 PM - 5:10 PM', 'RJ coordinated a meeting with Winnie and Kasper so I could demo the \"Fee Waiver\" icon/button/widget in the Case Header. (A judge was in Winnie\'s office and approved as well)\r\nEverybody like what I built. Winnie asked me to configure it for FAMILY cases (case type = 211110) - I didn\'t realize Family cases have a \"Respondent\" instead of a \"Defendant\" so I had to change some code a bit but eventually got it to work. Emailed Winnie and team an update.', NULL, '2025-02-27 14:40:00', '2025-02-27 17:10:00'),
+(119, 1, 23, '2025-02-28 13:01:30', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:00 PM - 4:00 PM', 'Winnie informed the court clerk and others about the Fee Waiver icon/modal in the case header. They provided some feedback. Meeting with RJ on Zoom to make the requested adjustments, test, then plan move to move all of the config to Prod.', NULL, '2025-02-28 13:00:00', '2025-02-28 16:00:00'),
+(120, 1, 23, '2025-02-28 16:58:33', 1, '2025-02-28 16:58:33', 1, '2.5', '150', '5:00 PM - 7:30 PM', 'Followed up with RJ\'s email to clarify the config we did today was in AUX, not PROD.\r\nExported the FEE WAIVER forms and lookup lists and continued working on the FEE WAIVER enhancement request, making the pop-up modal have a better UI/UX.\r\nAlso investigated the issue on the \"View Fee Waivers\" screen in the FINANCIALS drop down. (this issue persists on AUX and PROD).', NULL, '2025-02-28 17:00:00', '2025-02-28 19:30:00'),
+(121, 10, 26, '2025-03-03 21:44:52', 1, '2025-03-03 21:44:52', 1, '7', '9', '9:00 AM - 4:00 PM', '', NULL, '2025-03-03 09:00:00', '2025-03-03 16:00:00'),
+(122, 1, 25, '2025-03-03 21:49:09', 1, '2025-03-03 21:49:09', 1, '4', '150', '12:00 PM - 4:00 PM', 'Continued working on the eCourt Enhancement & Issue Tracker. Got a lot more of the database built and backend configured. I\'ve started using it minimally locally. I\'ll be ready to deploy this week if a host server is ready.\r\nZoom call with RJ and Kasper. I show the other examples of the Fee Waiver enhancement. We decided on one and moved the config to Production. Emailed Winnie and team that it\'s been completed.', NULL, '2025-03-03 12:00:00', '2025-03-03 16:00:00'),
+(123, 1, 25, '2025-03-04 16:06:40', 1, '2025-03-04 16:06:40', 1, '4', '150', '1:00 PM - 5:00 PM', 'Completed backend for eCourt Enhancement & Issue Tracker. Demo\'d it to RJ and Kasper on our Zoom call today. \r\nEmail from Winnie about an issue in the Portal where a Private Attorney had \"Search GAL Cases\" in their Search Case dropdown. I fixed that issue and replied with details.\r\nCollaborated with RJ and Kasper about adding the Fee Waiver header icon to Bench View as well.', NULL, '2025-03-04 13:00:00', '2025-03-04 17:00:00'),
+(124, 1, 25, '2025-03-05 22:23:16', 1, '2025-03-05 22:23:16', 1, '0.75', '150', '10:30 AM - 11:15 AM', 'Updated eCourt Tracker with previously worked on enhancements, issues, and notes.\r\nReceived an email from Winnie about the Fee Waiver widget not displaying names correctly. I quickly fixed the code and sent it to Kasper, who updated it in PROD. Working correctly now.', NULL, '2025-03-05 10:30:00', '2025-03-05 11:15:00'),
+(125, 1, 25, '2025-03-05 22:23:55', 1, '0000-00-00 00:00:00', 1, '3.25', '150', '12:45 PM - 4:00 PM', 'Continued developing the Fee Waiver widget for the Bench View for Judges within eCourt.\r\nZoom call with RJ and Kasper. Reviewed and learned how eCourt E2E/Data Shepard works; specifically how eCourt receives and seals Documents from Lake eDefender and what the Court Clerk\'s manual work process is.  I provided insights, expertise, and things to consider to the team.', NULL, '2025-03-05 12:45:00', '2025-03-05 16:00:00'),
+(126, 1, 25, '2025-03-06 16:15:47', 1, '2025-03-06 16:15:47', 1, '4', '150', '1:00 PM - 5:00 PM', 'Worked with RJ to get the Fee Waiver widget in the header of a Judge\'s \"BENCH VIEW\" from the Case Header. Developed and implemented it in AUX. (working on the UI was a bit difficult, but we got it to look good!) And updated eCourt PROD with the code.', NULL, '2025-03-06 13:00:00', '2025-03-06 17:00:00'),
+(127, 1, 25, '2025-03-10 19:53:09', 1, '2025-03-10 19:53:09', 1, '3', '150', '1:00 PM - 4:00 PM', 'Reviewed Kasper\'s email/screenshots and code (what I could) as he implemented the \"Fee Waiver\" enhancement to CIVIL cases (later included Probate & Guardianship case categories) and Judge\'s \"Bench View\". I also researched and tested some database stuff within eCourt and began drafting a proposal to get a copy of the eCourt config tables from the database for a local environment. \r\nFurther development to the Lake County eCourt Enhancement Tracker.', NULL, '2025-03-07 13:00:00', '2025-03-07 16:00:00'),
+(128, 1, 25, '2025-03-10 19:56:56', 1, '2025-03-10 19:56:56', 1, '4', '150', '1:00 PM - 5:00 PM', 'Recorded historical notes to enhancements and issues that RJ has brought up in the Lake County eCourt Tracker. (sounds like some big enhancements are incoming, especially for viewing E2E sealed documents). Met with RJ and Kasper and we work that Kasper did on Friday with the Fee Waiver enhancement, Workflow processes, spent awhile on an assignment Kasper has to add a quick Zoom link for Judge\'s to review Search Warrant cases, and stamping tool.', NULL, '2025-03-10 13:00:00', '2025-03-10 17:00:00'),
+(129, 10, 26, '2025-03-11 09:13:13', 1, '2025-03-11 09:13:13', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-03-04 07:00:00', '2025-03-04 15:00:00'),
+(130, 10, 26, '2025-03-11 09:13:33', 1, '2025-03-11 09:13:33', 1, '7.5', '9', '7:00 AM - 2:30 PM', '', NULL, '2025-03-05 07:00:00', '2025-03-05 14:30:00'),
+(131, 10, 26, '2025-03-11 09:13:55', 1, '2025-03-11 09:13:55', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-03-06 07:00:00', '2025-03-06 15:00:00'),
+(132, 10, 26, '2025-03-11 09:14:19', 1, '2025-03-11 09:14:19', 1, '8', '9', '7:00 AM - 3:00 PM', '', NULL, '2025-03-10 07:00:00', '2025-03-10 15:00:00'),
+(133, 10, 26, '2025-03-11 17:01:58', 1, '0000-00-00 00:00:00', 1, '9', '9', '7:00 AM - 4:00 PM', '', NULL, '2025-03-11 07:00:00', '2025-03-11 16:00:00'),
+(134, 1, 25, '2025-03-12 14:06:54', 1, '2025-03-12 14:06:54', 1, '4', '150', '1:00 PM - 5:00 PM', 'ZOOM LINK:\r\nconcluded that the judges will share a Zoom shared room.\r\n\r\nLonnie (SA) is on board to test after\r\n(SA) is on board to test after\r\n\r\nCONTACT AT THE STATE\'S ATTORNEYS OFFICE\r\nLRenda@lakecounty.gov', NULL, '2025-03-11 13:00:00', '2025-03-11 17:00:00'),
+(135, 1, 25, '2025-03-13 23:01:06', 1, '2025-03-13 23:01:06', 1, '4', '150', '2:00 PM - 6:00 PM', 'Meeting with just Kasper and I. We reviewed the Zoom link plan for Judge\'s to review Search Warrant cases. We also brainstormed some ideas for the eCourt Clerk\'s ability to send Sealed Documents to a \'hopper\' email for ePros and eDef. I then spend some time developing simple demos for those and will show them to RJ tomorrow.', NULL, '2025-03-12 14:00:00', '2025-03-12 18:00:00'),
+(136, 1, 25, '2025-03-13 23:04:15', 1, '2025-03-13 23:04:15', 1, '2', '150', '9:00 AM - 11:00 AM', 'Developed separate demos in my local eCourt environment, for the eCourt Clerk\'s ability to send sealed documents to eDefender and eProsecutor emails. Built a new icon in the case header to run a widget that allows users to select which sealed documents on a case to send. Demod to RJ on our call today and emailed screenshot to Winnie.', NULL, '2025-03-13 09:00:00', '2025-03-13 11:00:00'),
+(137, 1, 25, '2025-03-13 23:05:44', 1, '2025-03-13 23:05:44', 1, '2', '150', '2:30 PM - 4:30 PM', 'Met with Davey Rivers to gather specs, scope, and requirements for the Judge Mass Reassignment task. Emailed Winnie my notes and confidence that I can build something that is much more simple, efficient, and will require significant less manual work.', NULL, '2025-03-13 14:30:00', '2025-03-13 16:30:00'),
+(138, 1, 25, '2025-03-16 14:42:47', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'I didn\'t hear from RJ at all, but I met with Kasper. We reviewed our current workload of tasks. I took some notes and recorded them on each Enhancement/Task/Issue in the eCourt Tracker app. We spent most of our time going through eCourt Prod and exporting configuration files. I was able to get most things I needed besides: navigations/menus, Workflows, Time Standards, and the Directory. Those are quite crucial to allowing me to work. I also logged in my dwilkins@lakecountyil.gov email address, but was unable to connect with Beyond Identity nor access eCourt through Office365. We\'ll review next week!', NULL, '2025-03-14 13:00:00', '2025-03-14 17:00:00'),
+(139, 1, 27, '2025-03-25 12:20:32', 1, '0000-00-00 00:00:00', 1, '3', '150', '2:00 PM - 5:00 PM', 'Continued working on setting up and configuring local eCourt. Received the Menu/Navigation export from Kasper. Configuring metadata/entities and database structure. Updated notes and comments in eCourt Tracker for tasks.', NULL, '2025-03-17 14:00:00', '2025-03-17 17:00:00'),
+(140, 1, 27, '2025-03-25 12:20:58', 1, '0000-00-00 00:00:00', 1, '4', '150', '2:00 PM - 6:00 PM', 'Meeting with team. Demo\'d Court Sending Sealed Documents via Icon in the case header. Investigated issue with generated doc is cutoff in Microsoft Edge. \r\nI learned my emails are not being received by some @lakecountyil.gov email\'s (Winnie\'s included) so I re-emailed Judge Mass Reassignment documentation and also the Court Sending Sealed Documents enhancement documentation.', NULL, '2025-03-18 14:00:00', '2025-03-18 18:00:00'),
+(141, 1, 27, '2025-03-25 12:21:59', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Zoom meeting with team. Worked with Kasper and we created a new datetime stamp for Judge\'s so they can stamp current time on documents with the date. We looked at some reports, biz rules, and configuration for how the Dockets/Court Calls are specific and sent via ICCIC and AWS.\r\nLooked into a potential eCourt Issue from Searches/Reports taking too long to run.\r\nLooked into another potential eCourt Issue where the CSFR Protection is disabled.', NULL, '2025-03-19 13:00:00', '2025-03-19 17:00:00'),
+(142, 1, 27, '2025-03-25 12:22:54', 1, '0000-00-00 00:00:00', 1, '3', '150', '2:00 PM - 5:00 PM', 'No meeting with RJ and Kasper. I talked to Leah about the \'Sending Sealed Documents\' to ePros and eDefender a bit. I emailed Keith at Public Defender to chat about it from the eDefender side. Continued working on the \'Interpreter Needed\' enhancement as well. Continued building my local eCourt environment; several more things I need setup before I can work on Davey Rivers \'Mass Judge Reassignment\' enhancement.', NULL, '2025-03-20 14:00:00', '2025-03-20 17:00:00'),
+(143, 1, 27, '2025-03-25 12:27:09', 1, '2025-03-25 12:27:09', 1, '2.5', '150', '2:00 PM - 4:30 PM', 'Worked in \'Interpreter Needed\' Enhancement for Leah. Created several different options in my local eCourt to show the team next week. Emailed a few questions to Leah about how it should work. especially due to how JTI configured it.', NULL, '2025-03-21 14:00:00', '2025-03-21 16:30:00'),
+(144, 1, 27, '2025-03-25 12:34:42', 1, '2025-03-25 12:34:42', 1, '4', '150', '1:00 PM - 5:00 PM', 'Final touch ups for demo of \'Interpreter Needed\' Enhancement to Leah and team. Met with team and demo\'d to Leah. Few questions answered and further clarifications from Leah. Will copy the workflow so Clerk\'s get second task if multiple languages are entered.\r\nWorked with Kasper and another person about Daily Docket reports and users that are emailed.', NULL, '2025-03-24 13:00:00', '2025-03-24 17:00:00'),
+(145, 1, 27, '2025-03-25 12:37:18', 1, '2025-03-25 12:37:18', 1, '2', '150', '10:00 AM - 12:00 PM', 'Connected successfully to eCourt Prod through Office365. Downloaded some other admin config files I need for my local environment to work more efficiently. Taking a bit longer to get my local eCourt app setup, but safer way so no case/person/sensitive data is transferred.', NULL, '2025-03-25 10:00:00', '2025-03-25 12:00:00'),
+(146, 1, 27, '2025-03-25 12:37:43', 1, '0000-00-00 00:00:00', 1, '2', '150', '2:00 PM - 4:00 PM', 'Zoom meeting with RJ, Kasper, and Milton. We worked primarily on figuring out the way case data is passed to the AdGator screens in the courthouses as apparently they\'re showing incorrect data. We\'re trying to build Searches/Reports in eCourt to compare against, but not getting the best insight. Kasper has some questions he\'ll email to Leah.', NULL, '2025-03-25 14:00:00', '2025-03-25 16:00:00'),
+(147, 1, 27, '2025-03-26 20:18:38', 1, '2025-03-26 20:18:38', 1, '4', '150', '1:00 PM - 5:00 PM', 'Continued working on setting up my local eCourt environment. Looked at some various DocDef\'s and PDF templates that users are having issues with text fields truncating input data.\r\nZoom meeting with RJ, Kasper, and Milton. Reviewed AdGators / Daily Court Docket issue. Leah joined us as well and answered a few questions. Kasper emailed Tracy Medina @ JTI to hopefully get some questions answered. I showed the team how to run Reports, save them, and schedule them.', NULL, '2025-03-26 13:00:00', '2025-03-26 17:00:00'),
+(148, 1, 27, '2025-03-29 12:23:13', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Worked with Kasper and Milton reviewing the AdGator and DailyDocket reports that are sent daily to many email addresses and an AWS S3 bucket that the Court\'s TVs displays case data per courtroom. There are several issues and inconsistencies we\'re looking into. Tracy Medina responded to Kasper\'s email we sent yesterday and didn\'t provide any help.\r\nSpent more time in my local eCourt reviewing the biz rules that compile the data and send it to AWS. Also Reviewed the /Reports and how to schedule them.', NULL, '2025-03-27 13:00:00', '2025-03-27 17:00:00'),
+(149, 1, 27, '2025-03-29 12:27:30', 1, '2025-03-29 12:27:30', 1, '4', '150', '1:00 PM - 5:00 PM', 'Downloaded and acquired installation files for eCourt so we can work on it during out meeting.\r\nZoom call with Kasper and Milton. Spent most of the meeting setting up and installing software required for an eCourt Test environment on a server Kasper received access to.\r\nSpent more time working on my local eCourt configuration and Reports issue from yesterday.', NULL, '2025-03-28 13:00:00', '2025-03-28 17:00:00'),
+(150, 1, 28, '2025-04-01 00:07:08', 1, '2025-04-01 00:07:08', 1, '4', '150', '1:00 PM - 5:00 PM', 'Config in my local eCourt. Meeting with Kasper and RJ setting up eCourt Test app. Got the baseline up and running (blank database) -- need to use config management tool or export --> import from eCourt PROD to get the actual config.  Also requested for server node increase... RAM/CPU particularly. ', NULL, '2025-03-31 13:00:00', '2025-03-31 17:00:00'),
+(151, 1, 28, '2025-04-01 09:36:56', 1, '0000-00-00 00:00:00', 1, '0.5', '150', '9:15 AM - 9:45 AM', 'Received urgent email from RJ to investigate why Civil (and other) EVENT Summary Screens are broken. Learned that David Jackson, from JTI, made some changes to several Events FVs.', NULL, '2025-04-01 09:15:00', '2025-04-01 09:45:00'),
+(152, 1, 28, '2025-04-01 16:20:21', 1, '2025-04-01 16:20:21', 1, '3.5', '150', '1:00 PM - 4:30 PM', 'Met with RJ, Kasper, and Milton. Discussed current projects and tasks and prioritized what we should be working on first. Kasper said the \'case audit log\' task should be first priority, so while they were on a separate meeting, I found some useful Searches and wrote some SQL queries that should be useful. I plan to build a specific Search or SQL query as a solution for this task.', NULL, '2025-04-01 13:00:00', '2025-04-01 16:30:00'),
+(153, 1, 28, '2025-04-02 16:47:07', 1, '2025-04-02 16:47:07', 1, '4', '150', '1:00 PM - 5:00 PM', 'After a phone call with Winnie, I created a spreadsheet with 3 different options for the GAL project. \r\nMeeting with RJ, Kasper, and Winnie. I outlined the details of each option and the pros and cons. We went with option 3: me building a separate web app. This will be apart from my regular 20 hours with a separate SOW.', NULL, '2025-04-02 13:00:00', '2025-04-02 17:00:00'),
+(154, 1, 28, '2025-04-03 16:04:04', 1, '2025-04-03 16:04:04', 1, '4', '150', '2:00 PM - 6:00 PM', 'Meeting with Kasper, RJ, and Milton. Reviewed current tasks. Asked Davey Rivers to hop on our meeting to discuss the mass judge reassignment. Kasper and I then worked in our eCourt Test environment and began copying all of the config from PROD. Because eCourt doesn\'t have very many ROAs, I\'m also building a SQL query for case auditing. I also worked on the GAL project document.', NULL, '2025-04-03 14:00:00', '2025-04-03 18:00:00'),
+(155, 1, 28, '2025-04-07 20:08:38', 1, '2025-04-07 20:08:38', 1, '1.5', '150', '7:30 AM - 9:00 AM', 'Discussions about GAL project with team. Plan to meet later today. Emails with team and recorded notes about Option #3.', NULL, '2025-04-04 07:30:00', '2025-04-04 09:00:00'),
+(156, 1, 28, '2025-04-07 20:12:27', 1, '2025-04-07 20:12:27', 1, '2.5', '150', '1:00 PM - 3:30 PM', 'Meeting with the GAL team. Winnie, RJ, Kasper, and myself included. Jamie and Kathy demo\'d a lot of their processes. Our team hopped on a call afterward to discuss details internally. I still think option #3, a custom web app, is the best solution. I positively recommended that to Winnie.', NULL, '2025-04-04 13:00:00', '2025-04-04 15:30:00'),
+(157, 1, 28, '2025-04-07 20:14:12', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:30 PM - 4:30 PM', 'Worked individually on GAL project details; created spreadsheet outlining with entities we need case data from to create a separate web app. \r\nMeeting with RJ and Kasper. Reviewed details about shipping the laptop to me and got everything else setup on it that we needed to. \r\nWorked on eCourt Test. Imported biz rules and workflows.', NULL, '2025-04-07 12:30:00', '2025-04-07 16:30:00'),
+(158, 1, 28, '2025-04-08 14:16:03', 1, '0000-00-00 00:00:00', 1, '1.5', '150', '6:00 AM - 7:30 AM', 'Connected to eCourt PROD early in the morning, hoping it wouldn\'t timeout when I checked the Performance graphs and database index checks.', NULL, '2025-04-08 06:00:00', '2025-04-08 07:30:00'),
+(159, 1, 28, '2025-04-08 14:31:44', 1, '2025-04-08 14:31:44', 1, '2.5', '150', '12:00 PM - 2:30 PM', 'Meeting with RJ and Kasper. Discussed priorities and updates to our current tasks and projects. I showed them my documentation about the GAL project and asked necessary questions. Kasper and I worked on the eCourt Test environment, setting up needed configuration. We then worked on the \"Interpreter Needed\" project for Leah. I then emailed Leah Balzer an update about the \"Interpreter Needed\" project and the plan forward.', NULL, '2025-04-08 12:00:00', '2025-04-08 14:30:00'),
+(160, 1, 28, '2025-04-09 16:18:22', 1, '2025-04-09 16:18:22', 1, '3.25', '150', '2:15 PM - 5:30 PM', 'Meeting with Kasper and RJ. Discussed ongoing and new projects and tasks. RJ invited Davey Rivers onto the call so we could review the UI / formatting issue that users (specifically Judges) are having with the Dashboard Calendar Gadget. JTI confirmed via email they\'ve escalated it to their Dev team. Nothing we can do other than create a new single-column dashboard to give the calendar more real estate. And use Google Chrome, not MS Edge.\r\nTalked with Davey Rivers about the Judge Mass Reassignment issue more.\r\nWorked with Kasper on the eCourt Test environment to get the proper configuration.\r\nWorked on Leah Balzer\'s requested enhancement of adding multiple \"Interpreter\'s Required\" to an event. Created metadata and restarted in eCourt Test.', NULL, '2025-04-09 14:15:00', '2025-04-09 17:30:00'),
+(161, 1, 28, '2025-04-09 16:19:31', 1, '2025-04-09 16:19:31', 1, '0.75', '150', '7:15 PM - 8:00 PM', 'Reviewed more performance issues, took more screenshots of graphs, and reviewed eCourt Logs sent by Kasper.', NULL, '2025-04-09 19:15:00', '2025-04-09 20:00:00'),
+(162, 1, 28, '2025-04-11 16:31:29', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:30 PM - 5:30 PM', 'Meeting with RJ and Kasper. Updated them on the eGAL project and the critical questions I need answered. Continued working on configuring our local eCourt Test environment. We\'re hitting walls as we try to do certain things, which requires us to import more. (can\'t even create a case!) We tried to import Statutes and all of the components within the Directory.', NULL, '2025-04-10 13:30:00', '2025-04-10 17:30:00'),
+(163, 1, 28, '2025-04-11 16:33:21', 1, '0000-00-00 00:00:00', 1, '1.25', '150', '12:00 PM - 1:15 PM', 'Continued working on importing Statutes and the Directory into my local eCourt.', NULL, '2025-04-11 12:00:00', '2025-04-11 13:15:00'),
+(164, 1, 28, '2025-04-11 16:33:42', 1, '0000-00-00 00:00:00', 1, '2.75', '150', '2:30 PM - 5:15 PM', 'Meeting with Kasper. We reviewed some tasks we\'re working on and continued configuring our eCourt Test environment. Worked on the Interpreter Needed project for Leah and invited her onto our call to demo what we\'ve completed. Asked some questions for clarification on the workflows.\r\nLooked into a Judge\'s DirPerson accounts as they\'re getting work queue tasks when they shouldn\'t.\r\nContinued working on Directory import, with little success. ', NULL, '2025-04-11 14:30:00', '2025-04-11 17:15:00'),
+(165, 1, 29, '2025-04-16 12:13:09', 1, '2025-04-16 12:13:09', 1, '4', '150', '1:00 PM - 5:00 PM', 'Meeting with RJ and Kasper. We worked on the Interpreter Required project for Leah and scheduled to meet with her tomorrow. Kasper brought up some issues with a Report that ran twice. After our meeting, I investigated and provided details.', NULL, '2025-04-14 13:00:00', '2025-04-14 17:00:00'),
+(166, 1, 29, '2025-04-16 12:16:59', 1, '2025-04-16 12:17:57', 1, '4', '150', '12:30 PM - 4:30 PM', 'Meeting with RJ and Kasper. Invited Leah Balzer onto our call to demo the Interpreter Needed project. She liked everything. We did find out some more places the data needs to appear (that wasn\'t brought up at the beginning of the project) so I need to do some rework and plan to demo again tomorrow.', NULL, '2025-04-15 12:30:00', '2025-04-15 16:30:00'),
+(167, 1, 29, '2025-04-22 20:56:23', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Worked on Multiple Interpreters Needed project. Based on Leah\'s review and some new information acquired, we needed to change how the metadata is set, which affects every other item within this config. I found a good solution that will have minimal impact, but still require a restart. I emailed Winnie and the team about our need for a restart in both AUX and PROD.', NULL, '2025-04-16 12:00:00', '2025-04-16 16:00:00'),
+(168, 1, 29, '2025-04-22 20:56:45', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'We switched gears a bit and started working on the Case Audit Log project. We\'re reviewing the requirements and ways we can accomplish this project. Kasper and I brainstormed and developed completing it with a Search, Report, straight SQL, or a Folder View. Best option is to use the ROA table, but Lake eCourt doesn\'t have very many ROAs for some reason. Not sure why the core ones were deleted.', NULL, '2025-04-17 13:00:00', '2025-04-17 17:00:00'),
+(169, 1, 29, '2025-04-22 20:57:28', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Worked on Multiple Interpreter Needed project. Emailed team how the new workflow and metadata is configured and how it will work. Ready to demo to Leah, but she\'s off this week. Added to all CTCR screens, but need to add to all other ADD/UPDATE/VIEW Event screens. Demo\'d to Kapser (and RJ) at our daily meeting.', NULL, '2025-04-18 13:00:00', '2025-04-18 17:00:00'),
+(170, 1, 29, '2025-04-22 20:58:02', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Met with Kasper. Worked through Velocity scripting for the Case Audit Log project. Working through our different options to complete this project -- I\'m thinking Folder View or SQL will be a good short term solution. Might do something different for a long term solution. Definitely need to get the ROAs into eCourt.  We\'ll test them in AUX and eCourt Test first.', NULL, '2025-04-21 13:00:00', '2025-04-21 17:00:00');
+INSERT INTO `module_projects_timetracking` (`id`, `project_id`, `invoice_id`, `date_created`, `created_by`, `last_updated`, `last_updated_by`, `hours`, `rate`, `time`, `notes`, `status`, `date_work_start`, `date_work_end`) VALUES
+(171, 1, 29, '2025-04-22 21:02:52', 1, '0000-00-00 00:00:00', 1, '6', '150', '11:00 AM - 5:00 PM', 'Started earlier and worked on the Case Audit project. Wrote some Velocity code on the Folder View, tested SQL in a biz rule, and prepped to demo to Kasper and RJ. \r\nMet with RJ and Kasper and demo\'d what I previously worked on for the Case Audit project. Decided to go the Folder View route --at least for the short term--  Kasper and I might switch the process for a more long term solution and enable/implement  the ROA. \r\nAt the end, we also created the metadata for the \"Interpreter Needed\" project as JTI will be doing a restart of AUX tonight.', NULL, '2025-04-22 11:00:00', '2025-04-22 17:00:00'),
+(172, 1, 29, '2025-04-24 17:30:24', 1, '0000-00-00 00:00:00', 1, '1', '150', '1:00 PM - 2:00 PM', 'I told the team I was sick today and could not meet. Worked for just an hour on Case Audit Log project.', NULL, '2025-04-23 13:00:00', '2025-04-23 14:00:00'),
+(173, 1, 29, '2025-04-24 17:30:55', 1, '0000-00-00 00:00:00', 1, '4', '150', '10:00 AM - 2:00 PM', 'Did not meet with team. Kasper and RJ had meetings with JTI for eSupervisor/eProbation project. \r\nI continued working on the Case Audit Log project and a bit more on the Interpreter Needed project. JTI did a restart in AUX eCourt last night -- I\'m unable to access AUX through the VPN or O365, so I can\'t validate if the metadata/restart is correct.  Kasper said it looks good!', NULL, '2025-04-24 10:00:00', '2025-04-24 14:00:00'),
+(174, 1, 29, '2025-04-26 19:19:21', 1, '2025-04-26 19:19:21', 1, '3', '150', '1:00 PM - 4:00 PM', 'Worked on the Case Audit Log project. Got more done on the Folder View to show to Kasper. Quick meeting with Kasper at 2pm. Discussed schedule next week and I demo\'d the Case Audit Log FV.', NULL, '2025-04-25 13:00:00', '2025-04-25 16:00:00'),
+(175, 1, 30, '2025-05-04 12:24:20', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:00 PM - 4:00 PM', 'Meeting with Kasper and RJ.  Worked primarily on the Case Audit project and some solutions for it. We need better scope and requirements and a way to work with the massive 1.7tb database. RJ logged me into SQL Server and I\'ve created some helpful queries as well.', NULL, '2025-04-28 13:00:00', '2025-04-28 16:00:00'),
+(176, 1, 30, '2025-05-09 15:24:55', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:30 PM - 4:30 PM', 'I imported 50 ROAs into eCourt Test and created a Case Log screen under the Case Summary dropdown. It will be a great module for tracking future cases. Note: As an Admin, I get ACCESS DENIED on Case Notes summary screen for a Crim/Traffic case.', NULL, '2025-04-29 13:30:00', '2025-04-29 16:30:00'),
+(177, 1, 30, '2025-05-09 15:25:27', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Worked primarily on the Case Audit Log project. I\'m nearly done with it, so I reached out to Winnie. I am ready to run the script to get the case details for specific cases. I do have a few things to show her and the team but I know they are busy with the eSupervisor project.', NULL, '2025-04-30 13:00:00', '2025-04-30 17:00:00'),
+(178, 1, 30, '2025-05-09 15:26:04', 1, '0000-00-00 00:00:00', 1, '3', '150', '1:00 PM - 4:00 PM', 'No meeting with team today as they\'re working on other projects. I got a lot done on the Multiple Interpreters Needed project. I\'ve found a potential bug in eCourt... (Interpreter Required checkbox will $_POST as \'true\' even if it\'s unchecked... really annoying.) Will look at adding JavaScript to $_POST NULL if it\'s !checked', NULL, '2025-05-01 13:00:00', '2025-05-01 16:00:00'),
+(179, 1, 30, '2025-05-09 15:31:50', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'I added some JavaScript in a static text field on the ADD-Events form that will $_POST NULL if it\'s !checked. Got the Cancellation workflows finished as well. Almost ready to demo and show Leah.', NULL, '2025-05-02 13:00:00', '2025-05-02 17:00:00'),
+(180, 1, 30, '2025-05-09 15:32:07', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Hour meeting with Kasper and RJ reviewing projects like the Case Auditing task, Multiple Interpreters Needed per Event, and a bit more about the Emailing Sealed Documents task. I demo\'d what I have completed on the Case Audit to Kasper. We have have some questions to progress.', NULL, '2025-05-05 13:00:00', '2025-05-05 17:00:00'),
+(181, 1, 30, '2025-05-09 15:32:26', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'RJ and Kasper are busy with the eProbation/eSupervisor teams, which gave me time to continue working on outstanding projects. I have questions about the Case Audit task, Kasper is scheduling a time to meet with requestors later this week.', NULL, '2025-05-06 13:00:00', '2025-05-06 17:00:00'),
+(182, 1, 30, '2025-05-09 15:32:44', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Worked primarily on the Multiple Interpreters Needed project. Started brainstorming more ideas for the Emailing Sealed Documents project as well. Will be ready to demo on Friday, May 9th. Met with RJ and Kasper for a bit reviewing other projects.', NULL, '2025-05-07 13:00:00', '2025-05-07 17:00:00'),
+(183, 1, 30, '2025-05-09 15:32:58', 1, '0000-00-00 00:00:00', 1, '6', '150', '1:00 PM - 7:00 PM', 'Worked a bit on each project that I\'m demoing tomorrow: Case Auditing, Multiple Interpreters Needed, and but mostly Emailing Sealed Documents. Creating two separate options: 1) manual process and 2) automated through a Workflow.', NULL, '2025-05-08 13:00:00', '2025-05-08 19:00:00'),
+(184, 1, 30, '2025-05-09 15:33:12', 1, '0000-00-00 00:00:00', 1, '5', '150', '10:00 AM - 3:00 PM', 'Final touches to the 3 separate projects that I demo\'d: Case Auditing, Multiple Interpreters Needed, and Emailing Sealed Documents. Demo\'d to team and Leah from 1pm to 3pm CST.', NULL, '2025-05-09 10:00:00', '2025-05-09 15:00:00'),
+(185, 1, 31, '2025-05-15 11:09:27', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', '\'Whiteboarded\' and wrote strategy documentation for emailing sealed docs to ePros and eDef. I\'m considering creating new metadata or using existing/core, but don\'t want to have issues with JTI\'s E2E/DataShepard workflows or systems or screens. Being very careful while keeping this project simple. I have several questions, specifically for how the WFs will trigger. We need to create specific logic and conditions.', NULL, '2025-05-12 13:00:00', '2025-05-12 17:00:00'),
+(186, 1, 31, '2025-05-15 11:10:05', 1, '0000-00-00 00:00:00', 1, '4', '150', '9:00 AM - 1:00 PM', 'Wrote the pseudo code in Groovy for the Workflows for the Emailing Sealed Documents project. Started using the eCourt MailManager (email module) and found issues with the SMTP server not sending/forwarding the emails via biz rule.  eCourt is sending them correctly, though. I reached out to Kasper and he\'ll investigate. Wrote more strategy documentation as well.', NULL, '2025-05-13 09:00:00', '2025-05-13 13:00:00'),
+(187, 1, 31, '2025-05-15 11:14:41', 1, '2025-05-15 11:14:41', 1, '4', '150', '1:00 PM - 5:00 PM', 'Continued working on our top priority projects: Emailing Sealed Documents, Case Auditing/History, and Multiple Interpreters on Event. Our eCourt Dev environment isn\'t sending emails with the current SMTP settings. I shared this issue with RJ and Kasper when we met today.\r\nKasper and I also looked at a request from a Judge to add a minor\'s name in the Bench View.', NULL, '2025-05-14 13:00:00', '2025-05-14 17:00:00'),
+(188, 1, 31, '2025-05-15 23:44:16', 1, '0000-00-00 00:00:00', 1, '4', '150', '7:45 PM - 11:45 PM', 'Worked on the Emailing Sealed Documents workflow and business rules. I will demo to RJ and Kasper tomorrow. Also built Searches and Reports for a historical log.\r\nProd restart is being discussed. I would like to get the metadata created for the Multiple Interpreters project when JTI restarts. I already did it for AUX.', NULL, '2025-05-15 19:45:00', '2025-05-15 23:45:00'),
+(189, 1, 31, '2025-05-20 01:20:37', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Demo\'d everything I have developed for the \'Emailing Sealed Documents\' project to Kasper. Including: all business rules, documentation & strategy, workflows, searches, reports, metadata, etc. He approved and says it all looks good. I posed some questions that we need answered from others. He\'ll be reaching out to Winnie + Leah to meet as we have some crucial components we have questions on.', NULL, '2025-05-16 13:00:00', '2025-05-16 17:00:00'),
+(190, 1, 31, '2025-05-20 01:22:17', 1, '2025-05-20 01:22:17', 1, '4', '150', '1:00 PM - 5:00 PM', 'Continued to work on the Emailing Sealed Documents project. Met with Kasper and RJ at 2pm MDT and I demo\'d emailing sealed documents to RJ since he hadn\'t seen it yet. We then went down a rabbit hole of finding which DocDefs to filter on and even inviting a Probation Officer onto the call to provide insight.', NULL, '2025-05-19 13:00:00', '2025-05-19 17:00:00'),
+(191, 1, 31, '2025-05-21 12:14:47', 1, '0000-00-00 00:00:00', 1, '4', '150', '11:00 AM - 3:00 PM', 'Defining specs and mapping the workflows for the Email Sealed Documents project. There are many different scenarios we need to consider to trigger the different workflows. Will meet with Kasper and RJ tomorrow to discuss.  Also worked on an Excel spreadsheet listing tasks, projects, and issues we\'re currently working on or are on the backlog.', NULL, '2025-05-20 11:00:00', '2025-05-20 15:00:00'),
+(192, 1, 31, '2025-05-27 14:48:37', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'I was asked to compile a list tasks, projects, issues, etc. that we\'re either currently working on or which are on the backlog and send to Winnie as they may be converted to SoWs. I created a spreadsheet with those projects as I continued working on the top 3 priority projects with Kasper and RJ.', NULL, '2025-05-21 13:00:00', '2025-05-21 17:00:00'),
+(193, 1, 31, '2025-05-27 14:48:51', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Continued working on the \"Email Sealed Documents\" to ePros & eDef project. Kasper scheduled a meeting with Leah and Winnie tomorrow where I will demo what is completed and ask the crucial questions.', NULL, '2025-05-22 13:00:00', '2025-05-22 17:00:00'),
+(194, 1, 31, '2025-05-27 14:49:08', 1, '0000-00-00 00:00:00', 1, '4', '150', '10:00 AM - 2:00 PM', 'Demo\'d all of the config that I have developed for the \"Email Sealed Documents\" project to Winnie, Leah, Kasper, and RJ.  It was received well. We got some crucial questions answered. The answers significantly changed how these workflows will work, which is totally fine. No work lost, just some  restructuring required and changes to the workflows, biz rules, and triggering conditions.', NULL, '2025-05-23 10:00:00', '2025-05-23 14:00:00'),
+(195, 1, 32, '2025-05-27 17:36:43', 1, '2025-05-27 17:36:43', 1, '4', '150', '1:30 PM - 5:30 PM', 'With my notes and further instruction from our meeting last Friday, I continued working on the \"Emailing Sealed Documents\" in eCourt Dev.\r\nGuardian of Minor, *minor\'s name* task. Emailed the JIS team + Leah providing a recommendation and suggesting Leah\'s fix of changing the biz rule that generates the Case.caseName (case caption) is not a good option.', NULL, '2025-05-27 13:30:00', '2025-05-27 17:30:00'),
+(196, 1, 32, '2025-05-29 13:53:22', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Met with the team + Winnie at 3pm CST. We discussed a variety of things, including if I could have a demo ready this week for the Guardianship of Minor tasks to display the Minor\'s name in different places within eCourt. We also talked about the GAL project and plan to accept, approve, and sign the SoW that I provided.', NULL, '2025-05-28 13:00:00', '2025-05-28 17:00:00'),
+(197, 1, 32, '2025-05-29 13:54:59', 1, '2025-05-29 13:54:59', 1, '4', '150', '11:00 AM - 3:00 PM', 'Worked primarily on the task of Guardian of Minor cases and displaying the Case.CaseName (Case Caption, as Lake calls it) on the 3 different places: Judge\'s Court View, Daily Docket Calendar, and Case Header.  Developed config for each of those places and demo\'d to the team + others at 3pm CST.', NULL, '2025-05-29 11:00:00', '2025-05-29 15:00:00'),
+(198, 1, 32, '2025-05-30 14:45:26', 1, '0000-00-00 00:00:00', 1, '4.5', '150', '10:30 AM - 3:00 PM', 'Worked on the Guardianship of Minor project. Completed all of the configuration and development in eCourt Dev. Connected with RJ and Kasper and they allowed me to control their screen so I was able to move the configuration to eCourt AUX.  We also talked about the Case Audit (FOIA) project. Kasper exported the main Case Summary report and the folder view I built to give to Winnie and the other requestors.', NULL, '2025-05-30 10:30:00', '2025-05-30 15:00:00'),
+(199, 1, 32, '2025-06-04 01:00:28', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Conversed with Winnie about assisting the business team with Gia Tran and Davey Rivers.  They\'ve both reached out to me individually requesting my help on a few things. I worked on the Guardianship of Minor task as Winnie sent me an issue she found. I don\'t have access to AUX so I can\'t fix anything yet, but I will look in the database for details. I also got more done on the Emailing Sealed Documents workflows. Planning to demo to the team on Wednesday.', NULL, '2025-06-02 12:00:00', '2025-06-02 16:00:00'),
+(200, 1, 32, '2025-06-04 01:01:29', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Investigated more into the Guardianship of Minor case caption issue. Learned that about half of them are in all caps, so I need to add that condition to the Velocity code when I get access to eCourt AUX again. I looked at some performance issues with Searches and emailed the JIS team what I found and recommend.', NULL, '2025-06-03 12:00:00', '2025-06-03 16:00:00'),
+(201, 1, 32, '2025-06-04 16:36:42', 1, '0000-00-00 00:00:00', 1, '5', '150', '11:00 AM - 4:00 PM', 'Worked on the Workflow and business rule for Emailing Sealed Documents before meeting with RJ and Kasper in the afternoon. Completed all the logical conditions for emailing to Public Defender and demo\'d to them both. Reviewed some other minor tasks with Kasper as well.', NULL, '2025-06-04 11:00:00', '2025-06-04 16:00:00'),
+(202, 1, 32, '2025-06-06 00:22:40', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Davey Rivers + Gia Tran reached out to me so I asked Winnie and the JIS team about the plan moving forward with them so I don\'t take on work that isn\'t in budget or scope. We discussed some needs and will be all meeting together next Thursday.  My access to AUX was restored so I worked on the Guardianship of Minor task and fixed the issue with uppercase captions and sent detailed emails to the team.', NULL, '2025-06-05 12:00:00', '2025-06-05 16:00:00'),
+(203, 1, 32, '2025-06-08 14:48:22', 1, '0000-00-00 00:00:00', 1, '4', '150', '11:30 AM - 3:30 PM', 'Winnie emailed me asking for a status on the Guardianship of Minor project which I completed yesterday. I edited my Velocity code in all of the places requested to display the minor\'s name. \r\n(I typed up a detailed email but didn\'t send it yet as I had a few more things I need to look into) Investigated and found the details why some captions are uppercase and provided those details to the team. When they test and approve in AUX I will move the config to PROD.', NULL, '2025-06-06 11:30:00', '2025-06-06 15:30:00'),
+(204, 1, 33, '2025-06-11 15:13:55', 1, '0000-00-00 00:00:00', 1, '4', '150', '11:00 AM - 3:00 PM', 'Working in SQL Server to get an eDef database for a Dev/Config environment which will allow us a much more simple way to work on different tasks and projects that involve eDefender & eProsecutor.  Winnie let me know the Guardianship config is ready to move to PROD. I let her know I can do it essentially whenever I\'m given the thumbs up and it won\'t take long.', NULL, '2025-06-10 11:00:00', '2025-06-10 15:00:00'),
+(205, 1, 33, '2025-06-11 15:16:32', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Continued working on getting an eDef database for a Dev/Config environment.\r\nMeeting with Winnie, Leah, RJ, and Kasper. I demo\'d the frontend manual way of Emailing Sealed Documents and asked a few process questions to Leah and got the answers I needed. I have a bit more work to do it on but things are looking good.  Hurdles: SMTP server and all of it\'s complexities and revoking eDefender/eProsecutor access to view the sealed documents.', NULL, '2025-06-11 12:00:00', '2025-06-11 16:00:00'),
+(206, 1, 33, '2025-06-12 17:14:38', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Meeting with Gia\'s team to review outstanding tasks and projects from the business side of eCourt. I reviewed all of the tasks from a spreadsheet Gia sent after the meeting. I need to chat with Winnie and JIS team to discuss priorities. I also worked with Kasper on a script that JTI will be running to fix Person records with ampersand\'s in incorrect places. Will need to clear the cache via Hibernate. Continued working on eCourt/eDef database config tables as well.', NULL, '2025-06-12 12:00:00', '2025-06-12 16:00:00'),
+(207, 1, 33, '2025-06-13 17:52:18', 1, '0000-00-00 00:00:00', 1, '1.5', '150', '8:30 AM - 10:00 AM', 'Morning meeting with Winnie, RJ, and Kasper about tasks and the GAL project.  They provided an update about their previous meeting with the GALs and desire for this system. I developed a single-page UI to show how I\'m envisioning eGAL to look. We also discussed options for integrating the GAL cases into eCourt instead of a separate web app.', NULL, '2025-06-13 08:30:00', '2025-06-13 10:00:00'),
+(208, 1, 33, '2025-06-18 20:17:44', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Team and I didn\'t have anything to review, so we didn\'t have a meeting. I continued working on eDefender env/database and Email Sealed Documents. I\'ll be ready to demo to RJ and Kasper this week after developing the few things Leah requested.', NULL, '2025-06-16 12:00:00', '2025-06-16 16:00:00'),
+(209, 1, 33, '2025-06-18 20:18:08', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Worked on the frontend for the Email Sealed Documents project based on my notes from our last meeting with Leah. Made the UI in the modal (Icon in Case Header) to show a log of when documents have been sent and allowing for custom email address.', NULL, '2025-06-17 12:00:00', '2025-06-17 16:00:00'),
+(210, 1, 33, '2025-06-18 20:18:54', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Kasper was called for something urgent so we cancelled our meeting today.\r\nWorked on the backend of manually sending sealed documents (Court Clerks when somebody calls and needs for previous/existing case). I will be demo\'ing this to the team on Friday.', NULL, '2025-06-18 12:00:00', '2025-06-18 16:00:00'),
+(211, 1, 33, '2025-06-18 20:27:12', 1, '0000-00-00 00:00:00', 1, '2.5', '150', '2:00 PM - 4:30 PM', 'Quick meeting with RJ and Kasper in the afternoon to review Gia\'s tasks and priorities. Continued working on ESD project afterward.', NULL, '2025-06-13 14:00:00', '2025-06-13 16:30:00'),
+(212, 1, 33, '2025-06-19 20:06:20', 1, '0000-00-00 00:00:00', 1, '4', '150', '3:00 PM - 7:00 PM', 'Worked on Emailing Sealed Documents project. Few adjustments to the frontend to make it as simple as possible with the least amount of clicking or typing for the Court Clerks. Testing entire manual process and it\'s working correctly: emailing selected documents and creating a tracking record of it on the Document. No new metadata needs to be created. I\'m planning on demoing it to Kasper and RJ tomorrow.', NULL, '2025-06-19 15:00:00', '2025-06-19 19:00:00'),
+(213, 1, 33, '2025-06-20 17:13:43', 1, '2025-06-20 17:13:43', 1, '4', '150', '1:30 PM - 5:30 PM', 'Demo\'d the Emailing Sealed Documents project to Kasper. I\'ll send Winnie and RJ an email with a screenshot and link. Had a few questions for Leah and she was thankfully able to hop on our call and answer our questions. She also answered some questions about the \"P\" cases and adding the minor\'s name to the CaseCaption. More work to do on that and more questions that need answers.', NULL, '2025-06-20 13:30:00', '2025-06-20 17:30:00'),
+(214, 1, 33, '2025-06-20 17:21:54', 1, '2025-06-20 17:21:54', 1, '4', '150', '11:30 AM - 3:30 PM', 'Worked with Kasper on eCourt/eDef database configuration and exporting config tables. Working on our own environment to learn how eDefender\'s navigation (green buttons) and eCourt Viewer works.', NULL, '2025-06-09 11:30:00', '2025-06-09 15:30:00'),
+(215, 1, 34, '2025-06-27 16:40:25', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Meeting with Kasper. Demo\'d ESD project, database, coordinating with Leah and Winnie for more demo\'s next week when RJ is back online.', NULL, '2025-06-23 13:00:00', '2025-06-23 17:00:00'),
+(216, 1, 34, '2025-06-27 16:40:48', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:40 PM - 4:40 PM', '', NULL, '2025-06-24 12:40:00', '2025-06-24 16:40:00'),
+(217, 1, 34, '2025-06-27 16:41:00', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:45 PM - 4:45 PM', 'cancelled meeting with Kasper (RJ is off)', NULL, '2025-06-25 12:45:00', '2025-06-25 16:45:00'),
+(218, 1, 34, '2025-06-27 16:42:40', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:30 PM - 5:30 PM', 'Met with Winnie to discuss Gia\'s tasks', NULL, '2025-06-26 13:30:00', '2025-06-26 17:30:00'),
+(219, 1, 34, '2025-06-27 16:43:08', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'cancelled meeting with Kasper (RJ is off)', NULL, '2025-06-27 12:00:00', '2025-06-27 16:00:00'),
+(220, 1, 34, '2025-07-01 01:00:20', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'SEAN WAS ON OUR USUAL MEETING\r\nREVIEWED GIA AND DAVEY\'S TASKS', NULL, '2025-06-30 12:00:00', '2025-06-30 16:00:00'),
+(221, 1, 34, '2025-07-04 16:21:26', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-01 12:00:00', '2025-07-01 16:00:00'),
+(222, 1, 34, '2025-07-04 16:21:53', 1, '2025-07-04 16:21:53', 1, '4', '150', '1:00 PM - 5:00 PM', '', NULL, '2025-07-02 13:00:00', '2025-07-02 17:00:00'),
+(223, 1, 34, '2025-07-04 16:22:53', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:30 PM - 4:30 PM', '', NULL, '2025-07-03 12:30:00', '2025-07-03 16:30:00'),
+(225, 1, 35, '2025-07-11 16:41:48', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '2pm - meeting with Kasper and RJ. Worked on and discussed various projects, mainly ESD and the tasks/projects requested from the Business Ops team, Gia & Davey, and how to prioritize time.\r\nRequested AUP approvals for Sean and Kenny to access/view systems.\r\nGia is planning a meeting with me this week. I reached out to Jamie to meet as well.', NULL, '2025-07-07 12:00:00', '2025-07-07 16:00:00'),
+(226, 1, 35, '2025-07-11 16:44:00', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Full work day, no meetings. Worked mainly on ESD project reworking some manual processes on the frontend and workflow on the backend. Completing requests from Leah.\r\nTalked with Leah & Winnie separately about getting Sean Cadina and Kenny Reynolds approved access to Lake\'s systems. Kenny for reports and Sean for GAL and daily projects.', NULL, '2025-07-08 12:00:00', '2025-07-08 16:00:00'),
+(227, 1, 35, '2025-07-11 16:44:10', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '2pm - met with Kasper and RJ reviewing ESD project and plans of next steps.\r\nContinued working on ESD project to demo on Friday.', NULL, '2025-07-09 12:00:00', '2025-07-09 16:00:00'),
+(228, 1, 35, '2025-07-11 16:44:19', 1, '0000-00-00 00:00:00', 1, '4', '150', '10:30 AM - 2:30 PM', '12pm - Meeting with Winnie, Jamie, Kathy, + few others reviewing GAL intake process and consulting strategies to build the eGAL app. Strategized with Sean afterward and built a technical/conceptual document.', NULL, '2025-07-10 10:30:00', '2025-07-10 14:30:00'),
+(229, 1, 35, '2025-07-11 16:45:41', 1, '0000-00-00 00:00:00', 1, '4', '150', '10:00 AM - 2:00 PM', '10am - ESD demo to JIS team + Court Clerks\r\nEmailed JIS team the technical/conceptual document for the GAL project.\r\n1pm - Meeting with Gia, Davey, & Anthony: demo and trained Report Scheduling & Workflows', NULL, '2025-07-11 10:00:00', '2025-07-11 14:00:00'),
+(230, 1, 35, '2025-07-16 16:00:52', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-15 12:00:00', '2025-07-15 16:00:00'),
+(231, 1, 35, '2025-07-16 16:01:06', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-14 12:00:00', '2025-07-14 16:00:00'),
+(232, 1, 35, '2025-07-16 16:02:10', 1, '2025-07-16 16:02:10', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-16 12:00:00', '2025-07-16 16:00:00'),
+(233, 1, 35, '2025-07-16 16:02:39', 1, '2025-07-16 16:02:39', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-17 12:00:00', '2025-07-17 16:00:00'),
+(234, 1, 36, '2025-07-23 22:12:16', 1, '2025-07-23 22:12:16', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-21 12:00:00', '2025-07-21 16:00:00'),
+(235, 1, 36, '2025-07-23 22:12:21', 1, '2025-07-23 22:12:21', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-22 12:00:00', '2025-07-22 16:00:00'),
+(236, 1, 36, '2025-07-23 22:12:26', 1, '2025-07-23 22:12:26', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-23 12:00:00', '2025-07-23 16:00:00'),
+(237, 1, 36, '2025-07-28 10:46:18', 1, '2025-07-28 10:46:18', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-24 12:00:00', '2025-07-24 16:00:00'),
+(238, 1, 36, '2025-07-29 19:54:18', 1, '2025-07-29 19:54:18', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-28 12:00:00', '2025-07-28 16:00:00'),
+(239, 1, 36, '2025-07-29 19:54:25', 1, '2025-07-29 19:54:25', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-29 12:00:00', '2025-07-29 16:00:00'),
+(240, 1, 36, '2025-07-31 23:53:34', 1, '2025-07-31 23:53:34', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-07-30 12:00:00', '2025-07-30 16:00:00'),
+(241, 1, 36, '2025-07-31 23:54:02', 1, '2025-07-31 23:54:02', 1, '4', '150', '12:00 PM - 4:00 PM', '8am - demo Emailing Sealed Documents to Judge Novak', NULL, '2025-07-31 12:00:00', '2025-07-31 16:00:00'),
+(242, 1, 36, '2025-07-31 23:54:25', 1, '2025-07-31 23:54:25', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-01 12:00:00', '2025-08-01 16:00:00'),
+(243, 1, 37, '2025-08-06 12:42:25', 1, '2025-08-06 12:42:25', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-04 12:00:00', '2025-08-04 16:00:00'),
+(244, 1, 37, '2025-08-06 12:42:35', 1, '2025-08-06 12:42:35', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-05 12:00:00', '2025-08-05 16:00:00'),
+(245, 1, 37, '2025-08-06 12:43:07', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '- Bench View button drama. Several emails with team.\r\n- Met with Kasper and RJ for an hour and half.', NULL, '2025-08-06 12:00:00', '2025-08-06 16:00:00'),
+(246, 1, 37, '2025-08-12 14:25:36', 1, '2025-08-12 14:25:36', 1, '4', '150', '12:00 PM - 4:00 PM', 'Research and analysis into how \"Bench View\" is being used. Created demo material and demo\'d to Gia, Davey, and JIS team. Proposed solutions based on Judge\'s requirements.', NULL, '2025-08-12 12:00:00', '2025-08-12 16:00:00'),
+(247, 1, 37, '2025-08-13 16:50:25', 1, '2025-08-13 16:50:25', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-13 12:00:00', '2025-08-13 16:00:00'),
+(248, 1, 37, '2025-08-15 14:43:29', 1, '2025-08-15 14:43:29', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-14 12:00:00', '2025-08-14 16:00:00'),
+(249, 1, 37, '2025-08-15 14:43:33', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'Met with RJ to coordinate ESD, Bench View, and Judge Mass Reassignment.\r\nAnd GAL.', NULL, '2025-08-15 12:00:00', '2025-08-15 16:00:00'),
+(250, 1, 37, '2025-08-15 14:44:22', 1, '2025-08-15 14:44:22', 1, '4', '150', '12:00 PM - 4:00 PM', 'SEAN CADINA\'S HOURS', NULL, '2025-08-15 12:00:00', '2025-08-15 16:00:00'),
+(251, 1, 38, '2025-08-18 16:34:50', 1, '2025-08-18 16:34:50', 1, '4', '150', '12:00 PM - 4:00 PM', 'Sealed badge in the Document Viewer left navigation.\r\nMeeting with Kasper & RJ about ESD schedule and planning restart.', NULL, '2025-08-18 12:00:00', '2025-08-18 16:00:00'),
+(252, 1, 38, '2025-08-20 12:05:28', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-19 12:00:00', '2025-08-19 16:00:00'),
+(253, 1, 38, '2025-08-20 12:06:21', 1, '0000-00-00 00:00:00', 1, '4', '150', '12:00 PM - 4:00 PM', 'No pressing items so no meeting with Kasper and RJ.', NULL, '2025-08-20 12:00:00', '2025-08-20 16:00:00'),
+(254, 1, 37, '2025-08-20 23:44:47', 1, '2025-08-20 23:44:47', 1, '4', '150', '12:00 PM - 4:00 PM', 'Sean', NULL, '2025-08-07 12:00:00', '2025-08-07 16:00:00'),
+(255, 1, 37, '2025-08-20 23:46:19', 1, '0000-00-00 00:00:00', 1, '2', '150', '12:00 PM - 2:00 PM', 'SEAN', NULL, '2025-08-11 12:00:00', '2025-08-11 14:00:00'),
+(256, 1, 38, '2025-08-21 12:03:36', 1, '2025-08-21 12:03:36', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-21 12:00:00', '2025-08-21 16:00:00'),
+(257, 1, 38, '2025-08-22 08:14:42', 1, '2025-08-22 08:14:42', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-22 12:00:00', '2025-08-22 16:00:00'),
+(258, 1, 38, '2025-08-26 11:53:19', 1, '0000-00-00 00:00:00', 1, '4', '150', '1:00 PM - 5:00 PM', 'Good long meeting with Kasper & RJ covered a lot.', NULL, '2025-08-25 13:00:00', '2025-08-25 17:00:00'),
+(259, 1, 38, '2025-08-26 11:53:23', 1, '2025-08-26 11:53:23', 1, '4', '150', '12:00 PM - 4:00 PM', '', NULL, '2025-08-26 12:00:00', '2025-08-26 16:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_strategy`
 --
 
@@ -3627,9 +4368,11 @@ CREATE TABLE `module_strategy_key_results` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `objective_id` int(11) NOT NULL,
+  `name` varchar(999) DEFAULT NULL,
   `key_result` text NOT NULL,
   `target_value` varchar(255) DEFAULT NULL,
   `current_value` varchar(255) DEFAULT NULL,
+  `progress_percent` int(11) DEFAULT NULL,
   `kpi_unit` varchar(100) DEFAULT NULL,
   `sort_order` int(11) DEFAULT 0,
   `task_id` int(11) DEFAULT NULL,
@@ -4061,7 +4804,8 @@ INSERT INTO `module_users_defaults` (`id`, `user_id`, `user_updated`, `date_crea
 (3, 1, 1, '2025-08-23 19:23:51', '2025-08-24 11:30:44', NULL, 'PROJECT_TYPE', 182),
 (7, 1, 1, '2025-08-24 11:30:44', '2025-08-24 11:30:44', NULL, 'TASK_STATUS', 35),
 (8, 1, 1, '2025-08-24 11:30:44', '2025-08-24 11:30:44', NULL, 'TASK_PRIORITY', 38),
-(14, 1, 1, '2025-08-27 18:51:09', '2025-08-27 18:51:09', NULL, 'CALENDAR_DEFAULT', 1);
+(14, 1, 1, '2025-08-27 18:51:09', '2025-08-27 18:51:09', NULL, 'CALENDAR_DEFAULT', 1),
+(21, 1, 1, '2025-08-28 00:26:10', '2025-08-28 00:26:10', NULL, 'CALENDAR_EVENT_TYPE_DEFAULT', 193);
 
 -- --------------------------------------------------------
 
@@ -4307,7 +5051,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
 (1, 1, 1, '2025-08-06 16:08:42', '2025-08-25 18:21:53', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-25 18:21:53', 0, 0, NULL, NULL, NULL),
 (2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-27 21:20:47', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-27 21:20:47', 0, 0, NULL, NULL, ''),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-28 00:15:19', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-28 00:15:19', 0, 0, NULL, NULL, ''),
 (5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
 (7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
@@ -4345,7 +5089,7 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(21, 4, 4, '2025-08-27 21:20:47', '2025-08-27 21:20:51', NULL, '756585', '2025-08-27 21:30:47', 1);
+(24, 4, 4, '2025-08-28 00:15:19', '2025-08-28 00:15:21', NULL, '925917', '2025-08-28 00:25:19', 1);
 
 -- --------------------------------------------------------
 
@@ -4426,7 +5170,6 @@ ALTER TABLE `admin_finances_invoices`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_admin_finances_invoices_user_id` (`user_id`),
   ADD KEY `fk_admin_finances_invoices_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_finances_invoices_corporate_id` (`corporate_id`),
   ADD KEY `fk_admin_finances_invoices_status_id` (`status_id`);
 
 --
@@ -4579,7 +5322,6 @@ ALTER TABLE `admin_time_tracking_entries`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_admin_time_tracking_entries_user_id` (`user_id`),
   ADD KEY `fk_admin_time_tracking_entries_user_updated` (`user_updated`),
-  ADD KEY `fk_admin_time_tracking_entries_corporate_id` (`corporate_id`),
   ADD KEY `fk_admin_time_tracking_entries_person_id` (`person_id`),
   ADD KEY `fk_admin_time_tracking_entries_invoice_id` (`invoice_id`);
 
@@ -5072,6 +5814,12 @@ ALTER TABLE `module_projects_folders`
   ADD KEY `fk_module_projects_folders_parent_id` (`parent_id`);
 
 --
+-- Indexes for table `module_projects_invoices`
+--
+ALTER TABLE `module_projects_invoices`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
@@ -5094,6 +5842,12 @@ ALTER TABLE `module_projects_questions`
   ADD KEY `fk_module_projects_questions_user_id` (`user_id`),
   ADD KEY `fk_module_projects_questions_user_updated` (`user_updated`),
   ADD KEY `fk_module_projects_questions_project_id` (`project_id`);
+
+--
+-- Indexes for table `module_projects_timetracking`
+--
+ALTER TABLE `module_projects_timetracking`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `module_strategy`
@@ -5340,7 +6094,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=444;
 
 --
 -- AUTO_INCREMENT for table `admin_corporate`
@@ -5364,13 +6118,13 @@ ALTER TABLE `admin_corporate_notes`
 -- AUTO_INCREMENT for table `admin_finances_invoices`
 --
 ALTER TABLE `admin_finances_invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoice_items`
 --
 ALTER TABLE `admin_finances_invoice_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoice_sow`
@@ -5460,7 +6214,7 @@ ALTER TABLE `admin_task_relations`
 -- AUTO_INCREMENT for table `admin_time_tracking_entries`
 --
 ALTER TABLE `admin_time_tracking_entries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -5472,7 +6226,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -5490,7 +6244,7 @@ ALTER TABLE `lookup_list_items`
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -5520,13 +6274,13 @@ ALTER TABLE `module_agency_persons`
 -- AUTO_INCREMENT for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_events`
 --
 ALTER TABLE `module_calendar_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_external_accounts`
@@ -5670,7 +6424,7 @@ ALTER TABLE `module_meeting_agenda`
 -- AUTO_INCREMENT for table `module_meeting_attendees`
 --
 ALTER TABLE `module_meeting_attendees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_files`
@@ -5682,7 +6436,7 @@ ALTER TABLE `module_meeting_files`
 -- AUTO_INCREMENT for table `module_meeting_questions`
 --
 ALTER TABLE `module_meeting_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_organization`
@@ -5724,7 +6478,7 @@ ALTER TABLE `module_products_services_price_history`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `module_projects_answers`
@@ -5751,6 +6505,12 @@ ALTER TABLE `module_projects_folders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `module_projects_invoices`
+--
+ALTER TABLE `module_projects_invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
 -- AUTO_INCREMENT for table `module_projects_notes`
 --
 ALTER TABLE `module_projects_notes`
@@ -5767,6 +6527,12 @@ ALTER TABLE `module_projects_pins`
 --
 ALTER TABLE `module_projects_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `module_projects_timetracking`
+--
+ALTER TABLE `module_projects_timetracking`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT for table `module_strategy`
@@ -5850,7 +6616,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `module_users_defaults`
 --
 ALTER TABLE `module_users_defaults`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -5898,7 +6664,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -5938,7 +6704,6 @@ ALTER TABLE `admin_corporate_notes`
 -- Constraints for table `admin_finances_invoices`
 --
 ALTER TABLE `admin_finances_invoices`
-  ADD CONSTRAINT `fk_admin_finances_invoices_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_finances_invoices_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_invoices_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_invoices_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
@@ -6058,7 +6823,6 @@ ALTER TABLE `admin_task_relations`
 -- Constraints for table `admin_time_tracking_entries`
 --
 ALTER TABLE `admin_time_tracking_entries`
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
