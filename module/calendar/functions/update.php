@@ -28,7 +28,7 @@ if ($id && $title && $start_time && $calendar_id) {
     exit;
   }
 
-  $calendarChk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
+  $calendarChk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
   $calendarChk->execute([$calendar_id]);
   $calendar = $calendarChk->fetch(PDO::FETCH_ASSOC);
   if (!$calendar) {
@@ -41,7 +41,7 @@ if ($id && $title && $start_time && $calendar_id) {
     http_response_code(403);
     exit;
   }
-  if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
+  if ($calendar['is_private'] && $calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
@@ -70,6 +70,7 @@ if ($id && $title && $start_time && $calendar_id) {
   echo json_encode([
     'success' => true,
     'id' => $id,
+    'calendar_id' => $calendar_id,
     'title' => $title,
     'start' => $start_time,
     'end' => $end_time,
