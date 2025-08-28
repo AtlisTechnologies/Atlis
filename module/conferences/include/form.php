@@ -1,6 +1,6 @@
 <?php
-  $eventTypes = get_lookup_items($pdo, 'CONFERENCE_TYPE');
-  $topics     = get_lookup_items($pdo, 'CONFERENCE_TOPIC');
+  $conferenceTypes = get_lookup_items($pdo, 'CONFERENCE_TYPE');
+  $topics          = get_lookup_items($pdo, 'CONFERENCE_TOPIC');
 ?>
 <form method="post" action="<?= $actionUrl ?>" enctype="multipart/form-data">
   <?php if ($editing): ?>
@@ -12,10 +12,10 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Type</label>
-    <select name="event_type_id" class="form-select">
+    <select name="conference_type_id" class="form-select">
       <option value="">Select type</option>
-      <?php foreach ($eventTypes as $type): ?>
-        <option value="<?= h($type['id']); ?>" <?= (!empty($conference['event_type_id']) && $conference['event_type_id'] == $type['id']) ? 'selected' : ''; ?>><?= h($type['label']); ?></option>
+      <?php foreach ($conferenceTypes as $type): ?>
+        <option value="<?= h($type['id']); ?>" <?= (!empty($conference['conference_type_id']) && $conference['conference_type_id'] == $type['id']) ? 'selected' : ''; ?>><?= h($type['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -63,15 +63,11 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Tags (comma separated)</label>
-    <input type="text" name="tags" class="form-control" value="">
+    <input type="text" name="tags" class="form-control" value="<?= h(implode(',', $tags ?? [])) ?>">
   </div>
   <div class="mb-3">
     <label class="form-label">Ticket Options (JSON)</label>
-    <textarea name="ticket_options" class="form-control" rows="2"></textarea>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Custom Fields (JSON)</label>
-    <textarea name="custom_fields" class="form-control" rows="2"></textarea>
+    <textarea name="ticket_options" class="form-control" rows="2"><?= h(json_encode($tickets ?? [])) ?></textarea>
   </div>
   <div class="mb-3">
     <label class="form-label">Images</label>
@@ -107,30 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
           document.getElementById('ticketOptionsList').appendChild(li);
           document.getElementById('ticketOptionName').value='';
           document.getElementById('ticketOptionPrice').value='';
-        }
-      });
-    });
-  }
-
-  const fieldBtn = document.getElementById('addCustomFieldBtn');
-  if (fieldBtn) {
-    fieldBtn.addEventListener('click', function() {
-      const id = confIdField ? confIdField.value : '';
-      const name = document.getElementById('fieldName').value.trim();
-      const type = document.getElementById('fieldType').value;
-      const opts = document.getElementById('fieldOptions').value.trim();
-      if (!id || !name) return;
-      fetch('functions/add_custom_field.php', {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({conference_id:id, name:name, field_type:type, field_options:opts})
-      }).then(r=>r.json()).then(res=>{
-        if(res.success){
-          const li = document.createElement('li');
-          li.textContent = name + ' (' + type + ')';
-          document.getElementById('customFieldsList').appendChild(li);
-          document.getElementById('fieldName').value='';
-          document.getElementById('fieldOptions').value='';
         }
       });
     });

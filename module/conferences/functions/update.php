@@ -6,7 +6,7 @@ $id = (int)($_POST['id'] ?? 0);
 if (!$id) { header('Location: ../index.php'); exit; }
 
 $name           = $_POST['name'] ?? '';
-$event_type_id  = $_POST['event_type_id'] ?? null;
+$conference_type_id  = $_POST['conference_type_id'] ?? null;
 $topic_id       = $_POST['topic_id'] ?? null;
 $mode           = $_POST['mode'] ?? null;
 $venue          = $_POST['venue'] ?? '';
@@ -18,7 +18,7 @@ $sponsors       = $_POST['sponsors'] ?? '';
 $is_private     = !empty($_POST['is_private']) ? 1 : 0;
 
 $stmt = $pdo->prepare('UPDATE module_conferences SET user_updated=?, name=?, event_type_id=?, topic_id=?, mode=?, venue=?, start_datetime=?, end_datetime=?, description=?, organizers=?, sponsors=?, is_private=? WHERE id=?');
-$stmt->execute([$this_user_id, $name, $event_type_id, $topic_id, $mode, $venue, $start_datetime, $end_datetime, $description, $organizers, $sponsors, $is_private, $id]);
+$stmt->execute([$this_user_id, $name, $conference_type_id, $topic_id, $mode, $venue, $start_datetime, $end_datetime, $description, $organizers, $sponsors, $is_private, $id]);
 
 // Sync tags
 $pdo->prepare('DELETE FROM module_conference_tags WHERE conference_id=?')->execute([$id]);
@@ -50,23 +50,6 @@ if ($ticketJson !== '') {
     }
 }
 
-// Sync custom fields
-$pdo->prepare('DELETE FROM module_conference_custom_fields WHERE conference_id=?')->execute([$id]);
-$fieldsJson = $_POST['custom_fields'] ?? '';
-if ($fieldsJson !== '') {
-    $fields = json_decode($fieldsJson, true);
-    if (is_array($fields)) {
-        $fieldStmt = $pdo->prepare('INSERT INTO module_conference_custom_fields (user_id, conference_id, name, field_type, field_options) VALUES (?,?,?,?,?)');
-        foreach ($fields as $f) {
-            $fname = $f['name'] ?? null;
-            $ftype = $f['field_type'] ?? null;
-            $fopt  = $f['field_options'] ?? null;
-            if ($fname && $ftype) {
-                $fieldStmt->execute([$this_user_id, $id, $fname, $ftype, $fopt]);
-            }
-        }
-    }
-}
 
 // New images
 if (!empty($_FILES['images']['tmp_name'][0])) {

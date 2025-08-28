@@ -14,7 +14,6 @@ if ($id) {
     // delete child records
     $pdo->prepare('DELETE FROM module_conference_tags WHERE conference_id=?')->execute([$id]);
     $pdo->prepare('DELETE FROM module_conference_ticket_options WHERE conference_id=?')->execute([$id]);
-    $pdo->prepare('DELETE FROM module_conference_custom_fields WHERE conference_id=?')->execute([$id]);
     $pdo->prepare('DELETE FROM module_conference_images WHERE conference_id=?')->execute([$id]);
     // delete conference
     $pdo->prepare('DELETE FROM module_conferences WHERE id=?')->execute([$id]);
