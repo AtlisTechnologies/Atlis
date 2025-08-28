@@ -132,20 +132,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
 
       // Attendees
-      $attendee_user_ids = isset($_POST['attendee_user_id']) && is_array($_POST['attendee_user_id']) ? $_POST['attendee_user_id'] : [];
+      $attendee_person_ids = isset($_POST['attendee_person_id']) && is_array($_POST['attendee_person_id']) ? $_POST['attendee_person_id'] : [];
 
-      $attendeeStmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_user_id) VALUES (:uid,:uid,:mid,:attendee)');
-      $attendee_count = count($attendee_user_ids);
+      $personUserStmt = $pdo->prepare('SELECT user_id FROM person WHERE id = ?');
+      $attendeeStmt = $pdo->prepare('INSERT INTO module_meeting_attendees (user_id, user_updated, meeting_id, attendee_person_id, attendee_user_id) VALUES (:uid,:uid,:mid,:person_id,:user_id)');
+      $attendee_count = count($attendee_person_ids);
       for ($i = 0; $i < $attendee_count; $i++) {
-        $attendee_id = isset($attendee_user_ids[$i]) && $attendee_user_ids[$i] !== '' ? (int)$attendee_user_ids[$i] : null;
-        if (!$attendee_id) { continue; }
+        $person_id = isset($attendee_person_ids[$i]) && $attendee_person_ids[$i] !== '' ? (int)$attendee_person_ids[$i] : null;
+        if (!$person_id) { continue; }
+        $personUserStmt->execute([$person_id]);
+        $derived_user_id = $personUserStmt->fetchColumn();
         $attendeeStmt->execute([
           ':uid' => $this_user_id,
           ':mid' => $id,
-          ':attendee' => $attendee_id
+          ':person_id' => $person_id,
+          ':user_id' => $derived_user_id ?: null
         ]);
         $attendeeId = $pdo->lastInsertId();
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', json_encode(['user_id'=>$attendee_id]), 'Added attendee');
+        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $attendeeId, 'CREATE', '', json_encode(['person_id'=>$person_id,'user_id'=>$derived_user_id]), 'Added attendee');
       }
 
       // Files
