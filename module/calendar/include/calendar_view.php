@@ -26,21 +26,6 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
     <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
-    <?php if (!empty($calendars)) { ?>
-      <div class="form-floating form-floating-advance-select me-2">
-        <label for="calendarSelect">Calendars Displayed</label>
-        <select id="calendarSelect"
-                class="form-select"
-                multiple
-                data-choices="data-choices"
-                data-options='{"removeItemButton":true}'>
-          <?php foreach ($calendars as $cal) { ?>
-            <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-            <option value="<?php echo $cal['id']; ?>" selected><?php echo e($cal_label); ?></option>
-          <?php } ?>
-        </select>
-      </div>
-    <?php } ?>
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
       <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
     <?php } ?>
@@ -56,7 +41,24 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
 </div>
 
-<div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+<div class="row">
+  <?php if (!empty($calendars)) { ?>
+    <div class="col-md-3">
+      <div id="calendarSidebar">
+        <?php foreach ($calendars as $cal) { ?>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <div class="form-check">
+            <input class="form-check-input calendar-filter" type="checkbox" value="<?php echo $cal['id']; ?>" id="calFilter<?php echo $cal['id']; ?>"<?php echo (int)$cal['id'] === (int)$user_default_calendar_id ? ' checked' : ''; ?>>
+            <label class="form-check-label" for="calFilter<?php echo $cal['id']; ?>"><?php echo e($cal_label); ?></label>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+  <?php } ?>
+  <div class="col">
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+  </div>
+</div>
 
 <div class="modal fade" id="addEventModal" tabindex="-1">
   <div class="modal-dialog">
@@ -181,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
-  const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
+  const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
@@ -204,9 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getCalendarIds() {
-    const sel = document.getElementById('calendarSelect');
-    if (!sel) return [];
-    return Array.from(sel.selectedOptions).map(opt => opt.value);
+    return Array.from(document.querySelectorAll('.calendar-filter:checked')).map(cb => cb.value);
   }
 
   function getCalendarId() {
@@ -283,9 +283,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  const calSelect = document.getElementById('calendarSelect');
-  if (calSelect) {
-    calSelect.addEventListener('change', function() {
+  const sidebar = document.getElementById('calendarSidebar');
+  if (sidebar) {
+    sidebar.addEventListener('change', () => {
       calendar.refetchEvents();
     });
   }
