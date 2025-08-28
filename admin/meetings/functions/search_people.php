@@ -14,3 +14,4 @@ $stmt = $pdo->prepare('SELECT p.id, COALESCE(CONCAT(p.first_name, " ", p.last_na
 $stmt->execute([':q' => "%" . $q . "%"]);
 
 echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+

@@ -1,10 +1,18 @@
 <?php
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
-ini_set('display_errors', '1');
+$devMode = getenv('ATLIS_ENV') === 'development';
+ini_set('display_errors', $devMode ? '1' : '0');
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/../logs/php-error.txt');
 ob_start();
 if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+  ]);
   session_start();
 }
 date_default_timezone_set('America/Denver');
@@ -44,12 +52,29 @@ function ensure_user_public_calendar(PDO $pdo, int $uid): void {
   }
 }
 
-$is_logged_in = isset($_SESSION['user_logged_in']) ? $_SESSION['user_logged_in'] : false;
+$is_logged_in = $_SESSION['user_logged_in'] ?? false;
 $is_admin = $is_logged_in && (($_SESSION['type'] ?? '') === 'ADMIN');
 
 if (!$is_logged_in) {
-  $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-  if (strpos($requestUri, '/module/') !== false && strpos($requestUri, '/module/users/') === false) {
+  $script = $_SERVER['SCRIPT_NAME'] ?? '';
+  $action = $_GET['action'] ?? '';
+
+  $allowed = false;
+  if (strpos($script, '/module/users/index.php') !== false && in_array($action, ['login', '2fa'])) {
+    $allowed = true;
+  }
+  $authScripts = [
+    '/module/users/functions/login.php',
+    '/module/users/functions/verify_2fa.php'
+  ];
+  foreach ($authScripts as $auth) {
+    if (strpos($script, $auth) !== false) {
+      $allowed = true;
+      break;
+    }
+  }
+
+  if (!$allowed) {
     header('Location: ' . getURLDir() . 'module/users/index.php?action=login');
     exit;
   }

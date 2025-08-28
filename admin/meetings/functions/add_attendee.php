@@ -16,15 +16,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
-    $attendee_user_id = isset($_POST['attendee_user_id']) && $_POST['attendee_user_id'] !== '' ? (int)$_POST['attendee_user_id'] : null;
+    $attendee_person_id = isset($_POST['attendee_person_id']) && $_POST['attendee_person_id'] !== '' ? (int)$_POST['attendee_person_id'] : null;
+
+    // Determine the attendee's user_id from the person record
+    $attendee_user_id = null;
+    if ($attendee_person_id) {
+        $personStmt = $pdo->prepare('SELECT user_id FROM person WHERE id = ?');
+        $personStmt->execute([$attendee_person_id]);
+        $attendee_user_id = $personStmt->fetchColumn() ?: null;
+    }
 
     $rosterStmt = $pdo->prepare(
         'SELECT a.id,
+                a.attendee_person_id,
                 a.attendee_user_id,
                 COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
          FROM module_meeting_attendees a
-         LEFT JOIN users u ON a.attendee_user_id = u.id
-         LEFT JOIN person p ON u.id = p.user_id
+         JOIN person p ON a.attendee_person_id = p.id
+         LEFT JOIN users u ON p.user_id = u.id
          WHERE a.meeting_id = ?
          ORDER BY name'
     );
@@ -36,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check for existing attendee before attempting to insert
-    $checkStmt = $pdo->prepare('SELECT id FROM module_meeting_attendees WHERE meeting_id = ? AND attendee_user_id = ?');
-    $checkStmt->execute([$meeting_id, $attendee_user_id]);
+    $checkStmt = $pdo->prepare('SELECT id FROM module_meeting_attendees WHERE meeting_id = ? AND attendee_person_id = ?');
+    $checkStmt->execute([$meeting_id, $attendee_person_id]);
     if ($checkStmt->fetch()) {
         echo json_encode([
             'success' => false,
@@ -48,22 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        if ($meeting_id && $attendee_user_id) {
+        if ($meeting_id && $attendee_person_id) {
             $stmt = $pdo->prepare(
                 'INSERT INTO module_meeting_attendees (
                     user_id,
                     user_updated,
                     meeting_id,
+                    attendee_person_id,
                     attendee_user_id
-                ) VALUES (:uid,:uid,:mid,:attendee)'
+                ) VALUES (:uid,:uid,:mid,:person,:user)'
             );
             $stmt->execute([
                 ':uid' => $this_user_id,
                 ':mid' => $meeting_id,
-                ':attendee' => $attendee_user_id
+                ':person' => $attendee_person_id,
+                ':user' => $attendee_user_id
             ]);
             $id = $pdo->lastInsertId();
-            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', '', json_encode(['user_id'=>$attendee_user_id]), 'Added attendee');
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', '', json_encode(['person_id'=>$attendee_person_id,'user_id'=>$attendee_user_id]), 'Added attendee');
         }
 
         // Refresh roster after successful insert
