@@ -3,7 +3,7 @@ require '../../../includes/php_header.php';
 require_permission('conference','create');
 
 $name           = $_POST['name'] ?? '';
-$event_type_id  = $_POST['event_type_id'] ?? null;
+$conference_type_id  = $_POST['conference_type_id'] ?? null;
 $topic_id       = $_POST['topic_id'] ?? null;
 $mode           = $_POST['mode'] ?? null;
 $venue          = $_POST['venue'] ?? '';
@@ -58,6 +58,7 @@ if (is_array($ticketOptions)) {
         }
     }
 }
+
 
 // Images with optional banner index
 $bannerIndex = $_POST['banner_image_index'] ?? null;

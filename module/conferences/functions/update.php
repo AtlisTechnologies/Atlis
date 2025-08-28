@@ -6,7 +6,7 @@ $id = (int)($_POST['id'] ?? 0);
 if (!$id) { header('Location: ../index.php'); exit; }
 
 $name           = $_POST['name'] ?? '';
-$event_type_id  = $_POST['event_type_id'] ?? null;
+$conference_type_id  = $_POST['conference_type_id'] ?? null;
 $topic_id       = $_POST['topic_id'] ?? null;
 $mode           = $_POST['mode'] ?? null;
 $venue          = $_POST['venue'] ?? '';
@@ -52,6 +52,7 @@ if (is_string($ticketOptions)) {
     $decoded = json_decode($ticketOptions, true);
     $ticketOptions = is_array($decoded) ? $decoded : [];
 }
+
 if (is_array($ticketOptions)) {
     $ticketStmt = $pdo->prepare('INSERT INTO module_conference_ticket_options (user_id, conference_id, option_name, price) VALUES (?,?,?,?)');
     foreach ($ticketOptions as $t) {

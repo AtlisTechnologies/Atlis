@@ -11,6 +11,7 @@
     $optStmt->execute([$conference['id']]);
     $ticketOptions = $optStmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
 ?>
 <form method="post" action="<?= $actionUrl ?>" enctype="multipart/form-data">
   <?php if ($editing): ?>
@@ -22,10 +23,10 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Type</label>
-    <select name="event_type_id" class="form-select">
+    <select name="conference_type_id" class="form-select">
       <option value="">Select type</option>
-      <?php foreach ($eventTypes as $type): ?>
-        <option value="<?= h($type['id']); ?>" <?= (!empty($conference['event_type_id']) && $conference['event_type_id'] == $type['id']) ? 'selected' : ''; ?>><?= h($type['label']); ?></option>
+      <?php foreach ($conferenceTypes as $type): ?>
+        <option value="<?= h($type['id']); ?>" <?= (!empty($conference['conference_type_id']) && $conference['conference_type_id'] == $type['id']) ? 'selected' : ''; ?>><?= h($type['label']); ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -114,6 +115,7 @@
     <textarea name="sponsors" class="form-control" rows="2"><?= h($conference['sponsors'] ?? '') ?></textarea>
   </div>
   <div class="mb-3">
+
     <label class="form-label">Tags</label>
     <select name="tags[]" class="form-select" multiple>
       <?php foreach ($existingTags as $tag): ?>
@@ -133,6 +135,7 @@
         <li><?= h($opt['option_name']) ?><?= $opt['price'] ? ' ($'.h($opt['price']).')' : '' ?></li>
       <?php endforeach; ?>
     </ul>
+
   </div>
   <div class="mb-3">
     <label class="form-label">Images</label>
@@ -163,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (price) params.append('ticket_option[price]', price);
       fetch('functions/add_ticket_option.php', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params})
         .then(r=>r.json()).then(res=>{
+
           if(res.success){
             const li = document.createElement('li');
             li.textContent = name + (price ? ' ($'+price+')' : '');
