@@ -1,6 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
-require_permission('admin_corporate','delete');
+require_permission('admin_corporate_files','delete');
 header('Content-Type: application/json');
 
 if(!verify_csrf_token($_POST['csrf_token'] ?? '')){
