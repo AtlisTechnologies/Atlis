@@ -372,5 +372,29 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to update event: ' + err.message);
     });
   });
+
+  window.deleteCalendar = function(id) {
+    const fd = new FormData();
+    fd.append('id', id);
+    fetch('<?php echo getURLDir(); ?>module/calendar/functions/delete_calendar.php', {
+      method: 'POST',
+      body: fd
+    })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      if (data.success) {
+        calendar.refetchEvents();
+      } else {
+        alert(data.error || 'Unable to delete calendar.');
+      }
+    })
+    .catch(err => {
+      console.error('Failed to delete calendar', err);
+      alert('Failed to delete calendar: ' + err.message);
+    });
+  };
 });
 </script>
