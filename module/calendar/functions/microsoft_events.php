@@ -1,7 +1,7 @@
 <?php
 
 function fetch_microsoft_events(PDO $pdo, int $userId): array {
-    $cacheKey = 'microsoft_calendar_events';
+    $cacheKey = 'microsoft_calendar_events_' . $userId;
     if (isset($_SESSION[$cacheKey]) && $_SESSION[$cacheKey]['time'] > time() - 300) {
         return $_SESSION[$cacheKey]['data'];
     }
@@ -13,20 +13,37 @@ function fetch_microsoft_events(PDO $pdo, int $userId): array {
         return [];
     }
 
-    $ch = curl_init('https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end&$orderby=start/dateTime&$top=50');
-    curl_setopt_array($ch, [
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
-        CURLOPT_RETURNTRANSFER => true,
-    ]);
-    $res = curl_exec($ch);
-    curl_close($ch);
+    try {
+        $ch = curl_init('https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end&$orderby=start/dateTime&$top=50');
+        if ($ch === false) {
+            throw new Exception('Failed to initialize cURL');
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
+            CURLOPT_RETURNTRANSFER => true,
+        ]);
+        $res = curl_exec($ch);
+        if ($res === false) {
+            throw new Exception(curl_error($ch));
+        }
+        curl_close($ch);
+    } catch (Exception $e) {
+        if (isset($ch) && is_resource($ch)) {
+            curl_close($ch);
+        }
+        error_log($e->getMessage());
+        return [];
+    }
 
     $data = json_decode($res, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [];
+    }
     $events = [];
     if (!empty($data['value'])) {
         foreach ($data['value'] as $item) {
             $events[] = [
-                'id' => 'ms-' . ($item['id'] ?? ''),
+                'id' => 'microsoft-' . ($item['id'] ?? ''),
                 'calendar_id' => 0,
                 'title' => $item['subject'] ?? '',
                 'start' => $item['start']['dateTime'] ?? '',
