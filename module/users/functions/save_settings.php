@@ -15,6 +15,7 @@ $fields = [
   'task_status' => 'TASK_STATUS',
   'task_priority' => 'TASK_PRIORITY',
   'calendar_default' => 'CALENDAR_DEFAULT',
+  'calendar_event_type_default' => 'CALENDAR_EVENT_TYPE_DEFAULT',
 ];
 
 foreach ($fields as $postField => $listName) {

@@ -24,9 +24,9 @@ foreach ($owned_calendars as $cal) {
     }
 }
 
-$event_types = get_lookup_items($pdo, 37);
+$event_types = get_lookup_items($pdo, 'CALENDAR_EVENT_TYPE');
 
-$default_event_type_id = $event_types[0]['id'] ?? 0;
+$default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE_DEFAULT') ?? 0;
 
 ?>
 
@@ -82,8 +82,9 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
           <div class="mb-3">
             <label class="form-label" for="addEventType">Event Type</label>
             <select class="form-select" id="addEventType" name="event_type_id">
+              <option value="" <?= $default_event_type_id ? '' : 'selected'; ?>>Select type</option>
               <?php foreach ($event_types as $et): ?>
-                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
+                <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"<?= (int)$et['id'] === (int)$default_event_type_id ? ' selected' : ''; ?>><?= h($et['label']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -146,6 +147,7 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
           <div class="mb-3">
             <label class="form-label" for="editEventType">Event Type</label>
             <select class="form-select" id="editEventType" name="event_type_id">
+              <option value="">Select type</option>
               <?php foreach ($event_types as $et): ?>
                 <option value="<?= (int)$et['id']; ?>" class="text-<?= h($et['color_class']); ?>" data-icon="<?= h($et['icon_class']); ?>"><?= h($et['label']); ?></option>
               <?php endforeach; ?>
@@ -273,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.title.value = info.event.title;
       form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
       form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-      form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId;
+      form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
       form.is_private.checked = isEventPrivate(info.event.extendedProps);
       bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
     },
@@ -281,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const form = addEventForm;
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
-      form.event_type_id.value = defaultEventTypeId;
+      form.event_type_id.value = defaultEventTypeId || '';
       form.is_private.checked = false;
       selectCalendarRadio(form, getCalendarId());
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
