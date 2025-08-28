@@ -2308,21 +2308,22 @@ CREATE TABLE `module_calendar` (
   `memo` text DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `is_private` tinyint(1) DEFAULT 0,
-  `is_default` tinyint(1) NOT NULL DEFAULT 0
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `ics_token` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar`
 --
 
-INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`) VALUES
-(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-27 20:19:26', NULL, 'Dave', 0, 1),
-(2, 1, NULL, '2025-08-27 18:51:39', '2025-08-27 20:19:35', NULL, 'LA FAMILIA DE WILKINS', 1, 0),
-(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Sean', 0, 1),
-(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Tyler', 0, 1),
-(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'RJ', 0, 1),
-(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Kasper', 0, 1),
-(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Mileny', 0, 1),
+INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`, `ics_token`) VALUES
+(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-27 20:19:26', NULL, 'Dave', 0, 1, NULL),
+(2, 1, NULL, '2025-08-27 18:51:39', '2025-08-27 20:19:35', NULL, 'LA FAMILIA DE WILKINS', 1, 0, NULL),
+(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Sean', 0, 1, NULL),
+(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Tyler', 0, 1, NULL),
+(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'RJ', 0, 1, NULL),
+(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Kasper', 0, 1, NULL),
+(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Mileny', 0, 1, NULL),
 (9, 8, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Kenny', 0, 1),
 (10, 9, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Richard', 0, 1),
 (11, 10, NULL, '2025-08-27 20:19:19', '2025-08-27 20:19:19', NULL, 'Emma', 0, 1),
@@ -4679,7 +4680,8 @@ ALTER TABLE `module_agency_persons`
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_module_calendar_ics_token` (`ics_token`);
 
 --
 -- Indexes for table `module_calendar_events`

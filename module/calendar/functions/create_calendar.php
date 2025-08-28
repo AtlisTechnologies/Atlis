@@ -26,9 +26,10 @@ if ($name !== '') {
     $is_default = 0;
   }
 
-  $stmt = $pdo->prepare('INSERT INTO module_calendar (user_id, name, is_private, is_default) VALUES (?,?,?,?)');
-  $stmt->execute([$this_user_id, $name, $is_private, $is_default]);
-  echo json_encode(['success' => true, 'id' => $pdo->lastInsertId(), 'is_default' => $is_default]);
+  $ics_token = bin2hex(random_bytes(16));
+  $stmt = $pdo->prepare('INSERT INTO module_calendar (user_id, name, is_private, is_default, ics_token) VALUES (?,?,?,?,?)');
+  $stmt->execute([$this_user_id, $name, $is_private, $is_default, $ics_token]);
+  echo json_encode(['success' => true, 'id' => $pdo->lastInsertId(), 'is_default' => $is_default, 'ics_token' => $ics_token]);
   exit;
 }
 
