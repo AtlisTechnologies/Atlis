@@ -16,6 +16,14 @@ $default_add_calendar_id = in_array($selected_calendar_id, $owned_calendar_ids, 
     ? $selected_calendar_id
     : ($user_default_calendar_id ?: ($owned_calendar_ids[0] ?? 0));
 
+$user_public_calendar_id = 0;
+foreach ($owned_calendars as $cal) {
+    if ((int)$cal['is_private'] === 0) {
+        $user_public_calendar_id = (int)$cal['id'];
+        break;
+    }
+}
+
 $event_types = get_lookup_items($pdo, 37);
 
 $default_event_type_id = $event_types[0]['id'] ?? 0;
@@ -27,19 +35,16 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
   <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
     <?php if (!empty($calendars)) { ?>
-      <div class="form-floating form-floating-advance-select me-2">
-        <label for="calendarSelect">Calendars Displayed</label>
-        <select id="calendarSelect"
-                class="form-select"
-                multiple
-                data-choices="data-choices"
-                data-options='{"removeItemButton":true}'>
-          <?php foreach ($calendars as $cal) { ?>
-            <?php $cal_label = (!empty($cal['is_default']) ? '★ ' : '') . $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-            <?php $own_default = !empty($cal['is_default']) && !empty($cal['owned']); ?>
-            <option value="<?php echo $cal['id']; ?>"<?php echo $own_default ? ' disabled' : ''; ?> selected><?php echo e($cal_label); ?></option>
-          <?php } ?>
-        </select>
+      <div id="calendarSelect" class="me-2">
+        <span class="form-label d-block mb-1">Calendars Displayed</span>
+        <?php foreach ($calendars as $cal) { ?>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input calendar-check" type="checkbox" id="calendarCheck<?php echo (int)$cal['id']; ?>" value="<?php echo (int)$cal['id']; ?>" checked>
+            <label class="form-check-label" for="calendarCheck<?php echo (int)$cal['id']; ?>"><?php echo e($cal_label); ?></label>
+          </div>
+        <?php } ?>
+
       </div>
     <?php } ?>
     <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
@@ -186,15 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
-  const userDefaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
-
+  const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
-
   const addEventModalEl = document.getElementById('addEventModal');
-
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
-
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
 
@@ -206,17 +207,21 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getCalendarIds() {
-    const sel = document.getElementById('calendarSelect');
-    const ids = sel ? Array.from(sel.selectedOptions).map(opt => opt.value) : [];
-    if (userDefaultCalendarId && !ids.includes(String(userDefaultCalendarId))) {
-      ids.push(String(userDefaultCalendarId));
+    const boxes = document.querySelectorAll('#calendarSelect input[type="checkbox"]:checked');
+    if (boxes.length) {
+      return Array.from(boxes).map(b => b.value);
     }
-    return ids;
+    const sel = document.getElementById('calendarSelect');
+    if (sel && sel.tagName === 'SELECT') {
+      return Array.from(sel.selectedOptions).map(opt => opt.value);
+    }
+    return [];
+
   }
 
   function getCalendarId() {
     const ids = getCalendarIds();
-    const cid = ids.length ? ids[0] : defaultCalendarId;
+    const cid = ids.length ? ids[0] : userPublicCalendarId;
     return ownedCalendarIds.includes(parseInt(cid, 10)) ? cid : defaultAddCalendarId;
   }
 
@@ -240,7 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     events: function(fetchInfo, successCallback, failureCallback) {
       const ids = getCalendarIds();
-      const url = ids.length ? `${listUrl}?calendar_ids=${ids.join(',')}` : listUrl;
+      const fetchIds = ids.length ? ids : [userPublicCalendarId];
+      const url = `${listUrl}?calendar_ids=${fetchIds.join(',')}`;
       fetch(url)
         .then(r => {
           if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -290,8 +296,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const calSelect = document.getElementById('calendarSelect');
   if (calSelect) {
-    calSelect.addEventListener('change', function() {
-      calendar.refetchEvents();
+    calSelect.addEventListener('change', function(e) {
+      if (e.target && e.target.matches('input[type="checkbox"]')) {
+        calendar.refetchEvents();
+      }
     });
   }
 
