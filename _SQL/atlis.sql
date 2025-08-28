@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 09:05 AM
+-- Generation Time: Aug 28, 2025 at 09:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2026,32 +2026,33 @@ CREATE TABLE `module_calendar` (
   `memo` text DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `is_private` tinyint(1) DEFAULT 0,
-  `is_default` tinyint(1) NOT NULL DEFAULT 0
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `ics_token` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar`
 --
 
-INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`) VALUES
-(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-27 23:08:47', NULL, 'Dave Wilkins', 0, 1),
-(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Sean Cadina', 0, 1),
-(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Tyler Jessop', 0, 1),
-(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'RJ Calara', 0, 1),
-(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Kasper Krynski', 0, 1),
-(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Mileny Valdez', 0, 1),
-(9, 8, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Kenny Reynolds', 0, 1),
-(10, 9, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Richard Sprague', 0, 1),
-(11, 10, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Emma Baylor', 0, 1),
-(12, 11, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Tom Wilkins', 0, 1),
-(13, 12, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Winnie Webber', 0, 1),
-(14, 13, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Zach Jenks', 0, 1),
-(15, 14, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Nancy Crandall', 0, 1),
-(16, 15, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Chris Docstader', 0, 1),
-(17, 18, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Alisha Wilkins', 0, 1),
-(18, 19, NULL, '2025-08-27 20:19:19', '2025-08-27 23:08:47', NULL, 'Davey Rivers', 0, 1),
-(19, 1, NULL, '2025-08-27 23:21:29', '2025-08-27 23:21:29', NULL, 'Emry Soccer Schedule', 1, 0),
-(20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 00:25:25', NULL, 'TEST', 0, 0);
+INSERT INTO `module_calendar` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `is_private`, `is_default`, `ics_token`) VALUES
+(1, 1, NULL, '2025-08-23 15:44:36', '2025-08-28 01:07:50', NULL, 'Dave Wilkins', 0, 1, 'b4ffba56-83dd-11f0-ac71-e89c259bf719'),
+(4, 2, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Sean Cadina', 0, 1, 'b4ffc03e-83dd-11f0-ac71-e89c259bf719'),
+(5, 4, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Tyler Jessop', 0, 1, 'b4ffc0e8-83dd-11f0-ac71-e89c259bf719'),
+(6, 5, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'RJ Calara', 0, 1, 'b4ffc13a-83dd-11f0-ac71-e89c259bf719'),
+(7, 6, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Kasper Krynski', 0, 1, 'b4ffc174-83dd-11f0-ac71-e89c259bf719'),
+(8, 7, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Mileny Valdez', 0, 1, 'b4ffc1ac-83dd-11f0-ac71-e89c259bf719'),
+(9, 8, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Kenny Reynolds', 0, 1, 'b4ffc1e2-83dd-11f0-ac71-e89c259bf719'),
+(10, 9, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Richard Sprague', 0, 1, 'b4ffc214-83dd-11f0-ac71-e89c259bf719'),
+(11, 10, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Emma Baylor', 0, 1, 'b4ffc24b-83dd-11f0-ac71-e89c259bf719'),
+(12, 11, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Tom Wilkins', 0, 1, 'b4ffc27c-83dd-11f0-ac71-e89c259bf719'),
+(13, 12, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Winnie Webber', 0, 1, 'b4ffc2b3-83dd-11f0-ac71-e89c259bf719'),
+(14, 13, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Zach Jenks', 0, 1, 'b4ffc2e2-83dd-11f0-ac71-e89c259bf719'),
+(15, 14, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Nancy Crandall', 0, 1, 'b4ffc315-83dd-11f0-ac71-e89c259bf719'),
+(16, 15, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Chris Docstader', 0, 1, 'b4ffc344-83dd-11f0-ac71-e89c259bf719'),
+(17, 18, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Alisha Wilkins', 0, 1, 'b4ffc374-83dd-11f0-ac71-e89c259bf719'),
+(18, 19, NULL, '2025-08-27 20:19:19', '2025-08-28 01:07:50', NULL, 'Davey Rivers', 0, 1, 'b4ffc3a3-83dd-11f0-ac71-e89c259bf719'),
+(19, 1, NULL, '2025-08-27 23:21:29', '2025-08-28 01:07:50', NULL, 'Emry Soccer Schedule', 1, 0, 'b4ffc3d8-83dd-11f0-ac71-e89c259bf719'),
+(20, 1, NULL, '2025-08-28 00:25:25', '2025-08-28 01:07:50', NULL, 'TEST', 0, 0, 'b4ffc40b-83dd-11f0-ac71-e89c259bf719');
 
 -- --------------------------------------------------------
 
@@ -4733,7 +4734,8 @@ ALTER TABLE `module_agency_persons`
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_module_calendar_ics_token` (`ics_token`);
 
 --
 -- Indexes for table `module_calendar_events`
