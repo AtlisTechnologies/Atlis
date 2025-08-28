@@ -29,11 +29,17 @@ $event_types = get_lookup_items($pdo, 37);
 $default_event_type_id = $event_types[0]['id'] ?? 0;
 
 ?>
+
 <?php if (user_has_permission('calendar','create')): ?>
 <div class="d-flex justify-content-end mb-3">
   <a href="index.php?action=create" class="btn btn-primary">Create Calendar</a>
 </div>
 <?php endif; ?>
+
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-primary" type="button" id="openAddEvent" <?= $owns_calendar ? '' : 'disabled data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create a calendar to add events"'; ?>>Add Event</button>
+</div>
+
 <div class="row">
   <div class="col-md-3">
     <div id="calendarSidebar"></div>
@@ -180,10 +186,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
   const addEventForm = document.getElementById('addEventForm');
   const addEventModalEl = document.getElementById('addEventModal');
+  const openAddEventBtn = document.getElementById('openAddEvent');
   const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
   const listCalendarsUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php';
   const VISIBILITY_PUBLIC = 198;
   const VISIBILITY_PRIVATE = 199;
+
+  if (openAddEventBtn && openAddEventBtn.disabled) {
+    bootstrap.Tooltip.getOrCreateInstance(openAddEventBtn);
+  }
 
   function isEventPrivate(props) {
     if ('visibility_id' in props) {
@@ -351,6 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  document.getElementById('openAddEvent').addEventListener('click', () => { selectCalendarRadio(addEventForm, getCalendarId()); bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show(); });
 
   document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
