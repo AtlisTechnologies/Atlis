@@ -56,7 +56,9 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                   <ul class="list-group">
                     <?php foreach($timeEntries as $te): ?>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><?= h($te['memo']); ?></span>
+                        <a href="../../time-tracking/index.php?id=<?= $te['id']; ?>" class="text-decoration-none">
+                          <?= h($te['memo']); ?>
+                        </a>
                         <span class="badge bg-primary rounded-pill"><?= h($te['hours']); ?>h</span>
                       </li>
                     <?php endforeach; ?>
