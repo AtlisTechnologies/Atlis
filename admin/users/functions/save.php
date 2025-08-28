@@ -275,6 +275,11 @@ try {
     $pstmt->execute($personData);
     $person_id = (int)$pdo->lastInsertId();
     admin_audit_log($pdo,$this_user_id,'person',$person_id,'CREATE',null,json_encode(['user_id'=>$id,'first_name'=>$first_name,'last_name'=>$last_name,'gender_id'=>$gender_id,'organization_id'=>$organization_id,'agency_id'=>$agency_id,'division_id'=>$division_id,'dob'=>$dob ?: null]),'Created person');
+
+    $cstmt = $pdo->prepare('INSERT INTO module_calendar (user_id, name, is_private, is_default) VALUES (:uid, :name, 0, 1)');
+    $cstmt->execute([':uid' => $id, ':name' => trim($first_name . ' ' . $last_name)]);
+    $calendar_id = (int)$pdo->lastInsertId();
+    admin_audit_log($pdo,$this_user_id,'module_calendar',$calendar_id,'CREATE',null,json_encode(['user_id'=>$id,'name'=>trim($first_name . ' ' . $last_name),'is_private'=>0,'is_default'=>1]),'Created default calendar');
   }
 
   if (!$person_id) {
