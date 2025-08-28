@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)($_POST['id'] ?? 0);
     $meeting_id = (int)($_POST['meeting_id'] ?? 0);
     $agenda_id = isset($_POST['agenda_id']) && $_POST['agenda_id'] !== '' ? (int)$_POST['agenda_id'] : null;
-    $question_text = trim($_POST['question_text'] ?? '');
+    $question_text = isset($_POST['question_text']) ? trim($_POST['question_text']) : null;
     $answer_text = trim($_POST['answer_text'] ?? '');
     $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
     if ($status_id === null) {
@@ -27,6 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         if ($id && $meeting_id) {
+            if ($question_text === null) {
+                $qStmt = $pdo->prepare('SELECT question_text FROM module_meeting_questions WHERE id=? AND meeting_id=?');
+                $qStmt->execute([$id, $meeting_id]);
+                $question_text = (string)$qStmt->fetchColumn();
+            }
             $stmt = $pdo->prepare('UPDATE module_meeting_questions SET user_updated=:uid, agenda_id=:aid, question_text=:q, answer_text=:a, status_id=:status WHERE id=:id AND meeting_id=:mid');
             $stmt->execute([
                 ':uid' => $this_user_id,
