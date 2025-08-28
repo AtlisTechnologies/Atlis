@@ -17,11 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $answer_text = trim($_POST['answer_text'] ?? '');
     $status_id = isset($_POST['status_id']) && $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
     if ($status_id === null) {
-        $defaultStatus = array_filter(
-            get_lookup_items($pdo, 'MEETING_QUESTION_STATUS'),
-            fn($i) => (!empty($i['is_default']) && $i['is_default'] == 1) || (!empty($i['default']) && $i['default'] == 1)
-        );
-        $status_id = $defaultStatus ? (int)array_values($defaultStatus)[0]['id'] : null;
+        $status_id = lookup_default_id($pdo, 'MEETING_QUESTION_STATUS');
+    }
+    if ($agenda_id) {
+        $chkAgenda = $pdo->prepare('SELECT id FROM module_meeting_agenda WHERE id = :aid AND meeting_id = :mid');
+        $chkAgenda->execute([':aid' => $agenda_id, ':mid' => $meeting_id]);
+        if (!$chkAgenda->fetchColumn()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid agenda item']);
+            exit;
+        }
     }
 
     try {
