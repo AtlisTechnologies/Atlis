@@ -11,6 +11,17 @@ if(!$statement_id || !$invoice_id){
   exit;
 }
 
+$sCorp = $pdo->prepare('SELECT corporate_id FROM admin_finances_statements_of_work WHERE id=:sid');
+$sCorp->execute([':sid'=>$statement_id]);
+$sowCorp = $sCorp->fetchColumn();
+$iCorp = $pdo->prepare('SELECT corporate_id FROM admin_finances_invoices WHERE id=:iid');
+$iCorp->execute([':iid'=>$invoice_id]);
+$invCorp = $iCorp->fetchColumn();
+if(!$sowCorp || !$invCorp || $sowCorp != $invCorp){
+  echo json_encode(['success'=>false,'error'=>'Corporate mismatch']);
+  exit;
+}
+
 $stmt = $pdo->prepare('SELECT id FROM admin_finances_invoice_sow WHERE invoice_id=:iid AND statement_id=:sid');
 $stmt->execute([':iid'=>$invoice_id,':sid'=>$statement_id]);
 if(!$stmt->fetch()){

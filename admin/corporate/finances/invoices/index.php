@@ -1,9 +1,16 @@
 <?php
 require '../../admin_header.php';
 require_permission('admin_finances_invoices','read');
+require_once __DIR__ . '/../../../../includes/lookup_helpers.php';
 
-$invoiceStmt = $pdo->query('SELECT i.id,i.invoice_number,i.status_id,l.name AS status,i.bill_to,i.invoice_date,i.due_date,i.total_amount FROM admin_finances_invoices i LEFT JOIN lookup_list_items l ON i.status_id=l.id ORDER BY i.invoice_date DESC');
+$invoiceStmt = $pdo->query('SELECT i.id,i.invoice_number,i.status_id,l.name AS status,i.bill_to,i.invoice_date,i.period_start,i.period_end,i.due_date,i.total_amount,i.agency_id,i.division_id,i.file_name,i.file_path FROM admin_finances_invoices i LEFT JOIN lookup_list_items l ON i.status_id=l.id ORDER BY i.invoice_date DESC');
 $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
+$statusOptions = get_lookup_items($pdo,'CORPORATE_FINANCE_INVOICE_STATUS');
+$agencies = $pdo->query('SELECT id,name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$divisions = $pdo->query('SELECT id,name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$projectsAll = $pdo->query('SELECT id,name FROM module_projects ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$sowsAll = $pdo->query('SELECT id,title FROM admin_finances_statements_of_work ORDER BY title')->fetchAll(PDO::FETCH_ASSOC);
+$timeEntries = $pdo->query("SELECT id,memo,hours FROM admin_time_tracking_entries WHERE invoice_id IS NULL ORDER BY date_created DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Invoices</h2>
 <div id="invoiceList" data-list='{"valueNames":["invoice_number","status","bill_to","invoice_date","due_date","total_amount"],"page":25,"pagination":true}'>
@@ -67,11 +74,33 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="invoice-edit-form" data-id="<?= $inv['id']; ?>">
                   <input type="hidden" name="id" value="<?= $inv['id']; ?>">
                   <div class="mb-3"><label class="form-label">Invoice #<input class="form-control" name="invoice_number" value="<?= h($inv['invoice_number']); ?>" required></label></div>
-                  <div class="mb-3"><label class="form-label">Status ID<input class="form-control" name="status_id" value="<?= h($inv['status_id']); ?>"></label></div>
+                  <div class="mb-3"><label class="form-label">Agency<select class="form-select" name="agency_id">
+                    <option value="">-- none --</option>
+                    <?php foreach($agencies as $a): ?>
+                      <option value="<?= $a['id']; ?>" <?= ($inv['agency_id']==$a['id'])?'selected':''; ?>><?= h($a['name']); ?></option>
+                    <?php endforeach; ?>
+                  </select></label></div>
+                  <div class="mb-3"><label class="form-label">Division<select class="form-select" name="division_id">
+                    <option value="">-- none --</option>
+                    <?php foreach($divisions as $d): ?>
+                      <option value="<?= $d['id']; ?>" <?= ($inv['division_id']==$d['id'])?'selected':''; ?>><?= h($d['name']); ?></option>
+                    <?php endforeach; ?>
+                  </select></label></div>
+                  <div class="mb-3"><label class="form-label">Status<select class="form-select" name="status_id">
+                    <option value="">-- select --</option>
+                    <?php foreach($statusOptions as $s): ?>
+                      <option value="<?= $s['id']; ?>" <?= ($inv['status_id']==$s['id'])?'selected':''; ?>><?= h($s['label']); ?></option>
+                    <?php endforeach; ?>
+                  </select></label></div>
                   <div class="mb-3"><label class="form-label">Bill To<input class="form-control" name="bill_to" value="<?= h($inv['bill_to']); ?>"></label></div>
                   <div class="mb-3"><label class="form-label">Invoice Date<input class="form-control" type="date" name="invoice_date" value="<?= h($inv['invoice_date']); ?>"></label></div>
+                  <div class="mb-3"><label class="form-label">Period Start<input class="form-control" type="date" name="period_start" value="<?= h($inv['period_start']); ?>"></label></div>
+                  <div class="mb-3"><label class="form-label">Period End<input class="form-control" type="date" name="period_end" value="<?= h($inv['period_end']); ?>"></label></div>
                   <div class="mb-3"><label class="form-label">Due Date<input class="form-control" type="date" name="due_date" value="<?= h($inv['due_date']); ?>"></label></div>
                   <div class="mb-3"><label class="form-label">Total<input class="form-control" type="number" step="0.01" name="total_amount" value="<?= h($inv['total_amount']); ?>"></label></div>
+                  <?php if($inv['file_path']): ?>
+                    <div class="mb-2"><a href="<?= getURLDir().h($inv['file_path']); ?>" target="_blank"><?= h($inv['file_name']); ?></a></div>
+                  <?php endif; ?>
                   <div class="mb-3"><label class="form-label">File<input class="form-control" type="file" name="file"></label></div>
                   <button class="btn btn-primary" type="submit">Save</button>
                 </form>
@@ -88,7 +117,12 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="link-project-form" data-invoice="<?= $inv['id']; ?>">
                   <input type="hidden" name="invoice_id" value="<?= $inv['id']; ?>">
                   <div class="input-group mb-3">
-                    <input class="form-control" name="project_id" type="number" placeholder="Project ID">
+                    <select class="form-select" name="project_id" data-choices="data-choices">
+                      <option value="">Select Project</option>
+                      <?php foreach($projectsAll as $pAll): ?>
+                        <option value="<?= $pAll['id']; ?>"><?= h($pAll['name']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
                     <button class="btn btn-outline-primary" type="submit">Attach</button>
                   </div>
                 </form>
@@ -104,7 +138,12 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="link-sow-form" data-invoice="<?= $inv['id']; ?>">
                   <input type="hidden" name="invoice_id" value="<?= $inv['id']; ?>">
                   <div class="input-group mb-3">
-                    <input class="form-control" name="statement_id" type="number" placeholder="SoW ID">
+                    <select class="form-select" name="statement_id" data-choices="data-choices">
+                      <option value="">Select SoW</option>
+                      <?php foreach($sowsAll as $sAll): ?>
+                        <option value="<?= $sAll['id']; ?>"><?= h($sAll['title']); ?></option>
+                      <?php endforeach; ?>
+                    </select>
                     <button class="btn btn-outline-primary" type="submit">Attach</button>
                   </div>
                 </form>
@@ -120,7 +159,12 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
                 <form class="link-time-form" data-invoice="<?= $inv['id']; ?>">
                   <input type="hidden" name="invoice_id" value="<?= $inv['id']; ?>">
                   <div class="input-group mb-3">
-                    <input class="form-control" name="time_entry_id" type="number" placeholder="Time Entry ID">
+                    <select class="form-select" name="time_entry_id" data-choices="data-choices">
+                      <option value="">Select Time Entry</option>
+                      <?php foreach($timeEntries as $tAll): ?>
+                        <option value="<?= $tAll['id']; ?>"><?= h($tAll['memo']); ?> (<?= h($tAll['hours']); ?>h)</option>
+                      <?php endforeach; ?>
+                    </select>
                     <button class="btn btn-outline-primary" type="submit">Attach</button>
                   </div>
                 </form>
@@ -153,9 +197,28 @@ $invoices = $invoiceStmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-body">
         <form id="invoiceCreateForm">
           <div class="mb-3"><label class="form-label">Invoice #<input class="form-control" name="invoice_number" required></label></div>
-          <div class="mb-3"><label class="form-label">Status ID<input class="form-control" name="status_id" type="number"></label></div>
+          <div class="mb-3"><label class="form-label">Agency<select class="form-select" name="agency_id">
+            <option value="">-- none --</option>
+            <?php foreach($agencies as $a): ?>
+              <option value="<?= $a['id']; ?>"><?= h($a['name']); ?></option>
+            <?php endforeach; ?>
+          </select></label></div>
+          <div class="mb-3"><label class="form-label">Division<select class="form-select" name="division_id">
+            <option value="">-- none --</option>
+            <?php foreach($divisions as $d): ?>
+              <option value="<?= $d['id']; ?>"><?= h($d['name']); ?></option>
+            <?php endforeach; ?>
+          </select></label></div>
+          <div class="mb-3"><label class="form-label">Status<select class="form-select" name="status_id">
+            <option value="">-- select --</option>
+            <?php foreach($statusOptions as $s): ?>
+              <option value="<?= $s['id']; ?>"><?= h($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select></label></div>
           <div class="mb-3"><label class="form-label">Bill To<input class="form-control" name="bill_to"></label></div>
           <div class="mb-3"><label class="form-label">Invoice Date<input class="form-control" type="date" name="invoice_date"></label></div>
+          <div class="mb-3"><label class="form-label">Period Start<input class="form-control" type="date" name="period_start"></label></div>
+          <div class="mb-3"><label class="form-label">Period End<input class="form-control" type="date" name="period_end"></label></div>
           <div class="mb-3"><label class="form-label">Due Date<input class="form-control" type="date" name="due_date"></label></div>
           <div class="mb-3"><label class="form-label">Total<input class="form-control" type="number" step="0.01" name="total_amount"></label></div>
           <div class="mb-3"><label class="form-label">File<input class="form-control" type="file" name="file"></label></div>

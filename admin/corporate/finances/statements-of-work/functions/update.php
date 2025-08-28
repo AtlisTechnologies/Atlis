@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 
 $id = $_POST['id'] ?? null;
 $title = trim($_POST['title'] ?? '');
+$description = trim($_POST['description'] ?? '');
 $start_date = $_POST['start_date'] ?? null;
 $end_date = $_POST['end_date'] ?? null;
 $status_id = $_POST['status_id'] ?? null;
@@ -40,9 +41,10 @@ if(!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
   }
 }
 
-$stmt = $pdo->prepare('UPDATE admin_finances_statements_of_work SET title=:title, start_date=:start_date, end_date=:end_date, status_id=:status_id, file_name=:fname, file_path=:fpath, file_size=:fsize, file_type=:ftype, user_updated=:uid WHERE id=:id');
+$stmt = $pdo->prepare('UPDATE admin_finances_statements_of_work SET title=:title, description=:description, start_date=:start_date, end_date=:end_date, status_id=:status_id, file_name=:fname, file_path=:fpath, file_size=:fsize, file_type=:ftype, user_updated=:uid WHERE id=:id');
 $stmt->execute([
   ':title' => $title,
+  ':description' => $description,
   ':start_date' => $start_date,
   ':end_date' => $end_date,
   ':status_id' => $status_id,
