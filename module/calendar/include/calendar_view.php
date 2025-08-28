@@ -42,6 +42,8 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
 
 ?>
 
+<link rel="stylesheet" href="<?php echo getURLDir(); ?>assets/css/theme.css">
+
 <div class="row g-0">
   <div class="col-lg-2 col-md-3 px-0">
     <?php if (user_has_permission('calendar','create')): ?>
@@ -287,11 +289,11 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
   }
 
-  function showToast(message) {
+  function showToast(message, type = 'primary') {
     const container = document.getElementById('calendarToast');
     if (!container) return;
     const el = document.createElement('div');
-    el.className = 'toast align-items-center text-bg-primary border-0';
+    el.className = `toast align-items-center text-white dark__text-gray-1100 bg-${type} border-0`;
     el.role = 'alert';
     el.ariaLive = 'assertive';
     el.ariaAtomic = 'true';
@@ -501,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const cid = parseInt(getCalendarId(), 10);
       if (!ownedCalendarIds.includes(cid)) {
-        alert('Please select one of your calendars before adding an event.');
+        showToast('Please select one of your calendars before adding an event.', 'danger');
         return;
       }
       this.calendar_id.value = cid;
@@ -521,12 +523,12 @@ document.addEventListener('DOMContentLoaded', function() {
           showToast('Event created');
           calendar.refetchEvents();
         } else {
-          alert(data.error || 'An error occurred while adding the event.');
+          showToast(data.error || 'An error occurred while adding the event.', 'danger');
         }
       })
       .catch(err => {
         console.error('Failed to add event', err);
-        alert('Failed to add event: ' + err.message);
+        showToast('Failed to add event: ' + err.message, 'danger');
       });
     });
   }
@@ -548,12 +550,12 @@ document.addEventListener('DOMContentLoaded', function() {
         bootstrap.Modal.getInstance(document.getElementById('editEventModal')).hide();
         calendar.refetchEvents();
       } else {
-        alert(data.error || 'An error occurred while updating the event.');
+        showToast(data.error || 'An error occurred while updating the event.', 'danger');
       }
     })
     .catch(err => {
       console.error('Failed to update event', err);
-      alert('Failed to update event: ' + err.message);
+      showToast('Failed to update event: ' + err.message, 'danger');
     });
   });
 
