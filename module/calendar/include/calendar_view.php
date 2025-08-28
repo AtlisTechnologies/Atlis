@@ -62,7 +62,24 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   </div>
 </div>
 
-<div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+<div class="row">
+  <?php if (!empty($calendars)) { ?>
+    <div class="col-md-3">
+      <div id="calendarSidebar">
+        <?php foreach ($calendars as $cal) { ?>
+          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
+          <div class="form-check">
+            <input class="form-check-input calendar-filter" type="checkbox" value="<?php echo $cal['id']; ?>" id="calFilter<?php echo $cal['id']; ?>"<?php echo (int)$cal['id'] === (int)$user_default_calendar_id ? ' checked' : ''; ?>>
+            <label class="form-check-label" for="calFilter<?php echo $cal['id']; ?>"><?php echo e($cal_label); ?></label>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+  <?php } ?>
+  <div class="col">
+    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
+  </div>
+</div>
 
 <div class="modal fade" id="addEventModal" tabindex="-1">
   <div class="modal-dialog">
@@ -187,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
   document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
 
-  const defaultCalendarId = <?php echo (int)$selected_calendar_id; ?>;
+  const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
   const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
   const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
@@ -207,6 +224,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getCalendarIds() {
+
+    //return Array.from(document.querySelectorAll('.calendar-filter:checked')).map(cb => cb.value);
+
     const boxes = document.querySelectorAll('#calendarSelect input[type="checkbox"]:checked');
     if (boxes.length) {
       return Array.from(boxes).map(b => b.value);
@@ -294,12 +314,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  const calSelect = document.getElementById('calendarSelect');
-  if (calSelect) {
-    calSelect.addEventListener('change', function(e) {
-      if (e.target && e.target.matches('input[type="checkbox"]')) {
-        calendar.refetchEvents();
-      }
+  const sidebar = document.getElementById('calendarSidebar');
+  if (sidebar) {
+    sidebar.addEventListener('change', () => {
+      calendar.refetchEvents();
     });
   }
 
