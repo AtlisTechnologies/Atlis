@@ -1,6 +1,6 @@
 <?php
 require '../includes/php_header.php';
-require_permission('admin_business_strategy','update');
+require_permission('admin_strategy','update');
 header('Content-Type: application/json');
 
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
