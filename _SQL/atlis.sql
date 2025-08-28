@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 04:03 AM
+-- Generation Time: Aug 28, 2025 at 07:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -353,7 +353,97 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (304, 1, 1, '2025-08-27 21:49:17', '2025-08-27 21:49:17', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
 (305, 1, 1, '2025-08-27 21:49:17', '2025-08-27 21:49:17', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
 (306, 1, 1, '2025-08-27 21:49:26', '2025-08-27 21:49:26', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
-(307, 1, 1, '2025-08-27 21:52:16', '2025-08-27 21:52:16', NULL, 'module_projects', 29, 'CREATE', 'Created project from meeting', NULL, '{\"name\":\"test 69\"}');
+(307, 1, 1, '2025-08-27 21:52:16', '2025-08-27 21:52:16', NULL, 'module_projects', 29, 'CREATE', 'Created project from meeting', NULL, '{\"name\":\"test 69\"}'),
+(308, 1, 1, '2025-08-27 22:18:32', '2025-08-27 22:18:32', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(309, 1, 1, '2025-08-27 22:18:32', '2025-08-27 22:18:32', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(310, 1, 1, '2025-08-27 22:18:32', '2025-08-27 22:18:32', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(311, 1, 1, '2025-08-27 22:18:33', '2025-08-27 22:18:33', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(312, 1, 1, '2025-08-27 22:18:33', '2025-08-27 22:18:33', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(313, 1, 1, '2025-08-27 22:18:33', '2025-08-27 22:18:33', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(314, 1, 1, '2025-08-27 22:18:37', '2025-08-27 22:18:37', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(315, 1, 1, '2025-08-27 22:18:37', '2025-08-27 22:18:37', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(316, 1, 1, '2025-08-27 22:18:38', '2025-08-27 22:18:38', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(317, 1, 1, '2025-08-27 22:18:40', '2025-08-27 22:18:40', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(318, 1, 1, '2025-08-27 22:18:40', '2025-08-27 22:18:40', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(319, 1, 1, '2025-08-27 22:18:40', '2025-08-27 22:18:40', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(320, 1, 1, '2025-08-27 22:18:43', '2025-08-27 22:18:43', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(321, 1, 1, '2025-08-27 22:18:43', '2025-08-27 22:18:43', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(322, 1, 1, '2025-08-27 22:18:43', '2025-08-27 22:18:43', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(323, 1, 1, '2025-08-27 22:18:50', '2025-08-27 22:18:50', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(324, 1, 1, '2025-08-27 22:18:50', '2025-08-27 22:18:50', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(325, 1, 1, '2025-08-27 22:18:50', '2025-08-27 22:18:50', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(326, 1, 1, '2025-08-27 22:18:57', '2025-08-27 22:18:57', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(327, 1, 1, '2025-08-27 22:18:57', '2025-08-27 22:18:57', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(328, 1, 1, '2025-08-27 22:18:57', '2025-08-27 22:18:57', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(329, 1, 1, '2025-08-27 22:19:04', '2025-08-27 22:19:04', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(330, 1, 1, '2025-08-27 22:19:04', '2025-08-27 22:19:04', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(331, 1, 1, '2025-08-27 22:19:04', '2025-08-27 22:19:04', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(332, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 2, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 2\"}'),
+(333, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 1, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 1\"}'),
+(334, 1, 1, '2025-08-27 22:19:09', '2025-08-27 22:19:09', NULL, 'module_meeting_agenda', 3, 'UPDATE', 'Updated agenda item', '', '{\"title\":\"test 3\"}'),
+(335, 1, 1, '2025-08-27 22:19:33', '2025-08-27 22:19:33', NULL, 'module_meeting_files', 1, 'DELETE', 'Deleted file', '{\"file\":\"meeting_3_1756236860_joke-missed.gif\"}', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_corporate`
+--
+
+CREATE TABLE `admin_corporate` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `legal_name` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `ein` varchar(50) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_corporate_files`
+--
+
+CREATE TABLE `admin_corporate_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `corporate_id` int(11) NOT NULL,
+  `note_id` int(11) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_corporate_notes`
+--
+
+CREATE TABLE `admin_corporate_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `corporate_id` int(11) NOT NULL,
+  `note_text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -477,7 +567,7 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (21, 'Finances › Invoices', 'corporate/finances/invoices/index.php', 'file-text', 15, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:23:00', NULL),
 (22, 'Finances › Statements of Work', 'corporate/finances/statements-of-work/index.php', 'file', 16, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:22:52', NULL),
 (23, 'Time Tracking', 'corporate/time-tracking/index.php', 'clock', 17, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL),
-(24, 'Strategy', '/admin/corporate/strategy/index.php', 'target', 18, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:13:28', NULL);
+(24, 'Strategy', 'corporate/strategy/index.php', 'target', 18, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:58:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -1515,7 +1605,22 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (274, 1, 1, '2025-08-27 21:48:03', '2025-08-27 21:48:03', NULL, 'lookup_list_item_attributes', 161, 'CREATE', 'Created item attribute'),
 (275, 1, 1, '2025-08-27 21:48:11', '2025-08-27 21:48:11', NULL, 'lookup_list_item_attributes', 162, 'CREATE', 'Created item attribute'),
 (276, 1, 1, '2025-08-27 21:48:16', '2025-08-27 21:48:16', NULL, 'lookup_list_item_attributes', 163, 'CREATE', 'Created item attribute'),
-(277, 1, 1, '2025-08-27 21:48:26', '2025-08-27 21:48:26', NULL, 'lookup_list_items', 230, 'UPDATE', 'Updated lookup list item');
+(277, 1, 1, '2025-08-27 21:48:26', '2025-08-27 21:48:26', NULL, 'lookup_list_items', 230, 'UPDATE', 'Updated lookup list item'),
+(278, 1, 1, '2025-08-27 22:44:53', '2025-08-27 22:44:53', NULL, 'lookup_list_item_attributes', 164, 'CREATE', 'Created item attribute'),
+(279, 1, 1, '2025-08-27 22:45:03', '2025-08-27 22:45:03', NULL, 'lookup_list_item_attributes', 165, 'CREATE', 'Created item attribute'),
+(280, 1, 1, '2025-08-27 22:45:13', '2025-08-27 22:45:13', NULL, 'lookup_list_item_attributes', 166, 'CREATE', 'Created item attribute'),
+(281, 1, 1, '2025-08-27 22:45:17', '2025-08-27 22:45:17', NULL, 'lookup_list_item_attributes', 167, 'CREATE', 'Created item attribute'),
+(282, 1, 1, '2025-08-27 22:47:04', '2025-08-27 22:47:04', NULL, 'lookup_list_items', 285, 'DELETE', 'Deleted lookup list item'),
+(283, 1, 1, '2025-08-27 22:47:20', '2025-08-27 22:47:20', NULL, 'lookup_list_item_attributes', 168, 'CREATE', 'Created item attribute'),
+(284, 1, 1, '2025-08-27 22:47:25', '2025-08-27 22:47:25', NULL, 'lookup_list_item_attributes', 169, 'CREATE', 'Created item attribute'),
+(285, 1, 1, '2025-08-27 22:47:32', '2025-08-27 22:47:32', NULL, 'lookup_list_item_attributes', 170, 'CREATE', 'Created item attribute'),
+(286, 1, 1, '2025-08-27 22:47:52', '2025-08-27 22:47:52', NULL, 'lookup_list_item_attributes', 171, 'CREATE', 'Created item attribute'),
+(287, 1, 1, '2025-08-27 22:47:55', '2025-08-27 22:47:55', NULL, 'lookup_list_item_attributes', 172, 'CREATE', 'Created item attribute'),
+(288, 1, 1, '2025-08-27 22:47:58', '2025-08-27 22:47:58', NULL, 'lookup_list_item_attributes', 173, 'CREATE', 'Created item attribute'),
+(289, 1, 1, '2025-08-27 22:48:01', '2025-08-27 22:48:01', NULL, 'lookup_list_item_attributes', 174, 'CREATE', 'Created item attribute'),
+(290, 1, 1, '2025-08-27 22:48:23', '2025-08-27 22:48:23', NULL, 'lookup_list_item_attributes', 175, 'CREATE', 'Created item attribute'),
+(291, 1, 1, '2025-08-27 22:48:27', '2025-08-27 22:48:27', NULL, 'lookup_list_item_attributes', 176, 'CREATE', 'Created item attribute'),
+(292, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 'lookup_list_item_attributes', 177, 'CREATE', 'Created item attribute');
 
 -- --------------------------------------------------------
 
@@ -1595,7 +1700,7 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (59, 1, 1, '2025-08-25 12:59:21', '2025-08-25 12:59:21', '', 'ADMIN_TASK_TYPE', ''),
 (60, 1, 1, '2025-08-25 13:01:12', '2025-08-25 13:01:12', '', 'ADMIN_TASK_RECURRING_TYPE', ''),
 (61, 1, 1, '2025-08-25 13:04:33', '2025-08-25 13:04:33', '', 'ADMIN_TASK_SUB_CATEGORY', ''),
-(62, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 'CORPORATE_FEATURE', 'Corporate module features'),
+(62, 1, 1, '2025-08-26 00:00:00', '2025-08-27 22:47:04', NULL, 'CORPORATE_FEATURE', 'Corporate module features'),
 (63, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'CONFERENCE_TYPE', 'Types of conferences'),
 (64, 1, NULL, '2025-08-27 00:56:50', '2025-08-27 00:56:50', NULL, 'CONFERENCE_TOPIC', 'Topics for conferences'),
 (66, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL, 'CORPORATE_FINANCE_SECTION', 'Sections for corporate finance'),
@@ -1874,7 +1979,6 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (282, 1, 1, '2025-08-26 22:29:20', '2025-08-26 22:29:20', NULL, 61, 'Emry', 'EMRY', 0, '0000-00-00', '0000-00-00'),
 (283, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Business Strategy', 'BUSINESS_STRATEGY', 1, '2025-08-26', NULL),
 (284, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Prospecting', 'PROSPECTING', 2, '2025-08-26', NULL),
-(285, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Finance', 'FINANCE', 3, '2025-08-26', NULL),
 (286, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Accounting', 'ACCOUNTING', 4, '2025-08-26', NULL),
 (287, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Assets', 'ASSETS', 5, '2025-08-26', NULL),
 (288, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL, 62, 'Human Resources', 'HUMAN_RESOURCES', 6, '2025-08-26', NULL),
@@ -2069,7 +2173,21 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (160, 1, 1, '2025-08-27 21:47:43', '2025-08-27 21:47:43', NULL, 229, 'COLOR-CLASS', 'warning'),
 (161, 1, 1, '2025-08-27 21:48:03', '2025-08-27 21:48:03', NULL, 230, 'COLOR-CLASS', 'sunset'),
 (162, 1, 1, '2025-08-27 21:48:11', '2025-08-27 21:48:11', NULL, 231, 'COLOR-CLASS', 'success'),
-(163, 1, 1, '2025-08-27 21:48:16', '2025-08-27 21:48:16', NULL, 229, 'DEFAULT', 'true');
+(163, 1, 1, '2025-08-27 21:48:16', '2025-08-27 21:48:16', NULL, 229, 'DEFAULT', 'true'),
+(164, 1, 1, '2025-08-27 22:44:53', '2025-08-27 22:44:53', NULL, 293, 'COLOR-CLASS', 'ocean'),
+(165, 1, 1, '2025-08-27 22:45:03', '2025-08-27 22:45:03', NULL, 283, 'COLOR-CLASS', 'atlis'),
+(166, 1, 1, '2025-08-27 22:45:13', '2025-08-27 22:45:13', NULL, 294, 'COLOR-CLASS', 'grape'),
+(167, 1, 1, '2025-08-27 22:45:17', '2025-08-27 22:45:17', NULL, 284, 'COLOR-CLASS', 'warning'),
+(168, 1, 1, '2025-08-27 22:47:20', '2025-08-27 22:47:20', NULL, 286, 'COLOR-CLASS', 'citrus'),
+(169, 1, 1, '2025-08-27 22:47:25', '2025-08-27 22:47:25', NULL, 287, 'COLOR-CLASS', 'red'),
+(170, 1, 1, '2025-08-27 22:47:32', '2025-08-27 22:47:32', NULL, 288, 'COLOR-CLASS', 'forest'),
+(171, 1, 1, '2025-08-27 22:47:52', '2025-08-27 22:47:52', NULL, 272, 'COLOR-CLASS', 'primary'),
+(172, 1, 1, '2025-08-27 22:47:55', '2025-08-27 22:47:55', NULL, 273, 'COLOR-CLASS', 'warning'),
+(173, 1, 1, '2025-08-27 22:47:58', '2025-08-27 22:47:58', NULL, 273, 'DEFAULT', 'true'),
+(174, 1, 1, '2025-08-27 22:48:01', '2025-08-27 22:48:01', NULL, 274, 'COLOR-CLASS', 'danger'),
+(175, 1, 1, '2025-08-27 22:48:23', '2025-08-27 22:48:23', NULL, 268, 'COLOR-CLASS', 'citrus'),
+(176, 1, 1, '2025-08-27 22:48:27', '2025-08-27 22:48:27', NULL, 266, 'COLOR-CLASS', 'atlis'),
+(177, 1, 1, '2025-08-27 22:48:36', '2025-08-27 22:48:36', NULL, 267, 'COLOR-CLASS', 'forest');
 
 -- --------------------------------------------------------
 
@@ -2671,68 +2789,6 @@ CREATE TABLE `module_contractors_status_history` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `module_corporate`
---
-
-CREATE TABLE `module_corporate` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `legal_name` varchar(255) NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `state` varchar(100) DEFAULT NULL,
-  `zip` varchar(20) DEFAULT NULL,
-  `country` varchar(100) DEFAULT NULL,
-  `ein` varchar(50) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_corporate_files`
---
-
-CREATE TABLE `module_corporate_files` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `corporate_id` int(11) NOT NULL,
-  `note_id` int(11) DEFAULT NULL,
-  `file_name` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
-  `file_size` int(11) DEFAULT NULL,
-  `file_type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `module_corporate_notes`
---
-
-CREATE TABLE `module_corporate_notes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_updated` int(11) DEFAULT NULL,
-  `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `memo` text DEFAULT NULL,
-  `corporate_id` int(11) NOT NULL,
-  `note_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `module_division`
 --
 
@@ -2960,9 +3016,9 @@ CREATE TABLE `module_meeting_agenda` (
 --
 
 INSERT INTO `module_meeting_agenda` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `order_index`, `title`, `status_id`, `linked_task_id`, `linked_project_id`) VALUES
-(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:17', NULL, 1, 1, 'test 1', 226, NULL, NULL),
-(2, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:17', NULL, 1, 2, 'test 2', 227, NULL, NULL),
-(3, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:26', NULL, 1, 3, 'test 3', 226, NULL, NULL);
+(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 1, 'test 1', 226, NULL, NULL),
+(2, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 2, 'test 2', 227, NULL, NULL),
+(3, 1, 1, '2025-08-27 21:49:07', '2025-08-27 22:19:09', NULL, 1, 3, 'test 3', 226, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3007,13 +3063,6 @@ CREATE TABLE `module_meeting_files` (
   `file_path` varchar(255) DEFAULT NULL,
   `uploader_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_meeting_files`
---
-
-INSERT INTO `module_meeting_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `file_name`, `file_path`, `uploader_id`) VALUES
-(1, 1, 1, '2025-08-27 21:49:07', '2025-08-27 21:49:07', NULL, 1, 'meeting_3_1756236860_joke-missed.gif', '/admin/meetings/uploads/1/meeting_1_1756352947_meeting_3_1756236860_joke-missed.gif', 1);
 
 -- --------------------------------------------------------
 
@@ -4344,6 +4393,33 @@ ALTER TABLE `admin_audit_log`
   ADD KEY `fk_admin_audit_log_user_updated` (`user_updated`);
 
 --
+-- Indexes for table `admin_corporate`
+--
+ALTER TABLE `admin_corporate`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_corporate_user_id` (`user_id`),
+  ADD KEY `fk_module_corporate_user_updated` (`user_updated`);
+
+--
+-- Indexes for table `admin_corporate_files`
+--
+ALTER TABLE `admin_corporate_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_corporate_files_user_id` (`user_id`),
+  ADD KEY `fk_module_corporate_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_corporate_files_corporate_id` (`corporate_id`),
+  ADD KEY `fk_module_corporate_files_note_id` (`note_id`);
+
+--
+-- Indexes for table `admin_corporate_notes`
+--
+ALTER TABLE `admin_corporate_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_corporate_notes_user_id` (`user_id`),
+  ADD KEY `fk_module_corporate_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_module_corporate_notes_corporate_id` (`corporate_id`);
+
+--
 -- Indexes for table `admin_finances_invoices`
 --
 ALTER TABLE `admin_finances_invoices`
@@ -4603,8 +4679,7 @@ ALTER TABLE `module_agency_persons`
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uk_calendar_owner_name` (`user_id`,`name`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `module_calendar_events`
@@ -4616,9 +4691,8 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_link_record_id` (`link_record_id`),
   ADD KEY `fk_module_calendar_events_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
-  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`);
-
-CREATE INDEX idx_calendar_events_start_time ON module_calendar_events(start_time);
+  ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
+  ADD KEY `idx_calendar_events_start_time` (`start_time`);
 
 --
 -- Indexes for table `module_calendar_external_accounts`
@@ -4769,33 +4843,6 @@ ALTER TABLE `module_contractors_status_history`
   ADD KEY `fk_module_contractors_status_history_user_updated` (`user_updated`),
   ADD KEY `fk_module_contractors_status_history_contractor_id` (`contractor_id`),
   ADD KEY `fk_module_contractors_status_history_status_id` (`status_id`);
-
---
--- Indexes for table `module_corporate`
---
-ALTER TABLE `module_corporate`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_corporate_user_id` (`user_id`),
-  ADD KEY `fk_module_corporate_user_updated` (`user_updated`);
-
---
--- Indexes for table `module_corporate_files`
---
-ALTER TABLE `module_corporate_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_corporate_files_user_id` (`user_id`),
-  ADD KEY `fk_module_corporate_files_user_updated` (`user_updated`),
-  ADD KEY `fk_module_corporate_files_corporate_id` (`corporate_id`),
-  ADD KEY `fk_module_corporate_files_note_id` (`note_id`);
-
---
--- Indexes for table `module_corporate_notes`
---
-ALTER TABLE `module_corporate_notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_module_corporate_notes_user_id` (`user_id`),
-  ADD KEY `fk_module_corporate_notes_user_updated` (`user_updated`),
-  ADD KEY `fk_module_corporate_notes_corporate_id` (`corporate_id`);
 
 --
 -- Indexes for table `module_division`
@@ -5293,7 +5340,25 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+
+--
+-- AUTO_INCREMENT for table `admin_corporate`
+--
+ALTER TABLE `admin_corporate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_corporate_files`
+--
+ALTER TABLE `admin_corporate_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_corporate_notes`
+--
+ALTER TABLE `admin_corporate_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoices`
@@ -5407,7 +5472,7 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -5425,7 +5490,7 @@ ALTER TABLE `lookup_list_items`
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -5551,24 +5616,6 @@ ALTER TABLE `module_contractors_notes`
 -- AUTO_INCREMENT for table `module_contractors_status_history`
 --
 ALTER TABLE `module_contractors_status_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `module_corporate`
---
-ALTER TABLE `module_corporate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `module_corporate_files`
---
-ALTER TABLE `module_corporate_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `module_corporate_notes`
---
-ALTER TABLE `module_corporate_notes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -5864,10 +5911,34 @@ ALTER TABLE `users_profile_pics`
 --
 
 --
+-- Constraints for table `admin_corporate`
+--
+ALTER TABLE `admin_corporate`
+  ADD CONSTRAINT `fk_module_corporate_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_corporate_files`
+--
+ALTER TABLE `admin_corporate_files`
+  ADD CONSTRAINT `fk_module_corporate_files_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_corporate_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `admin_corporate_notes` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_corporate_notes`
+--
+ALTER TABLE `admin_corporate_notes`
+  ADD CONSTRAINT `fk_module_corporate_notes_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_corporate_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_corporate_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `admin_finances_invoices`
 --
 ALTER TABLE `admin_finances_invoices`
-  ADD CONSTRAINT `fk_admin_finances_invoices_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_invoices_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_finances_invoices_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_invoices_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_invoices_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
@@ -5894,7 +5965,7 @@ ALTER TABLE `admin_finances_invoice_sow`
 -- Constraints for table `admin_finances_statements_of_work`
 --
 ALTER TABLE `admin_finances_statements_of_work`
-  ADD CONSTRAINT `fk_admin_finances_sow_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_finances_sow_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_finances_sow_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_sow_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_sow_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
@@ -5987,7 +6058,7 @@ ALTER TABLE `admin_task_relations`
 -- Constraints for table `admin_time_tracking_entries`
 --
 ALTER TABLE `admin_time_tracking_entries`
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_admin_time_tracking_entries_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_admin_time_tracking_entries_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
@@ -6203,30 +6274,6 @@ ALTER TABLE `module_contractors_status_history`
   ADD CONSTRAINT `fk_module_contractors_status_history_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `module_corporate`
---
-ALTER TABLE `module_corporate`
-  ADD CONSTRAINT `fk_module_corporate_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_corporate_files`
---
-ALTER TABLE `module_corporate_files`
-  ADD CONSTRAINT `fk_module_corporate_files_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_corporate_files_note_id` FOREIGN KEY (`note_id`) REFERENCES `module_corporate_notes` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `module_corporate_notes`
---
-ALTER TABLE `module_corporate_notes`
-  ADD CONSTRAINT `fk_module_corporate_notes_corporate_id` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_module_corporate_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_module_corporate_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
 -- Constraints for table `module_division`
 --
 ALTER TABLE `module_division`
@@ -6390,7 +6437,7 @@ ALTER TABLE `module_projects_questions`
 ALTER TABLE `module_strategy`
   ADD CONSTRAINT `module_strategy_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `module_strategy_ibfk_2` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `module_strategy_ibfk_3` FOREIGN KEY (`corporate_id`) REFERENCES `module_corporate` (`id`),
+  ADD CONSTRAINT `module_strategy_ibfk_3` FOREIGN KEY (`corporate_id`) REFERENCES `admin_corporate` (`id`),
   ADD CONSTRAINT `module_strategy_ibfk_4` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `module_strategy_ibfk_5` FOREIGN KEY (`priority_id`) REFERENCES `lookup_list_items` (`id`);
 
