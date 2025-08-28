@@ -33,7 +33,7 @@ try {
     if (user_has_role('Admin')) {
         if (!empty($calendar_ids)) {
             $placeholders = implode(',', array_fill(0, count($calendar_ids), '?'));
-            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.calendar_id IN ($placeholders)";
+            $sql = "SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.calendar_id IN ($placeholders)";
             if ($filterTime) {
                 $sql .= ' AND e.start_time < :end AND e.end_time > :start';
             }
@@ -48,7 +48,7 @@ try {
             }
             $stmt->execute();
         } else {
-            $sql = 'SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id';
+            $sql = 'SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id';
             if ($filterTime) {
                 $sql .= ' WHERE e.start_time < :end AND e.end_time > :start';
                 $stmt = $pdo->prepare($sql);
@@ -75,7 +75,7 @@ try {
                 echo json_encode(['error' => 'Access denied']);
                 exit;
             }
-            $sql = "SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?) AND e.calendar_id IN ($placeholders)";
+            $sql = "SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?) AND e.calendar_id IN ($placeholders)";
             if ($filterTime) {
                 $sql .= ' AND e.start_time < :end AND e.end_time > :start';
             }
@@ -92,7 +92,7 @@ try {
             }
             $stmt->execute();
         } else {
-            $sql = 'SELECT e.id, e.calendar_id, e.title, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.is_private, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?)';
+            $sql = 'SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE (e.visibility_id = 198 OR e.user_id = ?) AND (c.is_private = 0 OR c.user_id = ?)';
             if ($filterTime) {
                 $sql .= ' AND e.start_time < :end AND e.end_time > :start';
             }
@@ -122,6 +122,7 @@ try {
             'id' => (int)$row['id'],
             'calendar_id' => (int)$row['calendar_id'],
             'title' => $row['title'],
+            'description' => $row['memo'],
             'start' => $row['start_time'],
             'end' => $row['end_time'],
             'related_module' => $row['link_module'],
@@ -130,7 +131,7 @@ try {
             'visibility_id' => $visibility,
             'user_id' => (int)$row['user_id'],
             'calendar_user_id' => (int)$row['calendar_user_id'],
-            'is_private' => (int)$row['is_private']
+            'is_private' => $visibility === 199 ? 1 : 0
         ];
     }
 } catch (Exception $e) {
