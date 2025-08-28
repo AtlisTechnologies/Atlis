@@ -1,0 +1,50 @@
+<?php
+// Manual test to verify 403 response when updating a private event not owned by the user.
+// It sets up a temporary environment using SQLite so it can run from CLI without a full application stack.
+
+$base = sys_get_temp_dir() . '/calendar_test_' . uniqid();
+mkdir($base . '/includes', 0777, true);
+mkdir($base . '/module/calendar/functions', 0777, true);
+
+// Copy the update.php under test into the temporary structure so its relative include works.
+copy(__DIR__ . '/../functions/update.php', $base . '/module/calendar/functions/update.php');
+
+// Stub php_header.php with minimal environment and database schema.
+file_put_contents($base . '/includes/php_header.php', <<<'PHP'
+<?php
+$pdo = new PDO('sqlite::memory:');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo->exec('CREATE TABLE module_calendar (id INTEGER PRIMARY KEY, user_id INT, is_private TINYINT);');
+$pdo->exec('CREATE TABLE module_calendar_events (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INT, calendar_id INT, title TEXT, start_time TEXT, end_time TEXT, event_type_id INT, link_module TEXT, link_record_id INT, visibility_id INT);');
+$pdo->exec('CREATE TABLE module_calendar_person_attendees (user_id INT, event_id INT, attendee_person_id INT, attended TINYINT);');
+$pdo->exec("INSERT INTO module_calendar (id, user_id, is_private) VALUES (1,1,1);");
+$pdo->exec("INSERT INTO module_calendar_events (id, user_id, calendar_id, title, start_time, end_time, event_type_id, link_module, link_record_id, visibility_id) VALUES (1,1,1,'Original','2025-01-01 00:00:00','2025-01-01 01:00:00',NULL,NULL,NULL,199);");
+$this_user_id = 2; // Simulate a different user
+function require_permission($m,$a){}
+function user_has_role($r){ return false; }
+?>
+PHP
+);
+
+// Auto-prepend file to supply POST data and report HTTP status code after script exits.
+$env = $base . '/env.php';
+file_put_contents($env, <<<'PHP'
+<?php
+$_POST = [
+  'id' => 1,
+  'title' => 'Updated',
+  'start_time' => '2025-01-01 00:00:00',
+  'end_time' => '2025-01-01 01:00:00',
+  'calendar_id' => 1,
+  'visibility_id' => 199
+];
+register_shutdown_function(function(){
+  echo "HTTP_CODE=" . http_response_code() . "\n";
+});
+?>
+PHP
+);
+
+$cmd = sprintf('cd %s && php -d auto_prepend_file=%s update.php', escapeshellarg($base . '/module/calendar/functions'), escapeshellarg($env));
+passthru($cmd);
+?>
