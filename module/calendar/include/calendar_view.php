@@ -359,10 +359,13 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('detailDesc').textContent = info.event.extendedProps.description || info.event.extendedProps.memo || '';
       document.getElementById('detailModule').textContent = info.event.extendedProps.related_module || info.event.extendedProps.link_module || '';
       document.getElementById('detailRecord').textContent = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id || '';
-      const ownerId = parseInt(info.event.extendedProps.user_id ?? info.event.extendedProps.calendar_user_id, 10);
-      document.getElementById('detailOwner').textContent = ownerId || '';
+      const eventOwnerId = parseInt(info.event.extendedProps.user_id, 10);
+      const calOwnerId = parseInt(info.event.extendedProps.calendar_user_id, 10);
+      const displayOwner = eventOwnerId || calOwnerId || '';
+      document.getElementById('detailOwner').textContent = displayOwner;
       if (detailEditBtn) {
-        if (ownerId === currentUserId || isAdmin) {
+        const canEdit = (eventOwnerId === currentUserId) || (calOwnerId === currentUserId) || isAdmin;
+        if (canEdit) {
           detailEditBtn.classList.remove('d-none');
           detailEditBtn.onclick = function() {
             const form = document.getElementById('editEventForm');
@@ -425,10 +428,10 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     function ensureSelected() {
-      const anyChecked = sidebar.querySelectorAll('.calendar-checkbox:checked');
-      if (!anyChecked.length) {
-        const publicCb = document.getElementById(`cal${userPublicCalendarId}`) || sidebar.querySelector('.calendar-checkbox');
-        if (publicCb) publicCb.checked = true;
+      const anyChecked = sidebar.querySelector('.calendar-checkbox:checked');
+      if (!anyChecked) {
+        const firstCb = sidebar.querySelector('.calendar-checkbox');
+        if (firstCb) firstCb.checked = true;
       }
     }
     sidebar.querySelectorAll('.calendar-checkbox').forEach(cb => {
