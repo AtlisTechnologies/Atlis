@@ -28,3 +28,5 @@ includes/config.oauth.php
 !admin/corporate/finances/statements-of-work/uploads/.gitkeep
 !admin/corporate/time-tracking/uploads/
 !admin/corporate/time-tracking/uploads/.gitkeep
+!admin/corporate/strategy/uploads/
+!admin/corporate/strategy/uploads/.gitkeep
