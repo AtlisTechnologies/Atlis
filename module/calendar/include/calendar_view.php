@@ -33,45 +33,6 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
   <div class="col-md-3">
     <div id="calendarSidebar"></div>
   </div>
-  <div class="col-md-9">
-    <div class="row g-0 mb-4 align-items-center">
-      <div class="col-5 col-md-6">
-        <h4 class="mb-0 text-body-emphasis fw-bold fs-md-6"><span class="calendar-day d-block d-md-inline mb-1"></span><span class="px-3 fw-thin text-body-quaternary d-none d-md-inline">|</span><span class="calendar-date"></span></h4>
-      </div>
-      <div class="col-7 col-md-6 d-flex justify-content-end align-items-center">
-        <?php if ($owns_calendar && user_has_permission('calendar','create')) { ?>
-          <a class="btn btn-outline-primary btn-sm me-2" href="index.php?action=create">Create Calendar</a>
-        <?php } ?>
-
-        <?php if ($owns_calendar) { ?>
-          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addEventModal">
-            <span class="fas fa-plus pe-2 fs-10"></span>Add Event
-          </button>
-        <?php } else { ?>
-          <a class="btn btn-primary btn-sm" href="index.php?action=create">Create Calendar</a>
-        <?php } ?>
-
-      </div>
-    </div>
-
-    <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
-  </div>
-</div>
-
-<div class="row">
-  <?php if (!empty($calendars)) { ?>
-    <div class="col-md-3">
-      <div id="calendarSidebar">
-        <?php foreach ($calendars as $cal) { ?>
-          <?php $cal_label = $cal['name'] . (!empty($cal['is_private']) ? ' (Private)' : ''); ?>
-          <div class="form-check">
-            <input class="form-check-input calendar-filter" type="checkbox" value="<?php echo $cal['id']; ?>" id="calFilter<?php echo $cal['id']; ?>"<?php echo (int)$cal['id'] === (int)$user_default_calendar_id ? ' checked' : ''; ?>>
-            <label class="form-check-label" for="calFilter<?php echo $cal['id']; ?>"><?php echo e($cal_label); ?></label>
-          </div>
-        <?php } ?>
-      </div>
-    </div>
-  <?php } ?>
   <div class="col">
     <div id="calendar" class="calendar-outline mt-6 mb-9"></div>
   </div>
@@ -197,8 +158,14 @@ $default_event_type_id = $event_types[0]['id'] ?? 0;
 document.addEventListener('DOMContentLoaded', function() {
   const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const now = new Date();
-  document.querySelector('.calendar-day').textContent = dayNames[now.getDay()];
-  document.querySelector('.calendar-date').textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+  const dayEl = document.querySelector('.calendar-day');
+  if (dayEl) {
+    dayEl.textContent = dayNames[now.getDay()];
+  }
+  const dateEl = document.querySelector('.calendar-date');
+  if (dateEl) {
+    dateEl.textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+  }
 
   const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
   const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
@@ -223,19 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function getCalendarIds() {
     const cbs = document.querySelectorAll('.calendar-checkbox:checked');
     return Array.from(cbs).map(cb => cb.value);
-
-    //return Array.from(document.querySelectorAll('.calendar-filter:checked')).map(cb => cb.value);
-
-    const boxes = document.querySelectorAll('#calendarSelect input[type="checkbox"]:checked');
-    if (boxes.length) {
-      return Array.from(boxes).map(b => b.value);
-    }
-    const sel = document.getElementById('calendarSelect');
-    if (sel && sel.tagName === 'SELECT') {
-      return Array.from(sel.selectedOptions).map(opt => opt.value);
-    }
-    return [];
-
   }
 
   function getCalendarId() {
@@ -308,6 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(data => {
         const sidebar = document.getElementById('calendarSidebar');
+        sidebar.innerHTML = '';
         data.forEach(cal => {
           const div = document.createElement('div');
           div.className = 'form-check';
