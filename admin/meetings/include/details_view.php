@@ -89,7 +89,7 @@ $_SESSION['csrf_token'] = $token;
             <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
             <div class="col-md-6">
               <div class="form-floating">
-                <select id="attendeeSelect" name="attendee_user_ids[]" class="form-select" multiple data-placeholder="Select attendee"></select>
+                <select id="attendeeSelect" name="attendee_person_id[]" class="form-select" multiple data-placeholder="Select attendee"></select>
                 <label for="attendeeSelect">Select attendee</label>
               </div>
             </div>
@@ -742,9 +742,14 @@ document.addEventListener('DOMContentLoaded', function(){
       attendees.forEach(function(a){
         var li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        var personId = a.attendee_person_id || a.person_id;
+        li.dataset.personId = personId;
+        if(a.attendee_user_id || a.user_id){
+          li.dataset.userId = a.attendee_user_id || a.user_id;
+        }
         var info = '<span>' + esc(a.name) + '</span>';
         if (canEditAttendees){
-          info += '<button class="btn btn-sm btn-danger ms-2 remove-attendee" data-id="' + a.id + '">Remove</button>';
+          info += '<button class="btn btn-sm btn-danger ms-2 remove-attendee" data-person-id="' + personId + '">Remove</button>';
         }
         li.innerHTML = info;
         attendeesList.appendChild(li);
@@ -816,12 +821,12 @@ document.addEventListener('DOMContentLoaded', function(){
         var q = (e.detail.value || '').trim();
         if(q.length < 2){ return; }
         try{
-          var users = await fetchJson('functions/search_users.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
-          var opts = users.map(function(u){ return {value:u.id, label:u.name}; });
+          var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
+          var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
           attendeeChoices.setChoices(opts, 'value', 'label', true);
         } catch(err){
           console.error(err);
-          showToast('Error searching users');
+          showToast('Error searching people');
         }
       });
     }
@@ -830,14 +835,14 @@ document.addEventListener('DOMContentLoaded', function(){
       e.preventDefault();
       var selected = attendeeChoices ? attendeeChoices.getValue(true) : Array.from(attendeeSelect.selectedOptions).map(function(o){return o.value;});
       if(!selected.length){
-        showToast('Please select a user', 'warning');
+        showToast('Please select a person', 'warning');
         return;
       }
       try{
-        for(const uid of selected){
+        for(const pid of selected){
           var fd = new FormData();
           fd.append('meeting_id', meetingId);
-          fd.append('attendee_user_id', uid);
+          fd.append('attendee_person_id', pid);
           fd.append('csrf_token', csrfToken);
           var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:fd});
           if(res.success){
@@ -857,9 +862,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
     attendeesList.addEventListener('click', async function(e){
       if(e.target.classList.contains('remove-attendee')){
-        var id = e.target.getAttribute('data-id');
+        var pid = e.target.getAttribute('data-person-id');
         var formData = new FormData();
-        formData.append('id', id);
+        formData.append('attendee_person_id', pid);
         formData.append('meeting_id', meetingId);
         formData.append('csrf_token', csrfToken);
         try{

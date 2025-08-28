@@ -10,7 +10,7 @@ if ($q === '') {
     exit;
 }
 
-$stmt = $pdo->prepare('SELECT p.id, CONCAT(p.first_name, " ", p.last_name) AS name, p.user_id FROM person p WHERE CONCAT(p.first_name, " ", p.last_name) LIKE :q ORDER BY name LIMIT 10');
+$stmt = $pdo->prepare('SELECT p.id, COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name, p.user_id FROM person p LEFT JOIN users u ON p.user_id = u.id WHERE COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) LIKE :q ORDER BY name LIMIT 10');
 $stmt->execute([':q' => "%" . $q . "%"]);
 
 echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
