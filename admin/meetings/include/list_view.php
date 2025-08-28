@@ -61,26 +61,36 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var searchInput = document.getElementById('meetingSearch');
   var searchTimeout;
+  var listContainer = document.getElementById('meetingListContainer');
+  var originalListHTML = listContainer ? listContainer.innerHTML : '';
   if(searchInput){
     searchInput.addEventListener('input', function(){
       clearTimeout(searchTimeout);
-      var q = this.value;
+      var q = this.value.trim();
       searchTimeout = setTimeout(function(){
+        if(q === ''){
+          listContainer.innerHTML = originalListHTML;
+          return;
+        }
         fetch('functions/search.php?q=' + encodeURIComponent(q))
-          .then(r => r.json())
+          .then(function(r){
+            if(!r.ok){
+              return r.text().then(function(text){ throw new Error(text || r.statusText); });
+            }
+            return r.json();
+          })
           .then(function(res){
             if(res.success){
-              var container = document.getElementById('meetingListContainer');
-              container.innerHTML = '';
+              listContainer.innerHTML = '';
               if(res.meetings && res.meetings.length){
                 res.meetings.forEach(function(m){
                   var row = `<div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="${m.id}">`+
                             `<div class="col"><a class="meeting-title fw-bold" href="index.php?action=details&id=${m.id}">${m.title}</a></div>`+
                             `<div class="col-auto text-body-tertiary start-time">${m.start_time || ''}</div></div>`;
-                  container.insertAdjacentHTML('beforeend', row);
+                  listContainer.insertAdjacentHTML('beforeend', row);
                 });
               } else {
-                container.innerHTML = '<p class="fs-9 text-body-secondary mb-0">No meetings found.</p>';
+                listContainer.innerHTML = '<p class="fs-9 text-body-secondary mb-0">No meetings found.</p>';
               }
             }
           })
@@ -91,13 +101,33 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var form = document.getElementById('meetingQuickAdd');
   if(form){
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var spinner = document.createElement('span');
+    spinner.className = 'spinner-border spinner-border-sm me-2 d-none';
+    spinner.setAttribute('role','status');
+    spinner.setAttribute('aria-hidden','true');
+    if(submitBtn){
+      submitBtn.prepend(spinner);
+    }
     form.addEventListener('submit', function(e){
       e.preventDefault();
+      if(submitBtn){
+        submitBtn.disabled = true;
+        spinner.classList.remove('d-none');
+      }
       var data = new FormData(form);
       data.append('ajax',1);
       data.append('csrf_token', form.querySelector('input[name="csrf_token"]').value);
       fetch('functions/create.php',{method:'POST',body:data})
-        .then(r=>r.json())
+        .then(function(r){
+          if(!r.ok){
+            return r.text().then(function(text){
+              showToast(text,'danger');
+              throw new Error(text || r.statusText);
+            });
+          }
+          return r.json();
+        })
         .then(function(res){
           if(res.success && (res.id || (res.meeting && res.meeting.id))){
             var id = res.id || res.meeting.id;
@@ -108,7 +138,15 @@ document.addEventListener('DOMContentLoaded', function(){
         })
         .catch(function(err){
           console.error(err);
-          showToast('Creation failed','danger');
+          if(!err.message){
+            showToast('Creation failed','danger');
+          }
+        })
+        .finally(function(){
+          if(submitBtn){
+            submitBtn.disabled = false;
+            spinner.classList.add('d-none');
+          }
         });
     });
   }
