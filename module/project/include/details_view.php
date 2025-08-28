@@ -284,6 +284,34 @@ if (!empty($current_project)) {
       </div>
     <?php endif; ?>
 
+    <?php if (user_has_permission('admin_business_strategy','update') && user_has_permission('project','read')): ?>
+      <?php
+        $krStmt = $pdo->prepare('SELECT id, name, progress_percent FROM module_strategy_key_results WHERE project_id = :pid');
+        $krStmt->execute([':pid' => $current_project['id']]);
+        $projectKeyResults = $krStmt->fetchAll(PDO::FETCH_ASSOC);
+      ?>
+      <div class="mb-5">
+        <h3 class="text-body-emphasis mb-3">Key Results</h3>
+        <?php if ($projectKeyResults): ?>
+          <ul class="list-group">
+            <?php foreach ($projectKeyResults as $kr): ?>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><?= h($kr['name']); ?></span>
+                  <span class="fs-9"><?= (int)($kr['progress_percent'] ?? 0); ?>%</span>
+                </div>
+                <div class="progress mt-2" style="height:4px;">
+                  <div class="progress-bar bg-success" style="width: <?= (int)($kr['progress_percent'] ?? 0); ?>%"></div>
+                </div>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php else: ?>
+          <p class="text-body-secondary mb-0">No key results linked.</p>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+
     <div class="row">
       <div class="col-6 bg-light border-start border-top border-bottom">
         <div class="p-4" id="taskList" data-list='{"valueNames":["task-name","task-status","task-priority","task-due"],"page":25,"pagination":true}'>
