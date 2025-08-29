@@ -1,5 +1,16 @@
 <?php
 
+function get_cached_events(string $cacheKey, callable $fetch): array {
+    if (isset($_SESSION[$cacheKey]) && !empty($_SESSION[$cacheKey]['time'])) {
+        if ($_SESSION[$cacheKey]['time'] > time() - 300) {
+            return $_SESSION[$cacheKey]['data'];
+        }
+    }
+    $data = $fetch();
+    $_SESSION[$cacheKey] = ['time' => time(), 'data' => $data];
+    return $data;
+}
+
 function refresh_token(string $provider, PDO $pdo, int $userId): string {
     try {
         $stmt = $pdo->prepare('SELECT access_token, refresh_token, token_expires FROM module_calendar_external_accounts WHERE user_id = ? AND provider = ?');
@@ -20,11 +31,13 @@ function refresh_token(string $provider, PDO $pdo, int $userId): string {
             ];
             $endpoint = $endpoints[$provider] ?? '';
             if (!$endpoint || empty($conf['client_id']) || empty($conf['client_secret'])) {
+                error_log('OAuth configuration missing for ' . $provider);
                 return '';
             }
             $ch = curl_init($endpoint);
             if ($ch === false) {
-                throw new Exception('Failed to initialize cURL');
+                error_log('Failed to initialize cURL');
+                return '';
             }
             $postFields = http_build_query([
                 'client_id' => $conf['client_id'],
@@ -39,7 +52,9 @@ function refresh_token(string $provider, PDO $pdo, int $userId): string {
             ]);
             $resp = curl_exec($ch);
             if ($resp === false) {
-                throw new Exception(curl_error($ch));
+                error_log(curl_error($ch));
+                curl_close($ch);
+                return '';
             }
             curl_close($ch);
             $tokenData = json_decode($resp, true);
@@ -50,6 +65,7 @@ function refresh_token(string $provider, PDO $pdo, int $userId): string {
                 $upd = $pdo->prepare('UPDATE module_calendar_external_accounts SET access_token = ?, refresh_token = ?, token_expires = ? WHERE user_id = ? AND provider = ?');
                 $upd->execute([$token, $refreshToken, $expires, $userId, $provider]);
             } else {
+                error_log('Failed to refresh token for ' . $provider);
                 return '';
             }
         }
@@ -75,7 +91,8 @@ function fetch_remote_events(string $provider, string $token): array {
     try {
         $ch = curl_init($url);
         if ($ch === false) {
-            throw new Exception('Failed to initialize cURL');
+            error_log('Failed to initialize cURL');
+            return [];
         }
         curl_setopt_array($ch, [
             CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token],
@@ -83,7 +100,9 @@ function fetch_remote_events(string $provider, string $token): array {
         ]);
         $res = curl_exec($ch);
         if ($res === false) {
-            throw new Exception(curl_error($ch));
+            error_log(curl_error($ch));
+            curl_close($ch);
+            return [];
         }
         curl_close($ch);
     } catch (Exception $e) {
