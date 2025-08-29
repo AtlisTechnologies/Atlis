@@ -1,7 +1,7 @@
 <?php $token = generate_csrf_token(); ?>
 <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
 <div class="p-4" id="meetingList">
-  <h2 class="mb-4">Meetings<span class="text-body-tertiary fw-normal">(<?= count($meetings) ?>)</span></h2>
+  <h2 class="mb-4">Meetings<span class="text-body-tertiary fw-normal">(<span id="meetingCount"><?= count($meetings) ?></span>)</span></h2>
   <div class="row g-3 mb-3">
     <div class="col-12">
       <div class="search-box">
@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function(){
   var searchTimeout;
   var listContainer = document.getElementById('meetingListContainer');
   var originalListHTML = listContainer ? listContainer.innerHTML : '';
+  var countSpan = document.getElementById('meetingCount');
+  var originalCount = countSpan ? countSpan.textContent : '';
   if(searchInput){
     searchInput.addEventListener('input', function(){
       clearTimeout(searchTimeout);
@@ -70,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function(){
       searchTimeout = setTimeout(function(){
         if(q === ''){
           listContainer.innerHTML = originalListHTML;
+          if(countSpan){ countSpan.textContent = originalCount; }
           return;
         }
         fetch('functions/search.php?q=' + encodeURIComponent(q))
@@ -82,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function(){
           .then(function(res){
             if(res.success){
               listContainer.innerHTML = '';
+              if(countSpan){ countSpan.textContent = res.count || 0; }
               if(res.meetings && res.meetings.length){
                 res.meetings.forEach(function(m){
                   var row = `<div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="${m.id}">`+
