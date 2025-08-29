@@ -23,8 +23,8 @@ try {
                 a.attendee_user_id,
                 COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
          FROM module_meeting_attendees a
-         LEFT JOIN person p ON a.attendee_user_id = p.user_id
-         LEFT JOIN users u ON a.attendee_user_id = u.id
+         LEFT JOIN person p ON a.attendee_person_id = p.id
+         LEFT JOIN users u ON p.user_id = u.id
          WHERE a.meeting_id = ?
          ORDER BY name'
     );

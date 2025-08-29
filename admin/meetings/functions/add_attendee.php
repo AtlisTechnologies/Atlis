@@ -22,35 +22,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $attendee_user_id = $personStmt->fetchColumn() ?: null;
         }
 
-        if (!$meeting_id || !$attendee_person_id || !$attendee_user_id) {
+        if (!$meeting_id || !$attendee_person_id) {
             throw new Exception('Invalid request');
         }
 
         // Check for existing attendee before attempting to insert
-        $checkStmt = $pdo->prepare('SELECT id FROM module_meeting_attendees WHERE meeting_id = ? AND attendee_user_id = ?');
-        $checkStmt->execute([$meeting_id, $attendee_user_id]);
-        if ($checkStmt->fetch()) {
-            echo json_encode(['success' => false, 'message' => 'Attendee already added']);
-            exit;
+        $checkStmt = $pdo->prepare('SELECT id FROM module_meeting_attendees WHERE meeting_id = ? AND attendee_person_id = ?');
+        $checkStmt->execute([$meeting_id, $attendee_person_id]);
+        if (!$checkStmt->fetch()) {
+            $stmt = $pdo->prepare(
+                'INSERT INTO module_meeting_attendees (
+                    user_id,
+                    user_updated,
+                    meeting_id,
+                    attendee_person_id,
+                    attendee_user_id
+                ) VALUES (:uid,:uid,:mid,:person,:user)'
+            );
+            $stmt->execute([
+                ':uid' => $this_user_id,
+                ':mid' => $meeting_id,
+                ':person' => $attendee_person_id,
+                ':user' => $attendee_user_id
+            ]);
+            $id = $pdo->lastInsertId();
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', '', json_encode(['person_id' => $attendee_person_id, 'user_id' => $attendee_user_id]), 'Added attendee');
         }
-
-        $stmt = $pdo->prepare(
-            'INSERT INTO module_meeting_attendees (
-                user_id,
-                user_updated,
-                meeting_id,
-                attendee_person_id,
-                attendee_user_id
-            ) VALUES (:uid,:uid,:mid,:person,:user)'
-        );
-        $stmt->execute([
-            ':uid' => $this_user_id,
-            ':mid' => $meeting_id,
-            ':person' => $attendee_person_id,
-            ':user' => $attendee_user_id
-        ]);
-        $id = $pdo->lastInsertId();
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'CREATE', '', json_encode(['person_id' => $attendee_person_id, 'user_id' => $attendee_user_id]), 'Added attendee');
 
         $rosterStmt = $pdo->prepare(
             'SELECT a.id,
@@ -58,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     a.attendee_user_id,
                     COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name
              FROM module_meeting_attendees a
-             LEFT JOIN person p ON a.attendee_user_id = p.user_id
-             LEFT JOIN users u ON a.attendee_user_id = u.id
+             LEFT JOIN person p ON a.attendee_person_id = p.id
+             LEFT JOIN users u ON p.user_id = u.id
              WHERE a.meeting_id = ?
              ORDER BY name'
         );
