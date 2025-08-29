@@ -1,6 +1,7 @@
 <?php
 require '../../../includes/php_header.php';
 require_permission('project','update');
+if (!verify_csrf_token($_POST["csrf_token"] ?? $_GET["csrf_token"] ?? null)) { http_response_code(403); exit("Forbidden"); }
 
 header('Content-Type: application/json');
 

@@ -4,6 +4,7 @@ $editing = !empty($current_task);
 $actionUrl = $editing ? 'functions/update.php' : 'functions/create.php';
 ?>
 <form method="post" action="<?php echo $actionUrl; ?>">
+  <?= csrf_field(); ?>
   <?php if ($editing): ?>
     <input type="hidden" name="id" value="<?php echo h($current_task['id']); ?>">
   <?php endif; ?>

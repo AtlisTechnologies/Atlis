@@ -179,6 +179,7 @@ if (!empty($current_project)) {
                     </div>
                     <?php if (user_has_permission('project','update') && !$viewerAssigned): ?>
                       <form method="post" action="functions/assign_user.php" class="mb-3">
+                        <?= csrf_field(); ?>
                         <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                         <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
                         <button class="btn btn-success btn-sm" type="submit">Assign to me</button>
@@ -198,6 +199,7 @@ if (!empty($current_project)) {
                               <h6 class="mb-0"><?= h($au['name']) ?></h6>
                               <?php if (user_has_permission('project','create|update|delete')): ?>
                                 <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                                  <?= csrf_field(); ?>
                                   <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                   <input type="hidden" name="user_id" value="<?= (int)$au['user_id'] ?>">
                                   <button class="bg-transparent border-0 text-danger fs-9" type="submit" aria-label="Unassign user">
@@ -254,7 +256,9 @@ if (!empty($current_project)) {
                   </div>
                   <?php if (user_has_permission('project','create|update|delete')): ?>
                     <div class="mt-3">
-                      <form action="functions/upload_file.php" class="dropzone dz-clickable" id="file-cabinet-dropzone"></form>
+                      <form action="functions/upload_file.php" class="dropzone dz-clickable" id="file-cabinet-dropzone">
+                        <?= csrf_field(); ?>
+                      </form>
                     </div>
                   <?php endif; ?>
                 </div>
@@ -330,6 +334,7 @@ if (!empty($current_project)) {
             </div>
           </div>
           <form id="taskQuickAdd" class="d-flex mb-3">
+            <?= csrf_field(); ?>
             <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
             <input class="form-control me-2" type="text" name="name" placeholder="Quick add task" required>
             <button class="btn btn-success" type="submit">Add</button>
@@ -375,6 +380,7 @@ if (!empty($current_project)) {
                         <?php endif; ?>
                         <?php if (user_has_permission('task','update') && empty($alreadyAssigned) && (!isset($t['project_id']) || !empty($t['project_assigned']))): ?>
                           <form method="post" action="../task/functions/assign_user.php" class="ms-1 assign-to-me-form">
+                            <?= csrf_field(); ?>
                             <input type="hidden" name="task_id" value="<?= (int)$t['id'] ?>">
                             <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
                             <button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me">
@@ -437,6 +443,7 @@ if (!empty($current_project)) {
                           <p class="fs-9 lh-sm mb-1 flex-grow-1 note-text" data-note-id="<?= (int)$n['id'] ?>"><?= nl2br(h($n['note_text'])) ?></p>
                           <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
                           <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
+                            <?= csrf_field(); ?>
                             <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
                             <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                             <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -457,6 +464,7 @@ if (!empty($current_project)) {
                                   </p>
                                   <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
                                   <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                                    <?= csrf_field(); ?>
                                     <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                                     <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                                     <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -485,6 +493,7 @@ if (!empty($current_project)) {
           <?php if (user_has_permission('project','create|update|delete')): ?>
           <div class="mt-4">
             <form action="functions/add_note.php" method="post" enctype="multipart/form-data" id="addNoteForm">
+              <?= csrf_field(); ?>
               <input type="hidden" name="id" value="<?= (int)$current_project['id'] ?>">
               <div class="mb-3">
                 <textarea class="form-control" name="note" rows="3" placeholder="Add a new Note" required></textarea>
@@ -514,6 +523,7 @@ if (!empty($current_project)) {
                     <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($q['user_id'] ?? 0) == $this_user_id)): ?>
                     <button class="btn btn-primary btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editQuestionModal<?= (int)$q['id'] ?>"><span class="fa-solid fa-pencil"></span></button>
                     <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                      <?= csrf_field(); ?>
                       <input type="hidden" name="id" value="<?= (int)$q['id'] ?>">
                       <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                       <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -538,6 +548,7 @@ if (!empty($current_project)) {
                             </p>
                             <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
                             <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                              <?= csrf_field(); ?>
                               <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                               <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                               <input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
@@ -558,6 +569,7 @@ if (!empty($current_project)) {
                             <?php if (user_has_permission('project','create|update|delete') && ($is_admin || ($a['user_id'] ?? 0) == $this_user_id)): ?>
                             <button class="btn btn-primary btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#editAnswerModal<?= (int)$a['id'] ?>"><span class="fa-solid fa-pencil"></span></button>
                             <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                              <?= csrf_field(); ?>
                               <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
                               <input type="hidden" name="project_id" value="<?= (int)$current_project['id'] ?>">
                               <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -585,6 +597,7 @@ if (!empty($current_project)) {
                 <div class="modal fade" id="addAnswerModal<?= (int)$q['id'] ?>" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog">
                     <form class="modal-content" method="post" action="functions/add_answer.php">
+                      <?= csrf_field(); ?>
                       <div class="modal-header">
                         <h5 class="modal-title">Add Answer</h5>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -608,6 +621,7 @@ if (!empty($current_project)) {
                 <div class="modal fade" id="editQuestionModal<?= (int)$q['id'] ?>" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog">
                     <form class="modal-content edit-question-form" method="post" action="functions/edit_question.php">
+                      <?= csrf_field(); ?>
                       <div class="modal-header">
                         <h5 class="modal-title">Edit Question</h5>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -633,6 +647,7 @@ if (!empty($current_project)) {
                     <div class="modal fade" id="editAnswerModal<?= (int)$a['id'] ?>" tabindex="-1" aria-hidden="true">
                       <div class="modal-dialog">
                         <form class="modal-content edit-answer-form" method="post" action="functions/edit_answer.php">
+                          <?= csrf_field(); ?>
                           <div class="modal-header">
                             <h5 class="modal-title">Edit Answer</h5>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -668,6 +683,7 @@ if (!empty($current_project)) {
 <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" method="post" action="functions/add_question.php">
+      <?= csrf_field(); ?>
       <div class="modal-header">
         <h5 class="modal-title">Add Question</h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -704,6 +720,7 @@ if (!empty($current_project)) {
 <div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" method="post" action="functions/update.php">
+      <?= csrf_field(); ?>
       <div class="modal-header">
         <h5 class="modal-title">Edit Project</h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -775,6 +792,7 @@ if (!empty($current_project)) {
   <div class="modal fade" id="editFileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form class="modal-content" method="post" action="functions/edit_file.php">
+        <?= csrf_field(); ?>
         <div class="modal-header">
           <h5 class="modal-title">Edit file</h5>
           <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -817,6 +835,7 @@ if (!empty($current_project)) {
   <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form class="modal-content" method="post" action="functions/assign_user.php">
+      <?= csrf_field(); ?>
       <div class="modal-header">
         <h5 class="modal-title">Assign User</h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -837,6 +856,8 @@ if (!empty($current_project)) {
 </div>
 <?php endif; ?>
 <script>
+const csrfToken = '<?= csrf_token(); ?>';
+window.csrfToken = csrfToken;
 document.addEventListener('DOMContentLoaded', function () {
   var projectId = <?= (int)$current_project['id'] ?>;
   var thisUserId = <?= (int)$this_user_id ?>;
@@ -946,7 +967,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('functions/update_field.php',{
           method:'POST',
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
-          body:new URLSearchParams({project_id: projectId, field: field, value: dateStr})
+          body:new URLSearchParams({project_id: projectId, field: field, value: dateStr, csrf_token: csrfToken})
         }).then(r=>r.json()).then(function(d){
           if(d.success){
             span.textContent = dateStr ? new Date(dateStr).toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'}) : '';
@@ -984,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
     if(canAssignTask && !alreadyAssigned && (!t.project_id || t.project_assigned)){
-      assignees += `<form method="post" action="../task/functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
+      assignees += `<form method="post" action="../task/functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="csrf_token" value="${csrfToken}"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
     }
     var assigneeIds = t.assignees ? t.assignees.map(function(a){ return a.assigned_user_id; }).join(',') : '';
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
@@ -1013,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cb = row.querySelector('input[type="checkbox"][data-task-id]');
     if(cb){
       cb.addEventListener('change', function(){
-        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0});
+        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0, csrf_token: csrfToken});
         fetch('../task/functions/toggle_complete.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
           .then(r=>r.json()).then(d=>{ if(d.success){ updateRow(row,d.task); } else { cb.checked=!cb.checked; } });
       });
@@ -1028,7 +1049,7 @@ document.addEventListener('DOMContentLoaded', function () {
         b.replaceWith(select);
         select.focus();
         select.addEventListener('change', function(){
-          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value});
+          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value, csrf_token: csrfToken});
           fetch('../task/functions/update_field.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
             .then(r=>r.json()).then(d=>{ if(d.success && d.task){ updateRow(row,d.task); } });
         });
@@ -1124,7 +1145,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var id = this.dataset.noteId; var original = this.innerText; var textarea = document.createElement('textarea'); textarea.className='form-control'; textarea.value=original; this.replaceWith(textarea); textarea.focus(); textarea.addEventListener('blur', save); textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); textarea.blur(); }});
       var self=this;
       function save(){
-        fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); attachNoteEvents(p); });
+      fetch('functions/edit_note.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({id:id, project_id:<?= (int)$current_project['id'] ?>, note:textarea.value, csrf_token: csrfToken})}).then(r=>r.json()).then(d=>{ var p=document.createElement('p'); p.className='fs-9 lh-sm mb-1 flex-grow-1 note-text'; p.dataset.noteId=id; p.innerHTML=d.note_text.replace(/\n/g,'<br>'); textarea.replaceWith(p); attachNoteEvents(p); });
       }
     });
   }
@@ -1138,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch('functions/update_field.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ project_id: projectId, field: field, value: value })
+        body: new URLSearchParams({ project_id: projectId, field: field, value: value, csrf_token: csrfToken })
       }).then(response => response.json())
         .then(data => {
           if (data.success) {

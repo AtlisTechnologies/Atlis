@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moveUrl = cabinet.dataset.moveEndpoint;
   const projectId = cabinet.dataset.projectId;
   const maxDepth = parseInt(cabinet.dataset.maxDepth || '0', 10);
+  const csrfToken = window.csrfToken || '';
 
   const tableBody = cabinet.querySelector('tbody');
   const breadcrumbs = cabinet.querySelector('#fc-breadcrumbs');
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchList() {
-    const url = `${listUrl}?project_id=${encodeURIComponent(projectId)}&path=${encodeURIComponent(path.join('/'))}`;
+    const url = `${listUrl}?project_id=${encodeURIComponent(projectId)}&path=${encodeURIComponent(path.join('/'))}&csrf_token=${encodeURIComponent(csrfToken)}`;
     fetch(url)
       .then(async r => {
         if (!r.ok) {
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch(moveUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ project_id: projectId, id: fileId, parent: target.dataset.id })
+        body: JSON.stringify({ project_id: projectId, id: fileId, parent: target.dataset.id, csrf_token: csrfToken })
       })
         .then(async r => {
           if (!r.ok) {
@@ -149,10 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.Dropzone) {
     new Dropzone('#file-cabinet-dropzone', {
       url: uploadUrl,
-      params: { project_id: projectId },
+      params: { project_id: projectId, csrf_token: csrfToken },
       init: function() {
         this.on('sending', (file, xhr, formData) => {
           formData.append('path', path.join('/'));
+          formData.append('csrf_token', csrfToken);
         });
         this.on('queuecomplete', () => fetchList());
       }
@@ -170,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch(moveUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ project_id: projectId, create: true, path: path.join('/'), name })
+        body: JSON.stringify({ project_id: projectId, create: true, path: path.join('/'), name, csrf_token: csrfToken })
       })
         .then(async r => {
           if (!r.ok) {

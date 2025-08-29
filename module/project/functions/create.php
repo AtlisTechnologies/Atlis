@@ -3,6 +3,7 @@ if (!isset($pdo)) {
   require '../../../includes/php_header.php';
 }
 require_permission('project', 'create');
+if (!verify_csrf_token($_POST["csrf_token"] ?? $_GET["csrf_token"] ?? null)) { http_response_code(403); exit("Forbidden"); }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'] ?? '';

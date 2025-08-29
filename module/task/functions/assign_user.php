@@ -1,6 +1,7 @@
 <?php
 require '../../../includes/php_header.php';
 require_permission('task','update');
+if (!verify_csrf_token($_POST["csrf_token"] ?? $_GET["csrf_token"] ?? null)) { http_response_code(403); exit("Forbidden"); }
 
 $isAjax = isset($_POST['ajax']) || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
 if ($isAjax) {
