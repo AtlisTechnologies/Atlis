@@ -84,10 +84,8 @@ $_SESSION['csrf_token'] = $token;
       <div class="card mb-3">
         <div class="card-header"><span id="attendeesHeader">Attendees</span></div>
         <div class="card-body">
-          <div class="form-floating">
-            <select id="attendeeSelect" class="form-select" multiple data-placeholder="Select attendee" <?php echo user_has_permission('meeting','update') ? '' : 'disabled'; ?>></select>
-            <label for="attendeeSelect">Attendees</label>
-          </div>
+          <label for="attendeeSelect" class="form-label">Attendees</label>
+          <select id="attendeeSelect" class="form-select" multiple data-placeholder="Select attendee" <?php echo user_has_permission('meeting','update') ? '' : 'disabled'; ?>></select>
         </div>
       </div>
       <div class="card mb-3">
@@ -312,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var initializingAttendees = true;
   if(attendeeSelect){
     attendeeChoices = new Choices(attendeeSelect,{allowHTML:true,removeItemButton:true});
+    fetchAvailablePeople().then(fetchAttendees);
   }
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
@@ -508,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   (async function(){
     await fetchAgenda();
-    await Promise.all([loadQuestions(), fetchAttachments(), fetchAttendees()]);
+    await Promise.all([loadQuestions(), fetchAttachments()]);
   })();
 
   async function loadQuestions(){
@@ -730,9 +729,31 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
+  function fetchAvailablePeople(q){
+    if(!attendeeChoices) return Promise.resolve();
+    var url = 'functions/search_people.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken;
+    if(q){ url += '&q=' + encodeURIComponent(q); }
+    return fetch(url)
+      .then(function(r){
+        if(!r.ok){
+          return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
+        }
+        return r.json();
+      })
+      .then(function(people){
+        attendeeChoices.clearChoices();
+        var opts = people.map(function(p){ return {value:p.id, label:p.name}; });
+        attendeeChoices.setChoices(opts,'value','label',true);
+      })
+      .catch(function(err){
+        attendeeChoices.clearChoices();
+        console.error(err);
+        showToast(err.message || 'Failed to load people');
+      });
+  }
+
   function fetchAttendees(){
     if(!attendeeChoices) return Promise.resolve();
-    attendeeChoices.clearStore();
     return fetch('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
       .then(function(r){
         if(!r.ok){
@@ -742,8 +763,10 @@ document.addEventListener('DOMContentLoaded', function(){
       })
       .then(function(data){
         if(data.success){
-          var array = data.attendees.map(function(a){ return {id: a.attendee_person_id || a.person_id, name: a.name, selected: true}; });
-          attendeeChoices.setChoices(array,'id','name',true);
+          var array = data.attendees.map(function(a){
+            return {value: a.attendee_person_id || a.person_id, label: a.name, selected: true};
+          });
+          attendeeChoices.setChoices(array,'value','label',false);
         }
       })
       .catch(function(err){
@@ -795,23 +818,7 @@ document.addEventListener('DOMContentLoaded', function(){
     attendeeSelect.addEventListener('search', function(e){
       var q = (e.detail.value || '').trim();
       if(q.length < 2){ return; }
-      fetch('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + encodeURIComponent(csrfToken))
-        .then(function(r){
-          if(!r.ok){
-            return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
-          }
-          return r.json();
-        })
-        .then(function(people){
-          attendeeChoices.clearStore();
-          var opts = people.map(function(p){ return {id:p.id, name:p.name, customProperties:{ user_id: p.user_id || '' }}; });
-          attendeeChoices.setChoices(opts, 'id', 'name', true);
-        })
-        .catch(function(err){
-          attendeeChoices.clearStore();
-          console.error(err);
-          showToast(err.message || 'Error searching people');
-        });
+      fetchAvailablePeople(q);
     });
 
     attendeeSelect.addEventListener('addItem', async function(e){
