@@ -30,5 +30,11 @@ includes/config.oauth.php
 !admin/corporate/time-tracking/uploads/.gitkeep
 !admin/corporate/strategy/uploads/
 !admin/corporate/strategy/uploads/.gitkeep
+!admin/corporate/uploads/
+!admin/corporate/uploads/.htaccess
+!admin/corporate/accounting/uploads/
+!admin/corporate/assets/uploads/
+!admin/corporate/human-resources/uploads/
+!admin/corporate/prospecting/uploads/
 # Environment configuration
 .env
