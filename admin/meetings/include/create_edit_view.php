@@ -123,7 +123,6 @@ $token = generate_csrf_token();
     <div class="mb-3">
       <div class="form-floating">
         <select id="attendeeSelect" class="form-select" placeholder="Search user" multiple></select>
-        <label for="attendeeSelect">Attendees</label>
       </div>
       <div id="attendeeHiddenInputs"></div>
     </div>
@@ -367,4 +366,3 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
-

@@ -90,7 +90,6 @@ $_SESSION['csrf_token'] = $token;
             <div class="col-md-6">
               <div class="form-floating">
                 <select id="attendeeSelect" name="attendee_person_id[]" class="form-select" multiple data-placeholder="Select attendee"></select>
-                <label for="attendeeSelect">Select attendee</label>
               </div>
             </div>
             <div class="col-12">
