@@ -19,16 +19,7 @@ if (!$email) {
                 <div class="auth-form-box text-center">
                   <div class="text-center mb-7">
                     <h3 class="text-body-highlight">Enter the verification code</h3>
-                    <p class="text-body-tertiary">We sent a 6-digit code to <?php echo e($masked); ?></p>
-                    <?
-                    $stmt = $pdo->prepare("SELECT code FROM users_2fa WHERE used = 0 ORDER BY date_created DESC LIMIT 1");
-                    $stmt->execute();
-                    $_2fa_code = $stmt->fetch(PDO::FETCH_ASSOC); ?>
-                    <p>
-                      <blockquote class="blockquote text-center font-weight-bold">
-                        <? echo $_2fa_code['code']; ?>
-                      </blockquote>
-                    </p>
+                    <p class="text-body-tertiary">A verification code has been sent to <?php echo e($masked); ?></p>
                     <?php if ($error) { ?>
                     <div class="alert alert-danger" role="alert">Invalid or expired code.</div>
                     <?php } ?>

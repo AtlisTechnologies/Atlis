@@ -4408,18 +4408,10 @@ CREATE TABLE `users_2fa` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `code` varchar(6) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `expires_at` datetime NOT NULL,
   `used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users_2fa`
---
-
-INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(27, 1, 1, '2025-08-28 19:43:52', '2025-08-28 19:43:54', NULL, '715803', '2025-08-28 19:53:52', 1);
-
 -- --------------------------------------------------------
 
 --
