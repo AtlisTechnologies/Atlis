@@ -308,8 +308,11 @@ document.addEventListener('DOMContentLoaded', function(){
   var attendeesHeader = document.getElementById('attendeesHeader');
   var attachmentsHeader = document.getElementById('attachmentsHeader');
   var attendeeSelect = document.getElementById('attendeeSelect');
-  var attendeeChoices = null;
+  let attendeeChoices;
   var initializingAttendees = true;
+  if(attendeeSelect){
+    attendeeChoices = new Choices(attendeeSelect,{allowHTML:true,removeItemButton:true});
+  }
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
   function showToast(message, type = 'danger'){
@@ -727,20 +730,30 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  async function fetchAttendees(){
-    if(!attendeeChoices) return;
-    try{
-      var data = await fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
-      if(data.success){
-        var options = data.attendees.map(function(a){ return {value: a.attendee_person_id || a.person_id, label: a.name, selected: true}; });
-        attendeeChoices.setChoices(options, 'value', 'label', true);
-      }
-    } catch(err){
-      console.error(err);
-      showToast('Failed to load attendees');
-    }
-    initializingAttendees = false;
-    updateAttendeeHeader();
+  function fetchAttendees(){
+    if(!attendeeChoices) return Promise.resolve();
+    attendeeChoices.clearStore();
+    return fetch('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken)
+      .then(function(r){
+        if(!r.ok){
+          return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
+        }
+        return r.json();
+      })
+      .then(function(data){
+        if(data.success){
+          var array = data.attendees.map(function(a){ return {id: a.attendee_person_id || a.person_id, name: a.name, selected: true}; });
+          attendeeChoices.setChoices(array,'id','name',true);
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+        showToast(err.message || 'Failed to load attendees');
+      })
+      .then(function(){
+        initializingAttendees = false;
+        updateAttendeeHeader();
+      });
   }
 
   function renderAttachments(files){
@@ -778,44 +791,27 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  if(canEditAttendees){
-    var attendeeForm = document.getElementById('attendeeForm');
-    var attendeeSelect = document.getElementById('attendeeSelect');
-    var attendeeChoices = null;
-
-    if(attendeeSelect){
-      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:'', removeItemButton:true});
-      attendeeSelect.addEventListener('search', async function(e){
-        var q = (e.detail.value || '').trim();
-        if(q.length < 2){ return; }
-        try{
-          var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + encodeURIComponent(csrfToken));
-          if(!Array.isArray(people)){
-            throw new Error((people && people.message) || 'Search failed');
-          }
-          attendeeChoices.clearChoices();
-          var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
-          attendeeChoices.setChoices(opts, 'value', 'label', true);
-        } catch(err){
-          attendeeChoices.clearChoices();
-          console.error(err);
-          showToast(err.message || 'Error searching people');
-        }
-      });
-
-    }
-    attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, removeItemButton:true, shouldSort:false});
-    attendeeSelect.addEventListener('search', async function(e){
+  if(canEditAttendees && attendeeSelect){
+    attendeeSelect.addEventListener('search', function(e){
       var q = (e.detail.value || '').trim();
       if(q.length < 2){ return; }
-      try{
-        var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
-        var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
-        attendeeChoices.setChoices(opts, 'value', 'label', true);
-      } catch(err){
-        console.error(err);
-        showToast('Error searching people');
-      }
+      fetch('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + encodeURIComponent(csrfToken))
+        .then(function(r){
+          if(!r.ok){
+            return r.text().then(function(t){ throw new Error(t || 'Request failed'); });
+          }
+          return r.json();
+        })
+        .then(function(people){
+          attendeeChoices.clearStore();
+          var opts = people.map(function(p){ return {id:p.id, name:p.name, customProperties:{ user_id: p.user_id || '' }}; });
+          attendeeChoices.setChoices(opts, 'id', 'name', true);
+        })
+        .catch(function(err){
+          attendeeChoices.clearStore();
+          console.error(err);
+          showToast(err.message || 'Error searching people');
+        });
     });
 
     attendeeSelect.addEventListener('addItem', async function(e){
