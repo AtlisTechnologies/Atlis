@@ -11,15 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Invalid CSRF token');
         }
 
-        $id = (int)($_POST['id'] ?? 0);
         $meeting_id = (int)($_POST['meeting_id'] ?? 0);
-        if (!$id || !$meeting_id) {
+        $attendee_person_id = (int)($_POST['attendee_person_id'] ?? 0);
+        if (!$meeting_id || !$attendee_person_id) {
             throw new Exception('Invalid request');
         }
 
-        $pdo->prepare('DELETE FROM module_meeting_attendees WHERE id=:id AND meeting_id=:mid')
-            ->execute([':id' => $id, ':mid' => $meeting_id]);
-        admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $id, 'DELETE', '', '', 'Removed attendee');
+        // Find the row id for audit logging before deleting
+        $idStmt = $pdo->prepare('SELECT id FROM module_meeting_attendees WHERE meeting_id = :mid AND attendee_person_id = :pid');
+        $idStmt->execute([':mid' => $meeting_id, ':pid' => $attendee_person_id]);
+        $row_id = $idStmt->fetchColumn();
+
+        $pdo->prepare('DELETE FROM module_meeting_attendees WHERE meeting_id=:mid AND attendee_person_id=:pid')
+            ->execute([':mid' => $meeting_id, ':pid' => $attendee_person_id]);
+
+        if ($row_id) {
+            admin_audit_log($pdo, $this_user_id, 'module_meeting_attendees', $row_id, 'DELETE', '', '', 'Removed attendee');
+        }
 
         $rosterStmt = $pdo->prepare(
             'SELECT a.id,
@@ -42,4 +50,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+http_response_code(400);
 echo json_encode(['success' => false, 'message' => 'Invalid request']);
