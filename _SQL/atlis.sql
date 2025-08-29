@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2025 at 06:36 AM
+-- Generation Time: Aug 29, 2025 at 06:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -417,7 +417,11 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (21, 'Finances › Invoices', 'corporate/finances/invoices/index.php', 'file-text', 15, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:23:00', NULL),
 (22, 'Finances › Statements of Work', 'corporate/finances/statements-of-work/index.php', 'file', 16, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:22:52', NULL),
 (23, 'Time Tracking', 'corporate/time-tracking/index.php', 'clock', 17, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL),
-(24, 'Strategy', 'corporate/strategy/index.php', 'target', 18, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:58:39', NULL);
+(24, 'Strategy', 'corporate/strategy/index.php', 'target', 18, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:58:39', NULL),
+(28, 'Accounting', 'corporate/accounting/index.php', 'dollar-sign', 19, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
+(29, 'Assets', 'corporate/assets/index.php', 'archive', 20, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
+(30, 'Human Resources', 'corporate/human-resources/index.php', 'users', 21, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
+(31, 'Prospecting', 'corporate/prospecting/index.php', 'search', 22, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -601,7 +605,23 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (168, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'create'),
 (169, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'read'),
 (170, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'update'),
-(171, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'delete');
+(171, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'delete'),
+(172, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_accounting', 'create'),
+(173, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_accounting', 'read'),
+(174, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_accounting', 'update'),
+(175, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_accounting', 'delete'),
+(176, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_assets', 'create'),
+(177, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_assets', 'read'),
+(178, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_assets', 'update'),
+(179, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_assets', 'delete'),
+(180, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_human_resources', 'create'),
+(181, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_human_resources', 'read'),
+(182, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_human_resources', 'update'),
+(183, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_human_resources', 'delete'),
+(184, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'create'),
+(185, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'read'),
+(186, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'update'),
+(187, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'delete');
 
 -- --------------------------------------------------------
 
@@ -654,7 +674,11 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (28, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_finances_statements_of_work', 'Permissions for admin finances statements of work'),
 (29, 1, 1, '2025-08-28 01:04:25', '2025-08-28 01:04:25', NULL, 'admin_time_tracking', 'Permissions for admin time tracking'),
 (30, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_notes', 'Permissions for corporate notes management'),
-(31, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'Permissions for corporate files management');
+(31, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 'admin_corporate_files', 'Permissions for corporate files management'),
+(32, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_accounting', 'Permissions for managing accounting'),
+(33, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_assets', 'Permissions for managing assets'),
+(34, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_human_resources', 'Permissions for managing human resources'),
+(35, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_prospecting', 'Permissions for managing prospecting');
 
 -- --------------------------------------------------------
 
@@ -850,7 +874,23 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (195, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 168),
 (196, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 171),
 (197, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 169),
-(198, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 170);
+(198, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 31, 170),
+(202, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 32, 172),
+(203, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 32, 175),
+(204, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 32, 173),
+(205, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 32, 174),
+(206, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 33, 176),
+(207, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 33, 179),
+(208, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 33, 177),
+(209, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 33, 178),
+(210, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 34, 180),
+(211, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 34, 183),
+(212, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 34, 181),
+(213, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 34, 182),
+(214, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 184),
+(215, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 187),
+(216, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 185),
+(217, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 186);
 
 -- --------------------------------------------------------
 
@@ -4443,10 +4483,18 @@ CREATE TABLE `users_2fa` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `code` varchar(255) NOT NULL,
+  `code` varchar(6) NOT NULL,
   `expires_at` datetime NOT NULL,
   `used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_2fa`
+--
+
+INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
+(27, 1, 1, '2025-08-28 19:43:52', '2025-08-28 19:43:54', NULL, '715803', '2025-08-28 19:53:52', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -4802,7 +4850,8 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_user_updated` (`user_updated`),
   ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
   ADD KEY `idx_calendar_events_start_time` (`start_time`),
-  ADD KEY `idx_calendar_events_link` (`link_module`,`link_record_id`);
+  ADD KEY `idx_calendar_events_link` (`link_module`,`link_record_id`),
+  ADD KEY `idx_calendar_events_start` (`start_time`);
 
 --
 -- Indexes for table `module_calendar_external_accounts`
@@ -4819,6 +4868,7 @@ ALTER TABLE `module_calendar_external_accounts`
 ALTER TABLE `module_calendar_person_attendees`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_event_person` (`event_id`,`attendee_person_id`),
+  ADD UNIQUE KEY `uk_calendar_attendee` (`event_id`,`attendee_person_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_id` (`user_id`),
   ADD KEY `fk_module_calendar_event_attendees_user_updated` (`user_updated`),
   ADD KEY `fk_module_calendar_event_attendees_event_id` (`event_id`),
@@ -5505,25 +5555,25 @@ ALTER TABLE `admin_finances_statements_of_work`
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`

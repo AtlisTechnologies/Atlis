@@ -1,7 +1,7 @@
 <?php
 require '../../../includes/php_header.php';
+require_permission('calendar', 'read');
 header('Content-Type: application/json');
-ob_start();
 
 require_once 'google_events.php';
 require_once 'microsoft_events.php';
@@ -9,27 +9,24 @@ require_once 'microsoft_events.php';
 $events = [];
 
 $raw_ids = $_GET['calendar_ids'] ?? [];
-if (!is_array($raw_ids)) {
-    $raw_ids = explode(',', $raw_ids);
+if (is_string($raw_ids)) {
+    $raw_ids = $raw_ids !== '' ? explode(',', $raw_ids) : [];
+} elseif (!is_array($raw_ids)) {
+    $raw_ids = [];
 }
-$calendar_ids = array_unique(array_map('intval', $raw_ids));
-if (empty($calendar_ids) || in_array(0, $calendar_ids, true)) {
-    try {
+$calendar_ids = array_filter(array_unique(array_map('intval', $raw_ids)));
+
+$start = isset($_GET['start']) && is_string($_GET['start']) ? $_GET['start'] : null;
+$end = isset($_GET['end']) && is_string($_GET['end']) ? $_GET['end'] : null;
+$filterTime = $start !== null && $end !== null;
+
+try {
+    if (empty($calendar_ids)) {
         $stmt = $pdo->prepare('SELECT id FROM module_calendar WHERE user_id = ? AND is_private = 0 LIMIT 1');
         $stmt->execute([$this_user_id]);
         $defaultCalendarId = $stmt->fetchColumn();
         $calendar_ids = $defaultCalendarId ? [(int)$defaultCalendarId] : [];
-    } catch (Exception $e) {
-        $calendar_ids = [];
     }
-}
-$calendar_ids = array_filter($calendar_ids);
-
-$start = $_GET['start'] ?? null;
-$end = $_GET['end'] ?? null;
-$filterTime = $start !== null && $end !== null;
-
-try {
     $isAdmin = user_has_role('Admin');
 
     if (!$isAdmin && !empty($calendar_ids)) {
@@ -40,9 +37,8 @@ try {
         $chk->execute($chkParams);
         if ($chk->fetch(PDO::FETCH_ASSOC)) {
             http_response_code(403);
-            ob_clean();
             echo json_encode(['error' => 'Access denied']);
-            exit;
+            return;
         }
     }
 
@@ -79,9 +75,8 @@ try {
 
     $dbEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($filterTime && empty($dbEvents)) {
-        ob_clean();
         echo json_encode([]);
-        exit;
+        return;
     }
 
     foreach ($dbEvents as $row) {
@@ -104,41 +99,25 @@ try {
             'is_private' => $visibility === 199 ? 1 : 0
         ];
     }
-} catch (Exception $e) {
-    http_response_code(500);
-    ob_clean();
-    echo json_encode(['error' => $e->getMessage()]);
-    exit;
-}
-
-$extEvents = [];
-$providers = [];
-try {
+    $extEvents = [];
     $stmt = $pdo->prepare('SELECT provider FROM module_calendar_external_accounts WHERE user_id = ?');
     $stmt->execute([$this_user_id]);
     $providers = $stmt->fetchAll(PDO::FETCH_COLUMN);
-} catch (Exception $e) {
-    $providers = [];
-}
 
-if (!empty($providers) && function_exists('curl_init')) {
-    if (in_array('google', $providers, true)) {
-        try {
+    if (!empty($providers) && function_exists('curl_init')) {
+        if (in_array('google', $providers, true)) {
             $extEvents = array_merge($extEvents, fetch_google_events($pdo, $this_user_id));
-        } catch (Exception $e) {
-            $providers = [];
         }
-    }
-    if (!empty($providers) && in_array('microsoft', $providers, true)) {
-        try {
+        if (in_array('microsoft', $providers, true)) {
             $extEvents = array_merge($extEvents, fetch_microsoft_events($pdo, $this_user_id));
-        } catch (Exception $e) {
-            $providers = [];
         }
+        $events = array_merge($events, $extEvents);
     }
-    $events = array_merge($events, $extEvents);
-}
 
-ob_clean();
-echo json_encode($events);
+    echo json_encode($events);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+    return;
+}
 

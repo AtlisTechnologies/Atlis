@@ -25,6 +25,16 @@ $is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 $attended = $_POST['attended'] ?? [];
 
+if ($event_type_id !== null) {
+  $etypeStmt = $pdo->prepare('SELECT li.id FROM lookup_list_items li JOIN lookup_lists l ON li.list_id = l.id WHERE li.id = :id AND l.name = "CALENDAR_EVENT_TYPE"');
+  $etypeStmt->execute([':id' => $event_type_id]);
+  if (!$etypeStmt->fetchColumn()) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid event_type_id']);
+    exit;
+  }
+}
+
 if ($end_time && strtotime($start_time) >= strtotime($end_time)) {
   http_response_code(400);
   echo json_encode(['error' => 'Start time must be before end time']);
@@ -32,7 +42,7 @@ if ($end_time && strtotime($start_time) >= strtotime($end_time)) {
 }
 
 if ($id && $title && $start_time && $calendar_id) {
-  $chk = $pdo->prepare('SELECT e.user_id, e.visibility_id, e.calendar_id, c.user_id AS calendar_owner FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.id = ?');
+  $chk = $pdo->prepare('SELECT e.user_id, e.visibility_id, e.calendar_id, e.event_type_id, c.user_id AS calendar_owner FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.id = ?');
   $chk->execute([$id]);
   $existing = $chk->fetch(PDO::FETCH_ASSOC);
   if (!$existing) {
@@ -123,6 +133,7 @@ if ($id && $title && $start_time && $calendar_id) {
       'description' => $memo,
       'start' => $start_time,
       'end' => $end_time,
+      'event_type_id' => $event_type_id !== null ? $event_type_id : ($existing['event_type_id'] ?? null),
       'visibility_id' => $visibility_id,
       'is_private' => $is_private
     ]);

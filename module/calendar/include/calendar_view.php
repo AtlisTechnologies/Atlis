@@ -250,55 +250,6 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
 <script src="<?php echo getURLDir(); ?>vendors/fullcalendar/index.global.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const now = new Date();
-  const dayEl = document.querySelector('.calendar-day');
-  if (dayEl) {
-    dayEl.textContent = dayNames[now.getDay()];
-  }
-  const dateEl = document.querySelector('.calendar-date');
-  if (dateEl) {
-    dateEl.textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
-  }
-
-  const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
-  const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
-  const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
-  const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
-  const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
-  const calendarEl = document.getElementById('appCalendar');
-  const addEventForm = document.getElementById('addEventForm');
-  const addEventModalEl = document.getElementById('addEventModal');
-  const addEventButton = document.getElementById('addEventButton');
-  const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
-  const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
-  const calendarSpinner = document.getElementById('calendarSpinner');
-  const alertPlaceholder = document.getElementById('calendarAlert');
-  const calendarsData = <?php echo json_encode($calendars); ?>;
-  const currentUserId = <?= (int)$this_user_id ?>;
-  const isAdmin = <?= user_has_role('Admin') ? 'true' : 'false' ?>;
-  const eventTypes = <?php echo json_encode($event_types); ?>;
-  const eventTypeMap = {};
-  eventTypes.forEach(et => { eventTypeMap[et.id] = et.label; });
-  const createCalendarForm = document.getElementById('createCalendarForm');
-  const createCalendarModalEl = document.getElementById('createCalendarModal');
-  const detailModalEl = document.getElementById('eventDetailsModal');
-  const eventStartInput = document.getElementById('eventStart');
-  const eventEndInput = document.getElementById('eventEnd');
-  if (eventStartInput && eventEndInput) {
-    eventStartInput.addEventListener('change', function() {
-      if (this.value) {
-        eventEndInput.value = dayjs(this.value).add(1, 'hour').format('YYYY-MM-DD HH:mm');
-      }
-    });
-  }
-
-  function showAlert(message, type = 'danger') {
-    if (!alertPlaceholder) return;
-    alertPlaceholder.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}` +
-      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-  }
-
   function showToast(message, type = 'primary') {
     const container = document.getElementById('calendarToast');
     if (!container) return;
@@ -315,12 +266,55 @@ document.addEventListener('DOMContentLoaded', function() {
     el.addEventListener('hidden.bs.toast', () => el.remove());
   }
 
-  function getCalendarIds() {
-    const cbs = document.querySelectorAll('.calendar-checkbox:checked');
-    return Array.from(cbs).map(cb => cb.value);
-  }
+  try {
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const now = new Date();
+    const dayEl = document.querySelector('.calendar-day');
+    if (dayEl) {
+      dayEl.textContent = dayNames[now.getDay()];
+    }
+    const dateEl = document.querySelector('.calendar-date');
+    if (dateEl) {
+      dateEl.textContent = now.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+    }
 
-  function getCalendarId() {
+    const defaultCalendarId = <?php echo (int)$user_default_calendar_id; ?>;
+    const defaultAddCalendarId = <?php echo (int)$default_add_calendar_id; ?>;
+    const defaultEventTypeId = <?php echo (int)$default_event_type_id; ?>;
+    const ownedCalendarIds = <?php echo json_encode(array_values(array_map('intval', $owned_calendar_ids))); ?>;
+    const userPublicCalendarId = <?php echo (int)$user_public_calendar_id; ?>;
+    const calendarEl = document.getElementById('appCalendar');
+    const addEventForm = document.getElementById('addEventForm');
+    const addEventModalEl = document.getElementById('addEventModal');
+    const addEventButton = document.getElementById('addEventButton');
+    const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
+    const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
+    const calendarSpinner = document.getElementById('calendarSpinner');
+    const calendarsData = <?php echo json_encode($calendars); ?>;
+    const currentUserId = <?= (int)$this_user_id ?>;
+    const isAdmin = <?= user_has_role('Admin') ? 'true' : 'false' ?>;
+    const eventTypes = <?php echo json_encode($event_types); ?>;
+    const eventTypeMap = {};
+    eventTypes.forEach(et => { eventTypeMap[et.id] = et.label; });
+    const createCalendarForm = document.getElementById('createCalendarForm');
+    const createCalendarModalEl = document.getElementById('createCalendarModal');
+    const detailModalEl = document.getElementById('eventDetailsModal');
+    const eventStartInput = document.getElementById('eventStart');
+    const eventEndInput = document.getElementById('eventEnd');
+    if (eventStartInput && eventEndInput) {
+      eventStartInput.addEventListener('change', function() {
+        if (this.value) {
+          eventEndInput.value = dayjs(this.value).add(1, 'hour').format('YYYY-MM-DD HH:mm');
+        }
+      });
+    }
+
+    function getCalendarIds() {
+      const cbs = document.querySelectorAll('.calendar-checkbox:checked');
+      return Array.from(cbs).map(cb => cb.value);
+    }
+
+    function getCalendarId() {
     const ids = getCalendarIds();
     const cid = ids.length ? ids[0] : userPublicCalendarId;
     return ownedCalendarIds.includes(parseInt(cid, 10)) ? cid : defaultAddCalendarId;
@@ -372,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(err => {
           if (calendarSpinner) calendarSpinner.style.display = 'none';
           console.error('Failed to load events', err);
-          showAlert('Failed to load events: ' + err.message);
+          showToast('Failed to load events: ' + err.message, 'danger');
           if (failureCallback) failureCallback(err);
         });
     },
@@ -609,8 +603,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.success) {
           bootstrap.Modal.getInstance(createCalendarModalEl).hide();
           this.reset();
-          fetch('<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php')
-            .then(r => r.json())
+          return fetch('<?php echo getURLDir(); ?>module/calendar/functions/list_calendars.php')
+            .then(r => {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
             .then(cals => {
               calendarsData.length = 0;
               cals.forEach(c => calendarsData.push(c));
@@ -621,12 +618,12 @@ document.addEventListener('DOMContentLoaded', function() {
               showToast('Calendar created');
             });
         } else {
-          alert(data.error || 'Error creating calendar');
+          showToast(data.error || 'Error creating calendar', 'danger');
         }
       })
       .catch(err => {
         console.error('Failed to create calendar', err);
-        alert('Failed to create calendar: ' + err.message);
+        showToast('Failed to create calendar: ' + err.message, 'danger');
       });
     });
   }
@@ -655,13 +652,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if (data.success) {
         calendar.refetchEvents();
       } else {
-        alert(data.error || 'Unable to delete calendar.');
+        showToast(data.error || 'Unable to delete calendar.', 'danger');
       }
     })
     .catch(err => {
       console.error('Failed to delete calendar', err);
-      alert('Failed to delete calendar: ' + err.message);
+      showToast('Failed to delete calendar: ' + err.message, 'danger');
     });
   };
+  } catch (err) {
+    console.error('Unexpected error initializing calendar', err);
+    showToast('An unexpected error occurred: ' + err.message, 'danger');
+  }
 });
 </script>
