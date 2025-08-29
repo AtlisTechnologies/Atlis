@@ -1,6 +1,9 @@
 <?php
 require '../../includes/php_header.php';
 
+$timezoneItems = get_lookup_items($pdo, 'TIMEZONE');
+$userTimezoneId = get_user_default_lookup_item($pdo, $this_user_id, 'TIMEZONE');
+
 $action = $_GET['action'] ?? '';
 if ($action === 'create') {
     require_permission('calendar', 'create');

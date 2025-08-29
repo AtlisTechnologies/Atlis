@@ -129,6 +129,16 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
             <label for="addEventType">Event Type</label>
           </div>
 
+          <div class="form-floating mb-3">
+            <select class="form-select" id="addEventTimezone" name="timezone_id">
+              <option value="">Select timezone</option>
+              <?php foreach ($timezoneItems as $tz): ?>
+                <option value="<?= (int)$tz['id']; ?>"<?= (int)$tz['id'] === (int)$userTimezoneId ? ' selected' : ''; ?>><?= h($tz['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="addEventTimezone">Timezone</label>
+          </div>
+
           <?php if ($owns_calendar) { ?>
             <div class="mb-3">
               <label class="form-label d-block mb-2">Calendar</label>
@@ -186,6 +196,16 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
               <?php endforeach; ?>
             </select>
             <label for="editEventType">Event Type</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <select class="form-select" id="editEventTimezone" name="timezone_id">
+              <option value="">Select timezone</option>
+              <?php foreach ($timezoneItems as $tz): ?>
+                <option value="<?= (int)$tz['id']; ?>"<?= (int)$tz['id'] === (int)$userTimezoneId ? ' selected' : ''; ?>><?= h($tz['label']); ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="editEventTimezone">Timezone</label>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-end align-items-center border-0">
@@ -297,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventTypes = <?php echo json_encode($event_types); ?>;
     const eventTypeMap = {};
     eventTypes.forEach(et => { eventTypeMap[et.id] = et.label; });
+    const userTimezoneId = <?= (int)$userTimezoneId ?>;
     const createCalendarForm = document.getElementById('createCalendarForm');
     const createCalendarModalEl = document.getElementById('createCalendarModal');
     const detailModalEl = document.getElementById('eventDetailsModal');
@@ -339,6 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     selectCalendarRadio(addEventForm, cid);
     addEventForm.event_type_id.value = defaultEventTypeId || '';
+    addEventForm.timezone_id.value = userTimezoneId || '';
     bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
   }
 
@@ -409,6 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
             form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
             form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
             form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
+            form.timezone_id.value = info.event.extendedProps.timezone_id || userTimezoneId || '';
             selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
             modal.hide();
             bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
@@ -446,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
       form.start_time.value = dayjs(info.date).format('YYYY-MM-DD HH:mm');
       form.end_time.value = '';
       form.event_type_id.value = defaultEventTypeId || '';
+      form.timezone_id.value = userTimezoneId || '';
       selectCalendarRadio(form, getCalendarId());
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
@@ -540,6 +564,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addEventModalEl.addEventListener('show.bs.modal', function() {
       selectCalendarRadio(addEventForm, getCalendarId());
       addEventForm.event_type_id.value = defaultEventTypeId || '';
+      addEventForm.timezone_id.value = userTimezoneId || '';
     });
   }
 
