@@ -12,6 +12,12 @@ $env = [];
 if (file_exists($envFile)) {
     $env = parse_ini_file($envFile);
 }
+// Example .env entry (do not leave credentials blank):
+// DB_HOST=localhost
+// DB_USER=atlis_user
+// DB_PASSWORD=your_password
+// DB_NAME=atlis
+// DB_PORT=3306
 
 // DB Credentials
 define('DB_HOST', $env['DB_HOST'] ?? getenv('DB_HOST') ?? 'localhost');
@@ -29,8 +35,8 @@ $pdo = "";
 try{
         $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }catch (PDOException $e) {
-        error_log($e->getMessage());
-        echo "Connection failed: " . $e->getMessage();
+        error_log('Database connection failed: ' . $e->getMessage());
+        exit('Database connection error.');
 }
 
 
