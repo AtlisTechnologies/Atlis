@@ -391,15 +391,19 @@ document.addEventListener('DOMContentLoaded', function() {
           <div><h4 class="modal-title text-body-highlight mb-0">${info.event.title || ''}</h4></div>
           <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close"><span class='fas fa-times fs-8'></span></button>
         </div>
-        <div class="modal-body p-card py-0">
-          <div class="mb-3"><strong>Starts at:</strong> ${dayjs(info.event.start).format('YYYY-MM-DD HH:mm')}</div>
-          <div class="mb-3"><strong>Ends at:</strong> ${info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : ''}</div>
-          <div class="mb-3"><strong>Event Type:</strong> ${eventTypeMap[info.event.extendedProps.event_type_id] || ''}</div>
-          <div class="mb-3"><strong>Description:</strong> ${info.event.extendedProps.description || info.event.extendedProps.memo || ''}</div>
-          <div class="mb-3"><strong>Related Module:</strong> ${relatedModule || ''}</div>
-          <div class="mb-3"><strong>Related ID:</strong> ${relatedId || ''}</div>
-          <div class="mb-3"><strong>Owner:</strong> ${displayOwner}</div>
-          ${link ? `<div class="mb-3"><a href="${link}" target="_blank">View Record</a></div>` : ''}
+        <div class="modal-body px-card pt-4 pb-0">
+          <div class="mb-5 d-flex">
+            <span class="fa-solid fa-calendar me-2 fs-10 text-body-tertiary mt-1"></span>
+            <div>
+              <p class="text-body-highlight lh-sm mb-0">${dayjs(info.event.start).format('ddd, MMM D, YYYY h:mm A')}</p>
+              ${info.event.end ? `<p class="text-body-tertiary lh-sm mb-0">${dayjs(info.event.end).format('ddd, MMM D, YYYY h:mm A')}</p>` : ''}
+            </div>
+          </div>
+          ${eventTypeMap[info.event.extendedProps.event_type_id] ? `<div class="mb-5 d-flex"><span class="fa-solid fa-tag me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${eventTypeMap[info.event.extendedProps.event_type_id]}</p></div>` : ''}
+          ${(info.event.extendedProps.description || info.event.extendedProps.memo) ? `<div class="d-flex mb-5"><span class="fa-solid fa-align-left me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${info.event.extendedProps.description || info.event.extendedProps.memo}</p></div>` : ''}
+          ${relatedModule ? `<div class="d-flex mb-5"><span class="fa-solid fa-link me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${relatedModule}${relatedId ? ' #' + relatedId : ''}</p></div>` : ''}
+          ${displayOwner ? `<div class="d-flex mb-5"><span class="fa-solid fa-user me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${displayOwner}</p></div>` : ''}
+          ${link ? `<div class="d-flex mb-3"><span class="fa-solid fa-arrow-right me-2 fs-10 text-body-tertiary mt-1"></span><a class="lh-sm" href="${link}" target="_blank">View Record</a></div>` : ''}
         </div>
         ${footer}`;
       detailModalEl.querySelector('.modal-content').innerHTML = body;
