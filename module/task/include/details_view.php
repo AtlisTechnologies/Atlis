@@ -63,6 +63,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
     <div class="col-12 col-lg-4 mb-4 mb-lg-0">
       <?php if (user_has_permission('task','update')): ?>
       <form id="taskDatesForm" class="mb-3">
+        <?= csrf_field(); ?>
         <input type="hidden" name="id" value="<?php echo (int)$current_task['id']; ?>">
         <table class="lh-sm w-100">
           <tbody>
@@ -150,6 +151,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <?php endif; ?>
           <?php if (user_has_permission('task','update') && !$alreadyAssigned && (empty($current_task['project_id']) || !empty($current_task['project_assigned']))): ?>
             <form method="post" action="functions/assign_user.php" class="d-inline">
+              <?= csrf_field(); ?>
               <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
               <input type="hidden" name="user_id" value="<?= (int)$this_user_id; ?>">
               <button class="btn btn-success btn-sm p-1" type="submit"><span class="fa-solid fa-user-plus"></span></button>
@@ -168,6 +170,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                   <h6 class="mb-0"><?php echo h($au['name']); ?></h6>
                   <?php if (user_has_permission('task','update')): ?>
                     <form method="post" action="functions/remove_user.php" class="ms-2" onclick="return confirm('Remove this user?')">
+                      <?= csrf_field(); ?>
                       <input type="hidden" name="task_id" value="<?php echo (int)$current_task['id']; ?>">
                       <input type="hidden" name="user_id" value="<?php echo (int)$au['user_id']; ?>">
                       <button class="bg-transparent border-0 text-danger fs-9" type="submit" aria-label="Unassign user">
@@ -210,6 +213,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <div class="modal fade" id="assignUserModal" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog">
             <form class="modal-content" method="post" action="functions/assign_user.php">
+              <?= csrf_field(); ?>
               <div class="modal-header">
                 <h5 class="modal-title">Assign User</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -257,6 +261,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                         <p class="fs-9 lh-sm mb-1 flex-grow-1"><?= nl2br(h($n['note_text'])) ?></p>
                         <?php if ($is_admin || ($n['user_id'] ?? 0) == $this_user_id): ?>
                         <form action="functions/delete_note.php" method="post" class="ms-2" onsubmit="return confirm('Delete this note?');">
+                          <?= csrf_field(); ?>
                           <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
                           <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
                           <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -277,6 +282,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                                 </p>
                                 <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
                                 <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                                  <?= csrf_field(); ?>
                                   <input type="hidden" name="id" value="<?= (int)$f['id']; ?>">
                                   <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
                                   <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -303,6 +309,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
           <?php if (user_has_permission('task','create|update|delete')): ?>
           <div class="mt-4">
             <form action="functions/add_note.php" method="post" enctype="multipart/form-data">
+              <?= csrf_field(); ?>
               <input type="hidden" name="id" value="<?= (int)$current_task['id'] ?>">
               <div class="mb-3">
                 <textarea class="form-control" name="note" rows="3" placeholder="Add a new Note" required></textarea>
@@ -333,6 +340,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                   <span class="fa-solid fa-pen"></span>
                 </button>
                 <form action="functions/delete_question.php" method="post" class="ms-2" onsubmit="return confirm('Delete this question?');">
+                  <?= csrf_field(); ?>
                   <input type="hidden" name="id" value="<?= (int)$q['id']; ?>">
                   <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
                   <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -344,6 +352,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <div class="modal fade" id="editQuestionModal<?= (int)$q['id']; ?>" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                   <form class="modal-content" method="post" action="functions/edit_question.php">
+                    <?= csrf_field(); ?>
                     <div class="modal-header">
                       <h5 class="modal-title">Edit Question</h5>
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -381,6 +390,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                         </p>
                         <?php if (user_has_permission('task','create|update|delete') && ($is_admin || ($f['user_id'] ?? 0) == $this_user_id)): ?>
                         <form action="functions/delete_file.php" method="post" class="ms-2" onsubmit="return confirm('Delete this file?');">
+                          <?= csrf_field(); ?>
                           <input type="hidden" name="id" value="<?= (int)$f['id']; ?>">
                           <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
                           <input type="hidden" name="question_id" value="<?= (int)$q['id']; ?>">
@@ -405,6 +415,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                           <span class="fa-solid fa-pen"></span>
                         </button>
                         <form action="functions/delete_answer.php" method="post" class="ms-2" onsubmit="return confirm('Delete this answer?');">
+                          <?= csrf_field(); ?>
                           <input type="hidden" name="id" value="<?= (int)$ans['id']; ?>">
                           <input type="hidden" name="task_id" value="<?= (int)$current_task['id']; ?>">
                           <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -415,6 +426,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                       <div class="modal fade" id="editAnswerModal<?= (int)$ans['id']; ?>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                           <form class="modal-content" method="post" action="functions/edit_answer.php">
+                            <?= csrf_field(); ?>
                             <div class="modal-header">
                               <h5 class="modal-title">Edit Answer</h5>
                               <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -448,6 +460,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
               <div class="modal fade" id="addAnswerModal<?= (int)$q['id']; ?>" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                   <form class="modal-content" method="post" action="functions/add_answer.php">
+                    <?= csrf_field(); ?>
                     <div class="modal-header">
                       <h5 class="modal-title">Add Answer</h5>
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -478,6 +491,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         <?php if (user_has_permission('task','create|update|delete')): ?>
         <div class="px-4 px-lg-6 py-4">
           <form action="functions/upload_file.php" method="post" enctype="multipart/form-data" class="mb-3">
+            <?= csrf_field(); ?>
             <div class="input-group">
               <input type="hidden" name="id" value="<?= (int)$current_task['id'] ?>">
               <input class="form-control" type="file" name="file" id="taskFileUpload" aria-describedby="taskFileUpload" aria-label="Upload" required>
@@ -502,6 +516,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
                 </div>
                 <?php if ($is_admin || ($f['user_id'] ?? 0) == $this_user_id): ?>
                 <form action="functions/delete_file.php" method="post" onsubmit="return confirm('Delete this file?');">
+                  <?= csrf_field(); ?>
                   <input type="hidden" name="id" value="<?= (int)$f['id'] ?>">
                   <input type="hidden" name="task_id" value="<?= (int)$current_task['id'] ?>">
                   <button class="btn btn-danger btn-sm" type="submit"><span class="fa-solid fa-trash"></span></button>
@@ -529,6 +544,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
   <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <form class="modal-content" method="post" action="functions/add_question.php">
+        <?= csrf_field(); ?>
         <div class="modal-header">
           <h5 class="modal-title">Add Question</h5>
           <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -570,6 +586,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
     </div>
   </div>
   <script>
+  const csrfToken = '<?= csrf_token(); ?>';
   document.addEventListener('DOMContentLoaded', function () {
     var imageModal = document.getElementById('imageModal');
     if (imageModal) {
@@ -591,7 +608,7 @@ require_once __DIR__ . '/../../../includes/functions.php';
         fetch('functions/update_field.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ id: taskId, field: field, value: value })
+          body: new URLSearchParams({ id: taskId, field: field, value: value, csrf_token: csrfToken })
         })
         .then(function (res) { return res.json(); })
         .then(function (data) {

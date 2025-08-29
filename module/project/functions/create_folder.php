@@ -1,6 +1,7 @@
 <?php
 require '../../../includes/php_header.php';
 require_permission('project','update');
+if (!verify_csrf_token($_POST["csrf_token"] ?? $_GET["csrf_token"] ?? null)) { http_response_code(403); exit("Forbidden"); }
 
 $project_id = (int)($_POST['project_id'] ?? 0);
 $name = trim($_POST['name'] ?? '');
@@ -36,7 +37,7 @@ try{
       echo json_encode(['error'=>'Parent folder not found']);
       exit;
     }
-
+  }
 
   $maxDepth = (int)get_system_property($pdo,'PROJECT_FILE_MAX_FOLDER_DEPTH');
   if($maxDepth){

@@ -17,6 +17,7 @@
     </div>
   </div>
   <form id="taskQuickAdd" class="d-flex mb-3">
+    <?= csrf_field(); ?>
     <input class="form-control me-2" type="text" name="name" placeholder="Quick add task" required>
     <button class="btn btn-success" type="submit">Add</button>
   </form>
@@ -42,6 +43,7 @@
                 <?php endif; ?>
                 <?php if (user_has_permission('task','update') && empty($alreadyAssigned) && (!isset($t['project_id']) || !empty($t['project_assigned']))): ?>
                   <form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form me-1">
+                    <?= csrf_field(); ?>
                     <input type="hidden" name="task_id" value="<?= (int)$t['id'] ?>">
                     <input type="hidden" name="user_id" value="<?= (int)$this_user_id ?>">
                     <button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me">
@@ -78,6 +80,7 @@
 </div>
 
 <script>
+const csrfToken = '<?= csrf_token(); ?>';
 document.addEventListener('DOMContentLoaded', function () {
   var taskList = new List('taskList', { valueNames: ['task-name','task-status','task-priority','task-due'], page: 25, pagination: true });
 
@@ -101,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if(!assignees){ assignees = '<span class="fa-regular fa-user text-body-tertiary me-1"></span>'; }
     if(canAssignTask && !alreadyAssigned && (!t.project_id || t.project_assigned)){
-      assignees += `<form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
+      assignees += `<form method="post" action="functions/assign_user.php" class="ms-1 assign-to-me-form"><input type="hidden" name="csrf_token" value="${csrfToken}"><input type="hidden" name="task_id" value="${t.id}"><input type="hidden" name="user_id" value="${thisUserId}"><button class="btn btn-success btn-sm p-1" type="submit" title="Assign to me"><span class="fa-solid fa-user-plus"></span></button></form>`;
     }
     var due = t.due_date ? new Date(t.due_date).toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}) : '';
     return `<div class="row justify-content-between align-items-md-center hover-actions-trigger btn-reveal-trigger border-translucent py-3 gx-0 border-top task-row" data-task-id="${t.id}">
@@ -129,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cb = row.querySelector('input[type="checkbox"][data-task-id]');
     if(cb){
       cb.addEventListener('change', function(){
-        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0});
+        var params = new URLSearchParams({id: cb.dataset.taskId, completed: cb.checked ? 1 : 0, csrf_token: csrfToken});
         if(!cb.checked && cb.dataset.prevStatus){
           params.append('status', cb.dataset.prevStatus);
         }
@@ -161,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
         b.replaceWith(select);
         select.focus();
         select.addEventListener('change', function(){
-          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value});
+          var params=new URLSearchParams({id: row.dataset.taskId, field: field, value: this.value, csrf_token: csrfToken});
           fetch('functions/update_field.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
             .then(r=>r.json()).then(d=>{ if(d.success && d.task){ updateRow(row,d.task); } });
     });

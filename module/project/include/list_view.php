@@ -125,7 +125,8 @@
   </div>
 </div>
 <script>
-function setupProjectList() {
+  const csrfToken = '<?= csrf_token(); ?>';
+  function setupProjectList() {
   const projectSummaryEl = document.getElementById('projectSummary');
   const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
   const projectList = new List(projectSummaryEl, options);
@@ -171,7 +172,7 @@ function setupProjectList() {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ project_id: projectId })
+          body: new URLSearchParams({ project_id: projectId, csrf_token: csrfToken })
         });
         const data = await res.json();
         const pinned = !!data.pinned;

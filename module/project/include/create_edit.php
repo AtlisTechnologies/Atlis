@@ -21,6 +21,7 @@ $defaultTypeId     = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_
 <div class="row">
   <div class="col-xl-9">
     <form class="row g-3 mb-6" method="post" action="functions/create.php">
+      <?= csrf_field(); ?>
       <div class="col-sm-6 col-md-8">
         <div class="form-floating">
           <input class="form-control" id="projectName" type="text" name="name" placeholder="Project title" required />

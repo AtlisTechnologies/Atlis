@@ -114,6 +114,7 @@ foreach ($projects as $proj) {
   </div>
 </div>
 <script>
+const csrfToken = '<?= csrf_token(); ?>';
 document.addEventListener('click', function (e) {
   var src = e.target.getAttribute('data-img-src');
   if (src) {
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ project_id: projectId })
+          body: new URLSearchParams({ project_id: projectId, csrf_token: csrfToken })
         });
         const data = await res.json();
         if (data.pinned) {

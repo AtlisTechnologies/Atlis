@@ -12,6 +12,7 @@ foreach ($typeMap as $id => $t) {
 }
 ?>
 <form class="row g-3 mb-6" method="post" action="<?php echo $actionUrl; ?>">
+  <?= csrf_field(); ?>
   <?php if ($editing): ?>
     <input type="hidden" name="id" value="<?php echo h($current_project['id'] ?? ''); ?>">
   <?php endif; ?>

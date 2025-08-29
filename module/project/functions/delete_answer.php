@@ -1,5 +1,6 @@
 <?php
 require '../../../includes/php_header.php';
+if (!verify_csrf_token($_POST['csrf_token'] ?? $_GET['csrf_token'] ?? null)) { http_response_code(403); exit('Forbidden'); }
 
 $answer_id = (int)($_POST['id'] ?? 0);
 $project_id = (int)($_POST['project_id'] ?? 0);

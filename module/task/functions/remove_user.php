@@ -1,6 +1,7 @@
 <?php
 require '../../../includes/php_header.php';
 require_permission('task','update');
+if (!verify_csrf_token($_POST["csrf_token"] ?? $_GET["csrf_token"] ?? null)) { http_response_code(403); exit("Forbidden"); }
 
 $task_id = (int)($_POST['task_id'] ?? 0);
 $user_id = (int)($_POST['user_id'] ?? 0);
