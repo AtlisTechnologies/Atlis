@@ -25,3 +25,13 @@ SOURCE _SQL/create_atlis_user.sql;
 ```
 
 Replace `change_this_password` with a strong password before running the script.
+
+## Web server
+
+The `includes/` and top-level `functions/` directories are not meant to be served directly. Each contains a `.htaccess` file that denies all HTTP requests. For these protections to work, the web server must allow overrides:
+
+```
+AllowOverride All
+```
+
+If your deployment environment does not support Apache `.htaccess` files, move these directories outside the web root and update any PHP include paths accordingly.
