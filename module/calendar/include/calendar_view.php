@@ -1,4 +1,5 @@
 <?php
+require_permission('calendar', 'read');
 $calendars = [];
 $sql = 'SELECT id, name, is_private, is_default, user_id = :uid AS owned, CASE WHEN user_id = :uid THEN ics_token ELSE NULL END AS ics_token FROM module_calendar WHERE user_id = :uid OR is_private = 0 ORDER BY owned DESC, name';
 $stmt = $pdo->prepare($sql);
@@ -87,6 +88,37 @@ $default_event_type_id = get_user_default_lookup_item($pdo, $this_user_id, 'CALE
         </div>
       </div>
     </div>
+    <form id="eventFilters" class="row g-2 my-3">
+      <div class="col-md-4">
+        <div class="form-floating">
+          <input class="form-control" id="eventSearch" type="text" placeholder="Search events" />
+          <label for="eventSearch">Search</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <select class="form-select" id="typeFilter">
+            <option value="">All types</option>
+            <?php foreach ($event_types as $et): ?>
+              <option value="<?= (int)$et['id']; ?>"><?= h($et['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label for="typeFilter">Type</label>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-floating">
+          <input class="form-control" id="fromDate" type="date" placeholder="From" />
+          <label for="fromDate">From</label>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-floating">
+          <input class="form-control" id="toDate" type="date" placeholder="To" />
+          <label for="toDate">To</label>
+        </div>
+      </div>
+    </form>
     <div class="calendar-outline mt-6 mb-9" id="appCalendar"></div>
   </div>
 </div>
@@ -288,6 +320,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const addEventModalEl = document.getElementById('addEventModal');
     const addEventButton = document.getElementById('addEventButton');
     const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
+    const searchInput = document.getElementById('eventSearch');
+    const typeFilter = document.getElementById('typeFilter');
+    const fromDateInput = document.getElementById('fromDate');
+    const toDateInput = document.getElementById('toDate');
+    const filtersForm = document.getElementById('eventFilters');
     const deleteUrl = '<?php echo getURLDir(); ?>module/calendar/functions/delete.php';
     const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
     const calendarSpinner = document.getElementById('calendarSpinner');
@@ -353,7 +390,23 @@ document.addEventListener('DOMContentLoaded', function() {
     events: function(fetchInfo, successCallback, failureCallback) {
       const ids = getCalendarIds();
       const fetchIds = ids.length ? ids : [userPublicCalendarId];
-      const url = `${listUrl}?calendar_ids=${fetchIds.join(',')}`;
+      const params = new URLSearchParams();
+      params.set('calendar_ids', fetchIds.join(','));
+      let startParam = fetchInfo.startStr;
+      let endParam = fetchInfo.endStr;
+      if (fromDateInput && toDateInput && fromDateInput.value && toDateInput.value) {
+        startParam = fromDateInput.value + ' 00:00:00';
+        endParam = toDateInput.value + ' 23:59:59';
+      }
+      params.set('start', startParam);
+      params.set('end', endParam);
+      if (searchInput && searchInput.value.trim() !== '') {
+        params.set('q', searchInput.value.trim());
+      }
+      if (typeFilter && typeFilter.value) {
+        params.set('event_type_id', typeFilter.value);
+      }
+      const url = `${listUrl}?${params.toString()}`;
       if (calendarSpinner) calendarSpinner.style.display = 'block';
       fetch(url)
         .then(r => {
@@ -450,6 +503,17 @@ document.addEventListener('DOMContentLoaded', function() {
       bootstrap.Modal.getOrCreateInstance(document.getElementById('addEventModal')).show();
     }
     });
+
+  if (filtersForm) {
+    filtersForm.addEventListener('change', function(e) {
+      e.preventDefault();
+      calendar.refetchEvents();
+    });
+    filtersForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      calendar.refetchEvents();
+    });
+  }
 
   const prevBtn = document.querySelector('[data-event="prev"]');
   const nextBtn = document.querySelector('[data-event="next"]');

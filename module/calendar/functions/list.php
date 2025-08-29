@@ -18,6 +18,8 @@ $calendar_ids = array_filter(array_unique(array_map('intval', $raw_ids)));
 
 $start = isset($_GET['start']) && is_string($_GET['start']) ? $_GET['start'] : null;
 $end = isset($_GET['end']) && is_string($_GET['end']) ? $_GET['end'] : null;
+$q = isset($_GET['q']) && is_string($_GET['q']) ? trim($_GET['q']) : null;
+$eventTypeId = isset($_GET['event_type_id']) && is_numeric($_GET['event_type_id']) ? (int)$_GET['event_type_id'] : null;
 $filterTime = $start !== null && $end !== null;
 
 try {
@@ -63,6 +65,18 @@ try {
         $where[] = 'e.start_time < ? AND e.end_time > ?';
         $params[] = $end;
         $params[] = $start;
+    }
+
+    if ($q !== null && $q !== '') {
+        $where[] = '(e.title LIKE ? OR e.memo LIKE ?)';
+        $like = '%' . $q . '%';
+        $params[] = $like;
+        $params[] = $like;
+    }
+
+    if ($eventTypeId !== null) {
+        $where[] = 'e.event_type_id = ?';
+        $params[] = $eventTypeId;
     }
 
     if ($where) {
