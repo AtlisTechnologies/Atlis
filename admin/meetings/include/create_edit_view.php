@@ -296,13 +296,24 @@ document.addEventListener('DOMContentLoaded', function(){
     attendeeSelect.addEventListener('search', function(event){
       var term = event.detail.value;
       if(!term){ return; }
-      fetch('functions/search_people.php?q=' + encodeURIComponent(term))
-        .then(r => r.ok ? r.json() : [])
+      fetch('functions/search_people.php?q=' + encodeURIComponent(term) + '&csrf_token=' + encodeURIComponent(csrfToken))
+        .then(function(r){
+          if(!r.ok){ throw new Error('Search failed'); }
+          return r.json();
+        })
         .then(function(users){
+          if(!Array.isArray(users)){
+            throw new Error((users && users.message) || 'Search failed');
+          }
           attendeeChoices.clearChoices();
           attendeeChoices.setChoices(users.map(function(u){
             return { value: u.id, label: u.name, customProperties:{ user_id: u.user_id || '' } };
           }), 'value', 'label', true);
+        })
+        .catch(function(err){
+          attendeeChoices.clearChoices();
+          showToast(err.message || 'Error searching people');
+          console.error('Search failed', err);
         });
     });
 

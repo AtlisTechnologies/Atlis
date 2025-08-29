@@ -4,6 +4,12 @@ require_permission('person', 'read');
 
 header('Content-Type: application/json');
 
+$token = $_GET['csrf_token'] ?? '';
+if (!verify_csrf_token($token)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+    exit;
+}
+
 $q = trim($_GET['q'] ?? '');
 if ($q === '') {
     echo json_encode([]);
