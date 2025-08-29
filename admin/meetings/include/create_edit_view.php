@@ -121,9 +121,8 @@ $token = generate_csrf_token();
       <button type="button" class="btn btn-sm btn-secondary mt-2" id="addQuestion">Add Question</button>
     </div>
     <div class="mb-3">
-      <div class="form-floating">
-        <select id="attendeeSelect" class="form-select" placeholder="Search user" multiple></select>
-      </div>
+      <label for="attendeeSelect" class="form-label">Attendees</label>
+      <select id="attendeeSelect" class="form-select" placeholder="Search user" multiple></select>
       <div id="attendeeHiddenInputs"></div>
     </div>
     <div class="mb-3">
@@ -139,6 +138,7 @@ $token = generate_csrf_token();
 document.addEventListener('DOMContentLoaded', function(){
   var isEdit = <?php echo $isEdit ? 'true' : 'false'; ?>;
   var csrfToken = '<?php echo h($token); ?>';
+  var meetingId = <?php echo $isEdit ? (int)$meeting['id'] : 0; ?>;
   var agendaStatusMap       = <?php echo json_encode($agendaStatusMap); ?>;
   var questionStatusMap     = <?php echo json_encode($questionStatusMap); ?>;
   var defaultAgendaStatusId = <?php echo json_encode($defaultAgendaStatusId); ?>;
@@ -277,26 +277,49 @@ document.addEventListener('DOMContentLoaded', function(){
   var attendeeChoices;
   function syncHiddenAttendees(){
     attendeeHiddenInputs.innerHTML = '';
-    attendeeChoices.getValue().forEach(function(item){
+    attendeeChoices.getValue().forEach(function(choice){
+      var wrapper = document.createElement('div');
+      wrapper.textContent = choice.label;
       var input = document.createElement('input');
       input.type = 'hidden';
       input.name = 'attendee_person_id[]';
-      input.value = item.value;
-      input.dataset.personId = item.value;
-      if(item.customProperties && item.customProperties.user_id){
-        input.dataset.userId = item.customProperties.user_id;
+      input.value = choice.value;
+      input.dataset.personId = choice.value;
+      if(choice.customProperties && choice.customProperties.user_id){
+        input.dataset.userId = choice.customProperties.user_id;
       }
-      attendeeHiddenInputs.appendChild(input);
+      wrapper.appendChild(input);
+      attendeeHiddenInputs.appendChild(wrapper);
     });
   }
 
   if(attendeeSelect){
     attendeeChoices = new Choices(attendeeSelect,{removeItemButton:true});
 
+    function seedChoices(){
+      fetch('functions/search_people.php?meeting_id=' + meetingId + '&csrf_token=' + encodeURIComponent(csrfToken))
+        .then(function(r){
+          if(!r.ok){ throw new Error('Search failed'); }
+          return r.json();
+        })
+        .then(function(users){
+          if(Array.isArray(users)){
+            attendeeChoices.setChoices(users.map(function(u){
+              return { value: u.id, label: u.name, customProperties:{ user_id: u.user_id || '' } };
+            }), 'value', 'label', true);
+          }
+        })
+        .catch(function(err){
+          showToast(err.message || 'Error loading people');
+          console.error('Initial load failed', err);
+        });
+    }
+    seedChoices();
+
     attendeeSelect.addEventListener('search', function(event){
       var term = event.detail.value;
       if(!term){ return; }
-      fetch('functions/search_people.php?q=' + encodeURIComponent(term) + '&csrf_token=' + encodeURIComponent(csrfToken))
+      fetch('functions/search_people.php?meeting_id=' + meetingId + '&q=' + encodeURIComponent(term) + '&csrf_token=' + encodeURIComponent(csrfToken))
         .then(function(r){
           if(!r.ok){ throw new Error('Search failed'); }
           return r.json();
