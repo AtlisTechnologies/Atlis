@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var baseUrl = '<?php echo getURLDir(); ?>';
   var canEdit = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
   var canEditAttendees = <?php echo user_has_permission('meeting','update') ? 'true' : 'false'; ?>;
-  var csrfToken = '<?= $token; ?>';
+  var csrfToken = '<?= h($token); ?>';
   var agendaStatusMap = <?php echo json_encode($agendaStatusMap); ?>;
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
@@ -778,9 +778,31 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  if(attendeeSelect){
-    if(!canEditAttendees){
-      attendeeSelect.setAttribute('disabled','');
+  if(canEditAttendees){
+    var attendeeForm = document.getElementById('attendeeForm');
+    var attendeeSelect = document.getElementById('attendeeSelect');
+    var attendeeChoices = null;
+
+    if(attendeeSelect){
+      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:'', removeItemButton:true});
+      attendeeSelect.addEventListener('search', async function(e){
+        var q = (e.detail.value || '').trim();
+        if(q.length < 2){ return; }
+        try{
+          var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + encodeURIComponent(csrfToken));
+          if(!Array.isArray(people)){
+            throw new Error((people && people.message) || 'Search failed');
+          }
+          attendeeChoices.clearChoices();
+          var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
+          attendeeChoices.setChoices(opts, 'value', 'label', true);
+        } catch(err){
+          attendeeChoices.clearChoices();
+          console.error(err);
+          showToast(err.message || 'Error searching people');
+        }
+      });
+
     }
     attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, removeItemButton:true, shouldSort:false});
     attendeeSelect.addEventListener('search', async function(e){
