@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2025 at 06:50 AM
+-- Generation Time: Aug 29, 2025 at 08:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2299,7 +2299,12 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (182, 1, 1, '2025-08-28 00:55:11', '2025-08-28 00:55:11', NULL, 309, 'COLOR-CLASS', 'success'),
 (183, 1, 1, '2025-08-28 00:55:14', '2025-08-28 00:55:14', NULL, 310, 'COLOR-CLASS', 'atlis'),
 (184, 1, 1, '2025-08-28 01:54:21', '2025-08-28 01:54:21', NULL, 311, 'COLOR-CLASS', 'grape'),
-(185, 1, 1, '2025-08-28 15:50:00', '2025-08-28 15:50:00', NULL, 312, 'COLOR-CLASS', 'pink');
+(185, 1, 1, '2025-08-28 15:50:00', '2025-08-28 15:50:00', NULL, 312, 'COLOR-CLASS', 'pink'),
+(186, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 193, 'ICON-CLASS', 'bi-people'),
+(187, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 194, 'ICON-CLASS', 'bi-briefcase'),
+(188, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 195, 'ICON-CLASS', 'bi-airplane'),
+(189, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 196, 'ICON-CLASS', 'bi-x-circle'),
+(190, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 197, 'ICON-CLASS', 'bi-calendar-event');
 
 -- --------------------------------------------------------
 
@@ -2467,22 +2472,24 @@ CREATE TABLE `module_calendar_events` (
   `event_type_id` int(11) DEFAULT NULL,
   `link_module` varchar(50) DEFAULT NULL,
   `link_record_id` int(11) DEFAULT NULL,
-  `visibility_id` int(11) NOT NULL DEFAULT 198
+  `visibility_id` int(11) NOT NULL DEFAULT 198,
+  `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar_events`
 --
 
-INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`) VALUES
-(1, 1, 1, '2025-08-27 23:05:57', '2025-08-28 16:49:43', '', 1, 'Senses Fail DAVE', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198),
-(2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198),
-(3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198),
-(4, 4, 4, '2025-08-28 00:15:36', '2025-08-28 16:50:34', '', 5, 'SOUP', '2025-08-27 12:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198),
-(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199),
-(6, 1, NULL, '2025-08-28 10:43:24', '2025-08-28 10:43:24', '', 1, 'Lake - Kasper & RJ', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198),
-(7, 1, NULL, '2025-08-28 10:44:55', '2025-08-28 10:44:55', '', 1, 'test', '2025-08-30 14:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198),
-(8, 1, NULL, '2025-08-28 15:38:39', '2025-08-28 15:38:39', '', 1, 'test', '2025-08-29 15:30:00', '2025-08-29 19:00:00', 193, NULL, NULL, 198);
+INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`, `location`) VALUES
+(1, 1, 1, '2025-08-27 23:05:57', '2025-08-28 16:49:43', '', 1, 'Senses Fail DAVE', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL),
+(2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198, NULL),
+(3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198, NULL),
+(4, 4, 4, '2025-08-28 00:15:36', '2025-08-28 16:50:34', '', 5, 'SOUP', '2025-08-27 12:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL),
+(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199, NULL),
+(6, 1, NULL, '2025-08-28 10:43:24', '2025-08-28 10:43:24', '', 1, 'Lake - Kasper & RJ', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL),
+(7, 1, NULL, '2025-08-28 10:44:55', '2025-08-28 10:44:55', '', 1, 'test', '2025-08-30 14:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL),
+(8, 1, NULL, '2025-08-28 15:38:39', '2025-08-28 15:38:39', '', 1, 'test', '2025-08-29 15:30:00', '2025-08-29 19:00:00', 193, NULL, NULL, 198, NULL),
+(9, 1, 1, '2025-08-29 00:09:58', '2025-08-29 00:10:14', '', 1, 'Dave', '2025-08-06 00:00:00', '2025-08-10 12:00:00', 193, NULL, NULL, 198, NULL);
 
 -- --------------------------------------------------------
 
@@ -5657,7 +5664,7 @@ ALTER TABLE `lookup_list_items`
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -5693,7 +5700,7 @@ ALTER TABLE `module_calendar`
 -- AUTO_INCREMENT for table `module_calendar_events`
 --
 ALTER TABLE `module_calendar_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_external_accounts`
