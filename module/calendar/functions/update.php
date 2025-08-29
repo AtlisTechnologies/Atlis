@@ -14,14 +14,14 @@ $end_time = $_POST['end_time'] ?? null;
 $link_module = $_POST['link_module'] ?? null;
 $link_record_id = $_POST['link_record_id'] ?? null;
 $calendar_id = (int)($_POST['calendar_id'] ?? 0);
-$event_type_id = isset($_POST['event_type_id']) && $_POST['event_type_id'] !== '' ? (int)$_POST['event_type_id'] : null;
+$location = trim($_POST['location'] ?? '');
+$event_type_id = isset($_POST['event_type_id']) && $_POST['event_type_id'] !== '' && $_POST['event_type_id'] !== 'Select type' ? (int)$_POST['event_type_id'] : null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 if (!in_array($visibility_id, [198, 199], true)) {
   http_response_code(400);
   echo json_encode(['error' => 'Invalid visibility_id']);
   exit;
 }
-$is_private   = $visibility_id === 199 ? 1 : 0;
 $attendees = $_POST['attendees'] ?? [];
 $attended = $_POST['attended'] ?? [];
 
@@ -50,7 +50,7 @@ if ($id && $title && $start_time && $calendar_id) {
     exit;
   }
 
-  $calendarChk = $pdo->prepare('SELECT user_id, is_private FROM module_calendar WHERE id = ?');
+  $calendarChk = $pdo->prepare('SELECT user_id FROM module_calendar WHERE id = ?');
   $calendarChk->execute([$calendar_id]);
   $calendar = $calendarChk->fetch(PDO::FETCH_ASSOC);
   if (!$calendar) {
@@ -63,12 +63,7 @@ if ($id && $title && $start_time && $calendar_id) {
     http_response_code(403);
     exit;
   }
-  if ($calendar['is_private'] && $calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
-    http_response_code(403);
-    exit;
-  }
-  if ($existing['visibility_id'] == 199 && $existing['user_id'] != $this_user_id && !user_has_role('Admin')) {
-    // Prevent non-owners from editing private events unless they are Admins.
+  if ($calendar['user_id'] != $this_user_id && !user_has_role('Admin')) {
     http_response_code(403);
     exit;
   }
@@ -78,6 +73,7 @@ if ($id && $title && $start_time && $calendar_id) {
     'calendar_id = :calendar_id',
     'title = :title',
     'memo = :memo',
+    'location = :location',
     'start_time = :start_time',
     'end_time = :end_time',
     'link_module = :link_module',
@@ -90,6 +86,7 @@ if ($id && $title && $start_time && $calendar_id) {
     ':calendar_id' => $calendar_id,
     ':title' => $title,
     ':memo' => $memo,
+    ':location' => $location,
     ':start_time' => $start_time,
     ':end_time' => $end_time,
     ':link_module' => $link_module,
@@ -130,12 +127,11 @@ if ($id && $title && $start_time && $calendar_id) {
       'id' => $id,
       'calendar_id' => $calendar_id,
       'title' => $title,
-      'description' => $memo,
-      'start' => $start_time,
-      'end' => $end_time,
+      'start_time' => $start_time,
+      'end_time' => $end_time,
+      'location' => $location,
       'event_type_id' => $event_type_id !== null ? $event_type_id : ($existing['event_type_id'] ?? null),
-      'visibility_id' => $visibility_id,
-      'is_private' => $is_private
+      'visibility_id' => $visibility_id
     ]);
     exit;
   } catch (Exception $e) {

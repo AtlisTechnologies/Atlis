@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addEventModalEl = document.getElementById('addEventModal');
     const addEventButton = document.getElementById('addEventButton');
     const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
+    const deleteUrl = '<?php echo getURLDir(); ?>module/calendar/functions/delete.php';
     const feedUrlBase = '<?php echo getURLDir(); ?>module/calendar/functions/ics_feed.php';
     const calendarSpinner = document.getElementById('calendarSpinner');
     const calendarsData = <?php echo json_encode($calendars); ?>;
@@ -372,20 +373,19 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     eventClick: function(info) {
       if (!detailModalEl) return;
-      const relatedModule = info.event.extendedProps.related_module || info.event.extendedProps.link_module;
-      const relatedId = info.event.extendedProps.related_id || info.event.extendedProps.link_record_id;
-      const link = (relatedModule && relatedId) ? `/module/${relatedModule}/index.php?action=view&id=${relatedId}` : '';
       const eventOwnerId = parseInt(info.event.extendedProps.user_id, 10);
       const calOwnerId = parseInt(info.event.extendedProps.calendar_user_id, 10);
-      const displayOwner = eventOwnerId || calOwnerId || '';
       const canEdit = (eventOwnerId === currentUserId) || (calOwnerId === currentUserId) || isAdmin;
-      const footer = canEdit ? `<div class="modal-footer d-flex justify-content-end border-0"><button class="btn btn-primary px-4" type="button" id="detailEditBtn">Edit</button></div>` : '';
+      const description = info.event.extendedProps.description || info.event.extendedProps.memo || '';
+      const location = info.event.extendedProps.location || '';
+      const footer = canEdit ? `<div class="modal-footer d-flex justify-content-end border-0"><button class="btn btn-warning btn-sm me-2" id="detailEdit"><span class="fas fa-pen me-1"></span>Edit</button><button class="btn btn-danger btn-sm" id="detailDelete"><span class="fas fa-trash me-1"></span>Delete</button></div>` : '';
       const body = `
         <div class="modal-header ps-card border-bottom border-translucent justify-content-between">
-          <div><h4 class="modal-title text-body-highlight mb-0">${info.event.title || ''}</h4></div>
+          <h4 class="modal-title text-body-highlight mb-0">${info.event.title || ''}</h4>
           <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close"><span class='fas fa-times fs-8'></span></button>
         </div>
         <div class="modal-body px-card pt-4 pb-0">
+          ${description ? `<div class="d-flex mb-5"><span class="fa-solid fa-align-left me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${description}</p></div>` : ''}
           <div class="mb-5 d-flex">
             <span class="fa-solid fa-calendar me-2 fs-10 text-body-tertiary mt-1"></span>
             <div>
@@ -393,28 +393,52 @@ document.addEventListener('DOMContentLoaded', function() {
               ${info.event.end ? `<p class="text-body-tertiary lh-sm mb-0">${dayjs(info.event.end).format('ddd, MMM D, YYYY h:mm A')}</p>` : ''}
             </div>
           </div>
-          ${eventTypeMap[info.event.extendedProps.event_type_id] ? `<div class="mb-5 d-flex"><span class="fa-solid fa-tag me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${eventTypeMap[info.event.extendedProps.event_type_id]}</p></div>` : ''}
-          ${(info.event.extendedProps.description || info.event.extendedProps.memo) ? `<div class="d-flex mb-5"><span class="fa-solid fa-align-left me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${info.event.extendedProps.description || info.event.extendedProps.memo}</p></div>` : ''}
-          ${relatedModule ? `<div class="d-flex mb-5"><span class="fa-solid fa-link me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${relatedModule}${relatedId ? ' #' + relatedId : ''}</p></div>` : ''}
-          ${displayOwner ? `<div class="d-flex mb-5"><span class="fa-solid fa-user me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${displayOwner}</p></div>` : ''}
-          ${link ? `<div class="d-flex mb-3"><span class="fa-solid fa-arrow-right me-2 fs-10 text-body-tertiary mt-1"></span><a class="lh-sm" href="${link}" target="_blank">View Record</a></div>` : ''}
+          ${location ? `<div class="mb-5 d-flex"><span class="fa-solid fa-location-dot me-2 fs-10 text-body-tertiary mt-1"></span><p class="text-body-highlight lh-sm mb-0">${location}</p></div>` : ''}
         </div>
         ${footer}`;
       detailModalEl.querySelector('.modal-content').innerHTML = body;
       const modal = bootstrap.Modal.getOrCreateInstance(detailModalEl);
       modal.show();
       if (canEdit) {
-        detailModalEl.querySelector('#detailEditBtn').addEventListener('click', function() {
-          const form = document.getElementById('editEventForm');
-          form.id.value = info.event.id;
-          form.title.value = info.event.title;
-          form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
-          form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
-          form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
-          selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
-          modal.hide();
-          bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
-        });
+        const editBtn = detailModalEl.querySelector('#detailEdit');
+        if (editBtn) {
+          editBtn.addEventListener('click', function() {
+            const form = document.getElementById('editEventForm');
+            form.id.value = info.event.id;
+            form.title.value = info.event.title;
+            form.start_time.value = dayjs(info.event.start).format('YYYY-MM-DD HH:mm');
+            form.end_time.value = info.event.end ? dayjs(info.event.end).format('YYYY-MM-DD HH:mm') : '';
+            form.event_type_id.value = info.event.extendedProps.event_type_id || defaultEventTypeId || '';
+            selectCalendarRadio(form, info.event.extendedProps.calendar_id || getCalendarId());
+            modal.hide();
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('editEventModal')).show();
+          });
+        }
+        const deleteBtn = detailModalEl.querySelector('#detailDelete');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', function() {
+            if (!confirm('Delete this event?')) return;
+            const fd = new FormData();
+            fd.append('id', info.event.id);
+            fetch(deleteUrl, {
+              method: 'POST',
+              body: fd
+            })
+            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(data => {
+              if (data.success) {
+                modal.hide();
+                calendar.refetchEvents();
+              } else {
+                showToast(data.error || 'Failed to delete event.', 'danger');
+              }
+            })
+            .catch(err => {
+              console.error('Failed to delete event', err);
+              showToast('Failed to delete event: ' + err.message, 'danger');
+            });
+          });
+        }
       }
     },
     dateClick: function(info) {

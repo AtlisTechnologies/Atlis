@@ -43,7 +43,6 @@ try {
     }
 
     $sql = "SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.location, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id, COALESCE(color_attr.attr_value, 'secondary') AS color_class, COALESCE(icon_attr.attr_value, '') AS icon_class FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id LEFT JOIN lookup_list_item_attributes color_attr ON e.event_type_id = color_attr.item_id AND color_attr.attr_code = 'COLOR-CLASS' LEFT JOIN lookup_list_item_attributes icon_attr ON e.event_type_id = icon_attr.item_id AND icon_attr.attr_code = 'ICON-CLASS'";
-
     $where = [];
     $params = [];
 
