@@ -3,6 +3,15 @@ if (!isset($pdo)) {
   require '../includes/php_header.php';
 }
 header('Content-Type: application/json');
+
+if (!user_has_permission('calendar', 'read')) {
+  audit_log($pdo, $this_user_id ?? 0, 'module_calendar_events', 0, 'READ', 'Unauthorized calendar list access');
+  http_response_code(403);
+  echo json_encode(['error' => 'Forbidden']);
+  exit;
+}
+
+require_permission('calendar','read');
 try {
   $scope = $_GET['scope'] ?? 'shared';
 
