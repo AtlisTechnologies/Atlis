@@ -27,6 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $errors = [];
+
+  if ($calendar_event_id) {
+    $ceStmt = $pdo->prepare('SELECT e.user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id WHERE e.id = ?');
+    $ceStmt->execute([$calendar_event_id]);
+    $ownerId = $ceStmt->fetchColumn();
+    if (!$ownerId || (!user_has_role('Admin') && (int)$ownerId !== $this_user_id)) {
+      $errors[] = 'Invalid calendar event';
+      $calendar_event_id = null;
+    }
+  }
+
   if ($title === '') {
     $errors[] = 'Title is required';
   }
