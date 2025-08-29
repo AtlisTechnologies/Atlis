@@ -14,7 +14,18 @@
 <div class="row">
   <div class="col-xl-8">
     <form class="row g-3 mb-6" method="post" action="index.php?action=save-settings">
-      <h5 class="mb-3">Defaults</h5>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <select class="form-select" id="userTimezone" name="timezone_id">
+            <option value="">Select timezone</option>
+            <?php foreach ($timezoneItems as $item): ?>
+              <option value="<?= $item['id']; ?>" <?= ($userTimezoneId ?? '') == $item['id'] ? 'selected' : ''; ?>><?= h($item['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label for="userTimezone">Timezone</label>
+        </div>
+      </div>
+      <h5 class="mb-3 mt-3">Defaults</h5>
       <div class="col-12">
         <h6 class="mb-2">Projects</h6>
       </div>

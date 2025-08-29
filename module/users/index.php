@@ -41,6 +41,7 @@ if ($action === 'save-settings' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($action === 'settings') {
+  $timezoneItems       = get_lookup_items($pdo, 'TIMEZONE');
   $projectStatusItems   = get_lookup_items($pdo, 'PROJECT_STATUS');
   $projectPriorityItems = get_lookup_items($pdo, 'PROJECT_PRIORITY');
   $projectTypeItems     = get_lookup_items($pdo, 'PROJECT_TYPE');
@@ -61,6 +62,10 @@ if ($action === 'settings') {
     'CALENDAR_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_DEFAULT'),
     'CALENDAR_EVENT_TYPE_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_EVENT_TYPE_DEFAULT'),
   ];
+
+  $tzStmt = $pdo->prepare('SELECT timezone_id FROM users WHERE id = :uid');
+  $tzStmt->execute([':uid' => $this_user_id]);
+  $userTimezoneId = $tzStmt->fetchColumn();
 
   require '../../includes/html_header.php';
   ?>
