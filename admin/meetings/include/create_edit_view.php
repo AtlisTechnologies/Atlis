@@ -341,7 +341,9 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     attendeeSelect.addEventListener('addItem', syncHiddenAttendees);
-    attendeeSelect.addEventListener('removeItem', syncHiddenAttendees);
+    attendeeSelect.addEventListener('removeItem', function(){
+      setTimeout(syncHiddenAttendees,0);
+    });
   }
 
   function addQuestion(data){
@@ -394,8 +396,8 @@ document.addEventListener('DOMContentLoaded', function(){
               customProperties:{ user_id: a.attendee_user_id || a.user_id || '' }
             };
           }), 'value', 'label', false);
-          syncHiddenAttendees();
         }
+        syncHiddenAttendees();
       });
   }
 });
