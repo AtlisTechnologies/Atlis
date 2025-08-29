@@ -42,7 +42,7 @@ try {
         }
     }
 
-    $sql = 'SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id';
+    $sql = 'SELECT e.id, e.calendar_id, e.title, e.memo, e.start_time, e.end_time, e.location, e.link_module, e.link_record_id, e.user_id, e.event_type_id, e.visibility_id, c.user_id AS calendar_user_id, l.color_class, l.icon_class FROM module_calendar_events e JOIN module_calendar c ON e.calendar_id = c.id LEFT JOIN lookup_list_items l ON e.event_type_id = l.id';
 
     $where = [];
     $params = [];
@@ -90,9 +90,12 @@ try {
             'description' => $row['memo'],
             'start' => $row['start_time'],
             'end' => $row['end_time'],
+            'location' => $row['location'],
             'related_module' => $row['link_module'],
             'related_id' => $row['link_record_id'],
             'event_type_id' => $row['event_type_id'] !== null ? (int)$row['event_type_id'] : null,
+            'color_class' => $row['color_class'],
+            'icon_class' => $row['icon_class'],
             'visibility_id' => $visibility,
             'user_id' => (int)$row['user_id'],
             'calendar_user_id' => (int)$row['calendar_user_id'],
