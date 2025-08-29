@@ -15,7 +15,7 @@ file_put_contents($base . '/includes/php_header.php', <<<'PHP'
 $pdo = new PDO('sqlite::memory:');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->exec('CREATE TABLE module_calendar (id INTEGER PRIMARY KEY, user_id INT, is_private TINYINT);');
-$pdo->exec('CREATE TABLE module_calendar_events (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INT, calendar_id INT, title TEXT, start_time TEXT, end_time TEXT, event_type_id INT, link_module TEXT, link_record_id INT, visibility_id INT);');
+$pdo->exec('CREATE TABLE module_calendar_events (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INT, calendar_id INT, title TEXT, location TEXT, start_time TEXT, end_time TEXT, event_type_id INT, link_module TEXT, link_record_id INT, visibility_id INT);');
 $pdo->exec("INSERT INTO module_calendar (id, user_id, is_private) VALUES (1,1,1);");
 $this_user_id = 2; // Simulate a different user
 function require_permission($m,$a){}
