@@ -11,13 +11,37 @@ if (!verify_csrf_token($token)) {
 }
 
 $q = trim($_GET['q'] ?? '');
-if ($q === '') {
-    echo json_encode([]);
-    exit;
+$meeting_id = (int)($_GET['meeting_id'] ?? 0);
+
+$sql = 'SELECT p.id, COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name, p.user_id
+        FROM person p
+        LEFT JOIN users u ON p.user_id = u.id';
+
+$conditions = [];
+$params = [];
+
+if ($meeting_id) {
+    $conditions[] = 'p.id NOT IN (
+        SELECT attendee_person_id
+        FROM module_meeting_attendees
+        WHERE meeting_id = :mid AND attendee_person_id IS NOT NULL
+    )';
+    $params[':mid'] = $meeting_id;
 }
 
-$stmt = $pdo->prepare('SELECT p.id, COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) AS name, p.user_id FROM person p LEFT JOIN users u ON p.user_id = u.id WHERE COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) LIKE :q ORDER BY name LIMIT 10');
-$stmt->execute([':q' => "%" . $q . "%"]);
+if ($q !== '') {
+    $conditions[] = 'COALESCE(CONCAT(p.first_name, " ", p.last_name), u.email) LIKE :q';
+    $params[':q'] = "%$q%";
+}
+
+if ($conditions) {
+    $sql .= ' WHERE ' . implode(' AND ', $conditions);
+}
+
+$sql .= ' ORDER BY name LIMIT 10';
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 
 echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 
