@@ -8,6 +8,13 @@ if (!isset($this_user_id)) {
   exit;
 }
 
+$timezoneId = $_POST['timezone_id'] ?? null;
+$stmt = $pdo->prepare('UPDATE users SET timezone_id = :tz, user_updated = :uid WHERE id = :uid');
+$stmt->execute([
+  ':tz' => $timezoneId === '' ? null : (int)$timezoneId,
+  ':uid' => $this_user_id,
+]);
+
 $fields = [
   'project_status' => 'PROJECT_STATUS',
   'project_priority' => 'PROJECT_PRIORITY',
