@@ -83,25 +83,11 @@ $_SESSION['csrf_token'] = $token;
     <div class="col-lg-6">
       <div class="card mb-3">
         <div class="card-header"><span id="attendeesHeader">Attendees</span></div>
-        <div class="card-body p-0">
-          <?php if (user_has_permission('meeting','update')): ?>
-          <form id="attendeeForm" class="row g-2 align-items-end p-3 border-bottom">
-            <input type="hidden" name="meeting_id" value="<?php echo (int)$meeting['id']; ?>">
-            <div class="col-md-6">
-              <div class="form-floating">
-                <select id="attendeeSelect" name="attendee_person_id[]" class="form-select" multiple data-placeholder="Select attendee"></select>
-              </div>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-sm btn-primary mt-2">Add</button>
-            </div>
-          </form>
-          <?php endif; ?>
-          <ul class="list-group list-group-flush" id="attendeesList">
-            <li class="list-group-item text-center" id="attendeesSpinner">
-              <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
-            </li>
-          </ul>
+        <div class="card-body">
+          <div class="form-floating">
+            <select id="attendeeSelect" class="form-select" multiple data-placeholder="Select attendee" <?php echo user_has_permission('meeting','update') ? '' : 'disabled'; ?>></select>
+            <label for="attendeeSelect">Attendees</label>
+          </div>
         </div>
       </div>
       <div class="card mb-3">
@@ -316,12 +302,14 @@ document.addEventListener('DOMContentLoaded', function(){
   var questionStatusMap = <?php echo json_encode($questionStatusMap); ?>;
   var agendaMap = {};
   var questionsData = [];
-  var attendeesData = [];
   var agendaList = document.getElementById('agendaList');
   var agendaHeader = document.getElementById('agendaHeader');
   var questionsHeader = document.getElementById('questionsHeader');
   var attendeesHeader = document.getElementById('attendeesHeader');
   var attachmentsHeader = document.getElementById('attachmentsHeader');
+  var attendeeSelect = document.getElementById('attendeeSelect');
+  var attendeeChoices = null;
+  var initializingAttendees = true;
   new Sortable(agendaList, {handle: '.drag-handle', animation:150, onEnd: updateOrder});
 
   function showToast(message, type = 'danger'){
@@ -415,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if(item.linked_project_id){ meta.push('<a href="'+baseUrl+'module/project/index.php?id='+item.linked_project_id+'">Project '+esc(String(item.linked_project_id))+'</a>'); }
         if(meta.length){ left += ' <small class="text-body-secondary">'+meta.join(' ')+'</small>'; }
         left += '</span>';
-        var buttons = canEdit ? '<div class="btn-group btn-group-sm"><button class="btn btn-warning edit-agenda-item">Edit</button><button class="btn btn-danger delete-agenda-item">Delete</button></div>' : '';
+        var buttons = canEdit ? '<span class="fa-solid fa-pen text-warning edit-agenda-item" role="button"></span><span class="fa-solid fa-trash text-danger ms-2 delete-agenda-item" role="button"></span>' : '';
         li.innerHTML = left + buttons
           + '<input type="hidden" name="agenda_title[]" value="'+esc(item.title)+'">'
           + '<input type="hidden" name="agenda_status_id[]" value="'+esc(String(item.status_id || ''))+'">'
@@ -672,7 +660,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
   }
 
-  var attendeesList = document.getElementById('attendeesList');
   var attachmentsList = document.getElementById('attachmentsList');
   var uploadForm = document.getElementById('uploadForm');
 
@@ -734,44 +721,26 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  function renderAttendees(attendees){
-    attendeesData = attendees;
-    attendeesList.innerHTML = '';
-    if(attendees.length){
-      attendees.forEach(function(a){
-        var li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-center';
-        var personId = a.attendee_person_id || a.person_id;
-        li.dataset.personId = personId;
-        if(a.attendee_user_id || a.user_id){
-          li.dataset.userId = a.attendee_user_id || a.user_id;
-        }
-        var info = '<span>' + esc(a.name) + '</span>';
-        if (canEditAttendees){
-          info += '<button class="btn btn-sm btn-danger ms-2 remove-attendee" data-person-id="' + personId + '">Remove</button>';
-        }
-        li.innerHTML = info;
-        attendeesList.appendChild(li);
-      });
-    } else {
-      attendeesList.innerHTML = '<li class="list-group-item">No attendees.</li>';
+  function updateAttendeeHeader(){
+    if(attendeesHeader && attendeeChoices){
+      attendeesHeader.textContent = 'Attendees (' + attendeeChoices.getValue().length + ')';
     }
-    if(attendeesHeader){ attendeesHeader.textContent = 'Attendees (' + attendees.length + ')'; }
   }
 
   async function fetchAttendees(){
+    if(!attendeeChoices) return;
     try{
       var data = await fetchJson('functions/get_attendees.php?meeting_id=' + meetingId + '&csrf_token=' + csrfToken);
       if(data.success){
-        renderAttendees(data.attendees);
+        var options = data.attendees.map(function(a){ return {value: a.attendee_person_id || a.person_id, label: a.name, selected: true}; });
+        attendeeChoices.setChoices(options, 'value', 'label', true);
       }
     } catch(err){
       console.error(err);
       showToast('Failed to load attendees');
-    } finally {
-      var sp = document.getElementById('attendeesSpinner');
-      if(sp) sp.remove();
     }
+    initializingAttendees = false;
+    updateAttendeeHeader();
   }
 
   function renderAttachments(files){
@@ -809,78 +778,63 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  if(canEditAttendees){
-    var attendeeForm = document.getElementById('attendeeForm');
-    var attendeeSelect = document.getElementById('attendeeSelect');
-    var attendeeChoices = null;
-
-    if(attendeeSelect){
-      attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, shouldSort:false, placeholder:true, placeholderValue:'Select attendee', searchPlaceholderValue:'', removeItemButton:true});
-      attendeeSelect.addEventListener('search', async function(e){
-        var q = (e.detail.value || '').trim();
-        if(q.length < 2){ return; }
-        try{
-          var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
-          var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
-          attendeeChoices.setChoices(opts, 'value', 'label', true);
-        } catch(err){
-          console.error(err);
-          showToast('Error searching people');
-        }
-      });
+  if(attendeeSelect){
+    if(!canEditAttendees){
+      attendeeSelect.setAttribute('disabled','');
     }
-
-    attendeeForm.addEventListener('submit', async function(e){
-      e.preventDefault();
-      var selected = attendeeChoices ? attendeeChoices.getValue(true) : Array.from(attendeeSelect.selectedOptions).map(function(o){return o.value;});
-      if(!selected.length){
-        showToast('Please select a person', 'warning');
-        return;
-      }
+    attendeeChoices = new Choices(attendeeSelect, {searchEnabled:true, removeItemButton:true, shouldSort:false});
+    attendeeSelect.addEventListener('search', async function(e){
+      var q = (e.detail.value || '').trim();
+      if(q.length < 2){ return; }
       try{
-        for(const pid of selected){
-          var fd = new FormData();
-          fd.append('meeting_id', meetingId);
-          fd.append('attendee_person_id', pid);
-          fd.append('csrf_token', csrfToken);
-          var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:fd});
-          if(res.success){
-            renderAttendees(res.attendees || []);
-            showToast('Attendee added', 'success');
-          } else {
-            showToast(res.message || 'Failed to add attendee');
-          }
+        var people = await fetchJson('functions/search_people.php?q=' + encodeURIComponent(q) + '&csrf_token=' + csrfToken);
+        var opts = people.map(function(p){ return {value:p.id, label:p.name, customProperties:{ user_id: p.user_id || '' }}; });
+        attendeeChoices.setChoices(opts, 'value', 'label', true);
+      } catch(err){
+        console.error(err);
+        showToast('Error searching people');
+      }
+    });
+
+    attendeeSelect.addEventListener('addItem', async function(e){
+      if(initializingAttendees || !canEditAttendees) return;
+      var fd = new FormData();
+      fd.append('meeting_id', meetingId);
+      fd.append('attendee_person_id', e.detail.value);
+      fd.append('csrf_token', csrfToken);
+      try{
+        var res = await fetchJson('functions/add_attendee.php', {method:'POST', body:fd});
+        if(res.success){
+          showToast('Attendee added', 'success');
+        } else {
+          showToast(res.message || 'Failed to add attendee');
         }
-        attendeeForm.reset();
-        if(attendeeChoices){ attendeeChoices.removeActiveItems(); }
       } catch(err){
         console.error(err);
         showToast('Failed to add attendee');
       }
+      updateAttendeeHeader();
     });
 
-    attendeesList.addEventListener('click', async function(e){
-      if(e.target.classList.contains('remove-attendee')){
-        var pid = e.target.getAttribute('data-person-id');
-        var formData = new FormData();
-        formData.append('attendee_person_id', pid);
-        formData.append('meeting_id', meetingId);
-        formData.append('csrf_token', csrfToken);
-        try{
-          var res = await fetchJson('functions/remove_attendee.php', {method:'POST', body:formData});
-          if(res.success){
-            renderAttendees(res.attendees || []);
-            showToast('Attendee removed', 'success');
-          } else {
-            showToast(res.message || 'Failed to remove attendee');
-          }
-        } catch(err){
-          console.error(err);
-          showToast('Failed to remove attendee');
+    attendeeSelect.addEventListener('removeItem', async function(e){
+      if(initializingAttendees || !canEditAttendees) return;
+      var fd = new FormData();
+      fd.append('meeting_id', meetingId);
+      fd.append('attendee_person_id', e.detail.value);
+      fd.append('csrf_token', csrfToken);
+      try{
+        var res = await fetchJson('functions/remove_attendee.php', {method:'POST', body:fd});
+        if(res.success){
+          showToast('Attendee removed', 'success');
+        } else {
+          showToast(res.message || 'Failed to remove attendee');
         }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to remove attendee');
       }
+      updateAttendeeHeader();
     });
-
   }
 
   document.getElementById('projectForm').addEventListener('submit', async function(e){
