@@ -18,6 +18,9 @@ $location = trim($_POST['location'] ?? '');
 $event_type_id = isset($_POST['event_type_id']) && $_POST['event_type_id'] !== '' && $_POST['event_type_id'] !== 'Select type' ? (int)$_POST['event_type_id'] : null;
 $visibility_id = (int)($_POST['visibility_id'] ?? 198);
 $timezone_id = isset($_POST['timezone_id']) && $_POST['timezone_id'] !== '' ? (int)$_POST['timezone_id'] : null;
+if ($timezone_id === null) {
+  $timezone_id = get_user_default_lookup_item($pdo, $this_user_id, 'TIMEZONE');
+}
 if (!in_array($visibility_id, [198, 199], true)) {
   http_response_code(400);
   echo json_encode(['error' => 'Invalid visibility_id']);

@@ -306,6 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('appCalendar');
     const addEventForm = document.getElementById('addEventForm');
     const addEventModalEl = document.getElementById('addEventModal');
+    const editEventModalEl = document.getElementById('editEventModal');
     const addEventButton = document.getElementById('addEventButton');
     const listUrl = '<?php echo getURLDir(); ?>module/calendar/functions/list.php';
     const deleteUrl = '<?php echo getURLDir(); ?>module/calendar/functions/delete.php';
@@ -327,6 +328,24 @@ document.addEventListener('DOMContentLoaded', function() {
       eventStartInput.addEventListener('change', function() {
         if (this.value) {
           eventEndInput.value = dayjs(this.value).add(1, 'hour').format('YYYY-MM-DD HH:mm');
+        }
+      });
+    }
+
+    if (addEventModalEl) {
+      addEventModalEl.addEventListener('show.bs.modal', function () {
+        const tz = addEventModalEl.querySelector('select[name="timezone_id"]');
+        if (tz && !tz.value) {
+          tz.value = userTimezoneId;
+        }
+      });
+    }
+
+    if (editEventModalEl) {
+      editEventModalEl.addEventListener('show.bs.modal', function () {
+        const tz = editEventModalEl.querySelector('select[name="timezone_id"]');
+        if (tz && !tz.value) {
+          tz.value = userTimezoneId;
         }
       });
     }
