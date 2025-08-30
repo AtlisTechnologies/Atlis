@@ -1,0 +1,67 @@
+CREATE TABLE `module_assets` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `memo` TEXT DEFAULT NULL,
+  `asset_tag` VARCHAR(50) NOT NULL,
+  `type_id` INT(11) NOT NULL,
+  `status_id` INT(11) DEFAULT NULL,
+  `model` VARCHAR(100) DEFAULT NULL,
+  `serial` VARCHAR(100) DEFAULT NULL,
+  `purchase_date` DATE DEFAULT NULL,
+  `warranty_expiration` DATE DEFAULT NULL,
+  `compliance_flags` VARCHAR(255) DEFAULT NULL,
+  `assignee_id` INT(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `module_asset_tags` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `asset_id` INT(11) NOT NULL,
+  `tag` VARCHAR(100) NOT NULL,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `module_asset_files` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `asset_id` INT(11) NOT NULL,
+  `file_path` VARCHAR(255) NOT NULL,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `module_asset_events` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `asset_id` INT(11) NOT NULL,
+  `event_type` VARCHAR(50) NOT NULL,
+  `memo` TEXT DEFAULT NULL,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `module_asset_assignments` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `asset_id` INT(11) NOT NULL,
+  `contractor_id` INT(11) NOT NULL,
+  `assigned_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `returned_date` DATETIME DEFAULT NULL,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `module_asset_tag_seq` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `type_id` INT(11) NOT NULL,
+  `year` INT(4) NOT NULL,
+  `seq` INT(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
