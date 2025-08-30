@@ -13,6 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['delete_organization_id'])) {
     require_permission('organization','delete');
     $id = (int)$_POST['delete_organization_id'];
+    $pathStmt = $pdo->prepare('SELECT file_path FROM module_organization WHERE id = :id');
+    $pathStmt->execute([':id' => $id]);
+    $filePath = $pathStmt->fetchColumn();
+    $subdir = 'organization';
+    if ($filePath) {
+      $fullPath = dirname(__DIR__,2)."/module/agency/uploads/$subdir/$filePath";
+      if (is_file($fullPath)) {
+        unlink($fullPath);
+        admin_audit_log($pdo, $this_user_id, 'module_organization', $id, 'DELETE', '', json_encode(['file' => $filePath]));
+      }
+    }
     $stmt = $pdo->prepare('DELETE FROM module_organization WHERE id = :id');
     $stmt->execute([':id' => $id]);
     audit_log($pdo, $this_user_id, 'module_organization', $id, 'DELETE', 'Deleted organization');
@@ -20,6 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } elseif (isset($_POST['delete_agency_id'])) {
     require_permission('agency','delete');
     $id = (int)$_POST['delete_agency_id'];
+    $pathStmt = $pdo->prepare('SELECT file_path FROM module_agency WHERE id = :id');
+    $pathStmt->execute([':id' => $id]);
+    $filePath = $pathStmt->fetchColumn();
+    $subdir = 'agency';
+    if ($filePath) {
+      $fullPath = dirname(__DIR__,2)."/module/agency/uploads/$subdir/$filePath";
+      if (is_file($fullPath)) {
+        unlink($fullPath);
+        admin_audit_log($pdo, $this_user_id, 'module_agency', $id, 'DELETE', '', json_encode(['file' => $filePath]));
+      }
+    }
     $stmt = $pdo->prepare('DELETE FROM module_agency WHERE id = :id');
     $stmt->execute([':id' => $id]);
     audit_log($pdo, $this_user_id, 'module_agency', $id, 'DELETE', 'Deleted agency');
@@ -27,6 +49,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } elseif (isset($_POST['delete_division_id'])) {
     require_permission('division','delete');
     $id = (int)$_POST['delete_division_id'];
+    $pathStmt = $pdo->prepare('SELECT file_path FROM module_division WHERE id = :id');
+    $pathStmt->execute([':id' => $id]);
+    $filePath = $pathStmt->fetchColumn();
+    $subdir = 'division';
+    if ($filePath) {
+      $fullPath = dirname(__DIR__,2)."/module/agency/uploads/$subdir/$filePath";
+      if (is_file($fullPath)) {
+        unlink($fullPath);
+        admin_audit_log($pdo, $this_user_id, 'module_division', $id, 'DELETE', '', json_encode(['file' => $filePath]));
+      }
+    }
     $stmt = $pdo->prepare('DELETE FROM module_division WHERE id = :id');
     $stmt->execute([':id' => $id]);
     audit_log($pdo, $this_user_id, 'module_division', $id, 'DELETE', 'Deleted division');
