@@ -34,6 +34,11 @@
           <a class="meeting-title fw-bold" href="index.php?action=details&id=<?= (int)$m['id'] ?>"><?= h($m['title'] ?? '') ?></a>
         </div>
         <div class="col-auto text-body-tertiary start-time"><?= !empty($m['start_time']) ? h(date('d M, Y g:i A', strtotime($m['start_time']))) : '' ?></div>
+        <?php if (user_has_permission('meeting','delete')): ?>
+        <div class="col-auto ms-2">
+          <button class="btn btn-sm btn-danger delete-meeting" data-id="<?= (int)$m['id'] ?>" data-token="<?= h($token) ?>">Delete</button>
+        </div>
+        <?php endif; ?>
       </div>
     <?php endforeach; ?>
     <?php if (empty($meetings)): ?>
@@ -65,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function(){
   var originalListHTML = listContainer ? listContainer.innerHTML : '';
   var countSpan = document.getElementById('meetingCount');
   var originalCount = countSpan ? countSpan.textContent : '';
+  var canDelete = <?php echo user_has_permission('meeting','delete') ? 'true' : 'false'; ?>;
+  var csrfToken = '<?= h($token); ?>';
   if(searchInput){
     searchInput.addEventListener('input', function(){
       clearTimeout(searchTimeout);
@@ -88,11 +95,12 @@ document.addEventListener('DOMContentLoaded', function(){
               if(countSpan){ countSpan.textContent = res.count || 0; }
               if(res.meetings && res.meetings.length){
                 res.meetings.forEach(function(m){
-                  var row = `<div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="${m.id}">`+
+              var del = canDelete ? `<div class="col-auto ms-2"><button class="btn btn-sm btn-danger delete-meeting" data-id="${m.id}" data-token="${csrfToken}">Delete</button></div>` : '';
+              var row = `<div class="row align-items-center border-top py-3 gx-0 meeting-row" data-id="${m.id}">`+
                             `<div class="col"><a class="meeting-title fw-bold" href="index.php?action=details&id=${m.id}">${m.title}</a></div>`+
-                            `<div class="col-auto text-body-tertiary start-time">${m.start_time || ''}</div></div>`;
+                            `<div class="col-auto text-body-tertiary start-time">${m.start_time || ''}</div>`+del+`</div>`;
                   listContainer.insertAdjacentHTML('beforeend', row);
-                });
+              });
               } else {
                 listContainer.innerHTML = '<p class="fs-9 text-body-secondary mb-0">No meetings found.</p>';
               }
@@ -102,6 +110,30 @@ document.addEventListener('DOMContentLoaded', function(){
       },300);
     });
   }
+
+  listContainer.addEventListener('click', function(e){
+    var btn = e.target.closest('.delete-meeting');
+    if(btn){
+      if(!confirm('Delete this meeting?')) return;
+      var id = btn.dataset.id;
+      var token = btn.dataset.token;
+      var params = new URLSearchParams();
+      params.append('id', id);
+      params.append('csrf_token', token);
+      fetch('functions/delete.php', {method:'POST', body: params})
+        .then(function(r){ return r.json(); })
+        .then(function(res){
+          if(res.success){
+            var row = btn.closest('.meeting-row');
+            if(row){ row.remove(); }
+            if(countSpan){ countSpan.textContent = document.querySelectorAll('.meeting-row').length; }
+          } else {
+            showToast(res.message || 'Delete failed','danger');
+          }
+        })
+        .catch(function(){ showToast('Delete failed','danger'); });
+    }
+  });
 
   var form = document.getElementById('meetingQuickAdd');
   if(form){
