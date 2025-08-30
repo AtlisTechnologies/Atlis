@@ -33,13 +33,29 @@ $persons = $personStmt->fetchAll(PDO::FETCH_ASSOC);
 $contractorStmt = $pdo->query('SELECT mc.id, CONCAT(p.first_name, " ", p.last_name) AS name FROM module_contractors mc JOIN person p ON mc.person_id = p.id ORDER BY p.first_name, p.last_name');
 $contractors = $contractorStmt->fetchAll(PDO::FETCH_ASSOC);
 
+if ($editing) {
+    $fileStmt = $pdo->prepare('SELECT id, file_name, file_path FROM admin_minder_notes_files WHERE note_id = :id');
+    $fileStmt->execute([':id' => $id]);
+    $files = $fileStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $lpStmt = $pdo->prepare('SELECT np.id, CONCAT(p.first_name, " ", p.last_name) AS name FROM admin_minder_notes_persons np JOIN person p ON np.person_id = p.id WHERE np.note_id = :id ORDER BY p.first_name, p.last_name');
+    $lpStmt->execute([':id' => $id]);
+    $linkedPersons = $lpStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $lcStmt = $pdo->prepare('SELECT nc.id, CONCAT(p.first_name, " ", p.last_name) AS name FROM admin_minder_notes_contractors nc JOIN module_contractors mc ON nc.contractor_id = mc.id JOIN person p ON mc.person_id = p.id WHERE nc.note_id = :id ORDER BY p.first_name, p.last_name');
+    $lcStmt->execute([':id' => $id]);
+    $linkedContractors = $lcStmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $files = $linkedPersons = $linkedContractors = [];
+}
+
 $token = generate_csrf_token();
 ?>
 <h2 class="mb-4"><?= $editing ? 'Edit Note' : 'Add Note'; ?></h2>
 <?= flash_message($_SESSION['message'] ?? '', 'success'); ?>
 <?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
 <?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
-<form method="post" action="functions/<?= $editing ? 'update' : 'create'; ?>.php">
+<form id="noteForm" method="post" action="functions/<?= $editing ? 'update' : 'create'; ?>.php">
   <input type="hidden" name="csrf_token" value="<?= $token; ?>">
   <?php if ($editing): ?>
     <input type="hidden" name="id" value="<?= $id; ?>">
@@ -50,7 +66,8 @@ $token = generate_csrf_token();
   </div>
   <div class="mb-3">
     <label class="form-label">Body</label>
-    <textarea name="body" class="form-control" rows="4" required><?= e($note['body']); ?></textarea>
+    <div id="bodyEditor" class="form-control" style="height:200px;"></div>
+    <input type="hidden" name="body" id="bodyInput">
   </div>
   <div class="row mb-3">
     <div class="col">
@@ -118,5 +135,46 @@ $token = generate_csrf_token();
   </div>
   <button class="btn btn-secondary btn-sm" type="submit">Link</button>
 </form>
-<?php endif; ?>
+  <div class="mb-3">
+    <h5>Attachments</h5>
+    <ul class="list-unstyled">
+      <?php foreach ($files as $f): ?>
+      <li class="mb-1"><a href="../../../<?= e($f['file_path']); ?>" target="_blank"><?= e($f['file_name']); ?></a>
+        <a href="functions/delete_file.php?note_id=<?= $id; ?>&id=<?= $f['id']; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger ms-2" onclick="return confirm('Delete this file?');">Delete</a>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+  <div class="mb-3">
+    <h5>Linked Persons</h5>
+    <ul class="list-unstyled">
+      <?php foreach ($linkedPersons as $lp): ?>
+      <li class="mb-1"><?= e($lp['name']); ?>
+        <a href="functions/unlink_person.php?note_id=<?= $id; ?>&id=<?= $lp['id']; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger ms-2" onclick="return confirm('Remove this person?');">Delete</a>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+  <div class="mb-3">
+    <h5>Linked Contractors</h5>
+    <ul class="list-unstyled">
+      <?php foreach ($linkedContractors as $lc): ?>
+      <li class="mb-1"><?= e($lc['name']); ?>
+        <a href="functions/unlink_contractor.php?note_id=<?= $id; ?>&id=<?= $lc['id']; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger ms-2" onclick="return confirm('Remove this contractor?');">Delete</a>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+ <?php endif; ?>
+<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var quill = new Quill('#bodyEditor', { theme: 'snow' });
+    quill.root.innerHTML = <?= json_encode($note['body']); ?>;
+    document.getElementById('noteForm').addEventListener('submit', function() {
+      document.getElementById('bodyInput').value = quill.root.innerHTML;
+    });
+  });
+</script>
 <?php require_once __DIR__ . '/../../admin_footer.php'; ?>
