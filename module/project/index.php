@@ -46,7 +46,8 @@ $sql = "SELECT p.id,
                COUNT(t.id) AS total_tasks,
                SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) AS completed_tasks,
                SUM(CASE WHEN t.completed = 0 OR t.completed IS NULL THEN 1 ELSE 0 END) AS in_progress,
-               pp.id AS pinned
+               pp.id AS pinned,
+               ps.sort_order AS user_sort_order
         FROM module_projects p
         LEFT JOIN lookup_list_items li ON p.status = li.id
         LEFT JOIN lookup_list_item_attributes attr ON li.id = attr.item_id AND attr.attr_code = 'COLOR-CLASS'
@@ -55,9 +56,10 @@ $sql = "SELECT p.id,
         LEFT JOIN module_agency a ON p.agency_id = a.id
         LEFT JOIN module_division d ON p.division_id = d.id
         LEFT JOIN module_projects_pins pp ON pp.project_id = p.id AND pp.user_id = :uid
+        LEFT JOIN module_projects_sort ps ON ps.project_id = p.id AND ps.user_id = :uid
         LEFT JOIN module_tasks t ON t.project_id = p.id
         GROUP BY p.id
-        ORDER BY (pp.id IS NOT NULL) DESC, p.name";
+        ORDER BY (pp.id IS NOT NULL) DESC, CASE WHEN pp.id IS NOT NULL THEN pp.sort_order ELSE ps.sort_order END, p.name";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':uid' => $this_user_id]);

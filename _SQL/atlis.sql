@@ -4496,26 +4496,27 @@ CREATE TABLE `module_projects_pins` (
   `date_created` datetime DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
-  `project_id` int(11) NOT NULL
+  `project_id` int(11) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_projects_pins`
 --
 
-INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`) VALUES
-(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15),
-(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12),
-(3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4),
-(9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2),
-(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22),
-(12, 1, 1, '2025-08-24 00:25:39', '2025-08-24 00:25:39', NULL, 20),
-(15, 1, 1, '2025-08-24 01:37:42', '2025-08-24 01:37:42', NULL, 21),
-(18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11),
-(19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13),
-(23, 1, 1, '2025-08-26 22:39:01', '2025-08-26 22:39:01', NULL, 24),
-(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10),
-(25, 1, 1, '2025-08-30 01:27:13', '2025-08-30 01:27:13', NULL, 1);
+INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `sort_order`) VALUES
+(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15, 0),
+(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12, 0),
+(3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4, 0),
+(9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2, 0),
+(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22, 0),
+(12, 1, 1, '2025-08-24 00:25:39', '2025-08-24 00:25:39', NULL, 20, 0),
+(15, 1, 1, '2025-08-24 01:37:42', '2025-08-24 01:37:42', NULL, 21, 0),
+(18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11, 0),
+(19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13, 0),
+(23, 1, 1, '2025-08-26 22:39:01', '2025-08-26 22:39:01', NULL, 24, 0),
+(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10, 0),
+(25, 1, 1, '2025-08-30 01:27:13', '2025-08-30 01:27:13', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4542,6 +4543,28 @@ INSERT INTO `module_projects_questions` (`id`, `user_id`, `user_updated`, `date_
 (2, 1, 1, '2025-08-23 11:04:30', '2025-08-23 11:04:30', NULL, 4, 'What was was the color of George Washington\'s white horse?'),
 (3, 1, 1, '2025-08-24 01:18:09', '2025-08-24 01:18:09', NULL, 10, 'Who is Dave Wilkins ?'),
 (5, 1, 1, '2025-08-24 02:09:04', '2025-08-24 02:09:04', NULL, 2, 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_projects_sort`
+--
+
+CREATE TABLE `module_projects_sort` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_projects_sort`
+--
+
 
 -- --------------------------------------------------------
 
@@ -6249,6 +6272,16 @@ ALTER TABLE `module_projects_questions`
   ADD KEY `fk_module_projects_questions_project_id` (`project_id`);
 
 --
+-- Indexes for table `module_projects_sort`
+--
+ALTER TABLE `module_projects_sort`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_user_project` (`user_id`,`project_id`),
+  ADD KEY `fk_module_projects_sort_user_id` (`user_id`),
+  ADD KEY `fk_module_projects_sort_user_updated` (`user_updated`),
+  ADD KEY `fk_module_projects_sort_project_id` (`project_id`);
+
+--
 -- Indexes for table `module_strategy`
 --
 ALTER TABLE `module_strategy`
@@ -7038,6 +7071,12 @@ ALTER TABLE `module_projects_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `module_projects_sort`
+--
+ALTER TABLE `module_projects_sort`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_strategy`
 --
 ALTER TABLE `module_strategy`
@@ -7770,6 +7809,13 @@ ALTER TABLE `module_projects_notes`
 --
 ALTER TABLE `module_projects_questions`
   ADD CONSTRAINT `fk_module_projects_questions_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+
+--
+-- Constraints for table `module_projects_sort`
+--
+ALTER TABLE `module_projects_sort`
+  ADD CONSTRAINT `fk_module_projects_sort_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_module_projects_sort_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
 
 --
 -- Constraints for table `module_strategy`
