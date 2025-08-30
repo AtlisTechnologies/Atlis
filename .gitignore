@@ -36,5 +36,7 @@ includes/config.oauth.php
 !admin/corporate/assets/uploads/
 !admin/corporate/human-resources/uploads/
 !admin/corporate/prospecting/uploads/
+!admin/minder/tasks/uploads/
+!admin/minder/tasks/uploads/.gitkeep
 # Environment configuration
 .env

@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-require_once __DIR__ . '/../../../includes/php_header.php';
-require_permission('admin_task', 'delete');
+require_once __DIR__ . '/../../../../includes/php_header.php';
+require_permission('minder_task', 'delete');
 
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method !== 'POST' && $method !== 'GET') {
