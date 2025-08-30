@@ -16,6 +16,14 @@
           <label for="objectiveTitle" class="form-label">Objective</label>
           <input type="text" class="form-control" id="objectiveTitle" name="objective" required>
         </div>
+        <div class="mb-3">
+          <label for="objectiveOwner" class="form-label">Owner</label>
+          <select class="form-select" id="objectiveOwner" name="owner_id" data-choices="data-choices"></select>
+        </div>
+        <div class="mb-3">
+          <label for="objectiveProgress" class="form-label">Progress</label>
+          <input type="number" class="form-control" id="objectiveProgress" name="progress" min="0" max="100">
+        </div>
         <input type="hidden" name="strategy_id" class="strategy-id-input">
         <?= csrf_field(); ?>
       </div>
