@@ -21,11 +21,7 @@ $currentPath = $normalize($requestUri);
 <?php foreach ($navLinks as $link): ?>
 <?php
         $linkPath = $normalize($link['path']);
-        $linkDir = trim(dirname($linkPath), '/');
-        if ($linkDir === '') {
-            $linkDir = $linkPath;
-        }
-        $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkDir . '/');
+        $isActive = $currentPath === $linkPath || str_starts_with($currentPath, $linkPath . '/');
         ?>
         <li class="nav-item">
           <a class="nav-link<?= $isActive ? ' active' : ''; ?>"
