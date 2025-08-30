@@ -13,7 +13,9 @@ if ($action === 'create') {
   $statusMap = get_lookup_items($pdo, 'PROJECT_STATUS');
   $typeMap   = get_lookup_items($pdo, 'PROJECT_TYPE');
   $agencies = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
-  $divisions = $pdo->query('SELECT id, name FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $divisions = $pdo->query('SELECT id, name, agency_id FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $defaultAgencyId = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_AGENCY');
+  $defaultDivisionId = get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_DIVISION');
   require '../../includes/html_header.php';
   ?>
   <main class="main" id="top">

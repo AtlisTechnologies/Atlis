@@ -19,6 +19,8 @@ $fields = [
   'project_status' => 'PROJECT_STATUS',
   'project_priority' => 'PROJECT_PRIORITY',
   'project_type' => 'PROJECT_TYPE',
+  'project_agency' => 'PROJECT_AGENCY',
+  'project_division' => 'PROJECT_DIVISION',
   'task_status' => 'TASK_STATUS',
   'task_priority' => 'TASK_PRIORITY',
   'calendar_default' => 'CALENDAR_DEFAULT',
@@ -32,6 +34,15 @@ foreach ($fields as $postField => $listName) {
     $stmt->execute([':uid' => $this_user_id, ':list' => $listName]);
   } else {
     set_user_default_lookup_item($pdo, $this_user_id, $listName, (int)$value, $this_user_id);
+  }
+}
+
+if (!empty($_POST['project_division']) && empty($_POST['project_agency'])) {
+  $stmt = $pdo->prepare('SELECT agency_id FROM module_division WHERE id = :id');
+  $stmt->execute([':id' => (int)$_POST['project_division']]);
+  $agencyId = $stmt->fetchColumn();
+  if ($agencyId) {
+    set_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_AGENCY', (int)$agencyId, $this_user_id);
   }
 }
 
