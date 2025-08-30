@@ -28,13 +28,27 @@ if (!$status_id) {
 }
 
 if (!empty($_FILES['file'])) {
+    $allowed = [
+        'pdf'  => 'application/pdf',
+        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'png'  => 'image/png',
+        'jpg'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg'
+    ];
+
     $maxMb = (int)get_system_property($pdo,'PROJECT_FILE_MAX_UPLOAD_MB');
     $maxSize = $maxMb ? $maxMb * 1024 * 1024 : 0;
 
+    $baseDir   = dirname(__DIR__) . '/uploads/';
     $folderPath = get_project_folder_path($pdo,$folder_id);
-    $uploadDir = dirname(__DIR__) . '/uploads/' . $project_id . '/' . ($folderPath !== '' ? $folderPath . '/' : '');
+    $uploadDir = $baseDir . $project_id . '/' . ($folderPath !== '' ? $folderPath . '/' : '');
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0750, true);
+    }
+    $htaccessPath = $baseDir . '.htaccess';
+    if (!file_exists($htaccessPath)) {
+        file_put_contents($htaccessPath, "php_flag engine off\n");
     }
 
     $files = $_FILES['file'];
@@ -59,8 +73,15 @@ if (!empty($_FILES['file'])) {
             $response[] = ['name'=>$baseName,'error'=>'File too large'];
             continue;
         }
+        $ext  = strtolower(pathinfo($baseName, PATHINFO_EXTENSION));
+        $mime = mime_content_type($files['tmp_name'][$index]);
+        if (!isset($allowed[$ext]) || $allowed[$ext] !== $mime) {
+            $response[] = ['name'=>$baseName,'error'=>'Invalid file type'];
+            continue;
+        }
         $targetPath = $uploadDir . $targetName;
         if (move_uploaded_file($files['tmp_name'][$index], $targetPath)) {
+            chmod($targetPath, 0640);
             $filePathDb = '/module/project/uploads/' . $project_id . '/' . ($folderPath !== '' ? $folderPath . '/' : '') . $targetName;
             $stmt = $pdo->prepare('INSERT INTO module_projects_files (user_id,user_updated,project_id,folder_id,note_id,description,file_type_id,status_id,sort_order,file_name,file_path,file_size,file_type) VALUES (:uid,:uid,:pid,:fid,:nid,:description,:file_type_id,:status_id,:sort_order,:name,:path,:size,:type)');
             $stmt->execute([
@@ -75,7 +96,7 @@ if (!empty($_FILES['file'])) {
                 ':name' => $baseName,
                 ':path' => $filePathDb,
                 ':size' => $files['size'][$index],
-                ':type' => $files['type'][$index]
+                ':type' => $mime
             ]);
             $fileId = $pdo->lastInsertId();
             admin_audit_log($pdo, $this_user_id, 'module_projects_files', $fileId, 'UPLOAD', '', json_encode(['file' => $baseName]));
@@ -85,7 +106,7 @@ if (!empty($_FILES['file'])) {
                 'name' => $baseName,
                 'path' => $filePathDb,
                 'size' => $files['size'][$index],
-                'type' => $files['type'][$index]
+                'type' => $mime
             ];
         }
     }
