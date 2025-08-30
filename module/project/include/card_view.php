@@ -10,6 +10,60 @@ foreach ($projects as $proj) {
     $label = $proj['status_label'] ?? 'Unknown';
     $statusCounts[$label] = ($statusCounts[$label] ?? 0) + 1;
 }
+$pinnedProjects = array_filter($projects, fn($p) => !empty($p['pinned']));
+$regularProjects = array_filter($projects, fn($p) => empty($p['pinned']));
+
+function render_project_card($project) {
+    $completed = ($project['total_tasks'] ?? 0) - ($project['in_progress'] ?? 0);
+    $progress = ($project['total_tasks'] ?? 0) > 0 ? intval(($completed / $project['total_tasks']) * 100) : 0;
+    ?>
+    <div class="col project-card" data-project-id="<?php echo (int)$project['id']; ?>">
+      <div class="card h-100 hover-actions-trigger">
+        <div class="card-body position-relative">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-link p-0 me-2 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
+              <span class="fa-solid fa-thumbtack <?php echo $project['pinned'] ? 'text-warning' : 'text-body-tertiary'; ?>"></span>
+            </button>
+            <span class="fa-grip-vertical drag-handle me-2"></span>
+            <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5"><a href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><?php echo h($project['name']); ?></a></h4>
+            <div class="hover-actions top-0 end-0 mt-4 me-4"><a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a></div>
+          </div>
+          <span class="badge badge-phoenix fs-10 mb-4 badge-phoenix-<?php echo h($project['status_color'] ?? 'secondary'); ?>"><?php echo h($project['status_label'] ?? ''); ?></span>
+          <?php if (!empty($project['agency_name']) || !empty($project['division_name'])): ?>
+          <p class="text-body-secondary line-clamp-2 mb-4"><?php echo h($project['agency_name']); ?><?php if (!empty($project['division_name'])) echo ' / ' . h($project['division_name']); ?></p>
+          <?php endif; ?>
+          <?php if (!empty($project['start_date'])): ?>
+          <div class="d-flex align-items-center mt-4"><p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['start_date']))); ?></span></p></div>
+          <?php endif; ?>
+          <?php if (!empty($project['complete_date'])): ?>
+          <div class="d-flex align-items-center mt-2"><p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p></div>
+          <?php endif; ?>
+          <div class="d-flex justify-content-between text-body-tertiary fw-semibold mt-3">
+            <p class="mb-2">Progress</p>
+            <p class="mb-2 text-body-emphasis"><?php echo (int)($project['in_progress'] ?? 0); ?>/<?php echo (int)($project['total_tasks'] ?? 0); ?></p>
+          </div>
+          <div class="progress bg-success-subtle">
+            <div class="progress-bar rounded bg-success" role="progressbar" style="width: <?php echo $progress; ?>%" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <?php if (!empty($project['assignees'])): ?>
+          <div class="avatar-group mt-3">
+            <?php foreach ($project['assignees'] as $assignee):
+              $pic = !empty($assignee['file_path']) ? $assignee['file_path'] : 'assets/img/team/avatar.webp';
+            ?>
+            <div class="avatar avatar-m rounded-circle">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">
+                <img class="rounded-circle" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
+              </a>
+            </div>
+            <?php endforeach; ?>
+          </div>
+          <?php endif; ?>
+          <a class="stretched-link" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"></a>
+        </div>
+      </div>
+    </div>
+    <?php
+}
 ?>
 <nav class="mb-3" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
@@ -54,56 +108,11 @@ foreach ($projects as $proj) {
     </div>
   </div>
 </div>
-<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3 mb-9">
-  <?php foreach ($projects as $project):
-    $completed = ($project['total_tasks'] ?? 0) - ($project['in_progress'] ?? 0);
-    $progress = ($project['total_tasks'] ?? 0) > 0 ? intval(($completed / $project['total_tasks']) * 100) : 0;
-  ?>
-  <div class="col">
-    <div class="card h-100 hover-actions-trigger">
-      <div class="card-body position-relative">
-        <div class="d-flex align-items-center">
-          <button class="btn btn-link p-0 me-2 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
-            <span class="fa-solid fa-thumbtack <?php echo $project['pinned'] ? 'text-warning' : 'text-body-tertiary'; ?>"></span>
-          </button>
-          <h4 class="mb-2 line-clamp-1 lh-sm flex-1 me-5"><a href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><?php echo h($project['name']); ?></a></h4>
-          <div class="hover-actions top-0 end-0 mt-4 me-4"><a class="btn btn-primary btn-icon flex-shrink-0" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"><span class="fa-solid fa-chevron-right"></span></a></div>
-        </div>
-        <span class="badge badge-phoenix fs-10 mb-4 badge-phoenix-<?php echo h($project['status_color'] ?? 'secondary'); ?>"><?php echo h($project['status_label'] ?? ''); ?></span>
-        <?php if (!empty($project['agency_name']) || !empty($project['division_name'])): ?>
-        <p class="text-body-secondary line-clamp-2 mb-4"><?php echo h($project['agency_name']); ?><?php if (!empty($project['division_name'])) echo ' / ' . h($project['division_name']); ?></p>
-        <?php endif; ?>
-        <?php if (!empty($project['start_date'])): ?>
-        <div class="d-flex align-items-center mt-4"><p class="mb-0 fw-bold fs-9">Started :<span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['start_date']))); ?></span></p></div>
-        <?php endif; ?>
-        <?php if (!empty($project['complete_date'])): ?>
-        <div class="d-flex align-items-center mt-2"><p class="mb-0 fw-bold fs-9">Deadline : <span class="fw-semibold text-body-tertiary text-opactity-85 ms-1"><?php echo h(date('F jS, Y', strtotime($project['complete_date']))); ?></span></p></div>
-        <?php endif; ?>
-        <div class="d-flex justify-content-between text-body-tertiary fw-semibold mt-3">
-          <p class="mb-2">Progress</p>
-          <p class="mb-2 text-body-emphasis"><?php echo (int)($project['in_progress'] ?? 0); ?>/<?php echo (int)($project['total_tasks'] ?? 0); ?></p>
-        </div>
-        <div class="progress bg-success-subtle">
-          <div class="progress-bar rounded bg-success" role="progressbar" style="width: <?php echo $progress; ?>%" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <?php if (!empty($project['assignees'])): ?>
-        <div class="avatar-group mt-3">
-          <?php foreach ($project['assignees'] as $assignee):
-            $pic = !empty($assignee['file_path']) ? $assignee['file_path'] : 'assets/img/team/avatar.webp';
-          ?>
-          <div class="avatar avatar-m rounded-circle">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-src="<?php echo getURLDir() . h($pic); ?>">
-              <img class="rounded-circle" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
-            </a>
-          </div>
-          <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-        <a class="stretched-link" href="index.php?action=details&id=<?php echo (int)$project['id']; ?>"></a>
-      </div>
-    </div>
-  </div>
-  <?php endforeach; ?>
+<div id="pinnedCards" class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3 mb-3">
+  <?php foreach ($pinnedProjects as $project) { render_project_card($project); } ?>
+</div>
+<div id="regularCards" class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3 mb-9">
+  <?php foreach ($regularProjects as $project) { render_project_card($project); } ?>
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
@@ -124,12 +133,22 @@ document.addEventListener('click', function (e) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  const pinnedList = document.getElementById('pinnedCards');
+  if (pinnedList && Sortable) {
+    Sortable.create(pinnedList, {
+      handle: '.drag-handle',
+      group: { name: 'pinned', pull: false, put: false },
+      onEnd: updateSort
+    });
+  }
+
   document.querySelectorAll('.pin-toggle').forEach(btn => {
     btn.addEventListener('click', async e => {
       e.preventDefault();
       const projectId = btn.dataset.projectId;
       const icon = btn.querySelector('span');
-      if (!projectId || !icon) return;
+      const card = btn.closest('.project-card');
+      if (!projectId || !icon || !card) return;
       try {
         const res = await fetch('functions/toggle_pin.php', {
           method: 'POST',
@@ -140,15 +159,32 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.pinned) {
           icon.classList.add('text-warning');
           icon.classList.remove('text-body-tertiary');
+          document.getElementById('pinnedCards').appendChild(card);
         } else {
           icon.classList.add('text-body-tertiary');
           icon.classList.remove('text-warning');
+          document.getElementById('regularCards').appendChild(card);
         }
+        updateSort();
       } catch (err) {
         console.error(err);
       }
     });
   });
 });
+
+function updateSort() {
+  const pinnedIds = Array.from(document.querySelectorAll('#pinnedCards .project-card')).map(el => el.dataset.projectId);
+  const unpinnedIds = Array.from(document.querySelectorAll('#regularCards .project-card')).map(el => el.dataset.projectId);
+  const params = new URLSearchParams();
+  pinnedIds.forEach(id => params.append('pinned[]', id));
+  unpinnedIds.forEach(id => params.append('unpinned[]', id));
+  params.append('csrf_token', csrfToken);
+  fetch('functions/update_sort.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  });
+}
 </script>
 
