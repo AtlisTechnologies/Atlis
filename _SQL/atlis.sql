@@ -7990,6 +7990,126 @@ ALTER TABLE `users_profile_pics`
   ADD CONSTRAINT `fk_users_profile_pics_uploaded_by` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_profile_pics_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Table structure for table `module_contractors_organizations`
+--
+CREATE TABLE `module_contractors_organizations` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `module_contractors_agencies`
+--
+CREATE TABLE `module_contractors_agencies` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `agency_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `module_contractors_divisions`
+--
+CREATE TABLE `module_contractors_divisions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `division_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for table `module_contractors_organizations`
+--
+ALTER TABLE `module_contractors_organizations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_module_contractors_organizations` (`contractor_id`,`organization_id`),
+  ADD KEY `fk_module_contractors_orgs_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_orgs_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_orgs_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_orgs_organization_id` (`organization_id`);
+
+--
+-- Indexes for table `module_contractors_agencies`
+--
+ALTER TABLE `module_contractors_agencies`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_module_contractors_agencies` (`contractor_id`,`agency_id`),
+  ADD KEY `fk_module_contractors_agencies_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_agencies_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_agencies_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_agencies_agency_id` (`agency_id`);
+
+--
+-- Indexes for table `module_contractors_divisions`
+--
+ALTER TABLE `module_contractors_divisions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_module_contractors_divisions` (`contractor_id`,`division_id`),
+  ADD KEY `fk_module_contractors_divisions_user_id` (`user_id`),
+  ADD KEY `fk_module_contractors_divisions_user_updated` (`user_updated`),
+  ADD KEY `fk_module_contractors_divisions_contractor_id` (`contractor_id`),
+  ADD KEY `fk_module_contractors_divisions_division_id` (`division_id`);
+
+--
+-- AUTO_INCREMENT for table `module_contractors_organizations`
+--
+ALTER TABLE `module_contractors_organizations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_agencies`
+--
+ALTER TABLE `module_contractors_agencies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_contractors_divisions`
+--
+ALTER TABLE `module_contractors_divisions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for table `module_contractors_organizations`
+--
+ALTER TABLE `module_contractors_organizations`
+  ADD CONSTRAINT `fk_module_contractors_orgs_contract_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_orgs_org_id` FOREIGN KEY (`organization_id`) REFERENCES `module_organization` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_orgs_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_orgs_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_contractors_agencies`
+--
+ALTER TABLE `module_contractors_agencies`
+  ADD CONSTRAINT `fk_module_contractors_agencies_contract_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_agencies_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_agencies_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_agencies_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_contractors_divisions`
+--
+ALTER TABLE `module_contractors_divisions`
+  ADD CONSTRAINT `fk_module_contractors_divisions_contract_id` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_divisions_division_id` FOREIGN KEY (`division_id`) REFERENCES `module_division` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_contractors_divisions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_module_contractors_divisions_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
