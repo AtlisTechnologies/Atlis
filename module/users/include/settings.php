@@ -35,7 +35,9 @@
             <div class="form-check form-switch">
               <input class="form-check-input" id="toggleFollow" type="checkbox">
               <label class="form-check-label fs-8" for="toggleFollow">Allow users to follow you</label>
-  </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-12 col-xl-8">
@@ -251,4 +253,3 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-
