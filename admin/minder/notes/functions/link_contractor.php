@@ -26,14 +26,14 @@ if (!$note_id || !$contractor_id) {
 }
 
 try {
-    $stmt = $pdo->prepare('INSERT INTO admin_minder_notes_contractor (note_id, contractor_id, user_id, user_updated) VALUES (:note,:contractor,:uid,:uid)');
+    $stmt = $pdo->prepare('INSERT INTO admin_minder_notes_contractors (note_id, contractor_id, user_id, user_updated) VALUES (:note,:contractor,:uid,:uid)');
     $stmt->execute([
         ':note' => $note_id,
         ':contractor' => $contractor_id,
         ':uid' => $this_user_id
     ]);
     $linkId = (int)$pdo->lastInsertId();
-    admin_audit_log($pdo,$this_user_id,'admin_minder_notes_contractor',$linkId,'CREATE',null,json_encode(['contractor_id'=>$contractor_id]));
+    admin_audit_log($pdo,$this_user_id,'admin_minder_notes_contractors',$linkId,'CREATE',null,json_encode(['contractor_id'=>$contractor_id]));
     echo json_encode(['success'=>true,'id'=>$linkId]);
 } catch (PDOException $e) {
     http_response_code(500);

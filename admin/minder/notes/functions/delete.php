@@ -42,8 +42,8 @@ foreach ($files as $fp) {
     if ($fp) @unlink($rootDir . $fp);
 }
 $pdo->prepare('DELETE FROM admin_minder_notes_files WHERE note_id = :id')->execute([':id'=>$id]);
-$pdo->prepare('DELETE FROM admin_minder_notes_person WHERE note_id = :id')->execute([':id'=>$id]);
-$pdo->prepare('DELETE FROM admin_minder_notes_contractor WHERE note_id = :id')->execute([':id'=>$id]);
+$pdo->prepare('DELETE FROM admin_minder_notes_persons WHERE note_id = :id')->execute([':id'=>$id]);
+$pdo->prepare('DELETE FROM admin_minder_notes_contractors WHERE note_id = :id')->execute([':id'=>$id]);
 $pdo->prepare('DELETE FROM admin_minder_notes WHERE id = :id')->execute([':id'=>$id]);
 
 admin_audit_log($pdo,$this_user_id,'admin_minder_notes',$id,'DELETE',json_encode($old),null);
