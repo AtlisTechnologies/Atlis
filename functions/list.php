@@ -36,5 +36,6 @@ try {
   if (ob_get_length()) {
     ob_clean();
   }
-  echo json_encode(['error' => $e->getMessage()]);
+  error_log($e->getMessage());
+  echo json_encode(['error' => 'Internal error']);
 }
