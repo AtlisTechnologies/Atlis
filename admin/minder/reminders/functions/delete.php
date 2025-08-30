@@ -1,21 +1,27 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-require_once __DIR__ . '/../../../includes/php_header.php';
+require_once __DIR__ . '/../../../../includes/php_header.php';
 require_permission('minder_reminder','delete');
 
-$method = $_SERVER['REQUEST_METHOD'];
-if ($method !== 'POST' && $method !== 'GET') {
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
+  echo json_encode(['success'=>false,'error'=>'Method not allowed']);
   exit;
 }
 
-$id = isset($_POST['id']) ? (int)$_POST['id'] : (int)($_GET['id'] ?? 0);
-$token = $_POST['csrf_token'] ?? ($_GET['csrf_token'] ?? '');
-if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
-  die('Invalid CSRF token');
+if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+  http_response_code(403);
+  echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
+  exit;
 }
+
+$id = (int)($_POST['id'] ?? 0);
 if (!$id) {
-  die('Invalid ID');
+  http_response_code(400);
+  echo json_encode(['success'=>false,'error'=>'Invalid ID']);
+  exit;
 }
 
 $oldStmt = $pdo->prepare('SELECT * FROM admin_minder_reminders WHERE id = :id');
@@ -23,10 +29,10 @@ $oldStmt->execute([':id'=>$id]);
 $old = $oldStmt->fetch(PDO::FETCH_ASSOC);
 
 $pdo->prepare('DELETE FROM admin_minder_reminders_files WHERE reminder_id = :id')->execute([':id'=>$id]);
-$pdo->prepare('DELETE FROM admin_minder_reminders_person WHERE reminder_id = :id')->execute([':id'=>$id]);
-$pdo->prepare('DELETE FROM admin_minder_reminders_contractor WHERE reminder_id = :id')->execute([':id'=>$id]);
+$pdo->prepare('DELETE FROM admin_minder_reminders_persons WHERE reminder_id = :id')->execute([':id'=>$id]);
+$pdo->prepare('DELETE FROM admin_minder_reminders_contractors WHERE reminder_id = :id')->execute([':id'=>$id]);
 $pdo->prepare('DELETE FROM admin_minder_reminders WHERE id = :id')->execute([':id'=>$id]);
 
 admin_audit_log($pdo, $this_user_id, 'admin_minder_reminders', $id, 'DELETE', json_encode($old), null, 'Deleted reminder');
 
-header('Location: ../index.php');
+echo json_encode(['success'=>true]);

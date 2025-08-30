@@ -1,28 +1,39 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-require_once __DIR__ . '/../../../includes/php_header.php';
+require_once __DIR__ . '/../../../../includes/php_header.php';
 require_permission('minder_reminder','update');
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
+  echo json_encode(['success'=>false,'error'=>'Method not allowed']);
   exit;
 }
 
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-  die('Invalid CSRF token');
+  http_response_code(403);
+  echo json_encode(['success'=>false,'error'=>'Invalid CSRF token']);
+  exit;
 }
 
 $reminder_id = isset($_POST['reminder_id']) ? (int)$_POST['reminder_id'] : 0;
 if (!$reminder_id || empty($_FILES['file']['name'])) {
-  die('Missing data');
+  http_response_code(400);
+  echo json_encode(['success'=>false,'error'=>'Missing data']);
+  exit;
 }
 
 $file = $_FILES['file'];
 if ($file['error'] !== UPLOAD_ERR_OK) {
-  die('Upload error');
+  http_response_code(400);
+  echo json_encode(['success'=>false,'error'=>'Upload error']);
+  exit;
 }
 if ($file['size'] > 10 * 1024 * 1024) {
-  die('File too large');
+  http_response_code(400);
+  echo json_encode(['success'=>false,'error'=>'File too large']);
+  exit;
 }
 
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -32,11 +43,13 @@ finfo_close($finfo);
 $safe = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($file['name'], PATHINFO_FILENAME));
 $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 $filename = $safe . '_' . time() . '.' . $ext;
-$destDir = __DIR__ . '/../../../assets/files/minder/reminders/';
+$destDir = __DIR__ . '/../../../../assets/files/minder/reminders/';
 if (!is_dir($destDir)) { mkdir($destDir, 0755, true); }
 $dest = $destDir . $filename;
 if (!move_uploaded_file($file['tmp_name'], $dest)) {
-  die('Failed to save file');
+  http_response_code(500);
+  echo json_encode(['success'=>false,'error'=>'Failed to save file']);
+  exit;
 }
 
 $relPath = 'assets/files/minder/reminders/' . $filename;
@@ -53,4 +66,5 @@ $fileId = (int)$pdo->lastInsertId();
 
 admin_audit_log($pdo, $this_user_id, 'admin_minder_reminders_files', $fileId, 'CREATE', null, json_encode(['file'=>$file['name']]), 'Uploaded file');
 
-header('Location: ../reminder.php?id=' . $reminder_id);
+echo json_encode(['success'=>true,'file_id'=>$fileId,'name'=>$file['name'],'path'=>$relPath]);
+exit;
