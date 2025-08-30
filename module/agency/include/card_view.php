@@ -8,16 +8,17 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title mb-1">
-              <?php if (!empty($agency['file_name'])): ?>
-                <a href="download.php?id=<?= $agency['id']; ?>" class="me-1">
-                  <?php if (strpos($agency['file_type'], 'image/') === 0): ?>
-                    <img src="uploads/agency/<?= e($agency['file_path']); ?>" alt="<?= e($agency['file_name']); ?>" class="rounded" style="height:32px; width:32px; object-fit:cover;">
-                  <?php else: ?>
-                    <i class="fa-regular fa-paperclip"></i>
-                  <?php endif; ?>
+              <?php if (!empty($agency['file_name']) && strpos($agency['file_type'], 'image/') === 0): ?>
+                <a href="uploads/agency/<?= e($agency['file_path']); ?>" data-fslightbox="agency" class="me-1">
+                  <img src="uploads/agency/<?= e($agency['file_path']); ?>" alt="<?= e($agency['file_name']); ?>" class="rounded" style="height:32px; width:32px; object-fit:cover;">
                 </a>
               <?php endif; ?>
-              <?php echo e($agency['name']); ?>
+              <?= e($agency['name']); ?>
+              <?php if (!empty($agency['file_name'])): ?>
+                <a href="download.php?type=agency&id=<?= $agency['id']; ?>" class="ms-1 text-body">
+                  <i class="fa-regular fa-paperclip"></i>
+                </a>
+              <?php endif; ?>
               <?php if (!empty($agency['organization_name'])): ?>
                 <span class="badge bg-info-subtle text-info ms-1"><?= h($agency['organization_name']); ?></span>
               <?php endif; ?>
