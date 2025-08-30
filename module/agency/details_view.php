@@ -83,8 +83,16 @@ require '../../includes/html_header.php';
               <?php foreach ($files as $f): ?>
               <div class="col-6 col-md-4 col-lg-3">
                 <div class="border rounded p-2 text-center h-100 d-flex flex-column">
-                  <a href="<?= e($f['file_path']); ?>" data-fslightbox="agency-files">
-                    <?php if (strpos($f['file_type'],'image/') === 0): ?>
+                  <?php
+                    $dataType = 'image';
+                    if (strpos($f['file_type'], 'video/') === 0) {
+                        $dataType = 'video';
+                    } elseif (strpos($f['file_type'], 'image/') !== 0) {
+                        $dataType = 'iframe';
+                    }
+                  ?>
+                  <a href="<?= e($f['file_path']); ?>" data-fslightbox="agency-files" <?= $dataType !== 'image' ? 'data-type="' . $dataType . '"' : ''; ?>>
+                    <?php if ($dataType === 'image'): ?>
                       <img src="<?= e($f['file_path']); ?>" alt="<?= e($f['file_name']); ?>" class="img-fluid rounded">
                     <?php else: ?>
                       <div class="d-flex align-items-center justify-content-center bg-body-tertiary rounded" style="height:100px;">
@@ -167,8 +175,14 @@ document.addEventListener('DOMContentLoaded', function(){
             const f = data.file;
             const col = document.createElement('div');
             col.className = 'col-6 col-md-4 col-lg-3';
+            let dataType = '';
+            if(f.type.startsWith('video/')){
+              dataType = ' data-type="video"';
+            } else if(!f.type.startsWith('image/')){
+              dataType = ' data-type="iframe"';
+            }
             col.innerHTML = `<div class="border rounded p-2 text-center h-100 d-flex flex-column">
-              <a href="${f.path}" data-fslightbox="agency-files">
+              <a href="${f.path}" data-fslightbox="agency-files"${dataType}>
                 ${f.type.startsWith('image/') ? `<img src="${f.path}" alt="${f.name}" class="img-fluid rounded">` :
                 `<div class=\"d-flex align-items-center justify-content-center bg-body-tertiary rounded\" style=\"height:100px;\">
                   <span class=\"fa-solid fa-file fs-3\"></span>
