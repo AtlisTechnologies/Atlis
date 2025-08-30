@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../includes/php_header.php';
-require_permission('assets','update');
+require_permission('admin_assets','update');
 
 $asset_id = (int)($_POST['asset_id'] ?? 0);
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
