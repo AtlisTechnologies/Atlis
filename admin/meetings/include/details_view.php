@@ -25,9 +25,14 @@ $_SESSION['csrf_token'] = $token;
             <span class="badge bg-<?= h($meetingTypeColor); ?> ms-1"><?php echo h($meetingTypeLabel); ?></span>
           <?php endif; ?>
         </h2>
-        <?php if (user_has_permission('meeting','update')): ?>
-          <a href="index.php?action=edit&id=<?php echo (int)$meeting['id']; ?>" class="btn btn-warning btn-sm">Edit Meeting</a>
-        <?php endif; ?>
+        <div class="ms-2">
+          <?php if (user_has_permission('meeting','update')): ?>
+            <a href="index.php?action=edit&id=<?php echo (int)$meeting['id']; ?>" class="btn btn-warning btn-sm">Edit Meeting</a>
+          <?php endif; ?>
+          <?php if (user_has_permission('meeting','delete')): ?>
+            <button class="btn btn-danger btn-sm ms-1 delete-meeting" id="deleteMeetingBtn" data-id="<?php echo (int)$meeting['id']; ?>" data-token="<?= h($token); ?>">Delete</button>
+          <?php endif; ?>
+        </div>
       </div>
       <?php if (!empty($meeting['description'])): ?>
       <p class="text-body-secondary mb-1"><?php echo h($meeting['description']); ?></p>
@@ -328,6 +333,28 @@ document.addEventListener('DOMContentLoaded', function(){
     toastEl.innerHTML = '<div class="d-flex"><div class="toast-body">'+esc(message)+'</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>';
     container.appendChild(toastEl);
     new bootstrap.Toast(toastEl).show();
+  }
+
+  var deleteBtn = document.getElementById('deleteMeetingBtn');
+  if(deleteBtn){
+    deleteBtn.addEventListener('click', async function(){
+      if(!confirm('Delete this meeting?')) return;
+      var fd = new FormData();
+      fd.append('id', meetingId);
+      fd.append('csrf_token', csrfToken);
+      try{
+        var res = await fetch('functions/delete.php', {method:'POST', body: fd});
+        var data = await res.json();
+        if(data.success){
+          window.location = 'index.php';
+        } else {
+          showToast(data.message || 'Failed to delete meeting');
+        }
+      } catch(err){
+        console.error(err);
+        showToast('Failed to delete meeting');
+      }
+    });
   }
 
   function fetchJson(url, opts){
