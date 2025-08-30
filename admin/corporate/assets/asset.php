@@ -1,6 +1,6 @@
 <?php
 require '../../admin_header.php';
-require_permission('admin_assets','read');
+require_permission('assets','read');
 
 function get_asset_tags(PDO $pdo, int $asset_id): array {
   $stmt = $pdo->prepare('SELECT tag FROM module_asset_tags WHERE asset_id=:id');
@@ -104,6 +104,24 @@ $tags = $editing ? get_asset_tags($pdo,$id) : [];
     <div class="col">
       <label class="form-label">Location</label>
       <input type="text" name="location" class="form-control" value="<?= e($asset['location'] ?? ''); ?>">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <div class="form-check mt-4">
+        <input class="form-check-input" type="checkbox" name="is_encrypted" value="1" <?= $asset && $asset['is_encrypted'] ? 'checked' : ''; ?>>
+        <label class="form-check-label">Encrypted</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-check mt-4">
+        <input class="form-check-input" type="checkbox" name="is_mdm_enrolled" value="1" <?= $asset && $asset['is_mdm_enrolled'] ? 'checked' : ''; ?>>
+        <label class="form-check-label">MDM Enrolled</label>
+      </div>
+    </div>
+    <div class="col">
+      <label class="form-label">Last Patch Date</label>
+      <input type="text" name="last_patch_date" class="form-control" data-flatpickr value="<?= e($asset['last_patch_date'] ?? ''); ?>">
     </div>
   </div>
   <div class="mb-3">
@@ -269,7 +287,11 @@ foreach ($events->fetchAll(PDO::FETCH_ASSOC) as $ev) {
         list.innerHTML = '';
         files.forEach(f => {
           const li = document.createElement('li');
-          li.textContent = f.file_path + ' ';
+          const link = document.createElement('a');
+          link.href = '../../assets/uploads/<?= $id; ?>/' + encodeURIComponent(f.file_path);
+          link.textContent = f.file_path;
+          li.appendChild(link);
+          li.append(' ');
           const btn = document.createElement('button');
           btn.className = 'btn btn-sm btn-danger';
           btn.textContent = 'Delete';
