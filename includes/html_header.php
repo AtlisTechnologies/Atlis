@@ -19,7 +19,10 @@
   <script src="<?php echo getURLDir(); ?>vendors/popper/popper.min.js"></script>
   <script src="<?php echo getURLDir(); ?>vendors/bootstrap/bootstrap.min.js"></script>
   <script src="<?php echo getURLDir(); ?>vendors/fontawesome/all.min.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  
   <!-- Vendor CSS (Phoenix, FontAwesome, etc) -->
   <link href="<?php echo getURLDir(); ?>vendors/glightbox/glightbox.min.css" rel="stylesheet">
   <link href="<?php echo getURLDir(); ?>vendors/dropzone/dropzone.css" rel="stylesheet">

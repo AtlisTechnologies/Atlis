@@ -123,4 +123,4 @@ document.getElementById('print-labels').addEventListener('click',()=>{
   if(ids) window.open('labels.php?ids='+ids,'_blank');
 });
 </script>
-<?php require '../admin_footer.php'; ?>
+<?php require '../../admin_footer.php'; ?>

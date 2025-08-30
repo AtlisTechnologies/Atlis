@@ -294,18 +294,13 @@ $assignments = $assign_stmt->fetchAll(PDO::FETCH_ASSOC);
 $events = $pdo->prepare('SELECT * FROM module_asset_events WHERE asset_id=:id ORDER BY date_created DESC');
 $events->execute([':id'=>$id]);
 foreach ($events->fetchAll(PDO::FETCH_ASSOC) as $ev) {
-  echo '<div class="border rounded p-2 mb-2"><strong>'.e($ev['event_type']).'</strong> '.e($ev['memo']).' <span class="text-muted small">'.e($ev['date_created'])."</span></div>"; 
+  echo '<div class="border rounded p-2 mb-2"><strong>'.e($ev['event_type']).'</strong> '.e($ev['memo']).' <span class="text-muted small">'.e($ev['date_created'])."</span></div>";
 }
 ?>
 <?php endif; ?>
 
-<link rel="stylesheet" href="../vendors/dropzone/dropzone.css">
-<link rel="stylesheet" href="../vendors/choices/choices.min.css">
-<link rel="stylesheet" href="../vendors/flatpickr/flatpickr.min.css">
-<script src="../vendors/dropzone/dropzone-min.js"></script>
-<script src="../vendors/choices/choices.min.js"></script>
-<script src="../vendors/flatpickr/flatpickr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.5/signature_pad.umd.min.js"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-flatpickr]').forEach(el => flatpickr(el, {}));
@@ -381,4 +376,4 @@ foreach ($events->fetchAll(PDO::FETCH_ASSOC) as $ev) {
     });
   });
 </script>
-<?php require '../admin_footer.php'; ?>
+<?php require '../../admin_footer.php'; ?>
