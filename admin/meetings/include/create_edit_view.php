@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   var attendeeChoices;
+  var suppressAttendeeEvents = false;
   function syncHiddenAttendees(){
     attendeeHiddenInputs.innerHTML = '';
     attendeeChoices.getValue().forEach(function(choice){
@@ -340,9 +341,80 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 
-    attendeeSelect.addEventListener('addItem', syncHiddenAttendees);
-    attendeeSelect.addEventListener('removeItem', function(){
-      setTimeout(syncHiddenAttendees,0);
+    attendeeSelect.addEventListener('addItem', function(event){
+      if(suppressAttendeeEvents){
+        syncHiddenAttendees();
+        return;
+      }
+      if(!isEdit || meetingId === 0){
+        syncHiddenAttendees();
+        return;
+      }
+      var personId = event.detail.value;
+      var fd = new FormData();
+      fd.append('meeting_id', meetingId);
+      fd.append('attendee_person_id', personId);
+      fd.append('csrf_token', csrfToken);
+      fetch('functions/add_attendee.php', {method:'POST', body: fd})
+        .then(r => r.json())
+        .then(function(res){
+          if(res.success){
+            showToast('Attendee added','success');
+            syncHiddenAttendees();
+          } else {
+            showToast(res.message || 'Failed to add attendee');
+            suppressAttendeeEvents = true;
+            attendeeChoices.removeActiveItemsByValue(personId);
+            suppressAttendeeEvents = false;
+            syncHiddenAttendees();
+          }
+        })
+        .catch(function(err){
+          console.error(err);
+          showToast('Failed to add attendee');
+          suppressAttendeeEvents = true;
+          attendeeChoices.removeActiveItemsByValue(personId);
+          suppressAttendeeEvents = false;
+          syncHiddenAttendees();
+        });
+    });
+
+    attendeeSelect.addEventListener('removeItem', function(event){
+      if(suppressAttendeeEvents){
+        syncHiddenAttendees();
+        return;
+      }
+      if(!isEdit || meetingId === 0){
+        syncHiddenAttendees();
+        return;
+      }
+      var personId = event.detail.value;
+      var fd = new FormData();
+      fd.append('meeting_id', meetingId);
+      fd.append('attendee_person_id', personId);
+      fd.append('csrf_token', csrfToken);
+      fetch('functions/remove_attendee.php', {method:'POST', body: fd})
+        .then(r => r.json())
+        .then(function(res){
+          if(res.success){
+            showToast('Attendee removed','success');
+            syncHiddenAttendees();
+          } else {
+            showToast(res.message || 'Failed to remove attendee');
+            suppressAttendeeEvents = true;
+            attendeeChoices.setChoiceByValue(personId);
+            suppressAttendeeEvents = false;
+            syncHiddenAttendees();
+          }
+        })
+        .catch(function(err){
+          console.error(err);
+          showToast('Failed to remove attendee');
+          suppressAttendeeEvents = true;
+          attendeeChoices.setChoiceByValue(personId);
+          suppressAttendeeEvents = false;
+          syncHiddenAttendees();
+        });
     });
   }
 
@@ -388,6 +460,7 @@ document.addEventListener('DOMContentLoaded', function(){
       .then(r=>r.json())
       .then(function(res){
         if(res.success && res.attendees && attendeeChoices){
+          suppressAttendeeEvents = true;
           attendeeChoices.setChoices(res.attendees.map(function(a){
             return {
               value: a.attendee_person_id || a.person_id,
@@ -396,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function(){
               customProperties:{ user_id: a.attendee_user_id || a.user_id || '' }
             };
           }), 'value', 'label', false);
+          suppressAttendeeEvents = false;
         }
         syncHiddenAttendees();
       });
