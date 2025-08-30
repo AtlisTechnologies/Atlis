@@ -1,6 +1,6 @@
 .label {
-  width: 200px;
-  height: 100px;
+  width: 1.5in;
+  height: 1.5in;
   border: 1px solid #000;
   display: flex;
   flex-direction: column;
@@ -11,8 +11,8 @@
   margin: 4px;
 }
 .label img {
-  max-width: 80px;
-  max-height: 80px;
+  max-width: 1in;
+  max-height: 1in;
 }
 .label .text {
   margin-top: 4px;

@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_assets','update');
+require_permission('assets','update');
 
 $asset_id = (int)($_POST['asset_id'] ?? 0);
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -14,7 +14,7 @@ if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
   echo 'Upload error';
   exit;
 }
-$uploadDir = __DIR__ . '/../uploads/' . $asset_id . '/';
+$uploadDir = __DIR__ . '/../../../assets/uploads/' . $asset_id . '/';
 if (!is_dir($uploadDir)) { mkdir($uploadDir,0775,true); }
 $filename = basename($_FILES['file']['name']);
 $target = $uploadDir . $filename;

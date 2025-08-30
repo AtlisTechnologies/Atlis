@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_assets','update');
+require_permission('assets','update');
 
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
   $cid = (int)($_GET['contractor_id'] ?? 0);

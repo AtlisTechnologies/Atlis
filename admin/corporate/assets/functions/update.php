@@ -2,7 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
 require_once __DIR__ . '/helpers.php';
-require_permission('admin_assets','update');
+require_permission('assets','update');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   $_SESSION['error_message'] = 'Method not allowed';
@@ -27,6 +27,9 @@ $warranty_expiration = $_POST['warranty_expiration'] ?: null;
 $purchase_price = $_POST['purchase_price'] !== '' ? (float)$_POST['purchase_price'] : null;
 $condition_id = $_POST['condition_id'] !== '' ? (int)$_POST['condition_id'] : null;
 $location = trim($_POST['location'] ?? '');
+$is_encrypted = isset($_POST['is_encrypted']) ? 1 : 0;
+$is_mdm_enrolled = isset($_POST['is_mdm_enrolled']) ? 1 : 0;
+$last_patch_date = $_POST['last_patch_date'] ?: null;
 $memo = $_POST['memo'] ?? null;
 $compliance_flags = isset($_POST['compliance']) ? implode(',', (array)$_POST['compliance']) : null;
 $tags = isset($_POST['tags']) ? array_filter(array_map('trim', (array)$_POST['tags'])) : [];
@@ -44,7 +47,7 @@ if (!$existing) {
 }
 
 try {
-  $pdo->prepare('UPDATE module_assets SET type_id=:type_id,status_id=:status_id,name=:name,vendor=:vendor,model=:model,serial=:serial,purchase_date=:purchase_date,warranty_expiration=:warranty_expiration,purchase_price=:purchase_price,condition_id=:condition_id,location=:location,compliance_flags=:compliance_flags,memo=:memo,user_updated=:uid WHERE id=:id')
+  $pdo->prepare('UPDATE module_assets SET type_id=:type_id,status_id=:status_id,name=:name,vendor=:vendor,model=:model,serial=:serial,purchase_date=:purchase_date,warranty_expiration=:warranty_expiration,purchase_price=:purchase_price,condition_id=:condition_id,location=:location,is_encrypted=:is_encrypted,is_mdm_enrolled=:is_mdm_enrolled,last_patch_date=:last_patch_date,compliance_flags=:compliance_flags,memo=:memo,user_updated=:uid WHERE id=:id')
       ->execute([
         ':type_id'=>$type_id,
         ':status_id'=>$status_id,
@@ -57,6 +60,9 @@ try {
         ':purchase_price'=>$purchase_price,
         ':condition_id'=>$condition_id,
         ':location'=>$location,
+        ':is_encrypted'=>$is_encrypted,
+        ':is_mdm_enrolled'=>$is_mdm_enrolled,
+        ':last_patch_date'=>$last_patch_date,
         ':compliance_flags'=>$compliance_flags,
         ':memo'=>$memo,
         ':uid'=>$this_user_id,
@@ -81,7 +87,10 @@ admin_audit_log($pdo,$this_user_id,'module_assets',$id,'asset.update',json_encod
   'serial'=>$serial,
   'purchase_price'=>$purchase_price,
   'condition_id'=>$condition_id,
-  'location'=>$location
+  'location'=>$location,
+  'is_encrypted'=>$is_encrypted,
+  'is_mdm_enrolled'=>$is_mdm_enrolled,
+  'last_patch_date'=>$last_patch_date
 ]),'Updated asset');
 
 $_SESSION['message'] = 'Asset updated';

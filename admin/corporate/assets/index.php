@@ -1,6 +1,6 @@
 <?php
 require '../../admin_header.php';
-require_permission('admin_assets','read');
+require_permission('assets','read');
 
 $token = generate_csrf_token();
 
@@ -42,9 +42,10 @@ $types = get_lookup_items($pdo,'ASSET_TYPE');
 <?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
 <?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
 <div class="mb-3 d-flex gap-2">
-  <?php if (user_has_permission('admin_assets','create')): ?>
+  <?php if (user_has_permission('assets','create')): ?>
   <a class="btn btn-sm btn-success" href="asset.php">Add Asset</a>
   <?php endif; ?>
+  <button class="btn btn-sm btn-secondary" type="button" id="print-labels">Print Labels</button>
 </div>
 <form class="row g-2 mb-3" method="get">
   <div class="col-auto">
@@ -81,6 +82,7 @@ $types = get_lookup_items($pdo,'ASSET_TYPE');
   <table class="table table-striped table-sm mb-0">
     <thead>
       <tr>
+        <th><input type="checkbox" id="select-all"></th>
         <th>Tag</th>
         <th>Type</th>
         <th>Model</th>
@@ -95,6 +97,7 @@ $types = get_lookup_items($pdo,'ASSET_TYPE');
     <tbody>
       <?php foreach($assets as $a): ?>
       <tr>
+        <td><input type="checkbox" class="asset-select" value="<?= $a['id']; ?>"></td>
         <td><?= e($a['asset_tag']); ?></td>
         <td><?= e($a['type_label']); ?></td>
         <td><?= e($a['model']); ?></td>
@@ -111,4 +114,13 @@ $types = get_lookup_items($pdo,'ASSET_TYPE');
     </tbody>
   </table>
 </div>
+<script>
+document.getElementById('select-all').addEventListener('change',e=>{
+  document.querySelectorAll('.asset-select').forEach(cb=>cb.checked=e.target.checked);
+});
+document.getElementById('print-labels').addEventListener('click',()=>{
+  const ids=[...document.querySelectorAll('.asset-select:checked')].map(cb=>cb.value).join(',');
+  if(ids) window.open('labels.php?ids='+ids,'_blank');
+});
+</script>
 <?php require '../admin_footer.php'; ?>
