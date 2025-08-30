@@ -1,0 +1,26 @@
+CREATE TABLE `admin_minder_note` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `memo` TEXT DEFAULT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `body` TEXT NOT NULL,
+  `category_id` INT(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `admin_minder_note_file` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT(11),
+  `user_updated` INT(11),
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `memo` TEXT DEFAULT NULL,
+  `note_id` INT(11) NOT NULL,
+  `file_name` VARCHAR(255) NOT NULL,
+  `file_path` VARCHAR(255) NOT NULL,
+  `file_size` INT DEFAULT NULL,
+  `file_type` VARCHAR(255) DEFAULT NULL,
+  FOREIGN KEY (`note_id`) REFERENCES `admin_minder_note`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
