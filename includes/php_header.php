@@ -5,6 +5,12 @@ ini_set('display_errors', $devMode ? '1' : '0');
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/../logs/php-error.txt');
 ob_start();
+if (!headers_sent()) {
+  header('X-Frame-Options: DENY');
+  header('X-Content-Type-Options: nosniff');
+  header('Referrer-Policy: same-origin');
+  header("Content-Security-Policy: frame-ancestors 'none';");
+}
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_set_cookie_params([
     'lifetime' => 0,
