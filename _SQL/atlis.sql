@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 05:46 AM
+-- Generation Time: Aug 30, 2025 at 08:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -299,7 +299,18 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (250, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_questions', 33, 'CREATE', 'Added question', '', '{\"question\":\"GAL Project ?\"}'),
 (251, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_attendees', 76, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
 (252, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_attendees', 77, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
-(253, 1, 1, '2025-08-29 21:44:10', '2025-08-29 21:44:10', NULL, 'admin_minder_notes', 1, 'CREATE', '', NULL, '{\"title\":\"MILENY VALDEZ NEEDS:\"}');
+(253, 1, 1, '2025-08-29 21:44:10', '2025-08-29 21:44:10', NULL, 'admin_minder_notes', 1, 'CREATE', '', NULL, '{\"title\":\"MILENY VALDEZ NEEDS:\"}'),
+(254, 1, 1, '2025-08-29 23:23:29', '2025-08-29 23:23:29', NULL, 'module_assets', 1, 'asset.create', 'Created asset', NULL, '{\"asset_tag\":\"LAPTOP-2025-0001\",\"type_id\":324,\"status_id\":327,\"model\":\"LATITUDE 5550\",\"serial\":\"84654561513\",\"name\":\"DELL LATITUDE 5550\",\"vendor\":\"DELL\",\"purchase_price\":699,\"condition_id\":332,\"location\":\"LOGAN, UT\"}'),
+(255, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 1, 'SYNC', 'Updated role group assignments', '[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,30,31,33,36,37,38]', '[18,32,33,31,30,27,28,34,35,24,26,25,29,3,13,20,10,19,6,12,17,21,22,11,15,36,37,38,5,2,16,8,4,7,9,23,1]'),
+(256, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 10, 'SYNC', 'Updated role group assignments', '[2,3,5,6,8,9,11,13]', '[3,13,6,11,5,2,8,9]'),
+(257, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 11, 'SYNC', 'Updated role group assignments', '[8,9,11,13]', '[13,11,8,9]'),
+(258, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 12, 'SYNC', 'Updated role group assignments', '[8,9,11,13]', '[13,11,8,9]'),
+(259, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 13, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(260, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 14, 'SYNC', 'Updated role group assignments', '[10,11]', '[10,11]'),
+(261, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 15, 'SYNC', 'Updated role group assignments', '[16]', '[16]'),
+(262, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 46, 'SYNC', 'Updated role group assignments', '[36]', '[36]'),
+(263, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 47, 'SYNC', 'Updated role group assignments', '[37]', '[37]'),
+(264, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 'admin_role_permission_groups', 48, 'SYNC', 'Updated role group assignments', '[38]', '[38]');
 
 -- --------------------------------------------------------
 
@@ -996,7 +1007,12 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (217, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'read'),
 (218, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'update'),
 (219, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'delete'),
-(220, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 'minder_module', 'read');
+(220, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 'minder_module', 'read'),
+(221, 1, 1, '2025-08-29 23:18:08', '2025-08-29 23:18:08', NULL, 'admin_assets', 'assign'),
+(222, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 'asset_policies', 'create'),
+(223, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 'asset_policies', 'read'),
+(224, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 'asset_policies', 'update'),
+(225, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 'asset_policies', 'delete');
 
 -- --------------------------------------------------------
 
@@ -1301,7 +1317,12 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (247, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 217),
 (248, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 218),
 (249, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 219),
-(250, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 38, 220);
+(250, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 38, 220),
+(251, 1, 1, '2025-08-29 23:18:08', '2025-08-29 23:18:08', NULL, 33, 221),
+(252, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 33, 222),
+(253, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 33, 223),
+(254, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 33, 224),
+(255, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, 33, 225);
 
 -- --------------------------------------------------------
 
@@ -1428,60 +1449,67 @@ CREATE TABLE `admin_role_permission_groups` (
 --
 
 INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `role_id`, `permission_group_id`) VALUES
-(111, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 18),
-(112, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 24),
-(113, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 26),
-(114, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 25),
-(115, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 3),
-(116, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 13),
-(117, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 20),
-(118, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 10),
-(119, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 19),
-(120, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 6),
-(121, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 12),
-(122, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 17),
-(123, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 21),
-(124, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 22),
-(125, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 11),
-(126, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 15),
-(127, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 5),
-(128, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 2),
-(129, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 16),
-(130, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 8),
-(131, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 4),
-(132, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 7),
-(133, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 9),
-(134, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 23),
-(135, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 1, 1),
-(136, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 3),
-(137, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 13),
-(138, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 6),
-(139, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 11),
-(140, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 5),
-(141, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 2),
-(142, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 8),
-(143, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 10, 9),
-(144, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 13),
-(145, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 11),
-(146, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 8),
-(147, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 11, 9),
-(148, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 13),
-(149, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 11),
-(150, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 8),
-(151, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 12, 9),
-(152, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 13, 10),
-(153, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 13, 11),
-(154, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 10),
-(155, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 11),
-(156, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 15, 16),
-(157, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 30),
-(158, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 31),
-(159, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 1, 36),
-(160, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 46, 36),
-(161, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 1, 37),
-(162, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 47, 37),
-(163, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 48, 38),
-(164, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 1, 38);
+(166, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 18),
+(167, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 32),
+(168, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 33),
+(169, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 31),
+(170, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 30),
+(171, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 27),
+(172, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 28),
+(173, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 34),
+(174, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 35),
+(175, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 24),
+(176, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 26),
+(177, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 25),
+(178, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 29),
+(179, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 3),
+(180, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 13),
+(181, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 20),
+(182, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 10),
+(183, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 19),
+(184, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 6),
+(185, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 12),
+(186, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 17),
+(187, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 21),
+(188, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 22),
+(189, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 11),
+(190, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 15),
+(191, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 36),
+(192, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 37),
+(193, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 38),
+(194, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 5),
+(195, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 2),
+(196, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 16),
+(197, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 8),
+(198, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 4),
+(199, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 7),
+(200, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 9),
+(201, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 23),
+(202, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 1, 1),
+(203, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 3),
+(204, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 13),
+(205, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 6),
+(206, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 11),
+(207, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 5),
+(208, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 2),
+(209, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 8),
+(210, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 10, 9),
+(211, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 11, 13),
+(212, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 11, 11),
+(213, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 11, 8),
+(214, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 11, 9),
+(215, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 12, 13),
+(216, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 12, 11),
+(217, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 12, 8),
+(218, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 12, 9),
+(219, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 13, 10),
+(220, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 13, 11),
+(221, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 14, 10),
+(222, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 14, 11),
+(223, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 15, 16),
+(224, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 46, 36),
+(225, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 47, 37),
+(226, 1, 1, '2025-08-30 00:49:08', '2025-08-30 00:49:08', NULL, 48, 38);
 
 -- --------------------------------------------------------
 
@@ -2112,6 +2140,32 @@ INSERT INTO `admin_user_roles` (`id`, `user_id`, `user_updated`, `date_created`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `asset_policies`
+--
+
+CREATE TABLE `asset_policies` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `version` varchar(20) NOT NULL,
+  `policy_text` text DEFAULT NULL,
+  `effective_date` date DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `asset_policies`
+--
+
+INSERT INTO `asset_policies` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `version`, `policy_text`, `effective_date`, `is_active`) VALUES
+(1, 1, 1, '2025-08-30 00:38:35', '2025-08-30 00:38:35', NULL, '1.0', 'Initial asset policy', '2025-08-30', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `audit_log`
 --
 
@@ -2147,7 +2201,10 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (12, 1, 1, '2025-08-29 09:46:50', '2025-08-29 09:46:50', NULL, 'users', 1, 'LOGIN', 'User logged in'),
 (13, 1, 1, '2025-08-29 09:47:08', '2025-08-29 09:47:08', NULL, 'users', 1, 'LOGIN', 'User logged in'),
 (14, 1, 1, '2025-08-29 09:47:24', '2025-08-29 09:47:24', NULL, 'users', 1, 'LOGIN', 'User logged in'),
-(15, 1, 1, '2025-08-29 09:48:52', '2025-08-29 09:48:52', NULL, 'users', 1, 'LOGIN', 'User logged in');
+(15, 1, 1, '2025-08-29 09:48:52', '2025-08-29 09:48:52', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(16, 1, 1, '2025-08-29 23:13:13', '2025-08-29 23:13:13', NULL, 'lookup_list_item_attributes', 193, 'DELETE', 'Deleted item attribute'),
+(17, 1, 1, '2025-08-29 23:15:24', '2025-08-29 23:15:24', NULL, 'lookup_lists', 80, 'CREATE', 'Created lookup list'),
+(18, 1, 1, '2025-08-29 23:15:29', '2025-08-29 23:15:29', NULL, 'lookup_lists', 80, 'DELETE', 'Deleted lookup list');
 
 -- --------------------------------------------------------
 
@@ -2239,7 +2296,11 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (72, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'ADMIN_MINDER_NOTE_CATEGORY', 'Categories for admin minder notes'),
 (73, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'ADMIN_MINDER_NOTE_STATUS', 'Statuses for admin minder notes'),
 (74, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'ADMIN_MINDER_REMINDER_TYPE', 'Minder reminder types'),
-(75, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'ADMIN_MINDER_REMINDER_STATUS', 'Minder reminder statuses');
+(75, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'ADMIN_MINDER_REMINDER_STATUS', 'Minder reminder statuses'),
+(76, 1, 1, '2025-08-29 23:12:06', '2025-08-29 23:12:06', NULL, 'ASSET_TYPE', 'Types of assets'),
+(77, 1, 1, '2025-08-29 23:12:06', '2025-08-29 23:12:06', NULL, 'ASSET_STATUS', 'Status of assets'),
+(78, 1, 1, '2025-08-29 23:12:06', '2025-08-29 23:12:06', NULL, 'ASSET_CONDITION', 'Condition of assets'),
+(79, 1, 1, '2025-08-29 23:12:06', '2025-08-29 23:12:06', NULL, 'ASSET_ATTACHMENT_CATEGORY', 'Categories for asset attachments');
 
 -- --------------------------------------------------------
 
@@ -2547,7 +2608,25 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (320, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 72, 'General', 'GENERAL', 1, '2025-08-28', NULL),
 (321, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 73, 'Open', 'OPEN', 1, '2025-08-28', NULL),
 (322, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 74, 'General', 'general', 1, '2025-08-28', NULL),
-(323, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 75, 'Pending', 'pending', 1, '2025-08-28', NULL);
+(323, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 75, 'Pending', 'pending', 1, '2025-08-28', NULL),
+(324, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 76, 'Laptop', 'LAPTOP', 1, '2025-08-29', NULL),
+(325, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 76, 'Monitor', 'MONITOR', 2, '2025-08-29', NULL),
+(326, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'In Stock', 'IN_STOCK', 1, '2025-08-29', NULL),
+(327, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'Assigned', 'ASSIGNED', 2, '2025-08-29', NULL),
+(328, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'In Repair', 'IN_REPAIR', 3, '2025-08-29', NULL),
+(329, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'Lost', 'LOST', 4, '2025-08-29', NULL),
+(330, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'Retired', 'RETIRED', 5, '2025-08-29', NULL),
+(331, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 77, 'Disposed', 'DISPOSED', 6, '2025-08-29', NULL),
+(332, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'New', 'NEW', 1, '2025-08-29', NULL),
+(333, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'Excellent', 'EXCELLENT', 2, '2025-08-29', NULL),
+(334, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'Good', 'GOOD', 3, '2025-08-29', NULL),
+(335, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'Fair', 'FAIR', 4, '2025-08-29', NULL),
+(336, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'Poor', 'POOR', 5, '2025-08-29', NULL),
+(337, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 78, 'Damaged', 'DAMAGED', 6, '2025-08-29', NULL),
+(338, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 79, 'Receipt', 'RECEIPT', 1, '2025-08-29', NULL),
+(339, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 79, 'Photo', 'PHOTO', 2, '2025-08-29', NULL),
+(340, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 79, 'Agreement', 'AGREEMENT', 3, '2025-08-29', NULL),
+(341, 1, 1, '2025-08-29 23:12:07', '2025-08-29 23:12:07', NULL, 79, 'Repair Doc', 'REPAIR_DOC', 4, '2025-08-29', NULL);
 
 -- --------------------------------------------------------
 
@@ -2750,7 +2829,6 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (190, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 197, 'ICON-CLASS', 'bi-calendar-event'),
 (191, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 320, 'DEFAULT', 'true'),
 (192, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 321, 'DEFAULT', 'true'),
-(193, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 322, 'DEFAULT', 'true'),
 (194, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 323, 'DEFAULT', 'true');
 
 -- --------------------------------------------------------
@@ -2832,6 +2910,59 @@ CREATE TABLE `module_agency_assignments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_agency_files`
+--
+
+CREATE TABLE `module_agency_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_agency_files`
+--
+
+INSERT INTO `module_agency_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `file_name`, `file_path`, `file_size`, `file_type`) VALUES
+(1, 1, 1, '2025-08-30 12:00:00', '2025-08-30 12:00:00', NULL, 2, 'Lake_County_MOU.pdf', '/agencies/2/files/lake_county_mou.pdf', 204800, 'application/pdf'),
+(2, 1, 1, '2025-08-30 12:05:00', '2025-08-30 12:05:00', NULL, 3, 'Public_Defender_Overview.docx', '/agencies/3/files/public_defender_overview.docx', 102400, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_agency_notes`
+--
+
+CREATE TABLE `module_agency_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `agency_id` int(11) NOT NULL,
+  `note_text` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_agency_notes`
+--
+
+INSERT INTO `module_agency_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `agency_id`, `note_text`) VALUES
+(1, 1, 1, '2025-08-30 12:10:00', '2025-08-30 12:10:00', NULL, 2, 'Received Lake County memorandum of understanding.'),
+(2, 1, 1, '2025-08-30 12:15:00', '2025-08-30 12:15:00', NULL, 3, 'Met with Public Defender to review onboarding requirements.');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_agency_persons`
 --
 
@@ -2878,8 +3009,20 @@ CREATE TABLE `module_assets` (
   `purchase_date` date DEFAULT NULL,
   `warranty_expiration` date DEFAULT NULL,
   `compliance_flags` varchar(255) DEFAULT NULL,
-  `assignee_id` int(11) DEFAULT NULL
+  `assignee_id` int(11) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `vendor` varchar(100) DEFAULT NULL,
+  `purchase_price` decimal(10,2) DEFAULT NULL,
+  `condition_id` int(11) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_assets`
+--
+
+INSERT INTO `module_assets` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `asset_tag`, `type_id`, `status_id`, `model`, `serial`, `purchase_date`, `warranty_expiration`, `compliance_flags`, `assignee_id`, `name`, `vendor`, `purchase_price`, `condition_id`, `location`) VALUES
+(1, 1, 1, '2025-08-29 23:23:29', '2025-08-29 23:23:29', 'TEST', 'LAPTOP-2025-0001', 324, 327, 'LATITUDE 5550', '84654561513', '0000-00-00', '0000-00-00', NULL, NULL, 'DELL LATITUDE 5550', 'DELL', 699.00, 332, 'LOGAN, UT');
 
 -- --------------------------------------------------------
 
@@ -2896,7 +3039,14 @@ CREATE TABLE `module_asset_assignments` (
   `user_id` int(11) DEFAULT NULL,
   `user_updated` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT current_timestamp(),
-  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `due_date` date DEFAULT NULL,
+  `condition_out_id` int(11) DEFAULT NULL,
+  `condition_in_id` int(11) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `policy_version` varchar(50) DEFAULT NULL,
+  `policy_id` int(11) DEFAULT NULL,
+  `agreement_file` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2935,6 +3085,25 @@ CREATE TABLE `module_asset_files` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_asset_policies`
+--
+
+CREATE TABLE `module_asset_policies` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `version` varchar(50) NOT NULL,
+  `effective_date` date NOT NULL,
+  `content` text NOT NULL,
+  `active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_asset_tags`
 --
 
@@ -2960,6 +3129,13 @@ CREATE TABLE `module_asset_tag_seq` (
   `year` int(4) NOT NULL,
   `seq` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `module_asset_tag_seq`
+--
+
+INSERT INTO `module_asset_tag_seq` (`id`, `type_id`, `year`, `seq`) VALUES
+(1, 324, 2025, 1);
 
 -- --------------------------------------------------------
 
@@ -5399,6 +5575,15 @@ ALTER TABLE `admin_user_roles`
   ADD KEY `fk_admin_user_roles_user_account_id` (`user_account_id`);
 
 --
+-- Indexes for table `asset_policies`
+--
+ALTER TABLE `asset_policies`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_asset_policies_version` (`version`),
+  ADD KEY `fk_asset_policies_user_id` (`user_id`),
+  ADD KEY `fk_asset_policies_user_updated` (`user_updated`);
+
+--
 -- Indexes for table `audit_log`
 --
 ALTER TABLE `audit_log`
@@ -5470,6 +5655,24 @@ ALTER TABLE `module_agency_assignments`
   ADD KEY `fk_module_agency_assignments_assigned_user_id` (`assigned_user_id`);
 
 --
+-- Indexes for table `module_agency_files`
+--
+ALTER TABLE `module_agency_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_files_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_files_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_files_agency_id` (`agency_id`);
+
+--
+-- Indexes for table `module_agency_notes`
+--
+ALTER TABLE `module_agency_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_agency_notes_user_id` (`user_id`),
+  ADD KEY `fk_module_agency_notes_user_updated` (`user_updated`),
+  ADD KEY `fk_module_agency_notes_agency_id` (`agency_id`);
+
+--
 -- Indexes for table `module_agency_persons`
 --
 ALTER TABLE `module_agency_persons`
@@ -5496,19 +5699,28 @@ ALTER TABLE `module_asset_assignments`
 -- Indexes for table `module_asset_events`
 --
 ALTER TABLE `module_asset_events`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_asset_events_asset_id` (`asset_id`);
 
 --
 -- Indexes for table `module_asset_files`
 --
 ALTER TABLE `module_asset_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_asset_files_asset_id` (`asset_id`);
+
+--
+-- Indexes for table `module_asset_policies`
+--
+ALTER TABLE `module_asset_policies`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `module_asset_tags`
 --
 ALTER TABLE `module_asset_tags`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_module_asset_tags_asset_id` (`asset_id`);
 
 --
 -- Indexes for table `module_asset_tag_seq`
@@ -6189,7 +6401,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT for table `admin_corporate`
@@ -6297,7 +6509,7 @@ ALTER TABLE `admin_navigation_links`
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
@@ -6309,7 +6521,7 @@ ALTER TABLE `admin_permission_groups`
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
@@ -6327,7 +6539,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT for table `admin_task`
@@ -6372,22 +6584,28 @@ ALTER TABLE `admin_user_roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `asset_policies`
+--
+ALTER TABLE `asset_policies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
@@ -6414,6 +6632,18 @@ ALTER TABLE `module_agency_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `module_agency_files`
+--
+ALTER TABLE `module_agency_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `module_agency_notes`
+--
+ALTER TABLE `module_agency_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `module_agency_persons`
 --
 ALTER TABLE `module_agency_persons`
@@ -6423,7 +6653,7 @@ ALTER TABLE `module_agency_persons`
 -- AUTO_INCREMENT for table `module_assets`
 --
 ALTER TABLE `module_assets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_asset_assignments`
@@ -6444,6 +6674,12 @@ ALTER TABLE `module_asset_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `module_asset_policies`
+--
+ALTER TABLE `module_asset_policies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_asset_tags`
 --
 ALTER TABLE `module_asset_tags`
@@ -6453,7 +6689,7 @@ ALTER TABLE `module_asset_tags`
 -- AUTO_INCREMENT for table `module_asset_tag_seq`
 --
 ALTER TABLE `module_asset_tag_seq`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_calendar`
@@ -7034,6 +7270,13 @@ ALTER TABLE `admin_user_roles`
   ADD CONSTRAINT `fk_admin_user_roles_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `asset_policies`
+--
+ALTER TABLE `asset_policies`
+  ADD CONSTRAINT `fk_asset_policies_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_asset_policies_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
@@ -7084,6 +7327,22 @@ ALTER TABLE `module_agency_assignments`
   ADD CONSTRAINT `fk_module_agency_assignments_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `module_agency_files`
+--
+ALTER TABLE `module_agency_files`
+  ADD CONSTRAINT `fk_module_agency_files_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_files_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_files_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `module_agency_notes`
+--
+ALTER TABLE `module_agency_notes`
+  ADD CONSTRAINT `fk_module_agency_notes_agency_id` FOREIGN KEY (`agency_id`) REFERENCES `module_agency` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_notes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_module_agency_notes_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `module_agency_persons`
 --
 ALTER TABLE `module_agency_persons`
@@ -7092,6 +7351,24 @@ ALTER TABLE `module_agency_persons`
   ADD CONSTRAINT `fk_module_agency_persons_role_id` FOREIGN KEY (`role_id`) REFERENCES `lookup_list_items` (`id`),
   ADD CONSTRAINT `fk_module_agency_persons_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_agency_persons_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `module_asset_events`
+--
+ALTER TABLE `module_asset_events`
+  ADD CONSTRAINT `fk_module_asset_events_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `module_assets` (`id`);
+
+--
+-- Constraints for table `module_asset_files`
+--
+ALTER TABLE `module_asset_files`
+  ADD CONSTRAINT `fk_module_asset_files_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `module_assets` (`id`);
+
+--
+-- Constraints for table `module_asset_tags`
+--
+ALTER TABLE `module_asset_tags`
+  ADD CONSTRAINT `fk_module_asset_tags_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `module_assets` (`id`);
 
 --
 -- Constraints for table `module_calendar_events`
