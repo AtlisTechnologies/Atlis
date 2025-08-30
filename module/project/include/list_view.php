@@ -103,7 +103,7 @@
           </td>
           <td class="align-middle text-end">
             <div class="btn-reveal-trigger position-static d-flex justify-content-end align-items-center gap-2">
-              <button class="btn btn-link p-0 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
+              <button class="btn btn-link p-0 pin-toggle ms-4" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
                 <span class="fa-solid fa-thumbtack text-warning"></span>
               </button>
               <a class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fas fa-chevron-right fs-10"></span></a>

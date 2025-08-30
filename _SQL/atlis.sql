@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 10:58 AM
+-- Generation Time: Aug 30, 2025 at 07:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -345,6 +345,13 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (296, 1, 1, '2025-08-30 02:19:46', '2025-08-30 02:19:46', NULL, 'module_meeting_attendees', 94, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
 (297, 1, 1, '2025-08-30 02:33:14', '2025-08-30 02:33:14', NULL, 'module_strategy', 6, 'CREATE', '{\"title\":\"EAMON WILKINS\"}', NULL, NULL),
 (298, 1, 1, '2025-08-30 02:51:15', '2025-08-30 02:51:15', NULL, 'module_organization_persons', 3, 'CREATE', 'Assigned person', NULL, '{\"organization_id\":2,\"person_id\":63,\"role_id\":184,\"is_lead\":0}');
+INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `table_name`, `record_id`, `action`, `details`, `old_value`, `new_value`) VALUES
+(299, 1, 1, '2025-08-30 11:09:27', '2025-08-30 11:09:27', NULL, 'minder_task', 4, 'DELETE', 'Deleted task', '{\"id\":4,\"user_id\":1,\"user_updated\":1,\"date_created\":\"2025-08-26 00:26:11\",\"date_updated\":\"2025-08-26 00:31:30\",\"memo\":\"\",\"name\":\"test test test\",\"description\":\"\",\"type_id\":264,\"category_id\":267,\"sub_category_id\":269,\"status_id\":277,\"priority_id\":273,\"start_date\":\"2025-08-25 00:00:00\",\"due_date\":\"2025-08-25 00:00:00\",\"is_completed\":0,\"completed_date\":null}', NULL),
+(300, 1, 1, '2025-08-30 11:09:29', '2025-08-30 11:09:29', NULL, 'minder_task', 3, 'DELETE', 'Deleted task', '{\"id\":3,\"user_id\":1,\"user_updated\":1,\"date_created\":\"2025-08-25 23:05:25\",\"date_updated\":\"2025-08-25 23:05:25\",\"memo\":null,\"name\":\"test 2\",\"description\":null,\"type_id\":null,\"category_id\":null,\"sub_category_id\":null,\"status_id\":null,\"priority_id\":null,\"start_date\":null,\"due_date\":null,\"is_completed\":0,\"completed_date\":null}', NULL),
+(301, 1, 1, '2025-08-30 11:09:30', '2025-08-30 11:09:30', NULL, 'minder_task', 2, 'DELETE', 'Deleted task', '{\"id\":2,\"user_id\":1,\"user_updated\":1,\"date_created\":\"2025-08-25 23:05:22\",\"date_updated\":\"2025-08-25 23:05:22\",\"memo\":null,\"name\":\"test\",\"description\":null,\"type_id\":null,\"category_id\":null,\"sub_category_id\":null,\"status_id\":null,\"priority_id\":null,\"start_date\":null,\"due_date\":null,\"is_completed\":0,\"completed_date\":null}', NULL),
+(302, 1, 1, '2025-08-30 11:09:30', '2025-08-30 11:09:30', NULL, 'minder_task', 1, 'DELETE', 'Deleted task', '{\"id\":1,\"user_id\":1,\"user_updated\":1,\"date_created\":\"2025-08-25 22:45:25\",\"date_updated\":\"2025-08-25 22:45:25\",\"memo\":null,\"name\":\"Test #1\",\"description\":null,\"type_id\":null,\"category_id\":null,\"sub_category_id\":null,\"status_id\":null,\"priority_id\":null,\"start_date\":null,\"due_date\":null,\"is_completed\":0,\"completed_date\":null}', NULL),
+(303, 1, 1, '2025-08-30 11:10:11', '2025-08-30 11:10:11', NULL, 'minder_task', 5, 'CREATE', 'Quick add', NULL, '{\"name\":\"Asset Management System\"}'),
+(304, 1, 1, '2025-08-30 11:15:13', '2025-08-30 11:15:13', NULL, 'module_projects', 31, 'CREATE', 'Created project', NULL, '{\"agency_id\":\"1\",\"division_id\":\"1\",\"is_private\":0,\"name\":\"Asset Management System\",\"description\":\"\",\"requirements\":\"\",\"specifications\":\"\",\"status\":\"29\",\"priority\":\"56\",\"type\":\"182\",\"start_date\":\"2025-08-29\"}');
 
 -- --------------------------------------------------------
 
@@ -1611,10 +1618,7 @@ CREATE TABLE `admin_task` (
 --
 
 INSERT INTO `admin_task` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `name`, `description`, `type_id`, `category_id`, `sub_category_id`, `status_id`, `priority_id`, `start_date`, `due_date`, `is_completed`, `completed_date`) VALUES
-(1, 1, 1, '2025-08-25 22:45:25', '2025-08-25 22:45:25', NULL, 'Test #1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(2, 1, 1, '2025-08-25 23:05:22', '2025-08-25 23:05:22', NULL, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(3, 1, 1, '2025-08-25 23:05:25', '2025-08-25 23:05:25', NULL, 'test 2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(4, 1, 1, '2025-08-26 00:26:11', '2025-08-26 00:31:30', '', 'test test test', '', 264, 267, 269, 277, 273, '2025-08-25 00:00:00', '2025-08-25 00:00:00', 0, NULL);
+(5, 1, 1, '2025-08-30 11:10:11', '2025-08-30 11:10:11', NULL, 'Asset Management System', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1638,10 +1642,7 @@ CREATE TABLE `admin_task_assignments` (
 --
 
 INSERT INTO `admin_task_assignments` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `task_id`, `assigned_user_id`) VALUES
-(1, 1, 1, '2025-08-25 22:45:25', '2025-08-25 22:45:25', NULL, 1, 1),
-(2, 1, 1, '2025-08-25 23:05:22', '2025-08-25 23:05:22', NULL, 2, 1),
-(3, 1, 1, '2025-08-25 23:05:25', '2025-08-25 23:05:25', NULL, 3, 1),
-(5, 1, 1, '2025-08-26 00:31:30', '2025-08-26 00:31:30', NULL, 4, 1);
+(6, 1, 1, '2025-08-30 11:10:11', '2025-08-30 11:10:11', NULL, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -4287,7 +4288,8 @@ INSERT INTO `module_projects` (`id`, `user_id`, `user_updated`, `date_created`, 
 (27, 1, 1, '2025-08-26 22:46:48', '2025-08-26 22:46:48', NULL, 1, 1, 0, 'test 3', '', '', '', 55, 58, 182, '0000-00-00', NULL, 0),
 (28, 1, 1, '2025-08-26 22:46:57', '2025-08-26 22:46:57', NULL, 1, 8, 0, 'sadfasdf', 'asdfsadf', '', '', 55, 58, 182, '0000-00-00', NULL, 0),
 (29, 1, 1, '2025-08-27 21:52:16', '2025-08-27 21:52:16', NULL, NULL, NULL, 0, 'test 69', 'test 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-(30, 1, 1, '2025-08-27 23:34:40', '2025-08-27 23:34:40', NULL, NULL, NULL, 0, 'TEST 69', 'TEST 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+(30, 1, 1, '2025-08-27 23:34:40', '2025-08-27 23:34:40', NULL, NULL, NULL, 0, 'TEST 69', 'TEST 69', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(31, 1, 1, '2025-08-30 11:15:13', '2025-08-30 11:15:13', NULL, 1, 1, 0, 'Asset Management System', '', '', '', 29, 56, 182, '2025-08-29', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -4497,7 +4499,7 @@ CREATE TABLE `module_projects_pins` (
   `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `memo` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `sort_order` int(11) NOT NULL DEFAULT 0
+  `sort_order` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -4505,18 +4507,21 @@ CREATE TABLE `module_projects_pins` (
 --
 
 INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `project_id`, `sort_order`) VALUES
-(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15, 0),
-(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12, 0),
-(3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4, 0),
-(9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2, 0),
-(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22, 0),
-(12, 1, 1, '2025-08-24 00:25:39', '2025-08-24 00:25:39', NULL, 20, 0),
-(15, 1, 1, '2025-08-24 01:37:42', '2025-08-24 01:37:42', NULL, 21, 0),
-(18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11, 0),
-(19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13, 0),
-(23, 1, 1, '2025-08-26 22:39:01', '2025-08-26 22:39:01', NULL, 24, 0),
-(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10, 0),
-(25, 1, 1, '2025-08-30 01:27:13', '2025-08-30 01:27:13', NULL, 1, 0);
+(1, 1, 1, '2025-08-23 01:39:13', '2025-08-23 01:39:13', NULL, 15, NULL),
+(2, 1, 1, '2025-08-23 01:45:35', '2025-08-23 01:45:35', NULL, 12, NULL),
+(3, 1, 1, '2025-08-23 01:48:03', '2025-08-23 01:48:03', NULL, 4, NULL),
+(9, 1, 1, '2025-08-23 02:26:45', '2025-08-23 02:26:45', NULL, 2, NULL),
+(11, 1, 1, '2025-08-24 00:24:23', '2025-08-24 00:24:23', NULL, 22, NULL),
+(18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11, NULL),
+(19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13, NULL),
+(23, 1, 1, '2025-08-26 22:39:01', '2025-08-26 22:39:01', NULL, 24, NULL),
+(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10, NULL),
+(25, 1, 1, '2025-08-30 01:27:13', '2025-08-30 01:27:13', NULL, 1, NULL),
+(26, 1, 1, '2025-08-30 11:23:53', '2025-08-30 11:23:53', NULL, 31, NULL),
+(28, 1, 1, '2025-08-30 11:24:25', '2025-08-30 11:24:25', NULL, 19, NULL),
+(29, 1, 1, '2025-08-30 11:24:26', '2025-08-30 11:24:26', NULL, 18, NULL),
+(30, 1, 1, '2025-08-30 11:24:28', '2025-08-30 11:24:28', NULL, 21, NULL),
+(31, 1, 1, '2025-08-30 11:24:29', '2025-08-30 11:24:29', NULL, 20, NULL);
 
 -- --------------------------------------------------------
 
@@ -4560,11 +4565,6 @@ CREATE TABLE `module_projects_sort` (
   `project_id` int(11) NOT NULL,
   `sort_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `module_projects_sort`
---
-
 
 -- --------------------------------------------------------
 
@@ -6528,7 +6528,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
 
 --
 -- AUTO_INCREMENT for table `admin_corporate`
@@ -6672,13 +6672,13 @@ ALTER TABLE `admin_role_permission_groups`
 -- AUTO_INCREMENT for table `admin_task`
 --
 ALTER TABLE `admin_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `admin_task_assignments`
 --
 ALTER TABLE `admin_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin_task_comments`
@@ -7026,7 +7026,7 @@ ALTER TABLE `module_products_services_price_history`
 -- AUTO_INCREMENT for table `module_projects`
 --
 ALTER TABLE `module_projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `module_projects_answers`
@@ -7062,7 +7062,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
@@ -7110,7 +7110,7 @@ ALTER TABLE `module_strategy_notes`
 -- AUTO_INCREMENT for table `module_strategy_objectives`
 --
 ALTER TABLE `module_strategy_objectives`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_strategy_tags`
@@ -7814,8 +7814,8 @@ ALTER TABLE `module_projects_questions`
 -- Constraints for table `module_projects_sort`
 --
 ALTER TABLE `module_projects_sort`
-  ADD CONSTRAINT `fk_module_projects_sort_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_module_projects_sort_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`);
+  ADD CONSTRAINT `fk_module_projects_sort_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`),
+  ADD CONSTRAINT `fk_module_projects_sort_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `module_strategy`
