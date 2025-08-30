@@ -35,9 +35,7 @@
             <div class="form-check form-switch">
               <input class="form-check-input" id="toggleFollow" type="checkbox">
               <label class="form-check-label fs-8" for="toggleFollow">Allow users to follow you</label>
-            </div>
-          </div>
-        </div>
+  </div>
       </div>
     </div>
     <div class="col-12 col-xl-8">
@@ -103,6 +101,29 @@
                   </select>
                   <label class="text-body-tertiary form-icon-label fs-8" for="defaultProjectType">Type</label>
                 </div><span class="fa-solid fa-layer-group text-body fs-9 form-icon"></span>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="form-icon-container">
+                <div class="form-floating">
+                  <select class="form-select form-icon-input" id="defaultProjectAgency" name="project_agency">
+                    <option value="">No default</option>
+                    <?php foreach ($agencies as $agency): ?>
+                      <option value="<?= $agency['id']; ?>" <?= ($userDefaults['PROJECT_AGENCY'] ?? '') == $agency['id'] ? 'selected' : ''; ?>><?= h($agency['name']); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <label class="text-body-tertiary form-icon-label fs-8" for="defaultProjectAgency">Agency</label>
+                </div><span class="fa-solid fa-building text-body fs-9 form-icon"></span>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="form-icon-container">
+                <div class="form-floating">
+                  <select class="form-select form-icon-input" id="defaultProjectDivision" name="project_division" disabled>
+                    <option value="">No default</option>
+                  </select>
+                  <label class="text-body-tertiary form-icon-label fs-8" for="defaultProjectDivision">Division</label>
+                </div><span class="fa-solid fa-sitemap text-body fs-9 form-icon"></span>
               </div>
             </div>
             <div class="col-12 mt-3">
@@ -174,8 +195,60 @@
             </div>
           </div>
         </div>
-      </form>
+  </form>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const divisions = <?= json_encode($divisions); ?>;
+  const agencySelect = document.getElementById('defaultProjectAgency');
+  const divisionSelect = document.getElementById('defaultProjectDivision');
+  const defaultAgencyId = <?= json_encode($userDefaults['PROJECT_AGENCY'] ?? null); ?>;
+  const defaultDivisionId = <?= json_encode($userDefaults['PROJECT_DIVISION'] ?? null); ?>;
+
+  function populateDivisions() {
+    const agencyId = agencySelect.value;
+    divisionSelect.innerHTML = '<option value="">No default</option>';
+    if (!agencyId) {
+      divisionSelect.disabled = true;
+      divisionSelect.value = '';
+      return;
+    }
+    divisionSelect.disabled = false;
+    divisions.filter(d => d.agency_id == agencyId).forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.id;
+      opt.textContent = d.name;
+      divisionSelect.appendChild(opt);
+    });
+    if (defaultDivisionId) {
+      const div = divisions.find(d => d.id == defaultDivisionId);
+      if (div && div.agency_id == agencyId) {
+        divisionSelect.value = defaultDivisionId;
+      }
+    }
+  }
+
+  if (defaultDivisionId && !defaultAgencyId) {
+    const div = divisions.find(d => d.id == defaultDivisionId);
+    if (div) { agencySelect.value = String(div.agency_id); }
+  } else if (defaultAgencyId) {
+    agencySelect.value = String(defaultAgencyId);
+  }
+
+  populateDivisions();
+
+  agencySelect.addEventListener('change', populateDivisions);
+
+  divisionSelect.addEventListener('change', function () {
+    const div = divisions.find(d => d.id == divisionSelect.value);
+    if (div && agencySelect.value && div.agency_id != agencySelect.value) {
+      alert('Division does not belong to selected agency');
+      divisionSelect.value = '';
+    }
+  });
+});
+</script>
 

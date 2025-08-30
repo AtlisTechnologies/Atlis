@@ -49,6 +49,9 @@ if ($action === 'settings') {
   $taskPriorityItems    = get_lookup_items($pdo, 'TASK_PRIORITY');
   $calendarEventTypeItems = get_lookup_items($pdo, 'CALENDAR_EVENT_TYPE');
 
+  $agencies = $pdo->query('SELECT id, name FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+  $divisions = $pdo->query('SELECT id, name, agency_id FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+
   $userCalendars = $pdo->prepare('SELECT id, name, is_private FROM module_calendar WHERE user_id = :uid');
   $userCalendars->execute([':uid' => $this_user_id]);
   $userCalendars = $userCalendars->fetchAll(PDO::FETCH_ASSOC);
@@ -57,6 +60,8 @@ if ($action === 'settings') {
     'PROJECT_STATUS'   => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_STATUS'),
     'PROJECT_PRIORITY' => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_PRIORITY'),
     'PROJECT_TYPE'     => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_TYPE'),
+    'PROJECT_AGENCY'   => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_AGENCY'),
+    'PROJECT_DIVISION' => get_user_default_lookup_item($pdo, $this_user_id, 'PROJECT_DIVISION'),
     'TASK_STATUS'      => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_STATUS'),
     'TASK_PRIORITY'    => get_user_default_lookup_item($pdo, $this_user_id, 'TASK_PRIORITY'),
     'CALENDAR_DEFAULT' => get_user_default_lookup_item($pdo, $this_user_id, 'CALENDAR_DEFAULT'),

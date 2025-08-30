@@ -18,6 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $division_id = $_POST['division_id'] ?? null;
   $is_private = isset($_POST['is_private']) ? 1 : 0;
 
+  if (!$agency_id && $division_id) {
+    $stmt = $pdo->prepare('SELECT agency_id FROM module_division WHERE id = :id');
+    $stmt->execute([':id' => $division_id]);
+    $agency_id = $stmt->fetchColumn();
+  }
+  if (!$agency_id && !$division_id) {
+    die('Agency or Division required');
+  }
+
   $stmt = $pdo->prepare('INSERT INTO module_projects (user_id, user_updated, agency_id, division_id, is_private, name, description, requirements, specifications, status, priority, type, start_date) VALUES (:uid, :uid, :agency_id, :division_id, :is_private, :name, :description, :requirements, :specifications, :status, :priority, :type, :start_date)');
   $stmt->execute([
     ':uid' => $this_user_id,
