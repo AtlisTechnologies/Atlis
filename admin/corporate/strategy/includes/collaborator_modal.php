@@ -7,12 +7,12 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="collaboratorPerson" class="form-label">Person ID</label>
-          <input type="number" class="form-control" id="collaboratorPerson" name="person_id" required>
+          <label for="collaboratorPerson" class="form-label">Person</label>
+          <select class="form-select" id="collaboratorPerson" name="person_id" data-choices="data-choices" required></select>
         </div>
         <div class="mb-3">
-          <label for="collaboratorRole" class="form-label">Role ID</label>
-          <input type="number" class="form-control" id="collaboratorRole" name="role_id">
+          <label for="collaboratorRole" class="form-label">Role</label>
+          <select class="form-select" id="collaboratorRole" name="role_id" data-choices="data-choices"></select>
         </div>
         <input type="hidden" name="strategy_id" class="strategy-id-input">
         <?= csrf_field(); ?>

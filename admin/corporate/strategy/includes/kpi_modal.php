@@ -10,6 +10,22 @@
           <label for="kpiTitle" class="form-label">Title</label>
           <input type="text" class="form-control" id="kpiTitle" name="title" required>
         </div>
+        <div class="mb-3">
+          <label for="kpiObjective" class="form-label">Objective</label>
+          <select class="form-select" id="kpiObjective" name="objective_id" data-choices="data-choices"></select>
+        </div>
+        <div class="mb-3">
+          <label for="kpiTarget" class="form-label">Target Value</label>
+          <input type="number" class="form-control" id="kpiTarget" name="target_value">
+        </div>
+        <div class="mb-3">
+          <label for="kpiCurrent" class="form-label">Current Value</label>
+          <input type="number" class="form-control" id="kpiCurrent" name="current_value">
+        </div>
+        <div class="mb-3">
+          <label for="kpiUnit" class="form-label">Unit</label>
+          <input type="text" class="form-control" id="kpiUnit" name="unit">
+        </div>
         <input type="hidden" name="strategy_id" class="strategy-id-input">
         <?= csrf_field(); ?>
       </div>

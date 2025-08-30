@@ -159,6 +159,7 @@ $categoryItems = get_lookup_items($pdo,'CORPORATE_STRATEGY_CATEGORY');
           <label for="strategyTags" class="form-label">Tags</label>
           <input type="text" class="form-control" id="strategyTags" name="tags">
         </div>
+        <?= csrf_field(); ?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -180,6 +181,25 @@ $(function(){
   let currentStrategyId = null;
   function escapeHtml(text=""){ return $('<div>').text(text).html(); }
   function updateStrategyIdInputs(id){ $('.strategy-id-input').val(id); }
+  function initChoices($el){
+    if(window.Choices){
+      const existing = $el.data('choices-instance');
+      if(existing) existing.destroy();
+      const inst = new Choices($el[0], {searchEnabled:true});
+      $el.data('choices-instance', inst);
+    }
+  }
+  function populateSelect($el, url, placeholder){
+    $.getJSON(url, function(resp){
+      if(resp.success){
+        const items = resp.items || resp.people || resp.roles || resp.objectives || [];
+        let html = `<option value="">${placeholder}</option>`;
+        items.forEach(i=>{ const label = i.label || i.name; html += `<option value="${i.id}">${escapeHtml(label)}</option>`; });
+        $el.html(html);
+        initChoices($el);
+      }
+    });
+  }
   function loadStrategies(){
     $.getJSON('functions/read_strategies.php',{
       status: $('#filterStatus').val(),
@@ -192,9 +212,10 @@ $(function(){
         if(resp.strategies.length){
           let html='';
           resp.strategies.forEach(s=>{
-            const statusBadge = s.status_label ? `<span class="badge badge-phoenix badge-phoenix-${s.status_color} me-1"><span class="badge-label">${escapeHtml(s.status_label)}</span></span>` : '';
-            const priorityBadge = s.priority_label ? `<span class="badge badge-phoenix badge-phoenix-${s.priority_color}"><span class="badge-label">${escapeHtml(s.priority_label)}</span></span>` : '';
-            html += `<div class="card mb-2 strategy-item" data-id="${s.id}"><div class="card-body d-flex justify-content-between"><div><div>${escapeHtml(s.title)}</div><div class="small text-body-secondary">${escapeHtml(s.category_label || '')}</div></div><div class="text-nowrap">${statusBadge}${priorityBadge}</div></div></div>`;
+            const statusBadge   = s.status_label   ? `<span class="badge badge-phoenix badge-phoenix-${s.status_color} me-1"><span class="badge-label">${escapeHtml(s.status_label)}</span></span>` : '';
+            const priorityBadge = s.priority_label ? `<span class="badge badge-phoenix badge-phoenix-${s.priority_color} me-1"><span class="badge-label">${escapeHtml(s.priority_label)}</span></span>` : '';
+            const categoryBadge = s.category_label ? `<span class="badge badge-phoenix badge-phoenix-${s.category_color}"><span class="badge-label">${escapeHtml(s.category_label)}</span></span>` : '';
+            html += `<div class="card mb-2 strategy-item" data-id="${s.id}"><div class="card-body d-flex justify-content-between"><div>${escapeHtml(s.title)}</div><div class="text-nowrap">${statusBadge}${priorityBadge}${categoryBadge}</div></div></div>`;
           });
           $('#strategyList').html(html);
         } else {
@@ -218,7 +239,7 @@ $(function(){
     loadObjectives(id);
     $('#collaboratorsList, #notesList, #filesList, #kpiList').html('');
   });
-  $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e){
+  $('#strategyTabs button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e){
     if(!currentStrategyId) return;
     const target = $(e.target).attr('data-bs-target');
     if(target === '#collaborators') loadCollaborators(currentStrategyId);
@@ -315,6 +336,16 @@ $(function(){
       const li = $(this).closest('li');
       $sel.append('<option value="'+li.data('id')+'">'+escapeHtml($(this).text().trim())+'</option>');
     });
+    populateSelect($('#objectiveOwner'),'functions/read_people.php','Select Owner');
+  });
+  $('#addCollaboratorModal').on('show.bs.modal', function(){
+    populateSelect($('#collaboratorPerson'),'functions/read_people.php','Select Person');
+    populateSelect($('#collaboratorRole'),'functions/read_roles.php','Select Role');
+  });
+  $('#addKpiModal').on('show.bs.modal', function(){
+    if(currentStrategyId){
+      populateSelect($('#kpiObjective'),'functions/read_objectives.php?strategy_id='+currentStrategyId,'Select Objective');
+    }
   });
   function loadObjectives(strategyId){
     $.getJSON('functions/read_objectives.php',{strategy_id:strategyId},function(resp){
