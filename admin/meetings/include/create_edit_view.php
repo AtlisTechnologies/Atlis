@@ -123,7 +123,7 @@ $token = generate_csrf_token();
     <div class="mb-3">
       <label for="attendeeSelect" class="form-label">Attendees</label>
       <select id="attendeeSelect" class="form-select" placeholder="Search user" multiple></select>
-      <div id="attendeeHiddenInputs"></div>
+      <div id="attendeeHiddenInputs" class="d-none"></div>
     </div>
     <div class="mb-3">
       <label class="form-label">Upload Files</label>
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function(){
     attendeeHiddenInputs.innerHTML = '';
     attendeeChoices.getValue().forEach(function(choice){
       var wrapper = document.createElement('div');
-      wrapper.textContent = choice.label;
+      wrapper.className = 'd-none';
       var input = document.createElement('input');
       input.type = 'hidden';
       input.name = 'attendee_person_id[]';
