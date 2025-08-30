@@ -43,6 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             $message = 'Navigation link updated.';
         }
+    } elseif (isset($_POST['delete_nav_link'])) {
+        require_permission('navigation_links','delete');
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $stmt = $pdo->prepare('SELECT title,path,icon FROM admin_navigation_links WHERE id = :id');
+            $stmt->execute([':id' => $id]);
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $pdo->prepare('DELETE FROM admin_navigation_links WHERE id = :id')->execute([':id' => $id]);
+                admin_audit_log($pdo, $this_user_id, 'admin_navigation_links', $id, 'DELETE', json_encode($row), null, 'Deleted navigation link');
+                if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                    echo json_encode(['success' => true]);
+                    exit;
+                }
+                $message = 'Navigation link deleted.';
+            }
+        }
     } else {
         require_permission('navigation_links','update');
         $order = isset($_POST['order']) ? explode(',', $_POST['order']) : [];
@@ -78,6 +94,14 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <button type="button" class="btn btn-link p-0 me-2 edit-nav-link" data-id="<?= $link['id']; ?>" data-title="<?= e($link['title']); ?>" data-path="<?= e($link['path']); ?>" data-icon="<?= e($link['icon']); ?>">
             <span class="fas fa-cog"></span>
           </button>
+          <form method="post" class="delete-nav-form d-inline me-2">
+            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+            <input type="hidden" name="id" value="<?= $link['id']; ?>">
+            <input type="hidden" name="delete_nav_link" value="1">
+            <button type="submit" class="btn btn-link p-0 text-danger">
+              <span class="fas fa-trash-alt"></span>
+            </button>
+          </form>
           <span class="me-2" data-feather="<?= e($link['icon']); ?>"></span>
           <span><?= e($link['title']); ?></span>
         </div>
@@ -162,6 +186,19 @@ $(function(){
     $('#editNavIcon').val($(this).data('icon'));
     var modal = new bootstrap.Modal(document.getElementById('editNavModal'));
     modal.show();
+  });
+  $('.delete-nav-form').on('submit', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    if(!confirm('Delete this navigation link?')) return;
+    var form = $(this);
+    $.post('navigation.php', form.serialize(), function(resp){
+      if(resp && resp.success){
+        form.closest('li').remove();
+      } else {
+        alert('Failed to delete link');
+      }
+    }, 'json');
   });
   feather.replace();
 });
