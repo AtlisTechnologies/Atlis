@@ -42,56 +42,73 @@ $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
   </form>
   <?php endif; ?>
 </div>
-<div id="tasks" data-list='{"valueNames":["id","name","type","category","subcategory","status","priority"],"page":25,"pagination":true}'>
-  <div class="row justify-content-between g-2 mb-3">
-    <div class="col-auto">
-      <input class="form-control form-control-sm search" placeholder="Search" />
+<ul class="nav nav-tabs" id="taskTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-view" type="button" role="tab">List</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="gantt-tab" data-bs-toggle="tab" data-bs-target="#gantt-view" type="button" role="tab">Gantt</button>
+  </li>
+</ul>
+<div class="tab-content mt-3" id="taskTabsContent">
+  <div class="tab-pane fade show active" id="list-view" role="tabpanel" aria-labelledby="list-tab">
+    <div id="tasks" data-list='{"valueNames":["id","name","type","category","subcategory","status","priority"],"page":25,"pagination":true}'>
+      <div class="row justify-content-between g-2 mb-3">
+        <div class="col-auto">
+          <input class="form-control form-control-sm search" placeholder="Search" />
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm mb-0">
+          <thead>
+            <tr>
+              <th class="sort" data-sort="id">ID</th>
+              <th class="sort" data-sort="name">Name</th>
+              <th class="sort" data-sort="type">Type</th>
+              <th class="sort" data-sort="category">Category</th>
+              <th class="sort" data-sort="subcategory">Sub Category</th>
+              <th class="sort" data-sort="status">Status</th>
+              <th class="sort" data-sort="priority">Priority</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="list">
+            <?php foreach($tasks as $t): ?>
+            <tr>
+              <td class="id"><?= e($t['id']); ?></td>
+              <td class="name"><?= e($t['name']); ?></td>
+              <td class="type"><?= e($t['type_label']); ?></td>
+              <td class="category"><?= e($t['category_label']); ?></td>
+              <td class="subcategory"><?= e($t['sub_category_label']); ?></td>
+              <td class="status"><?= e($t['status_label']); ?></td>
+              <td class="priority"><?= e($t['priority_label']); ?></td>
+              <td>
+                <?php if (user_has_permission('minder_task', 'update')): ?>
+                <a class="btn btn-sm btn-warning" href="task.php?id=<?= $t['id']; ?>">Edit</a>
+                <?php endif; ?>
+                <?php if (user_has_permission('minder_task','delete')): ?>
+                <form method="post" action="functions/delete.php" class="d-inline" onsubmit="return confirm('Delete this task?');">
+                  <input type="hidden" name="id" value="<?= $t['id']; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+                <?php endif; ?>
+              </td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="mb-0" data-list-info></p>
+        <ul class="pagination mb-0"></ul>
+      </div>
     </div>
   </div>
-  <div class="table-responsive">
-    <table class="table table-striped table-sm mb-0">
-      <thead>
-        <tr>
-          <th class="sort" data-sort="id">ID</th>
-          <th class="sort" data-sort="name">Name</th>
-          <th class="sort" data-sort="type">Type</th>
-          <th class="sort" data-sort="category">Category</th>
-          <th class="sort" data-sort="subcategory">Sub Category</th>
-          <th class="sort" data-sort="status">Status</th>
-          <th class="sort" data-sort="priority">Priority</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody class="list">
-        <?php foreach($tasks as $t): ?>
-        <tr>
-          <td class="id"><?= e($t['id']); ?></td>
-          <td class="name"><?= e($t['name']); ?></td>
-          <td class="type"><?= e($t['type_label']); ?></td>
-          <td class="category"><?= e($t['category_label']); ?></td>
-          <td class="subcategory"><?= e($t['sub_category_label']); ?></td>
-          <td class="status"><?= e($t['status_label']); ?></td>
-          <td class="priority"><?= e($t['priority_label']); ?></td>
-          <td>
-            <?php if (user_has_permission('minder_task', 'update')): ?>
-            <a class="btn btn-sm btn-warning" href="task.php?id=<?= $t['id']; ?>">Edit</a>
-            <?php endif; ?>
-            <?php if (user_has_permission('minder_task','delete')): ?>
-            <form method="post" action="functions/delete.php" class="d-inline" onsubmit="return confirm('Delete this task?');">
-              <input type="hidden" name="id" value="<?= $t['id']; ?>">
-              <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-            <?php endif; ?>
-          </td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-  </div>
-  <div class="d-flex justify-content-between align-items-center mt-3">
-    <p class="mb-0" data-list-info></p>
-    <ul class="pagination mb-0"></ul>
+  <div class="tab-pane fade" id="gantt-view" role="tabpanel" aria-labelledby="gantt-tab">
+    <div class="gantt-app-container" style="height:600px;">
+      <div id="gantt-app" style="width:100%;height:100%;"></div>
+    </div>
   </div>
 </div>
 
@@ -271,6 +288,32 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(() => showAlert('Server error'));
   });
+
+  if (window.gantt) {
+    gantt.config.date_format = "%Y-%m-%d";
+    fetch('functions/gantt_data.php?csrf_token=' + encodeURIComponent(csrfToken), {
+      headers: jsonHeaders
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.tasks) {
+          const ganttTasks = data.tasks.map(t => {
+            const task = { id: t.id, text: t.name || t.text || '' };
+            if (t.start_date) task.start_date = t.start_date;
+            if (t.due_date && t.start_date) {
+              const start = new Date(t.start_date);
+              const end = new Date(t.due_date);
+              const diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+              task.duration = diff > 0 ? diff : 0;
+            }
+            return task;
+          });
+          gantt.init('gantt-app');
+          gantt.parse({ data: ganttTasks });
+        }
+      })
+      .catch(() => {});
+  }
 });
 </script>
 <?php require '../../admin_footer.php'; ?>
