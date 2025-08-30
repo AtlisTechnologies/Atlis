@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 09:05 AM
+-- Generation Time: Aug 30, 2025 at 09:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -764,10 +764,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (11, 'Meetings', 'meetings/index.php', 'cpu', 7, 1, 1, '2025-08-26 00:00:00', '2025-08-25 00:43:46', NULL),
 (12, 'Branding', 'branding/index.php', 'aperture', 6, 1, 1, '2025-08-24 01:53:50', '2025-08-25 00:43:46', NULL),
 (13, 'Products & Services', 'products-services/index.php', 'box', 9, 1, 1, '2025-08-27 00:00:00', '2025-08-25 00:43:46', NULL),
-(19, 'Tasks', 'tasks/index.php', 'check-square', 13, 1, 1, '2025-08-25 22:43:05', '2025-08-25 22:43:05', NULL),
+(19, 'Tasks', 'minder/tasks/index.php', 'check-square', 13, 1, 1, '2025-08-25 22:43:05', '2025-08-30 01:41:44', NULL),
 (20, 'Corporate', 'corporate/index.php', 'briefcase', 14, 1, 1, '2025-08-26 00:00:00', '2025-08-26 00:00:00', NULL),
-(21, 'Finances › Invoices', 'corporate/finances/invoices/index.php', 'file-text', 15, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:23:00', NULL),
-(22, 'Finances › Statements of Work', 'corporate/finances/statements-of-work/index.php', 'file', 16, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:22:52', NULL),
 (23, 'Time Tracking', 'corporate/time-tracking/index.php', 'clock', 17, 1, 1, '2025-08-27 02:18:52', '2025-08-27 02:18:52', NULL),
 (24, 'Strategy', 'corporate/strategy/index.php', 'target', 18, 1, 1, '2025-08-27 21:13:28', '2025-08-27 21:58:39', NULL),
 (28, 'Accounting', 'corporate/accounting/index.php', 'dollar-sign', 19, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
@@ -2204,7 +2202,11 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (15, 1, 1, '2025-08-29 09:48:52', '2025-08-29 09:48:52', NULL, 'users', 1, 'LOGIN', 'User logged in'),
 (16, 1, 1, '2025-08-29 23:13:13', '2025-08-29 23:13:13', NULL, 'lookup_list_item_attributes', 193, 'DELETE', 'Deleted item attribute'),
 (17, 1, 1, '2025-08-29 23:15:24', '2025-08-29 23:15:24', NULL, 'lookup_lists', 80, 'CREATE', 'Created lookup list'),
-(18, 1, 1, '2025-08-29 23:15:29', '2025-08-29 23:15:29', NULL, 'lookup_lists', 80, 'DELETE', 'Deleted lookup list');
+(18, 1, 1, '2025-08-29 23:15:29', '2025-08-29 23:15:29', NULL, 'lookup_lists', 80, 'DELETE', 'Deleted lookup list'),
+(19, 1, 1, '2025-08-30 01:27:06', '2025-08-30 01:27:06', NULL, 'module_tasks', 7, 'UPDATE', 'Completed task'),
+(20, 1, 1, '2025-08-30 01:27:07', '2025-08-30 01:27:07', NULL, 'module_tasks', 7, 'UPDATE', 'Marked task incomplete'),
+(21, 1, 1, '2025-08-30 01:27:07', '2025-08-30 01:27:07', NULL, 'module_task_assignments', 51, 'ASSIGN', 'Assigned user'),
+(22, 1, 1, '2025-08-30 01:27:09', '2025-08-30 01:27:09', NULL, 'module_task_assignments', 52, 'ASSIGN', 'Assigned user');
 
 -- --------------------------------------------------------
 
@@ -4435,7 +4437,8 @@ INSERT INTO `module_projects_pins` (`id`, `user_id`, `user_updated`, `date_creat
 (18, 1, 1, '2025-08-24 01:47:02', '2025-08-24 01:47:02', NULL, 11),
 (19, 1, 1, '2025-08-24 01:47:07', '2025-08-24 01:47:07', NULL, 13),
 (23, 1, 1, '2025-08-26 22:39:01', '2025-08-26 22:39:01', NULL, 24),
-(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10);
+(24, 1, 1, '2025-08-26 22:41:37', '2025-08-26 22:41:37', NULL, 10),
+(25, 1, 1, '2025-08-30 01:27:13', '2025-08-30 01:27:13', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -4650,7 +4653,7 @@ INSERT INTO `module_tasks` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (3, 1, 1, '2025-08-19 22:58:03', '2025-08-20 00:43:16', NULL, 3, 2, 2, 0, 'Fee Waiver Icon in Case Header', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-17', '2025-08-20', 1, 1, 100),
 (4, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:20', NULL, NULL, 2, 2, 0, 'New Judicial Assistant eCourt Role', NULL, NULL, NULL, '34', 34, '39', NULL, '2025-03-25', '2025-08-21', 1, 1, 100),
 (6, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:59:41', NULL, NULL, 2, 2, 0, 'Zoom Link', NULL, NULL, NULL, '32', NULL, NULL, NULL, '2025-03-24', NULL, 0, NULL, 0),
-(7, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
+(7, 1, 1, '2025-08-19 22:58:03', '2025-08-30 01:27:07', NULL, NULL, 2, 2, 0, 'Write a SQL Query for Warrants?', NULL, NULL, NULL, '35', NULL, '37', NULL, '2025-03-26', NULL, 0, NULL, 0),
 (8, 1, 1, '2025-08-19 22:58:03', '2025-08-21 09:52:19', NULL, NULL, 2, 2, 0, 'Document View / Stamp Tool', NULL, NULL, NULL, '34', 34, '38', NULL, '2025-03-27', '2025-08-21', 1, 1, 100),
 (9, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'Judge Mass Reassignment', NULL, NULL, NULL, '32', NULL, '38', NULL, '2025-03-27', NULL, 0, NULL, 0),
 (10, 1, 1, '2025-08-19 22:58:03', '2025-08-19 22:58:03', NULL, NULL, 2, 2, 0, 'AOIC Update to Report E and I - Quarterly Statistic Reports', NULL, NULL, NULL, '3', NULL, '39', NULL, '2025-04-01', NULL, 0, NULL, 0),
@@ -4949,7 +4952,9 @@ INSERT INTO `module_task_assignments` (`id`, `user_id`, `user_updated`, `date_cr
 (47, 1, 1, '2025-08-24 21:46:08', '2025-08-24 21:46:08', NULL, 88, 1),
 (48, 1, 1, '2025-08-24 23:40:30', '2025-08-24 23:40:30', NULL, 89, 1),
 (49, 1, 1, '2025-08-25 01:48:56', '2025-08-25 01:48:56', NULL, 42, 1),
-(50, 1, 1, '2025-08-25 02:03:50', '2025-08-25 02:03:50', NULL, 90, 1);
+(50, 1, 1, '2025-08-25 02:03:50', '2025-08-25 02:03:50', NULL, 90, 1),
+(51, 1, 1, '2025-08-30 01:27:07', '2025-08-30 01:27:07', NULL, 7, 1),
+(52, 1, 1, '2025-08-30 01:27:09', '2025-08-30 01:27:09', NULL, 19, 1);
 
 -- --------------------------------------------------------
 
@@ -6593,7 +6598,7 @@ ALTER TABLE `asset_policies`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
@@ -6935,7 +6940,7 @@ ALTER TABLE `module_projects_notes`
 -- AUTO_INCREMENT for table `module_projects_pins`
 --
 ALTER TABLE `module_projects_pins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `module_projects_questions`
@@ -6947,7 +6952,7 @@ ALTER TABLE `module_projects_questions`
 -- AUTO_INCREMENT for table `module_strategy`
 --
 ALTER TABLE `module_strategy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_strategy_collaborators`
@@ -7019,7 +7024,7 @@ ALTER TABLE `module_tasks_questions`
 -- AUTO_INCREMENT for table `module_task_assignments`
 --
 ALTER TABLE `module_task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `module_users_defaults`
