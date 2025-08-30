@@ -7,7 +7,8 @@ $action = $_GET['action'] ?? 'card';
 $filters = [
   'name'   => trim($_GET['name'] ?? ''),
   'status' => $_GET['status'] ?? '',
-  'lead'   => $_GET['lead'] ?? ''
+  'lead'   => $_GET['lead'] ?? '',
+  'org'    => $_GET['org'] ?? ''
 ];
 
 // Fetch agencies and status lookup
@@ -20,11 +21,17 @@ $leadUsers = $pdo->query("SELECT u.id, COALESCE(CONCAT(p.first_name,' ',p.last_n
                            LEFT JOIN person p ON u.id = p.user_id
                            ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 
-$sql = "SELECT a.id, a.name, a.status,
+// Organizations for filter select
+$organizations = $pdo->query("SELECT id, name FROM module_organization ORDER BY name")
+                      ->fetchAll(PDO::FETCH_ASSOC);
+
+$sql = "SELECT a.id, a.name, a.status, a.file_name, a.file_path, a.file_type,
+               o.name AS organization_name,
                COUNT(DISTINCT aa.assigned_user_id) AS user_count,
                (SELECT COUNT(*) FROM person p WHERE p.agency_id = a.id) AS person_count
         FROM module_agency a
-        LEFT JOIN module_agency_assignments aa ON a.id = aa.agency_id";
+        LEFT JOIN module_agency_assignments aa ON a.id = aa.agency_id
+        LEFT JOIN module_organization o ON a.organization_id = o.id";
 $conditions = [];
 $params = [];
 if ($filters['name'] !== '') {
@@ -38,6 +45,10 @@ if ($filters['status'] !== '') {
 if ($filters['lead'] !== '') {
   $conditions[] = "aa.assigned_user_id = :lead";
   $params[':lead'] = $filters['lead'];
+}
+if ($filters['org'] !== '') {
+  $conditions[] = "a.organization_id = :org";
+  $params[':org'] = $filters['org'];
 }
 if ($conditions) {
   $sql .= ' WHERE ' . implode(' AND ', $conditions);
