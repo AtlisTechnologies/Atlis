@@ -66,112 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = 'Division deleted.';
   }
 }
-
+ 
 $orgStatuses      = array_column(get_lookup_items($pdo, 'ORGANIZATION_STATUS'), null, 'id');
 $agencyStatuses   = array_column(get_lookup_items($pdo, 'AGENCY_STATUS'), null, 'id');
 $divisionStatuses = array_column(get_lookup_items($pdo, 'DIVISION_STATUS'), null, 'id');
-
-// Load organizations, agencies and divisions in a single query
-$sql = 'SELECT o.id AS org_id, o.name AS org_name, o.status AS org_status,
-               o.file_path AS org_file_path, o.file_name AS org_file_name, o.file_type AS org_file_type,
-               a.id AS agency_id, a.name AS agency_name, a.status AS agency_status,
-               a.file_path AS agency_file_path, a.file_name AS agency_file_name, a.file_type AS agency_file_type,
-               d.id AS division_id, d.name AS division_name, d.status AS division_status,
-               d.file_path AS division_file_path, d.file_name AS division_file_name, d.file_type AS division_file_type
-        FROM module_organization o
-        LEFT JOIN module_agency a ON a.organization_id = o.id
-        LEFT JOIN module_division d ON d.agency_id = a.id
-        ORDER BY o.name, a.name, d.name';
-
-$stmt = $pdo->query($sql);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Group the results by organization and agencies
-$organizations = [];
-foreach ($rows as $row) {
-  $orgId = $row['org_id'];
-  if (!isset($organizations[$orgId])) {
-    $organizations[$orgId] = [
-      'id'        => $orgId,
-      'name'      => $row['org_name'],
-      'status'    => $row['org_status'],
-      'file_path' => $row['org_file_path'],
-      'file_name' => $row['org_file_name'],
-      'file_type' => $row['org_file_type'],
-      'agencies'  => []
-    ];
-  }
-
-  if (!empty($row['agency_id'])) {
-    $agencyId = $row['agency_id'];
-    if (!isset($organizations[$orgId]['agencies'][$agencyId])) {
-      $organizations[$orgId]['agencies'][$agencyId] = [
-        'id'        => $agencyId,
-        'name'      => $row['agency_name'],
-        'status'    => $row['agency_status'],
-        'file_path' => $row['agency_file_path'],
-        'file_name' => $row['agency_file_name'],
-        'file_type' => $row['agency_file_type'],
-        'divisions' => []
-      ];
-    }
-
-    if (!empty($row['division_id'])) {
-      $organizations[$orgId]['agencies'][$agencyId]['divisions'][$row['division_id']] = [
-        'id'        => $row['division_id'],
-        'name'      => $row['division_name'],
-        'status'    => $row['division_status'],
-        'file_path' => $row['division_file_path'],
-        'file_name' => $row['division_file_name'],
-        'file_type' => $row['division_file_type']
-      ];
-    }
-  }
-}
-
-// Attach assigned persons
-$orgPeople = $pdo->query('SELECT op.organization_id, CONCAT(p.first_name," ",p.last_name) AS name, op.is_lead, li.label AS role_label FROM module_organization_persons op JOIN person p ON op.person_id = p.id LEFT JOIN lookup_list_items li ON op.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
-foreach ($orgPeople as $p) {
-  $organizations[$p['organization_id']]['persons'][] = $p;
-}
-
-$agencyPeople = $pdo->query('SELECT ap.agency_id, CONCAT(p.first_name," ",p.last_name) AS name, ap.is_lead, li.label AS role_label FROM module_agency_persons ap JOIN person p ON ap.person_id = p.id LEFT JOIN lookup_list_items li ON ap.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
-foreach ($agencyPeople as $p) {
-  foreach ($organizations as &$org) {
-    if (isset($org['agencies'][$p['agency_id']])) {
-      $org['agencies'][$p['agency_id']]['persons'][] = $p;
-      break;
-    }
-  }
-  unset($org);
-}
-
-$divisionPeople = $pdo->query('SELECT dp.division_id, CONCAT(p.first_name," ",p.last_name) AS name, dp.is_lead, li.label AS role_label FROM module_division_persons dp JOIN person p ON dp.person_id = p.id LEFT JOIN lookup_list_items li ON dp.role_id = li.id')->fetchAll(PDO::FETCH_ASSOC);
-foreach ($divisionPeople as $p) {
-  foreach ($organizations as &$org) {
-    foreach ($org['agencies'] as &$agency) {
-      if (isset($agency['divisions'][$p['division_id']])) {
-        $agency['divisions'][$p['division_id']]['persons'][] = $p;
-        break 2;
-      }
-    }
-    unset($agency);
-  }
-  unset($org);
-}
-
-// Re-index children arrays for easy iteration in the view
-foreach ($organizations as &$org) {
-  $org['agencies'] = array_values($org['agencies']);
-  foreach ($org['agencies'] as &$agency) {
-    $agency['divisions'] = array_values($agency['divisions']);
-  }
-  unset($agency);
-}
-unset($org);
-
-// Convert to a simple indexed array
-$organizations = array_values($organizations);
 
 function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl, $subdir) {
   if (empty($file_name)) {
@@ -184,127 +82,115 @@ function render_file_attachment($file_path, $file_name, $file_type, $downloadUrl
   $src = getURLDir() . ltrim($path, '/');
   $downloadUrl = e($downloadUrl, ENT_QUOTES);
   $escName = e($file_name);
-  $src = e($src, ENT_QUOTES);
-  if (strpos($file_type, 'image/') === 0) {
-    return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" target=\"_blank\"><img src=\"{$src}\" class=\"img-thumbnail\" style=\"max-width:100px;\" alt=\"{$escName}\"></a></div>";
+  $srcEsc = e($src, ENT_QUOTES);
+  $download = "<a href=\"{$downloadUrl}\" class=\"ms-2\" download><span class=\"fas fa-download\"></span></a>";
+  if (strpos($file_type, 'image/') === 0 || $file_type === 'application/pdf') {
+    $preview = strpos($file_type, 'image/') === 0 ? "<img src=\"{$srcEsc}\" class=\"img-thumbnail\" style=\"max-width:100px;\" alt=\"{$escName}\">" : "<span class=\"fas fa-file-pdf me-1\"></span>{$escName}";
+    return "<div class=\"mt-2\"><a href=\"{$srcEsc}\" data-fslightbox>{$preview}</a>{$download}</div>";
   }
-  return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" class=\"d-inline-flex align-items-center\" target=\"_blank\"><span class=\"fas fa-paperclip me-1\"></span>{$escName}</a></div>";
+  return "<div class=\"mt-2\"><a href=\"{$downloadUrl}\" class=\"d-inline-flex align-items-center\" download><span class=\"fas fa-paperclip me-1\"></span>{$escName}</a>{$download}</div>";
 }
+
+if (isset($_GET['ajax'])) {
+  $parentId = (int)($_GET['parent_id'] ?? 0);
+  $type = $_GET['ajax'];
+  if ($type === 'agencies') {
+    require_permission('agency', 'read');
+    $stmt = $pdo->prepare('SELECT id,name,status,file_path,file_name,file_type FROM module_agency WHERE organization_id = :id ORDER BY name');
+    $stmt->execute([':id' => $parentId]);
+    $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($agencies as $agency) {
+      $status = e($agencyStatuses[$agency['status']]['label'] ?? '');
+      $attachment = render_file_attachment($agency['file_path'], $agency['file_name'], $agency['file_type'], "/module/agency/download.php?type=agency&id={$agency['id']}", 'agency');
+      echo "<div class='accordion-item'><h2 class='accordion-header'><button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#div{$agency['id']}'>" . e($agency['name']) . "<span class='badge bg-secondary ms-2'>{$status}</span></button></h2><div id='div{$agency['id']}' class='accordion-collapse collapse' data-type='divisions' data-parent-id='{$agency['id']}'><div class='accordion-body'>{$attachment}</div></div></div>";
+    }
+    exit;
+  } elseif ($type === 'divisions') {
+    require_permission('division', 'read');
+    $stmt = $pdo->prepare('SELECT id,name,status,file_path,file_name,file_type FROM module_division WHERE agency_id = :id ORDER BY name');
+    $stmt->execute([':id' => $parentId]);
+    $divisions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo '<ul class="list-group">';
+    foreach ($divisions as $div) {
+      $status = e($divisionStatuses[$div['status']]['label'] ?? '');
+      $attachment = render_file_attachment($div['file_path'], $div['file_name'], $div['file_type'], "/module/agency/download.php?type=division&id={$div['id']}", 'division');
+      echo "<li class='list-group-item d-flex justify-content-between align-items-start'><div><span class='fw-semibold'>" . e($div['name']) . "</span>{$attachment}</div><span class='badge bg-secondary'>{$status}</span></li>";
+    }
+    echo '</ul>';
+    exit;
+  }
+}
+
+$stmt = $pdo->query('SELECT id,name,status,file_path,file_name,file_type FROM module_organization ORDER BY name');
+$organizations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4">Organizations</h2>
 <?php if($message){ echo '<div class="alert alert-success">'.e($message).'</div>'; } ?>
 <?php if (user_has_permission('organization','create')): ?>
   <a href="organization_edit.php" class="btn btn-sm btn-success mb-3">Add Organization</a>
 <?php endif; ?>
-
-<?php foreach ($organizations as $org): ?>
-  <div class="card mb-3">
-    <div class="card-header d-flex justify-content-between align-items-start">
-      <div>
-        <span class="badge bg-primary me-1">Org</span><span class="fw-semibold"><?= e($org['name']); ?></span>
-        <?= render_file_attachment($org['file_path'], $org['file_name'], $org['file_type'], "/module/agency/download.php?type=organization&id={$org['id']}", 'organization'); ?>
-        <?php if (!empty($org['persons'])): ?>
-          <br><small>
-            <?php
-              $parts = [];
-              foreach ($org['persons'] as $p) {
-                $label = $p['name'];
-                if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
-                if ($p['is_lead']) $label .= ' [Lead]';
-                $parts[] = e($label);
-              }
-              echo implode(', ', $parts);
-            ?>
-          </small>
-        <?php endif; ?>
-      </div>
-      <div class="text-end">
-        <?= render_status_badge($orgStatuses, $org['status']) ?>
-        <div class="mt-2">
-          <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
-          <?php if (user_has_permission('organization','delete')): ?>
-            <form method="post" class="d-inline">
-              <input type="hidden" name="delete_organization_id" value="<?= $org['id']; ?>">
-              <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-              <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this organization?');">Delete</button>
-            </form>
-          <?php endif; ?>
-          <?php if (user_has_permission('agency','create')): ?>
-            <a class="btn btn-sm btn-success" href="agency_edit.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
-          <?php endif; ?>
+<div id="orgList" data-list='{"valueNames":["org-name","org-status"],"page":20,"pagination":true}'>
+  <div class="row g-2 mb-3">
+    <div class="col-auto">
+      <input class="form-control form-control-sm search" placeholder="Search name" />
+    </div>
+    <div class="col-auto">
+      <select id="statusFilter" class="form-select form-select-sm">
+        <option value="">Status</option>
+        <?php foreach($orgStatuses as $os){ echo '<option value="'.e($os['label']).'">'.e($os['label']).'</option>'; } ?>
+      </select>
+    </div>
+    <div class="col-auto">
+      <select id="orgFilter" class="form-select form-select-sm">
+        <option value="">Organization</option>
+        <?php foreach($organizations as $o){ echo '<option value="'.$o['id'].'">'.e($o['name']).'</option>'; } ?>
+      </select>
+    </div>
+  </div>
+  <div class="list">
+    <?php foreach($organizations as $org): ?>
+      <div class="card mb-2 item" data-org-id="<?= $org['id']; ?>">
+        <div class="card-header d-flex justify-content-between align-items-start">
+          <div>
+            <span class="badge bg-primary me-1">Org</span><span class="fw-semibold org-name"><?= e($org['name']); ?></span>
+            <?= render_file_attachment($org['file_path'], $org['file_name'], $org['file_type'], "/module/agency/download.php?type=organization&id={$org['id']}", 'organization'); ?>
+          </div>
+          <div class="text-end">
+            <span class="org-status d-none"><?= e($orgStatuses[$org['status']]['label'] ?? ''); ?></span>
+            <?= render_status_badge($orgStatuses, $org['status']); ?>
+            <div class="mt-2">
+              <a class="btn btn-sm btn-warning" href="organization_edit.php?id=<?= $org['id']; ?>">Edit</a>
+              <?php if (user_has_permission('organization','delete')): ?>
+                <form method="post" class="d-inline">
+                  <input type="hidden" name="delete_organization_id" value="<?= $org['id']; ?>">
+                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                  <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this organization?');">Delete</button>
+                </form>
+              <?php endif; ?>
+              <?php if (user_has_permission('agency','create')): ?>
+                <a class="btn btn-sm btn-success" href="agency_edit.php?organization_id=<?= $org['id']; ?>">Add Agency</a>
+              <?php endif; ?>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="agencyAcc<?= $org['id']; ?>">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<?= $org['id']; ?>">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $org['id']; ?>" aria-expanded="false">Agencies</button>
+            </h2>
+            <div id="collapse<?= $org['id']; ?>" class="accordion-collapse collapse" data-type="agencies" data-parent-id="<?= $org['id']; ?>">
+              <div class="accordion-body"></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <?php if (!empty($org['agencies'])): ?>
-      <div class="card-body">
-        <?php foreach ($org['agencies'] as $agency): ?>
-          <div class="card mb-2">
-            <div class="card-header d-flex justify-content-between align-items-start">
-              <div>
-                <span class="badge bg-success me-1">Agency</span><span class="fw-semibold"><?= e($agency['name']); ?></span>
-                <?= render_file_attachment($agency['file_path'], $agency['file_name'], $agency['file_type'], "/module/agency/download.php?type=agency&id={$agency['id']}", 'agency'); ?>
-                <?php if (!empty($agency['persons'])): ?>
-                  <br><small>
-                    <?php
-                      $parts = [];
-                      foreach ($agency['persons'] as $p) {
-                        $label = $p['name'];
-                        if ($p['role_label']) $label .= ' ('.$p['role_label'].')';
-                        if ($p['is_lead']) $label .= ' [Lead]';
-                        $parts[] = e($label);
-                      }
-                      echo implode(', ', $parts);
-                    ?>
-                  </small>
-                <?php endif; ?>
-              </div>
-              <div class="text-end">
-                <?= render_status_badge($agencyStatuses, $agency['status']) ?>
-                <div class="mt-2">
-                  <a class="btn btn-sm btn-warning" href="agency_edit.php?id=<?= $agency['id']; ?>">Edit</a>
-                  <?php if (user_has_permission('agency','delete')): ?>
-                    <form method="post" class="d-inline">
-                      <input type="hidden" name="delete_agency_id" value="<?= $agency['id']; ?>">
-                      <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                      <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this agency?');">Delete</button>
-                    </form>
-                  <?php endif; ?>
-                  <?php if (user_has_permission('division','create')): ?>
-                    <a class="btn btn-sm btn-success" href="division_edit.php?agency_id=<?= $agency['id']; ?>">Add Division</a>
-                  <?php endif; ?>
-                </div>
-              </div>
-            </div>
-            <?php if (!empty($agency['divisions'])): ?>
-              <ul class="list-group list-group-flush">
-                <?php foreach ($agency['divisions'] as $division): ?>
-                  <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div>
-                      <span class="badge bg-warning me-1">Division</span><?= e($division['name']); ?>
-                      <?= render_file_attachment($division['file_path'], $division['file_name'], $division['file_type'], "/module/agency/download.php?type=division&id={$division['id']}", 'division'); ?>
-                    </div>
-                    <div class="text-end">
-                      <?= render_status_badge($divisionStatuses, $division['status']) ?>
-                      <div class="mt-2">
-                        <a class="btn btn-sm btn-warning" href="division_edit.php?id=<?= $division['id']; ?>">Edit</a>
-                        <?php if (user_has_permission('division','delete')): ?>
-                          <form method="post" class="d-inline">
-                            <input type="hidden" name="delete_division_id" value="<?= $division['id']; ?>">
-                            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this division?');">Delete</button>
-                          </form>
-                        <?php endif; ?>
-                      </div>
-                    </div>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
-            <?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
+    <?php endforeach; ?>
   </div>
-<?php endforeach; ?>
-
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <p class="mb-0" data-list-info></p>
+    <ul class="pagination mb-0"></ul>
+  </div>
+</div>
+<?php $loadFsLightbox = true; ?>
+<script src="assets/orgs.js"></script>
 <?php require '../admin_footer.php'; ?>

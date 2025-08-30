@@ -157,58 +157,71 @@ require '../admin_header.php';
 </div>
 <?php if ($id): ?>
   <div class="card" id="persons">
-    <div class="card-header"><h4 class="mb-0">Assigned Persons</h4></div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Assigned Persons</h4>
+      <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assignAgencyPersonModal">Assign Person</button>
+    </div>
     <div class="card-body">
       <table class="table table-sm">
         <thead>
           <tr><th>Name</th><th>Role</th><th>Lead</th><th></th></tr>
         </thead>
-        <tbody>
+        <tbody id="agency-persons-body">
           <?php foreach($assignedPersons as $ap): ?>
             <tr>
               <td><?= e($ap['name']); ?></td>
               <td><?= e($ap['role_label'] ?? ''); ?></td>
               <td><?= $ap['is_lead'] ? 'Yes' : 'No'; ?></td>
               <td>
-                <form method="post" action="functions/agency_remove_person.php" class="d-inline">
-                  <input type="hidden" name="assignment_id" value="<?= $ap['id']; ?>">
-                  <input type="hidden" name="agency_id" value="<?= $id; ?>">
-                  <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-                  <button class="btn btn-sm btn-danger" onclick="return confirm('Remove this person?');">Remove</button>
-                </form>
+                <button class="btn btn-sm btn-danger remove-person" data-url="functions/agency_remove_person.php" data-assignment-id="<?= $ap['id']; ?>" data-csrf="<?= $token; ?>">Remove</button>
               </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
-      <form method="post" action="functions/agency_assign_person.php" class="row g-2">
-        <input type="hidden" name="csrf_token" value="<?= $token; ?>">
-        <input type="hidden" name="agency_id" value="<?= $id; ?>">
-        <div class="col-md-4">
-          <select name="person_id" class="form-select" required>
-            <option value="">-- Person --</option>
-            <?php foreach($personOptions as $pid=>$pname): ?>
-              <option value="<?= $pid; ?>"><?= e($pname); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <select name="role_id" class="form-select">
-            <option value="">-- Role --</option>
-            <?php foreach($roleOptions as $rid=>$rlabel): ?>
-              <option value="<?= $rid; ?>"><?= e($rlabel); ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="col-md-2 form-check d-flex align-items-center">
-          <input class="form-check-input" type="checkbox" value="1" name="is_lead" id="agencyLeadChk">
-          <label class="form-check-label ms-2" for="agencyLeadChk">Lead</label>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary" type="submit">Assign</button>
-        </div>
-      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="assignAgencyPersonModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form class="assign-person-form" action="functions/agency_assign_person.php" data-target="agency-persons-body" data-modal="assignAgencyPersonModal" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title">Assign Person</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+            <input type="hidden" name="agency_id" value="<?= $id; ?>">
+            <div class="mb-3">
+              <select name="person_id" class="form-select" required>
+                <option value="">-- Person --</option>
+                <?php foreach($personOptions as $pid=>$pname): ?>
+                  <option value="<?= $pid; ?>"><?= e($pname); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <select name="role_id" class="form-select">
+                <option value="">-- Role --</option>
+                <?php foreach($roleOptions as $rid=>$rlabel): ?>
+                  <option value="<?= $rid; ?>"><?= e($rlabel); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" value="1" name="is_lead" id="agencyLeadChk">
+              <label class="form-check-label" for="agencyLeadChk">Lead</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">Assign</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 <?php endif; ?>
+<?php $loadFsLightbox = true; ?>
+<script src="assets/orgs.js"></script>
 <?php require '../admin_footer.php'; ?>
