@@ -6,7 +6,7 @@
     <li class="breadcrumb-item active" aria-current="page">List View</li>
   </ol>
 </nav>
-<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":50,"pagination":true}'>
+<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":10,"pagination":true}'>
   <div class="row align-items-end justify-content-between pb-4 g-3">
     <div class="col-auto">
       <h3>Projects</h3>
@@ -59,18 +59,19 @@
           <th class="sort align-middle text-end" scope="col" style="width:10%;"></th>
         </tr>
       </thead>
-      <tbody class="list" id="project-summary-table-body">
+      <tbody class="list" id="pinnedProjects">
         <?php foreach ($projects as $project): ?>
-
-        <tr class="position-static <?= $project['pinned'] ? 'pinned-row bg-body-tertiary border-start border-atlis border-3' : ''; ?>" data-pinned="<?= $project['pinned'] ? 1 : 0; ?>">
+          <?php if ($project['pinned']): ?>
+        <tr class="position-static pinned-row bg-body-tertiary border-start border-atlis border-3" data-project-id="<?= (int)$project['id']; ?>">
           <td class="align-middle text-center">
             <?php if (user_has_permission('project','read')): ?>
             <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
-              <span class="fa-solid <?= $project['pinned'] ? 'fa-thumbtack' : 'fa-thumbtack fa-rotate-90'; ?>"></span>
+              <span class="fa-solid fa-thumbtack"></span>
             </button>
             <?php endif; ?>
           </td>
           <td class="align-middle time white-space-nowrap ps-0 project">
+            <span class="svg-inline--fa fa-grip-vertical drag-handle me-2"></span>
             <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
             <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
           </td>
@@ -103,12 +104,67 @@
           <td class="align-middle text-end">
             <div class="btn-reveal-trigger position-static d-flex justify-content-end align-items-center gap-2">
               <button class="btn btn-link p-0 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
-                <span class="fa-solid fa-thumbtack <?php echo $project['pinned'] ? 'text-warning' : 'text-body-tertiary'; ?>"></span>
+                <span class="fa-solid fa-thumbtack text-warning"></span>
               </button>
               <a class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fas fa-chevron-right fs-10"></span></a>
             </div>
           </td>
         </tr>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </tbody>
+      <tbody class="list" id="regularProjects">
+        <?php foreach ($projects as $project): ?>
+          <?php if (!$project['pinned']): ?>
+        <tr class="position-static" data-project-id="<?= (int)$project['id']; ?>">
+          <td class="align-middle text-center">
+            <?php if (user_has_permission('project','read')): ?>
+            <button class="bg-transparent border-0 p-0 text-warning pin-toggle" data-project-id="<?= (int)$project['id']; ?>" aria-label="Pin project">
+              <span class="fa-solid fa-thumbtack fa-rotate-90"></span>
+            </button>
+            <?php endif; ?>
+          </td>
+          <td class="align-middle time white-space-nowrap ps-0 project">
+            <span class="svg-inline--fa fa-grip-vertical drag-handle me-2"></span>
+            <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
+            <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
+          </td>
+          <td class="align-middle white-space-nowrap assignees ps-3">
+            <div class="avatar-group avatar-group-dense">
+              <?php foreach ($project['assignees'] as $assignee): ?>
+                <?php $pic = !empty($assignee['file_path']) ? $assignee['file_path'] : 'assets/img/team/avatar.webp'; ?>
+                <div class="avatar avatar-s rounded-circle">
+                  <img class="rounded-circle" src="<?php echo getURLDir() . h($pic); ?>" alt="<?= h($assignee['name']); ?>" />
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </td>
+          <td class="align-middle ps-3 start"><?php echo !empty($project['start_date']) ? h(date('F jS, Y', strtotime($project['start_date']))) : ''; ?></td>
+          <td class="align-middle ps-3 deadline"><?php echo !empty($project['complete_date']) ? h(date('F jS, Y', strtotime($project['complete_date']))) : ''; ?></td>
+          <td class="align-middle ps-3 projectprogress">
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1" style="height:4px;">
+                <div class="progress-bar" style="width:<?= $project['total_tasks'] ? ($project['completed_tasks']/$project['total_tasks']*100) : 0; ?>%"></div>
+              </div>
+              <span class="fs-9"><?= h($project['completed_tasks']); ?>/<?= h($project['total_tasks']); ?></span>
+            </div>
+          </td>
+          <td class="align-middle ps-8 status"><span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['status_color']); ?>"><?php echo h($project['status_label']); ?></span></td>
+          <td class="align-middle ps-3 priority">
+            <span class="badge badge-phoenix fs-10 badge-phoenix-<?php echo h($project['priority_color']); ?>">
+              <?php echo h($project['priority_label']); ?>
+            </span>
+          </td>
+          <td class="align-middle text-end">
+            <div class="btn-reveal-trigger position-static d-flex justify-content-end align-items-center gap-2">
+              <button class="btn btn-link p-0 pin-toggle" data-project-id="<?php echo (int)$project['id']; ?>" title="Toggle pin">
+                <span class="fa-solid fa-thumbtack text-body-tertiary"></span>
+              </button>
+              <a class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" href="index.php?action=details&id=<?php echo $project['id']; ?>"><span class="fas fa-chevron-right fs-10"></span></a>
+            </div>
+          </td>
+        </tr>
+          <?php endif; ?>
         <?php endforeach; ?>
       </tbody>
     </table>
@@ -127,75 +183,100 @@
 <script>
   const csrfToken = '<?= csrf_token(); ?>';
   function setupProjectList() {
-  const projectSummaryEl = document.getElementById('projectSummary');
-  const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
-  const projectList = new List(projectSummaryEl, options);
-  window.projectList = projectList;
+    const projectSummaryEl = document.getElementById('projectSummary');
+    const options = window.phoenix.utils.getData(projectSummaryEl, 'list');
+    const projectList = new List(projectSummaryEl, options);
+    window.projectList = projectList;
 
-  const statusFilter = document.getElementById('filter-status');
-  const priorityFilter = document.getElementById('filter-priority');
+    const statusFilter = document.getElementById('filter-status');
+    const priorityFilter = document.getElementById('filter-priority');
 
-  function applyFilters() {
-    const s = statusFilter.value;
-    const p = priorityFilter.value;
-    projectList.filter(item => {
-      const v = item.values();
-      const statusMatch = !s || v.status === s;
-      const priorityMatch = !p || v.priority === p;
-      return statusMatch && priorityMatch;
-    });
-  }
+    function applyFilters() {
+      const s = statusFilter.value;
+      const p = priorityFilter.value;
+      projectList.filter(item => {
+        const v = item.values();
+        const statusMatch = !s || v.status === s;
+        const priorityMatch = !p || v.priority === p;
+        return statusMatch && priorityMatch;
+      });
+    }
 
-  statusFilter.addEventListener('change', applyFilters);
-  priorityFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    priorityFilter.addEventListener('change', applyFilters);
 
-  function sortRows() {
-    projectList.sort('', {
-      sortFunction: (a, b) => {
-        const pinnedA = Number(a.elm.dataset.pinned) === 1;
-        const pinnedB = Number(b.elm.dataset.pinned) === 1;
-        if (pinnedA !== pinnedB) {
-          return pinnedA ? -1 : 1;
+    const pinnedBody = document.getElementById('pinnedProjects');
+    const regularBody = document.getElementById('regularProjects');
+
+    function sendOrder(type){
+      const ids=[...document.querySelectorAll(`#${type}Projects tr`)].map((tr,i)=>`${type}[]=${tr.dataset.projectId}`);
+      fetch('functions/update_sort.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:ids.join('&')});
+    }
+
+    document.querySelectorAll('.pin-toggle').forEach(btn => {
+      btn.addEventListener('click', async e => {
+        e.preventDefault();
+        const projectId = btn.dataset.projectId;
+        const row = btn.closest('tr');
+        if (!projectId || !row) return;
+        try {
+          const res = await fetch('functions/toggle_pin.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ project_id: projectId, csrf_token: csrfToken })
+          });
+          const data = await res.json();
+          const pinned = !!data.pinned;
+          row.querySelectorAll('.pin-toggle span.fa-thumbtack').forEach(icon => {
+            icon.classList.toggle('fa-rotate-90', !pinned);
+            icon.classList.toggle('text-warning', pinned);
+            icon.classList.toggle('text-body-tertiary', !pinned);
+          });
+          ['pinned-row', 'bg-body-tertiary', 'border-start', 'border-atlis', 'border-3'].forEach(cls => row.classList.toggle(cls, pinned));
+          if (pinned) {
+            pinnedBody.appendChild(row);
+          } else {
+            regularBody.appendChild(row);
+          }
+          projectList.reindex();
+          sendOrder('pinned');
+          sendOrder('unpinned');
+        } catch (err) {
+          console.error(err);
         }
-        return a.values().project.localeCompare(b.values().project);
-      }
+      });
     });
+
+    new Sortable(pinnedBody, {
+      handle: '.drag-handle', animation: 150, group: { name:'pinned', pull:false, put:false },
+      onEnd: () => { sendOrder('pinned'); projectList.reindex(); }
+    });
+    new Sortable(regularBody, {
+      handle: '.drag-handle', animation: 150, group: { name:'regular', pull:false, put:false },
+      onEnd: () => { sendOrder('unpinned'); projectList.reindex(); }
+    });
+
+    const viewAll = projectSummaryEl.querySelector('[data-list-view="*"]');
+    const viewLess = projectSummaryEl.querySelector('[data-list-view="less"]');
+    if(viewAll && viewLess){
+      viewAll.addEventListener('click', e => {
+        e.preventDefault();
+        projectList.show(projectList.size());
+        viewAll.classList.add('d-none');
+        viewLess.classList.remove('d-none');
+      });
+      viewLess.addEventListener('click', e => {
+        e.preventDefault();
+        projectList.show(options.page);
+        viewLess.classList.add('d-none');
+        viewAll.classList.remove('d-none');
+      });
+    }
   }
 
-  document.querySelectorAll('.pin-toggle').forEach(btn => {
-    btn.addEventListener('click', async e => {
-      e.preventDefault();
-      const projectId = btn.dataset.projectId;
-      const row = btn.closest('tr');
-      if (!projectId || !row) return;
-      try {
-        const res = await fetch('functions/toggle_pin.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ project_id: projectId, csrf_token: csrfToken })
-        });
-        const data = await res.json();
-        const pinned = !!data.pinned;
-        row.dataset.pinned = pinned ? '1' : '0';
-        row.querySelectorAll('.pin-toggle span.fa-thumbtack').forEach(icon => {
-          icon.classList.toggle('fa-rotate-90', !pinned);
-          icon.classList.toggle('text-warning', pinned);
-          icon.classList.toggle('text-body-tertiary', !pinned);
-        });
-        ['pinned-row', 'bg-body-tertiary', 'border-start', 'border-atlis', 'border-3'].forEach(cls => row.classList.toggle(cls, pinned));
-        sortRows();
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  });
-  sortRows();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', setupProjectList);
-} else {
-  setupProjectList();
-}
-
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupProjectList);
+  } else {
+    setupProjectList();
+  }
 </script>
