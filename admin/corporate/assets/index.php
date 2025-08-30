@@ -1,6 +1,6 @@
 <?php
 require '../admin_header.php';
-require_permission('assets','read');
+require_permission('admin_assets','read');
 
 $token = generate_csrf_token();
 
@@ -13,12 +13,13 @@ $filters = [
 
 $sql = "SELECT a.id, a.asset_tag, a.model, a.serial, a.warranty_expiration,
                st.label AS status_label, ty.label AS type_label,
-               CONCAT(u.first_name,' ',u.last_name) AS assignee,
+               CONCAT(p.first_name,' ',p.last_name) AS assignee,
                (SELECT MAX(date_created) FROM module_asset_events e WHERE e.asset_id=a.id) AS last_event
         FROM module_assets a
         LEFT JOIN lookup_list_items st ON a.status_id=st.id
         LEFT JOIN lookup_list_items ty ON a.type_id=ty.id
-        LEFT JOIN contractors u ON a.assignee_id=u.id
+        LEFT JOIN module_contractors mc ON a.assignee_id=mc.id
+        LEFT JOIN person p ON mc.person_id=p.id
         WHERE 1=1";
 $params = [];
 if ($filters['status_id']) { $sql .= ' AND a.status_id=:status'; $params[':status']=$filters['status_id']; }
@@ -41,7 +42,7 @@ $types = get_lookup_items($pdo,'ASSET_TYPE');
 <?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
 <?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
 <div class="mb-3 d-flex gap-2">
-  <?php if (user_has_permission('assets','create')): ?>
+  <?php if (user_has_permission('admin_assets','create')): ?>
   <a class="btn btn-sm btn-success" href="asset.php">Add Asset</a>
   <?php endif; ?>
 </div>

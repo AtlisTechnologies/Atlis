@@ -2,7 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../includes/php_header.php';
 require_once __DIR__ . '/helpers.php';
-require_permission('assets','create');
+require_permission('admin_assets','create');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   $_SESSION['error_message'] = 'Method not allowed';
@@ -17,19 +17,32 @@ if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
 
 $type_id = (int)($_POST['type_id'] ?? 0);
 $status_id = $_POST['status_id'] !== '' ? (int)$_POST['status_id'] : null;
+$name = trim($_POST['name'] ?? '');
+$vendor = trim($_POST['vendor'] ?? '');
 $model = trim($_POST['model'] ?? '');
 $serial = trim($_POST['serial'] ?? '');
 $purchase_date = $_POST['purchase_date'] ?: null;
 $warranty_expiration = $_POST['warranty_expiration'] ?: null;
+$purchase_price = $_POST['purchase_price'] !== '' ? (float)$_POST['purchase_price'] : null;
+$condition_id = $_POST['condition_id'] !== '' ? (int)$_POST['condition_id'] : null;
+$location = trim($_POST['location'] ?? '');
 $memo = $_POST['memo'] ?? null;
 $compliance_flags = isset($_POST['compliance']) ? implode(',', (array)$_POST['compliance']) : null;
 $tags = isset($_POST['tags']) ? array_filter(array_map('trim', (array)$_POST['tags'])) : [];
+if($name==='') $name=null;
+if($vendor==='') $vendor=null;
+if($location==='') $location=null;
 
 try {
   $asset_tag = generate_asset_tag($pdo,$type_id);
-  $stmt = $pdo->prepare('INSERT INTO module_assets (asset_tag,type_id,status_id,model,serial,purchase_date,warranty_expiration,compliance_flags,memo,user_id,user_updated) VALUES (:asset_tag,:type_id,:status_id,:model,:serial,:purchase_date,:warranty_expiration,:compliance_flags,:memo,:uid,:uid)');
+  $stmt = $pdo->prepare('INSERT INTO module_assets (asset_tag,name,vendor,purchase_price,condition_id,location,type_id,status_id,model,serial,purchase_date,warranty_expiration,compliance_flags,memo,user_id,user_updated) VALUES (:asset_tag,:name,:vendor,:purchase_price,:condition_id,:location,:type_id,:status_id,:model,:serial,:purchase_date,:warranty_expiration,:compliance_flags,:memo,:uid,:uid)');
   $stmt->execute([
     ':asset_tag'=>$asset_tag,
+    ':name'=>$name,
+    ':vendor'=>$vendor,
+    ':purchase_price'=>$purchase_price,
+    ':condition_id'=>$condition_id,
+    ':location'=>$location,
     ':type_id'=>$type_id,
     ':status_id'=>$status_id,
     ':model'=>$model,
@@ -50,7 +63,18 @@ try {
   exit;
 }
 
-admin_audit_log($pdo,$this_user_id,'module_assets',$asset_id,'asset.create',null,json_encode(['asset_tag'=>$asset_tag,'type_id'=>$type_id,'status_id'=>$status_id,'model'=>$model,'serial'=>$serial]),'Created asset');
+admin_audit_log($pdo,$this_user_id,'module_assets',$asset_id,'asset.create',null,json_encode([
+  'asset_tag'=>$asset_tag,
+  'type_id'=>$type_id,
+  'status_id'=>$status_id,
+  'model'=>$model,
+  'serial'=>$serial,
+  'name'=>$name,
+  'vendor'=>$vendor,
+  'purchase_price'=>$purchase_price,
+  'condition_id'=>$condition_id,
+  'location'=>$location
+]),'Created asset');
 
 $_SESSION['message'] = 'Asset saved';
 header('Location: ../asset.php?id='.$asset_id);
