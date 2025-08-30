@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2025 at 08:53 AM
+-- Generation Time: Aug 30, 2025 at 05:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -120,7 +120,186 @@ INSERT INTO `admin_audit_log` (`id`, `user_id`, `user_updated`, `date_created`, 
 (71, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 'module_meeting_questions', 6, 'CREATE', 'Added question', '', '{\"question\":\"JOSEPH, WHERE DO YOU RECOMMEND WE START ?\"}'),
 (72, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
 (73, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
-(74, 1, 1, '2025-08-28 19:54:21', '2025-08-28 19:54:21', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"person_id\":30,\"user_id\":null}');
+(74, 1, 1, '2025-08-28 19:54:21', '2025-08-28 19:54:21', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"person_id\":30,\"user_id\":null}'),
+(75, 1, 1, '2025-08-29 01:50:32', '2025-08-29 01:50:32', NULL, 'module_meeting', 1, 'CREATE', 'Created meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(76, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(77, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_agenda', 1, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(78, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_agenda', 2, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(79, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_agenda', 3, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(80, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_questions', 1, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(81, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_questions', 2, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(82, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_questions', 3, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(83, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_attendees', 1, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(84, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_attendees', 2, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(85, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_attendees', 3, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(86, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_attendees', 4, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(87, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 'module_meeting_files', 1, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"main_logo_AT_dark_text_white_bg.png\"}'),
+(88, 1, 1, '2025-08-29 01:58:26', '2025-08-29 01:58:26', NULL, 'module_meeting_questions', 2, 'UPDATE', 'Updated question', '', '{\"question\":\"Can you make it to the JTI User Conference?\",\"answer\":\"645\"}'),
+(89, 1, 1, '2025-08-29 01:59:31', '2025-08-29 01:59:31', NULL, 'admin_corporate_notes', 1, 'NOTE', '', '', 'Best eva'),
+(90, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(91, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_agenda', 4, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(92, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_agenda', 5, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(93, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_agenda', 6, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(94, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_questions', 4, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(95, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_questions', 5, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(96, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_questions', 6, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(97, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_attendees', 5, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(98, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_attendees', 6, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(99, 1, 1, '2025-08-29 02:05:13', '2025-08-29 02:05:13', NULL, 'module_meeting_attendees', 7, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(100, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(101, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_agenda', 7, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(102, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_agenda', 8, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(103, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_agenda', 9, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(104, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_questions', 7, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(105, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_questions', 8, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(106, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_questions', 9, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(107, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_attendees', 8, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(108, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_attendees', 9, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(109, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_attendees', 10, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(110, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_attendees', 11, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(111, 1, 1, '2025-08-29 02:06:38', '2025-08-29 02:06:38', NULL, 'module_meeting_attendees', 12, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(112, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(113, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_agenda', 10, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(114, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_agenda', 11, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(115, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_agenda', 12, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(116, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_questions', 10, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(117, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_questions', 11, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(118, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_questions', 12, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(119, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 13, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(120, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 14, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(121, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 15, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(122, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 16, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(123, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 17, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(124, 1, 1, '2025-08-29 02:07:29', '2025-08-29 02:07:29', NULL, 'module_meeting_attendees', 18, 'CREATE', 'Added attendee', '', '{\"person_id\":31,\"user_id\":null}'),
+(125, 1, 1, '2025-08-29 02:21:09', '2025-08-29 02:21:09', NULL, 'module_meeting_attendees', 19, 'CREATE', 'Added attendee', '', '{\"person_id\":23,\"user_id\":8}'),
+(126, 1, 1, '2025-08-29 02:21:09', '2025-08-29 02:21:09', NULL, 'module_meeting_attendees', 20, 'CREATE', 'Added attendee', '', '{\"person_id\":14,\"user_id\":7}'),
+(127, 1, 1, '2025-08-29 02:21:10', '2025-08-29 02:21:10', NULL, 'module_meeting_attendees', 21, 'CREATE', 'Added attendee', '', '{\"person_id\":13,\"user_id\":6}'),
+(128, 1, 1, '2025-08-29 02:21:11', '2025-08-29 02:21:11', NULL, 'module_meeting_attendees', 22, 'CREATE', 'Added attendee', '', '{\"person_id\":24,\"user_id\":9}'),
+(129, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(130, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_agenda', 13, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(131, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_agenda', 14, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(132, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_agenda', 15, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(133, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_questions', 13, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(134, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_questions', 14, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(135, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_questions', 15, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(136, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 23, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(137, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 24, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(138, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 25, 'CREATE', 'Added attendee', '', '{\"person_id\":23,\"user_id\":8}'),
+(139, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 26, 'CREATE', 'Added attendee', '', '{\"person_id\":31,\"user_id\":null}'),
+(140, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 27, 'CREATE', 'Added attendee', '', '{\"person_id\":14,\"user_id\":7}'),
+(141, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 28, 'CREATE', 'Added attendee', '', '{\"person_id\":24,\"user_id\":9}'),
+(142, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 29, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(143, 1, 1, '2025-08-29 02:21:23', '2025-08-29 02:21:23', NULL, 'module_meeting_attendees', 30, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(144, 1, 1, '2025-08-29 02:21:41', '2025-08-29 02:21:41', NULL, 'module_meeting_questions', 15, 'UPDATE', 'Updated question', '', '{\"question\":\"Do you need a laptop or monitors?\",\"answer\":\"yes\"}'),
+(145, 1, 1, '2025-08-29 02:21:45', '2025-08-29 02:21:45', NULL, 'module_meeting_questions', 15, 'UPDATE', 'Updated question', '', '{\"question\":\"Do you need a laptop or monitors?\",\"answer\":\"yes\"}'),
+(146, 1, 1, '2025-08-29 02:21:47', '2025-08-29 02:21:47', NULL, 'module_meeting_questions', 14, 'UPDATE', 'Updated question', '', '{\"question\":\"Can you make it to the JTI User Conference?\",\"answer\":\"\"}'),
+(147, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting', 1, 'UPDATE', 'Updated meeting', '', '{\"title\":\"BENCH VIEW DISCUSSION & DEMO\"}'),
+(148, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_agenda', 16, 'CREATE', 'Added agenda item', '', '{\"title\":\"Emry\"}'),
+(149, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_agenda', 17, 'CREATE', 'Added agenda item', '', '{\"title\":\"Ash\"}'),
+(150, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_agenda', 18, 'CREATE', 'Added agenda item', '', '{\"title\":\"Dave\"}'),
+(151, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_questions', 16, 'CREATE', 'Added question', '', '{\"question\":\"When should we schedule the restart?\"}'),
+(152, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_questions', 17, 'CREATE', 'Added question', '', '{\"question\":\"Can you make it to the JTI User Conference?\"}'),
+(153, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_questions', 18, 'CREATE', 'Added question', '', '{\"question\":\"Do you need a laptop or monitors?\"}'),
+(154, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 31, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(155, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 32, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(156, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 33, 'CREATE', 'Added attendee', '', '{\"person_id\":31,\"user_id\":null}'),
+(157, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 34, 'CREATE', 'Added attendee', '', '{\"person_id\":14,\"user_id\":7}'),
+(158, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 35, 'CREATE', 'Added attendee', '', '{\"person_id\":24,\"user_id\":9}'),
+(159, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 36, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(160, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 'module_meeting_attendees', 37, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(161, 1, 1, '2025-08-29 02:22:48', '2025-08-29 02:22:48', NULL, 'module_meeting_agenda', 18, 'DELETE', 'Deleted agenda item', '', ''),
+(162, 1, 1, '2025-08-29 02:22:57', '2025-08-29 02:22:57', NULL, 'module_meeting_questions', 18, 'DELETE', 'Deleted question', '', ''),
+(163, 1, 1, '2025-08-29 02:23:01', '2025-08-29 02:23:01', NULL, 'module_meeting_questions', 16, 'UPDATE', 'Updated question', '', '{\"question\":\"When should we schedule the restart?\",\"answer\":\"Yes\"}'),
+(164, 1, 1, '2025-08-29 02:23:06', '2025-08-29 02:23:06', NULL, 'module_meeting_files', 2, 'UPLOAD', '', '', '{\"file\":\"for_debit_card.png\"}'),
+(165, 1, 1, '2025-08-29 09:31:59', '2025-08-29 09:31:59', NULL, 'module_meeting_attendees', 38, 'CREATE', 'Added attendee', '', '{\"person_id\":27,\"user_id\":10}'),
+(166, 1, 1, '2025-08-29 09:31:59', '2025-08-29 09:31:59', NULL, 'module_meeting_attendees', 39, 'CREATE', 'Added attendee', '', '{\"person_id\":13,\"user_id\":6}'),
+(167, 1, 1, '2025-08-29 09:32:20', '2025-08-29 09:32:20', NULL, 'module_meeting', 2, 'CREATE', 'Created meeting', '', '{\"title\":\"TEST\"}'),
+(168, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting', 2, 'UPDATE', 'Updated meeting', '', '{\"title\":\"TEST\"}'),
+(169, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_agenda', 19, 'CREATE', 'Added agenda item', '', '{\"title\":\"TEST1\"}'),
+(170, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_questions', 19, 'CREATE', 'Added question', '', '{\"question\":\"TEST 1\"}'),
+(171, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_attendees', 40, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(172, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_attendees', 41, 'CREATE', 'Added attendee', '', '{\"person_id\":27,\"user_id\":10}'),
+(173, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_attendees', 42, 'CREATE', 'Added attendee', '', '{\"person_id\":23,\"user_id\":8}'),
+(174, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 'module_meeting_attendees', 43, 'CREATE', 'Added attendee', '', '{\"person_id\":30,\"user_id\":null}'),
+(175, 1, 1, '2025-08-29 09:32:38', '2025-08-29 09:32:38', NULL, 'module_meeting_attendees', 44, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(176, 1, 1, '2025-08-29 09:32:38', '2025-08-29 09:32:38', NULL, 'module_meeting_attendees', 45, 'CREATE', 'Added attendee', '', '{\"person_id\":14,\"user_id\":7}'),
+(177, 1, 1, '2025-08-29 11:26:44', '2025-08-29 11:26:44', NULL, 'module_meeting', 3, 'CREATE', 'Created meeting', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(178, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting', 3, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(179, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_agenda', 20, 'CREATE', 'Added agenda item', '', '{\"title\":\"Propose eCourt Restart for next Thursday, Sept 4th.\"}'),
+(180, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_agenda', 21, 'CREATE', 'Added agenda item', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(181, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_agenda', 22, 'CREATE', 'Added agenda item', '', '{\"title\":\"Mass Judge Reassignment\"}'),
+(182, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_questions', 20, 'CREATE', 'Added question', '', '{\"question\":\"Kasper, did JTI mean MST or CST when saying restarts should be scheduled for \\\"5:30pm\\\" ?\"}'),
+(183, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_questions', 21, 'CREATE', 'Added question', '', '{\"question\":\"Does next Thursday, September 4th, 2025, work for a planned eCourt Restart?\"}'),
+(184, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_attendees', 46, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(185, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_attendees', 47, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(186, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_attendees', 48, 'CREATE', 'Added attendee', '', '{\"person_id\":13,\"user_id\":6}'),
+(187, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_attendees', 49, 'CREATE', 'Added attendee', '', '{\"person_id\":12,\"user_id\":5}'),
+(188, 1, 1, '2025-08-29 11:29:21', '2025-08-29 11:29:21', NULL, 'module_meeting_attendees', 50, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(189, 1, 1, '2025-08-29 11:30:21', '2025-08-29 11:30:21', NULL, 'module_meeting_questions', 20, 'UPDATE', 'Updated question', '', '{\"question\":\"Kasper, did JTI mean MST or CST when saying restarts should be scheduled for \\\"5:30pm\\\" ?\",\"answer\":\"Kasper asked them specifically in CST so they meant 5:30pm CST.  Also, Leah ( Court Clerk ) said (well, more implied) it can\'t be during business hours.\"}'),
+(190, 1, 1, '2025-08-29 11:32:39', '2025-08-29 11:32:39', NULL, 'module_meeting_attendees', 46, 'DELETE', 'Removed attendee', '', ''),
+(191, 1, 1, '2025-08-29 11:32:45', '2025-08-29 11:32:45', NULL, 'module_meeting_attendees', 51, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(192, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting', 3, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(193, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_agenda', 23, 'CREATE', 'Added agenda item', '', '{\"title\":\"Propose eCourt Restart for next Thursday, Sept 4th.\"}'),
+(194, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_agenda', 24, 'CREATE', 'Added agenda item', '', '{\"title\":\"Mass Judge Reassignment\"}'),
+(195, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_agenda', 25, 'CREATE', 'Added agenda item', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(196, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_questions', 22, 'CREATE', 'Added question', '', '{\"question\":\"Kasper, did JTI mean MST or CST when saying restarts should be scheduled for \\\"5:30pm\\\" ?\"}'),
+(197, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_questions', 23, 'CREATE', 'Added question', '', '{\"question\":\"Does next Thursday, September 4th, 2025, work for a planned eCourt Restart?\"}'),
+(198, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_attendees', 52, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(199, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_attendees', 53, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(200, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_attendees', 54, 'CREATE', 'Added attendee', '', '{\"person_id\":13,\"user_id\":6}'),
+(201, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_attendees', 55, 'CREATE', 'Added attendee', '', '{\"person_id\":12,\"user_id\":5}'),
+(202, 1, 1, '2025-08-29 11:33:17', '2025-08-29 11:33:17', NULL, 'module_meeting_attendees', 56, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(203, 1, 1, '2025-08-29 13:07:25', '2025-08-29 13:07:25', NULL, 'module_meeting_attendees', 55, 'DELETE', 'Removed attendee', '', ''),
+(204, 1, 1, '2025-08-29 13:07:28', '2025-08-29 13:07:28', NULL, 'module_meeting_attendees', 57, 'CREATE', 'Added attendee', '', '{\"person_id\":60,\"user_id\":15}'),
+(205, 1, 1, '2025-08-29 13:07:33', '2025-08-29 13:07:33', NULL, 'module_meeting_attendees', 57, 'DELETE', 'Removed attendee', '', ''),
+(206, 1, 1, '2025-08-29 13:07:37', '2025-08-29 13:07:37', NULL, 'module_meeting_attendees', 58, 'CREATE', 'Added attendee', '', '{\"person_id\":12,\"user_id\":5}'),
+(207, 1, 1, '2025-08-29 13:22:20', '2025-08-29 13:22:20', NULL, 'admin_corporate_notes', 2, 'NOTE', '', '', '_______________________________________________________________\r\n	CALL WITH Protective Insurance - AUG 29th, 2025 @ 1:15pm\r\n¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\r\n\r\nProtective Insurance Agency, Inc. \r\n502 N Main, Logan, UT, United States, Utah\r\n(435) 753-3335\r\nalex@protectiveins.net\r\nprotectiveinsurance.net\r\n\r\nFasting talking Gal on the phone said she just does commerical stuff,\r\nso she\'ll pass my info onto Alex Museus.\r\nhttps://www.protectiveins.net/about/\r\n\r\nINFO I DISCLOSED:\r\n- Biz Name: ATLIS TECHNOLOGIES\r\n- Home / Biz Address: 3124 S\r\n- Federal Employer Identification Number (EIN)\r\n- Estimated Annual Income: $250k'),
+(208, 1, 1, '2025-08-29 16:47:49', '2025-08-29 16:47:49', NULL, 'module_meeting', 4, 'CREATE', 'Created meeting', '', '{\"title\":\"CALL WITH WINNIE\"}'),
+(209, 1, 1, '2025-08-29 16:54:48', '2025-08-29 16:54:48', NULL, 'module_meeting', 4, 'UPDATE', 'Updated meeting', '', '{\"title\":\"CALL WITH WINNIE\"}'),
+(210, 1, 1, '2025-08-29 16:54:48', '2025-08-29 16:54:48', NULL, 'module_meeting_questions', 24, 'CREATE', 'Added question', '', '{\"question\":\"CAN WE ATTEND THE JTI USER CONFERENCE ?\"}'),
+(211, 1, 1, '2025-08-29 16:54:48', '2025-08-29 16:54:48', NULL, 'module_meeting_questions', 25, 'CREATE', 'Added question', '', '{\"question\":\"GAL Project ?\"}'),
+(212, 1, 1, '2025-08-29 16:54:48', '2025-08-29 16:54:48', NULL, 'module_meeting_attendees', 59, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(213, 1, 1, '2025-08-29 16:54:48', '2025-08-29 16:54:48', NULL, 'module_meeting_attendees', 60, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(214, 1, 1, '2025-08-29 16:54:54', '2025-08-29 16:54:54', NULL, 'module_meeting_attendees', 61, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(215, 1, 1, '2025-08-29 16:54:57', '2025-08-29 16:54:57', NULL, 'module_meeting_attendees', 61, 'DELETE', 'Removed attendee', '', ''),
+(216, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting', 4, 'UPDATE', 'Updated meeting', '', '{\"title\":\"CALL WITH WINNIE\"}'),
+(217, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting_questions', 26, 'CREATE', 'Added question', '', '{\"question\":\"CAN WE ATTEND THE JTI USER CONFERENCE ?\"}'),
+(218, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting_questions', 27, 'CREATE', 'Added question', '', '{\"question\":\"GAL Project ?\"}'),
+(219, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting_attendees', 62, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(220, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting_attendees', 63, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(221, 1, 1, '2025-08-29 16:55:09', '2025-08-29 16:55:09', NULL, 'module_meeting_attendees', 64, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(222, 1, 1, '2025-08-29 16:55:21', '2025-08-29 16:55:21', NULL, 'module_meeting_attendees', 64, 'DELETE', 'Removed attendee', '', ''),
+(223, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting', 3, 'UPDATE', 'Updated meeting', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(224, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_agenda', 26, 'CREATE', 'Added agenda item', '', '{\"title\":\"Propose eCourt Restart for next Thursday, Sept 4th.\"}'),
+(225, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_agenda', 27, 'CREATE', 'Added agenda item', '', '{\"title\":\"Mass Judge Reassignment\"}'),
+(226, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_agenda', 28, 'CREATE', 'Added agenda item', '', '{\"title\":\"Bench View Demo & Discussion\"}'),
+(227, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_questions', 28, 'CREATE', 'Added question', '', '{\"question\":\"Kasper, did JTI mean MST or CST when saying restarts should be scheduled for \\\"5:30pm\\\" ?\"}'),
+(228, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_questions', 29, 'CREATE', 'Added question', '', '{\"question\":\"Does next Thursday, September 4th, 2025, work for a planned eCourt Restart?\"}'),
+(229, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_attendees', 65, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(230, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_attendees', 66, 'CREATE', 'Added attendee', '', '{\"person_id\":64,\"user_id\":19}'),
+(231, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_attendees', 67, 'CREATE', 'Added attendee', '', '{\"person_id\":13,\"user_id\":6}'),
+(232, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_attendees', 68, 'CREATE', 'Added attendee', '', '{\"person_id\":12,\"user_id\":5}'),
+(233, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_attendees', 69, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(234, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 'module_meeting_files', 3, 'UPLOAD', 'Uploaded file', '', '{\"file\":\"Recording.m4a\"}'),
+(235, 1, 1, '2025-08-29 17:04:14', '2025-08-29 17:04:14', NULL, 'module_meeting', 5, 'CREATE', 'Created meeting', '', '{\"title\":\"CALL WITH SEAN\"}'),
+(236, 1, 1, '2025-08-29 17:04:28', '2025-08-29 17:04:28', NULL, 'module_meeting', 5, 'UPDATE', 'Updated meeting', '', '{\"title\":\"CALL WITH SEAN\"}'),
+(237, 1, 1, '2025-08-29 17:04:28', '2025-08-29 17:04:28', NULL, 'module_meeting_attendees', 70, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(238, 1, 1, '2025-08-29 17:04:28', '2025-08-29 17:04:28', NULL, 'module_meeting_attendees', 71, 'CREATE', 'Added attendee', '', '{\"person_id\":2,\"user_id\":2}'),
+(239, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting', 4, 'UPDATE', 'Updated meeting', '', '{\"title\":\"CALL WITH WINNIE\"}'),
+(240, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting_questions', 30, 'CREATE', 'Added question', '', '{\"question\":\"CAN WE ATTEND THE JTI USER CONFERENCE ?\"}'),
+(241, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting_questions', 31, 'CREATE', 'Added question', '', '{\"question\":\"GAL Project ?\"}'),
+(242, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting_attendees', 72, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(243, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting_attendees', 73, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(244, 1, 1, '2025-08-29 17:09:49', '2025-08-29 17:09:49', NULL, 'module_meeting_attendees', 74, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(245, 1, 1, '2025-08-29 17:09:59', '2025-08-29 17:09:59', NULL, 'module_meeting_attendees', 74, 'DELETE', 'Removed attendee', '', ''),
+(246, 1, 1, '2025-08-29 17:10:00', '2025-08-29 17:10:00', NULL, 'module_meeting_attendees', 75, 'CREATE', 'Added attendee', '', '{\"person_id\":63,\"user_id\":18}'),
+(247, 1, 1, '2025-08-29 17:10:05', '2025-08-29 17:10:05', NULL, 'module_meeting_attendees', 75, 'DELETE', 'Removed attendee', '', ''),
+(248, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting', 4, 'UPDATE', 'Updated meeting', '', '{\"title\":\"CALL WITH WINNIE\"}'),
+(249, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_questions', 32, 'CREATE', 'Added question', '', '{\"question\":\"CAN WE ATTEND THE JTI USER CONFERENCE ?\"}'),
+(250, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_questions', 33, 'CREATE', 'Added question', '', '{\"question\":\"GAL Project ?\"}'),
+(251, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_attendees', 76, 'CREATE', 'Added attendee', '', '{\"person_id\":1,\"user_id\":1}'),
+(252, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 'module_meeting_attendees', 77, 'CREATE', 'Added attendee', '', '{\"person_id\":57,\"user_id\":12}'),
+(253, 1, 1, '2025-08-29 21:44:10', '2025-08-29 21:44:10', NULL, 'admin_minder_notes', 1, 'CREATE', '', NULL, '{\"title\":\"MILENY VALDEZ NEEDS:\"}');
 
 -- --------------------------------------------------------
 
@@ -197,6 +376,14 @@ CREATE TABLE `admin_corporate_notes` (
   `corporate_id` int(11) NOT NULL,
   `note_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_corporate_notes`
+--
+
+INSERT INTO `admin_corporate_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `corporate_id`, `note_text`) VALUES
+(1, 1, 1, '2025-08-29 01:59:31', '2025-08-29 01:59:31', NULL, 1, 'Best eva'),
+(2, 1, 1, '2025-08-29 13:22:20', '2025-08-29 13:22:20', NULL, 1, '_______________________________________________________________\r\n	CALL WITH Protective Insurance - AUG 29th, 2025 @ 1:15pm\r\n¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\r\n\r\nProtective Insurance Agency, Inc. \r\n502 N Main, Logan, UT, United States, Utah\r\n(435) 753-3335\r\nalex@protectiveins.net\r\nprotectiveinsurance.net\r\n\r\nFasting talking Gal on the phone said she just does commerical stuff,\r\nso she\'ll pass my info onto Alex Museus.\r\nhttps://www.protectiveins.net/about/\r\n\r\nINFO I DISCLOSED:\r\n- Biz Name: ATLIS TECHNOLOGIES\r\n- Home / Biz Address: 3124 S\r\n- Federal Employer Identification Number (EIN)\r\n- Estimated Annual Income: $250k');
 
 -- --------------------------------------------------------
 
@@ -379,6 +566,160 @@ CREATE TABLE `admin_finances_statements_of_work` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin_minder_notes`
+--
+
+CREATE TABLE `admin_minder_notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_minder_notes`
+--
+
+INSERT INTO `admin_minder_notes` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `body`, `category_id`, `status_id`) VALUES
+(1, 1, 1, '2025-08-29 21:44:10', '2025-08-29 21:44:10', NULL, 'MILENY VALDEZ NEEDS:', 'REQ\'D DOCS\r\n	AGREEMENT\r\n	LAPTOP + MONITOR', 320, 321);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_notes_contractors`
+--
+
+CREATE TABLE `admin_minder_notes_contractors` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `note_id` int(11) NOT NULL,
+  `contractor_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_notes_files`
+--
+
+CREATE TABLE `admin_minder_notes_files` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `note_id` int(11) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_notes_persons`
+--
+
+CREATE TABLE `admin_minder_notes_persons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `note_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_reminders`
+--
+
+CREATE TABLE `admin_minder_reminders` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `remind_at` datetime NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_reminders_contractors`
+--
+
+CREATE TABLE `admin_minder_reminders_contractors` (
+  `id` int(11) NOT NULL,
+  `reminder_id` int(11) NOT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_reminders_files`
+--
+
+CREATE TABLE `admin_minder_reminders_files` (
+  `id` int(11) NOT NULL,
+  `reminder_id` int(11) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_minder_reminders_persons`
+--
+
+CREATE TABLE `admin_minder_reminders_persons` (
+  `id` int(11) NOT NULL,
+  `reminder_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `admin_navigation_links`
 --
 
@@ -421,7 +762,8 @@ INSERT INTO `admin_navigation_links` (`id`, `title`, `path`, `icon`, `sort_order
 (28, 'Accounting', 'corporate/accounting/index.php', 'dollar-sign', 19, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
 (29, 'Assets', 'corporate/assets/index.php', 'archive', 20, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
 (30, 'Human Resources', 'corporate/human-resources/index.php', 'users', 21, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
-(31, 'Prospecting', 'corporate/prospecting/index.php', 'search', 22, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL);
+(31, 'Prospecting', 'corporate/prospecting/index.php', 'search', 22, 1, 1, '2025-08-28 22:47:07', '2025-08-28 22:47:07', NULL),
+(32, 'Minder', 'minder/index.php', 'clipboard', 19, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -621,7 +963,40 @@ INSERT INTO `admin_permissions` (`id`, `user_id`, `user_updated`, `date_created`
 (184, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'create'),
 (185, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'read'),
 (186, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'update'),
-(187, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'delete');
+(187, 1, 1, '2025-08-28 22:46:50', '2025-08-28 22:46:50', NULL, 'admin_prospecting', 'delete'),
+(188, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note', 'create'),
+(189, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note', 'read'),
+(190, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note', 'update'),
+(191, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note', 'delete'),
+(192, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_file', 'create'),
+(193, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_file', 'read'),
+(194, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_file', 'update'),
+(195, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_file', 'delete'),
+(196, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_person', 'create'),
+(197, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_person', 'read'),
+(198, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_person', 'update'),
+(199, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_person', 'delete'),
+(200, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_contractor', 'create'),
+(201, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_contractor', 'read'),
+(202, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_contractor', 'update'),
+(203, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'minder_note_contractor', 'delete'),
+(204, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder', 'create'),
+(205, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder', 'read'),
+(206, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder', 'update'),
+(207, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder', 'delete'),
+(208, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_file', 'create'),
+(209, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_file', 'read'),
+(210, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_file', 'update'),
+(211, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_file', 'delete'),
+(212, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_person', 'create'),
+(213, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_person', 'read'),
+(214, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_person', 'update'),
+(215, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_person', 'delete'),
+(216, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'create'),
+(217, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'read'),
+(218, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'update'),
+(219, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'minder_reminder_contractor', 'delete'),
+(220, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 'minder_module', 'read');
 
 -- --------------------------------------------------------
 
@@ -678,7 +1053,10 @@ INSERT INTO `admin_permission_groups` (`id`, `user_id`, `user_updated`, `date_cr
 (32, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_accounting', 'Permissions for managing accounting'),
 (33, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_assets', 'Permissions for managing assets'),
 (34, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_human_resources', 'Permissions for managing human resources'),
-(35, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_prospecting', 'Permissions for managing prospecting');
+(35, 1, 1, '2025-08-28 22:46:36', '2025-08-28 22:46:36', NULL, 'admin_prospecting', 'Permissions for managing prospecting'),
+(36, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'Minder', 'Permissions for managing minder notes'),
+(37, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'Minder', 'Permissions for minder reminders'),
+(38, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 'Minder', 'Permissions for Minder module');
 
 -- --------------------------------------------------------
 
@@ -890,7 +1268,40 @@ INSERT INTO `admin_permission_group_permissions` (`id`, `user_id`, `user_updated
 (214, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 184),
 (215, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 187),
 (216, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 185),
-(217, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 186);
+(217, 1, 1, '2025-08-28 22:47:00', '2025-08-28 22:47:00', NULL, 35, 186),
+(218, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 188),
+(219, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 189),
+(220, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 190),
+(221, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 191),
+(222, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 192),
+(223, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 193),
+(224, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 194),
+(225, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 195),
+(226, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 196),
+(227, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 197),
+(228, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 198),
+(229, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 199),
+(230, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 200),
+(231, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 201),
+(232, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 202),
+(233, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 36, 203),
+(234, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 204),
+(235, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 205),
+(236, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 206),
+(237, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 207),
+(238, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 208),
+(239, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 209),
+(240, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 210),
+(241, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 211),
+(242, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 212),
+(243, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 213),
+(244, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 214),
+(245, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 215),
+(246, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 216),
+(247, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 217),
+(248, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 218),
+(249, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 37, 219),
+(250, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 38, 220);
 
 -- --------------------------------------------------------
 
@@ -920,7 +1331,10 @@ INSERT INTO `admin_roles` (`id`, `user_id`, `user_updated`, `date_created`, `dat
 (12, 1, 1, '2025-08-17 14:18:03', '2025-08-17 14:18:03', NULL, 'Developer', ''),
 (13, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Admin', ''),
 (14, 1, 1, '2025-08-18 00:00:00', '2025-08-18 00:00:00', NULL, 'Contractor Manager', ''),
-(15, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services Manager', '');
+(15, 1, 1, '2025-08-27 00:00:00', '2025-08-27 00:00:00', NULL, 'Products & Services Manager', ''),
+(46, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'Minder Admin', 'Administrator for Minder module'),
+(47, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'Minder Admin', 'Minder reminder administrator role'),
+(48, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 'Minder Admin', 'Administrator for Minder module');
 
 -- --------------------------------------------------------
 
@@ -1061,7 +1475,13 @@ INSERT INTO `admin_role_permission_groups` (`id`, `user_id`, `user_updated`, `da
 (155, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 14, 11),
 (156, 1, 1, '2025-08-27 21:23:09', '2025-08-27 21:23:09', NULL, 15, 16),
 (157, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 30),
-(158, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 31);
+(158, 1, 1, '2025-08-28 10:41:56', '2025-08-28 10:41:56', NULL, 1, 31),
+(159, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 1, 36),
+(160, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 46, 36),
+(161, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 1, 37),
+(162, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 47, 37),
+(163, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 48, 38),
+(164, 1, 1, '2025-08-29 21:39:27', '2025-08-29 21:39:27', NULL, 1, 38);
 
 -- --------------------------------------------------------
 
@@ -1720,7 +2140,14 @@ INSERT INTO `audit_log` (`id`, `user_id`, `user_updated`, `date_created`, `date_
 (5, 1, 1, '2025-08-28 15:50:00', '2025-08-28 15:50:00', NULL, 'lookup_list_item_attributes', 185, 'CREATE', 'Created item attribute'),
 (6, 4, 4, '2025-08-28 16:50:13', '2025-08-28 16:50:13', NULL, 'users', 4, 'LOGIN', 'User logged in'),
 (7, 1, 1, '2025-08-28 19:43:50', '2025-08-28 19:43:50', NULL, 'users', 1, 'LOGOUT', 'User logged out'),
-(8, 1, 1, '2025-08-28 19:43:54', '2025-08-28 19:43:54', NULL, 'users', 1, 'LOGIN', 'User logged in');
+(8, 1, 1, '2025-08-28 19:43:54', '2025-08-28 19:43:54', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(9, 4, 4, '2025-08-29 01:45:51', '2025-08-29 01:45:51', NULL, 'users', 4, 'LOGIN', 'User logged in'),
+(10, 1, 1, '2025-08-29 09:31:14', '2025-08-29 09:31:14', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(11, 1, 1, '2025-08-29 09:46:39', '2025-08-29 09:46:39', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(12, 1, 1, '2025-08-29 09:46:50', '2025-08-29 09:46:50', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(13, 1, 1, '2025-08-29 09:47:08', '2025-08-29 09:47:08', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(14, 1, 1, '2025-08-29 09:47:24', '2025-08-29 09:47:24', NULL, 'users', 1, 'LOGIN', 'User logged in'),
+(15, 1, 1, '2025-08-29 09:48:52', '2025-08-29 09:48:52', NULL, 'users', 1, 'LOGIN', 'User logged in');
 
 -- --------------------------------------------------------
 
@@ -1807,7 +2234,12 @@ INSERT INTO `lookup_lists` (`id`, `user_id`, `user_updated`, `date_created`, `da
 (67, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_STATUS', 'Status values for corporate strategies'),
 (68, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_PRIORITY', 'Priority levels for corporate strategies'),
 (69, 1, 1, '2025-08-27 21:13:27', '2025-08-27 21:13:27', NULL, 'CORPORATE_STRATEGY_ROLE', 'Roles for strategy collaborators'),
-(70, 1, 1, '2025-08-28 00:54:00', '2025-08-28 00:54:00', '', 'CORPORATE_FINANCE_INVOICE_STATUS', '');
+(70, 1, 1, '2025-08-28 00:54:00', '2025-08-28 00:54:00', '', 'CORPORATE_FINANCE_INVOICE_STATUS', ''),
+(71, 1, 1, '2025-08-29 02:02:36', '2025-08-29 02:02:36', NULL, 'TIMEZONE', 'User timezone options'),
+(72, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'ADMIN_MINDER_NOTE_CATEGORY', 'Categories for admin minder notes'),
+(73, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 'ADMIN_MINDER_NOTE_STATUS', 'Statuses for admin minder notes'),
+(74, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'ADMIN_MINDER_REMINDER_TYPE', 'Minder reminder types'),
+(75, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 'ADMIN_MINDER_REMINDER_STATUS', 'Minder reminder statuses');
 
 -- --------------------------------------------------------
 
@@ -2104,7 +2536,18 @@ INSERT INTO `lookup_list_items` (`id`, `user_id`, `user_updated`, `date_created`
 (309, 1, 1, '2025-08-28 00:54:30', '2025-08-28 00:54:30', NULL, 70, 'Paid', 'PAID', 0, '2025-08-27', NULL),
 (310, 1, 1, '2025-08-28 00:54:42', '2025-08-28 00:54:42', NULL, 70, 'Sent', 'SENT', 0, '2025-08-27', NULL),
 (311, 1, 1, '2025-08-28 01:54:06', '2025-08-28 01:54:06', NULL, 70, 'In Progress', 'INPROGRESS', 0, '2025-08-27', NULL),
-(312, 1, 1, '2025-08-28 15:49:23', '2025-08-28 15:49:23', NULL, 37, 'Follow Up', 'FOLLOWUP', 0, '2025-08-27', NULL);
+(312, 1, 1, '2025-08-28 15:49:23', '2025-08-28 15:49:23', NULL, 37, 'Follow Up', 'FOLLOWUP', 0, '2025-08-27', NULL),
+(313, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Denver', 'America/Denver', 1, '2025-08-28', NULL),
+(314, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Chicago', 'America/Chicago', 2, '2025-08-28', NULL),
+(315, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/New_York', 'America/New_York', 3, '2025-08-28', NULL),
+(316, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Los_Angeles', 'America/Los_Angeles', 4, '2025-08-28', NULL),
+(317, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Phoenix', 'America/Phoenix', 5, '2025-08-28', NULL),
+(318, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Anchorage', 'America/Anchorage', 6, '2025-08-28', NULL),
+(319, 1, 1, '2025-08-29 02:02:37', '2025-08-29 02:02:37', NULL, 71, 'America/Honolulu', 'America/Honolulu', 7, '2025-08-28', NULL),
+(320, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 72, 'General', 'GENERAL', 1, '2025-08-28', NULL),
+(321, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 73, 'Open', 'OPEN', 1, '2025-08-28', NULL),
+(322, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 74, 'General', 'general', 1, '2025-08-28', NULL),
+(323, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 75, 'Pending', 'pending', 1, '2025-08-28', NULL);
 
 -- --------------------------------------------------------
 
@@ -2304,7 +2747,11 @@ INSERT INTO `lookup_list_item_attributes` (`id`, `user_id`, `user_updated`, `dat
 (187, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 194, 'ICON-CLASS', 'bi-briefcase'),
 (188, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 195, 'ICON-CLASS', 'bi-airplane'),
 (189, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 196, 'ICON-CLASS', 'bi-x-circle'),
-(190, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 197, 'ICON-CLASS', 'bi-calendar-event');
+(190, 1, 1, '2025-08-29 00:43:22', '2025-08-29 00:43:22', NULL, 197, 'ICON-CLASS', 'bi-calendar-event'),
+(191, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 320, 'DEFAULT', 'true'),
+(192, 1, 1, '2025-08-29 21:38:25', '2025-08-29 21:38:25', NULL, 321, 'DEFAULT', 'true'),
+(193, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 322, 'DEFAULT', 'true'),
+(194, 1, 1, '2025-08-29 21:39:08', '2025-08-29 21:39:08', NULL, 323, 'DEFAULT', 'true');
 
 -- --------------------------------------------------------
 
@@ -2413,6 +2860,110 @@ INSERT INTO `module_agency_persons` (`id`, `user_id`, `user_updated`, `date_crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module_assets`
+--
+
+CREATE TABLE `module_assets` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `memo` text DEFAULT NULL,
+  `asset_tag` varchar(50) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `serial` varchar(100) DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `warranty_expiration` date DEFAULT NULL,
+  `compliance_flags` varchar(255) DEFAULT NULL,
+  `assignee_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_asset_assignments`
+--
+
+CREATE TABLE `module_asset_assignments` (
+  `id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL,
+  `contractor_id` int(11) NOT NULL,
+  `assigned_date` datetime DEFAULT current_timestamp(),
+  `returned_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_asset_events`
+--
+
+CREATE TABLE `module_asset_events` (
+  `id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL,
+  `event_type` varchar(50) NOT NULL,
+  `memo` text DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_asset_files`
+--
+
+CREATE TABLE `module_asset_files` (
+  `id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_asset_tags`
+--
+
+CREATE TABLE `module_asset_tags` (
+  `id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL,
+  `tag` varchar(100) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_updated` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_asset_tag_seq`
+--
+
+CREATE TABLE `module_asset_tag_seq` (
+  `id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `year` int(4) NOT NULL,
+  `seq` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `module_calendar`
 --
 
@@ -2473,23 +3024,25 @@ CREATE TABLE `module_calendar_events` (
   `link_module` varchar(50) DEFAULT NULL,
   `link_record_id` int(11) DEFAULT NULL,
   `visibility_id` int(11) NOT NULL DEFAULT 198,
-  `location` varchar(255) DEFAULT NULL
+  `location` varchar(255) DEFAULT NULL,
+  `timezone_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `module_calendar_events`
 --
 
-INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`, `location`) VALUES
-(1, 1, 1, '2025-08-27 23:05:57', '2025-08-28 16:49:43', '', 1, 'Senses Fail DAVE', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL),
-(2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198, NULL),
-(3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198, NULL),
-(4, 4, 4, '2025-08-28 00:15:36', '2025-08-28 16:50:34', '', 5, 'SOUP', '2025-08-27 12:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL),
-(5, 4, NULL, '2025-08-28 00:23:39', '2025-08-28 00:23:39', NULL, 5, 'SOUP DAWGG', '2025-08-14 12:00:00', '2025-08-14 16:00:00', 197, NULL, NULL, 199, NULL),
-(6, 1, NULL, '2025-08-28 10:43:24', '2025-08-28 10:43:24', '', 1, 'Lake - Kasper & RJ', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL),
-(7, 1, NULL, '2025-08-28 10:44:55', '2025-08-28 10:44:55', '', 1, 'test', '2025-08-30 14:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL),
-(8, 1, NULL, '2025-08-28 15:38:39', '2025-08-28 15:38:39', '', 1, 'test', '2025-08-29 15:30:00', '2025-08-29 19:00:00', 193, NULL, NULL, 198, NULL),
-(9, 1, 1, '2025-08-29 00:09:58', '2025-08-29 00:10:14', '', 1, 'Dave', '2025-08-06 00:00:00', '2025-08-10 12:00:00', 193, NULL, NULL, 198, NULL);
+INSERT INTO `module_calendar_events` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `calendar_id`, `title`, `start_time`, `end_time`, `event_type_id`, `link_module`, `link_record_id`, `visibility_id`, `location`, `timezone_id`) VALUES
+(1, 1, 1, '2025-08-27 23:05:57', '2025-08-28 16:49:43', '', 1, 'Senses Fail DAVE', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL, NULL),
+(2, 1, NULL, '2025-08-27 23:17:44', '2025-08-27 23:17:44', NULL, 1, 'Test', '2025-08-26 14:15:00', '2025-08-26 15:40:00', 193, NULL, NULL, 198, NULL, NULL),
+(3, 1, NULL, '2025-08-27 23:21:56', '2025-08-27 23:21:56', NULL, 1, 'Game #2', '2025-08-30 12:00:00', '2025-08-30 12:00:00', 195, NULL, NULL, 198, NULL, NULL),
+(4, 4, 4, '2025-08-28 00:15:36', '2025-08-28 16:50:34', '', 5, 'SOUP', '2025-08-27 12:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL, NULL),
+(6, 1, NULL, '2025-08-28 10:43:24', '2025-08-28 10:43:24', '', 1, 'Lake - Kasper & RJ', '2025-08-28 14:00:00', '2025-08-28 16:00:00', 194, NULL, NULL, 198, NULL, NULL),
+(7, 1, NULL, '2025-08-28 10:44:55', '2025-08-28 10:44:55', '', 1, 'test', '2025-08-30 14:00:00', '0000-00-00 00:00:00', 193, NULL, NULL, 198, NULL, NULL),
+(8, 1, NULL, '2025-08-28 15:38:39', '2025-08-28 15:38:39', '', 1, 'test', '2025-08-29 15:30:00', '2025-08-29 19:00:00', 193, NULL, NULL, 198, NULL, NULL),
+(9, 1, 1, '2025-08-29 00:09:58', '2025-08-29 00:10:14', '', 1, 'Dave', '2025-08-06 00:00:00', '2025-08-10 12:00:00', 193, NULL, NULL, 198, NULL, NULL),
+(10, 4, NULL, '2025-08-29 01:46:33', '2025-08-29 01:46:33', '', 5, 'SOUP', '2025-08-29 12:00:00', '2025-08-29 14:00:00', 197, NULL, NULL, 198, '', NULL),
+(11, 4, NULL, '2025-08-29 01:46:59', '2025-08-29 01:46:59', '', 5, 'SOUP #2', '2025-08-23 00:00:00', '2025-08-24 14:00:00', 196, NULL, NULL, 198, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -3122,7 +3675,11 @@ CREATE TABLE `module_meetings` (
 --
 
 INSERT INTO `module_meetings` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `title`, `description`, `start_time`, `end_time`, `recur_daily`, `recur_weekly`, `recur_monthly`, `calendar_event_id`, `status_id`, `type_id`) VALUES
-(1, 1, 1, '2025-08-28 19:47:56', '2025-08-28 19:47:56', NULL, 'Test', '', '2025-08-26 14:00:00', '2025-08-26 15:00:00', 0, 0, 0, NULL, 279, 204);
+(1, 1, 1, '2025-08-29 01:50:32', '2025-08-29 01:54:33', NULL, 'BENCH VIEW DISCUSSION & DEMO', '', '2025-08-29 10:30:00', '2025-08-29 11:00:00', 0, 0, 0, NULL, 279, 205),
+(2, 1, 1, '2025-08-29 09:32:20', '2025-08-29 09:32:20', NULL, 'TEST', '', '2025-08-30 09:32:00', '2025-08-30 10:32:00', 0, 0, 0, NULL, 279, 204),
+(3, 1, 1, '2025-08-29 11:26:44', '2025-08-29 11:29:21', NULL, 'Bench View Demo & Discussion', '', '2025-08-29 10:30:00', '2025-08-29 11:00:00', 0, 0, 0, NULL, 202, 205),
+(4, 1, 1, '2025-08-29 16:47:49', '2025-08-29 16:54:48', NULL, 'CALL WITH WINNIE', 'WINNIE MENTIONED ON OUR MORNING MEETING ABOUT THE BENCH VIEW SHE NEEDS TO TOUCH BASE WITH ME BEFORE 2pm MEETING WITH RJ AND KASPER.\r\n\r\nSHE MSG\'D ME ON TEAMS AND SETUP A CALL FOR 1:30pm.\r\n\r\nPHONE CALL ENSUED.', '2025-08-29 13:30:00', '2025-08-29 14:00:00', 0, 0, 0, NULL, 202, 205),
+(5, 1, 1, '2025-08-29 17:04:14', '2025-08-29 17:04:14', NULL, 'CALL WITH SEAN', '', '2025-08-29 16:30:00', '2025-08-29 17:30:00', 0, 0, 0, NULL, 279, 204);
 
 -- --------------------------------------------------------
 
@@ -3150,9 +3707,12 @@ CREATE TABLE `module_meeting_agenda` (
 --
 
 INSERT INTO `module_meeting_agenda` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `order_index`, `title`, `status_id`, `linked_task_id`, `linked_project_id`) VALUES
-(4, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, 1, 'Dave', 226, NULL, NULL),
-(5, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, 2, 'Ashlin', 227, NULL, NULL),
-(6, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, 3, 'Emry', 228, NULL, NULL);
+(16, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 1, 'Emry', 228, NULL, NULL),
+(17, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 2, 'Ash', 227, NULL, NULL),
+(19, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, 1, 'TEST1', 226, NULL, NULL),
+(26, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 1, 'Propose eCourt Restart for next Thursday, Sept 4th.', 228, NULL, NULL),
+(27, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 2, 'Mass Judge Reassignment', 226, NULL, NULL),
+(28, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 3, 'Bench View Demo & Discussion', 226, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3177,9 +3737,30 @@ CREATE TABLE `module_meeting_attendees` (
 --
 
 INSERT INTO `module_meeting_attendees` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `attendee_person_id`, `attendee_user_id`) VALUES
-(1, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, 1, 1),
-(2, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, 64, 19),
-(3, 1, 1, '2025-08-28 19:54:21', '2025-08-28 19:54:21', NULL, 1, 30, NULL);
+(31, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 63, 18),
+(32, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 1, 1),
+(33, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 31, NULL),
+(34, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 14, 7),
+(35, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 24, 9),
+(36, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 2, 2),
+(37, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, 57, 12),
+(38, 1, 1, '2025-08-29 09:31:59', '2025-08-29 09:31:59', NULL, 1, 27, 10),
+(39, 1, 1, '2025-08-29 09:31:59', '2025-08-29 09:31:59', NULL, 1, 13, 6),
+(40, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, 1, 1),
+(41, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, 27, 10),
+(42, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, 23, 8),
+(43, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, 30, NULL),
+(44, 1, 1, '2025-08-29 09:32:38', '2025-08-29 09:32:38', NULL, 2, 64, 19),
+(45, 1, 1, '2025-08-29 09:32:38', '2025-08-29 09:32:38', NULL, 2, 14, 7),
+(65, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 1, 1),
+(66, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 64, 19),
+(67, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 13, 6),
+(68, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 12, 5),
+(69, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 57, 12),
+(70, 1, 1, '2025-08-29 17:04:28', '2025-08-29 17:04:28', NULL, 5, 1, 1),
+(71, 1, 1, '2025-08-29 17:04:28', '2025-08-29 17:04:28', NULL, 5, 2, 2),
+(76, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 4, 1, 1),
+(77, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 4, 57, 12);
 
 -- --------------------------------------------------------
 
@@ -3205,7 +3786,9 @@ CREATE TABLE `module_meeting_files` (
 --
 
 INSERT INTO `module_meeting_files` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `file_name`, `file_path`, `uploader_id`) VALUES
-(1, 1, 1, '2025-08-28 19:49:45', '2025-08-28 19:49:45', NULL, 1, 'resource.pdf', '/admin/meetings/uploads/1/meeting_1_1756432185_resource.pdf', 1);
+(1, 1, 1, '2025-08-29 01:54:33', '2025-08-29 01:54:33', NULL, 1, 'main_logo_AT_dark_text_white_bg.png', '/admin/meetings/uploads/1/meeting_1_1756454073_main_logo_AT_dark_text_white_bg.png', 1),
+(2, 1, 1, '2025-08-29 02:23:06', '2025-08-29 02:23:06', NULL, 1, 'for_debit_card.png', '/admin/meetings/uploads/1/meeting_1_1756455786_for_debit_card.png', 1),
+(3, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, 'Recording.m4a', '/admin/meetings/uploads/3/meeting_3_1756508551_Recording.m4a', 1);
 
 -- --------------------------------------------------------
 
@@ -3232,9 +3815,13 @@ CREATE TABLE `module_meeting_questions` (
 --
 
 INSERT INTO `module_meeting_questions` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `meeting_id`, `agenda_id`, `question_text`, `answer_text`, `status_id`) VALUES
-(4, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, NULL, 'When should we schedule the restart?', '', 229),
-(5, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, NULL, 'Can you make it to the JTI User Conference?', '', 230),
-(6, 1, 1, '2025-08-28 19:50:42', '2025-08-28 19:50:42', NULL, 1, NULL, 'JOSEPH, WHERE DO YOU RECOMMEND WE START ?', '', 231);
+(16, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:23:01', NULL, 1, NULL, 'When should we schedule the restart?', 'Yes', 229),
+(17, 1, 1, '2025-08-29 02:22:19', '2025-08-29 02:22:19', NULL, 1, NULL, 'Can you make it to the JTI User Conference?', '', 229),
+(19, 1, 1, '2025-08-29 09:32:34', '2025-08-29 09:32:34', NULL, 2, NULL, 'TEST 1', '', 229),
+(28, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, NULL, 'Kasper, did JTI mean MST or CST when saying restarts should be scheduled for \"5:30pm\" ?', 'Kasper asked them specifically in CST so they meant 5:30pm CST.  Also, Leah ( Court Clerk ) said (well, more implied) it can\'t be during business hours.', 229),
+(29, 1, 1, '2025-08-29 17:02:31', '2025-08-29 17:02:31', NULL, 3, NULL, 'Does next Thursday, September 4th, 2025, work for a planned eCourt Restart?', '', 229),
+(32, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 4, NULL, 'CAN WE ATTEND THE JTI USER CONFERENCE ?', 'She highly recommended \"Atlis Technologies\" do NOT attend.', 231),
+(33, 1, 1, '2025-08-29 21:21:44', '2025-08-29 21:21:44', NULL, 4, NULL, 'GAL Project ?', '', 230);
 
 -- --------------------------------------------------------
 
@@ -4452,30 +5039,31 @@ CREATE TABLE `users` (
   `JTIcurrent` tinyint(1) DEFAULT 0,
   `JTI_start_date` date DEFAULT NULL,
   `JTI_end_date` date DEFAULT NULL,
-  `JTI_Team` varchar(255) DEFAULT NULL
+  `JTI_Team` varchar(255) DEFAULT NULL,
+  `timezone_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`) VALUES
-(1, 1, 1, '2025-08-06 16:08:42', '2025-08-28 19:43:52', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-28 19:43:52', 0, 0, NULL, NULL, NULL),
-(2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(4, 1, 1, '2025-08-17 22:17:49', '2025-08-28 16:50:10', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-28 16:50:10', 0, 0, NULL, NULL, ''),
-(5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(8, 1, 1, '2025-08-20 14:44:46', '2025-08-25 02:20:36', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$MBdcSf/iWlQTDH5Zo9Od/ewd28dkz7Din.B4vAyxFW63MvemxCmVu', 0, NULL, 'USER', 1, '2025-08-25 02:20:01', 0, 0, NULL, NULL, ''),
-(9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(15, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'chris@doc.com', '$2y$10$4jkkJwdy6.9jUVTWIEMopeoKaztrDeqFhR5LmwIjhLz7e6c5wSNvm', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL),
-(18, 1, 1, '2025-08-24 18:25:55', '2025-08-24 18:25:55', NULL, 'alishajean06@gmail.com', '$2y$10$J4Fd3CT8kB9o1tt7maSRfO7emvQ3OfAwv.vk9P4.Fw7IYn7QMYroO', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, ''),
-(19, 1, 1, '2025-08-27 18:32:05', '2025-08-27 18:32:05', NULL, 'drivers@lakecountyil.gov', '$2y$10$CiY8maK.kK2bzidVSQ0tz.fSYW1N0CDZlUxOJFzOSdKW81e7vvA/a', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, '');
+INSERT INTO `users` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `email`, `password`, `email_verified`, `current_profile_pic_id`, `type`, `status`, `last_login`, `JTIformer`, `JTIcurrent`, `JTI_start_date`, `JTI_end_date`, `JTI_Team`, `timezone_id`) VALUES
+(1, 1, 1, '2025-08-06 16:08:42', '2025-08-29 09:49:22', NULL, 'Dave@AtlisTechnologies.com', '$2y$10$DTIuXMqLvNh1N.Go53lZKeSh5.KoCRa3kjlfJ0yboVhbnvcTRmcn6', 1, 4, 'ADMIN', 1, '2025-08-29 09:49:22', 0, 0, NULL, NULL, NULL, 313),
+(2, 1, 1, '2025-08-15 00:11:11', '2025-08-21 15:31:21', NULL, 'Sean@AtlisTechnologies.com', '$2y$10$Bk4sqfPb4G49fa9HepMbBOfOjz/wEtvFJBSHIz9HFMO0nzOFeeJ3u', 0, 2, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(4, 1, 1, '2025-08-17 22:17:49', '2025-08-29 01:45:44', NULL, 'soup@atlistechnologies.com', '$2y$10$UWkUcrDvpwvGtkvTEht.0ORPydm5pxzWmafKMCVXvDgTYqZMTxlka', 0, NULL, 'USER', 1, '2025-08-29 01:45:44', 0, 0, NULL, NULL, '', NULL),
+(5, 1, 1, '2025-08-19 23:21:53', '2025-08-19 23:21:53', NULL, 'rcalara@lakecountyil.gov', '$2y$10$6ZS/zYF7mW3VZkEsiLyOBeiiJHfBrSLPEQveZpnfL5CeZV148k8vG', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(6, 1, 1, '2025-08-19 23:22:44', '2025-08-19 23:22:44', NULL, 'kkrynski@lakecountyil.gov', '$2y$10$gQEtHURn4ktYNyKR4f/1qeusz29IqCYGVO1/n7TE9xSqO81kqxNYi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(7, 1, 1, '2025-08-19 23:27:09', '2025-08-19 23:27:09', NULL, 'milenyvaldez@AtlisTechnologies.com', '$2y$10$K3F6dYfzQbVGSoIXjWrOmucNiQwj9e/KOPK81f9NvE6YNu/V.pE6q', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(8, 1, 1, '2025-08-20 14:44:46', '2025-08-25 02:20:36', NULL, 'kenny@AtlisTechnologies.com', '$2y$10$MBdcSf/iWlQTDH5Zo9Od/ewd28dkz7Din.B4vAyxFW63MvemxCmVu', 0, NULL, 'USER', 1, '2025-08-25 02:20:01', 0, 0, NULL, NULL, '', NULL),
+(9, 1, 1, '2025-08-20 15:14:36', '2025-08-20 15:14:36', NULL, 'richardsprague3@gmail.com', '$2y$10$0oZA5Mfmqe5JMXzUDmaJyeCe4k1YF4jmRXGEtxPpW253QYyIXf/CK', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(10, 1, 1, '2025-08-20 20:47:24', '2025-08-20 20:47:24', NULL, 'emmabaylor@gmail.com', '$2y$10$4B6tCgezPP5mDagAeMGT.uf/1cRo1AtfaxVALRbBWlzpvQNDIv7bi', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(11, 1, 1, '2025-08-22 18:07:18', '2025-08-22 18:07:18', NULL, 'tom@atlistechnologies.com', '$2y$10$wtXJUR0GBfw/tmBeD5/qUeGbGEK/Bu35K0epng.Cd/YobvJlnWxEC', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(12, 1, 1, '2025-08-22 19:16:00', '2025-08-22 19:16:00', NULL, 'wwebber@lakecountyil.gov', '$2y$10$EBZvZWr/dB7bdh73ZPp1XuOODbDhH4mjTc9B4kWXR3m0kqV1SxfPy', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(13, 1, 1, '2025-08-23 10:55:54', '2025-08-23 10:55:54', NULL, 'zach@atlistechnologies.com', '$2y$10$aGr1GvSel95YbuW09OaLm.cgutOJVXV49insI7u0vNKreV1FZwY2a', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(14, 1, 1, '2025-08-23 15:00:41', '2025-08-23 15:00:41', NULL, 'idk@idk.com', '$2y$10$s4jIZBkvR1IDuxQ9rMJnlOwA2/SYDuCpNX2AzTtJdQluSLliAdq1u', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(15, 1, 1, '2025-08-23 17:44:36', '2025-08-23 17:44:36', NULL, 'chris@doc.com', '$2y$10$4jkkJwdy6.9jUVTWIEMopeoKaztrDeqFhR5LmwIjhLz7e6c5wSNvm', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, NULL, NULL),
+(18, 1, 1, '2025-08-24 18:25:55', '2025-08-24 18:25:55', NULL, 'alishajean06@gmail.com', '$2y$10$J4Fd3CT8kB9o1tt7maSRfO7emvQ3OfAwv.vk9P4.Fw7IYn7QMYroO', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, '', NULL),
+(19, 1, 1, '2025-08-27 18:32:05', '2025-08-27 18:32:05', NULL, 'drivers@lakecountyil.gov', '$2y$10$CiY8maK.kK2bzidVSQ0tz.fSYW1N0CDZlUxOJFzOSdKW81e7vvA/a', 0, NULL, 'USER', 1, NULL, 0, 0, NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -4500,7 +5088,8 @@ CREATE TABLE `users_2fa` (
 --
 
 INSERT INTO `users_2fa` (`id`, `user_id`, `user_updated`, `date_created`, `date_updated`, `memo`, `code`, `expires_at`, `used`) VALUES
-(27, 1, 1, '2025-08-28 19:43:52', '2025-08-28 19:43:54', NULL, '715803', '2025-08-28 19:53:52', 1);
+(37, 1, 1, '2025-08-29 09:49:03', '2025-08-29 09:49:03', NULL, '465381', '2025-08-29 09:59:03', 0),
+(38, 1, 1, '2025-08-29 09:49:22', '2025-08-29 09:49:22', NULL, '643547', '2025-08-29 09:59:22', 0);
 
 -- --------------------------------------------------------
 
@@ -4620,6 +5209,61 @@ ALTER TABLE `admin_finances_statements_of_work`
   ADD KEY `fk_admin_finances_sow_user_updated` (`user_updated`),
   ADD KEY `fk_admin_finances_sow_corporate_id` (`corporate_id`),
   ADD KEY `fk_admin_finances_sow_status_id` (`status_id`);
+
+--
+-- Indexes for table `admin_minder_notes`
+--
+ALTER TABLE `admin_minder_notes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `admin_minder_notes_contractors`
+--
+ALTER TABLE `admin_minder_notes_contractors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `admin_minder_notes_files`
+--
+ALTER TABLE `admin_minder_notes_files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `admin_minder_notes_persons`
+--
+ALTER TABLE `admin_minder_notes_persons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `admin_minder_reminders`
+--
+ALTER TABLE `admin_minder_reminders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_id` (`type_id`),
+  ADD KEY `status_id` (`status_id`);
+
+--
+-- Indexes for table `admin_minder_reminders_contractors`
+--
+ALTER TABLE `admin_minder_reminders_contractors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reminder_id` (`reminder_id`),
+  ADD KEY `contractor_id` (`contractor_id`);
+
+--
+-- Indexes for table `admin_minder_reminders_files`
+--
+ALTER TABLE `admin_minder_reminders_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reminder_id` (`reminder_id`);
+
+--
+-- Indexes for table `admin_minder_reminders_persons`
+--
+ALTER TABLE `admin_minder_reminders_persons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reminder_id` (`reminder_id`),
+  ADD KEY `person_id` (`person_id`);
 
 --
 -- Indexes for table `admin_navigation_links`
@@ -4742,7 +5386,6 @@ ALTER TABLE `admin_time_tracking_entries`
   ADD KEY `fk_admin_time_tracking_entries_user_id` (`user_id`),
   ADD KEY `fk_admin_time_tracking_entries_user_updated` (`user_updated`),
   ADD KEY `fk_admin_time_tracking_entries_person_id` (`person_id`),
-  ADD KEY `fk_admin_time_tracking_entries_invoice_id` (`invoice_id`),
   ADD KEY `fk_admin_time_tracking_entries_project_id` (`project_id`);
 
 --
@@ -4838,6 +5481,42 @@ ALTER TABLE `module_agency_persons`
   ADD KEY `fk_module_agency_persons_role_id` (`role_id`);
 
 --
+-- Indexes for table `module_assets`
+--
+ALTER TABLE `module_assets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_asset_assignments`
+--
+ALTER TABLE `module_asset_assignments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_asset_events`
+--
+ALTER TABLE `module_asset_events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_asset_files`
+--
+ALTER TABLE `module_asset_files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_asset_tags`
+--
+ALTER TABLE `module_asset_tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `module_asset_tag_seq`
+--
+ALTER TABLE `module_asset_tag_seq`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
@@ -4858,7 +5537,8 @@ ALTER TABLE `module_calendar_events`
   ADD KEY `fk_module_calendar_events_visibility_id` (`visibility_id`),
   ADD KEY `idx_calendar_events_start_time` (`start_time`),
   ADD KEY `idx_calendar_events_link` (`link_module`,`link_record_id`),
-  ADD KEY `idx_calendar_events_start` (`start_time`);
+  ADD KEY `idx_calendar_events_start` (`start_time`),
+  ADD KEY `fk_module_calendar_events_timezone_id` (`timezone_id`);
 
 --
 -- Indexes for table `module_calendar_external_accounts`
@@ -5480,7 +6160,8 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `uk_users_email` (`email`),
   ADD KEY `fk_users_user_id` (`user_id`),
   ADD KEY `fk_users_user_updated` (`user_updated`),
-  ADD KEY `fk_users_current_profile_pic_id` (`current_profile_pic_id`);
+  ADD KEY `fk_users_current_profile_pic_id` (`current_profile_pic_id`),
+  ADD KEY `fk_users_timezone_id` (`timezone_id`);
 
 --
 -- Indexes for table `users_2fa`
@@ -5508,7 +6189,7 @@ ALTER TABLE `users_profile_pics`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `admin_corporate`
@@ -5526,19 +6207,19 @@ ALTER TABLE `admin_corporate_files`
 -- AUTO_INCREMENT for table `admin_corporate_notes`
 --
 ALTER TABLE `admin_corporate_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoices`
 --
 ALTER TABLE `admin_finances_invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoice_items`
 --
 ALTER TABLE `admin_finances_invoice_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `admin_finances_invoice_project`
@@ -5559,34 +6240,82 @@ ALTER TABLE `admin_finances_statements_of_work`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `admin_minder_notes`
+--
+ALTER TABLE `admin_minder_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_notes_contractors`
+--
+ALTER TABLE `admin_minder_notes_contractors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_notes_files`
+--
+ALTER TABLE `admin_minder_notes_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_notes_persons`
+--
+ALTER TABLE `admin_minder_notes_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_reminders`
+--
+ALTER TABLE `admin_minder_reminders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_reminders_contractors`
+--
+ALTER TABLE `admin_minder_reminders_contractors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_reminders_files`
+--
+ALTER TABLE `admin_minder_reminders_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `admin_minder_reminders_persons`
+--
+ALTER TABLE `admin_minder_reminders_persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `admin_navigation_links`
 --
 ALTER TABLE `admin_navigation_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_groups`
 --
 ALTER TABLE `admin_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `admin_permission_group_permissions`
 --
 ALTER TABLE `admin_permission_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `admin_role_permissions`
@@ -5598,7 +6327,7 @@ ALTER TABLE `admin_role_permissions`
 -- AUTO_INCREMENT for table `admin_role_permission_groups`
 --
 ALTER TABLE `admin_role_permission_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT for table `admin_task`
@@ -5634,7 +6363,7 @@ ALTER TABLE `admin_task_relations`
 -- AUTO_INCREMENT for table `admin_time_tracking_entries`
 --
 ALTER TABLE `admin_time_tracking_entries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=512;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=482;
 
 --
 -- AUTO_INCREMENT for table `admin_user_roles`
@@ -5646,25 +6375,25 @@ ALTER TABLE `admin_user_roles`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `lookup_lists`
 --
 ALTER TABLE `lookup_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_items`
 --
 ALTER TABLE `lookup_list_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_attributes`
 --
 ALTER TABLE `lookup_list_item_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `lookup_list_item_relations`
@@ -5691,6 +6420,42 @@ ALTER TABLE `module_agency_persons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `module_assets`
+--
+ALTER TABLE `module_assets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_asset_assignments`
+--
+ALTER TABLE `module_asset_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_asset_events`
+--
+ALTER TABLE `module_asset_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_asset_files`
+--
+ALTER TABLE `module_asset_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_asset_tags`
+--
+ALTER TABLE `module_asset_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `module_asset_tag_seq`
+--
+ALTER TABLE `module_asset_tag_seq`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `module_calendar`
 --
 ALTER TABLE `module_calendar`
@@ -5700,7 +6465,7 @@ ALTER TABLE `module_calendar`
 -- AUTO_INCREMENT for table `module_calendar_events`
 --
 ALTER TABLE `module_calendar_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `module_calendar_external_accounts`
@@ -5832,31 +6597,31 @@ ALTER TABLE `module_kanban_board_statuses`
 -- AUTO_INCREMENT for table `module_meetings`
 --
 ALTER TABLE `module_meetings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_agenda`
 --
 ALTER TABLE `module_meeting_agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_attendees`
 --
 ALTER TABLE `module_meeting_attendees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_files`
 --
 ALTER TABLE `module_meeting_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `module_meeting_questions`
 --
 ALTER TABLE `module_meeting_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `module_organization`
@@ -6024,7 +6789,7 @@ ALTER TABLE `module_task_assignments`
 -- AUTO_INCREMENT for table `module_users_defaults`
 --
 ALTER TABLE `module_users_defaults`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `person`
@@ -6072,7 +6837,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_2fa`
 --
 ALTER TABLE `users_2fa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `users_profile_pics`
@@ -6149,6 +6914,33 @@ ALTER TABLE `admin_finances_statements_of_work`
   ADD CONSTRAINT `fk_admin_finances_sow_status_id` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_sow_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_admin_finances_sow_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `admin_minder_reminders`
+--
+ALTER TABLE `admin_minder_reminders`
+  ADD CONSTRAINT `admin_minder_reminders_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `admin_minder_reminders_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `lookup_list_items` (`id`);
+
+--
+-- Constraints for table `admin_minder_reminders_contractors`
+--
+ALTER TABLE `admin_minder_reminders_contractors`
+  ADD CONSTRAINT `admin_minder_reminders_contractors_ibfk_1` FOREIGN KEY (`reminder_id`) REFERENCES `admin_minder_reminders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `admin_minder_reminders_contractors_ibfk_2` FOREIGN KEY (`contractor_id`) REFERENCES `module_contractors` (`id`);
+
+--
+-- Constraints for table `admin_minder_reminders_files`
+--
+ALTER TABLE `admin_minder_reminders_files`
+  ADD CONSTRAINT `admin_minder_reminders_files_ibfk_1` FOREIGN KEY (`reminder_id`) REFERENCES `admin_minder_reminders` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `admin_minder_reminders_persons`
+--
+ALTER TABLE `admin_minder_reminders_persons`
+  ADD CONSTRAINT `admin_minder_reminders_persons_ibfk_1` FOREIGN KEY (`reminder_id`) REFERENCES `admin_minder_reminders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `admin_minder_reminders_persons_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
 
 --
 -- Constraints for table `admin_navigation_links`
@@ -6235,16 +7027,6 @@ ALTER TABLE `admin_task_relations`
   ADD CONSTRAINT `fk_admin_task_relations_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `admin_time_tracking_entries`
---
-ALTER TABLE `admin_time_tracking_entries`
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `admin_finances_invoices` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_project_id` FOREIGN KEY (`project_id`) REFERENCES `module_projects` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_admin_time_tracking_entries_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
 -- Constraints for table `admin_user_roles`
 --
 ALTER TABLE `admin_user_roles`
@@ -6317,6 +7099,7 @@ ALTER TABLE `module_agency_persons`
 ALTER TABLE `module_calendar_events`
   ADD CONSTRAINT `fk_module_calendar_events_calendar_id` FOREIGN KEY (`calendar_id`) REFERENCES `module_calendar` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_module_calendar_events_event_type_id` FOREIGN KEY (`event_type_id`) REFERENCES `lookup_list_items` (`id`),
+  ADD CONSTRAINT `fk_module_calendar_events_timezone_id` FOREIGN KEY (`timezone_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_events_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_events_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_module_calendar_events_visibility_id` FOREIGN KEY (`visibility_id`) REFERENCES `lookup_list_items` (`id`);
@@ -6777,6 +7560,7 @@ ALTER TABLE `person_skills`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_users_current_profile_pic_id` FOREIGN KEY (`current_profile_pic_id`) REFERENCES `users_profile_pics` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_users_timezone_id` FOREIGN KEY (`timezone_id`) REFERENCES `lookup_list_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_user_updated` FOREIGN KEY (`user_updated`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
