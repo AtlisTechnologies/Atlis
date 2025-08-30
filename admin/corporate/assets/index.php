@@ -1,5 +1,5 @@
 <?php
-require '../admin_header.php';
+require '../../admin_header.php';
 require_permission('admin_assets','read');
 
 $token = generate_csrf_token();

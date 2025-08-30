@@ -1,6 +1,6 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-require_once __DIR__ . '/../../../includes/php_header.php';
+require_once __DIR__ . '/../../../../includes/php_header.php';
 require_once __DIR__ . '/helpers.php';
 require_permission('admin_assets','update');
 

@@ -1,5 +1,5 @@
 <?php
-require '../admin_header.php';
+require '../../admin_header.php';
 require_permission('admin_assets','read');
 
 function get_asset_tags(PDO $pdo, int $asset_id): array {

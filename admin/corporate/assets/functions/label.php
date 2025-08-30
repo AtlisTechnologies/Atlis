@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../includes/php_header.php';
+require_once __DIR__ . '/../../../../includes/php_header.php';
 require_permission('admin_assets','read');
 require_once __DIR__ . '/../lib/qrlib.php';
 
