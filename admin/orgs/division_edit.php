@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../includes/admin_guard.php';
 require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/helpers.php';
+require_once __DIR__ . '/../../includes/hierarchy_file.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $agency_id = isset($_GET['agency_id']) ? (int)$_GET['agency_id'] : null;
@@ -69,44 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     admin_audit_log($pdo, $this_user_id, 'module_division', $id, 'CREATE', null, json_encode(['agency_id'=>$agency_id,'name'=>$name,'main_person'=>$main_person,'status'=>$status]), 'Created division');
   }
 
-  // handle file upload (max 5MB)
-  if (!empty($_FILES['upload_file']['name'])) {
-    $maxSize = 5 * 1024 * 1024; // 5MB
-    if ($_FILES['upload_file']['size'] <= $maxSize && is_uploaded_file($_FILES['upload_file']['tmp_name'])) {
-      $originalName = $_FILES['upload_file']['name'];
-      $fileSize = (int)$_FILES['upload_file']['size'];
-
-      $finfo = finfo_open(FILEINFO_MIME_TYPE);
-      $mime = finfo_file($finfo, $_FILES['upload_file']['tmp_name']);
-      finfo_close($finfo);
-
-      $allowedTypes = [
-        'image/jpeg' => 'jpg',
-        'image/png'  => 'png',
-        'image/gif'  => 'gif',
-        'image/webp' => 'webp',
-        'application/pdf' => 'pdf'
-      ];
-
-      if (isset($allowedTypes[$mime])) {
-        $ext = $allowedTypes[$mime];
-        $uploadDir = dirname(__DIR__, 2) . '/module/agency/uploads/division/';
-        if (!is_dir($uploadDir)) {
-          mkdir($uploadDir, 0775, true);
-        }
-        if (!empty($file_path)) {
-          @unlink($uploadDir . $file_path);
-        }
-        $randomName = bin2hex(random_bytes(16)) . '.' . $ext;
-        $dest = $uploadDir . $randomName;
-        if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $dest)) {
-          $fileStmt = $pdo->prepare('UPDATE module_division SET file_name=?, file_path=?, file_size=?, file_type=? WHERE id=?');
-          $fileStmt->execute([$originalName, $randomName, $fileSize, $mime, $id]);
-          admin_audit_log($pdo, $this_user_id, 'module_division', $id, 'UPLOAD', null, json_encode(['file_name'=>$originalName,'file_path'=>$randomName,'file_size'=>$fileSize,'file_type'=>$mime]), 'Uploaded division file');
-        }
-      }
-    }
-  }
+  handle_hierarchy_upload($pdo, 'division', $id, $_FILES['upload_file'] ?? [], $this_user_id, $file_path);
   header('Location: index.php');
   exit;
 }
