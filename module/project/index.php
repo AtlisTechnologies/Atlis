@@ -43,6 +43,7 @@ $sql = "SELECT p.id,
                p.priority,
                lp.label AS priority_label,
                COALESCE(pattr.attr_value, 'secondary') AS priority_color,
+               o.name AS organization_name,
                a.name AS agency_name,
                d.name AS division_name,
                COUNT(t.id) AS total_tasks,
@@ -56,6 +57,7 @@ $sql = "SELECT p.id,
         LEFT JOIN lookup_list_items lp ON p.priority = lp.id
         LEFT JOIN lookup_list_item_attributes pattr ON lp.id = pattr.item_id AND pattr.attr_code = 'COLOR-CLASS'
         LEFT JOIN module_agency a ON p.agency_id = a.id
+        LEFT JOIN module_organization o ON a.organization_id = o.id
         LEFT JOIN module_division d ON p.division_id = d.id
         LEFT JOIN module_projects_pins pp ON pp.project_id = p.id AND pp.user_id = :uid
         LEFT JOIN module_projects_sort ps ON ps.project_id = p.id AND ps.user_id = :uid
@@ -82,6 +84,29 @@ foreach ($projects as &$project) {
   $project['assignees'] = $assignments[$project['id']] ?? [];
 }
 unset($project);
+
+$contractorStmt = $pdo->prepare('SELECT id FROM module_contractors WHERE user_id = :uid');
+$contractorStmt->execute([':uid' => $this_user_id]);
+$contractorId = $contractorStmt->fetchColumn();
+
+$userOrgIds = $userAgencyIds = $userDivisionIds = [];
+if ($contractorId) {
+  $stmt = $pdo->prepare('SELECT organization_id FROM module_contractors_organizations WHERE contractor_id = :cid');
+  $stmt->execute([':cid' => $contractorId]);
+  $userOrgIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+  $stmt = $pdo->prepare('SELECT agency_id FROM module_contractors_agencies WHERE contractor_id = :cid');
+  $stmt->execute([':cid' => $contractorId]);
+  $userAgencyIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+  $stmt = $pdo->prepare('SELECT division_id FROM module_contractors_divisions WHERE contractor_id = :cid');
+  $stmt->execute([':cid' => $contractorId]);
+  $userDivisionIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+$organizations = $pdo->query('SELECT id, name FROM module_organization ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$agencies = $pdo->query('SELECT id, name, organization_id FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$divisions = $pdo->query('SELECT id, name, agency_id FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
 // Lookup lists passed to views for filtering options
 $statusItems   = get_lookup_items($pdo, 'PROJECT_STATUS');
@@ -255,6 +280,10 @@ $questions = $questions ?? [];
 $questionAnswers = $questionAnswers ?? [];
 $agencies = $agencies ?? [];
 $divisions = $divisions ?? [];
+$organizations = $organizations ?? [];
+$userOrgIds = $userOrgIds ?? [];
+$userAgencyIds = $userAgencyIds ?? [];
+$userDivisionIds = $userDivisionIds ?? [];
 
 require '../../includes/html_header.php';
 ?>

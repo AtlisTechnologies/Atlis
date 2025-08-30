@@ -53,6 +53,27 @@ if ($id) {
   $existingFiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+$organizations = $pdo->query('SELECT id, name FROM module_organization ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$agencies      = $pdo->query('SELECT id, name, organization_id FROM module_agency ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$divisions     = $pdo->query('SELECT id, name, agency_id FROM module_division ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+
+$selectedOrgIds      = [];
+$selectedAgencyIds   = [];
+$selectedDivisionIds = [];
+if ($id) {
+  $stmt = $pdo->prepare('SELECT organization_id FROM module_contractors_organizations WHERE contractor_id = :id');
+  $stmt->execute([':id' => $id]);
+  $selectedOrgIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+  $stmt = $pdo->prepare('SELECT agency_id FROM module_contractors_agencies WHERE contractor_id = :id');
+  $stmt->execute([':id' => $id]);
+  $selectedAgencyIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+  $stmt = $pdo->prepare('SELECT division_id FROM module_contractors_divisions WHERE contractor_id = :id');
+  $stmt->execute([':id' => $id]);
+  $selectedDivisionIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 $messages = [
   'note-added'      => 'Note added',
   'note-updated'    => 'Note updated',
@@ -192,8 +213,63 @@ function format_display_date($dt) {
         <input type="date" name="end_date" class="form-control" value="<?= h($contractor['end_date'] ?? ''); ?>">
       </div>
       <?php endif; ?>
+      <div class="mb-3">
+        <label class="form-label">Organizations</label>
+        <?php foreach($organizations as $org): ?>
+        <div class="form-check">
+          <input class="form-check-input org-filter" type="checkbox" name="organizations[]" value="<?= h($org['id']); ?>" id="org<?= h($org['id']); ?>" <?= in_array($org['id'], $selectedOrgIds) ? 'checked' : ''; ?>>
+          <label class="form-check-label" for="org<?= h($org['id']); ?>"><?= h($org['name']); ?></label>
+        </div>
+        <?php endforeach; ?>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Agencies</label>
+        <div id="agency-options">
+          <?php foreach($agencies as $agency): ?>
+          <div class="form-check" data-org="<?= h($agency['organization_id']); ?>">
+            <input class="form-check-input agency-filter" type="checkbox" name="agencies[]" value="<?= h($agency['id']); ?>" id="agency<?= h($agency['id']); ?>" <?= in_array($agency['id'], $selectedAgencyIds) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="agency<?= h($agency['id']); ?>"><?= h($agency['name']); ?></label>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Divisions</label>
+        <div id="division-options">
+          <?php foreach($divisions as $division): ?>
+          <div class="form-check" data-agency="<?= h($division['agency_id']); ?>">
+            <input class="form-check-input division-filter" type="checkbox" name="divisions[]" value="<?= h($division['id']); ?>" id="division<?= h($division['id']); ?>" <?= in_array($division['id'], $selectedDivisionIds) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="division<?= h($division['id']); ?>"><?= h($division['name']); ?></label>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
       <button class="btn btn-atlis" type="submit"><span class="fa-solid fa-floppy-disk"></span><span class="visually-hidden">Save</span></button>
     </form>
+    <script>
+    (function(){
+      function filterAgencies(){
+        const orgs = Array.from(document.querySelectorAll('.org-filter:checked')).map(cb => cb.value);
+        document.querySelectorAll('#agency-options .form-check').forEach(el => {
+          const match = orgs.includes(el.dataset.org);
+          el.style.display = match ? '' : 'none';
+          if(!match){ el.querySelector('input').checked = false; }
+        });
+        filterDivisions();
+      }
+      function filterDivisions(){
+        const ags = Array.from(document.querySelectorAll('.agency-filter:checked')).map(cb => cb.value);
+        document.querySelectorAll('#division-options .form-check').forEach(el => {
+          const match = ags.includes(el.dataset.agency);
+          el.style.display = match ? '' : 'none';
+          if(!match){ el.querySelector('input').checked = false; }
+        });
+      }
+      document.querySelectorAll('.org-filter').forEach(cb => cb.addEventListener('change', filterAgencies));
+      document.querySelectorAll('.agency-filter').forEach(cb => cb.addEventListener('change', filterDivisions));
+      filterAgencies();
+    })();
+    </script>
   </div>
   <div class="tab-pane fade" id="notes" role="tabpanel">
     <?php if($id): ?>

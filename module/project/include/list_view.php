@@ -6,7 +6,64 @@
     <li class="breadcrumb-item active" aria-current="page">List View</li>
   </ol>
 </nav>
-<div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","action"],"page":10,"pagination":true}'>
+<div class="row">
+  <div class="col-md-3 mb-3" id="filterSidebar">
+    <div class="mb-3">
+      <h6>Organization</h6>
+      <?php foreach($organizations as $org): if(in_array($org['id'],$userOrgIds)): ?>
+      <div class="form-check">
+        <input class="form-check-input org-filter" type="checkbox" value="<?= h($org['name']); ?>" id="org-filter-<?= $org['id']; ?>" checked>
+        <label class="form-check-label" for="org-filter-<?= $org['id']; ?>"><?= h($org['name']); ?></label>
+      </div>
+      <?php endif; endforeach; ?>
+    </div>
+    <div class="mb-3">
+      <h6>Agency</h6>
+      <?php foreach($agencies as $agency): if(in_array($agency['id'],$userAgencyIds)): ?>
+      <div class="form-check">
+        <input class="form-check-input agency-filter" type="checkbox" value="<?= h($agency['name']); ?>" data-org="<?= h($agency['organization_id']); ?>" id="agency-filter-<?= $agency['id']; ?>" checked>
+        <label class="form-check-label" for="agency-filter-<?= $agency['id']; ?>"><?= h($agency['name']); ?></label>
+      </div>
+      <?php endif; endforeach; ?>
+    </div>
+    <div class="mb-3">
+      <h6>Division</h6>
+      <?php foreach($divisions as $division): if(in_array($division['id'],$userDivisionIds)): ?>
+      <div class="form-check">
+        <input class="form-check-input division-filter" type="checkbox" value="<?= h($division['name']); ?>" data-agency="<?= h($division['agency_id']); ?>" id="division-filter-<?= $division['id']; ?>" checked>
+        <label class="form-check-label" for="division-filter-<?= $division['id']; ?>"><?= h($division['name']); ?></label>
+      </div>
+      <?php endif; endforeach; ?>
+    </div>
+    <div class="mb-3">
+      <h6>Status</h6>
+      <div class="form-check">
+        <input class="form-check-input status-filter" type="checkbox" value="" id="status-all" checked>
+        <label class="form-check-label" for="status-all">All Statuses</label>
+      </div>
+      <?php foreach ($statusItems as $status): ?>
+      <div class="form-check">
+        <input class="form-check-input status-filter" type="checkbox" value="<?= h($status['label']); ?>" id="status-filter-<?= $status['id']; ?>" checked>
+        <label class="form-check-label" for="status-filter-<?= $status['id']; ?>"><?= h($status['label']); ?></label>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <div class="mb-3">
+      <h6>Priority</h6>
+      <div class="form-check">
+        <input class="form-check-input priority-filter" type="checkbox" value="" id="priority-all" checked>
+        <label class="form-check-label" for="priority-all">All Priorities</label>
+      </div>
+      <?php foreach ($priorityItems as $priority): ?>
+      <div class="form-check">
+        <input class="form-check-input priority-filter" type="checkbox" value="<?= h($priority['label']); ?>" id="priority-filter-<?= $priority['id']; ?>" checked>
+        <label class="form-check-label" for="priority-filter-<?= $priority['id']; ?>"><?= h($priority['label']); ?></label>
+      </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div id="projectSummary" data-list='{"valueNames":["project","assignees","start","deadline","projectprogress","status","priority","organization","agency","division","action"],"page":10,"pagination":true}'>
   <div class="row align-items-end justify-content-between pb-4 g-3">
     <div class="col-auto">
       <h3>Projects</h3>
@@ -26,25 +83,7 @@
     </div>
     <?php endif; ?>
   </div>
-  <div class="row g-3 mb-3">
-    <div class="col-6 col-md-3">
-      <select class="form-select form-select-sm" id="filter-status">
-        <option value="">All Statuses</option>
-        <?php foreach ($statusItems as $status): ?>
-          <option value="<?= h($status['label']); ?>"><?= h($status['label']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="col-6 col-md-3">
-      <select class="form-select form-select-sm" id="filter-priority">
-        <option value="">All Priorities</option>
-        <?php foreach ($priorityItems as $priority): ?>
-          <option value="<?= h($priority['label']); ?>"><?= h($priority['label']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-  </div>
-  <div class="table-responsive ms-n1 ps-1 scrollbar">
+      <div class="table-responsive ms-n1 ps-1 scrollbar">
     <table class="table fs-9 mb-0 border-top border-translucent">
       <thead>
         <tr>
@@ -74,6 +113,9 @@
             <span class="svg-inline--fa fa-grip-vertical drag-handle me-2"></span>
             <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
             <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
+            <span class="d-none organization"><?php echo h($project['organization_name'] ?? ''); ?></span>
+            <span class="d-none agency"><?php echo h($project['agency_name'] ?? ''); ?></span>
+            <span class="d-none division"><?php echo h($project['division_name'] ?? ''); ?></span>
           </td>
           <td class="align-middle white-space-nowrap assignees ps-3">
             <div class="avatar-group avatar-group-dense">
@@ -128,6 +170,9 @@
             <span class="svg-inline--fa fa-grip-vertical drag-handle me-2"></span>
             <a class="fw-bold fs-8" href="index.php?action=details&id=<?php echo $project['id']; ?>"><?php echo h($project['name']); ?></a>
             <span class="d-none priority"><?php echo h($project['priority_label'] ?? ''); ?></span>
+            <span class="d-none organization"><?php echo h($project['organization_name'] ?? ''); ?></span>
+            <span class="d-none agency"><?php echo h($project['agency_name'] ?? ''); ?></span>
+            <span class="d-none division"><?php echo h($project['division_name'] ?? ''); ?></span>
           </td>
           <td class="align-middle white-space-nowrap assignees ps-3">
             <div class="avatar-group avatar-group-dense">
@@ -173,10 +218,12 @@
     <div class="col-auto d-flex">
       <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p><a class="fw-semibold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semibold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
     </div>
-    <div class="col-auto d-flex">
+  <div class="col-auto d-flex">
       <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
       <ul class="mb-0 pagination"></ul>
       <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+    </div>
+  </div>
     </div>
   </div>
 </div>
@@ -188,22 +235,27 @@
     const projectList = new List(projectSummaryEl, options);
     window.projectList = projectList;
 
-    const statusFilter = document.getElementById('filter-status');
-    const priorityFilter = document.getElementById('filter-priority');
-
     function applyFilters() {
-      const s = statusFilter.value;
-      const p = priorityFilter.value;
+      const statusAll = document.getElementById('status-all').checked;
+      const priorityAll = document.getElementById('priority-all').checked;
+      const statusVals = statusAll ? [] : Array.from(document.querySelectorAll('.status-filter:checked')).map(cb => cb.value).filter(Boolean);
+      const priorityVals = priorityAll ? [] : Array.from(document.querySelectorAll('.priority-filter:checked')).map(cb => cb.value).filter(Boolean);
+      const orgVals = Array.from(document.querySelectorAll('.org-filter:checked')).map(cb => cb.value);
+      const agencyVals = Array.from(document.querySelectorAll('.agency-filter:checked')).map(cb => cb.value);
+      const divisionVals = Array.from(document.querySelectorAll('.division-filter:checked')).map(cb => cb.value);
       projectList.filter(item => {
         const v = item.values();
-        const statusMatch = !s || v.status === s;
-        const priorityMatch = !p || v.priority === p;
-        return statusMatch && priorityMatch;
+        const statusMatch = !statusVals.length || statusVals.includes(v.status);
+        const priorityMatch = !priorityVals.length || priorityVals.includes(v.priority);
+        const orgMatch = !orgVals.length || orgVals.includes(v.organization);
+        const agencyMatch = !agencyVals.length || agencyVals.includes(v.agency);
+        const divisionMatch = !divisionVals.length || divisionVals.includes(v.division);
+        return statusMatch && priorityMatch && orgMatch && agencyMatch && divisionMatch;
       });
     }
 
-    statusFilter.addEventListener('change', applyFilters);
-    priorityFilter.addEventListener('change', applyFilters);
+    document.querySelectorAll('.status-filter, .priority-filter, .org-filter, .agency-filter, .division-filter').forEach(cb => cb.addEventListener('change', applyFilters));
+    applyFilters();
 
     const pinnedBody = document.getElementById('pinnedProjects');
     const regularBody = document.getElementById('regularProjects');

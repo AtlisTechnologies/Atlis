@@ -40,6 +40,28 @@ if($id){
     update_contractor_contact($pdo, (int)$personId);
   }
 
+  $orgs = $_POST['organizations'] ?? [];
+  $agencies = $_POST['agencies'] ?? [];
+  $divisions = $_POST['divisions'] ?? [];
+
+  $pdo->prepare('DELETE FROM module_contractors_organizations WHERE contractor_id = :id')->execute([':id'=>$id]);
+  $insOrg = $pdo->prepare('INSERT INTO module_contractors_organizations (contractor_id, organization_id, user_id) VALUES (:cid,:oid,:uid)');
+  foreach($orgs as $oid){
+    $insOrg->execute([':cid'=>$id, ':oid'=>$oid, ':uid'=>$this_user_id]);
+  }
+
+  $pdo->prepare('DELETE FROM module_contractors_agencies WHERE contractor_id = :id')->execute([':id'=>$id]);
+  $insAgency = $pdo->prepare('INSERT INTO module_contractors_agencies (contractor_id, agency_id, user_id) VALUES (:cid,:aid,:uid)');
+  foreach($agencies as $aid){
+    $insAgency->execute([':cid'=>$id, ':aid'=>$aid, ':uid'=>$this_user_id]);
+  }
+
+  $pdo->prepare('DELETE FROM module_contractors_divisions WHERE contractor_id = :id')->execute([':id'=>$id]);
+  $insDiv = $pdo->prepare('INSERT INTO module_contractors_divisions (contractor_id, division_id, user_id) VALUES (:cid,:did,:uid)');
+  foreach($divisions as $did){
+    $insDiv->execute([':cid'=>$id, ':did'=>$did, ':uid'=>$this_user_id]);
+  }
+
   admin_audit_log($pdo,$this_user_id,'module_contractors',$id,'UPDATE',json_encode($old),json_encode(['status_id'=>$statusId,'initial_contact_date'=>$initial,'title_role'=>$title,'acquaintance'=>$acquaintance,'acquaintance_type_id'=>$acqTypeId,'start_date'=>$start,'end_date'=>$end]),'Updated contractor');
 }
 header('Location: ../contractor.php?id='.$id);
