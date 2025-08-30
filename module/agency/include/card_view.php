@@ -8,17 +8,29 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title mb-1">
-              <?php if (!empty($agency['file_name']) && strpos($agency['file_type'], 'image/') === 0): ?>
-                <a href="uploads/agency/<?= e($agency['file_path']); ?>" data-fslightbox="agency" class="me-1">
-                  <img src="uploads/agency/<?= e($agency['file_path']); ?>" alt="<?= e($agency['file_name']); ?>" class="rounded" style="height:32px; width:32px; object-fit:cover;">
+              <?php if (!empty($agency['file_name'])): ?>
+                <?php
+                  $fileUrl = 'uploads/agency/' . $agency['file_path'];
+                  $mime = $agency['file_type'] ?? '';
+                  $previewable = preg_match('/^(image|video|audio|text)\//', $mime) || $mime === 'application/pdf';
+                  $isImage = strpos($mime, 'image/') === 0;
+                ?>
+                <?php if ($previewable): ?>
+                  <a href="<?= h($fileUrl); ?>" data-fslightbox="agency"<?= $isImage ? '' : ' data-type="iframe"' ?> class="me-1">
+                    <?php if ($isImage): ?>
+                      <img src="<?= h($fileUrl); ?>" alt="<?= e($agency['file_name']); ?>" class="rounded" style="height:32px; width:32px; object-fit:cover;">
+                    <?php else: ?>
+                      <i class="fa-regular fa-file"></i>
+                    <?php endif; ?>
+                  </a>
+                <?php else: ?>
+                  <a href="<?= h($fileUrl); ?>" target="_blank" rel="noopener" class="me-1"><i class="fa-regular fa-file"></i></a>
+                <?php endif; ?>
+                <a href="download.php?type=agency&id=<?= $agency['id']; ?>" class="ms-1 text-body" title="Download">
+                  <i class="fa-solid fa-download"></i>
                 </a>
               <?php endif; ?>
               <?= e($agency['name']); ?>
-              <?php if (!empty($agency['file_name'])): ?>
-                <a href="download.php?type=agency&id=<?= $agency['id']; ?>" class="ms-1 text-body">
-                  <i class="fa-regular fa-paperclip"></i>
-                </a>
-              <?php endif; ?>
               <?php if (!empty($agency['organization_name'])): ?>
                 <span class="badge bg-info-subtle text-info ms-1"><?= h($agency['organization_name']); ?></span>
               <?php endif; ?>
