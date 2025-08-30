@@ -43,7 +43,7 @@ function handleList($action){
         FROM lookup_lists l
         LEFT JOIN lookup_list_items li ON li.list_id = l.id
         GROUP BY l.id
-        ORDER BY l.name');
+        ORDER BY l.date_updated DESC');
     echo json_encode(['success'=>true,'lists'=>$stmt->fetchAll(PDO::FETCH_ASSOC)]);
   }elseif($action==='create'){
     $name=trim($_POST['name']??'');
