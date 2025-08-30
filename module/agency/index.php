@@ -60,6 +60,29 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Buffer the view content (tabs + view)
+ob_start();
+?>
+<nav class="nav nav-pills mb-3">
+  <a class="nav-link <?= $action === 'card' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'card'], $queryFilters)); ?>">Card view</a>
+  <a class="nav-link <?= $action === 'list' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'list'], $queryFilters)); ?>">List view</a>
+  <a class="nav-link <?= $action === 'board' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'board'], $queryFilters)); ?>">Board view</a>
+</nav>
+<?php
+if ($action === 'list') {
+  require 'include/list_view.php';
+} elseif ($action === 'board') {
+  require 'include/board_view.php';
+} else {
+  require 'include/card_view.php';
+}
+$viewHtml = ob_get_clean();
+
+if (isset($_GET['ajax'])) {
+  echo $viewHtml;
+  exit;
+}
+
 require '../../includes/html_header.php';
 ?>
 <main class="main" id="top">
@@ -68,7 +91,7 @@ require '../../includes/html_header.php';
   <div id="main_content" class="content">
     <div class="card mb-3">
       <div class="card-body">
-        <form method="get" class="row g-2">
+        <form method="get" class="row g-2" id="agency-filter-form">
           <input type="hidden" name="action" value="<?= h($action); ?>">
           <div class="col-sm-3">
             <input class="form-control" type="text" name="name" placeholder="Search name" value="<?= h($filters['name']); ?>">
@@ -103,21 +126,12 @@ require '../../includes/html_header.php';
         </form>
       </div>
     </div>
-    <nav class="nav nav-pills mb-3">
-      <a class="nav-link <?= $action === 'card' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'card'], $queryFilters)); ?>">Card view</a>
-      <a class="nav-link <?= $action === 'list' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'list'], $queryFilters)); ?>">List view</a>
-      <a class="nav-link <?= $action === 'board' ? 'active' : ''; ?>" href="?<?= http_build_query(array_merge(['action' => 'board'], $queryFilters)); ?>">Board view</a>
-    </nav>
-    <?php
-      if ($action === 'list') {
-        require 'include/list_view.php';
-      } elseif ($action === 'board') {
-        require 'include/board_view.php';
-      } else {
-        require 'include/card_view.php';
-      }
-    ?>
+    <div id="agency-results">
+      <?= $viewHtml ?>
+    </div>
     <?php require '../../includes/html_footer.php'; ?>
   </div>
 </main>
+<script src="<?= getURLDir(); ?>module/agency/assets/index.js"></script>
 <?php $loadFsLightbox = true; require '../../includes/js_footer.php'; ?>
+
