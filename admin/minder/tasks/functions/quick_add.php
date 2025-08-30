@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'create');
+require_permission('minder_task', 'create');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -35,6 +35,6 @@ $pdo->prepare('INSERT INTO admin_task_assignments (task_id, assigned_user_id, us
       ':uid' => $this_user_id
     ]);
 
-admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Quick add');
+admin_audit_log($pdo, $this_user_id, 'minder_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Quick add');
 
 header('Location: ../index.php');

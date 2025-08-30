@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../admin_header.php';
+require '../../admin_header.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $editing = $id > 0;
 
 if ($editing) {
-  require_permission('admin_task','update');
+  require_permission('minder_task','update');
   $stmt = $pdo->prepare('SELECT * FROM admin_task WHERE id = :id');
   $stmt->execute([':id' => $id]);
   $task = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -14,7 +14,7 @@ if ($editing) {
     exit;
   }
 } else {
-  require_permission('admin_task','create');
+  require_permission('minder_task','create');
   $task = [
     'name' => '',
     'description' => '',
@@ -139,10 +139,10 @@ $token = generate_csrf_token();
   <div class="mb-3">
     <button class="btn btn-sm btn-primary" type="submit">Save</button>
       <?php if ($editing): ?>
-      <?php if (user_has_permission('admin_task','delete')): ?>
+      <?php if (user_has_permission('minder_task','delete')): ?>
       <a href="functions/delete.php?id=<?= $id; ?>&csrf_token=<?= $token; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this task?');">Delete</a>
       <?php endif; ?>
       <?php endif; ?>
   </div>
 </form>
-<?php require_once __DIR__ . '/../admin_footer.php'; ?>
+<?php require '../../admin_footer.php'; ?>

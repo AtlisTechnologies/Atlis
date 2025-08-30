@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'delete');
+require_permission('minder_task', 'delete');
 
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method !== 'POST' && $method !== 'GET') {
@@ -27,6 +27,6 @@ $pdo->prepare('DELETE FROM admin_task_assignments WHERE task_id = :id')->execute
 $pdo->prepare('DELETE FROM admin_task_comments WHERE task_id = :id')->execute([':id' => $id]);
 $pdo->prepare('DELETE FROM admin_task_files WHERE task_id = :id')->execute([':id' => $id]);
 
-admin_audit_log($pdo, $this_user_id, 'admin_task', $id, 'DELETE', json_encode($old), null, 'Deleted task');
+admin_audit_log($pdo, $this_user_id, 'minder_task', $id, 'DELETE', json_encode($old), null, 'Deleted task');
 
 header('Location: ../index.php');

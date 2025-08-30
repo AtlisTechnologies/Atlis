@@ -1,6 +1,6 @@
 <?php
-require '../admin_header.php';
-require_permission('admin_task','read');
+require '../../admin_header.php';
+require_permission('minder_task','read');
 
 $token = generate_csrf_token();
 
@@ -33,7 +33,7 @@ $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 <?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
 <?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
 <div class="mb-3 d-flex gap-2">
-  <?php if (user_has_permission('admin_task','create')): ?>
+  <?php if (user_has_permission('minder_task','create')): ?>
   <button class="btn btn-sm btn-success" id="addTaskBtn">Add Task</button>
   <form class="d-flex gap-2" method="post" action="functions/quick_add.php">
     <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -73,10 +73,10 @@ $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
           <td class="status"><?= e($t['status_label']); ?></td>
           <td class="priority"><?= e($t['priority_label']); ?></td>
           <td>
-            <?php if (user_has_permission('admin_task', 'update')): ?>
+            <?php if (user_has_permission('minder_task', 'update')): ?>
             <a class="btn btn-sm btn-warning" href="task.php?id=<?= $t['id']; ?>">Edit</a>
             <?php endif; ?>
-            <?php if (user_has_permission('admin_task','delete')): ?>
+            <?php if (user_has_permission('minder_task','delete')): ?>
             <form method="post" action="functions/delete.php" class="d-inline" onsubmit="return confirm('Delete this task?');">
               <input type="hidden" name="id" value="<?= $t['id']; ?>">
               <input type="hidden" name="csrf_token" value="<?= $token; ?>">
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const taskModalLabel = document.getElementById('taskModalLabel');
   const tasksTableBody = document.querySelector('#tasks tbody.list');
   const addTaskBtn = document.getElementById('addTaskBtn');
-  const canDelete = <?= user_has_permission('admin_task','delete') ? 'true' : 'false'; ?>;
+  const canDelete = <?= user_has_permission('minder_task','delete') ? 'true' : 'false'; ?>;
   const jsonHeaders = {
     'X-Requested-With': 'XMLHttpRequest',
     'Accept': 'application/json'
@@ -273,4 +273,4 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-<?php require '../admin_footer.php'; ?>
+<?php require '../../admin_footer.php'; ?>

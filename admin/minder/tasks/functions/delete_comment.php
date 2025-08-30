@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'delete');
+require_permission('minder_task', 'delete');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -20,7 +20,7 @@ $stmt->execute([':id' => $id]);
 $comment = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($comment) {
   $pdo->prepare('DELETE FROM admin_task_comments WHERE id = :id')->execute([':id' => $id]);
-  admin_audit_log($pdo, $this_user_id, 'admin_task_comments', $id, 'DELETE', json_encode($comment), null, 'Deleted comment');
+  admin_audit_log($pdo, $this_user_id, 'minder_task_comments', $id, 'DELETE', json_encode($comment), null, 'Deleted comment');
   header('Location: ../task.php?id=' . $comment['task_id']);
 } else {
   header('Location: ../index.php');
