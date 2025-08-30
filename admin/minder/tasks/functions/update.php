@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'update');
+require_permission('minder_task', 'update');
 
 $isAjax = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest'
     || str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
@@ -96,7 +96,7 @@ foreach ($assigned_user_ids as $assigned_user_id) {
       ]);
 }
 
-admin_audit_log($pdo, $this_user_id, 'admin_task', $id, 'UPDATE', json_encode($old), json_encode(['name'=>$name]), 'Updated task');
+admin_audit_log($pdo, $this_user_id, 'minder_task', $id, 'UPDATE', json_encode($old), json_encode(['name'=>$name]), 'Updated task');
 
 if ($isAjax) {
   header('Content-Type: application/json');

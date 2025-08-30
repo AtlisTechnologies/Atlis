@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'create');
+require_permission('minder_task', 'create');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -39,7 +39,7 @@ if (!move_uploaded_file($file['tmp_name'], $dest)) {
   die('Failed to save file');
 }
 
-$relPath = 'admin/tasks/uploads/' . $filename;
+$relPath = 'admin/minder/tasks/uploads/' . $filename;
 $pdo->prepare('INSERT INTO admin_task_files (task_id, file_name, file_path, file_size, file_type, user_id, user_updated) VALUES (:task,:name,:path,:size,:type,:uid,:uid)')
     ->execute([
       ':task' => $task_id,
@@ -51,6 +51,6 @@ $pdo->prepare('INSERT INTO admin_task_files (task_id, file_name, file_path, file
     ]);
 $fileId = (int)$pdo->lastInsertId();
 
-admin_audit_log($pdo, $this_user_id, 'admin_task_files', $fileId, 'CREATE', null, json_encode(['file'=>$file['name']]), 'Uploaded file');
+admin_audit_log($pdo, $this_user_id, 'minder_task_files', $fileId, 'CREATE', null, json_encode(['file'=>$file['name']]), 'Uploaded file');
 
 header('Location: ../task.php?id=' . $task_id);

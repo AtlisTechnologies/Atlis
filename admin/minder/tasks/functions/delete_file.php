@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'delete');
+require_permission('minder_task', 'delete');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -25,7 +25,7 @@ if ($file) {
   if ($fullPath && file_exists($fullPath)) {
     unlink($fullPath);
   }
-  admin_audit_log($pdo, $this_user_id, 'admin_task_files', $id, 'DELETE', json_encode($file), null, 'Deleted file');
+  admin_audit_log($pdo, $this_user_id, 'minder_task_files', $id, 'DELETE', json_encode($file), null, 'Deleted file');
   header('Location: ../task.php?id=' . $file['task_id']);
 } else {
   header('Location: ../index.php');

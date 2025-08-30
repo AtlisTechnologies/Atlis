@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once __DIR__ . '/../../../../includes/php_header.php';
-require_permission('admin_task', 'create');
+require_permission('minder_task', 'create');
 
 $isAjax = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest'
     || str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
@@ -92,7 +92,7 @@ try {
   exit;
 }
 
-admin_audit_log($pdo, $this_user_id, 'admin_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Created task');
+admin_audit_log($pdo, $this_user_id, 'minder_task', $taskId, 'CREATE', null, json_encode(['name'=>$name]), 'Created task');
 
 if ($isAjax) {
   header('Content-Type: application/json');
