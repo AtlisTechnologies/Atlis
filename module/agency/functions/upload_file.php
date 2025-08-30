@@ -36,7 +36,11 @@ if ($maxSize && $file['size'] > $maxSize) {
     echo json_encode(['error' => 'File too large']);
     exit;
 }
-if (!in_array($file['type'], $allowedMimes)) {
+// Detect real mime type using finfo
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$mimeType = finfo_file($finfo, $file['tmp_name']);
+finfo_close($finfo);
+if (!in_array($mimeType, $allowedMimes)) {
     http_response_code(400);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Invalid file type']);
@@ -62,7 +66,7 @@ if (move_uploaded_file($file['tmp_name'], $targetPath)) {
         ':name' => $baseName,
         ':path' => $filePathDb,
         ':size' => $file['size'],
-        ':type' => $file['type']
+        ':type' => $mimeType
     ]);
     $fileId = $pdo->lastInsertId();
     admin_audit_log($pdo, $this_user_id, 'module_agency_files', $fileId, 'UPLOAD', '', json_encode(['file' => $baseName]));
@@ -73,7 +77,7 @@ if (move_uploaded_file($file['tmp_name'], $targetPath)) {
         'name' => $baseName,
         'path' => $filePathDb,
         'size' => $file['size'],
-        'type' => $file['type']
+        'type' => $mimeType
     ]]);
     exit;
 }

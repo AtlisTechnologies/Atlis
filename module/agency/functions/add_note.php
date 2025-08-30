@@ -27,7 +27,7 @@ if ($id && $note !== '') {
           . '</li>';
 
     header('Content-Type: application/json');
-    echo json_encode(['html' => $html]);
+    echo json_encode(['html' => $html, 'id' => $noteId]);
     exit;
 }
 
