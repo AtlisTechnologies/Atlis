@@ -29,8 +29,19 @@ $statuses = get_lookup_items($pdo,'ASSET_STATUS');
 $conditions = get_lookup_items($pdo,'ASSET_CONDITION');
 $contractors = $pdo->query("SELECT mc.id, CONCAT(p.first_name,' ',p.last_name) AS name FROM module_contractors mc LEFT JOIN person p ON mc.person_id=p.id ORDER BY p.last_name,p.first_name")->fetchAll(PDO::FETCH_ASSOC);
 $tags = $editing ? get_asset_tags($pdo,$id) : [];
+
+$policy_stmt = $pdo->query("SELECT id,version FROM module_asset_policies WHERE active=1 AND effective_date<=CURDATE() ORDER BY effective_date DESC LIMIT 1");
+$active_policy = $policy_stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 <h2 class="mb-4"><?= $editing ? 'Edit' : 'Add'; ?> Asset</h2>
+<?php if($active_policy): ?>
+<div class="mb-2">
+  <strong>Current Policy:</strong> <?= e($active_policy['version']); ?>
+  <?php if(user_has_permission('asset_policies','update')): ?>
+  <a class="ms-2" href="policy.php">Manage Policies</a>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
 <?= flash_message($_SESSION['message'] ?? '', 'success'); ?>
 <?= flash_message($_SESSION['error_message'] ?? '', 'danger'); ?>
 <?php unset($_SESSION['message'], $_SESSION['error_message']); ?>
@@ -181,9 +192,13 @@ $tags = $editing ? get_asset_tags($pdo,$id) : [];
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Policy Version</label>
-          <input type="text" name="policy_version" class="form-control">
+        <div id="policySection" class="mb-3 d-none">
+          <input type="hidden" name="policy_id" id="policyId">
+          <div class="border p-2 mb-2" id="policyText" style="max-height:200px;overflow:auto"></div>
+          <label class="form-label">Signature</label>
+          <canvas id="policyCanvas" class="border w-100" height="200"></canvas>
+          <input type="hidden" name="signature_data" id="signatureData">
+          <button type="button" class="btn btn-sm btn-secondary mt-2" id="clearSig">Clear</button>
         </div>
         <div class="mb-3">
           <label class="form-label">Notes</label>
@@ -218,10 +233,6 @@ $tags = $editing ? get_asset_tags($pdo,$id) : [];
           </select>
         </div>
         <div class="mb-3">
-          <label class="form-label">Policy Version</label>
-          <input type="text" name="policy_version" class="form-control">
-        </div>
-        <div class="mb-3">
           <label class="form-label">Notes</label>
           <textarea name="notes" class="form-control" rows="3"></textarea>
         </div>
@@ -235,13 +246,37 @@ $tags = $editing ? get_asset_tags($pdo,$id) : [];
 <?php endif; ?>
 
 <?php if($editing): ?>
+<?php
+$assign_stmt = $pdo->prepare('SELECT aa.*, ap.version, CONCAT(p.first_name," ",p.last_name) AS contractor FROM module_asset_assignments aa LEFT JOIN module_asset_policies ap ON aa.policy_id=ap.id LEFT JOIN module_contractors mc ON aa.contractor_id=mc.id LEFT JOIN person p ON mc.person_id=p.id WHERE aa.asset_id=:id ORDER BY aa.assigned_date DESC');
+$assign_stmt->execute([':id'=>$id]);
+$assignments = $assign_stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<?php if($assignments): ?>
+<h3>Assignment History</h3>
+<div class="table-responsive mb-4">
+  <table class="table table-sm">
+    <thead><tr><th>Contractor</th><th>Assigned</th><th>Returned</th><th>Policy</th><th>Agreement</th></tr></thead>
+    <tbody>
+      <?php foreach($assignments as $a): ?>
+      <tr>
+        <td><?= e($a['contractor']); ?></td>
+        <td><?= e($a['assigned_date']); ?></td>
+        <td><?= e($a['returned_date']); ?></td>
+        <td><?= e($a['version']); ?></td>
+        <td><?php if($a['agreement_file']): ?><a href="<?= e($a['agreement_file']); ?>" target="_blank">View Agreement</a><?php endif; ?></td>
+      </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+</div>
+<?php endif; ?>
 <hr>
 <h3>History</h3>
 <?php
 $events = $pdo->prepare('SELECT * FROM module_asset_events WHERE asset_id=:id ORDER BY date_created DESC');
 $events->execute([':id'=>$id]);
 foreach ($events->fetchAll(PDO::FETCH_ASSOC) as $ev) {
-  echo '<div class="border rounded p-2 mb-2"><strong>'.e($ev['event_type']).'</strong> '.e($ev['memo']).' <span class="text-muted small">'.e($ev['date_created'])."</span></div>";
+  echo '<div class="border rounded p-2 mb-2"><strong>'.e($ev['event_type']).'</strong> '.e($ev['memo']).' <span class="text-muted small">'.e($ev['date_created'])."</span></div>"; 
 }
 ?>
 <?php endif; ?>
@@ -287,6 +322,41 @@ foreach ($events->fetchAll(PDO::FETCH_ASSOC) as $ev) {
     };
     loadFiles();
     new Dropzone('#asset-dropzone', { url: 'functions/upload_file.php', params: { csrf_token: '<?= $token; ?>', asset_id: '<?= $id; ?>' }, success: loadFiles });
+
+    const contractorSelect = document.querySelector('select[name="contractor_id"]');
+    const policySection = document.getElementById('policySection');
+    const policyText = document.getElementById('policyText');
+    const policyIdInput = document.getElementById('policyId');
+    const sigCanvas = document.getElementById('policyCanvas');
+    const signatureData = document.getElementById('signatureData');
+    const clearBtn = document.getElementById('clearSig');
+    let sigPad;
+
+    const checkPolicy = cid => {
+      if(!cid){ policySection.classList.add('d-none'); policyIdInput.value=''; return; }
+      fetch('functions/assign.php?contractor_id='+cid)
+        .then(r=>r.json()).then(data => {
+          if(data.policy && data.needs){
+            policySection.classList.remove('d-none');
+            policyText.innerHTML = data.policy.content;
+            policyIdInput.value = data.policy.id;
+            sigPad = new SignaturePad(sigCanvas);
+            clearBtn.onclick = () => sigPad.clear();
+          } else {
+            policySection.classList.add('d-none');
+            policyIdInput.value='';
+            if(sigPad){sigPad.clear();}
+          }
+        });
+    };
+
+    contractorSelect && contractorSelect.addEventListener('change', e => checkPolicy(e.target.value));
+    document.querySelector('#assignModal form').addEventListener('submit', e => {
+      if(!policySection.classList.contains('d-none')){
+        if(sigPad && sigPad.isEmpty()){ e.preventDefault(); alert('Signature required'); return; }
+        signatureData.value = sigPad.toDataURL();
+      }
+    });
   });
 </script>
 <?php require '../admin_footer.php'; ?>
