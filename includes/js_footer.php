@@ -14,6 +14,16 @@
     <script src="<?php echo getURLDir(); ?>vendors/dhtmlx-gantt/dhtmlxgantt.js"></script>
     <script src="<?php echo getURLDir(); ?>vendors/flatpickr/flatpickr.min.js"></script>
     <script src="<?php echo getURLDir(); ?>vendors/glightbox/glightbox.min.js"></script>
+    <?php if (!empty($loadFsLightbox)): ?>
+      <script src="<?php echo getURLDir(); ?>vendors/fslightbox/fslightbox.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          if (typeof refreshFsLightbox === 'function') {
+            refreshFsLightbox();
+          }
+        });
+      </script>
+    <?php endif; ?>
 
     <!-- Phoenix Core & Config -->
     <script src="<?php echo getURLDir(); ?>assets/js/config.js"></script>
