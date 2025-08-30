@@ -8,10 +8,28 @@ $title = trim($_POST['title'] ?? '');
 $corporateId = (int)($_POST['corporate_id'] ?? 1);
 $statusId = $_POST['status'] !== '' ? (int)$_POST['status'] : null;
 $priorityId = $_POST['priority'] !== '' ? (int)$_POST['priority'] : null;
+$categoryId = $_POST['category_id'] !== '' ? (int)$_POST['category_id'] : null;
 $description = trim($_POST['description'] ?? '');
-$targetStart = $_POST['target_start'] ?? null;
-$targetEnd = $_POST['target_end'] ?? null;
+$targetStart = $_POST['target_start'] !== '' ? $_POST['target_start'] : null;
+$targetEnd = $_POST['target_end'] !== '' ? $_POST['target_end'] : null;
 $tags = trim($_POST['tags'] ?? '');
+
+$validStatus   = array_column(get_lookup_items($pdo,'CORPORATE_STRATEGY_STATUS'),'id');
+$validPriority = array_column(get_lookup_items($pdo,'CORPORATE_STRATEGY_PRIORITY'),'id');
+$validCategory = array_column(get_lookup_items($pdo,'CORPORATE_STRATEGY_CATEGORY'),'id');
+
+if ($statusId !== null && !in_array($statusId,$validStatus, true)) {
+  echo json_encode(['success'=>false,'error'=>'Invalid status']);
+  exit;
+}
+if ($priorityId !== null && !in_array($priorityId,$validPriority, true)) {
+  echo json_encode(['success'=>false,'error'=>'Invalid priority']);
+  exit;
+}
+if ($categoryId !== null && !in_array($categoryId,$validCategory, true)) {
+  echo json_encode(['success'=>false,'error'=>'Invalid category']);
+  exit;
+}
 
 if ($title === '') {
   echo json_encode(['success' => false, 'error' => 'Title is required']);
@@ -19,7 +37,7 @@ if ($title === '') {
 }
 
 try {
-  $stmt = $pdo->prepare('INSERT INTO module_strategy (user_id,user_updated,corporate_id,title,description,status_id,priority_id,target_start,target_end) VALUES (:uid,:uid,:cid,:title,:description,:status,:priority,:tstart,:tend)');
+  $stmt = $pdo->prepare('INSERT INTO module_strategy (user_id,user_updated,corporate_id,title,description,status_id,priority_id,category_id,target_start,target_end) VALUES (:uid,:uid,:cid,:title,:description,:status,:priority,:category,:tstart,:tend)');
   $stmt->execute([
     ':uid' => $this_user_id,
     ':cid' => $corporateId,
@@ -27,6 +45,7 @@ try {
     ':description' => $description !== '' ? $description : null,
     ':status' => $statusId,
     ':priority' => $priorityId,
+    ':category' => $categoryId,
     ':tstart' => $targetStart,
     ':tend' => $targetEnd
   ]);

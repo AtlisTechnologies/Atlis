@@ -1,6 +1,11 @@
 <?php
 require '../../admin_header.php';
 require_permission('admin_strategy','read');
+require_once __DIR__ . '/../../../includes/lookup_helpers.php';
+
+$statusItems   = get_lookup_items($pdo,'CORPORATE_STRATEGY_STATUS');
+$priorityItems = get_lookup_items($pdo,'CORPORATE_STRATEGY_PRIORITY');
+$categoryItems = get_lookup_items($pdo,'CORPORATE_STRATEGY_CATEGORY');
 ?>
 <div class="container-fluid px-0" id="strategy-app">
   <div class="d-flex align-items-center justify-content-between mb-3">
@@ -13,11 +18,25 @@ require_permission('admin_strategy','read');
     <div class="col-md-3">
       <select class="form-select" id="filterStatus">
         <option value="">All Statuses</option>
+        <?php foreach($statusItems as $s): ?>
+        <option value="<?= $s['id']; ?>"><?= e($s['label']); ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
     <div class="col-md-3">
       <select class="form-select" id="filterPriority">
         <option value="">All Priorities</option>
+        <?php foreach($priorityItems as $p): ?>
+        <option value="<?= $p['id']; ?>"><?= e($p['label']); ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" id="filterCategory">
+        <option value="">All Categories</option>
+        <?php foreach($categoryItems as $c): ?>
+        <option value="<?= $c['id']; ?>"><?= e($c['label']); ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
     <div class="col-md-3">
@@ -66,11 +85,42 @@ require_permission('admin_strategy','read');
         </div>
         <div class="mb-3">
           <label for="strategyStatus" class="form-label">Status</label>
-          <select id="strategyStatus" name="status" class="form-select"></select>
+          <select id="strategyStatus" name="status" class="form-select">
+            <option value="">--</option>
+            <?php foreach($statusItems as $s): ?>
+            <option value="<?= $s['id']; ?>"><?= e($s['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
         </div>
         <div class="mb-3">
           <label for="strategyPriority" class="form-label">Priority</label>
-          <select id="strategyPriority" name="priority" class="form-select"></select>
+          <select id="strategyPriority" name="priority" class="form-select">
+            <option value="">--</option>
+            <?php foreach($priorityItems as $p): ?>
+            <option value="<?= $p['id']; ?>"><?= e($p['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="strategyCategory" class="form-label">Category</label>
+          <select id="strategyCategory" name="category_id" class="form-select">
+            <option value="">--</option>
+            <?php foreach($categoryItems as $c): ?>
+            <option value="<?= $c['id']; ?>"><?= e($c['label']); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="strategyDescription" class="form-label">Description</label>
+          <textarea id="strategyDescription" name="description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="strategyTargetStart" class="form-label">Target Start</label>
+          <input type="date" class="form-control" id="strategyTargetStart" name="target_start">
+        </div>
+        <div class="mb-3">
+          <label for="strategyTargetEnd" class="form-label">Target End</label>
+          <input type="date" class="form-control" id="strategyTargetEnd" name="target_end">
         </div>
         <div class="mb-3">
           <label for="strategyTags" class="form-label">Tags</label>
@@ -93,6 +143,7 @@ $(function(){
     $.getJSON('functions/read_strategies.php',{
       status: $('#filterStatus').val(),
       priority: $('#filterPriority').val(),
+      category: $('#filterCategory').val(),
       tags: $('#filterTags').val()
     }, function(resp){
       if(resp.success){
@@ -100,7 +151,9 @@ $(function(){
         if(resp.strategies.length){
           let html='';
           resp.strategies.forEach(s=>{
-            html += `<div class="card mb-2 strategy-item" data-id="${s.id}"><div class="card-body d-flex justify-content-between"><span>${escapeHtml(s.title)}</span></div></div>`;
+            const statusBadge = s.status_label ? `<span class="badge badge-phoenix badge-phoenix-${s.status_color} me-1"><span class="badge-label">${escapeHtml(s.status_label)}</span></span>` : '';
+            const priorityBadge = s.priority_label ? `<span class="badge badge-phoenix badge-phoenix-${s.priority_color}"><span class="badge-label">${escapeHtml(s.priority_label)}</span></span>` : '';
+            html += `<div class="card mb-2 strategy-item" data-id="${s.id}"><div class="card-body d-flex justify-content-between"><div><div>${escapeHtml(s.title)}</div><div class="small text-body-secondary">${escapeHtml(s.category_label || '')}</div></div><div class="text-nowrap">${statusBadge}${priorityBadge}</div></div></div>`;
           });
           $('#strategyList').html(html);
         } else {
@@ -109,7 +162,7 @@ $(function(){
       }
     });
   }
-  $('#filterStatus, #filterPriority').on('change', loadStrategies);
+  $('#filterStatus, #filterPriority, #filterCategory').on('change', loadStrategies);
   $('#filterTags').on('keyup', debounce(loadStrategies,300));
   $('#strategyList').on('click','.strategy-item',function(){
     const id = $(this).data('id');
